@@ -175,9 +175,15 @@
               </li>
               <li>
                 <%= link_to nil do %>
-                  <span style="position:relative">COURSES<% if @highlight_administrators %><span class="current"></span><% end %></span>
+                  <span style="position:relative">COURSE CATALOG<% if @highlight_administrators %><span class="current"></span><% end %></span>
                 <% end %>
               </li>
+              <li>
+                <%= link_to nil do %>
+                  <span style="position:relative">CURRENT OFFERINGS<% if @highlight_administrators %><span class="current"></span><% end %></span>
+                <% end %>
+              </li>
+              
               <li>
                 <%= link_to nil do %>
                   <span style="position:relative">MY TUTOR<% if @highlight_staxdash %><span class="current"></span><% end %></span>

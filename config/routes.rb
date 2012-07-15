@@ -1,5 +1,7 @@
 Ost::Application.routes.draw do
 
+  resources :organizations
+
   devise_for :users
 
   resources :users, :only => [:index, :show, :edit, :update] do
@@ -10,6 +12,7 @@ Ost::Application.routes.draw do
   get 'terms', :to => 'home#terms'
   get 'contact', :to => 'home#contact'
   post 'contact', :to => 'home#contact_submit', :as => 'contact_submit'
+  get 'join', :to => 'home#join'
 
   get 'dev/toolbox', :as => 'dev_toolbox'
   put 'dev/reset_time'

@@ -171,28 +171,31 @@ module ApplicationHelper
     javascript_include_tag 'protect_form'
   end
   
-  def sortable_list(entries, entry_text_method, sort_path, options={})
+  def uber_list(entries, entry_text_method, options={})
     
-    @sortable_list_count = (@sortable_list_count ||= 0) + 1
-    @sortable_list_id = "sortable_list_#{@sortable_list_count}"
+    @uber_list_count = (@uber_list_count ||= 0) + 1
+    @uber_list_id = "uber_list_#{@uber_list_count}"
     
-    content_for :javascript do
-      javascript_tag do
-        "$('##{@sortable_list_id}').sortable({
-           dropOnEmpty: false,
-           handle: '.handle',
-           items: 'div.sortable_item_entry',
-           opacity: 0.7,
-           scroll: true,
-           update: function(){
-              $.ajax({
-                 type: 'post',
-                 data: $('##{@sortable_list_id}').sortable('serialize'),
-                 dataType: 'script',
-                 url: '#{sort_path}'
-              });
-           }
-        }).disableSelection();"
+    
+    if !options[:sort_path].nil?
+      content_for :javascript do
+        javascript_tag do
+          "$('##{@uber_list_id}').sortable({
+             dropOnEmpty: false,
+             handle: '.handle',
+             items: 'div.sortable_item_entry',
+             opacity: 0.7,
+             scroll: true,
+             update: function(){
+                $.ajax({
+                   type: 'post',
+                   data: $('##{@uber_list_id}').sortable('serialize'),
+                   dataType: 'script',
+                   url: '#{options[:sort_path]}'
+                });
+             }
+          }).disableSelection();"
+        end
       end
     end
     
@@ -205,7 +208,9 @@ module ApplicationHelper
       end
     end
 
-    content_tag :div, :id => "#{@sortable_list_id}", :style => options[:style] do
+    bullet_class = options[:sort_path].nil? ? 'ui-icon-triangle-1-e' : 'ui-icon-arrow-4'
+
+    content_tag :div, :id => "#{@uber_list_id}", :style => options[:style] do
       content_tag(:div, "None", :style => "#{!entries.empty? ? 'display:none' : ''}") +
       
       entries.collect { |entry|
@@ -213,7 +218,7 @@ module ApplicationHelper
                           :class => 'sortable_item_entry', 
                           :style => "height:24px;" do
 
-          a = content_tag(:span, "", :class => 'ui-icon ui-icon-arrow-4 handle',
+          a = content_tag(:span, "", :class => "ui-icon #{bullet_class} handle",
                                  :style => 'display:inline-block; height: 14px')
           
           b = content_tag(:div, {:style => 'display:inline-block'}, :escape => false) do
@@ -243,6 +248,81 @@ module ApplicationHelper
       }.join("").html_safe   
     end  
   end
+  
+  
+  # def sortable_list(entries, entry_text_method, sort_path, options={})
+  #    
+  #    @sortable_list_count = (@sortable_list_count ||= 0) + 1
+  #    @sortable_list_id = "sortable_list_#{@sortable_list_count}"
+  #    
+  #    content_for :javascript do
+  #      javascript_tag do
+  #        "$('##{@sortable_list_id}').sortable({
+  #           dropOnEmpty: false,
+  #           handle: '.handle',
+  #           items: 'div.sortable_item_entry',
+  #           opacity: 0.7,
+  #           scroll: true,
+  #           update: function(){
+  #              $.ajax({
+  #                 type: 'post',
+  #                 data: $('##{@sortable_list_id}').sortable('serialize'),
+  #                 dataType: 'script',
+  #                 url: '#{sort_path}'
+  #              });
+  #           }
+  #        }).disableSelection();"
+  #      end
+  #    end
+  #    
+  #    content_for :javascript do
+  #      javascript_tag do
+  #          "$('.sortable_item_entry').live('mouseenter mouseleave', function(event) {
+  #            $('#'+ $(this).attr('id') + '_buttons').css('display', 
+  #                                                        event.type == 'mouseenter' ? 'inline-block' : 'none');
+  #          });"      
+  #      end
+  #    end
+  # 
+  #    content_tag :div, :id => "#{@sortable_list_id}", :style => options[:style] do
+  #      content_tag(:div, "None", :style => "#{!entries.empty? ? 'display:none' : ''}") +
+  #      
+  #      entries.collect { |entry|
+  #        content_tag :div, :id => "sortable_item_#{entry.id}", 
+  #                          :class => 'sortable_item_entry', 
+  #                          :style => "height:24px;" do
+  # 
+  #          a = content_tag(:span, "", :class => 'ui-icon ui-icon-arrow-4 handle',
+  #                                 :style => 'display:inline-block; height: 14px')
+  #          
+  #          b = content_tag(:div, {:style => 'display:inline-block'}, :escape => false) do
+  #            link_text = entry.send(entry_text_method)
+  #            link_target = options[:link_target_method].nil? ?
+  #                          entry : 
+  #                          entry.send(options[:link_target_method])
+  #            link_target = options[:namespace].nil? ? 
+  #                          link_target : 
+  #                          [options[:namespace], link_target]
+  #                          
+  #            link_to(link_text.blank? ? 'unnamed' : link_text, link_target)
+  #          end
+  #          
+  #          c = content_tag(:div, {:id => "sortable_item_#{entry.id}_buttons", 
+  #                             :style => 'padding-left: 8px; display:none; vertical-align:top'},
+  #                            :escape => false) do
+  #            button_target = options[:namespace].nil? ? 
+  #                            entry : 
+  #                            [options[:namespace], entry]
+  #            edit_button(button_target, {:small => true}) +
+  #            trash_button(button_target, {:small => true})
+  #          end
+  # 
+  #          a+b+c
+  #        end
+  #      }.join("").html_safe   
+  #    end  
+  #  end
+  
 
   def simple_root_url
     root_url({:protocol => 'http'}).chop
