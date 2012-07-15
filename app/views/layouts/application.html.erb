@@ -1,14 +1,261 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Ost</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
 
-<%= yield %>
+  <head>
+    <% if @redirect_url %>
+      <meta http-equiv='refresh' content='<%= @redirect_delay -%>;url=<%= @redirect_url -%>'>
+    <% end %>
+    
+    
+    <% if !@page_title_override.nil? %>
+      <title><%= @page_title_override %></title>
+    <% else %>
+      <title><%= @page_title + ' - ' if !@page_title.nil? %><%= SITE_NAME %></title>  
+    <% end %>
 
-</body>
+<% if false %>
+    <% if content_for?(:open_graph) %>
+      <%= yield(:open_graph) %>
+    <% else %>
+      <meta property="og:title" content="<%= SITE_NAME %>" />
+      <meta property="og:description" content="Free, open-source, high-quality textbooks for your college course." />
+      <meta property="og:image" content="http://openstaxcollege.org/osc_logo_open_graph.png" />
+      <meta property="og:url" content="http://openstaxcollege.org"/>
+      <meta property="og:site_name" content="<%= SITE_NAME %>"/>
+      <meta property="fb:admins" content="219380148143032"/>
+    <% end %>
+
+    <% if current_page?('/') %>
+      <meta property="og:type" content="website"/>
+    <% end %>
+<% end %>
+    
+    <% if content_for?(:head) %>
+      <%= yield(:head) %>
+    <% end %>
+    
+
+    <meta name="Description" content="A personalized learning experience from a tutor that adapts to you.">
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/ico"/>
+
+    <%= render :partial => 'layouts/common_head_includes' %>
+    
+    <% if Rails.env.production? %>
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-33394116-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    <% end %>
+
+  </head>
+
+  <body>    
+    <% if Rails.env.development? %>
+    <div id="dev_toolbox" style="position:absolute; top:0; left:0">
+      <%= link_to "Dev Toolbox", dev_toolbox_path, :remote => true %>
+      <div id="dev_toolbox_dialog" style="display:none" title="Dev Toolbox"></div>
+      <% content_for :javascript do %>
+        <%= javascript_tag do %>
+          $("#dev_toolbox_dialog").dialog({ 
+              autoOpen: false, 
+              modal: true, 
+              height:500, 
+              width:700
+          });
+        <% end %>
+      <% end %>
+
+    </div>
+    <% end %>
+
+    <div id="outer">
+<% if false %>
+      <div id="prelude">
+        <div class="top_level_container">
+          <% if false %>
+          <span style="float:right; margin-top:2px; margin-right: 16px"><%= image_tag 'facebook-logo-square.png'%> <%= image_tag 'twitter-logo-square.png' %> <%= image_tag 'mail.png' %></span>
+          <% end %>
+          
+          <% if false %>
+          
+          <div style="padding-top:4px; float:right; margin-right: 16px">
+            <span class='st_twitter'></span><span class='st_facebook'></span><span  class='st_sharethis' ></span><span class='st_email'></span>
+          </div>
+          
+          <% end %>
+          
+        </div>
+      </div>
+<% end %>
+      
+      <div id="header">
+          <a href="/" class="logo"></a>
+          <span id="tagline">
+            Access. The Future of Education.
+          </span>
+          <div style="clear:right; float:right; padding-top:15px">
+            <span id="account_info">
+              <% if user_signed_in? %>
+                <%= link_to current_user.first_name.upcase, edit_user_registration_path %> <%= image_tag 'blackdot.png', :size => '1x18'%> 
+                <%= link_to "SIGN OUT", destroy_user_session_path, :method => :delete %>
+              <% else %>
+                <%= link_to "SIGN IN", new_user_session_path %> <%= image_tag 'blackdot.png', :size => '1x18'%> 
+                <%= link_to "JOIN NOW", new_user_registration_path %>
+              <% end %>
+
+            </span>
+          </div>
+
+          <% if user_signed_in? && current_user.is_administrator? && WebsiteConfiguration.get_value(:sudo_enabled) %>
+            <span style="float:left; color:#b22222; font-size:16px; font-weight:bold">
+              SUDO ENABLED!!
+            </span>        
+          <% end %>
+      </div>
+
+      <div id="nav_bar">
+        
+        <ul>
+          <li>
+            <%= link_to nil do %>
+              <span style="position:relative">About<% if @highlight_faculty %><span class="current"></span><% end %></span>
+              <em class="faculty_icon"></em>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to nil do %>
+              <span style="position:relative">Dashboard<% if @highlight_students %><span class="current"></span><% end %></span>
+              
+              <em class="gradhat_icon"></em>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to nil do %>
+              <span style="position:relative">Courses<% if @highlight_administrators %><span class="current"></span><% end %></span>
+              <em class='person_icon'></em>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to nil do %>
+              <span style="position:relative">My Tutor<% if @highlight_staxdash %><span class="current"></span><% end %></span>
+              <em class="folder_icon"></em>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+
+      <div id="main">
+        
+        <div id="message_dialog" style="display:none" title="">
+          <div id="message_dialog_errors"></div>
+          <div id="message_dialog_body"></div>
+        </div>	
+        
+        <div class="top_level_container">
+          <% if content_for?(:main) %>
+
+            <%= yield(:page_heading) %>
+
+            <div id="attention">
+              <%= render 'shared/attention' %>
+            </div>
+
+            <%= yield(:main) %>         
+
+          <% elsif content_for?(:right_column) %>
+
+            <%= yield(:page_heading) %>                     
+               <div style="clear:both"></div>
+              <div id="column_container_2c">
+<div style="clear:both"></div>
+                   <div id="main_column_2c" class="column">
+
+
+                     <%= yield(:important) %>
+
+                     <div style="clear:both"></div>
+
+                     <div id="attention">
+                       <%= render 'shared/attention' %>
+                     </div>
+
+                      <%= yield %>
+                   </div>
+
+                  
+
+                   <div id="right_column_2c" class="column">
+                     <%= yield(:right_column)%>
+                     
+                   </div>
+                   <div style="clear:both"></div>
+              </div>
+                            <div style="clear:both"></div>
+           <% else %>
+           
+              <%= yield(:page_heading) %>
+               <%= yield(:important) %>
+
+               <div style="clear:both"></div>
+
+               <div id="attention">
+                 <%= render 'shared/attention' %>
+               </div>
+
+              <%= yield %>
+              
+              <div style="clear:both"></div>
+           <% end %>
+        </div>
+      </div>
+
+      <div id="footer">
+        <div style="float:right">
+          <%= link_to "http://www.rice.edu" do %>
+            <%= image_tag 'ricelogo.gif', :style => 'float:right' %>
+          <% end %>
+        </div>
+
+        <div id="copy">
+          <%= link_to "Copyright &copy; #{year = Time.now.year; 2011 == year ? "2011" : "2011&ndash;#{year}"} #{COPYRIGHT_HOLDER}".html_safe, copyright_path %> |
+          <%= link_to "Terms of Use", terms_path %> |
+          <%= link_to "Press", press_path %> |
+          <%= link_to "News", news_path %> |
+          <%= link_to "Contact Us", contact_path %>
+      
+          <br/>
+      
+          Supported by the
+          <%= link_to "William and Flora Hewlett Foundation", "http://www.hewlett.org/" %>,
+          <%= link_to "Bill & Melinda Gates Foundation", "http://www.gatesfoundation.org/" %>,
+          <%= link_to "20 Million Minds Foundation", "http://www.20mm.org/" %>,
+          Maxfield Foundation, and
+          <%= link_to "Rice University", "http://www.rice.edu" %>
+          <br/>
+        </div>
+      </div>
+
+    </div>
+
+    
+
+  <%= yield :javascript %>
+  
+  
+  </body>
+
+  <%= render :partial => 'layouts/common_footer_includes' %>
+
+
 </html>
+

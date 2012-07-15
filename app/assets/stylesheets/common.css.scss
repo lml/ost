@@ -1,0 +1,24 @@
+//$dark-blue: #092847;
+//$gray-red: #933;
+//$dark-gray: #333;
+//$garue: #336699;
+//
+//$color1: #245D70;
+//$color1_bright: #3FA1BC;
+//$color2: #1D2224;
+//$color3: #BAD6BC;
+//$color3_l: lighten($color3,30%);
+//$color4: #E38929;
+//$color5: #B2B18B;
+
+$background_color: #FFFFFF;
+$osc_green: rgb(118, 177, 67); //#77AF42; //#76b143; 
+$osc_orange: #F47641; //#f37643;
+$osc_gray: #5F6163; //#5e6062;
+$osc_yellow: #F4D019; //#f5d10e;
+$osc_blue: #233066; //#00246a;
+$osc_dark_orange: darken($osc_orange,10%);
+
+$osc_dark_gray: darken($osc_gray,20%);
+
+$master_width: 850px;

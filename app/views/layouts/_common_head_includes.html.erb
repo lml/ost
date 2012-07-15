@@ -1,0 +1,12 @@
+<%= stylesheet_link_tag    "application-standard" %>
+
+<!--[if lte IE 7]>
+  <%= stylesheet_link_tag    "application-ie" %>
+<![endif]-->
+  
+<%= javascript_include_tag "application" %>
+<%= csrf_meta_tags %>
+
+<% if content_for?(:stylesheets) %>
+  <style type="text/css"><%= yield :stylesheets %></style>
+<% end %>
