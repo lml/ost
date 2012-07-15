@@ -15,6 +15,14 @@ Ost::Application.routes.draw do
   put 'dev/reset_time'
   post 'dev/freeze_time'
   post 'dev/time_travel'
+  
+  resources :website_configurations, :only => [:index] do
+    collection do
+      get 'edit'
+      put 'update'
+    end
+  end
+  
 
   match '/', :to => 'home#index', :as => ''
   root :to => "home#index"

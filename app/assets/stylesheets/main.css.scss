@@ -63,7 +63,7 @@ a, #message_dialog_body a {
 #header {
     height: 68px;
     background-color: $background_color;
-    margin: 30px auto 0px;
+    margin: 10px auto 0px;
     width: 100%;
     
     .logo  {
@@ -98,18 +98,21 @@ a, #message_dialog_body a {
   font-family: arial, helvetica, sans-serif;
 }
 
-$nav_bar_height: 38px;
+$nav_bar_height: 50px;
 
 #nav_bar {
    height: $nav_bar_height;
-   border-bottom: 1px black solid;
-   border-top: 1px solid black;
+//   border-bottom: 2px black solid;
+//   border-top: 1px solid black;
 }
 
 $our_books_box_height: 20px;
 
 #nav_bar {
-  font-size: 11px;
+  
+  
+  
+  font-size: 16px;
   ul {
     display:inline;
     padding-left: 0px;
@@ -143,19 +146,12 @@ $our_books_box_height: 20px;
           background-repeat: no-repeat;
           background-position: center center;
         }
-
-        .faculty_icon  { background-image: image-url('glasses_icon.png');  }
-        .gradhat_icon  { background-image: image-url('gradhat_icon.png');  }
-        .person_icon   { background-image: image-url('person_icon.png');   }
-        .folder_icon   { background-image: image-url('folder_icon.png');   }
-        .pointer_icon  { background-image: image-url('pointer_icon.png');  }
-        .building_icon { background-image: image-url('building_icon.png'); }
       }
      
       span {
         float:left;
-        padding-left: 12px;
-        font-size: 11px;
+        padding-left: 18px;
+        font-size: 12px;
         font-family: arial, helvetica, sans-serif;
         
         span.current {
@@ -661,4 +657,11 @@ span.antispam {display:none;}
 
 .required {
   color: $osc_orange;
+}
+
+
+#clock {
+   font-size: 11px;
+   color: #aaa;
+   padding-top:8px;
 }

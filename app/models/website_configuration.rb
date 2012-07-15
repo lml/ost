@@ -1,6 +1,3 @@
-# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
-# License version 3 or later.  See the COPYRIGHT file for details.
-
 class WebsiteConfiguration < ActiveRecord::Base
 
   # Format: {"name" => [value, "value_type"], "name" => [value, "value_type"]}
@@ -36,10 +33,27 @@ class WebsiteConfiguration < ActiveRecord::Base
     
     case configuration.value_type
     when "boolean"
-      !configuration.value.blank? && configuration.value != "f" && configuration.value != "0"
+      !configuration.value.blank? && configuration.value != "f" && configuration.value != "0" && configuration.value != "false"
     when "text"
       configuration.value
     end
+  end
+  
+  def self.load
+    return if @@defaults.size == WebsiteConfiguration.count
+    @@defaults.keys.each{|key| get_value(key)}
+  end
+  
+  def typed_value
+    case value_type
+    when "boolean"
+      value != "false"
+      #!configuration.value.blank? && configuration.value != "f" && configuration.value != "0"
+    when "text"
+      value
+    when "number"
+      Float value
+    end    
   end
 
   #############################################################################

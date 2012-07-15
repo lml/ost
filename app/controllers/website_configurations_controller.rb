@@ -1,39 +1,41 @@
 # Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
 # License version 3 or later.  See the COPYRIGHT file for details.
 
-class WebsiteConfigurationsController < AdminController
+class WebsiteConfigurationsController < ApplicationController
 
-  # GET /website_configurations
+  before_filter :authenticate_admin!
+  before_filter :load, :only => [:index, :edit]
+  before_filter :prepare
+
   def index
-    raise SecurityTransgression unless present_user.can_read?(WebsiteConfiguration)
-
-    @website_configurations = WebsiteConfiguration.all
   end
 
-  # GET /website_configurations/edit
   def edit
-    raise SecurityTransgression unless present_user.can_update?(WebsiteConfiguration)
-
-    @website_configurations = WebsiteConfiguration.all
   end
 
-  # PUT /website_configurations
   def update
-    raise SecurityTransgression unless present_user.can_update?(WebsiteConfiguration)
-
-    @website_configurations = WebsiteConfiguration.all
-
     begin
       WebsiteConfiguration.transaction do
         @website_configurations.each do |configuration|
           configuration.update_attribute(:value, params[configuration.name])
         end
       end
+      redirect_to(website_configurations_path,
+                  :notice => 'Website configuration was successfully updated.')
     rescue ActiveRecord::RecordInvalid => invalid
       render :action => "edit", :notice => 'An error has occurred.'
-      return
     end
-    redirect_to(website_configurations_path,
-                :notice => 'Website configuration was successfully updated.')
   end
+
+protected
+
+  def load
+    WebsiteConfiguration.load
+  end
+
+  def prepare
+    raise SecurityTransgression unless present_user.can_read?(WebsiteConfiguration)
+    @website_configurations = WebsiteConfiguration.all
+  end
+
 end
