@@ -1,2 +1,276 @@
 module ApplicationHelper
+  
+  def alert_tag(messages)
+    attention_tag(messages, :alert)
+  end
+  
+  def notice_tag(messages)
+    attention_tag(messages, :notice)
+  end
+  
+  def attention_tag(messages, type)
+    return if messages.blank? || messages.empty?
+    messages = Array.new(messages).flatten
+    
+    div_class = type == :alert ? "ui-state-error" : "ui-state-highlight"
+    icon_class = type == :alert ? "ui-icon-alert" : "ui-icon-info"
+    
+    content_tag :div, :class => "ui-widget" do
+      content_tag :div, :class => "#{div_class} ui-corner-all", 
+                        :style => "margin: 10px 0px; padding: 0 .7em;" do
+        content_tag :p do
+          content_tag(:span, "", :class => "ui-icon #{icon_class}",
+                             :style => "float:left; margin-right: .3em;") +
+          (type == :alert ? content_tag(:strong, "Alert: ") : "") +
+
+          (messages.size == 1 ? 
+           messages.first : 
+           ("<ul>"+messages.collect{|a| "<li>"+a+"</li>"}.join("")+"</ul>").html_safe)
+        end
+      end
+    end
+  end
+  
+  def full_name_link(user)
+    text = (user_signed_in? && current_user.id == user.id) ? "Me" : user.full_name
+    link_to text, user
+  end
+  
+  def tf_to_yn(bool)
+    bool ? "Yes" : "No"
+  end
+  
+  def block_to_partial(partial_name, options={}, &block)
+    options[:classes] ||= []
+    options.merge!(:body => capture(&block))
+    render(:partial => partial_name, :locals => options)
+  end
+    
+  def pageHeading(heading_text, options={})
+    options[:take_out_site_name] = true if options[:take_out_site_name].nil?
+    options[:sub_heading_text] ||= ""
+    options[:title_text] ||= heading_text + (options[:sub_heading_text].blank? ? 
+                                             "" : 
+                                             " [#{options[:sub_heading_text]}]")
+    
+    @page_title = options[:title_text]
+    @page_title.sub!(SITE_NAME,"").strip! if @page_title.include?(SITE_NAME) && options[:take_out_site_name]
+    
+    return if heading_text.blank?
+    
+    content_for :page_heading do
+      render(:partial => 'shared/page_heading', 
+             :locals => {:heading_text => heading_text, 
+                         :sub_heading_text => options[:sub_heading_text]})
+    end
+    
+  end
+  
+  def important(text, options={})
+    content_for :important do
+      render(:partial => 'shared/important', 
+             :locals => {:text => text,
+                         :options => options})
+    end
+  end
+    
+  def section(title, options={}, &block)
+    block_to_partial('shared/section', options.merge(:title => title), &block)
+  end
+  
+  def sub_section(title, options={}, &block)
+    block_to_partial('shared/sub_section', options.merge(:title => title), &block)
+  end
+  
+  def please_wait_js
+    '$(this).blur().hide().parent().append("Please wait");'
+  end
+  
+  def ej(text)
+    escape_javascript(text)
+  end
+  
+  def gravatar_url_for(email, options = {})
+    options[:secure] ||= request.ssl?
+    options[:size] ||= 50
+    
+    hash = Digest::MD5.hexdigest(email)
+    base = options[:secure] ? "https://secure" : "http://www"
+      
+    "#{base}.gravatar.com/avatar/#{hash}?s=#{options[:size]}"
+  end
+  
+  def gravatar_image(user, options = {}) 
+    gravatar_image_by_email(user.email, options)
+  end
+  
+  def gravatar_image_by_email(email, options={})
+    image_tag(gravatar_url_for(email, options), 
+              { :alt => "User Avatar", 
+                :title => "User Avatar",
+                :border => 1 })
+  end
+  
+  def link_to_help(topic, text="", options={})
+    @include_help_dialog = true
+    @include_mathjax = true if options[:include_mathjax]
+    
+    @options = options
+    
+    link_to (text.blank? ? image_tag('help_button_v2.png') : text), 
+            topic_help_path(topic, :options => options), 
+            :remote => true
+  end
+  
+  def standard_date(datetime)
+    datetime.nil? ? "" : datetime.strftime(STANDARD_DATE_FORMAT)
+  end
+  
+  def standard_datetime(datetime)
+    datetime.nil? ? "" : datetime.strftime(STANDARD_DATETIME_FORMAT)
+  end
+  
+  def month_year(datetime)
+    datetime.nil? ? "" : datetime.strftime("%B %Y")
+  end
+  
+  def show_button(target)
+    link_to("", target, :class => "icon_only_button show_button")
+  end
+  
+  def edit_button(target, options={})
+    options[:remote] ||= false
+    options[:small] ||= false
+    
+    klass = "edit_button icon_only_button" + (options[:small] ? "_small" : "")
+    
+    link_to "", edit_polymorphic_path(target), :class => klass, :remote => options[:remote]
+  end
+  
+  def trash_button(target, options={})
+    options[:confirm] ||= "Are you sure?"
+    options[:remote] ||= false
+    options[:small] ||= false
+    
+    klass = "trash_button icon_only_button" + (options[:small] ? "_small" : "")
+    link_to '', target, 
+                :class => klass,
+                :confirm => options[:confirm], 
+                :method => :delete, 
+                :remote => options[:remote]
+  end
+
+  def none_row(table_id, items_array, num_columns)
+    output = "<tr id=\"#{table_id}_none_row\""
+    output << " style=\"display:none\"" if !items_array.empty?
+    output << "><td colspan=\"#{num_columns}\"><center>None</center></td></tr>"
+    output.html_safe
+  end
+  
+  def protect_form
+    javascript_include_tag 'protect_form'
+  end
+  
+  def sortable_list(entries, entry_text_method, sort_path, options={})
+    
+    @sortable_list_count = (@sortable_list_count ||= 0) + 1
+    @sortable_list_id = "sortable_list_#{@sortable_list_count}"
+    
+    content_for :javascript do
+      javascript_tag do
+        "$('##{@sortable_list_id}').sortable({
+           dropOnEmpty: false,
+           handle: '.handle',
+           items: 'div.sortable_item_entry',
+           opacity: 0.7,
+           scroll: true,
+           update: function(){
+              $.ajax({
+                 type: 'post',
+                 data: $('##{@sortable_list_id}').sortable('serialize'),
+                 dataType: 'script',
+                 url: '#{sort_path}'
+              });
+           }
+        }).disableSelection();"
+      end
+    end
+    
+    content_for :javascript do
+      javascript_tag do
+          "$('.sortable_item_entry').live('mouseenter mouseleave', function(event) {
+            $('#'+ $(this).attr('id') + '_buttons').css('display', 
+                                                        event.type == 'mouseenter' ? 'inline-block' : 'none');
+          });"      
+      end
+    end
+
+    content_tag :div, :id => "#{@sortable_list_id}", :style => options[:style] do
+      content_tag(:div, "None", :style => "#{!entries.empty? ? 'display:none' : ''}") +
+      
+      entries.collect { |entry|
+        content_tag :div, :id => "sortable_item_#{entry.id}", 
+                          :class => 'sortable_item_entry', 
+                          :style => "height:24px;" do
+
+          a = content_tag(:span, "", :class => 'ui-icon ui-icon-arrow-4 handle',
+                                 :style => 'display:inline-block; height: 14px')
+          
+          b = content_tag(:div, {:style => 'display:inline-block'}, :escape => false) do
+            link_text = entry.send(entry_text_method)
+            link_target = options[:link_target_method].nil? ?
+                          entry : 
+                          entry.send(options[:link_target_method])
+            link_target = options[:namespace].nil? ? 
+                          link_target : 
+                          [options[:namespace], link_target]
+                          
+            link_to(link_text.blank? ? 'unnamed' : link_text, link_target)
+          end
+          
+          c = content_tag(:div, {:id => "sortable_item_#{entry.id}_buttons", 
+                             :style => 'padding-left: 8px; display:none; vertical-align:top'},
+                            :escape => false) do
+            button_target = options[:namespace].nil? ? 
+                            entry : 
+                            [options[:namespace], entry]
+            edit_button(button_target, {:small => true}) +
+            trash_button(button_target, {:small => true})
+          end
+
+          a+b+c
+        end
+      }.join("").html_safe   
+    end  
+  end
+
+  def simple_root_url
+    root_url({:protocol => 'http'}).chop
+  end
+  
+  def email_link(addressee, text)
+    domain = ""
+    if text =~ /([A-Z_\-0-9]+)@openstaxtutor\.org/i
+      text = ($1+content_tag(:span, "_nospam_", :class => 'antispam')).html_safe
+      domain = (content_tag(:span, '&#064;openst'.html_safe) + content_tag(:span, "axtutor.org")).html_safe
+    end
+    
+    @iframe_counter = (@iframe_counter || 0) + 1
+    (link_to((text+domain).html_safe, write_path(:to => addressee), {:target => "rm#{@iframe_counter}", :method => :post})  + 
+    "<iframe name=rm#{@iframe_counter} width=1 height=1 frameborder=0 scrolling=no style=\"visibility:hidden;\"></iframe>".html_safe)
+  end
+  
+  def mark_required
+    content_tag :span, " *", :class => 'required'
+  end
+
+  def hide_email(email)
+    domain = email.split('@')[1]
+    if domain.nil?
+      return '***'
+    end
+    return '***@' + domain
+  end
+  
+  
 end

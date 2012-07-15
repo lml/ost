@@ -1,0 +1,22 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%= pageHeading("Listing website configurations") %>
+
+<table width="400px">
+  <tr align="center">
+    <th>Name</th>
+    <th>Value</th>
+  </tr>
+
+<% @website_configurations.each do |website_configuration| %>
+  <tr align="center">
+    <td><%= website_configuration.name %></td>
+    <td><%= value_label_for(website_configuration) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Edit', edit_website_configurations_path %>

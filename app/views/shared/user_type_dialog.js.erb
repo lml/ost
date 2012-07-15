@@ -1,0 +1,16 @@
+if ($('#user_type_dialog').exists()) { $('#user_type_dialog').remove(); }
+
+$("body").append("<%= ej(render :partial => 'shared/user_type_dialog') %>");
+  
+refresh_buttons();
+  
+$("#user_type_dialog").dialog({ 
+  modal: true, 
+  height: 240, 
+  width: 600, 
+  buttons: { "Continue": function() {
+               $("user_type_dialog").dialog("close");
+               $("#user_type_dialog_form").submit();
+             }
+           }
+});

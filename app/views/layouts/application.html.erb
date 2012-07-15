@@ -42,61 +42,118 @@
     <%= render :partial => 'layouts/common_head_includes' %>
     
     <% if Rails.env.production? %>
-    <script type="text/javascript">
+      <script type="text/javascript">
 
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-33394116-1']);
-      _gaq.push(['_trackPageview']);
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-33394116-1']);
+        _gaq.push(['_trackPageview']);
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
 
-    </script>
+      </script>
     <% end %>
+  
+    <% if @include_mathjax %>  
+       <script type="text/x-mathjax-config">
+         MathJax.Hub.Config({
+           tex2jax: {
+             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+             processEscapes: true
+           }
+         });
+       </script>
 
+       <% mj_url_base = request.ssl? ? 
+                        "https://d3eoax9i5htok0.cloudfront.net" : 
+                        "http://cdn.mathjax.org" %>
+       <script type="text/javascript"
+         src="<%= mj_url_base %>/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+       </script>
+    <% end %>
+  
+    <% if @enable_timeout && user_signed_in? %>
+      <script type="text/javascript">
+        $(document).ready(function() {
+          $(document).pageTimeout({signout_path: "<%= destroy_user_session_path %>"});
+        });
+      </script>
+    <% end %>
+  
   </head>
 
   <body>    
     <% if Rails.env.development? %>
-    <div id="dev_toolbox" style="position:absolute; top:0; left:0">
-      <%= link_to "Dev Toolbox", dev_toolbox_path, :remote => true %>
-      <div id="dev_toolbox_dialog" style="display:none" title="Dev Toolbox"></div>
+      <div id="dev_toolbox" style="position:absolute; top:0; left:0">
+        <%= link_to "Dev Toolbox", dev_toolbox_path, :remote => true %>
+        <div id="dev_toolbox_dialog" style="display:none" title="Dev Toolbox"></div>
+        <% content_for :javascript do %>
+          <%= javascript_tag do %>
+            $("#dev_toolbox_dialog").dialog({ 
+                autoOpen: false, 
+                modal: true, 
+                height:500, 
+                width:700
+            });
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <% if @ask_for_consent %>
       <% content_for :javascript do %>
         <%= javascript_tag do %>
-          $("#dev_toolbox_dialog").dialog({ 
-              autoOpen: false, 
-              modal: true, 
-              height:500, 
-              width:700
+          function create_consent(did_consent) {
+            var data = $('#new_consent').serializeArray();
+            if (null != did_consent) {
+              data.push({name: "consent[did_consent]", value: did_consent});
+            }              
+            return $.post($("#new_consent").attr('action'), data, null, "script");      
+          }
+        
+          $(document).ready(function() {
+            $('#consent_form_dialog').dialog({
+              modal: true,
+              height: 500,
+              width: 700,
+              buttons: [
+                {
+                  text: "I consent",
+                  click: function() { create_consent(true); }
+                },
+                {
+                  text: "Remind me later",
+                  click: function() { create_consent(null); }
+                },
+                {
+                  text: "I do not consent",
+                  click: function() { create_consent(false); }
+                }
+              ] 
+            });
+           
           });
         <% end %>
       <% end %>
+    
+      <div id="consent_form_dialog" style="display:none" title="Research Consent Form">
+        <%= link_to "Open in a separate window", 
+                    new_polymorphic_path([@consentable, Consent.new]), :style => 'float:right; font-size:10px' %>
+        <br/>
+        <div id="consent_form_dialog_errors"></div>        
+        
+        <%= @consentable.form_for_new_consent.html.html_safe %>
 
-    </div>
+        <%= form_for([@consentable, Consent.new]) do |f| %>
+          Signature: <%= f.text_field :esignature %>
+        <% end %>    
+      </div>
     <% end %>
 
     <div id="outer">
-<% if false %>
-      <div id="prelude">
-        <div class="top_level_container">
-          <% if false %>
-          <span style="float:right; margin-top:2px; margin-right: 16px"><%= image_tag 'facebook-logo-square.png'%> <%= image_tag 'twitter-logo-square.png' %> <%= image_tag 'mail.png' %></span>
-          <% end %>
-          
-          <% if false %>
-          
-          <div style="padding-top:4px; float:right; margin-right: 16px">
-            <span class='st_twitter'></span><span class='st_facebook'></span><span  class='st_sharethis' ></span><span class='st_email'></span>
-          </div>
-          
-          <% end %>
-          
-        </div>
-      </div>
-<% end %>
       
       <div id="header">
           <a href="/" class="logo"></a>
@@ -121,6 +178,10 @@
               SUDO ENABLED!!
             </span>        
           <% end %>
+          
+          <span id="clock" style="float:right">
+            <%= standard_datetime(Time.now) %> (on last refresh)
+          </span>
       </div>
 
       <div id="nav_bar">
@@ -129,26 +190,21 @@
           <li>
             <%= link_to nil do %>
               <span style="position:relative">About<% if @highlight_faculty %><span class="current"></span><% end %></span>
-              <em class="faculty_icon"></em>
             <% end %>
           </li>
           <li>
             <%= link_to nil do %>
               <span style="position:relative">Dashboard<% if @highlight_students %><span class="current"></span><% end %></span>
-              
-              <em class="gradhat_icon"></em>
             <% end %>
           </li>
           <li>
             <%= link_to nil do %>
               <span style="position:relative">Courses<% if @highlight_administrators %><span class="current"></span><% end %></span>
-              <em class='person_icon'></em>
             <% end %>
           </li>
           <li>
             <%= link_to nil do %>
               <span style="position:relative">My Tutor<% if @highlight_staxdash %><span class="current"></span><% end %></span>
-              <em class="folder_icon"></em>
             <% end %>
           </li>
         </ul>
@@ -227,19 +283,15 @@
         </div>
 
         <div id="copy">
-          <%= link_to "Copyright &copy; #{year = Time.now.year; 2011 == year ? "2011" : "2011&ndash;#{year}"} #{COPYRIGHT_HOLDER}".html_safe, copyright_path %> |
+          Copyright &copy; <%= year = Time.now.year; 2011 == year ? "2011" : "2011&ndash;#{year}".html_safe %> <%= COPYRIGHT_HOLDER %> |
           <%= link_to "Terms of Use", terms_path %> |
-          <%= link_to "Press", press_path %> |
-          <%= link_to "News", news_path %> |
           <%= link_to "Contact Us", contact_path %>
       
           <br/>
       
           Supported by the
-          <%= link_to "William and Flora Hewlett Foundation", "http://www.hewlett.org/" %>,
-          <%= link_to "Bill & Melinda Gates Foundation", "http://www.gatesfoundation.org/" %>,
-          <%= link_to "20 Million Minds Foundation", "http://www.20mm.org/" %>,
-          Maxfield Foundation, and
+          <%= link_to "National Science Foundation", "http://www.nsf.org" %>,
+          <%= link_to "Google", "http://www.google.org" %>, and
           <%= link_to "Rice University", "http://www.rice.edu" %>
           <br/>
         </div>

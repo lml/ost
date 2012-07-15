@@ -1,0 +1,70 @@
+<%# Locals:
+      response_timeable (required)
+      page
+%>
+
+<%= form_for(ResponseTime.new(:response_timeable => response_timeable), :style => "display:none") do |f| %>
+  <%= f.hidden_field :response_timeable_id %>
+  <%= f.hidden_field :response_timeable_type %>
+<% end %>
+
+<%# @activity_zones = [*0..10].collect do |ii|
+     "<div id=\'activity_zone_#{ii}\' class=\'activity_zone\' style=\'width:600px; border:1px solid black;\'>\&nbsp;</div>".html_safe
+   end %>
+
+<% content_for :javascript do %>
+  <%= javascript_tag do %>
+    function heartbeat() { heartbeat(""); }
+    function heartbeat(note) {
+      mark_time("HEARTBEAT", note);
+    }
+    
+    function mark_time(event, note) {
+      var data = $('#new_response_time').serializeArray();
+      data.push({name: "response_time[event]", value: event});
+      data.push({name: "response_time[page]", value: "<%= page %>"});
+      data.push({name: "response_time[note]", value: note});
+      return $.post($("#new_response_time").attr('action'), data);      
+    }
+    
+    setInterval( "heartbeat()", <%= 1.minutes.to_i * 1000 %> );
+    
+    $(document).ready(function() {
+      mark_time("STARTED","READY");
+    })
+    
+    $(window).bind('beforeunload', function(){
+      mark_time("STOPPED","UNLOAD");
+    });
+    
+    var last_activity_zone_time = null;
+    
+    $(".activity_zone").live('mouseenter', function() {
+      current_time = (new Date()).getTime();
+      if (null == last_activity_zone_time || current_time - last_activity_zone_time > 30000) {
+        mark_time("ACTIVITY", "zone");        
+        last_activity_zone_time = current_time;
+      }
+    });
+    
+    $(".activity_link").live('mousedown', function() {
+      note = $(this).attr('data-action');
+      if (undefined == note) {
+        note = $(this).attr('href');
+      }
+      mark_time("LINKCLICK", note);
+    });
+    
+    $(document).bind('beforeTimeout', function(){
+      mark_time("TIMEOUT","");
+    });
+        
+    //$(document).ready(function(){
+    //   $([window, document]).focusin(function(){
+    //     mark_time("ACTIVITY", "focus_in");
+    //   }).focusout(function(){
+    //     mark_time("ACTIVITY", "focus_out");
+    //   });
+    //});
+  <% end %>
+<% end %>

@@ -32,7 +32,7 @@ gem 'whenever', :require => false
 gem 'chronic'
 
 gem 'fastercsv'
-gem 'csv_builder'
+gem 'csv_builder', '~>2.1.1'
 
 gem 'yaml_db'
 

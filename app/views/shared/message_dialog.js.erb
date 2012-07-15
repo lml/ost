@@ -1,0 +1,21 @@
+<%
+   @options ||= {}
+   @height = @options[:height] ? @options[:height] : 300
+   @width = @options[:width] ? @options[:width] : 400
+   @body ||= 'Specify a body argument!'
+   @title ||= ''
+%>
+
+$("#message_dialog_body").html("<%= escape_javascript(@body) %>");
+
+$("#message_dialog").dialog({ 
+  autoOpen: false, 
+  modal: true, 
+  height:<%= @height %>, 
+  width:<%= @width %>,
+  title:"<%= @title %>",
+  position: 'center'
+});
+
+$("#message_dialog").dialog('open');
+$("#message_dialog").scrollTop(0);

@@ -1,0 +1,19 @@
+<div id="user_type_dialog" title="Before continuing...">
+  <span style="font-size:24px; margin: 10px 0px 10px">Are you a faculty member or a student?</span>
+
+  <style type="text/css">
+    .user_type_choice {
+      font-size: 18px;
+      padding-left: 7px;
+    }
+  </style>
+  
+  <%= form_tag @form_path, :id => 'user_type_dialog_form' do %>
+    <% @passthrough_params.each do |param| %>
+      <%= hidden_field_tag param[0], param[1] %>
+    <% end %>
+    <p><%= radio_button_tag 'user_type', 'faculty' %><span class="user_type_choice">I am a faculty member or administrator.</span></p>
+    <p><%= radio_button_tag 'user_type', 'student' %><span class="user_type_choice">I am a student.</span></p>
+  <% end %>
+  
+</div>

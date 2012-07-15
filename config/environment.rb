@@ -12,6 +12,7 @@ STANDARD_DATETIME_FORMAT = "%m/%d/%Y %l:%M %p"
 STANDARD_DATE_FORMAT = "%m/%d/%Y"
 
 SITE_NAME = "OpenStax Tutor"
+COPYRIGHT_HOLDER = "Rice University"
 
 HUMAN_FIELD_NAMES = {
   :"exercise.url" => "Exercise URL",

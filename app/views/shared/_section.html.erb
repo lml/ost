@@ -1,0 +1,22 @@
+<% collapsible ||= false %>
+<% collapsed ||= false %>
+
+<div class="section activity_zone">
+  <div class="section_heading">
+    <%= title %>
+    <% if collapsible %>
+    <span style="font-size:11px; display:inline">&nbsp;&nbsp;[
+    <%= link_to_function "Collapse",
+                         "$(this).parent().parent().parent().children('.section_body').hide(); $(this).hide(); $(this).next().show();",
+                         :style => (collapsed ? "display:none" : "display:inline") %>
+    <%= link_to_function "Expand",
+                         "$(this).parent().parent().parent().children('.section_body').show(); $(this).hide(); $(this).prev().show();", 
+                         :style => (collapsed ? "display:inline" : "display:none") %>
+    ]</span>
+    <% end %>
+  </div>
+  
+  <div class="section_body" style="<%= collapsed ? 'display:none' : '' %>">
+    <%= body %>  
+  </div>
+</div>

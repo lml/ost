@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :confirmable, :lockable,
-         :timeoutable, :recoverable, :rememberable, :trackable, :validatable,
-         :reconfirmable
+         :timeoutable, :recoverable, :rememberable, :trackable, :validatable
 
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me,
                   :first_name, :last_name, :nickname
@@ -19,7 +18,7 @@ class User < ActiveRecord::Base
 
   scope :active_users, where(:disabled_at => nil)
   scope :administrators, where(:is_administrator => true)
-  scope :active_administrators, administrators & active_users
+  scope :active_administrators, administrators.merge(active_users)
 
   def full_name
     first_name + " " + last_name  
