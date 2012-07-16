@@ -2,6 +2,16 @@ Ost::Application.routes.draw do
 
   
 
+  resources :students
+
+  resources :cohorts
+
+  resources :sections
+
+  resources :educators
+
+  resources :offered_courses
+
   get "admin", :to => 'admin#index'
 
 

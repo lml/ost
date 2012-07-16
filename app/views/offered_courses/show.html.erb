@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Course:</b>
+  <%= @offered_course.course_id %>
+</p>
+
+<p>
+  <b>Approved emails:</b>
+  <%= @offered_course.approved_emails %>
+</p>
+
+<p>
+  <b>Consent form:</b>
+  <%= @offered_course.consent_form_id %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%= @offered_course.start_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_offered_course_path(@offered_course) %> |
+<%= link_to 'Back', offered_courses_path %>

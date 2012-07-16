@@ -1,0 +1,29 @@
+<h1>Listing offered_courses</h1>
+
+<table>
+  <tr>
+    <th>Course</th>
+    <th>Approved emails</th>
+    <th>Consent form</th>
+    <th>Start date</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @offered_courses.each do |offered_course| %>
+  <tr>
+    <td><%= offered_course.course_id %></td>
+    <td><%= offered_course.approved_emails %></td>
+    <td><%= offered_course.consent_form_id %></td>
+    <td><%= offered_course.start_date %></td>
+    <td><%= link_to 'Show', offered_course %></td>
+    <td><%= link_to 'Edit', edit_offered_course_path(offered_course) %></td>
+    <td><%= link_to 'Destroy', offered_course, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Offered course', new_offered_course_path %>

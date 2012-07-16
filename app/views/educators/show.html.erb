@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Offered course:</b>
+  <%= @educator.offered_course_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @educator.user_id %>
+</p>
+
+<p>
+  <b>Is instructor:</b>
+  <%= @educator.is_instructor %>
+</p>
+
+<p>
+  <b>Is teaching assistant:</b>
+  <%= @educator.is_teaching_assistant %>
+</p>
+
+<p>
+  <b>Is grader:</b>
+  <%= @educator.is_grader %>
+</p>
+
+
+<%= link_to 'Edit', edit_educator_path(@educator) %> |
+<%= link_to 'Back', educators_path %>

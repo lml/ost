@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Cohort:</b>
+  <%= @student.cohort_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @student.user_id %>
+</p>
+
+<p>
+  <b>Is auditing:</b>
+  <%= @student.is_auditing %>
+</p>
+
+
+<%= link_to 'Edit', edit_student_path(@student) %> |
+<%= link_to 'Back', students_path %>
