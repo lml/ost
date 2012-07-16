@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120716044129) do
+ActiveRecord::Schema.define(:version => 20120716215801) do
+
+  create_table "cohorts", :force => true do |t|
+    t.integer  "section_id"
+    t.integer  "number"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "cohorts", ["section_id"], :name => "index_cohorts_on_section_id"
 
   create_table "course_instructors", :force => true do |t|
     t.integer  "course_id"
@@ -35,12 +44,76 @@ ActiveRecord::Schema.define(:version => 20120716044129) do
 
   add_index "courses", ["organization_id"], :name => "index_courses_on_organization_id"
 
+  create_table "educators", :force => true do |t|
+    t.integer  "offered_course_id"
+    t.integer  "user_id"
+    t.boolean  "is_instructor"
+    t.boolean  "is_teaching_assistant"
+    t.boolean  "is_grader"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  add_index "educators", ["offered_course_id"], :name => "index_educators_on_offered_course_id"
+  add_index "educators", ["user_id"], :name => "index_educators_on_user_id"
+
+  create_table "offered_courses", :force => true do |t|
+    t.integer  "course_id"
+    t.text     "approved_emails"
+    t.integer  "consent_form_id"
+    t.datetime "start_date"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "offered_courses", ["consent_form_id"], :name => "index_offered_courses_on_consent_form_id"
+  add_index "offered_courses", ["course_id"], :name => "index_offered_courses_on_course_id"
+
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.string   "default_time_zone"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end
+
+  create_table "registration_requests", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "section_id"
+    t.boolean  "is_auditing"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "registration_requests", ["section_id"], :name => "index_registration_requests_on_section_id"
+  add_index "registration_requests", ["user_id"], :name => "index_registration_requests_on_user_id"
+
+  create_table "researchers", :force => true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "researchers", ["user_id"], :name => "index_researchers_on_user_id"
+
+  create_table "sections", :force => true do |t|
+    t.integer  "offered_course_id"
+    t.string   "name"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "sections", ["offered_course_id"], :name => "index_sections_on_offered_course_id"
+
+  create_table "students", :force => true do |t|
+    t.integer  "cohort_id"
+    t.integer  "user_id"
+    t.boolean  "is_auditing"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "students", ["cohort_id"], :name => "index_students_on_cohort_id"
+  add_index "students", ["user_id"], :name => "index_students_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",    :null => false
@@ -73,7 +146,9 @@ ActiveRecord::Schema.define(:version => 20120716044129) do
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
+  add_index "users", ["education_id"], :name => "index_users_on_education_id", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["research_id"], :name => "index_users_on_research_id", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
   add_index "users", ["unlock_token"], :name => "index_users_on_unlock_token", :unique => true
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
