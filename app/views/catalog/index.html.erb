@@ -1,0 +1,21 @@
+<%= pageHeading "Course Catalog" %>
+
+<% @courses.group_by{|c| c.organization}.sort.each do |organization, courses| %>
+
+  <div>
+    <%= organization.name %>
+
+    <div style="padding-left:25px">
+      <% courses.each do |course| %>
+        <div style="padding: 5px 0 8px">
+          <p><b><%= course.name %></b></p>
+          <p><%= course.description %></p>
+          <p><%= link_to "Teach this course", nil %></p>
+          <%# TODO put in a "last offered: 2012" note %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+
+<% end %>

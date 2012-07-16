@@ -1,15 +1,22 @@
-<p id="notice"><%= notice %></p>
+<%= section "Details" do %>
+  <p>
+    <b>Name:</b>
+    <%= @organization.name %>
+  </p>
 
-<p>
-  <b>Name:</b>
-  <%= @organization.name %>
-</p>
+  <p>
+    <b>Default Time Zone:</b>
+    <%= @organization.default_time_zone %>
+  </p>
+<% end %>
 
-<p>
-  <b>Default timezone:</b>
-  <%= @organization.default_timezone %>
-</p>
+<%= section "Courses" do %>
+
+  <%= uber_list @organization.courses, :name %>
+
+<% end %>
 
 
 <%= link_to 'Edit', edit_organization_path(@organization) %> |
-<%= link_to 'Back', organizations_path %>
+<%= link_to 'List', organizations_path %> |
+<%= link_to 'New Course', new_organization_course_path(@organization) %>

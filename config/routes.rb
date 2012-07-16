@@ -1,6 +1,12 @@
 Ost::Application.routes.draw do
 
-  resources :organizations
+  
+
+  get "catalog", :to => 'catalog#index'
+
+  resources :organizations do
+    resources :courses, :shallow => true
+  end
 
   devise_for :users
 

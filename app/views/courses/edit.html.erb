@@ -1,0 +1,6 @@
+<%= pageHeading "Editing a Course (#{@course.organization.name})"%>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', @course %> |
+<%= link_to 'Organization', organization_path(@course.organization) %>

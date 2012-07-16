@@ -26,6 +26,15 @@ class Organization < ActiveRecord::Base
     user.is_administrator?
   end
   
+  def children_can_be_read_by?(user, children_symbol)
+    case children_symbol
+    when :courses
+      user.is_administrator?
+    else
+      false
+    end
+  end
+  
 protected
 
   def assert_no_courses
