@@ -86,8 +86,13 @@
   </head>
 
   <body>    
-    <% if Rails.env.development? %>
-      <div id="dev_toolbox" style="position:absolute; top:0; left:0">
+    
+    <div id="toolbox" style="position:absolute; top:0; left:0">
+      <% if present_user.is_administrator? %>
+        <%= link_to "Admin", admin_path %><br/>
+      <% end %>
+      <% if Rails.env.development? %>
+        Current user: <%= present_user.username %><br/>
         <%= link_to "Dev Toolbox", dev_toolbox_path, :remote => true %>
         <div id="dev_toolbox_dialog" style="display:none" title="Dev Toolbox"></div>
         <% content_for :javascript do %>
@@ -100,8 +105,9 @@
             });
           <% end %>
         <% end %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
+
     
     <% if @ask_for_consent %>
       <% content_for :javascript do %>

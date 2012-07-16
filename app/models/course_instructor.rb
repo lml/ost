@@ -1,10 +1,14 @@
-class Course < ActiveRecord::Base
-  belongs_to :organization
-  has_many :course_instructors
+class CourseInstructor < ActiveRecord::Base
+  belongs_to :course
+  belongs_to :user
   
-  acts_as_numberable :container => :organization
+  validates :user_id, :uniqueness => {:scope => :course_id}
   
-  attr_accessible :description, :name, :typically_offered
+  attr_accessible :course_id, :user_id, :course
+  
+  def name
+    user.full_name
+  end
   
   #############################################################################
   # Access control methods
@@ -15,7 +19,7 @@ class Course < ActiveRecord::Base
   end
     
   def can_be_created_by?(user)
-    user.is_administrator?
+    user.is_administrator? # TODO and eventually organization managers
   end
   
   def can_be_updated_by?(user)
@@ -25,5 +29,5 @@ class Course < ActiveRecord::Base
   def can_be_destroyed_by?(user)
     user.is_administrator?
   end
-
+  
 end

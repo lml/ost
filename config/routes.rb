@@ -2,10 +2,22 @@ Ost::Application.routes.draw do
 
   
 
+  get "admin", :to => 'admin#index'
+
+
+
   get "catalog", :to => 'catalog#index'
 
   resources :organizations do
     resources :courses, :shallow => true
+  end
+  
+  resources :courses, :only => [] do
+    resources :course_instructors, :shallow => true, :only => [:new, :create, :destroy] do
+      collection do
+        post 'search'
+      end
+    end
   end
 
   devise_for :users

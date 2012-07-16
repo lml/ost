@@ -1,0 +1,5 @@
+$("#user_action_form_<%= @course_instructor.user.id %>").html("Added");
+
+$("#course_instructors_list").html("<%= ej(uber_list(@course.course_instructors, :name, {:hide_edit => true})) %>");
+
+refresh_buttons();

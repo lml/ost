@@ -173,6 +173,9 @@ module ApplicationHelper
   
   def uber_list(entries, entry_text_method, options={})
     
+    options[:hide_edit] ||= false
+    options[:hide_trash] ||= false
+    
     @uber_list_count = (@uber_list_count ||= 0) + 1
     @uber_list_id = "uber_list_#{@uber_list_count}"
     
@@ -239,8 +242,8 @@ module ApplicationHelper
             button_target = options[:namespace].nil? ? 
                             entry : 
                             [options[:namespace], entry]
-            edit_button(button_target, {:small => true}) +
-            trash_button(button_target, {:small => true})
+            (options[:hide_edit] ? "".html_safe : edit_button(button_target, {:small => true})) +
+            (options[:hide_trash] ? "".html_safe : trash_button(button_target, {:small => true}))
           end
 
           a+b+c
@@ -352,5 +355,8 @@ module ApplicationHelper
     return '***@' + domain
   end
   
+  def auth_only(text)
+    user_signed_in? ? text : "[ hidden ]"
+  end
   
 end

@@ -1,17 +1,34 @@
-<p>
-  <b>Name:</b>
-  <%= @course.name %>
-</p>
+<%= pageHeading "#{@course.organization.name}: #{@course.name}"%>
 
-<p>
-  <b>Description:</b>
-  <%= @course.description %>
-</p>
+<%= section "Description" do %>
+  <p>
+    <b>Name:</b>
+    <%= @course.name %>
+  </p>
 
-<p>
-  <b>Typically offered:</b>
-  <%= @course.typically_offered %>
-</p>
+  <p>
+    <b>Description:</b>
+    <%= @course.description %>
+  </p>
+
+  <p>
+    <b>Typically offered:</b>
+    <%= @course.typically_offered %>
+  </p>
+<% end %>
+
+<%= section "Instructors" do %>
+
+  <div id="course_instructors_list">
+    <%= uber_list @course.course_instructors, :name, {:hide_edit => true} %>
+  </div>
+
+  <% if present_user.can_create?(CourseInstructor.new(:course => @course)) %>
+    <%= link_to "Add an instructor...", new_course_course_instructor_path(@course), :remote => true %>
+  <% end %>
+
+<% end %>
+
 
 <%= link_to 'Edit', edit_course_path(@course) %> |
 <%= link_to 'Organization', organization_path(@course.organization) %>
