@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @registration_request.user_id %>
+</p>
+
+<p>
+  <b>Section:</b>
+  <%= @registration_request.section_id %>
+</p>
+
+<p>
+  <b>Is auditing:</b>
+  <%= @registration_request.is_auditing %>
+</p>
+
+
+<%= link_to 'Edit', edit_registration_request_path(@registration_request) %> |
+<%= link_to 'Back', registration_requests_path %>

@@ -7,5 +7,8 @@ class CreateStudents < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :students, :cohort_id
+    add_index :students, :user_id
   end
 end

@@ -6,5 +6,7 @@ class CreateCohorts < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :cohorts, :section_id
   end
 end

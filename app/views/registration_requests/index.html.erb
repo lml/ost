@@ -1,0 +1,27 @@
+<h1>Listing registration_requests</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Section</th>
+    <th>Is auditing</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @registration_requests.each do |registration_request| %>
+  <tr>
+    <td><%= registration_request.user_id %></td>
+    <td><%= registration_request.section_id %></td>
+    <td><%= registration_request.is_auditing %></td>
+    <td><%= link_to 'Show', registration_request %></td>
+    <td><%= link_to 'Edit', edit_registration_request_path(registration_request) %></td>
+    <td><%= link_to 'Destroy', registration_request, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Registration request', new_registration_request_path %>

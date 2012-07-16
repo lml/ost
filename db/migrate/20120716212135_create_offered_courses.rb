@@ -8,5 +8,8 @@ class CreateOfferedCourses < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :offered_courses, :course_id
+    add_index :offered_courses, :consent_form_id
   end
 end

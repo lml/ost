@@ -9,5 +9,8 @@ class CreateEducators < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :educators, :offered_course_id
+    add_index :educators, :user_id
   end
 end

@@ -2,6 +2,10 @@ Ost::Application.routes.draw do
 
   
 
+  resources :registration_requests
+
+  resources :researchers
+
   resources :students
 
   resources :cohorts
