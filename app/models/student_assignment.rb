@@ -5,6 +5,9 @@ class StudentAssignment < ActiveRecord::Base
   
   before_destroy :destroyable?
   
+  validates :assignment_id, :presence => true
+  validates :student_id, :presence => true, :unique => {:scope => :assignment_id}
+  
   attr_accessible
   
   def destroyable?

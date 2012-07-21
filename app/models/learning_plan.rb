@@ -4,5 +4,15 @@ class LearningPlan < ActiveRecord::Base
   has_many :assignments, :dependent => :destroy
   has_many :concepts, :dependent => :destroy
   
-  attr_accessible :description, :learning_plannable_id, :learning_plannable_type, :name
+  validates :learning_plannable_id, :presence => true
+  validates :learning_plannable_type, :presence => true
+  validates :name, :presence => true
+  
+  before_destroy :destroyable?
+  
+  attr_accessible :description, :name #:learning_plannable_id, :learning_plannable_type
+  
+  def destroyable?
+    raise NotYetImplemented
+  end
 end

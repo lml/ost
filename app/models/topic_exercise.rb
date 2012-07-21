@@ -5,6 +5,9 @@ class TopicExercise < ActiveRecord::Base
   
   before_destroy :destroyable?
   
+  validates :topic_id, :presence => true
+  validates :exercise_id, :presence => true, :uniqueness => {:scope => :topic_id}
+  
   acts_as_numberable :container => :topic
   
   attr_accessible

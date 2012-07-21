@@ -30,6 +30,7 @@ gem "aws-ses", "~> 0.4.3", :require => 'aws/ses'
 gem 'whenever', :require => false
 
 gem 'chronic'
+gem 'date_validator'
 
 gem 'fastercsv'
 gem 'csv_builder', '~>2.1.1'

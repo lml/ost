@@ -1,6 +1,8 @@
 class Cohort < ActiveRecord::Base
   belongs_to :section
   has_many :students, :dependent => :destroy
+  
+  validates :section_id, :presence => :true
 
   before_destroy :destroyable?
   
@@ -12,6 +14,5 @@ protected
 
   def destroyable?
     raise NotYetImplemented
-    false
   end
 end

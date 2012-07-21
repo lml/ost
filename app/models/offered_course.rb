@@ -5,6 +5,7 @@ class OfferedCourse < ActiveRecord::Base
   has_many :sections, :dependent => :destroy
     
   validates :start_date, :presence => true
+  validates :course_id, :presence => true
 
   before_destroy :destroyable?
   

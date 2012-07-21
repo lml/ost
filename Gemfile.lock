@@ -54,6 +54,8 @@ GEM
     csv_builder (2.1.1)
       actionpack (>= 3.0.0)
     daemons (1.1.8)
+    date_validator (0.6.3)
+      activemodel (~> 3.0)
     debugger (1.1.4)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
@@ -182,6 +184,7 @@ DEPENDENCIES
   chronic
   coffee-rails (~> 3.2.1)
   csv_builder (~> 2.1.1)
+  date_validator
   debugger (~> 1.1.4)
   devise (~> 2.1.0)
   factory_girl_rails (~> 3.4.0)
