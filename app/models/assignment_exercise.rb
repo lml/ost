@@ -1,3 +1,8 @@
 class AssignmentExercise < ActiveRecord::Base
-  attr_accessible :assignment_id, :number, :topic_exercise_id
+  belongs_to :assignment
+  belongs_to :topic_exercise
+  
+  acts_as_numberable :container => :assignment
+  
+  attr_accessible
 end

@@ -2,6 +2,8 @@ Ost::Application.routes.draw do
 
   
 
+  resources :organization_managers
+
   resources :student_exercises
 
   resources :assignment_exercises

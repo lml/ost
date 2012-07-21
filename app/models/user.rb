@@ -2,6 +2,11 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :confirmable, :lockable,
          :timeoutable, :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :students, :dependent => :destroy
+  has_one :researcher, :dependent => :destroy
+  has_many :registration_requests, :dependent => :destroy
+  has_many :course_instructors, :dependent => :destroy
+  
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me,
                   :first_name, :last_name, :nickname
   

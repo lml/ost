@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120721165851) do
+ActiveRecord::Schema.define(:version => 20120721195112) do
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(:version => 20120721165851) do
   create_table "concepts", :force => true do |t|
     t.string   "name"
     t.integer  "learning_plan_id", :null => false
+    t.integer  "number"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
@@ -134,6 +135,16 @@ ActiveRecord::Schema.define(:version => 20120721165851) do
 
   add_index "offered_courses", ["consent_form_id"], :name => "index_offered_courses_on_consent_form_id"
   add_index "offered_courses", ["course_id"], :name => "index_offered_courses_on_course_id"
+
+  create_table "organization_managers", :force => true do |t|
+    t.integer  "organization_id", :null => false
+    t.integer  "user_id",         :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "organization_managers", ["organization_id"], :name => "index_organization_managers_on_organization_id"
+  add_index "organization_managers", ["user_id"], :name => "index_organization_managers_on_user_id"
 
   create_table "organizations", :force => true do |t|
     t.string   "name"

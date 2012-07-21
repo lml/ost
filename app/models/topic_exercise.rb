@@ -1,3 +1,15 @@
 class TopicExercise < ActiveRecord::Base
-  attr_accessible :concept_id, :exercise_id, :number, :topic_id
+  belongs_to :concept
+  belongs_to :topic
+  belongs_to :exercise
+  
+  before_destroy :destroyable?
+  
+  acts_as_numberable :container => :topic
+  
+  attr_accessible
+  
+  def destroyable?
+    raise NotYetImplemented
+  end
 end

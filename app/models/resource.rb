@@ -1,3 +1,16 @@
 class Resource < ActiveRecord::Base
-  attr_accessible :name, :notes, :number, :resourceable_id, :resourceable_type, :url
+  belongs_to :resourceable, :polymorphic => true
+  
+  validate :enough_content
+  
+  acts_as_numberable :container => :resourceable
+  
+  attr_accessible :name, :notes, :url
+  
+protected
+
+  def enough_content
+    return if !url.blank?
+  end
+
 end
