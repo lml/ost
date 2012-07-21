@@ -1,5 +1,5 @@
 class Organization < ActiveRecord::Base
-  has_many :courses, :dependent => :destroy
+  has_many :courses, :dependent => :destroy, :order => :number
   has_many :organization_managers, :dependent => :destroy
   
   validate :name, :presence => true, :uniqueness => true

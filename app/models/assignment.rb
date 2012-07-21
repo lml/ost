@@ -3,7 +3,7 @@ class Assignment < ActiveRecord::Base
   has_many :student_assignments, :dependent => :destroy
   has_many :assignment_topics, :dependent => :destroy
   has_many :topics, :through => :assignment_topics
-  has_many :assignment_exercises, :dependent => :destroy
+  has_many :assignment_exercises, :dependent => :destroy, :order => :number
   
   before_destroy :destroyable?
   

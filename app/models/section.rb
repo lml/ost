@@ -1,6 +1,6 @@
 class Section < ActiveRecord::Base
   belongs_to :offered_course
-  has_many :cohorts, :dependent => :destroy
+  has_many :cohorts, :dependent => :destroy, :order => :number
   has_many :registration_requests, :dependent => :destroy
   
   before_destroy :destroyable?
