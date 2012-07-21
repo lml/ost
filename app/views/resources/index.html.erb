@@ -1,0 +1,33 @@
+<h1>Listing resources</h1>
+
+<table>
+  <tr>
+    <th>Resourceable type</th>
+    <th>Resourceable</th>
+    <th>Url</th>
+    <th>Name</th>
+    <th>Notes</th>
+    <th>Number</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @resources.each do |resource| %>
+  <tr>
+    <td><%= resource.resourceable_type %></td>
+    <td><%= resource.resourceable_id %></td>
+    <td><%= resource.url %></td>
+    <td><%= resource.name %></td>
+    <td><%= resource.notes %></td>
+    <td><%= resource.number %></td>
+    <td><%= link_to 'Show', resource %></td>
+    <td><%= link_to 'Edit', edit_resource_path(resource) %></td>
+    <td><%= link_to 'Destroy', resource, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Resource', new_resource_path %>

@@ -1,0 +1,39 @@
+<h1>Listing assignments</h1>
+
+<table>
+  <tr>
+    <th>Learning plan</th>
+    <th>Name</th>
+    <th>Is test</th>
+    <th>Is open book</th>
+    <th>Is group work allowed</th>
+    <th>Is ready</th>
+    <th>Introduction</th>
+    <th>Starts at</th>
+    <th>Ends at</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @assignments.each do |assignment| %>
+  <tr>
+    <td><%= assignment.learning_plan_id %></td>
+    <td><%= assignment.name %></td>
+    <td><%= assignment.is_test %></td>
+    <td><%= assignment.is_open_book %></td>
+    <td><%= assignment.is_group_work_allowed %></td>
+    <td><%= assignment.is_ready %></td>
+    <td><%= assignment.introduction %></td>
+    <td><%= assignment.starts_at %></td>
+    <td><%= assignment.ends_at %></td>
+    <td><%= link_to 'Show', assignment %></td>
+    <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
+    <td><%= link_to 'Destroy', assignment, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Assignment', new_assignment_path %>

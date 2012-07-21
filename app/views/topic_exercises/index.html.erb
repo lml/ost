@@ -1,0 +1,29 @@
+<h1>Listing topic_exercises</h1>
+
+<table>
+  <tr>
+    <th>Topic</th>
+    <th>Exercise</th>
+    <th>Concept</th>
+    <th>Number</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @topic_exercises.each do |topic_exercise| %>
+  <tr>
+    <td><%= topic_exercise.topic_id %></td>
+    <td><%= topic_exercise.exercise_id %></td>
+    <td><%= topic_exercise.concept_id %></td>
+    <td><%= topic_exercise.number %></td>
+    <td><%= link_to 'Show', topic_exercise %></td>
+    <td><%= link_to 'Edit', edit_topic_exercise_path(topic_exercise) %></td>
+    <td><%= link_to 'Destroy', topic_exercise, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Topic exercise', new_topic_exercise_path %>

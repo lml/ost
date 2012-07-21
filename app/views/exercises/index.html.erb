@@ -1,0 +1,27 @@
+<h1>Listing exercises</h1>
+
+<table>
+  <tr>
+    <th>Url</th>
+    <th>Is dynamic</th>
+    <th>Content cache</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @exercises.each do |exercise| %>
+  <tr>
+    <td><%= exercise.url %></td>
+    <td><%= exercise.is_dynamic %></td>
+    <td><%= exercise.content_cache %></td>
+    <td><%= link_to 'Show', exercise %></td>
+    <td><%= link_to 'Edit', edit_exercise_path(exercise) %></td>
+    <td><%= link_to 'Destroy', exercise, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Exercise', new_exercise_path %>

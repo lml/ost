@@ -1,9 +1,9 @@
 class CreateRegistrationRequests < ActiveRecord::Migration
   def change
     create_table :registration_requests do |t|
-      t.integer :user_id
-      t.integer :section_id
-      t.boolean :is_auditing
+      t.integer :user_id, :null => false
+      t.integer :section_id, :null => false
+      t.boolean :is_auditing, :null => false
 
       t.timestamps
     end

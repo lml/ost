@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Learning plannable:</b>
+  <%= @learning_plan.learning_plannable_id %>
+</p>
+
+<p>
+  <b>Learning plannable type:</b>
+  <%= @learning_plan.learning_plannable_type %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @learning_plan.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @learning_plan.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_learning_plan_path(@learning_plan) %> |
+<%= link_to 'Back', learning_plans_path %>

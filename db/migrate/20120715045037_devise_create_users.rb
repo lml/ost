@@ -2,7 +2,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
   def change
     create_table(:users) do |t|
       ## Database authenticatable
-      t.string :email,              :null => false, :default => ""
+      t.string :email,              :null => false
       t.string :encrypted_password, :null => false, :default => ""
 
       ## Recoverable
@@ -31,13 +31,13 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.datetime :locked_at
 
       ## Non-devise stuff
-      t.string   :username
+      t.string   :username, :null => false
       t.datetime :disabled_at
       t.string   :first_name
       t.string   :last_name
-      t.boolean  :is_administrator, :default => false
-      t.string   :research_id
-      t.string   :education_id
+      t.boolean  :is_administrator, :null => false, :default => false
+      t.string   :research_id, :null => false
+      t.string   :education_id, :null => false
       t.string   :nickname
 
       t.timestamps

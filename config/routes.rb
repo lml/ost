@@ -2,6 +2,28 @@ Ost::Application.routes.draw do
 
   
 
+  resources :student_exercises
+
+  resources :assignment_exercises
+
+  resources :student_assignments
+
+  resources :topic_exercises
+
+  resources :resources
+
+  resources :assignment_topics
+
+  resources :assignments
+
+  resources :exercises
+
+  resources :topics
+
+  resources :concepts
+
+  resources :learning_plans
+
   resources :registration_requests
 
   resources :researchers

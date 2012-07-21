@@ -1,11 +1,11 @@
 class CreateResearchers < ActiveRecord::Migration
   def change
     create_table :researchers do |t|
-      t.integer :user_id
+      t.integer :user_id, :null => false
 
       t.timestamps
     end
     
-    add_index :researchers, :user_id
+    add_index :researchers, :user_id, :unique => true
   end
 end

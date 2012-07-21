@@ -4,7 +4,7 @@ class CreateCourses < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.string :typically_offered
-      t.integer :organization_id
+      t.integer :organization_id, :null => false
       t.integer :number
 
       t.timestamps

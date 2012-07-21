@@ -1,0 +1,27 @@
+<h1>Listing assignment_exercises</h1>
+
+<table>
+  <tr>
+    <th>Assignment</th>
+    <th>Topic exercise</th>
+    <th>Number</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @assignment_exercises.each do |assignment_exercise| %>
+  <tr>
+    <td><%= assignment_exercise.assignment_id %></td>
+    <td><%= assignment_exercise.topic_exercise_id %></td>
+    <td><%= assignment_exercise.number %></td>
+    <td><%= link_to 'Show', assignment_exercise %></td>
+    <td><%= link_to 'Edit', edit_assignment_exercise_path(assignment_exercise) %></td>
+    <td><%= link_to 'Destroy', assignment_exercise, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Assignment exercise', new_assignment_exercise_path %>

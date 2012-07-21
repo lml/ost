@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Student assignment:</b>
+  <%= @student_exercise.student_assignment_id %>
+</p>
+
+<p>
+  <b>Assignment exercise:</b>
+  <%= @student_exercise.assignment_exercise_id %>
+</p>
+
+<p>
+  <b>Content cache:</b>
+  <%= @student_exercise.content_cache %>
+</p>
+
+<p>
+  <b>Free response:</b>
+  <%= @student_exercise.free_response %>
+</p>
+
+<p>
+  <b>Free response submitted at:</b>
+  <%= @student_exercise.free_response_submitted_at %>
+</p>
+
+<p>
+  <b>Free response confidence:</b>
+  <%= @student_exercise.free_response_confidence %>
+</p>
+
+<p>
+  <b>Selected answer:</b>
+  <%= @student_exercise.selected_answer %>
+</p>
+
+<p>
+  <b>Selected answer submitted at:</b>
+  <%= @student_exercise.selected_answer_submitted_at %>
+</p>
+
+<p>
+  <b>Was submitted late:</b>
+  <%= @student_exercise.was_submitted_late %>
+</p>
+
+<p>
+  <b>Automated credit:</b>
+  <%= @student_exercise.automated_credit %>
+</p>
+
+<p>
+  <b>Manual credit:</b>
+  <%= @student_exercise.manual_credit %>
+</p>
+
+
+<%= link_to 'Edit', edit_student_exercise_path(@student_exercise) %> |
+<%= link_to 'Back', student_exercises_path %>

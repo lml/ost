@@ -1,0 +1,25 @@
+<h1>Listing student_assignments</h1>
+
+<table>
+  <tr>
+    <th>Student</th>
+    <th>Assignment</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @student_assignments.each do |student_assignment| %>
+  <tr>
+    <td><%= student_assignment.student_id %></td>
+    <td><%= student_assignment.assignment_id %></td>
+    <td><%= link_to 'Show', student_assignment %></td>
+    <td><%= link_to 'Edit', edit_student_assignment_path(student_assignment) %></td>
+    <td><%= link_to 'Destroy', student_assignment, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Student assignment', new_student_assignment_path %>

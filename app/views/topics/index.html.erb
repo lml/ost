@@ -1,0 +1,27 @@
+<h1>Listing topics</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Learning plan</th>
+    <th>Number</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @topics.each do |topic| %>
+  <tr>
+    <td><%= topic.name %></td>
+    <td><%= topic.learning_plan_id %></td>
+    <td><%= topic.number %></td>
+    <td><%= link_to 'Show', topic %></td>
+    <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
+    <td><%= link_to 'Destroy', topic, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Topic', new_topic_path %>

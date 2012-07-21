@@ -1,0 +1,61 @@
+<%= form_for(@student_exercise) do |f| %>
+  <% if @student_exercise.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@student_exercise.errors.count, "error") %> prohibited this student_exercise from being saved:</h2>
+
+      <ul>
+      <% @student_exercise.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :student_assignment_id %><br />
+    <%= f.number_field :student_assignment_id %>
+  </div>
+  <div class="field">
+    <%= f.label :assignment_exercise_id %><br />
+    <%= f.number_field :assignment_exercise_id %>
+  </div>
+  <div class="field">
+    <%= f.label :content_cache %><br />
+    <%= f.text_area :content_cache %>
+  </div>
+  <div class="field">
+    <%= f.label :free_response %><br />
+    <%= f.text_area :free_response %>
+  </div>
+  <div class="field">
+    <%= f.label :free_response_submitted_at %><br />
+    <%= f.datetime_select :free_response_submitted_at %>
+  </div>
+  <div class="field">
+    <%= f.label :free_response_confidence %><br />
+    <%= f.number_field :free_response_confidence %>
+  </div>
+  <div class="field">
+    <%= f.label :selected_answer %><br />
+    <%= f.number_field :selected_answer %>
+  </div>
+  <div class="field">
+    <%= f.label :selected_answer_submitted_at %><br />
+    <%= f.datetime_select :selected_answer_submitted_at %>
+  </div>
+  <div class="field">
+    <%= f.label :was_submitted_late %><br />
+    <%= f.check_box :was_submitted_late %>
+  </div>
+  <div class="field">
+    <%= f.label :automated_credit %><br />
+    <%= f.text_field :automated_credit %>
+  </div>
+  <div class="field">
+    <%= f.label :manual_credit %><br />
+    <%= f.text_field :manual_credit %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

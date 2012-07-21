@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Assignment:</b>
+  <%= @assignment_topic.assignment_id %>
+</p>
+
+<p>
+  <b>Topic:</b>
+  <%= @assignment_topic.topic_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_assignment_topic_path(@assignment_topic) %> |
+<%= link_to 'Back', assignment_topics_path %>

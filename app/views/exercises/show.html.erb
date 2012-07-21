@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Url:</b>
+  <%= @exercise.url %>
+</p>
+
+<p>
+  <b>Is dynamic:</b>
+  <%= @exercise.is_dynamic %>
+</p>
+
+<p>
+  <b>Content cache:</b>
+  <%= @exercise.content_cache %>
+</p>
+
+
+<%= link_to 'Edit', edit_exercise_path(@exercise) %> |
+<%= link_to 'Back', exercises_path %>
