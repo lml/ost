@@ -10,6 +10,10 @@ class Section < ActiveRecord::Base
   
   attr_accessible :name
   
+  def register!(user, is_auditing)
+    raise NotYetImplemented
+  end
+  
 protected
 
   def destroyable?

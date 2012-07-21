@@ -1,0 +1,7 @@
+<p>Hi <%= @registration_request.user.first_name %>,</p>
+
+<p>The persons in charge of <%= full_section_name(@registration_request.section) %> 
+   have rejected your request to join it.  If you would like to reopen your request
+   to join this class, please contact its teaching staff.</p>
+
+<%= render :partial => 'shared/email_closing' %>

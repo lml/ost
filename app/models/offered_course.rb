@@ -11,6 +11,16 @@ class OfferedCourse < ActiveRecord::Base
   
   attr_accessible :start_date
   
+  def is_preapproved?(user)
+    approved_emails_array = (approved_emails || '').split("\n").collect{|ae| ae.strip}
+    
+    approved_emails_array.any? do |ae|
+      user.email.downcase == ae.downcase || 
+      user.email.downcase.match(ae.downcase)
+    end
+  end
+  
+  
 protected
 
   def destroyable?

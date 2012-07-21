@@ -1,0 +1,7 @@
+<p>Hi <%= SITE_NAME %> educators,</p>
+
+<p><%= @registration_request.user.full_name %> wants to join <%= full_section_name(@registration_request.section) %>.</p>
+
+<p>You can approve or reject this request at <%= section_registration_requests_url(@registration_request.section )%></p>
+
+<%= render :partial => 'shared/email_closing' %>
