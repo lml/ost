@@ -1,8 +1,7 @@
 class CreateResources < ActiveRecord::Migration
   def change
     create_table :resources do |t|
-      t.string :resourceable_type, :null => false, :limit => 40
-      t.integer :resourceable_id, :null => false
+      t.integer :topic_id, :null => false
       t.string :url
       t.string :name
       t.text :notes
@@ -11,6 +10,6 @@ class CreateResources < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :resources, [:resourceable_id, :resourceable_type]
+    add_index :resources, :topic_id
   end
 end

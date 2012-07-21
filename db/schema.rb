@@ -173,17 +173,16 @@ ActiveRecord::Schema.define(:version => 20120721195112) do
   add_index "researchers", ["user_id"], :name => "index_researchers_on_user_id", :unique => true
 
   create_table "resources", :force => true do |t|
-    t.string   "resourceable_type", :limit => 40, :null => false
-    t.integer  "resourceable_id",                 :null => false
+    t.integer  "topic_id",   :null => false
     t.string   "url"
     t.string   "name"
     t.text     "notes"
     t.integer  "number"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  add_index "resources", ["resourceable_id", "resourceable_type"], :name => "index_resources_on_resourceable_id_and_resourceable_type"
+  add_index "resources", ["topic_id"], :name => "index_resources_on_topic_id"
 
   create_table "sections", :force => true do |t|
     t.integer  "offered_course_id", :null => false

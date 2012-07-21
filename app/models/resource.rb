@@ -1,11 +1,10 @@
 class Resource < ActiveRecord::Base
-  belongs_to :resourceable, :polymorphic => true
+  belongs_to :topic
   
-  validates :resourceable_id, :presence => true
-  validates :resourceable_type, :presence => true
+  validates :topic_id, :presence => true
   validate :enough_content
   
-  acts_as_numberable :container => :resourceable
+  acts_as_numberable :container => :topic
   
   attr_accessible :name, :notes, :url
   

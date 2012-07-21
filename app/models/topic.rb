@@ -3,7 +3,7 @@ class Topic < ActiveRecord::Base
   has_many :topic_exercises, :dependent => :destroy, :order => :number
   has_many :assignment_topics, :dependent => :destroy
   has_many :assignments, :through => :assignment_topics
-  has_many :resources, :as => :resourceable, :order => :number
+  has_many :resources, :order => :number
   
   before_destroy :destroyable?  
   
