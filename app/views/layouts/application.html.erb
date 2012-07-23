@@ -197,10 +197,7 @@
               </li>
             </ul>
           </div>
-          <% if false %>
-          <span id="tagline">
-            Access. The Future of Education.
-          </span>
+
           <div style="clear:right; float:right; padding-top:15px">
             <span id="account_info">
               <% if user_signed_in? %>
@@ -213,7 +210,7 @@
 
             </span>
           </div>
-          <% end %>
+
 
           <% if user_signed_in? && current_user.is_administrator? && WebsiteConfiguration.get_value(:sudo_enabled) %>
             <span style="float:left; color:#b22222; font-size:16px; font-weight:bold">
@@ -221,9 +218,12 @@
             </span>        
           <% end %>
           
-          <span id="clock" style="float:right">
-            <%= standard_datetime(Time.now) %> (on last refresh)
+          
+          <% if user_signed_in? %>
+          <span id="clock" style="float:right; clear:right">
+            <%= standard_datetime(Time.zone.now) %> (on last refresh)
           </span>
+          <% end %>
       </div>
 
      

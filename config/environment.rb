@@ -9,7 +9,7 @@ require 'belongs_to_exercise'
 require 'acts_as_numberable'
 
 # STANDARD_DATETIME_FORMAT = "%m/%d/%Y %l:%M %p"
-STANDARD_DATETIME_FORMAT = "%b %d, %Y %l:%M %p"
+STANDARD_DATETIME_FORMAT = "%b %d, %Y %l:%M %p %Z"
 # STANDARD_DATE_FORMAT = "%m/%d/%Y"
 STANDARD_DATE_FORMAT = "%b %d, %Y"
 

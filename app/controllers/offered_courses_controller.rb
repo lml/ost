@@ -7,7 +7,7 @@ class OfferedCoursesController < ApplicationController
   before_filter :set_time_zone, :only => [:create, :update]
 
   def index
-    @offered_courses = OfferedCourse.where{end_date > Time.now}
+    @offered_courses = OfferedCourse.where{end_date > Time.zone.now}
   end
 
   def show

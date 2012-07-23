@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
                         :site_not_in_maintenance!,
                         :authenticate_user!
 
+  before_filter :set_user_time_zone
   before_filter :include_jquery
   before_filter :use_2_column_layout
 
@@ -168,5 +169,9 @@ protected
     if @consent.nil? || @consent.ready_for_reask?    
       @ask_for_consent = true
     end
+  end
+  
+  def set_user_time_zone
+    Time.zone = current_user.time_zone if user_signed_in?
   end
 end

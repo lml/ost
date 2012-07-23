@@ -11,6 +11,7 @@ class OfferedCourse < ActiveRecord::Base
   validates :start_date, :presence => true
   validates :end_date, :presence => true, :date => {:after => :start_date}
   validates :course_id, :presence => true
+  validates :time_zone, :presence => true
 
   before_destroy :destroyable?
   

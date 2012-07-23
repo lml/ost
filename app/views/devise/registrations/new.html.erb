@@ -1,0 +1,44 @@
+<% @include_timepicker = true %>
+
+<%= pageHeading "Join #{SITE_NAME}"%>
+
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <% @errors = resource.errors %>
+
+  <p>First Name<br/>
+  <%= f.text_field :first_name %></p>
+
+  <p>Last Name<br/>
+  <%= f.text_field :last_name %></p>
+
+  <p>Username<br/>
+  <%= f.text_field :username %></p>
+
+  <p><%= f.label :email %><br />
+  <%= f.email_field :email %></p>
+
+  <p><%= f.label :password %><br />
+  <%= f.password_field :password %></p>
+
+  <p><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></p>
+  
+
+  <p class="field">
+    <%= t(:time_zone) %><br />
+    <%= f.time_zone_select( 'time_zone', 
+                            ActiveSupport::TimeZone.us_zones, 
+                            :default => Time.zone) %>
+  </p>
+
+  <% if @enable_recaptcha %>
+  <p><%= recaptcha_tags :ssl => true %></p>
+  <% end %>
+
+  <div><%= f.submit "Sign up" %></div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+
+
+

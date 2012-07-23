@@ -56,5 +56,10 @@ module Ost
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    # Overr
+    config.paths['app/views'] << "app/views/devise"
+    
+    config.enable_recaptcha = false
   end
 end

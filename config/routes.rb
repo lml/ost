@@ -62,8 +62,10 @@ Ost::Application.routes.draw do
   
   resources :offered_courses, :only => :index
 
-  devise_for :users
-
+  # For users, we mix devise with our own users controller.  We have overriden
+  # some devise controller methods, so point that out here.
+  devise_for :users, :controllers => {:registrations => "registrations"}
+  
   resources :users, :only => [:index, :show, :edit, :update] do
     post 'become'
   end

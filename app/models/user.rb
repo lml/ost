@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :course_instructors, :dependent => :destroy
   
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me,
-                  :first_name, :last_name, :nickname
+                  :first_name, :last_name, :nickname, :time_zone
   
   validates_presence_of :first_name, :last_name, :username
   validates_uniqueness_of :username, :case_sensitive => false
