@@ -5,12 +5,16 @@ class OfferedCourse < ActiveRecord::Base
   has_many :sections, :dependent => :destroy
   has_many :educators, :dependent => :destroy
     
+  # before_save :use_internal_time_zone
+  # after_save :revert_time_zone
+    
   validates :start_date, :presence => true
+  validates :end_date, :presence => true, :date => {:after => :start_date}
   validates :course_id, :presence => true
 
   before_destroy :destroyable?
   
-  attr_accessible :start_date, :approved_emails, :time_zone
+  attr_accessible :start_date, :end_date, :approved_emails, :time_zone
   
   def is_preapproved?(user)
     approved_emails_array = (approved_emails || '').split("\n").collect{|ae| ae.strip}
@@ -52,5 +56,19 @@ protected
     errors.add(:base, "This offered course cannot be deleted because it has sections.")
     false
   end
+
+  # def handle_datetimes
+  #   self.start_date = utc_from_time_and_zone(start_date, time_zone)
+  #   self.end_date = utc_from_time_and_zone(end_date, time_zone)
+  # end
+  # 
+  # def use_internal_time_zone
+  #   @original_time_zone = Time.zone
+  #   Time.zone = self.time_zone
+  # end
+  # 
+  # def revert_time_zone
+  #   Time.zone = @original_time_zone
+  # end
 
 end

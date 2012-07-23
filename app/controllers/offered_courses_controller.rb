@@ -2,8 +2,13 @@ require 'chronic'
 
 class OfferedCoursesController < ApplicationController
 
+  skip_before_filter :authenticate_user!, :only => [:index]
   before_filter :get_course, :only => [:new, :create]
-  before_filter :process_datetimes, :only => [:create, :update]
+  before_filter :set_time_zone, :only => [:create, :update]
+
+  def index
+    @offered_courses = OfferedCourse.where{end_date > Time.now}
+  end
 
   def show
     @offered_course = OfferedCourse.find(params[:id])
@@ -61,9 +66,7 @@ protected
     @course = Course.find(params[:course_id])
   end
   
-  def process_datetimes
-    params[:offered_course][:start_date] = utc_from_time_and_zone(params[:offered_course][:start_date], 
-                                                                  params[:offered_course][:time_zone])
-    Rails.logger.debug(params[:offered_course][:start_date].inspect)
+  def set_time_zone
+    Time.zone = params[:offered_course][:time_zone]
   end
 end

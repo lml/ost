@@ -19,5 +19,9 @@
   <%= standard_datetime_zone(@offered_course.start_date, @offered_course.time_zone) %>
 </p>
 
+<p>
+  <b>End date:</b>
+  <%= standard_datetime_zone(@offered_course.end_date, @offered_course.time_zone) %>
+</p>
 
 <%= link_to 'Edit', edit_offered_course_path(@offered_course) %> 

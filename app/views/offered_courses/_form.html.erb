@@ -2,14 +2,21 @@
 <% @include_timepicker = true %>
 
 <%= form_for([@course, @offered_course]) do |f| %>
+  <% time_zone = @offered_course.time_zone || @course.organization.default_time_zone %>
+
   <div class="field">
     <%= t(:time_zone) %><br />
-    <%= f.time_zone_select( 'time_zone', ActiveSupport::TimeZone.us_zones, 
-                            :default => @offered_course.time_zone || @course.organization.default_time_zone) %>
+    <%= f.time_zone_select( 'time_zone', 
+                            ActiveSupport::TimeZone.us_zones, 
+                            :default => time_zone) %>
   </div>
   <div class="field">
     <%= t(:start_date_time) %><br />
-    <%= f.datetime_text_field :start_date %>
+    <%= f.datetime_text_field :start_date, {:time_zone => time_zone} %>
+  </div>
+  <div class="field">
+    <%= t(:end_date_time) %><br />
+    <%= f.datetime_text_field :end_date, {:time_zone => time_zone} %>
   </div>
   <div class="field">
     Consent Form: 

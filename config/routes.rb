@@ -59,6 +59,8 @@ Ost::Application.routes.draw do
     
     resources :offered_courses, :shallow => true, :except => [:index]
   end
+  
+  resources :offered_courses, :only => :index
 
   devise_for :users
 

@@ -5,8 +5,9 @@ class ActionView::Helpers::FormBuilder
 
   # Creates a text field set up for datetimes
   def datetime_text_field(name, options={})
+    options[:time_zone] ||= "UTC"
     value = @object.send(name)
-    options[:value] ||= value.nil? ? "" : value.strftime(STANDARD_DATETIME_FORMAT)
+    options[:value] ||= value.nil? ? "" : value.in_time_zone(options[:time_zone]).strftime(STANDARD_DATETIME_FORMAT)
     
     new_classes = "datetime_field date_time_picker"
     

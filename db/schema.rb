@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120722031632) do
+ActiveRecord::Schema.define(:version => 20120723150555) do
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20120722031632) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.string   "time_zone"
+    t.datetime "end_date"
   end
 
   add_index "offered_courses", ["consent_form_id"], :name => "index_offered_courses_on_consent_form_id"
