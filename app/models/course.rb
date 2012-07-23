@@ -9,6 +9,10 @@ class Course < ActiveRecord::Base
   
   attr_accessible :description, :name, :typically_offered
   
+  def is_instructor?(user)
+    course_instructors.any?{|ci| ci.user_id == user.id}
+  end
+  
   #############################################################################
   # Access control methods
   #############################################################################

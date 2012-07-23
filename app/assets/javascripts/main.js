@@ -108,6 +108,7 @@ function show_none_row_if_needed(table_id) {
 function refresh_datetime_pickers() {
    $(".date_time_picker").datetimepicker({
      timeFormat: 'h:mm TT',
+     dateFormat: 'M d, yy',
      stepMinute: 5, 
      ampm:true, 
      hour:9, 

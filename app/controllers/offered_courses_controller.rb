@@ -1,84 +1,69 @@
+require 'chronic'
 
 class OfferedCoursesController < ApplicationController
-  # GET /offered_courses
-  # GET /offered_courses.json
-  def index
-    @offered_courses = OfferedCourse.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @offered_courses }
-    end
-  end
+  before_filter :get_course, :only => [:new, :create]
+  before_filter :process_datetimes, :only => [:create, :update]
 
-  # GET /offered_courses/1
-  # GET /offered_courses/1.json
   def show
     @offered_course = OfferedCourse.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @offered_course }
-    end
+    raise SecurityTransgression unless present_user.can_read?(@offered_course)
   end
 
-  # GET /offered_courses/new
-  # GET /offered_courses/new.json
   def new
     @offered_course = OfferedCourse.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @offered_course }
-    end
+    @offered_course.course = @course
+    raise SecurityTransgression unless present_user.can_create?(@offered_course)
   end
 
-  # GET /offered_courses/1/edit
   def edit
     @offered_course = OfferedCourse.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@offered_course)
   end
 
-  # POST /offered_courses
-  # POST /offered_courses.json
   def create
     @offered_course = OfferedCourse.new(params[:offered_course])
+    @offered_course.course = @course
+    raise SecurityTransgression unless present_user.can_create?(@offered_course)    
 
     respond_to do |format|
       if @offered_course.save
         format.html { redirect_to @offered_course, notice: 'Offered course was successfully created.' }
-        format.json { render json: @offered_course, status: :created, location: @offered_course }
       else
         format.html { render action: "new" }
-        format.json { render json: @offered_course.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PUT /offered_courses/1
-  # PUT /offered_courses/1.json
   def update
     @offered_course = OfferedCourse.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@offered_course)
 
     respond_to do |format|
       if @offered_course.update_attributes(params[:offered_course])
         format.html { redirect_to @offered_course, notice: 'Offered course was successfully updated.' }
-        format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @offered_course.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /offered_courses/1
-  # DELETE /offered_courses/1.json
   def destroy
     @offered_course = OfferedCourse.find(params[:id])
+    raise SecurityTransgression unless present_user.can_destroy?(@offered_course)
     @offered_course.destroy
+    redirect_to offered_courses_url
+  end
+  
+protected
 
-    respond_to do |format|
-      format.html { redirect_to offered_courses_url }
-      format.json { head :no_content }
-    end
+  def get_course
+    @course = Course.find(params[:course_id])
+  end
+  
+  def process_datetimes
+    params[:offered_course][:start_date] = utc_from_time_and_zone(params[:offered_course][:start_date], 
+                                                                  params[:offered_course][:time_zone])
+    Rails.logger.debug(params[:offered_course][:start_date].inspect)
   end
 end

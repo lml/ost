@@ -2,6 +2,8 @@ Ost::Application.routes.draw do
 
   
 
+  resources :consent_forms
+
   resources :organization_managers
 
   resources :student_exercises
@@ -38,8 +40,6 @@ Ost::Application.routes.draw do
 
   resources :educators
 
-  resources :offered_courses
-
   get "admin", :to => 'admin#index'
 
 
@@ -56,6 +56,8 @@ Ost::Application.routes.draw do
         post 'search'
       end
     end
+    
+    resources :offered_courses, :shallow => true, :except => [:index]
   end
 
   devise_for :users

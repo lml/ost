@@ -1,31 +1,33 @@
-<%= form_for(@offered_course) do |f| %>
-  <% if @offered_course.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@offered_course.errors.count, "error") %> prohibited this offered_course from being saved:</h2>
+<% @errors = @offered_course.errors %>
+<% @include_timepicker = true %>
 
-      <ul>
-      <% @offered_course.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+<%= form_for([@course, @offered_course]) do |f| %>
   <div class="field">
-    <%= f.label :course_id %><br />
-    <%= f.number_field :course_id %>
+    <%= t(:time_zone) %><br />
+    <%= f.time_zone_select( 'time_zone', ActiveSupport::TimeZone.us_zones, 
+                            :default => @offered_course.time_zone || @course.organization.default_time_zone) %>
+  </div>
+  <div class="field">
+    <%= t(:start_date_time) %><br />
+    <%= f.datetime_text_field :start_date %>
+  </div>
+  <div class="field">
+    Consent Form: 
+    
+    <% consent_forms = ConsentForm.all %>
+    
+    <% if consent_forms.empty? %>
+      <i>None available</i>
+    <% else %>
+      <%= f.select(:consent_form_id, 
+                   options_from_collection_for_select(ConsentForm.all, :id, :name, 
+                                                      @offered_course.consent_form_id),  
+                   {:include_blank => "Select one"})%>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :approved_emails %><br />
     <%= f.text_area :approved_emails %>
-  </div>
-  <div class="field">
-    <%= f.label :consent_form_id %><br />
-    <%= f.number_field :consent_form_id %>
-  </div>
-  <div class="field">
-    <%= f.label :start_date %><br />
-    <%= f.datetime_select :start_date %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -1,4 +1,3 @@
-<p id="notice"><%= notice %></p>
 
 <p>
   <b>Course:</b>
@@ -12,14 +11,13 @@
 
 <p>
   <b>Consent form:</b>
-  <%= @offered_course.consent_form_id %>
+  <%= @offered_course.consent_form.try(:name) || "None selected" %>
 </p>
 
 <p>
   <b>Start date:</b>
-  <%= @offered_course.start_date %>
+  <%= standard_datetime_zone(@offered_course.start_date, @offered_course.time_zone) %>
 </p>
 
 
-<%= link_to 'Edit', edit_offered_course_path(@offered_course) %> |
-<%= link_to 'Back', offered_courses_path %>
+<%= link_to 'Edit', edit_offered_course_path(@offered_course) %> 

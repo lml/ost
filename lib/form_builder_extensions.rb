@@ -1,6 +1,7 @@
 class ActionView::Helpers::FormBuilder
 
-  STANDARD_DATETIME_FORMAT ||= "%m/%d/%Y %l:%M %p"
+  # STANDARD_DATETIME_FORMAT ||= "%m/%d/%Y %l:%M %p"
+  STANDARD_DATETIME_FORMAT ||= "%b %d, %Y %l:%M %p"
 
   # Creates a text field set up for datetimes
   def datetime_text_field(name, options={})

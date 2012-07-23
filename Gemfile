@@ -43,7 +43,7 @@ group :development, :test do
   gem 'faker', '~> 1.0.1'
   gem 'factory_girl_rails', '~> 3.4.0'
   gem 'timecop', '~> 0.3.5'
-  gem 'thin', '~> 1.3.1'
+  gem 'thin', '~> 1.4.1'
   gem 'quiet_assets', '~> 1.0.1'
 end
 

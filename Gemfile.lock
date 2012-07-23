@@ -152,7 +152,7 @@ GEM
       polyamorous (~> 0.5.0)
     therubyracer (0.10.1)
       libv8 (~> 3.3.10)
-    thin (1.3.1)
+    thin (1.4.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
@@ -201,7 +201,7 @@ DEPENDENCIES
   sqlite3 (~> 1.3.6)
   squeel (~> 1.0.5)
   therubyracer (~> 0.10.1)
-  thin (~> 1.3.1)
+  thin (~> 1.4.1)
   timecop (~> 0.3.5)
   uglifier (>= 1.0.3)
   whenever

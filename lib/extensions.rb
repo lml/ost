@@ -1,5 +1,7 @@
 # Copyright (c) 2011 Rice University.  All rights reserved.
 
+require 'chronic'
+
 class SecurityTransgression < StandardError; end
 
 class AbstractMethodCalled < StandardError; end
@@ -29,6 +31,15 @@ def utc_offset_string
   (hour_diff < 0 ? "-" : "+") + "%02d" % hour_diff.abs + "00"
 end
 
+def utc_from_time_and_zone(time_string, time_zone_string)
+  original_zone = Time.zone
+  Time.zone = time_zone_string
+  Chronic.time_class = Time.zone
+  Chronic.parse(time_string).utc.tap do
+    Time.zone = original_zone
+  end
+end
+
 module ActiveRecord
   class Base
     def better_becomes(klass)
@@ -55,6 +66,10 @@ module ActiveRecord
       ids.each_with_index {|id, index| order_hash[id.to_i]=index}
 
       items.sort_by!{|item| order_hash[item.id]}
+    end
+    
+    def sudo_enabled?
+      WebsiteConfiguration.get_value(:sudo_enabled)
     end
   end
 end

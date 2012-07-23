@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Html:</b>
+  <%= @consent_form.html %>
+</p>
+
+<p>
+  <b>Esignature required:</b>
+  <%= @consent_form.esignature_required %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @consent_form.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_consent_form_path(@consent_form) %> |
+<%= link_to 'Back', consent_forms_path %>

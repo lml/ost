@@ -1,0 +1,27 @@
+<h1>Listing consent_forms</h1>
+
+<table>
+  <tr>
+    <th>Html</th>
+    <th>Esignature required</th>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @consent_forms.each do |consent_form| %>
+  <tr>
+    <td><%= consent_form.html %></td>
+    <td><%= consent_form.esignature_required %></td>
+    <td><%= consent_form.name %></td>
+    <td><%= link_to 'Show', consent_form %></td>
+    <td><%= link_to 'Edit', edit_consent_form_path(consent_form) %></td>
+    <td><%= link_to 'Destroy', consent_form, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Consent form', new_consent_form_path %>
