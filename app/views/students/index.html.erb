@@ -1,27 +1,39 @@
-<h1>Listing students</h1>
+<%= pageHeading "Student Roster, #{@offered_course.course.name}" %>
 
-<table>
+<% num_sections = @offered_course.sections.count %>
+
+<table class="list" width="90%">
   <tr>
-    <th>Cohort</th>
-    <th>User</th>
-    <th>Is auditing</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <% if num_sections > 1 %>
+      <th>Section</th>
+    <% end %>
+    <th>Name</th>
+    <% if present_user.is_administrator? %><th>Research ID</th><% end %>
+    <th>Status</th>
   </tr>
 
-<% @students.each do |student| %>
-  <tr>
-    <td><%= student.cohort_id %></td>
-    <td><%= student.user_id %></td>
-    <td><%= student.is_auditing %></td>
-    <td><%= link_to 'Show', student %></td>
-    <td><%= link_to 'Edit', edit_student_path(student) %></td>
-    <td><%= link_to 'Destroy', student, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+  <% @offered_course.sections.each do |section| %>
+    <% if num_sections > 1 %>
+      <tr>
+        <td colspan=><%= section.name %></td>
+      </tr>
+    <% end %>
+    <% section.students.each do |student| %>
+      <tr>
+        <% if num_sections > 1 %>
+          <td></td>
+        <% end %>
+        <td><%= student.full_name %></td>
+        <% if present_user.is_administrator? %>
+          <td><%= student.user.research_id %></td>
+        <% end %>
+        <td><%= student.is_auditing ? "AUDITING" : "REGISTERED" %>
+      </tr>
+    <% end %>
+  <% end %>
+
 </table>
 
-<br />
-
-<%= link_to 'New Student', new_student_path %>
+<% content_for :right_column do %>
+  <%= link_to "Course Offering", offered_course_path(@offered_course) %>
+<% end %>

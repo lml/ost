@@ -1,7 +1,7 @@
 # Copyright (c) 2011 Rice University.  All rights reserved.
 
 class SiteMailer < ActionMailer::Base
-  include OstUtilities
+  include Ost::Utilities
     
   default :from => "noreply@openstaxtutor.org"
 

@@ -1,6 +1,6 @@
 class Cohort < ActiveRecord::Base
   belongs_to :section
-  has_many :students, :dependent => :destroy
+  has_many :students, :dependent => :nullify
   
   validates :section_id, :presence => :true
 

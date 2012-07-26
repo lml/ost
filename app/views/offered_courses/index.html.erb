@@ -1,27 +1,26 @@
-<h1>Listing offered_courses</h1>
+<%= pageHeading "Current Course Offerings" %>
 
-<table>
-  <tr>
-    <th>Course</th>
-    <th>Approved emails</th>
-    <th>Consent form</th>
-    <th>Start date</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<p>Interested in taking <%= a_site_name %> course?  The courses below are those from our <%= link_to "catalog", catalog_path %> that are currently in progress or that will be starting soon.</p>
 
-<% @offered_courses.each do |offered_course| %>
-  <tr>
-    <td><%= offered_course.course_id %></td>
-    <td><%= offered_course.approved_emails %></td>
-    <td><%= offered_course.consent_form_id %></td>
-    <td><%= offered_course.start_date %></td>
-    <td><%= link_to 'Show', offered_course %></td>
-    <td><%= link_to 'Edit', edit_offered_course_path(offered_course) %></td>
-    <td><%= link_to 'Destroy', offered_course, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+<% @offered_courses.group_by{|oc| oc.course.organization}.sort.each do |organization, offered_courses| %>
+
+  <%= section organization.name do %>
+
+      <% offered_courses.each do |offered_course| %>
+        <div style="padding: 5px 0 8px">
+          <p><b><%= link_to offered_course.course.name, offered_course, :style => 'font-size:14px' %></b></p>
+          <p><%= offered_course.course.description %></p>
+      
+          <p><i>Educators:</i> <%= offered_course.educators.any? ? 
+                                   offered_course.educators.collect{|e| e.user.full_name}.join(", ") :
+                                   "Not Yet Assigned" %></p>
+          <p><i>Starts At:</i> <%= standard_datetime(offered_course.start_date) %>
+          <%# TODO put in a "last offered: 2012" note %>
+        </div>
+      <% end %>
+
+  <% end %>
+
 <% end %>
-</table>
 
 <br />

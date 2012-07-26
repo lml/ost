@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :offered_course do
-    course_id 1
-    approved_emails "MyText"
-    consent_form_id 1
-    start_date "2012-07-16 14:21:35"
+    course
+    start_date "Jul 9, 2012 9:00 AM"
+    end_date "Dec 15, 2012 1:00 PM"
+    time_zone "Central Time (US & Canada)"
   end
 end

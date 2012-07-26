@@ -363,4 +363,12 @@ module ApplicationHelper
     user_signed_in? ? text : "[ hidden ]"
   end
   
+  def site_name
+    SITE_NAME
+  end
+  
+  def a_site_name
+    "an #{SITE_NAME}"
+  end
+  
 end

@@ -233,7 +233,8 @@ ActiveRecord::Schema.define(:version => 20120723181556) do
   add_index "student_exercises", ["student_assignment_id"], :name => "index_student_exercises_on_student_assignment_id"
 
   create_table "students", :force => true do |t|
-    t.integer  "cohort_id",   :null => false
+    t.integer  "cohort_id"
+    t.integer  "section_id",  :null => false
     t.integer  "user_id",     :null => false
     t.boolean  "is_auditing"
     t.datetime "created_at",  :null => false
@@ -241,6 +242,7 @@ ActiveRecord::Schema.define(:version => 20120723181556) do
   end
 
   add_index "students", ["cohort_id"], :name => "index_students_on_cohort_id"
+  add_index "students", ["section_id"], :name => "index_students_on_section_id"
   add_index "students", ["user_id"], :name => "index_students_on_user_id"
 
   create_table "topic_exercises", :force => true do |t|

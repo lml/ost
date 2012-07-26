@@ -1,27 +1,74 @@
 
-<p>
-  <b>Course:</b>
-  <%= @offered_course.course_id %>
-</p>
+<%= section "Course Information" do %>
 
-<p>
-  <b>Approved emails:</b>
-  <%= @offered_course.approved_emails %>
-</p>
+  <table class="left_heading">
+    <tr>
+      <th style="text-align:right">Educators</th>
+      <td style="vertical-align:top" id="section_educator_list">
+        <% @offered_course.educators.each do |educator| %>
+          <%= render :partial => 'offered_courses/educator_entry', :locals => {:educator => educator} %>
+        <% end %>
+      </td>
+    </tr>
+  
+    <% if present_user.can_create?(Educator.new(:offered_course => @offered_course)) %>
+    <tr>
+      <th></th>
+      <td><%= link_to "Add an educator...", new_offered_course_educator_path(@offered_course), :remote => true %></td>
+    </tr>
+    <% end %>
 
-<p>
-  <b>Consent form:</b>
-  <%= @offered_course.consent_form.try(:name) || "None selected" %>
-</p>
+    <tr>
+      <th style="text-align:right">Start Date</th>
+      <td><%= standard_datetime(@offered_course.start_date) %></td>
+    </tr>
+    <tr>
+      <th style="text-align:right">End Date</th>
+      <td><%= standard_datetime(@offered_course.end_date) %></td>
+    </tr>
+    
+    <tr>
+      <th style="text-align:right">Preapprovals?</th>
+      <td><%= tf_to_yn(!@offered_course.approved_emails.blank?) %></td>
+    </p>
 
-<p>
-  <b>Start date:</b>
-  <%= standard_datetime_zone(@offered_course.start_date, @offered_course.time_zone) %>
-</p>
+    <tr>
+      <th style="text-align:right">Consent Form</th>
+      <td><%= @offered_course.consent_form.try(:name) || "None selected" %></td>
+    </tr>
+    
+    
+    <% @offered_course.sections.each_with_index do |section,ii| %>
+    
+      <tr>
+        <th style="text-align:right"><%= "Enrollment" if ii == 0 %></th>
+        <td>
+          <%= link_to_if(present_user.can_read_children?(section, :students), 
+                         "#{section.students.registered.count} Registered",
+                         offered_course_students_path(@offered_course)) %> |
+          <%= link_to_if(present_user.can_read_children?(section, :students), 
+                         "#{section.students.auditing.count} Auditing",
+                         offered_course_students_path(@offered_course)) %>
+          <% if @offered_course.is_ta?(present_user) %>
+            | <%= link_to("#{section.registration_requests.count} Pending", 
+                        section_registration_requests_path(section)) %>
+          <% end %>
+          
+        </td>
+      </tr>
+    
+    <% end %>
+    
+  </table>
 
-<p>
-  <b>End date:</b>
-  <%= standard_datetime_zone(@offered_course.end_date, @offered_course.time_zone) %>
-</p>
+<% end %>
 
-<%= link_to 'Edit', edit_offered_course_path(@offered_course) %> 
+
+
+
+<% content_for :right_column do %>
+
+  <%= link_to 'Edit', edit_offered_course_path(@offered_course) if present_user.can_update?(@offered_course) %> 
+  <%= link_to "Learning Plan", @offered_course.learning_plan if present_user.can_read?(@offered_course.learning_plan) %>
+
+<% end %>

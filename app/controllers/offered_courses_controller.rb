@@ -1,5 +1,3 @@
-require 'chronic'
-
 class OfferedCoursesController < ApplicationController
 
   skip_before_filter :authenticate_user!, :only => [:index]
@@ -18,8 +16,12 @@ class OfferedCoursesController < ApplicationController
   def new
     @offered_course = OfferedCourse.new
     @offered_course.course = @course
-    raise SecurityTransgression unless present_user.can_create?(@offered_course)
+    
+    redirect_to catalog_path, :alert => "A manager at #{@course.organization.name} needs to give you permission to teach this class." \
+      unless present_user.can_create?(@offered_course)
   end
+  
+  def help; end
 
   def edit
     @offered_course = OfferedCourse.find(params[:id])
@@ -29,6 +31,7 @@ class OfferedCoursesController < ApplicationController
   def create
     @offered_course = OfferedCourse.new(params[:offered_course])
     @offered_course.course = @course
+    @offered_course.creator = present_user
     raise SecurityTransgression unless present_user.can_create?(@offered_course)    
 
     respond_to do |format|

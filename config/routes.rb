@@ -26,17 +26,11 @@ Ost::Application.routes.draw do
 
   resources :concepts
 
-  resources :learning_plans
-
-  resources :registration_requests
-
   resources :researchers
 
   resources :students
 
   resources :cohorts
-
-  resources :sections
 
   resources :educators
 
@@ -60,7 +54,20 @@ Ost::Application.routes.draw do
     resources :offered_courses, :shallow => true, :except => [:index]
   end
   
-  resources :offered_courses, :only => :index
+  resources :offered_courses, :only => :index do
+    resources :educators, :shallow => true, :only => [:new, :create, :destroy] do
+      collection do
+        post 'search'
+      end
+    end
+    resources :students, :shallow => true, :only => [:index, :show, :update]
+  end
+  
+  resources :sections, :only => [] do
+    resources :registration_requests, :shallow => true, :only => [:index, :create, :destroy]
+  end
+  
+  resources :learning_plans, :as => 'howdy', :controller => 'Sections'
 
   # For users, we mix devise with our own users controller.  We have overriden
   # some devise controller methods, so point that out here.

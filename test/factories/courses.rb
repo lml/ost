@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :course do
-    name "MyString"
-    description "MyText"
-    typically_offered "MyString"
-    organization_id 1
+    name "MATH 101: #{Faker::Lorem.words(2).join(' ')}"
+    description Faker::Lorem::paragraphs(1).join
+    typically_offered "Fall Semester"
+    organization
   end
 end
