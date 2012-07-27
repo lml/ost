@@ -21,6 +21,7 @@ class SectionsController < ApplicationController
 
   def create
     @section = Section.new(params[:section])
+    @section.klass = @klass
 
     respond_to do |format|
       if @section.save

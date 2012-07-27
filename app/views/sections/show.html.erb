@@ -1,9 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>Offered course:</b>
-  <%= @section.klass_id %>
-</p>
+<%= pageHeading "#{@section.klass.course.name}: #{@section.name}"%>
 
 <p>
   <b>Name:</b>
@@ -11,5 +6,7 @@
 </p>
 
 
-<%= link_to 'Edit', edit_section_path(@section) %> |
-<%= link_to 'Back', sections_path %>
+<% 
+  navitem(:can_update?, @section) { link_to 'Edit', edit_section_path(@section) }
+  navitem(:can_read_children?, @section.klass, :sections) { link_to 'Section List', klass_sections_path(@section.klass) }
+%>

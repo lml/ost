@@ -1,20 +1,6 @@
-<%= form_for(@section) do |f| %>
-  <% if @section.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@section.errors.count, "error") %> prohibited this section from being saved:</h2>
+<% @errors = @section.errors %>
 
-      <ul>
-      <% @section.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :klass_id %><br />
-    <%= f.number_field :klass_id %>
-  </div>
+<%= form_for([@klass, @section]) do |f| %>
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>

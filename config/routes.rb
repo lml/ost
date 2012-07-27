@@ -30,8 +30,6 @@ Ost::Application.routes.draw do
 
   resources :students
 
-  resources :cohorts
-
   resources :educators
 
   get "admin", :to => 'admin#index'
@@ -76,6 +74,7 @@ Ost::Application.routes.draw do
   
   resources :sections, :only => [] do
     resources :registration_requests, :shallow => true, :only => [:index, :create, :destroy]
+    resources :cohorts, :shallow => true
   end
   
   resources :learning_plans

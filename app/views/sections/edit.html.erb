@@ -1,6 +1,8 @@
-<h1>Editing section</h1>
+<%= pageHeading "Editing a section in #{@section.klass.course.name}"%>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @section %> |
-<%= link_to 'Back', sections_path %>
+<%
+  navitem { link_to 'Show', @section }
+  navitem { link_to 'Section List', klass_sections_path(@section.klass) }
+%>
