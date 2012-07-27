@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120723181556) do
+ActiveRecord::Schema.define(:version => 20120726160525) do
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(:version => 20120723181556) do
   add_index "courses", ["organization_id"], :name => "index_courses_on_organization_id"
 
   create_table "educators", :force => true do |t|
-    t.integer  "offered_course_id",     :null => false
+    t.integer  "klass_id",              :null => false
     t.integer  "user_id",               :null => false
     t.boolean  "is_instructor"
     t.boolean  "is_teaching_assistant"
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(:version => 20120723181556) do
     t.datetime "updated_at",            :null => false
   end
 
-  add_index "educators", ["offered_course_id"], :name => "index_educators_on_offered_course_id"
+  add_index "educators", ["klass_id"], :name => "index_educators_on_klass_id"
   add_index "educators", ["user_id"], :name => "index_educators_on_user_id"
 
   create_table "exercises", :force => true do |t|
@@ -120,6 +120,20 @@ ActiveRecord::Schema.define(:version => 20120723181556) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
+
+  create_table "klasses", :force => true do |t|
+    t.integer  "course_id"
+    t.text     "approved_emails"
+    t.integer  "consent_form_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string   "time_zone"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "klasses", ["consent_form_id"], :name => "index_klasses_on_consent_form_id"
+  add_index "klasses", ["course_id"], :name => "index_klasses_on_course_id"
 
   create_table "learning_plans", :force => true do |t|
     t.integer  "learning_plannable_id",                 :null => false
@@ -131,20 +145,6 @@ ActiveRecord::Schema.define(:version => 20120723181556) do
   end
 
   add_index "learning_plans", ["learning_plannable_id", "learning_plannable_type"], :name => "learning_plannable_index"
-
-  create_table "offered_courses", :force => true do |t|
-    t.integer  "course_id",       :null => false
-    t.text     "approved_emails"
-    t.integer  "consent_form_id"
-    t.datetime "start_date"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.string   "time_zone"
-    t.datetime "end_date"
-  end
-
-  add_index "offered_courses", ["consent_form_id"], :name => "index_offered_courses_on_consent_form_id"
-  add_index "offered_courses", ["course_id"], :name => "index_offered_courses_on_course_id"
 
   create_table "organization_managers", :force => true do |t|
     t.integer  "organization_id", :null => false
@@ -195,13 +195,13 @@ ActiveRecord::Schema.define(:version => 20120723181556) do
   add_index "resources", ["topic_id"], :name => "index_resources_on_topic_id"
 
   create_table "sections", :force => true do |t|
-    t.integer  "offered_course_id", :null => false
+    t.integer  "klass_id",   :null => false
     t.string   "name"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  add_index "sections", ["offered_course_id"], :name => "index_sections_on_offered_course_id"
+  add_index "sections", ["klass_id"], :name => "index_sections_on_klass_id"
 
   create_table "student_assignments", :force => true do |t|
     t.integer  "student_id",    :null => false

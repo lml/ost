@@ -35,7 +35,7 @@ class RegistrationRequest < ActiveRecord::Base
   #############################################################################
 
   def can_be_read_by?(user)
-    user.id == user_id || offered_course.is_educator?(user)
+    user.id == user_id || klass.is_educator?(user)
   end
     
   def can_be_created_by?(user)
@@ -43,26 +43,26 @@ class RegistrationRequest < ActiveRecord::Base
   end
   
   def can_be_approved_by?(user)
-    offered_course.is_educator?(user)
+    klass.is_educator?(user)
   end
   
   def can_be_rejected_by?(user)
-    offered_course.is_educator?(user)
+    klass.is_educator?(user)
   end
   
   def can_be_destroyed_by?(user)
-    user.id == user_id || offered_course.is_educator?(user)
+    user.id == user_id || klass.is_educator?(user)
   end
   
 protected
 
-  def offered_course
-    section.offered_course
+  def klass
+    section.klass
   end
 
   def user_not_already_in_course
     errors.add(:base, "You are already a student in this course.") \
-      if user.students.any?{|s| s.cohort.section.offered_course_id == section.offered_course_id}
+      if user.students.any?{|s| s.cohort.section.klass_id == section.klass_id}
     errors.empty?
   end
 
@@ -74,8 +74,8 @@ protected
   
   def approve_if_preapproved
     approve! if !auditing && 
-                offered_course.is_preapproved?(user) && 
-                (!offered_course.ended? || !Rails.env.production?)
+                klass.is_preapproved?(user) && 
+                (!klass.ended? || !Rails.env.production?)
   end
   
   def mark_as_destroyed

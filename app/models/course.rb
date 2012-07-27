@@ -1,6 +1,7 @@
 class Course < ActiveRecord::Base
   belongs_to :organization
   has_many :course_instructors, :dependent => :destroy
+  has_many :klasses, :dependent => :destroy
   
   validates :organization_id, :presence => true
   validates :name, :presence => true, :uniqueness => {:scope => :organization_id}

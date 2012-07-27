@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :section do
-    offered_course_id 1
+    klass_id 1
     name "MyString"
   end
 end

@@ -185,8 +185,8 @@
                 <% end %>
               </li>
               <li>
-                <%= link_to offered_courses_path do %>
-                  <span style="position:relative">CURRENT COURSES<% if @highlight_administrators %><span class="current"></span><% end %></span>
+                <%= link_to klasses_path do %>
+                  <span style="position:relative">CURRENT CLASSES<% if @highlight_administrators %><span class="current"></span><% end %></span>
                 <% end %>
               </li>
               
@@ -245,7 +245,7 @@
 
             <%= yield(:main) %>         
 
-          <% elsif content_for?(:right_column) %>
+          <% elsif content_for?(:right_column) || !@navitems.empty? %>
 
             <%= yield(:page_heading) %>                     
                <div style="clear:both"></div>
@@ -269,6 +269,10 @@
 
                    <div id="right_column_2c" class="column">
                      <%= yield(:right_column)%>
+                     
+                     <% @navitems.each do |navitem| %>
+                       <p><%= navitem %></p>
+                     <% end %>
                      
                    </div>
                    <div style="clear:both"></div>

@@ -370,5 +370,34 @@ module ApplicationHelper
   def a_site_name
     "an #{SITE_NAME}"
   end
-  
+ 
+  # A shorthand way to add nav items to the right hand column
+  # alpha can be a boolean and args can be left out
+  #  or
+  # alpha can be a symbol representing a method and args are the args
+  #
+  # In the latter case, the method is called and the result should be
+  # a boolean (which gets us to the first case)
+  #
+  # If the boolean is true, the contents of block are added to the right hand 
+  # column
+  def navitem(alpha, *args, &block)
+    @navitems ||= []
+    
+    if alpha.class == Symbol
+      case args.size
+      when 0
+        alpha = present_user.send(alpha)
+      when 1
+        alpha = present_user.send(alpha, args.first)
+      else
+        alpha = present_user.send(alpha, *args)
+      end
+    end
+    
+    if alpha
+      @navitems.push(capture(&block))
+    end
+  end
+
 end

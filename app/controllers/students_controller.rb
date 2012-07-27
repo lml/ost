@@ -1,7 +1,7 @@
 
 class StudentsController < ApplicationController
 
-  before_filter :get_offered_course, :only => [:index]
+  before_filter :get_klass, :only => [:index]
 
   def index
   end
@@ -50,7 +50,7 @@ class StudentsController < ApplicationController
   
 protected
 
-  def get_offered_course
-    @offered_course = OfferedCourse.find(params[:offered_course_id])
+  def get_klass
+    @klass = Klass.find(params[:klass_id])
   end
 end

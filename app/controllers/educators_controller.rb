@@ -1,14 +1,14 @@
 
 class EducatorsController < ApplicationController
 
-  before_filter :get_offered_course, :only => [:new]
+  before_filter :get_klass, :only => [:new]
 
   def new
-    educator = Educator.new(:offered_course => @offered_course)
+    educator = Educator.new(:klass => @klass)
     raise SecurityTransgression unless present_user.can_create?(educator)
     
     @action_dialog_title = "Add an educator"
-    @action_search_path = search_offered_course_educators_path
+    @action_search_path = search_klass_educators_path
     
     respond_to do |format|
       format.js { render :template => 'users/action_new' }
@@ -55,8 +55,8 @@ class EducatorsController < ApplicationController
   
 protected
 
-  def get_offered_course
-    @offered_course = OfferedCourse.find(params[:offered_course])
+  def get_klass
+    @klass = Klass.find(params[:klass])
   end
   
 end

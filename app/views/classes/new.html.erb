@@ -1,0 +1,7 @@
+<%= pageHeading "New Class: #{@course.name}" %>
+
+<%= render 'form' %>
+
+<% content_for :right_column do %>
+  <%= link_to 'Back', :back %>
+<% end %>

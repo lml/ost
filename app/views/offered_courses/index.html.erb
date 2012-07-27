@@ -1,8 +1,8 @@
-<%= pageHeading "Current Course Offerings" %>
+<!-- <%= pageHeading "Current Course Offerings" %>
 
 <p>Interested in taking <%= a_site_name %> course?  The courses below are those from our <%= link_to "catalog", catalog_path %> that are currently in progress or that will be starting soon.</p>
 
-<% @offered_courses.group_by{|oc| oc.course.organization}.sort.each do |organization, offered_courses| %>
+<% @klasses.group_by{|k| k.course.organization}.sort.each do |organization, klass| %>
 
   <%= section organization.name do %>
 
@@ -23,4 +23,4 @@
 
 <% end %>
 
-<br />
+<br /> -->

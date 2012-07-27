@@ -1,12 +1,12 @@
 class CreateSections < ActiveRecord::Migration
   def change
     create_table :sections do |t|
-      t.integer :offered_course_id, :null => false
+      t.integer :klass_id, :null => false
       t.string :name
 
       t.timestamps
     end
     
-    add_index :sections, :offered_course_id
+    add_index :sections, :klass_id
   end
 end

@@ -18,7 +18,7 @@ class EducatorsControllerTest < ActionController::TestCase
 
   test "should create educator" do
     assert_difference('Educator.count') do
-      post :create, educator: { is_grader: @educator.is_grader, is_instructor: @educator.is_instructor, is_teaching_assistant: @educator.is_teaching_assistant, offered_course_id: @educator.offered_course_id, user_id: @educator.user_id }
+      post :create, educator: { is_grader: @educator.is_grader, is_instructor: @educator.is_instructor, is_teaching_assistant: @educator.is_teaching_assistant, klass_id: @educator.klass_id, user_id: @educator.user_id }
     end
 
     assert_redirected_to educator_path(assigns(:educator))
@@ -35,7 +35,7 @@ class EducatorsControllerTest < ActionController::TestCase
   end
 
   test "should update educator" do
-    put :update, id: @educator, educator: { is_grader: @educator.is_grader, is_instructor: @educator.is_instructor, is_teaching_assistant: @educator.is_teaching_assistant, offered_course_id: @educator.offered_course_id, user_id: @educator.user_id }
+    put :update, id: @educator, educator: { is_grader: @educator.is_grader, is_instructor: @educator.is_instructor, is_teaching_assistant: @educator.is_teaching_assistant, klass_id: @educator.klass_id, user_id: @educator.user_id }
     assert_redirected_to educator_path(assigns(:educator))
   end
 

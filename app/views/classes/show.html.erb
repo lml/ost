@@ -1,20 +1,20 @@
 
-<!-- <%= section "Course Information" do %>
+<%= section "Course Information" do %>
 
   <table class="left_heading">
     <tr>
       <th style="text-align:right">Educators</th>
       <td style="vertical-align:top" id="section_educator_list">
         <% @klass.educators.each do |educator| %>
-          <%= render :partial => 'offered_courses/educator_entry', :locals => {:educator => educator} %>
+          <%= render :partial => 'classes/educator_entry', :locals => {:educator => educator} %>
         <% end %>
       </td>
     </tr>
   
-    <% if present_user.can_create?(Educator.new(:offered_course => @klass)) %>
+    <% if present_user.can_create?(Educator.new(:klass => @klass)) %>
     <tr>
       <th></th>
-      <td><%= link_to "Add an educator...", new_offered_course_educator_path(@klass), :remote => true %></td>
+      <td><%= link_to "Add an educator...", new_klass_educator_path(@klass), :remote => true %></td>
     </tr>
     <% end %>
 
@@ -45,10 +45,10 @@
         <td>
           <%= link_to_if(present_user.can_read_children?(section, :students), 
                          "#{section.students.registered.count} Registered",
-                         offered_course_students_path(@klass)) %> |
+                         klass_students_path(@klass)) %> |
           <%= link_to_if(present_user.can_read_children?(section, :students), 
                          "#{section.students.auditing.count} Auditing",
-                         offered_course_students_path(@klass)) %>
+                         klass_students_path(@klass)) %>
           <% if @klass.is_ta?(present_user) %>
             | <%= link_to("#{section.registration_requests.count} Pending", 
                         section_registration_requests_path(section)) %>
@@ -64,11 +64,8 @@
 <% end %>
 
 
-
-
-<% content_for :right_column do %>
-
-  <%= link_to 'Edit', edit_offered_course_path(@klass) if present_user.can_update?(@klass) %> 
-  <%= link_to "Learning Plan", @klass.learning_plan if present_user.can_read?(@klass.learning_plan) %>
-
-<% end %> -->
+<%
+  navitem(present_user.can_update?(@klass)) { link_to('Edit Class', edit_klass_path(@klass)) }
+  navitem(:can_read?, @klass.learning_plan) { link_to("Learning Plan", @klass.learning_plan) }
+  navitem(:can_read_children?, @klass, :sections) { link_to("Sections", klass_sections_path(@klass)) }
+%>

@@ -1,0 +1,26 @@
+<%= pageHeading "Current Course Offerings" %>
+
+<p>Interested in taking <%= a_site_name %> course?  The courses below are those from our <%= link_to "catalog", catalog_path %> that are currently in progress or that will be starting soon.</p>
+
+<% @klasses.group_by{|oc| oc.course.organization}.sort.each do |organization, klasses| %>
+
+  <%= section organization.name do %>
+
+      <% klasses.each do |klass| %>
+        <div style="padding: 5px 0 8px">
+          <p><b><%= link_to klass.course.name, klass, :style => 'font-size:14px' %></b></p>
+          <p><%= klass.course.description %></p>
+      
+          <p><i>Educators:</i> <%= klass.educators.any? ? 
+                                   klass.educators.collect{|e| e.user.full_name}.join(", ") :
+                                   "Not Yet Assigned" %></p>
+          <p><i>Starts At:</i> <%= standard_datetime(klass.start_date) %>
+          <%# TODO put in a "last offered: 2012" note %>
+        </div>
+      <% end %>
+
+  <% end %>
+
+<% end %>
+
+<br />

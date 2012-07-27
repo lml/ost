@@ -6,3 +6,7 @@ en:
   time_zone: "Time Zone"
   start_date_time: "Start Date & Time"
   end_date_time: "End Date & Time"
+  activerecord:
+    models:
+      klass: class
+
