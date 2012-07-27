@@ -9,7 +9,7 @@ class Section < ActiveRecord::Base
   validates :klass_id, :presence => true
   validates :name, :presence => true, :uniqueness => {:scope => :klass_id}
   
-  attr_accessible :name
+  attr_accessible :name, :klass
   
   def register!(user, is_auditing)
     raise NotYetImplemented

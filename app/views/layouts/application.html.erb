@@ -245,7 +245,7 @@
 
             <%= yield(:main) %>         
 
-          <% elsif content_for?(:right_column) || !@navitems.empty? %>
+          <% elsif content_for?(:right_column) || !(@navitems ||= []).empty? %>
 
             <%= yield(:page_heading) %>                     
                <div style="clear:both"></div>

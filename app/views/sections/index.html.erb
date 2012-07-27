@@ -1,25 +1,5 @@
-<h1>Listing sections</h1>
+<% pageHeading "Sections for #{@klass.course.name}"%>
 
-<table>
-  <tr>
-    <th>Offered course</th>
-    <th>Name</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<%= uber_list @sections, :name %>
 
-<% @sections.each do |section| %>
-  <tr>
-    <td><%= section.klass_id %></td>
-    <td><%= section.name %></td>
-    <td><%= link_to 'Show', section %></td>
-    <td><%= link_to 'Edit', edit_section_path(section) %></td>
-    <td><%= link_to 'Destroy', section, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Section', new_section_path %>
+<% navitem(:can_create?, Section.new(:klass => @klass)) { link_to('New Section', new_klass_section_path(@klass)) } %>

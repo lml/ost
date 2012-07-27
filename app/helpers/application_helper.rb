@@ -381,7 +381,7 @@ module ApplicationHelper
   #
   # If the boolean is true, the contents of block are added to the right hand 
   # column
-  def navitem(alpha, *args, &block)
+  def navitem(alpha = true, *args, &block)
     @navitems ||= []
     
     if alpha.class == Symbol
@@ -399,5 +399,5 @@ module ApplicationHelper
       @navitems.push(capture(&block))
     end
   end
-
+  
 end
