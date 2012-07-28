@@ -2,6 +2,8 @@ Ost::Application.routes.draw do
 
   
 
+  resources :learning_conditions
+
   resources :consent_forms
 
   resources :organization_managers

@@ -1,0 +1,23 @@
+<h1>Listing learning_conditions</h1>
+
+<table>
+  <tr>
+    <th>Cohort</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @learning_conditions.each do |learning_condition| %>
+  <tr>
+    <td><%= learning_condition.cohort_id %></td>
+    <td><%= link_to 'Show', learning_condition %></td>
+    <td><%= link_to 'Edit', edit_learning_condition_path(learning_condition) %></td>
+    <td><%= link_to 'Destroy', learning_condition, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Learning condition', new_learning_condition_path %>

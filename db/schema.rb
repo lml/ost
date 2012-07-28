@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120726160525) do
+ActiveRecord::Schema.define(:version => 20120728045509) do
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -128,12 +128,23 @@ ActiveRecord::Schema.define(:version => 20120726160525) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.string   "time_zone"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
+    t.boolean  "is_controlled_experiment", :default => false, :null => false
   end
 
   add_index "klasses", ["consent_form_id"], :name => "index_klasses_on_consent_form_id"
   add_index "klasses", ["course_id"], :name => "index_klasses_on_course_id"
+
+  create_table "learning_conditions", :force => true do |t|
+    t.integer  "cohort_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "klass_id"
+  end
+
+  add_index "learning_conditions", ["cohort_id"], :name => "index_learning_conditions_on_cohort_id"
+  add_index "learning_conditions", ["klass_id"], :name => "index_learning_conditions_on_klass_id"
 
   create_table "learning_plans", :force => true do |t|
     t.integer  "learning_plannable_id",                 :null => false

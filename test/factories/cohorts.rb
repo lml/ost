@@ -2,7 +2,6 @@
 
 FactoryGirl.define do
   factory :cohort do
-    section_id 1
-    number 1
+    section
   end
 end

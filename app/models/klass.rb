@@ -4,6 +4,7 @@ class Klass < ActiveRecord::Base
   has_one :learning_plan, :as => :learning_plannable, :dependent => :destroy
   has_many :sections, :dependent => :destroy
   has_many :educators, :dependent => :destroy
+  has_many :learning_conditions # for easy access instead of always going thru cohorts
 
   validates :start_date, :presence => true
   validates :end_date, :presence => true, :date => {:after => :start_date}
