@@ -234,6 +234,8 @@
           <div id="message_dialog_body"></div>
         </div>	
         
+        <% @navitems ||= [] %>
+        
         <div class="top_level_container">
           <% if content_for?(:main) %>
 
@@ -245,7 +247,7 @@
 
             <%= yield(:main) %>         
 
-          <% elsif content_for?(:right_column) || !(@navitems ||= []).empty? %>
+          <% elsif content_for?(:right_column) || !@navitems.empty? %>
 
             <%= yield(:page_heading) %>                     
                <div style="clear:both"></div>

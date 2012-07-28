@@ -1,0 +1,9 @@
+<%# Callers must supply a 'user' local variable %>
+
+<%= form_for [@klass, Educator.new], :method => :post, :remote => true do |f| %>
+  <%= f.hidden_field :user_id, :value => user.id %>
+  <%= f.hidden_field(:is_instructor, :value => true) if params[:type] == 'instructor' %>
+  <%= f.hidden_field(:is_teaching_assistant, :value => true) if params[:type] == 'teaching_assistant' %>
+  <%= f.hidden_field(:is_grader, :value => true) if params[:type] == 'grader' %>
+  <%= f.submit "Add", :onclick => please_wait_js %>
+<% end %>

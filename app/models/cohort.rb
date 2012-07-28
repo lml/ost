@@ -1,16 +1,21 @@
 class Cohort < ActiveRecord::Base
+  belongs_to :klass
   belongs_to :section
   has_many :students, :dependent => :nullify
   has_one :learning_condition, :dependent => :destroy
   
-  validates :section_id, :presence => :true
+  validates :klass_id, :presence => :true
 
   before_create :init_learning_condition
   before_destroy :destroyable?
   
-  acts_as_numberable :container => :section
+  acts_as_numberable :container => :klass
   
   attr_accessible :section
+  
+  def name
+    name.blank? ? "Cohort #{number}" : name
+  end
   
   #############################################################################
   # Access control methods
@@ -51,6 +56,6 @@ protected
   end
   
   def init_learning_condition
-    self.learning_condition = LearningCondition.new({:klass_id => section.klass_id})
+    self.learning_condition = LearningCondition.new
   end
 end

@@ -33,6 +33,11 @@
     <% end %>
   </div>
   <div class="field">
+    Is this class part of a formal study controlled by <%= SITE_NAME %> researchers?<br/>
+    <%= f.radio_button :is_controlled_experiment, true %> Yes
+    <%= f.radio_button :is_controlled_experiment, false %> No  
+  </div>
+  <div class="field">
     Learning Plan: A new learning plan will be created for you
   </div>
   <div class="field">

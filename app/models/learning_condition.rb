@@ -1,8 +1,8 @@
 class LearningCondition < ActiveRecord::Base
   belongs_to :cohort
-  belongs_to :klass # for convenience
+  # belongs_to :klass # for convenience
   
-  attr_accessible :klass_id
+  attr_accessible #:klass_id
   
   #############################################################################
   # Access control methods
@@ -29,8 +29,8 @@ class LearningCondition < ActiveRecord::Base
     # condition is still necessary and needs to be available to the
     # instructors
     
-    klass.is_controlled_experiment ? 
+    cohort.klass.is_controlled_experiment ? 
       Researcher.is_one?(user) || user.is_administrator? :
-      klass.is_instructor(user) || user.is_administrator?
+      cohort.klass.is_instructor(user) || user.is_administrator?
   end
 end

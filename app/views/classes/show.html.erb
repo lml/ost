@@ -1,20 +1,63 @@
 
 <%= section "Course Information" do %>
 
+  <% 
+    educators = @klass.educators
+    instructors = educators.select{|e| e.is_instructor} 
+    tas = educators.select{|e| e.is_teaching_assistant}
+    graders = educators.select{|e| e.is_grader}
+  %>
+  
+  <% can_add_educator = present_user.can_create?(Educator.new(:klass => @klass)) %>
+  
   <table class="left_heading">
     <tr>
-      <th style="text-align:right">Educators</th>
-      <td style="vertical-align:top" id="section_educator_list">
-        <% @klass.educators.each do |educator| %>
-          <%= render :partial => 'classes/educator_entry', :locals => {:educator => educator} %>
+      <th style="text-align:right">Instructors</th>
+      <td style="vertical-align:top">
+        <span id="klass_instructor_list">
+          <% if instructors.none? %>
+            Pending
+          <% else %>
+            <% instructors.each do |instructor| %>
+              <%= render :partial => 'classes/educator_entry', :locals => {:educator => instructor} %>
+            <% end %>
+          <% end %>
+        </span>
+        <% if can_add_educator %>
+          <%= link_to "Add an instructor...", new_klass_educator_path(@klass, {:type => 'instructor'}), :remote => true %>
         <% end %>
       </td>
     </tr>
   
-    <% if present_user.can_create?(Educator.new(:klass => @klass)) %>
+    <% if tas.any? || can_add_educator %>
     <tr>
-      <th></th>
-      <td><%= link_to "Add an educator...", new_klass_educator_path(@klass), :remote => true %></td>
+      <th style="text-align:right">Teaching Assistants</th>
+      <td style="vertical-align:top">
+        <span id="klass_teaching_assistant_list">
+          <% tas.each do |ta| %>
+            <%= render :partial => 'classes/educator_entry', :locals => {:educator => ta} %>
+          <% end %>
+        </span>
+        <% if can_add_educator %>
+          <%= link_to "Add an assistant...", new_klass_educator_path(@klass, {:type => 'teaching_assistant'}), :remote => true %>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+    
+    <% if graders.any? || can_add_educator %>
+    <tr>
+      <th style="text-align:right">Graders</th>
+      <td style="vertical-align:top">
+        <span id="klass_grader_list">
+          <% graders.each do |grader| %>
+            <%= render :partial => 'classes/educator_entry', :locals => {:educator => grader} %>
+          <% end %>
+        </span>
+        <% if can_add_educator %>
+          <%= link_to "Add a grader...", new_klass_educator_path(@klass, {:type => 'grader'}), :remote => true %>
+        <% end %>
+      </td>
     </tr>
     <% end %>
 

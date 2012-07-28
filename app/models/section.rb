@@ -1,6 +1,6 @@
 class Section < ActiveRecord::Base
   belongs_to :klass
-  has_many :cohorts, :dependent => :destroy, :order => :number
+  has_many :cohorts, :dependent => :nullify
   has_many :students, :dependent => :destroy
   has_many :registration_requests, :dependent => :destroy
   

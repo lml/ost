@@ -36,7 +36,7 @@ class ClassesController < ApplicationController
 
     respond_to do |format|
       if @klass.save
-        format.html { redirect_to @klass, notice: 'Offered course was successfully created.' }
+        format.html { redirect_to @klass, notice: 'Class was successfully created.' }
       else
         format.html { render action: "new" }
       end
@@ -49,7 +49,7 @@ class ClassesController < ApplicationController
 
     respond_to do |format|
       if @klass.update_attributes(params[:klass])
-        format.html { redirect_to @klass, notice: 'Offered course was successfully updated.' }
+        format.html { redirect_to @klass, notice: 'Class was successfully updated.' }
       else
         format.html { render action: "edit" }
       end

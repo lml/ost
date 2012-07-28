@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120728045509) do
+ActiveRecord::Schema.define(:version => 20120728205548) do
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -52,12 +52,15 @@ ActiveRecord::Schema.define(:version => 20120728045509) do
   add_index "assignments", ["learning_plan_id"], :name => "index_assignments_on_learning_plan_id"
 
   create_table "cohorts", :force => true do |t|
-    t.integer  "section_id", :null => false
+    t.integer  "section_id"
     t.integer  "number"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "klass_id",   :null => false
+    t.string   "name"
   end
 
+  add_index "cohorts", ["klass_id"], :name => "index_cohorts_on_klass_id"
   add_index "cohorts", ["section_id"], :name => "index_cohorts_on_section_id"
 
   create_table "concepts", :force => true do |t|
@@ -140,11 +143,9 @@ ActiveRecord::Schema.define(:version => 20120728045509) do
     t.integer  "cohort_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "klass_id"
   end
 
   add_index "learning_conditions", ["cohort_id"], :name => "index_learning_conditions_on_cohort_id"
-  add_index "learning_conditions", ["klass_id"], :name => "index_learning_conditions_on_klass_id"
 
   create_table "learning_plans", :force => true do |t|
     t.integer  "learning_plannable_id",                 :null => false

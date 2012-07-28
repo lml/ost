@@ -3,8 +3,8 @@ class Klass < ActiveRecord::Base
   belongs_to :consent_form
   has_one :learning_plan, :as => :learning_plannable, :dependent => :destroy
   has_many :sections, :dependent => :destroy
+  has_many :cohorts, :dependent => :destroy, :order => :number
   has_many :educators, :dependent => :destroy
-  has_many :learning_conditions # for easy access instead of always going thru cohorts
 
   validates :start_date, :presence => true
   validates :end_date, :presence => true, :date => {:after => :start_date}
@@ -15,10 +15,11 @@ class Klass < ActiveRecord::Base
   before_create :set_first_instructor
   before_create :init_learning_plan
   before_create :init_first_section
+  before_create :init_first_cohort
 
   attr_accessor :source_learning_plan_id, :creator
 
-  attr_accessible :start_date, :end_date, :approved_emails, :time_zone, :source_learning_plan_id
+  attr_accessible :start_date, :end_date, :approved_emails, :time_zone, :source_learning_plan_id, :is_controlled_experiment
 
   def is_preapproved?(user)
     approved_emails_array = (approved_emails || '').split("\n").collect{|ae| ae.strip}
@@ -94,6 +95,10 @@ protected
 
   def init_first_section
     self.sections << Section.new(:name => "Main")
+  end
+  
+  def init_first_cohort
+    self.cohorts << Cohort.new
   end
 
 end

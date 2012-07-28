@@ -58,7 +58,9 @@ Ost::Application.routes.draw do
   resources :classes, :as => 'klasses', :only => [:index] do
     resources :educators, :shallow => true, :only => [:new, :create, :destroy] do
       collection do
-        post 'search'
+        post 'search_instructors' => 'educators#search', :type => 'instructor'
+        post 'search_graders' => 'educators#search', :type => 'grader'
+        post 'search_assistants' => 'educators#search', :type => 'teaching_assistant'
       end
     end
     resources :students, :shallow => true, :only => [:index, :show, :update]    

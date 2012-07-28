@@ -1,6 +1,5 @@
-<h1>Editing educator</h1>
+<%= pageHeading "Editing Properties of Educator #{@educator.user.full_name}"%>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @educator %> |
-<%= link_to 'Back', educators_path %>
+<% navitem { link_to 'Class', klass_path(@educator.klass) } %>
