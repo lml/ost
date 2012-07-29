@@ -34,7 +34,7 @@ class Klass < ActiveRecord::Base
     educators.any?{|e| e.user_id == user.id}
   end
 
-  def is_instructor?(user)  # TODO change all of these to use where
+  def is_instructor?(user)  # TODO change all of these to use Squeel
     educators.any?{|e| e.user_id == user.id && e.is_instructor}
   end
 
@@ -45,8 +45,10 @@ class Klass < ActiveRecord::Base
   def is_grader?(user)
     educators.any?{|e| e.user_id == user.id && (e.is_instructor || e.is_teaching_assistant || e.is_grader)}
   end
-
-
+  
+  def is_student?(user)
+    Student.joins{section.klass}.joins{:user}.where{(section.klass.id == self.id) & (user.id == my{user}.id)}.any?
+  end
 
   #############################################################################
   # Access control methods
