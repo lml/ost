@@ -38,12 +38,12 @@ class Klass < ActiveRecord::Base
     educators.any?{|e| e.user_id == user.id && e.is_instructor}
   end
 
-  def is_ta?(user)
-    educators.any?{|e| e.user_id == user.id && (e.is_instructor || e.is_ta)}
+  def is_teaching_assistant?(user)
+    educators.any?{|e| e.user_id == user.id && (e.is_instructor || e.is_teaching_assistant)}
   end
 
   def is_grader?(user)
-    educators.any?{|e| e.user_id == user.id && (e.is_instructor || e.is_ta || e.is_grader)}
+    educators.any?{|e| e.user_id == user.id && (e.is_instructor || e.is_teaching_assistant || e.is_grader)}
   end
 
 

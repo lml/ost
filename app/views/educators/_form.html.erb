@@ -1,35 +1,12 @@
+<% @errors = @educator.errors %>
+
 <%= form_for(@educator) do |f| %>
-  <% if @educator.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@educator.errors.count, "error") %> prohibited this educator from being saved:</h2>
-
-      <ul>
-      <% @educator.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <div class="field">
-    <%= f.label :klass_id %><br />
-    <%= f.number_field :klass_id %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.number_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :is_instructor %><br />
-    <%= f.check_box :is_instructor %>
-  </div>
-  <div class="field">
-    <%= f.label :is_teaching_assistant %><br />
-    <%= f.check_box :is_teaching_assistant %>
-  </div>
-  <div class="field">
-    <%= f.label :is_grader %><br />
-    <%= f.check_box :is_grader %>
+    What kind of educator is <%= @educator.user.full_name %>?<br/>
+    <%= f.radio_button :type, :instructor %> Instructor <br/>
+    <%= f.radio_button :type, :teaching_assistant %> Teaching Assistant <br/>
+    <%= f.radio_button :type, :grader %> Grader
   </div>
   <div class="actions">
     <%= f.submit %>

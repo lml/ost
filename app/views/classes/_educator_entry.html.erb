@@ -1,6 +1,23 @@
-<span style='vertical-align:top'> <%= educator.user.full_name %> </span>
+<span class="educator_entry" id="educator_entry_<%= educator.user_id %>" style="display:block">
+  <span style='vertical-align:top'> <%= educator.user.full_name %> </span>
 
-<% if present_user.can_destroy?(educator) %>
-  <%= trash_button educator %>
+  <span id="educator_entry_<%= educator.user_id %>_buttons" style="display:none;">
+    <% if present_user.can_update?(educator) %>
+      <%= edit_button educator, {:small => true} %>    
+    <% end %>
+    <% if present_user.can_destroy?(educator) %>
+      <%= trash_button educator, {:small => true} %>
+    <% end %>
+  </span>
+
+</span>
+
+
+<% content_for :javascript do %>
+  <%= javascript_tag do %>
+    $('.educator_entry').live('mouseenter mouseleave', function(event) {
+      $('#'+ $(this).attr('id') + '_buttons').css('display', 
+                                                  event.type == 'mouseenter' ? 'inline-block' : 'none');
+    });
+  <% end %>
 <% end %>
-<br/>

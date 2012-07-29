@@ -1,5 +1,5 @@
 $("#user_action_form_<%= @educator.user.id %>").html("Added");
 
-$("#klass_<%= type(@educator) %>_list").append("<%= ej(render :partial => 'classes/educator_entry', :locals => {:educator => @educator}) %>")
+$("#klass_<%= @educator.type %>_list").append("<%= ej(render :partial => 'classes/educator_entry', :locals => {:educator => @educator}) %>")
 
 refresh_buttons();

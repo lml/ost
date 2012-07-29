@@ -92,7 +92,7 @@
           <%= link_to_if(present_user.can_read_children?(section, :students), 
                          "#{section.students.auditing.count} Auditing",
                          klass_students_path(@klass)) %>
-          <% if @klass.is_ta?(present_user) %>
+          <% if @klass.is_teaching_assistant?(present_user) %>
             | <%= link_to("#{section.registration_requests.count} Pending", 
                         section_registration_requests_path(section)) %>
           <% end %>

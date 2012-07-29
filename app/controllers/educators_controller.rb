@@ -47,7 +47,7 @@ class EducatorsController < ApplicationController
 
   def edit
     @educator = Educator.find(params[:id])
-    raise NotYetImplemented
+    raise SecurityTransgression unless present_user.can_update?(@educator)
   end
 
   def create
@@ -71,7 +71,7 @@ class EducatorsController < ApplicationController
 
     respond_to do |format|
       if @educator.update_attributes(params[:educator])
-        format.html { redirect_to @educator, notice: 'Educator was successfully updated.' }
+        format.html { redirect_to @educator.klass, notice: 'Educator was successfully updated.' }
       else
         format.html { render action: "edit" }
       end
