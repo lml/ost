@@ -30,8 +30,6 @@ Ost::Application.routes.draw do
 
   resources :researchers
 
-  resources :students
-
   resources :educators
 
   get "admin", :to => 'admin#index'
@@ -65,19 +63,21 @@ Ost::Application.routes.draw do
     end
     resources :students, :shallow => true, :only => [:index, :show, :update]    
     resources :sections, :shallow => true
+    resources :registration_requests, :shallow => true, :only => [:new, :index]
   end
   
-  # resources :offered_courses, :only => :index do
-  #   resources :educators, :shallow => true, :only => [:new, :create, :destroy] do
-  #     collection do
-  #       post 'search'
-  #     end
-  #   end
-  #   resources :students, :shallow => true, :only => [:index, :show, :update]
-  # end
+  resources :students, :only => [] do
+    put 'drop', :on => :member
+  end
+  
+  resources :registration_requests, :except => [:new, :index] do 
+    put 'approve', :as => "approve", :on => :member
+    put 'reject', :as => "reject", :on => :member
+  end
+    
   
   resources :sections, :only => [] do
-    resources :registration_requests, :shallow => true, :only => [:index, :create, :destroy]
+    # resources :registration_requests, :shallow => true, :only => [:index, :create, :destroy]
     resources :cohorts, :shallow => true
   end
   

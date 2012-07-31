@@ -10,26 +10,6 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
   end
 
-  def new
-    @student = Student.new
-  end
-
-  def edit
-    @student = Student.find(params[:id])
-  end
-
-  def create
-    @student = Student.new(params[:student])
-
-    respond_to do |format|
-      if @student.save
-        format.html { redirect_to @student, notice: 'Student was successfully created.' }
-      else
-        format.html { render action: "new" }
-      end
-    end
-  end
-
   def update
     @student = Student.find(params[:id])
 
@@ -41,13 +21,14 @@ class StudentsController < ApplicationController
       end
     end
   end
-
-  def destroy
-    @student = Student.find(params[:id])
-    @student.destroy
-    redirect_to students_url
-  end
   
+  def drop
+    @student = Student.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@student)
+    @student.drop!
+    redirect_to @student.section.klass
+  end
+
 protected
 
   def get_klass

@@ -1,0 +1,25 @@
+<%= form_for(@registration_request) do |f| %>
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+
+  <% if @klass.sections.count == 1 %>
+    <%= f.hidden_field :section_id, :value => @klass.sections.first.id %>
+  <% else %>
+    <div class="field">
+      Choose the section for which you are registering:<br/>
+      <%= f.select :section_id, options_from_collection_for_select(@klass.sections, :id, :name)%>
+    </div>
+  <% end %>
+  <div class="field">
+    Check here if you'd just like to audit this class
+    <%= f.check_box :is_auditing %>
+  </div>
+    <% if @klass.allow_student_specified_id %>
+    <div class="field">
+      You have the option to provide an ID number (alphanumeric) that your class instructors, teaching assistants, and graders will see in lieu of your full name.  If you would like to use this option, please enter your ID below:
+      <%= f.text_field :student_specified_id %>
+    </div>
+  <% end %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

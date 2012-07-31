@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120728205548) do
+ActiveRecord::Schema.define(:version => 20120731221707) do
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -131,9 +131,10 @@ ActiveRecord::Schema.define(:version => 20120728205548) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.string   "time_zone"
-    t.datetime "created_at",                                  :null => false
-    t.datetime "updated_at",                                  :null => false
-    t.boolean  "is_controlled_experiment", :default => false, :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
+    t.boolean  "is_controlled_experiment",   :default => false, :null => false
+    t.boolean  "allow_student_specified_id", :default => false, :null => false
   end
 
   add_index "klasses", ["consent_form_id"], :name => "index_klasses_on_consent_form_id"
@@ -176,11 +177,12 @@ ActiveRecord::Schema.define(:version => 20120728205548) do
   end
 
   create_table "registration_requests", :force => true do |t|
-    t.integer  "user_id",     :null => false
-    t.integer  "section_id",  :null => false
-    t.boolean  "is_auditing", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "user_id",                            :null => false
+    t.integer  "section_id",                         :null => false
+    t.boolean  "is_auditing",                        :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.string   "student_specified_id", :limit => 30
   end
 
   add_index "registration_requests", ["section_id"], :name => "index_registration_requests_on_section_id"
@@ -246,11 +248,13 @@ ActiveRecord::Schema.define(:version => 20120728205548) do
 
   create_table "students", :force => true do |t|
     t.integer  "cohort_id"
-    t.integer  "section_id",  :null => false
-    t.integer  "user_id",     :null => false
+    t.integer  "section_id",                                            :null => false
+    t.integer  "user_id",                                               :null => false
     t.boolean  "is_auditing"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
+    t.string   "student_specified_id", :limit => 30
+    t.boolean  "has_dropped",                        :default => false, :null => false
   end
 
   add_index "students", ["cohort_id"], :name => "index_students_on_cohort_id"

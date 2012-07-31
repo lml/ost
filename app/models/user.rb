@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_one :researcher, :dependent => :destroy
   has_many :registration_requests, :dependent => :destroy
   has_many :course_instructors, :dependent => :destroy
+  has_many :educators, :dependent => :destroy
   
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me,
                   :first_name, :last_name, :nickname, :time_zone

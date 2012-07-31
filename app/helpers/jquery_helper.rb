@@ -41,5 +41,11 @@ module JqueryHelper
     ('MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById("' +
             element_id + '")]);').html_safe
   end
-
+  
+  def message_dialog(title=nil, options={}, &block)
+    @title ||= title
+    @options = options
+    @body = capture(&block)
+    render :template => 'shared/message_dialog'
+  end
 end

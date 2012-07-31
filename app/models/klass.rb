@@ -19,8 +19,14 @@ class Klass < ActiveRecord::Base
 
   attr_accessor :source_learning_plan_id, :creator
 
-  attr_accessible :start_date, :end_date, :approved_emails, :time_zone, :source_learning_plan_id, :is_controlled_experiment
-
+  attr_accessible :start_date, :end_date, :approved_emails, :time_zone, 
+                  :source_learning_plan_id, :is_controlled_experiment,
+                  :allow_student_specified_id
+  
+  def registration_requests
+    RegistrationRequest.joins{section.klass}.where{section.klass.id == self.id}
+  end
+  
   def is_preapproved?(user)
     approved_emails_array = (approved_emails || '').split("\n").collect{|ae| ae.strip}
 
@@ -47,7 +53,23 @@ class Klass < ActiveRecord::Base
   end
   
   def is_student?(user)
-    Student.joins{section.klass}.joins{:user}.where{(section.klass.id == self.id) & (user.id == my{user}.id)}.any?
+    query_student_for(user).nil?
+  end
+  
+  def is_active_student?(user)
+    query_student_for(user).active.any?
+  end
+  
+  def student_for(user)
+    query_student_for(user).first
+  end
+  
+  # The returned student scope can include dropped students
+  def query_student_for(a_user)
+    Student.joins{section.klass}
+           .joins{:user}
+           .where{(section.klass.id == self.id)}
+           .where{(user.id == a_user.id)}
   end
 
   #############################################################################

@@ -1,27 +1,22 @@
-<h1>Listing registration_requests</h1>
+<%= pageHeading("#{@klass.course.name} Registration Requests")%>
 
-<table>
-  <tr>
-    <th>User</th>
-    <th>Section</th>
-    <th>Is auditing</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<% multiple_sections = @klass.sections.count > 1 %>
 
-<% @registration_requests.each do |registration_request| %>
-  <tr>
-    <td><%= registration_request.user_id %></td>
-    <td><%= registration_request.section_id %></td>
-    <td><%= registration_request.is_auditing %></td>
-    <td><%= link_to 'Show', registration_request %></td>
-    <td><%= link_to 'Edit', edit_registration_request_path(registration_request) %></td>
-    <td><%= link_to 'Destroy', registration_request, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+<p>Here are your pending registration requests<%= " broken down by section" if multiple_sections %>.  Approve or reject using the buttons next to each listed request.  The requestor will be informed of your decision by email.</p>
+
+<% if multiple_sections %>
+
+  <% @klass.sections.each do |section| %>
+    <%= section section.name do %>
+      <%= render :partial => 'list', :locals => {:section => section} %>
+    <% end %>
+  <% end %>
+
+<% else %>
+
+  <%= render :partial => 'list', :locals => {:section => @klass.sections.first} %>
+
 <% end %>
-</table>
 
-<br />
 
-<%= link_to 'New Registration request', new_registration_request_path %>
+<% navitem { link_to "Class", @klass }%>

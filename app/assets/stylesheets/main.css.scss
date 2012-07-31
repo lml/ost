@@ -202,7 +202,7 @@ $our_books_box_height: 20px;
   background-color: $osc_orange;
   color: white;
   font-weight: bold;
-  padding: 0 13px 0 14px;
+  padding: 5px 13px 5px 14px;
   font-size: 11px;
  
   &:hover {
@@ -653,4 +653,8 @@ span.antispam {display:none;}
    font-size: 11px;
    color: #aaa;
    padding-top:8px;
+}
+
+.dropped_student {
+  color: #bbbbbb;
 }

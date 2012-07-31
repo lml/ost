@@ -1,8 +1,8 @@
 <%
    @options ||= {}
-   @height = @options[:height] ? @options[:height] : 300
-   @width = @options[:width] ? @options[:width] : 400
-   @body ||= 'Specify a body argument!'
+   @height = @options[:height] || 300
+   @width = @options[:width] || 400
+   @body ||= yield #'Specify a body argument!'
    @title ||= ''
 %>
 

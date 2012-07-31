@@ -2,4 +2,7 @@
 
 <%= uber_list @sections, :name %>
 
-<% navitem(:can_create?, Section.new(:klass => @klass)) { link_to('New Section', new_klass_section_path(@klass)) } %>
+<% 
+  navitem(:can_create?, Section.new(:klass => @klass)) { link_to('New Section', new_klass_section_path(@klass)) } 
+  navitem(:can_read?, @klass) { link_to('Class', klass_path(@klass)) }
+%>

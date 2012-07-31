@@ -5,6 +5,7 @@ class RegistrationRequest < ActiveRecord::Base
   validates :user_id, :presence => true
   validates :section_id, :presence => true, :uniqueness => {:scope => :user_id}
   validate :user_not_already_in_course
+  validate :user_without_pending_requests_for_this_course
   validate :researcher_not_registering
   
   after_create :approve_if_preapproved
@@ -12,22 +13,31 @@ class RegistrationRequest < ActiveRecord::Base
   attr_accessor :destroyed
   after_destroy :mark_as_destroyed
   
-  attr_accessible :is_auditing #, :section_id, :user_id
+  attr_accessible :is_auditing, :student_specified_id, :section_id, :user_id
   
   attr_accessor :approved
   
   ## TODO THIS CLASS HAS A LOT OF COPIED CODE AND NEEDS WORK! ##
   
   def approve!
-    section.register!(user, is_auditing)
+    Student.create(:user_id => user_id, :section_id => section_id, 
+                   :is_auditing => is_auditing, :student_specified_id => student_specified_id)
     notify_observers(:approved)
-    # self.approved = true # this doesn't appear to do anything, but leaving temporarily
+    self.approved = true # for automatic approvals
     self.destroy
   end
   
   def reject!
     notify_observers(:rejected)
     self.destroy
+  end
+  
+  def requestor_full_name
+    student_specified_id.blank? ? user.full_name : "Student #{student_specified_id}"
+  end
+  
+  def requestor_email
+    student_specified_id.blank? ? user.email : "[private]"
   end
   
   #############################################################################
@@ -61,8 +71,14 @@ protected
   end
 
   def user_not_already_in_course
-    errors.add(:base, "You are already a student in this course.") \
-      if user.students.any?{|s| s.cohort.section.klass_id == section.klass_id}
+    errors.add(:base, "You are already a student in this class.") \
+      if user.students.any?{|s| s.section.klass_id == section.klass_id}
+    errors.empty?
+  end
+  
+  def user_without_pending_requests_for_this_course
+    errors.add(:base, "You have already requested to join another section in this class.") \
+      if user.registration_requests.any?{|rr| rr.section.klass_id == section.klass_id}
     errors.empty?
   end
 
@@ -73,7 +89,7 @@ protected
   end
   
   def approve_if_preapproved
-    approve! if !auditing && 
+    approve! if !is_auditing && 
                 klass.is_preapproved?(user) && 
                 (!klass.ended? || !Rails.env.production?)
   end

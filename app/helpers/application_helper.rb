@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Ost::Utilities
   
   def alert_tag(messages)
     attention_tag(messages, :alert)

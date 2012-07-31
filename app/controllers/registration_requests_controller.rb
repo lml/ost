@@ -1,84 +1,75 @@
 
 class RegistrationRequestsController < ApplicationController
-  # GET /registration_requests
-  # GET /registration_requests.json
+
+  before_filter :get_klass, :only => [:index, :new]
+  before_filter :teaching_assistant_and_up_required!, :only => [:index]
+
+  respond_to :html, :js
+
   def index
-    @registration_requests = RegistrationRequest.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @registration_requests }
-    end
   end
-
-  # GET /registration_requests/1
-  # GET /registration_requests/1.json
-  def show
-    @registration_request = RegistrationRequest.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @registration_request }
-    end
-  end
-
-  # GET /registration_requests/new
-  # GET /registration_requests/new.json
+  
   def new
     @registration_request = RegistrationRequest.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @registration_request }
-    end
   end
 
-  # GET /registration_requests/1/edit
-  def edit
-    @registration_request = RegistrationRequest.find(params[:id])
-  end
-
-  # POST /registration_requests
-  # POST /registration_requests.json
   def create
     @registration_request = RegistrationRequest.new(params[:registration_request])
+    raise SecurityTransgression unless present_user.can_create?(@registration_request)
 
     respond_to do |format|
       if @registration_request.save
-        format.html { redirect_to @registration_request, notice: 'Registration request was successfully created.' }
-        format.json { render json: @registration_request, status: :created, location: @registration_request }
+        notice_message = @registration_request.approved ?
+                         'Your request has automatically been approved!' :
+                         'Your request has been sent to the section ' + 
+                           'educators. You will be emailed when the approve' + 
+                           ' or reject your request.'
+        format.html { redirect_to(@registration_request.section.klass, 
+                                  :notice => notice_message ) }
       else
-        format.html { render action: "new" }
-        format.json { render json: @registration_request.errors, status: :unprocessable_entity }
+        format.html { redirect_to(@registration_request.section.klass,
+                                  :alert => @registration_request.errors[:base].first) }
       end
     end
   end
 
-  # PUT /registration_requests/1
-  # PUT /registration_requests/1.json
-  def update
+  def approve
     @registration_request = RegistrationRequest.find(params[:id])
+    raise SecurityTransgression unless @registration_request.can_be_approved_by?(present_user)
 
-    respond_to do |format|
-      if @registration_request.update_attributes(params[:registration_request])
-        format.html { redirect_to @registration_request, notice: 'Registration request was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @registration_request.errors, status: :unprocessable_entity }
-      end
-    end
+    @registration_request.approve!
+
+    flash[:notice] = "Added #{@registration_request.user.full_name} to this section."
+    respond_with(@registration_request)
   end
 
-  # DELETE /registration_requests/1
-  # DELETE /registration_requests/1.json
+  def reject
+    @registration_request = RegistrationRequest.find(params[:id])
+    raise SecurityTransgression unless @registration_request.can_be_rejected_by?(present_user)
+
+    @registration_request.reject!
+
+    flash[:notice] = "Rejected #{@registration_request.user.full_name}'s request."
+    respond_with(@registration_request)
+  end
+
   def destroy
     @registration_request = RegistrationRequest.find(params[:id])
+    raise SecurityTransgression unless present_user.can_destroy?(@registration_request)
     @registration_request.destroy
 
     respond_to do |format|
-      format.html { redirect_to registration_requests_url }
-      format.json { head :no_content }
+      format.html { redirect_to(@registration_request.section.klass) }
     end
+  end
+
+protected
+
+  def get_klass
+    @klass = Klass.find(params[:klass_id])
+  end
+
+  def teaching_assistant_and_up_required!
+    @klass.is_teaching_assistant?(present_user)
   end
 end

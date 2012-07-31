@@ -1,0 +1,25 @@
+<table class="list" width="100%">
+  <tr>
+    <th width="30%">Name</th>
+    <th width="35%">Email</th>
+    <th width="15%">Auditing?</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% section.registration_requests.each do |rr| %>
+    <tr id="rr_<%= rr.id %>">
+      <td><%= rr.requestor_full_name %></td>
+      <td><%= rr.requestor_email %></td>
+      <td><%= tf_to_yn(rr.is_auditing) %></td>
+      <td><%= button_to 'Approve', 
+                        approve_registration_request_path(rr), 
+                        :method => :put,
+                        :remote => true %></td>
+      <td><%= button_to 'Reject', 
+                        reject_registration_request_path(rr), 
+                        :method => :put,
+                        :remote => true %></td>
+    </tr>
+  <% end %>
+</table>

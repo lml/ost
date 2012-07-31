@@ -1,39 +1,45 @@
 <%= pageHeading "Student Roster, #{@klass.course.name}" %>
 
+<p>Students who have dropped out are shown in <span class="dropped_student">gray</span>.
+
 <% num_sections = @klass.sections.count %>
+
+<% name_width = 75 - (num_sections > 1 ? 15 : 0) - (present_user.is_administrator? ? 15 : 0) %>
+<% num_columns = 4 - (num_sections > 1 ? 1 : 0)  - (present_user.is_administrator? ? 1 : 0) %>
 
 <table class="list" width="90%">
   <tr>
     <% if num_sections > 1 %>
-      <th>Section</th>
+      <th width="15%">Section</th>
     <% end %>
-    <th>Name</th>
-    <% if present_user.is_administrator? %><th>Research ID</th><% end %>
-    <th>Status</th>
+    <th width="<%= name_width %>%">Name</th>
+    <% if present_user.is_administrator? %><th width="15%">Research ID</th><% end %>
+    <th width="25%">Status</th>
   </tr>
 
   <% @klass.sections.each do |section| %>
-    <% if num_sections > 1 %>
-      <tr>
-        <td colspan=><%= section.name %></td>
-      </tr>
-    <% end %>
-    <% section.students.each do |student| %>
-      <tr>
-        <% if num_sections > 1 %>
-          <td></td>
-        <% end %>
-        <td><%= student.full_name %></td>
-        <% if present_user.is_administrator? %>
-          <td><%= student.user.research_id %></td>
-        <% end %>
-        <td><%= student.is_auditing ? "AUDITING" : "REGISTERED" %>
-      </tr>
+    <% if section.students.any? %>
+      <% if num_sections > 1 %>
+        <tr>
+          <td colspan="<%= num_columns %>"><%= section.name %></td>
+        </tr>
+      <% end %>
+      <% section.students.each do |student| %>
+        <tr <%= "class='dropped_student'" if student.has_dropped? %>>
+          <% if num_sections > 1 %>
+            <td></td>
+          <% end %>
+          <td><%= student.full_name(present_user) %></td>
+          <% if present_user.is_administrator? %>
+            <td><%= student.user.research_id %></td>
+          <% end %>
+          <td><%= student.is_auditing ? "AUDITING" : "REGISTERED" %>
+        </tr>
+      <% end %>
     <% end %>
   <% end %>
 
 </table>
 
-<% content_for :right_column do %>
-  <%= link_to "Course Offering", klass_path(@klass) %>
-<% end %>
+
+<% navitem { link_to "Class", klass_path(@klass) }%>
