@@ -4,8 +4,8 @@
   <span class="topic_summary">Resources: <%= topic.resources.count %>, Questions: <%= topic.topic_exercises.count %></span>
   
   <span class="topic_buttons">
-    <%= edit_button topic, {:small => true} if present_user.can_update?(topic) %>    
-    <%= trash_button topic, {:small => true} if present_user.can_destroy?(topic) %>
+    <%= edit_button topic, {:small => true, :remote => true} if present_user.can_update?(topic) %>    
+    <%= trash_button topic, {:small => true, :remote => true} if present_user.can_destroy?(topic) %>
   </span>
   
   <div class="topic_body">
@@ -17,12 +17,7 @@
       <div id="topic_resources_<%= topic.id %>">
         <%= render :partial => 'resources/list', :locals => {:topic => topic} %>
       </div>
-      <%#= uber_list topic.resources, {:link_target_method => :url, :class => 'topic_sub_section'} do |resource|
-            resource.name.blank? ? resource.url : resource.name
-          end %>
     </div>
-
-
     
     <div class="topic_sub_section">
       <div class="left_text">Questions:</div>
