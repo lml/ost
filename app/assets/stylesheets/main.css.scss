@@ -658,3 +658,40 @@ span.antispam {display:none;}
 .dropped_student {
   color: #bbbbbb;
 }
+
+.topic_info {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  
+  .topic_buttons {
+    float:right;
+    display:none;
+  }
+  
+  .topic_summary {
+    padding-left: 15px;
+  }
+  
+  .topic_sub_section {
+    padding-left: 15px;
+    
+    .left_text {
+      width:80px; 
+      display: inline-block;
+    }
+
+  }
+  
+  .topic_heading {
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0;
+  }
+  
+  .topic_body {
+//    display:none;
+  }
+}

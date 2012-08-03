@@ -1,41 +1,18 @@
-<%= form_for(@resource) do |f| %>
-  <% if @resource.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@resource.errors.count, "error") %> prohibited this resource from being saved:</h2>
-
-      <ul>
-      <% @resource.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+<%= form_for([@topic, @resource], :remote => true) do |f| %>
   <div class="field">
-    <%= f.label :resourceable_type %><br />
-    <%= f.text_field :resourceable_type %>
+    URL<br />
+    <%= f.text_field :url, :style => "width:90%" %>
   </div>
   <div class="field">
-    <%= f.label :resourceable_id %><br />
-    <%= f.number_field :resourceable_id %>
-  </div>
-  <div class="field">
-    <%= f.label :url %><br />
-    <%= f.text_field :url %>
-  </div>
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    Name (optional)<br />
+    <%= f.text_field :name, :style => "width:90%" %><br/>
+    <span class="field_help">If provided, the link to this resource will appear with this name instead of the full URL.</span>
   </div>
   <div class="field">
     <%= f.label :notes %><br />
-    <%= f.text_area :notes %>
-  </div>
-  <div class="field">
-    <%= f.label :number %><br />
-    <%= f.number_field :number %>
+    <%= f.text_area :notes, :rows => 3, :style => 'width:90%' %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :disable_with => "Please wait..." %>
   </div>
 <% end %>

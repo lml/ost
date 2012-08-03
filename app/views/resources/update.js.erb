@@ -1,0 +1,8 @@
+<%= unless_errors_in(@resource, 'resource_errors') do %>
+   $("#resource_form").html('');
+   $("#resource_<%= @resource.id %>").replaceWith("<%= ej(render :partial => 'resources/list_entry',
+                                                                 :locals => {:resource => @resource}) %>");
+   refresh_buttons();
+   $("#resource_dialog").dialog('close');
+<% end %> 
+

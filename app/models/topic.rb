@@ -12,9 +12,46 @@ class Topic < ActiveRecord::Base
   
   acts_as_numberable :container => :learning_plan
   
-  attr_accessible :name
+  attr_accessible :name, :learning_plan_id
+  
+  before_validation :set_default_name, :on => :create
   
   def destroyable?
     raise NotYetImplemented
   end
+  
+  #############################################################################
+  # Access control methods
+  #############################################################################
+
+  def can_be_read_by?(user)
+    learning_plan.can_be_read_by?(user)
+  end
+
+  def can_be_created_by?(user)
+    learning_plan.can_be_updated_by?(user)
+  end
+
+  def can_be_updated_by?(user)
+    learning_plan.can_be_updated_by?(user)
+  end
+
+  def can_be_destroyed_by?(user)
+    learning_plan.can_be_updated_by?(user)
+  end
+  
+protected
+
+  def set_default_name
+    return unless name.blank?
+    
+    existing_topics = learning_plan.topics
+    existing_names = existing_topics.collect{|t| t.name}
+    topic_number = existing_topics.count + 1
+
+    while (existing_names.include?(self.name = "New Topic #{topic_number}"))
+      topic_number += 1
+    end
+  end
+  
 end

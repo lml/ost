@@ -2,35 +2,34 @@ Ost::Application.routes.draw do
 
   
 
-  resources :learning_conditions
-
-  resources :consent_forms
-
-  resources :organization_managers
-
-  resources :student_exercises
-
-  resources :assignment_exercises
-
-  resources :student_assignments
-
-  resources :topic_exercises
-
-  resources :resources
-
-  resources :assignment_topics
-
-  resources :assignments
-
-  resources :exercises
-
-  resources :topics
-
-  resources :concepts
-
-  resources :researchers
-
-  resources :educators
+  # resources :learning_conditions
+  # 
+  # resources :consent_forms
+  # 
+  # resources :organization_managers
+  # 
+  # resources :student_exercises
+  # 
+  # resources :assignment_exercises
+  # 
+  # resources :student_assignments
+  # 
+  # resources :topic_exercises
+  # 
+  # 
+  # resources :assignment_topics
+  # 
+  # resources :assignments
+  # 
+  # resources :exercises
+  # 
+  # resources :topics
+  # 
+  # resources :concepts
+  # 
+  # resources :researchers
+  # 
+  # resources :educators
 
   get "admin", :to => 'admin#index'
 
@@ -54,7 +53,7 @@ Ost::Application.routes.draw do
   end
   
   resources :classes, :as => 'klasses', :only => [:index] do
-    resources :educators, :shallow => true, :only => [:new, :create, :destroy] do
+    resources :educators, :shallow => true, :only => [:new, :create, :destroy, :show, :edit, :update] do
       collection do
         post 'search_instructors' => 'educators#search', :type => 'instructor'
         post 'search_graders' => 'educators#search', :type => 'grader'
@@ -77,11 +76,19 @@ Ost::Application.routes.draw do
     
   
   resources :sections, :only => [] do
-    # resources :registration_requests, :shallow => true, :only => [:index, :create, :destroy]
     resources :cohorts, :shallow => true
   end
   
-  resources :learning_plans
+  resources :learning_plans do
+    resources :topics, :shallow => true, :except => [:index, :show]
+    resources :assignments, :shallow => true
+  end
+  
+  resources :topics, :only => [] do
+    resources :resources, :shallow => true, :except => [:index, :show] do
+      post 'sort', :on => :collection
+    end
+  end
 
   # For users, we mix devise with our own users controller.  We have overriden
   # some devise controller methods, so point that out here.

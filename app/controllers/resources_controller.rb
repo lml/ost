@@ -1,84 +1,58 @@
 
 class ResourcesController < ApplicationController
-  # GET /resources
-  # GET /resources.json
-  def index
-    @resources = Resource.all
+  
+  before_filter :get_topic, :only => [:new, :create, :sort]
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @resources }
-    end
-  end
+  respond_to :js
 
-  # GET /resources/1
-  # GET /resources/1.json
-  def show
-    @resource = Resource.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @resource }
-    end
-  end
-
-  # GET /resources/new
-  # GET /resources/new.json
   def new
     @resource = Resource.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @resource }
-    end
   end
 
-  # GET /resources/1/edit
   def edit
     @resource = Resource.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@resource)
   end
 
-  # POST /resources
-  # POST /resources.json
   def create
     @resource = Resource.new(params[:resource])
-
-    respond_to do |format|
-      if @resource.save
-        format.html { redirect_to @resource, notice: 'Resource was successfully created.' }
-        format.json { render json: @resource, status: :created, location: @resource }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @resource.errors, status: :unprocessable_entity }
-      end
-    end
+    @resource.topic = @topic
+    raise SecurityTransgression unless present_user.can_create?(@resource)
+    @resource.save
   end
 
-  # PUT /resources/1
-  # PUT /resources/1.json
   def update
     @resource = Resource.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@resource)
+    @resource.update_attributes(params[:resource])
+  end
 
-    respond_to do |format|
-      if @resource.update_attributes(params[:resource])
-        format.html { redirect_to @resource, notice: 'Resource was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @resource.errors, status: :unprocessable_entity }
-      end
+  def destroy
+    @resource = Resource.find(params[:id])
+    raise SecurityTransgression unless present_user.can_destroy?(@resource)
+    @resource.destroy
+  end
+
+  def sort
+    sorted_ids = params['sortable_item']
+    return if sorted_ids.blank?
+
+    sorted_ids.each do |sorted_id|
+      resource = Resource.find(sorted_id)
+      raise SecurityTransgression unless resource.topic == @topic
+      raise SecurityTransgression unless resource.can_be_sorted_by?(present_user)
+    end
+
+    begin 
+      Resource.sort!(sorted_ids)
+    rescue
+      flash[:alert] = "An unknown error occurred."
     end
   end
 
-  # DELETE /resources/1
-  # DELETE /resources/1.json
-  def destroy
-    @resource = Resource.find(params[:id])
-    @resource.destroy
+protected
 
-    respond_to do |format|
-      format.html { redirect_to resources_url }
-      format.json { head :no_content }
-    end
+  def get_topic
+    @topic = Topic.find(params[:topic_id])
   end
 end

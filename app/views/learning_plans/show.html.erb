@@ -1,25 +1,35 @@
-<p id="notice"><%= notice %></p>
+<%= pageHeading "Learning Plan: #{@learning_plan.name}"%>
 
-<p>
-  <b>Learning plannable:</b>
-  <%= @learning_plan.learning_plannable_id %>
-</p>
-
-<p>
-  <b>Learning plannable type:</b>
-  <%= @learning_plan.learning_plannable_type %>
-</p>
-
-<p>
-  <b>Name:</b>
-  <%= @learning_plan.name %>
-</p>
-
-<p>
-  <b>Description:</b>
+<% if !@learning_plan.description.blank? %>
   <%= @learning_plan.description %>
-</p>
+<% end %>
 
+<%= section "Topics" do %>
 
-<%= link_to 'Edit', edit_learning_plan_path(@learning_plan) %> |
-<%= link_to 'Back', learning_plans_path %>
+  <div id="topics">
+    <% @learning_plan.topics.each do |topic| %>
+      <%= render :partial => 'topics/show', :locals => {:topic => topic} %>
+    <% end %>
+  </div>
+  
+  <br/>
+  <%= link_to "Add new topic ...", 
+              learning_plan_topics_path(@learning_plan), 
+              :method => :post,
+              :remote => true %>
+<% end %>
+
+<%= section "Assignments" do %>
+
+  <div id="assignments">
+    
+  </div>
+  
+  <br/>
+  <%= link_to "Add new assignment ...", new_learning_plan_assignment_path(@learning_plan) %>
+<% end %>
+
+<%
+  navitem(:can_update?, @learning_plan) {link_to 'Edit', edit_learning_plan_path(@learning_plan)}
+  navitem { link_to "#{t(@learning_plan.learning_plannable.class)}", @learning_plan.learning_plannable }
+%>

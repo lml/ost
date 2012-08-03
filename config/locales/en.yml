@@ -9,4 +9,5 @@ en:
   activerecord:
     models:
       klass: class
+  Klass: Class
 

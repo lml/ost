@@ -176,7 +176,7 @@ module ApplicationHelper
     javascript_include_tag 'protect_form'
   end
   
-  def uber_list(entries, entry_text_method, options={})
+  def uber_list(entries, entry_text_method=nil, options={}, &entry_text_block)
     
     options[:hide_edit] ||= false
     options[:hide_trash] ||= false
@@ -218,7 +218,7 @@ module ApplicationHelper
 
     bullet_class = options[:sort_path].nil? ? 'ui-icon-triangle-1-e' : 'ui-icon-arrow-4'
 
-    content_tag :div, :id => "#{@uber_list_id}", :style => options[:style] do
+    content_tag :div, :id => "#{@uber_list_id}", :class => options[:class], :style => options[:style] do
       content_tag(:div, "None", :style => "#{!entries.empty? ? 'display:none' : ''}") +
       
       entries.collect { |entry|
@@ -230,7 +230,9 @@ module ApplicationHelper
                                  :style => 'display:inline-block; height: 14px')
           
           b = content_tag(:div, {:style => 'display:inline-block'}, :escape => false) do
-            link_text = entry.send(entry_text_method)
+            link_text = entry_text_method.nil? ? 
+                        entry_text_block.call(entry) :
+                        entry.send(entry_text_method)
             link_target = options[:link_target_method].nil? ?
                           entry : 
                           entry.send(options[:link_target_method])
@@ -400,5 +402,6 @@ module ApplicationHelper
       @navitems.push(capture(&block))
     end
   end
+
   
 end
