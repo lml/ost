@@ -1,10 +1,16 @@
 
 <div id="topic_<%= topic.id %>" class="topic_info">
-  <span class="topic_heading"><%= topic.name %></span>
-  <span class="topic_summary">Resources: <%= topic.resources.count %>, Questions: <%= topic.topic_exercises.count %></span>
+  <span class="topic_heading">
+    <%= best_in_place_if present_user.can_update?(topic), 
+                         topic, :name, :type => :input, :activator =>  "#edit_topic_#{topic.id}"%>
+  </span>
+  
+  <span class="topic_summary">
+    Resources: <%= topic.resources.count %>, Questions: <%= topic.topic_exercises.count %>
+  </span>
   
   <span class="topic_buttons">
-    <%= edit_button topic, {:small => true, :remote => true} if present_user.can_update?(topic) %>    
+    <%= edit_button nil, {:small => true, :remote => true, :id => "edit_topic_#{topic.id}"} if present_user.can_update?(topic) %>    
     <%= trash_button topic, {:small => true, :remote => true} if present_user.can_destroy?(topic) %>
   </span>
   
@@ -26,4 +32,6 @@
   </div>
   
 </div>
+
+<%= enable_best_in_place %>
 

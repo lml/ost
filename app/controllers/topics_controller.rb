@@ -21,8 +21,12 @@ class TopicsController < ApplicationController
     respond_to do |format|
       if @topic.update_attributes(params[:topic])
         format.html { redirect_to @topic, notice: 'Topic was successfully updated.' }
+        format.json { respond_with_bip(@topic) }
       else
-        format.html { render action: "edit" }
+        # format.html { render action: "edit" }
+        format.json { respond_with_bip(@topic) }
+        # flash[:alert] = "Uh oh"
+        # format.json
       end
     end
   end

@@ -13,4 +13,23 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery.purr
+//= require best_in_place
 //= require_tree .
+
+
+function open_message_dialog(is_modal, height, width, title, body) {
+  $("#message_dialog_body").html(body);
+  
+  $("#message_dialog").dialog({ 
+    autoOpen: false, 
+    modal: is_modal, 
+    height: height, 
+    width: width,
+    title: title,
+    position: 'center'
+  });
+
+  $("#message_dialog").dialog('open');
+  $("#message_dialog").scrollTop(0);  
+}

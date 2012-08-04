@@ -37,6 +37,8 @@ gem 'csv_builder', '~>2.1.1'
 
 gem 'yaml_db'
 
+gem 'best_in_place'
+
 group :development, :test do
   gem 'sqlite3', '~> 1.3.6'
   gem 'debugger', '~> 1.1.4'

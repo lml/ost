@@ -4,8 +4,11 @@ $(document).ready(function() {
     $(this).children(".topic_summary").toggle();
   }); 
   
-  $('.topic_info').on("hover", function(event){
-    $(this).children(".topic_buttons:first").toggle();
+  $('.topic_info').on("mouseenter", function(event){
+    $(this).children(".topic_buttons:first").show();
   }); 
+  $('.topic_info').on("mouseleave", function(event){
+    $(this).children(".topic_buttons:first").hide();
+  });
 });
 

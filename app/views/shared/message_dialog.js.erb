@@ -6,16 +6,4 @@
    @title ||= ''
 %>
 
-$("#message_dialog_body").html("<%= escape_javascript(@body) %>");
-
-$("#message_dialog").dialog({ 
-  autoOpen: false, 
-  modal: true, 
-  height:<%= @height %>, 
-  width:<%= @width %>,
-  title:"<%= @title %>",
-  position: 'center'
-});
-
-$("#message_dialog").dialog('open');
-$("#message_dialog").scrollTop(0);
+open_message_dialog(true, <%= @height %>, <%= @width %>, "<%= @title %>", "<%= escape_javascript(@body) %>");

@@ -144,21 +144,28 @@ module ApplicationHelper
   end
   
   def edit_button(target, options={})
+    @edit_button_count = (@edit_button_count || -1) + 1
+    
     options[:remote] ||= false
     options[:small] ||= false
+    options[:id] ||= "edit_button_#{@edit_button_count}"
     
     klass = "edit_button icon_only_button" + (options[:small] ? "_small" : "")
     
-    link_to "", edit_polymorphic_path(target), :class => klass, :remote => options[:remote]
+    link_to "", target.nil? ? nil : edit_polymorphic_path(target), :class => klass, :id => options[:id], :remote => options[:remote]
   end
   
   def trash_button(target, options={})
+    @trash_button_count = (@trash_button_count || -1) + 1
+    
     options[:confirm] ||= "Are you sure?"
     options[:remote] ||= false
     options[:small] ||= false
+    options[:id] ||= "trash_button_#{@trash_button_count}"
     
     klass = "trash_button icon_only_button" + (options[:small] ? "_small" : "")
     link_to '', target, 
+                :id => options[:id],
                 :class => klass,
                 :confirm => options[:confirm], 
                 :method => :delete, 
@@ -327,6 +334,25 @@ module ApplicationHelper
     if alpha
       @navitems.push(capture(&block))
     end
+  end
+  
+  def enable_best_in_place
+    return if @best_in_place_already_set
+    
+    content_for :javascript do
+      javascript_tag do
+        "$(document).ready(function() {
+          $(\'.best_in_place\').best_in_place();
+          
+          $('.best_in_place').ajaxError(function(e, jqxhr, settings, exception) {
+            var obj = jQuery.parseJSON(jqxhr.responseText);
+            open_message_dialog(true, 100, 300, 'Error!', obj.toString());
+          });
+        });"
+      end
+    end
+    
+    @best_in_place_already_set = true
   end
 
   
