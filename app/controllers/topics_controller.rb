@@ -3,10 +3,6 @@ class TopicsController < ApplicationController
 
   before_filter :get_learning_plan, :only => [:create]
 
-  # def new
-  #   
-  # end
-
   def edit
     @topic = Topic.find(params[:id])
   end
@@ -20,6 +16,7 @@ class TopicsController < ApplicationController
 
   def update
     @topic = Topic.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@topic)
 
     respond_to do |format|
       if @topic.update_attributes(params[:topic])
@@ -32,12 +29,8 @@ class TopicsController < ApplicationController
 
   def destroy
     @topic = Topic.find(params[:id])
+    raise SecurityTransgression unless present_user.can_destroy?(@topic)
     @topic.destroy
-
-    respond_to do |format|
-      format.html { redirect_to topics_url }
-      format.json { head :no_content }
-    end
   end
   
 protected
