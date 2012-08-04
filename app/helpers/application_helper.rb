@@ -243,7 +243,12 @@ module ApplicationHelper
                         entry.send(entry_text_method)
             link_target = options[:link_target_method].nil? ?
                           entry : 
-                          entry.send(options[:link_target_method])
+                          (
+                            options[:link_target_method].class == Proc ?
+                            options[:link_target_method].call(entry) :
+                            entry.send(options[:link_target_method])
+                          )
+
             link_target = options[:namespace].nil? ? 
                           link_target : 
                           [options[:namespace], link_target]

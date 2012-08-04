@@ -1,11 +1,12 @@
 <%= 
   uber_list topic.topic_exercises, nil, 
                                    {
+                                     :link_target_method => Proc.new {|te| te.exercise.url},
                                      :list_number => "q#{topic.id}",
                                      :remote_buttons => true,
                                      :sort_path => sort_topic_topic_exercises_path(topic), 
                                      :class => 'topic_sub_section'
                                    } do |te|
-    te.exercise.url
+    te.exercise.quadbase_id
   end 
 %>

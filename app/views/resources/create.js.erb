@@ -1,7 +1,0 @@
-<%= unless_errors_in(@resource, 'resource_errors') do %>
-  $("#topic_resources_<%= @topic.id %>").html("<%= ej(render :partial => 'resources/list', :locals => {:topic => @topic})%>")
-
-  refresh_buttons();
-  $("#message_dialog").dialog('close');
-<% end %> 
-

@@ -1,7 +1,5 @@
-$("#resource_errors").html('');
-$("#resource_form").html("<%= ej(render :partial => 'resources/form', :locals => {:remote => true}) %>");
-
-$("#resource_dialog").dialog({title: 'Edit a Resource'});
-$("#resource_dialog").dialog('open');
+<%= message_dialog "Edit a Resource", {:width => 650, :height => 400} do %>
+  <%= render :partial => 'resources/form' %>
+<% end %>
 
 refresh_buttons();

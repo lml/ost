@@ -1,3 +1,5 @@
+<% topic = @topic || @topic_exercise.topic %>
+
 <%= form_for([@topic, @topic_exercise], :remote => true) do |f| %>
 
   <div class="field">
@@ -7,34 +9,12 @@
   <div class="field">
     Concept<br/>
     <%= f.select(:concept_id, 
-                     options_from_collection_for_select(@topic.learning_plan.concepts, :id, :name, 
+                     options_from_collection_for_select(topic.learning_plan.concepts, :id, :name, 
                                                         @topic_exercise.concept.nil? ? nil : @topic_exercise.concept.id),  
                      :prompt => "Choose a concept")%>
   </div>
   <div class="actions">
     <%= f.submit :disable_with => "Please wait..." %>
   </div>
-
-<% if false %>
-  <div class="field">
-    <%= f.label :topic_id %><br />
-    <%= f.number_field :topic_id %>
-  </div>
-  <div class="field">
-    <%= f.label :exercise_id %><br />
-    <%= f.number_field :exercise_id %>
-  </div>
-  <div class="field">
-    <%= f.label :concept_id %><br />
-    <%= f.number_field :concept_id %>
-  </div>
-  <div class="field">
-    <%= f.label :number %><br />
-    <%= f.number_field :number %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>  
 
 <% end %>

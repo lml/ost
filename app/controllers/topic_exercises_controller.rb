@@ -55,7 +55,7 @@ class TopicExercisesController < ApplicationController
   end
   
   def sort
-    sorted_ids = params['topic_exercise']
+    sorted_ids = params['sortable_item']
     return if sorted_ids.blank?
   
     topic_exercises = TopicExercise.find(sorted_ids)

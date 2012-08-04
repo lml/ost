@@ -49,6 +49,10 @@ class Exercise < ActiveRecord::Base
     content["simple_question"]["answer_choices"].index{|ac| ac["credit"] == 1}
   end
   
+  def quadbase_id
+    url.split("/").last
+  end
+  
 protected
 
   attr_accessor :json_cache
