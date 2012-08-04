@@ -17,7 +17,9 @@ class Topic < ActiveRecord::Base
   before_validation :set_default_name, :on => :create
   
   def destroyable?
-    raise NotYetImplemented
+    self.errors.add(:base, "This topic cannot be destroyed because it is included in at least one assignment.") \
+      if assignment_topics.any?
+    self.errors.none?
   end
   
   #############################################################################

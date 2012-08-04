@@ -1,14 +1,17 @@
 $(document).ready(function() {
-  $('.topic_info').on("dblclick", function(event){
+
+  $('#topics').on("dblclick", '.topic_info', function(event){
     $(this).children(".topic_body:first").toggle();
     $(this).children(".topic_summary").toggle();
   }); 
   
-  $('.topic_info').on("mouseenter", function(event){
+  $('#topics').on("mouseenter", '.topic_info', function(event){
     $(this).children(".topic_buttons:first").show();
-  }); 
-  $('.topic_info').on("mouseleave", function(event){
+  });
+
+  $('#topics').on("mouseleave", '.topic_info', function(event){
     $(this).children(".topic_buttons:first").hide();
   });
+  
 });
 

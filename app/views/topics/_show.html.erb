@@ -2,7 +2,7 @@
 <div id="topic_<%= topic.id %>" class="topic_info">
   <span class="topic_heading">
     <%= best_in_place_if present_user.can_update?(topic), 
-                         topic, :name, :type => :input, :activator =>  "#edit_topic_#{topic.id}"%>
+                         topic, :name, :type => :input, :activator =>  "#edit_topic_#{topic.id}" %>
   </span>
   
   <span class="topic_summary">
@@ -33,5 +33,5 @@
   
 </div>
 
-<%= enable_best_in_place %>
+<% enable_best_in_place %>
 

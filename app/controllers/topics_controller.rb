@@ -12,6 +12,7 @@ class TopicsController < ApplicationController
     @topic.learning_plan = @learning_plan
     raise SecurityTransgression unless present_user.can_create?(@topic)  
     @topic.save
+    logger.debug(@topic.errors.inspect)
   end
 
   def update
