@@ -19,12 +19,14 @@ class ResourcesController < ApplicationController
     @resource.topic = @topic
     raise SecurityTransgression unless present_user.can_create?(@resource)
     @resource.save
+    render :template => 'resources/create_update'
   end
 
   def update
     @resource = Resource.find(params[:id])
     raise SecurityTransgression unless present_user.can_update?(@resource)
     @resource.update_attributes(params[:resource])
+    render :template => 'resources/create_update'
   end
 
   def destroy

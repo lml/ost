@@ -22,6 +22,14 @@ class Topic < ActiveRecord::Base
     self.errors.none?
   end
   
+  def not_assigned?
+    !assigned?
+  end
+  
+  def assigned?
+    assignments.any?{|a| a.assigned?}
+  end
+  
   #############################################################################
   # Access control methods
   #############################################################################

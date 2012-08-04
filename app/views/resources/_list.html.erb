@@ -1,6 +1,6 @@
 <%= 
   uber_list topic.resources, nil, {:link_target_method => :url, 
-                                   :list_number => topic.id,
+                                   :list_number => "r#{topic.id}",
                                    :remote_buttons => true,
                                    :sort_path => sort_topic_resources_path(topic), 
                                    :class => 'topic_sub_section'} do |resource|

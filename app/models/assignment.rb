@@ -21,4 +21,8 @@ class Assignment < ActiveRecord::Base
     raise NotYetImplemented
   end
   
+  def assigned?
+    student_assignments.any?
+  end
+  
 end

@@ -1,0 +1,6 @@
+<%= unless_errors_in(@topic_exercise, 'message_dialog_errors') do %>
+  $("#topic_exercises_<%= @topic.id %>").html("<%= ej(render :partial => 'topic_exercises/list', :locals => {:topic => @topic_exercise.topic})%>")
+
+  refresh_buttons();
+  $("#message_dialog").dialog('close');
+<% end %> 

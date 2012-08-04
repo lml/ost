@@ -1,0 +1,4 @@
+<%= unless_errors_in(@topic_exercise, 'attention') do %>
+  $("#uber_list_q<%= @topic_exercise.topic.id %>").children("#sortable_item_<%= @topic_exercise.id %>").remove();
+<% end %>
+

@@ -22,8 +22,7 @@ class Exercise < ActiveRecord::Base
   
   # Check to see if this exercise is an orphan.  If so, delete
   def destroy_if_orphan!
-    raise NotYetImplemented
-    self.destroy if assigned_exercises(true).empty? && lesson_exercises(true).empty?    
+    self.destroy if topic_exercises(true).empty?    
   end
   
   def clear_content_cache!
@@ -59,11 +58,9 @@ protected
   end
 
   def destroyable?
-    raise NotYetImplemented
-    
     return true if WebsiteConfiguration.get_value(:sudo_enabled)
     errors.add(:base, "Cannot delete an exercise that has been assigned.") \
-      if !assigned_exercises.empty?
+      if topic_exercises.any?{|te| te.assigned?}
     errors.empty?
   end
 

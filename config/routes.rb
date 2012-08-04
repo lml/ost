@@ -88,6 +88,9 @@ Ost::Application.routes.draw do
     resources :resources, :shallow => true, :except => [:index, :show] do
       post 'sort', :on => :collection
     end
+    resources :topic_exercises, :shallow => true, :except => [:index, :show] do
+      post 'sort', :on => :collection
+    end
   end
 
   # For users, we mix devise with our own users controller.  We have overriden

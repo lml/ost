@@ -1,16 +1,21 @@
-<%= form_for(@topic_exercise) do |f| %>
-  <% if @topic_exercise.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@topic_exercise.errors.count, "error") %> prohibited this topic_exercise from being saved:</h2>
+<%= form_for([@topic, @topic_exercise], :remote => true) do |f| %>
 
-      <ul>
-      <% @topic_exercise.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <div class="field">
+    Exercise URL<br />
+    <%= text_field_tag :exercise_url, @topic_exercise.exercise.url, :style => "width: 90%" %>
+  </div>
+  <div class="field">
+    Concept<br/>
+    <%= f.select(:concept_id, 
+                     options_from_collection_for_select(@topic.learning_plan.concepts, :id, :name, 
+                                                        @topic_exercise.concept.nil? ? nil : @topic_exercise.concept.id),  
+                     :prompt => "Choose a concept")%>
+  </div>
+  <div class="actions">
+    <%= f.submit :disable_with => "Please wait..." %>
+  </div>
 
+<% if false %>
   <div class="field">
     <%= f.label :topic_id %><br />
     <%= f.number_field :topic_id %>
@@ -30,4 +35,6 @@
   <div class="actions">
     <%= f.submit %>
   </div>
+<% end %>  
+
 <% end %>

@@ -218,8 +218,8 @@ module ApplicationHelper
     content_for :javascript do
       javascript_tag do
           "$('.sortable_item_entry').live('mouseenter mouseleave', function(event) {
-            $('#'+ $(this).attr('id') + '_buttons').css('display', 
-                                                        event.type == 'mouseenter' ? 'inline-block' : 'none');
+              $(this).children('.sortable_item_buttons:first')
+                     .css('display', event.type == 'mouseenter' ? 'inline-block' : 'none');
           });"      
       end
     end
@@ -251,7 +251,7 @@ module ApplicationHelper
             link_to(link_text.blank? ? 'unnamed' : link_text, link_target)
           end
           
-          c = content_tag(:div, {:id => "sortable_item_#{entry.id}_buttons", 
+          c = content_tag(:div, {:class => "sortable_item_buttons", 
                              :style => 'padding-left: 8px; display:none; vertical-align:top'},
                             :escape => false) do
             button_target = options[:namespace].nil? ? 

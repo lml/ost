@@ -27,6 +27,12 @@
     
     <div class="topic_sub_section">
       <div class="left_text">Questions:</div>
+      <%= link_to "Add...", new_topic_topic_exercise_path(topic), :remote => true %>
+      
+      <div id="topic_exercises_<%= topic.id %>">
+        <%= render :partial => 'topic_exercises/list', :locals => {:topic => topic} %>
+      </div>
+      
     </div>
   
   </div>
