@@ -1,0 +1,5 @@
+<%= assignment.starts_at.strftime("%-m/%-d/%y")%>-<%= assignment.ends_at.strftime("%-m/%-d/%y")%>, 
+
+<span class="hide_when_expanded">
+  <%= pluralize(assignment.assignment_topics.count, 'Topic') %>
+</span>

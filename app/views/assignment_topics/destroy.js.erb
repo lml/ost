@@ -1,0 +1,3 @@
+<%= unless_errors_in(@assignment_topic, 'attention') do %>
+  $('#uber_list_at_<%= @assignment_topic.assignment.id %>').children('#sortable_item_<%= @assignment_topic.id %>:first').remove();
+<% end %>

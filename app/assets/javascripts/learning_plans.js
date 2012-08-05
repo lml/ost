@@ -1,23 +1,23 @@
 $(document).ready(function() {
 
-  $('#topics').on("dblclick", '.topic_info', function(event){
-    $(this).children(".topic_body:first").toggle();
-    $(this).children(".topic_summary").toggle();
-  }); 
-  
-  $('#topics').on("mouseenter", '.topic_info', function(event){
-    $(this).children(".topic_buttons:first").show();
-  });
-
-  $('#topics').on("mouseleave", '.topic_info', function(event){
-    $(this).children(".topic_buttons:first").hide();
-  });
+ // $('#topics').on("dblclick", '.topic_info', function(event){
+ //   $(this).children(".topic_body:first").toggle();
+ //   $(this).children(".topic_summary").toggle();
+ // }); 
+ // 
+ // $('#topics').on("mouseenter", '.topic_info', function(event){
+ //   $(this).children(".topic_buttons:first").show();
+ // });
+ //
+ // $('#topics').on("mouseleave", '.topic_info', function(event){
+ //   $(this).children(".topic_buttons:first").hide();
+ // });
   
   //////////////
   
   $('#lp_items').on("dblclick", '.lp_item_info', function(event){
     $(this).children(".lp_item_body:first").toggle();
-    $(this).children(".lp_item_summary").toggle();
+    $(this).find(".lp_item_summary .hide_when_expanded").toggle();
   }); 
   
   $('#lp_items').on("mouseenter", '.lp_item_info', function(event){

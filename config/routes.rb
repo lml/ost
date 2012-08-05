@@ -85,7 +85,7 @@ Ost::Application.routes.draw do
   end
   
   resources :assignments do
-    resources :assignment_topics, :shallow => true
+    resources :assignment_topics, :shallow => true, :only => [:new, :create, :destroy]
   end
   
   resources :topics, :only => [] do

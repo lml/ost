@@ -5,7 +5,7 @@ class AssignmentTopic < ActiveRecord::Base
   validates :assignment_id, :presence => true
   validates :topic_id, :presence => true, :uniqueness => {:scope => :assignment_id}
   
-  attr_accessible
+  attr_accessible :assignment, :topic_id
   
   before_destroy :destroyable?
   
@@ -14,4 +14,26 @@ class AssignmentTopic < ActiveRecord::Base
       if assignment.student_assignments.any?
     self.errors.none?
   end
+  
+  #############################################################################
+  # Access control methods
+  #############################################################################
+  
+  def can_be_read_by?(user)
+    assignment.can_be_read_by?(user)
+  end
+    
+  def can_be_created_by?(user)
+    assignment.can_be_updated_by?(user)
+  end
+  
+  def can_be_updated_by?(user)
+    assignment.can_be_updated_by?(user)
+  end
+  
+  def can_be_destroyed_by?(user)
+    assignment.can_be_updated_by?(user)
+  end
+  
+
 end

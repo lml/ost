@@ -1,22 +1,24 @@
 
-<div id="topic_<%= topic.id %>" class="topic_info">
-  <span class="topic_heading">
+<div id="topic_<%= topic.id %>" class="lp_item_info">
+  <span class="lp_item_heading">
     <%= best_in_place_if present_user.can_update?(topic), 
                          topic, :name, :type => :input, :activator =>  "#edit_topic_#{topic.id}" %>
   </span>
   
-  <span class="topic_summary">
-    Resources: <%= topic.resources.count %>, Questions: <%= topic.topic_exercises.count %>
+  <span class="lp_item_summary">
+    <span class="hide_when_expanded">
+      <%= pluralize(topic.resources.count, "Resource") %>, <%= pluralize(topic.topic_exercises.count, "Exercise") %>
+    </span>
   </span>
   
-  <span class="topic_buttons">
+  <span class="lp_item_buttons">
     <%= edit_button nil, {:small => true, :remote => true, :id => "edit_topic_#{topic.id}"} if present_user.can_update?(topic) %>    
     <%= trash_button topic, {:small => true, :remote => true} if present_user.can_destroy?(topic) %>
   </span>
   
-  <div class="topic_body">
+  <div class="lp_item_body">
     
-    <div class="topic_sub_section">
+    <div class="lp_item_sub_section">
       <div class="left_text">Resources:</div>
       <%= link_to "Add...", new_topic_resource_path(topic), :remote => true %>
   
@@ -25,7 +27,7 @@
       </div>
     </div>
     
-    <div class="topic_sub_section">
+    <div class="lp_item_sub_section">
       <div class="left_text">Questions:</div>
       <%= link_to "Add...", new_topic_topic_exercise_path(topic), :remote => true %>
       

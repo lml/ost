@@ -1,0 +1,9 @@
+<%= uber_list assignment.assignment_topics, 
+              nil, 
+              { 
+                :hide_edit => true, 
+                :remote_buttons => true, 
+                :list_number => "at_#{assignment.id}"
+              } do |at| %>
+  <%= at.topic.name %>
+<% end %>

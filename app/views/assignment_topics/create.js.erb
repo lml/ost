@@ -1,0 +1,5 @@
+
+<%= unless_errors_in(@assignment_topic, 'message_dialog_errors') do %>
+  refresh_buttons();
+  $("#message_dialog").dialog('close');
+<% end %> 
