@@ -35,6 +35,86 @@
               :remote => true %>
 <% end %>
 
+<%= section "Scheduling" do %>
+
+  <div id="calendar"></div>
+
+  <% content_for :javascript do %>
+    <%= javascript_tag do %>
+    
+      function utcDateString(dd) {
+        
+        utc_offset_minutes = <%=
+          original_time_zone = Time.zone
+          Time.zone = @learning_plan.learning_plannable.time_zone
+          offset = Time.zone.now.utc_offset/60;
+          Time.zone = original_time_zone
+          offset
+        %>;
+        
+        utc = new Date(dd.getTime() + ((dd.getTimezoneOffset()+utc_offset_minutes) * 60000));
+        return utc; //.toUTCString();
+      }
+      
+      $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            timeFormat:  'h(:mm)t { - h(:mm)t}  ',
+            events: [
+              <% events = @learning_plan.assignments.each_with_index do |assignment, ii| %>
+                {
+                    title  : '<%= assignment.name %>',
+                    start  : '<%= assignment.starts_at.strftime("%Y-%m-%d %H:%M") %>',
+                    end  : '<%= assignment.ends_at.strftime("%Y-%m-%d %H:%M") %>',
+                    allDay : false,
+                    editable: true,
+                    ost_id : <%= assignment.id %>
+                }<%= ',' if ii != @learning_plan.assignments.count - 1%>
+              <% end %>
+            ],
+            eventClick: function(calEvent, jsEvent, view) {
+
+                    alert(utcDateString(calEvent.start));
+                },
+            eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+              $.ajax({
+                        type: "POST",
+                        url: '/assignments/' + event.ost_id,
+                        data: { _method:'PUT', assignment : {starts_at: event.start, ends_at: event.end} },
+                        dataType: 'json',
+                        success: function(msg) {
+                          alert( "Data Saved: " + msg );
+                        }
+              });
+              
+              //    alert(
+              //        event.title + " was moved " +
+              //        dayDelta + " days and " +
+              //        minuteDelta + " minutes."
+              //    );
+              //    
+              //    alert(
+              //     "OST ID is " + event.ost_id
+              //    );
+              //
+              //    if (allDay) {
+              //        alert("Event is now all-day");
+              //    }else{
+              //        alert("Event has a time-of-day");
+              //    }
+              //
+              //    if (!confirm("Are you sure about this change?")) {
+              //        revertFunc();
+              //    }
+
+               }
+        });        
+      });
+      
+    <% end %>
+  <% end %>
+
+<% end %>
+
 </div>
 
 <%

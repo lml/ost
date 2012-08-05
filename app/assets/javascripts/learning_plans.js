@@ -28,5 +28,8 @@ $(document).ready(function() {
     $(this).children(".lp_item_buttons:first").hide();
   });
   
+
+
+  
 });
 
