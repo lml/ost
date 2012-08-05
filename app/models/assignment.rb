@@ -30,6 +30,10 @@ class Assignment < ActiveRecord::Base
     student_assignments.any?
   end
   
+  def peers
+    learning_plan.assignments
+  end
+  
   #############################################################################
   # Access control methods
   #############################################################################
@@ -53,8 +57,19 @@ class Assignment < ActiveRecord::Base
 protected
 
   def initialize_start_end
-    self.starts_at = learning_plan.learning_plannable.start_date
+    latest_end = peers.blank? ? nil : peers.collect{|p| p.ends_at}.max
+
+    self.starts_at = latest_end.nil? ? learning_plan.learning_plannable.start_date : latest_end
     self.ends_at = self.starts_at + 7.days
+
+    if self.ends_at > learning_plan.learning_plannable.end_date
+      self.ends_at = learning_plan.learning_plannable.end_date
+      self.starts_at = self.ends_at - 7.days
+      
+      if self.starts_at < learning_plan.learning_plannable.start_date
+        self.starts_at = learning_plan.learning_plannable.start_date
+      end
+    end
   end
   
   def start_and_end_in_bounds
