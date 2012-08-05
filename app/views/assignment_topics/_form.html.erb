@@ -1,10 +1,17 @@
 <%= form_for([@assignment, @assignment_topic], :remote => true) do |f| %>
 
-  <div class="field">
-    Topic: 
-    <%= f.select :topic_id, options_from_collection_for_select(@assignment.learning_plan.topics, :id, :name)%>
-  </div>
-  <div class="actions">
-    <%= f.submit "Add this topic" %>
-  </div>
+  <% if @available_topics.empty? %>
+    <p>All available topics have already been added to this assignment!</p>
+  <% else %>
+    <p>Select the topic that you want to add to this assignment</p>
+
+    <div class="field">
+      Topic: 
+      <%= f.select :topic_id, options_from_collection_for_select(@available_topics, :id, :name)%>
+    </div>
+    <div class="actions">
+      <%= f.submit "Add this topic" %>
+    </div>
+  <% end %>
+  
 <% end %>

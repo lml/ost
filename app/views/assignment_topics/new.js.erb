@@ -1,8 +1,5 @@
 
 <%= message_dialog "Add Topics to this Assignment (#{@assignment.name})", {:width => 450, :height => 180} do %>
-  <%= content_tag :p do %>
-    Select the topic that you want to add to this assignment
-  <% end %>
   <%= render :partial => 'assignment_topics/form' %>
 <% end %>
 

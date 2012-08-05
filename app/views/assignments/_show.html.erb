@@ -18,7 +18,10 @@
     
     <div class="lp_item_sub_section">
       <div class="left_text">Topics:</div>
-      <%= render :partial => 'assignments/topic_list', :locals => {:assignment => assignment} %>
+      
+      <div id="assignment_<%= assignment.id %>_topic_list">
+        <%= render :partial => 'assignments/topic_list', :locals => {:assignment => assignment} %>
+      </div>
       <%= link_to "Add...", new_assignment_assignment_topic_path(assignment), :remote => true %>
     </div>
   

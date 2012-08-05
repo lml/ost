@@ -6,6 +6,9 @@ class AssignmentTopicsController < ApplicationController
   def new
     @assignment_topic = AssignmentTopic.new(:assignment => @assignment)
     raise SecurityTransgression unless present_user.can_create?(@assignment_topic)
+    
+    @existing_topics = @assignment.topics
+    @available_topics = @assignment.learning_plan.topics.reject{|t| @existing_topics.include?(t)}
   end
 
   def create
