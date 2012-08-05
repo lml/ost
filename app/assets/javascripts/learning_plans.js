@@ -34,6 +34,10 @@ $(document).ready(function() {
     var id = $(this).attr('data-assignment-id');
     var event = $('#calendar').fullCalendar( 'clientEvents', 'assignment_' + id )[0];
     $('#calendar').fullCalendar('gotoDate', event.start);
+    
+    $('html, body').animate({
+      scrollTop: $("#calendar").offset().top - 20
+    }, 200);
   });
   
 });
