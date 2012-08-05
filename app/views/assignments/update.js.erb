@@ -4,6 +4,7 @@
 
   var event = $('#calendar').fullCalendar( 'clientEvents', 'assignment_<%= @assignment.id %>' )[0];
   event.title = '<%= @assignment.name %>';
+  event.color = <%= @assignment.is_test ? "get_os_color('orange')" : "get_os_color('blue')" %>;
   $('#calendar').fullCalendar( 'updateEvent', event );
 
   refresh_buttons();

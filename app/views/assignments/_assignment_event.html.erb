@@ -5,5 +5,6 @@
                     allDay : false,
                     editable: true,
                     ost_id : <%= assignment.id %>,
-                    id: 'assignment_<%= assignment.id %>'
+                    id: 'assignment_<%= assignment.id %>',
+                    color: <%= assignment.is_test ? "get_os_color('orange')" : "get_os_color('blue')" %>
                 }
