@@ -1,23 +1,8 @@
-<%= form_for(@concept) do |f| %>
-  <% if @concept.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@concept.errors.count, "error") %> prohibited this concept from being saved:</h2>
-
-      <ul>
-      <% @concept.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_for([@learning_plan, @concept], :remote => true) do |f| %>
 
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :learning_plan_id %><br />
-    <%= f.number_field :learning_plan_id %>
   </div>
   <div class="actions">
     <%= f.submit %>

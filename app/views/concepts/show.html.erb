@@ -1,15 +1,11 @@
-<p id="notice"><%= notice %></p>
+<%= pageHeading "Questions for Concept: #{@concept.name}"%>
 
-<p>
-  <b>Name:</b>
-  <%= @concept.name %>
-</p>
+<ul>
+<% @concept.topic_exercises.each do |te| %>
+  <li><%= link_to te.exercise.quadbase_id, te.exercise.url %></li>
+<% end %>
+</ul>
 
-<p>
-  <b>Learning plan:</b>
-  <%= @concept.learning_plan_id %>
-</p>
-
-
-<%= link_to 'Edit', edit_concept_path(@concept) %> |
-<%= link_to 'Back', concepts_path %>
+<%
+  navitem { link_to "Concepts", learning_plan_concepts_path(@concept.learning_plan) }
+%>

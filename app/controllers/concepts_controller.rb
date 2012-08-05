@@ -1,84 +1,75 @@
 
 class ConceptsController < ApplicationController
-  # GET /concepts
-  # GET /concepts.json
-  def index
-    @concepts = Concept.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @concepts }
-    end
+  before_filter :get_learning_plan, :only => [:index, :new, :create, :sort]
+
+  def index
+    @concepts = @learning_plan.concepts
+    raise SecurityTransgression unless present_user.can_read_children?(@learning_plan, :concepts)
   end
 
-  # GET /concepts/1
-  # GET /concepts/1.json
   def show
     @concept = Concept.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @concept }
-    end
+    raise SecurityTransgression unless present_user.can_read?(@concept)
   end
 
-  # GET /concepts/new
-  # GET /concepts/new.json
   def new
-    @concept = Concept.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @concept }
-    end
+    @concept = Concept.new(:learning_plan => @learning_plan)
+    raise SecurityTransgression unless present_user.can_create?(@concept)
   end
 
-  # GET /concepts/1/edit
   def edit
     @concept = Concept.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@concept)
   end
 
-  # POST /concepts
-  # POST /concepts.json
   def create
     @concept = Concept.new(params[:concept])
+    @concept.learning_plan = @learning_plan
+    
+    raise SecurityTransgression unless present_user.can_create?(@concept)
 
-    respond_to do |format|
-      if @concept.save
-        format.html { redirect_to @concept, notice: 'Concept was successfully created.' }
-        format.json { render json: @concept, status: :created, location: @concept }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @concept.errors, status: :unprocessable_entity }
-      end
-    end
+    @concept.save
+        
+    render :template => 'concepts/create_update'
   end
 
-  # PUT /concepts/1
-  # PUT /concepts/1.json
   def update
     @concept = Concept.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@concept)
 
-    respond_to do |format|
-      if @concept.update_attributes(params[:concept])
-        format.html { redirect_to @concept, notice: 'Concept was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @concept.errors, status: :unprocessable_entity }
-      end
-    end
+    @concept.update_attributes(params[:concept])
+
+    render :template => 'concepts/create_update'
   end
 
-  # DELETE /concepts/1
-  # DELETE /concepts/1.json
   def destroy
     @concept = Concept.find(params[:id])
+    raise SecurityTransgression unless present_user.can_destroy?(@concept)
     @concept.destroy
+  end
+  
+  def sort
+    sorted_ids = params['sortable_item']
+    return if sorted_ids.blank?
 
-    respond_to do |format|
-      format.html { redirect_to concepts_url }
-      format.json { head :no_content }
+    sorted_ids.each do |sorted_id|
+      concept = Concept.find(sorted_id)
+      raise SecurityTransgression unless concept.learning_plan == @learning_plan
+      raise SecurityTransgression unless concept.can_be_sorted_by?(present_user)
     end
+
+    begin 
+      Concept.sort!(sorted_ids)
+    rescue
+      flash[:alert] = "An unknown error occurred."
+    end
+  end
+  
+  
+protected
+
+  def get_learning_plan
+    @learning_plan = LearningPlan.find(params[:learning_plan_id])
   end
 end

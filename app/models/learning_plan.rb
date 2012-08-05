@@ -36,4 +36,12 @@ class LearningPlan < ActiveRecord::Base
     learning_plannable.can_be_destroyed_by?(user)
   end
   
+  def children_can_be_read_by?(user, children_symbol)
+    case children_symbol
+    when :concepts
+      can_be_read_by?(user) || user.is_administrator?
+    end
+  end
+  
+  
 end

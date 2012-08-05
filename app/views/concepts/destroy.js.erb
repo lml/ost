@@ -1,0 +1,4 @@
+<%= unless_errors_in(@concept, 'attention') do %>
+  $("#uber_list_1").children("#sortable_item_<%= @concept.id %>").remove();
+<% end %>
+

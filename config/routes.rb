@@ -25,8 +25,6 @@ Ost::Application.routes.draw do
   # 
   # resources :topics
   # 
-  # resources :concepts
-  # 
   # resources :researchers
   # 
   # resources :educators
@@ -82,6 +80,9 @@ Ost::Application.routes.draw do
   resources :learning_plans do
     resources :topics, :shallow => true, :except => [:index, :show]
     resources :assignments, :shallow => true
+    resources :concepts, :shallow => true do
+      post 'sort', :on => :collection
+    end
   end
   
   resources :topics, :only => [] do

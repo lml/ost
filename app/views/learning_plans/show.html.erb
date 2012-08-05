@@ -32,4 +32,5 @@
 <%
   navitem(:can_update?, @learning_plan) {link_to 'Edit', edit_learning_plan_path(@learning_plan)}
   navitem { link_to "#{t(@learning_plan.learning_plannable.class)}", @learning_plan.learning_plannable }
+  navitem { link_to "Concepts", learning_plan_concepts_path(@learning_plan)}
 %>

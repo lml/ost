@@ -262,8 +262,12 @@ module ApplicationHelper
             button_target = options[:namespace].nil? ? 
                             entry : 
                             [options[:namespace], entry]
-            (options[:hide_edit] ? "".html_safe : edit_button(button_target, {:small => true, :remote => options[:remote_buttons]})) +
-            (options[:hide_trash] ? "".html_safe : trash_button(button_target, {:small => true, :remote => options[:remote_buttons]}))
+            (options[:hide_edit] || !present_user.can_update?(button_target) ? 
+              "".html_safe : 
+              edit_button(button_target, {:small => true, :remote => options[:remote_buttons]}) ) +
+            (options[:hide_trash] || !present_user.can_destroy?(button_target) ? 
+              "".html_safe : 
+              trash_button(button_target, {:small => true, :remote => options[:remote_buttons]}) )
           end
 
           a+b+c

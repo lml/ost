@@ -1,0 +1,8 @@
+<% learning_plan = @learning_plan || @concept.learning_plan %>
+
+<%= unless_errors_in(@concept, 'message_dialog_errors') do %>
+  $("#concept_list").html("<%= ej(render :partial => 'list', :locals => {:learning_plan => learning_plan})%>")
+
+  refresh_buttons();
+  $("#message_dialog").dialog('close');
+<% end %>

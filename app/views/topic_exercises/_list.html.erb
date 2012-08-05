@@ -7,6 +7,6 @@
                                      :sort_path => sort_topic_topic_exercises_path(topic), 
                                      :class => 'topic_sub_section'
                                    } do |te|
-    te.exercise.quadbase_id
+    "#{te.exercise.quadbase_id} #{te.concept.nil? ? '' : '(' + te.concept.name + ')'}"
   end 
 %>

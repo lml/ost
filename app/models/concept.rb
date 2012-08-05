@@ -9,9 +9,40 @@ class Concept < ActiveRecord::Base
   
   before_destroy :destroyable?
   
-  attr_accessible :name
+  attr_accessible :name, :learning_plan
   
   def destroyable?
-    raise NotYetImplemented
+    return true if topic_exercises.none?
+    errors.add(:base, "This concept cannot be deleted because it is attached to exercises.")
+    false
   end
+  
+  def editable?
+    topic_exercises.none?
+  end
+  
+  #############################################################################
+  # Access control methods
+  #############################################################################
+
+  def can_be_read_by?(user)
+    learning_plan.can_be_read_by?(user)
+  end
+
+  def can_be_created_by?(user)
+    learning_plan.can_be_updated_by?(user)
+  end
+
+  def can_be_updated_by?(user)
+    learning_plan.can_be_updated_by?(user) && editable?
+  end
+
+  def can_be_destroyed_by?(user)
+    learning_plan.can_be_updated_by?(user) && destroyable?
+  end
+  
+  def can_be_sorted_by?(user)
+    can_be_updated_by?(user)
+  end  
+  
 end
