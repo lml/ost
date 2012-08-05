@@ -1,0 +1,25 @@
+
+<div id="assignment_<%= assignment.id %>" class="lp_item_info">
+  <span class="lp_item_heading">
+    <%= assignment.name %>
+  </span>
+  
+  <span class="lp_item_summary">
+    
+  </span>
+  
+  <span class="lp_item_buttons">
+    <%= edit_button assignment, {:small => true, :remote => true} if present_user.can_update?(assignment) %>    
+    <%= trash_button assignment, {:small => true, :remote => true} if present_user.can_destroy?(assignment) %>
+  </span>
+  
+  <div class="lp_item_body">
+    
+    <div class="lp_item_sub_section">
+      <div class="left_text">Topics:</div>
+      <%= link_to "Add...", new_assignment_assignment_topic_path(assignment), :remote => true %>
+    </div>
+  
+  </div>
+  
+</div>

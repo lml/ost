@@ -693,6 +693,45 @@ span.antispam {display:none;}
   }
   
   .topic_body {
-//    display:none;
+    display:none;
   }
 }
+
+.lp_item_info {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  
+  .lp_item_buttons {
+    float:right;
+    display:none;
+  }
+  
+  .lp_item_summary {
+    padding-left: 15px;
+  }
+  
+  .lp_item_sub_section {
+    padding-top:5px;
+    padding-left: 15px;
+    
+    .left_text {
+      width:80px; 
+      display: inline-block;
+    }
+
+  }
+  
+  .lp_item_heading {
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0;
+  }
+  
+  .lp_item_body {
+    display:none;
+  }
+}
+

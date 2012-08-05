@@ -1,51 +1,24 @@
-<%= form_for(@assignment) do |f| %>
-  <% if @assignment.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@assignment.errors.count, "error") %> prohibited this assignment from being saved:</h2>
+<%= form_for([@learning_plan, @assignment], :remote => true) do |f| %>
 
-      <ul>
-      <% @assignment.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :learning_plan_id %><br />
-    <%= f.number_field :learning_plan_id %>
-  </div>
   <div class="field">
     <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :is_test %><br />
-    <%= f.check_box :is_test %>
-  </div>
-  <div class="field">
-    <%= f.label :is_open_book %><br />
-    <%= f.check_box :is_open_book %>
-  </div>
-  <div class="field">
-    <%= f.label :is_group_work_allowed %><br />
-    <%= f.check_box :is_group_work_allowed %>
-  </div>
-  <div class="field">
-    <%= f.label :is_ready %><br />
-    <%= f.check_box :is_ready %>
+    <%= f.text_field :name, :style => "width:90%"%>
   </div>
   <div class="field">
     <%= f.label :introduction %><br />
-    <%= f.text_area :introduction %>
+    <%= f.text_area :introduction, :rows => 3, :style => "width:90%" %>
   </div>
   <div class="field">
-    <%= f.label :starts_at %><br />
-    <%= f.datetime_select :starts_at %>
+    <%= f.check_box :is_test %> This is a test
   </div>
   <div class="field">
-    <%= f.label :ends_at %><br />
-    <%= f.datetime_select :ends_at %>
+    <%= f.check_box :is_open_book %> This is open book
+  </div>
+  <div class="field">
+    <%= f.check_box :is_group_work_allowed %> Group work is allowed
+  </div>
+  <div class="field">
+    <%= f.check_box :is_ready %> This is ready to be assigned    
   </div>
   <div class="actions">
     <%= f.submit %>

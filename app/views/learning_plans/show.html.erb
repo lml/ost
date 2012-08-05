@@ -4,6 +4,8 @@
   <%= @learning_plan.description %>
 <% end %>
 
+<div id="lp_items">
+
 <%= section "Topics" do %>
 
   <div id="topics">
@@ -22,12 +24,18 @@
 <%= section "Assignments" do %>
 
   <div id="assignments">
-    
+    <% @learning_plan.assignments.each do |assignment| %>
+      <%= render :partial => 'assignments/show', :locals => {:assignment => assignment} %>
+    <% end %>
   </div>
   
   <br/>
-  <%= link_to "Add new assignment ...", new_learning_plan_assignment_path(@learning_plan) %>
+  <%= link_to "Add new assignment ...", 
+              new_learning_plan_assignment_path(@learning_plan), 
+              :remote => true %>
 <% end %>
+
+</div>
 
 <%
   navitem(:can_update?, @learning_plan) {link_to 'Edit', edit_learning_plan_path(@learning_plan)}

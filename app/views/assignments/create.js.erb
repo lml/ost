@@ -1,0 +1,7 @@
+
+<%= unless_errors_in(@assignment, 'message_dialog_errors') do %>
+  $("#assignments").append("<%= ej(render :partial => 'assignments/show', :locals => {:assignment => @assignment})%>")
+
+  refresh_buttons();
+  $("#message_dialog").dialog('close');
+<% end %> 

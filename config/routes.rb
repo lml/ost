@@ -14,10 +14,9 @@ Ost::Application.routes.draw do
   # 
   # resources :student_assignments
   # 
-  # resources :topic_exercises
   # 
   # 
-  # resources :assignment_topics
+
   # 
   # resources :assignments
   # 
@@ -83,6 +82,10 @@ Ost::Application.routes.draw do
     resources :concepts, :shallow => true do
       post 'sort', :on => :collection
     end
+  end
+  
+  resources :assignments do
+    resources :assignment_topics, :shallow => true
   end
   
   resources :topics, :only => [] do
