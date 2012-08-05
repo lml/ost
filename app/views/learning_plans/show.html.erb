@@ -71,13 +71,9 @@
                   } 
           },
           dataType: 'json',
-          success: function(msg) {
-            alert( "Data Saved: " + msg );
-          },
+          success: function(msg) {},
           error: function(jqXHR, textStatus, errorThrown) {
-            alert(textStatus);
-            alert(jqXHR.responseText);
-            alert(errorThrown);
+            open_message_dialog(true, 150, 440, 'Error!', jQuery.parseJSON(jqXHR.responseText).join("<br/><br/>"));
             revertFunc();
           }
         });
@@ -86,6 +82,11 @@
       $(document).ready(function() {
         $('#calendar').fullCalendar({
             timeFormat:  'h(:mm)t { - h(:mm)t}  ',
+            header: {
+              left: 'title',
+              center: 'agendaWeek,month',
+              right: 'today prev,next'
+            },
             events: [
               <% events = @learning_plan.assignments.each_with_index do |assignment, ii| %>
                 {
@@ -99,21 +100,15 @@
               <% end %>
             ],
             eventClick: function(calEvent, jsEvent, view) {
-
-                    alert(timeInClassZone(calEvent.start));
-                },
+              $('#calendar').fullCalendar('changeView', view.name == 'agendaWeek' ? 'month' : 'agendaWeek' )
+                            .fullCalendar('gotoDate', calEvent.start);
+            },
             eventResize: function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) { 
               update_assignment_times(event.ost_id, event.start, event.end, revertFunc);
             },
             eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
               update_assignment_times(event.ost_id, event.start, event.end, revertFunc);
-
-              //
-              //    if (!confirm("Are you sure about this change?")) {
-              //        revertFunc();
-              //    }
-
-               }
+            }
         });        
       });
       

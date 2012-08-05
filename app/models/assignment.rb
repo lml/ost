@@ -12,6 +12,7 @@ class Assignment < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => {:scope => :learning_plan_id}
   validates :starts_at, :presence => true
   validates :ends_at, :presence => true, :date => {:after => :starts_at}
+  validate :start_and_end_in_bounds
   
   attr_accessible :ends_at, :introduction, :is_group_work_allowed, :is_open_book, 
                   :is_ready, :is_test, :learning_plan_id, :name, :starts_at, :learning_plan
@@ -55,5 +56,16 @@ protected
     self.starts_at = learning_plan.learning_plannable.start_date
     self.ends_at = self.starts_at + 7.days
   end
+  
+  def start_and_end_in_bounds
+    errors.add(:starts_at, "This assignment cannot start before its class starts.") \
+      if starts_at < learning_plan.learning_plannable.start_date
+        
+    errors.add(:ends_at, "This assignment cannot end after its class ends.") \
+      if ends_at > learning_plan.learning_plannable.end_date
+
+    errors.none?
+  end
+  
   
 end

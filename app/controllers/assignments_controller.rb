@@ -35,7 +35,7 @@ class AssignmentsController < ApplicationController
         format.json
       else
         format.js
-        format.json { render json: @learning_condition.errors, status: :unprocessable_entity }
+        format.json { render json: @assignment.errors.values.to_sentence, status: :unprocessable_entity }
       end
     end
   end
