@@ -34,3 +34,8 @@ function open_message_dialog(is_modal, height, width, title, body) {
   $("#message_dialog").dialog('open');
   $("#message_dialog").scrollTop(0);  
 }
+
+function get_os_color(color) {
+  
+  return $('#os_' + color).css('background-color');
+}

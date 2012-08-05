@@ -8,7 +8,7 @@
 
 body { 
   background-color: $background_color;
-  color: $osc_gray;
+  color: $os_gray;
   margin-top:0px;
 }
 
@@ -49,9 +49,9 @@ pre {
 
 a, #message_dialog_body a {
    text-decoration: none;
-   color: $osc_green;
+   color: $os_green;
    &:link {}
-   &:hover { color: $osc_orange;}
+   &:hover { color: $os_orange;}
    &:visited {}
    &:active { color: #000;}
 }
@@ -94,7 +94,7 @@ a, #message_dialog_body a {
 #tagline {
   float:right; 
   font-size:15px; 
-  color: $osc_green; 
+  color: $os_green; 
   font-family: arial, helvetica, sans-serif;
 }
 
@@ -133,7 +133,7 @@ $our_books_box_height: 20px;
         line-height: $our_books_box_height; //$nav_bar_height;
        
         &:hover {
-          color:$osc_green;
+          color:$os_green;
           //  background: url(navigation/nav_hover.gif);
         }
        
@@ -158,7 +158,7 @@ $our_books_box_height: 20px;
           position:absolute; 
           top:25px; 
           left:12px; 
-          background-color: $osc_green; 
+          background-color: $os_green; 
           width: 100%; 
           height: 4px;
         }
@@ -180,17 +180,17 @@ $our_books_box_height: 20px;
     }
     
     .our_books_button {
-      background-color: $osc_orange;
+      background-color: $os_orange;
       color: white;
       font-weight: bold;
       padding: 0 13px 0 14px;
      
         &:hover {
-         background-color: darken($osc_orange,10%);
+         background-color: darken($os_orange,10%);
         }
      
      // a {
-     //        background-color: $osc_orange;
+     //        background-color: $os_orange;
      //        
      //        
      //      }
@@ -199,14 +199,14 @@ $our_books_box_height: 20px;
 }
 
 .link_button {
-  background-color: $osc_orange;
+  background-color: $os_orange;
   color: white;
   font-weight: bold;
   padding: 5px 13px 5px 14px;
   font-size: 11px;
  
   &:hover {
-   background-color: $osc_dark_orange;
+   background-color: $os_dark_orange;
    color: white;
   }
 }
@@ -219,10 +219,10 @@ $our_books_box_height: 20px;
 }
 
 .link_button_gray {
-  background-color: $osc_gray;
+  background-color: $os_gray;
  
   &:hover {
-   background-color: darken($osc_gray,10%);
+   background-color: darken($os_gray,10%);
   }
 }
 
@@ -242,8 +242,8 @@ $our_books_box_height: 20px;
   a {
     font-size: 8.5px;
     text-decoration: none;
-    color: $osc_gray;
-    &:hover { color: $osc_green; }
+    color: $os_gray;
+    &:hover { color: $os_green; }
   }
   
   #copy {
@@ -256,7 +256,7 @@ $our_books_box_height: 20px;
    font-size:	16px;
    font-weight:	700;
    font-style: normal;
-   color: $osc_gray;
+   color: $os_gray;
 }
 
 #page_sub_heading {
@@ -273,7 +273,7 @@ $our_books_box_height: 20px;
    font-size: 16px;
    a { font-size: 16px; }
    margin:3px 0px;
-   color: $osc_dark_gray;
+   color: $os_dark_gray;
    padding-bottom: 8px;
 }
 
@@ -319,7 +319,7 @@ div.field label {
 
 .field_with_errors {
   padding: 2px;
-  background-color: $osc_dark_orange;
+  background-color: $os_dark_orange;
   display: table;
 }
 
@@ -349,7 +349,7 @@ div.field label {
 }
 
 .framed_content {
-   border: 1px solid $osc_gray;
+   border: 1px solid $os_gray;
    padding: 7px;
    margin: 10px;
 }
@@ -511,9 +511,9 @@ table.left_heading th, td {
 
 .item_box, .book_item_box {
   h3 {
-    color: $osc_dark_gray;
+    color: $os_dark_gray;
     font-weight:normal;
-    border-bottom: 1px solid $osc_green;
+    border-bottom: 1px solid $os_green;
   }
 }
 
@@ -539,13 +539,13 @@ table.left_heading th, td {
 
 #book_carousel li {
   a { 
-    color: $osc_dark_gray;
+    color: $os_dark_gray;
     img {
       border: 1px solid black;
     }
     
     &:hover {
-      color: $osc_green;
+      color: $os_green;
     }
   }
 }
@@ -557,7 +557,7 @@ table.left_heading th, td {
   color: white;
   
   #goal_banner {
-    background-color: $osc_green;
+    background-color: $os_green;
     width: 100%;
     margin-bottom: 14px;
     
@@ -577,7 +577,7 @@ table.left_heading th, td {
   }
 
   .highlight {
-    color: $osc_green;
+    color: $os_green;
   }
   
   .small_text {
@@ -586,7 +586,7 @@ table.left_heading th, td {
 }
 
 #goal_counter {
-  color: $osc_green;
+  color: $os_green;
 }
 
 ///////////////////////////
@@ -646,7 +646,7 @@ span.antispam {display:none;}
 }
 
 .required {
-  color: $osc_orange;
+  color: $os_orange;
 }
 
 
@@ -736,11 +736,17 @@ span.antispam {display:none;}
   }
 }
 
-$osc_green: rgb(118, 177, 67); //#77AF42; //#76b143; 
-$osc_orange: #F47641; //#f37643;
-$osc_gray: #5F6163; //#5e6062;
-$osc_yellow: #F4D019; //#f5d10e;
-$osc_blue: #233066; //#00246a;
-$osc_dark_orange: darken($osc_orange,10%);
+////////////////////////////////////////////////////////////////////////////////
+//
+// The following help to make the OS colors available to Javascript (they
+// are used in invisible elements that jQuery can read)
 
+.os_green { background-color: $os_green; }
+.os_orange { background-color: $os_orange; }
+.os_gray { background-color: $os_gray; }
+.os_yellow { background-color: $os_yellow; }
+.os_blue { background-color: $os_blue; }
+.os_dark_orange { background-color: $os_dark_orange; }
 
+//
+////////////////////////////////////////////////////////////////////////////////

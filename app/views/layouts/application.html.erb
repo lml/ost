@@ -87,6 +87,15 @@
 
   <body>    
     
+    <div style="display:none">
+      <div id="os_green" class="os_green"></div>
+      <div id="os_orange" class="os_orange"></div>
+      <div id="os_gray" class="os_gray"></div>
+      <div id="os_yellow" class="os_yellow"></div>
+      <div id="os_blue" class="os_blue"></div>
+      <div id="os_dark_orange" class="os_dark_orange"></div>
+    </div>
+    
     <div id="toolbox" style="position:absolute; top:0; left:0">
       <% if present_user.is_administrator? %>
         <%= link_to "Admin", admin_path %><br/>
