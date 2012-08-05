@@ -28,7 +28,16 @@ class AssignmentsController < ApplicationController
   def update
     @assignment = Assignment.find(params[:id])
     raise SecurityTransgression unless present_user.can_update?(@assignment)
-    @assignment.update_attributes(params[:assignment])
+    
+    respond_to do |format|
+      if @assignment.update_attributes(params[:assignment])
+        format.js
+        format.json
+      else
+        format.js
+        format.json { render json: @learning_condition.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy

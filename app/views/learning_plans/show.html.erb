@@ -59,6 +59,30 @@
         return klass_time;
       }
       
+      function update_assignment_times(id, starts_at, ends_at, revertFunc) {
+        $.ajax({
+          type: "POST",
+          url: '/assignments/' + id,
+          data: { 
+                  _method:'PUT', 
+                  assignment : { 
+                      starts_at: timeInClassZone(starts_at), 
+                      ends_at: timeInClassZone(ends_at) 
+                  } 
+          },
+          dataType: 'json',
+          success: function(msg) {
+            alert( "Data Saved: " + msg );
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            alert(textStatus);
+            alert(jqXHR.responseText);
+            alert(errorThrown);
+            revertFunc();
+          }
+        });
+      }
+      
       $(document).ready(function() {
         $('#calendar').fullCalendar({
             timeFormat:  'h(:mm)t { - h(:mm)t}  ',
@@ -78,38 +102,12 @@
 
                     alert(timeInClassZone(calEvent.start));
                 },
+            eventResize: function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) { 
+              update_assignment_times(event.ost_id, event.start, event.end, revertFunc);
+            },
             eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-              $.ajax({
-                        type: "POST",
-                        url: '/assignments/' + event.ost_id,
-                        data: { 
-                                _method:'PUT', 
-                                assignment : { 
-                                    starts_at: timeInClassZone(event.start), 
-                                    ends_at: timeInClassZone(event.end) 
-                                } 
-                        },
-                        dataType: 'json',
-                        success: function(msg) {
-                          alert( "Data Saved: " + msg );
-                        }
-              });
-              
-              //    alert(
-              //        event.title + " was moved " +
-              //        dayDelta + " days and " +
-              //        minuteDelta + " minutes."
-              //    );
-              //    
-              //    alert(
-              //     "OST ID is " + event.ost_id
-              //    );
-              //
-              //    if (allDay) {
-              //        alert("Event is now all-day");
-              //    }else{
-              //        alert("Event has a time-of-day");
-              //    }
+              update_assignment_times(event.ost_id, event.start, event.end, revertFunc);
+
               //
               //    if (!confirm("Are you sure about this change?")) {
               //        revertFunc();
