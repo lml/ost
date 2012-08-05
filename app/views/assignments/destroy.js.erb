@@ -1,1 +1,2 @@
 $("#assignment_<%= @assignment.id %>").remove();
+$('#calendar').fullCalendar( 'removeEvents', 'assignment_<%= @assignment.id %>' )

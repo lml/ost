@@ -2,6 +2,10 @@
 <%= unless_errors_in(@assignment, 'message_dialog_errors') do %>
   $("#assignment_<%= @assignment.id %>").replaceWith("<%= ej(render :partial => 'assignments/show', :locals => {:assignment => @assignment})%>");
 
+  var event = $('#calendar').fullCalendar( 'clientEvents', 'assignment_<%= @assignment.id %>' )[0];
+  event.title = '<%= @assignment.name %>';
+  $('#calendar').fullCalendar( 'updateEvent', event );
+
   refresh_buttons();
   $("#message_dialog").dialog('close');
 <% end %> 
