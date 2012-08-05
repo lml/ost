@@ -42,18 +42,21 @@
   <% content_for :javascript do %>
     <%= javascript_tag do %>
     
-      function utcDateString(dd) {
+      function timeInClassZone(dd) {
         
-        utc_offset_minutes = <%=
+        klass_minus_utc_hours = <%=
           original_time_zone = Time.zone
           Time.zone = @learning_plan.learning_plannable.time_zone
-          offset = Time.zone.now.utc_offset/60;
+          offset = Time.zone.now.utc_offset/3600;
           Time.zone = original_time_zone
           offset
         %>;
         
-        utc = new Date(dd.getTime() + ((dd.getTimezoneOffset()+utc_offset_minutes) * 60000));
-        return utc; //.toUTCString();
+        utc_minus_local_hours = dd.getTimezoneOffset()/60;
+        local_time = dd.getTime();
+        klass_time = new Date(local_time - (utc_minus_local_hours + klass_minus_utc_hours)*60*60*1000);
+        
+        return klass_time;
       }
       
       $(document).ready(function() {
@@ -73,13 +76,19 @@
             ],
             eventClick: function(calEvent, jsEvent, view) {
 
-                    alert(utcDateString(calEvent.start));
+                    alert(timeInClassZone(calEvent.start));
                 },
             eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
               $.ajax({
                         type: "POST",
                         url: '/assignments/' + event.ost_id,
-                        data: { _method:'PUT', assignment : {starts_at: event.start, ends_at: event.end} },
+                        data: { 
+                                _method:'PUT', 
+                                assignment : { 
+                                    starts_at: timeInClassZone(event.start), 
+                                    ends_at: timeInClassZone(event.end) 
+                                } 
+                        },
                         dataType: 'json',
                         success: function(msg) {
                           alert( "Data Saved: " + msg );
