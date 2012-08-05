@@ -152,7 +152,7 @@ module ApplicationHelper
     
     klass = "edit_button icon_only_button" + (options[:small] ? "_small" : "")
     
-    link_to "", target.nil? ? nil : edit_polymorphic_path(target), :class => klass, :id => options[:id], :remote => options[:remote]
+    link_to "", target.nil? ? nil : edit_polymorphic_path(target), :class => klass, :id => options[:id], :remote => options[:remote], :title => 'Edit'
   end
   
   def trash_button(target, options={})
@@ -169,7 +169,8 @@ module ApplicationHelper
                 :class => klass,
                 :confirm => options[:confirm], 
                 :method => :delete, 
-                :remote => options[:remote]
+                :remote => options[:remote],
+                :title => 'Delete'
   end
 
   def none_row(table_id, items_array, num_columns)

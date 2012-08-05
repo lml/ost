@@ -6,7 +6,8 @@ function refresh_buttons() {
    $('.button').button();
    $(".show_button").button({icons: {primary: "ui-icon-search"}, text: false });
    $(".edit_button").button({icons: {primary: "ui-icon-pencil"}, text: false });
-   $(".trash_button").button({icons: {primary: "ui-icon-trash"}, text: false });   
+   $(".trash_button").button({icons: {primary: "ui-icon-trash"}, text: false });
+   $(".calendar_button").button({icons: {primary: "ui-icon-calendar"}, text: false });
 }
 
 function remove_fields(link) {

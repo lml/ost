@@ -29,7 +29,12 @@ $(document).ready(function() {
   });
   
 
-
+  $('#lp_items').on('click', '.calendar_button', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('data-assignment-id');
+    var event = $('#calendar').fullCalendar( 'clientEvents', 'assignment_' + id )[0];
+    $('#calendar').fullCalendar('gotoDate', event.start);
+  });
   
 });
 

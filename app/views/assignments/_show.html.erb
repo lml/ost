@@ -9,7 +9,8 @@
   </span>
   
   <span class="lp_item_buttons">
-    <%= edit_button assignment, {:small => true, :remote => true} if present_user.can_update?(assignment) %>    
+    <%= edit_button assignment, {:small => true, :remote => true} if present_user.can_update?(assignment) %>  
+    <%= link_to "", nil, :class => 'calendar_button icon_only_button_small', :'data-assignment-id' => assignment.id, :title => 'Show on Calendar' %>
     <%= trash_button assignment, {:small => true, :remote => true} if present_user.can_destroy?(assignment) %>
   </span>
   
