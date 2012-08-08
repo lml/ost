@@ -23,15 +23,15 @@
 
 <%= section "Assignments" do %>
 
-  <div id="assignments">
-    <% @learning_plan.assignments.each do |assignment| %>
-      <%= render :partial => 'assignments/show', :locals => {:assignment => assignment} %>
+  <div id="assignment_plans">
+    <% @learning_plan.assignment_plans.each do |assignment_plan| %>
+      <%= render :partial => 'assignment_plans/show', :locals => {:assignment_plan => assignment_plan} %>
     <% end %>
   </div>
   
   <br/>
   <%= link_to "Add new assignment ...", 
-              new_learning_plan_assignment_path(@learning_plan), 
+              new_learning_plan_assignment_plan_path(@learning_plan), 
               :remote => true %>
 <% end %>
 
@@ -59,13 +59,13 @@
         return klass_time;
       }
       
-      function update_assignment_times(id, starts_at, ends_at, revertFunc) {
+      function update_assignment_plan_times(id, starts_at, ends_at, revertFunc) {
         $.ajax({
           type: "POST",
-          url: '/assignments/' + id,
+          url: '/assignment_plans/' + id,
           data: { 
                   _method:'PUT', 
-                  assignment : { 
+                  assignment_plan : { 
                       starts_at: timeInClassZone(starts_at), 
                       ends_at: timeInClassZone(ends_at) 
                   } 
@@ -89,10 +89,10 @@
               right: 'today prev,next'
             },
             events: [
-              <% events = @learning_plan.assignments.each_with_index do |assignment, ii| %>
-                <%= render :partial => 'assignments/assignment_event', 
-                           :locals => {:assignment => assignment} %>
-                <%= ',' if ii != @learning_plan.assignments.count - 1%>
+              <% events = @learning_plan.assignment_plans.each_with_index do |assignment_plan, ii| %>
+                <%= render :partial => 'assignment_plans/assignment_plan_event', 
+                           :locals => {:assignment_plan => assignment_plan} %>
+                <%= ',' if ii != @learning_plan.assignment_plans.count - 1%>
               <% end %>
             ],
             eventClick: function(calEvent, jsEvent, view) {
@@ -100,10 +100,10 @@
                             .fullCalendar('gotoDate', calEvent.start);
             },
             eventResize: function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) { 
-              update_assignment_times(event.ost_id, event.start, event.end, revertFunc);
+              update_assignment_plan_times(event.ost_id, event.start, event.end, revertFunc);
             },
             eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-              update_assignment_times(event.ost_id, event.start, event.end, revertFunc);
+              update_assignment_plan_times(event.ost_id, event.start, event.end, revertFunc);
             }
         });        
       });

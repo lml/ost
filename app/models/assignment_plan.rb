@@ -1,9 +1,12 @@
-class Assignment < ActiveRecord::Base
+class AssignmentPlan < ActiveRecord::Base
   belongs_to :learning_plan
-  has_many :student_assignments, :dependent => :destroy
-  has_many :assignment_topics, :dependent => :destroy
-  has_many :topics, :through => :assignment_topics
-  has_many :assignment_exercises, :dependent => :destroy, :order => :number
+  has_many :assignments, :dependent => :destroy
+  has_many :assignment_plan_topics, :dependent => :destroy
+  has_many :topics, :through => :assignment_plan_topics
+
+  # These move over to assignment.rb
+  # has_many :student_assignments, :dependent => :destroy
+  # has_many :assignment_exercises, :dependent => :destroy, :order => :number
   
   before_destroy :destroyable?
   
@@ -27,11 +30,11 @@ class Assignment < ActiveRecord::Base
   end
   
   def assigned?
-    student_assignments.any?
+    assignments.any?{|a| a.assigned?}
   end
   
   def peers
-    learning_plan.assignments
+    learning_plan.assignment_plans
   end
   
   #############################################################################

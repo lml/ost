@@ -1,0 +1,33 @@
+
+<div id="assignment_plan_<%= assignment_plan.id %>" class="lp_item_info">
+  <span class="lp_item_heading">
+    <%= assignment_plan.name %>
+  </span>
+  
+  <span class="lp_item_summary">
+    <%= render :partial => 'assignment_plans/summary', :locals => {:assignment_plan => assignment} %>
+  </span>
+  
+  <span class="lp_item_buttons">
+    <%= edit_button assignment_plan, {:small => true, :remote => true} if present_user.can_update?(assignment_plan) %>  
+    <%= link_to "", nil, 
+                    :class => 'calendar_button icon_only_button_small', 
+                    :'data-assignment-plan-id' => assignment_plan.id, 
+                    :title => 'Show on Calendar' %>
+    <%= trash_button assignment_plan, {:small => true, :remote => true} if present_user.can_destroy?(assignment_plan) %>
+  </span>
+  
+  <div class="lp_item_body">
+    
+    <div class="lp_item_sub_section">
+      <div class="left_text">Topics:</div>
+      
+      <div id="assignment_plan_<%= assignment_plan.id %>_topic_list">
+        <%= render :partial => 'assignment_plans/topic_list', :locals => {:assignment_plan => assignment_plan} %>
+      </div>
+      <%= link_to "Add...", new_assignment_plan_assignment_plan_topic_path(assignment_plan), :remote => true %>
+    </div>
+  
+  </div>
+  
+</div>

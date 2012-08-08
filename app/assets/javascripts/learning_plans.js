@@ -31,8 +31,8 @@ $(document).ready(function() {
 
   $('#lp_items').on('click', '.calendar_button', function(event) {
     event.preventDefault();
-    var id = $(this).attr('data-assignment-id');
-    var event = $('#calendar').fullCalendar( 'clientEvents', 'assignment_' + id )[0];
+    var id = $(this).attr('data-assignment-plan-id');
+    var event = $('#calendar').fullCalendar( 'clientEvents', 'assignment_plan_' + id )[0];
     $('#calendar').fullCalendar('gotoDate', event.start);
     
     $('html, body').animate({

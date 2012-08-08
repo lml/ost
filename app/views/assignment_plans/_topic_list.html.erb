@@ -1,0 +1,9 @@
+<%= uber_list assignment_plan.assignment_plan_topics, 
+              nil, 
+              { 
+                :hide_edit => true, 
+                :remote_buttons => true, 
+                :list_number => "at_#{assignment_plan.id}"
+              } do |apt| %>
+  <%= apt.topic.name %>
+<% end %>

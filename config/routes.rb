@@ -80,14 +80,14 @@ Ost::Application.routes.draw do
   
   resources :learning_plans do
     resources :topics, :shallow => true, :except => [:index, :show]
-    resources :assignments, :shallow => true
+    resources :assignment_plans, :shallow => true
     resources :concepts, :shallow => true do
       post 'sort', :on => :collection
     end
   end
   
-  resources :assignments do
-    resources :assignment_topics, :shallow => true, :only => [:new, :create, :destroy]
+  resources :assignment_plans do
+    resources :assignment_plan_topics, :shallow => true, :only => [:new, :create, :destroy]
   end
   
   resources :topics, :only => [] do

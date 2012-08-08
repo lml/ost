@@ -1,0 +1,6 @@
+<% assignment_plan = @assignment_plan_topic.assignment_plan %>
+
+<%= unless_errors_in(@assignment_plan_topic, 'attention') do %>
+  $("#assignment_plan_<%= assignment_plan.id %>").replaceWith("<%= ej(render :partial => 'assignment_plans/show', :locals => {:assignment_plan => assignment_plan}) %>");
+  refresh_buttons();
+<% end %> 

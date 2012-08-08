@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AssignmentTopicTest < ActiveSupport::TestCase
+class AssignmentPlanTopicTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

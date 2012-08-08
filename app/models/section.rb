@@ -39,8 +39,6 @@ class Section < ActiveRecord::Base
     case children_symbol
     when :students
       !user.is_anonymous? && (klass.is_educator?(user) || Researcher.is_one?(user) || user.is_administrator?)
-    # when :assignments
-    #   is_member?(user) || Researcher.is_one?(user)
     else
       false
     end

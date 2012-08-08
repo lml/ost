@@ -1,7 +1,7 @@
 class LearningPlan < ActiveRecord::Base
   belongs_to :learning_plannable, :polymorphic => true
   has_many :topics, :dependent => :destroy, :order => :number
-  has_many :assignments, :dependent => :destroy, :order => :starts_at
+  has_many :assignment_plans, :dependent => :destroy, :order => :starts_at
   has_many :concepts, :dependent => :destroy, :order => :number
   
   validates :learning_plannable_id, :presence => true

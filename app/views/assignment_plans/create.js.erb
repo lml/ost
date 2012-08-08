@@ -1,0 +1,12 @@
+
+<%= unless_errors_in(@assignment_plan, 'message_dialog_errors') do %>
+  $("#assignment_plans").append("<%= ej(render :partial => 'assignment_plans/show', :locals => {:assignment_plan => @assignment_plan})%>")
+
+  $('#calendar').fullCalendar( 'renderEvent', 
+                               <%= render :partial => 'assignment_plans/assignment_plan_event', 
+                                          :locals => {:assignment_plan => @assignment_plan} %>,
+                               true );
+                               
+  refresh_buttons();
+  $("#message_dialog").dialog('close');
+<% end %> 

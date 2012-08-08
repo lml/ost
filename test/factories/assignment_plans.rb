@@ -1,7 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :assignment do
+  factory :assignment_plan do
     learning_plan_id 1
     name "MyString"
     is_test false

@@ -1,8 +1,8 @@
 class Topic < ActiveRecord::Base
   belongs_to :learning_plan
   has_many :topic_exercises, :dependent => :destroy, :order => :number
-  has_many :assignment_topics, :dependent => :destroy
-  has_many :assignments, :through => :assignment_topics
+  has_many :assignment_plan_topics, :dependent => :destroy
+  has_many :assignment_plans, :through => :assignment_plan_topics
   has_many :resources, :order => :number
   
   before_destroy :destroyable?  
@@ -18,7 +18,7 @@ class Topic < ActiveRecord::Base
   
   def destroyable?
     self.errors.add(:base, "This topic cannot be destroyed because it is included in at least one assignment.") \
-      if assignment_topics.any?
+      if assignment_plan_topics.any?
     self.errors.none?
   end
   
@@ -27,7 +27,7 @@ class Topic < ActiveRecord::Base
   end
   
   def assigned?
-    assignments.any?{|a| a.assigned?}
+    assignment_plans.any?{|ap| ap.assigned?}
   end
   
   #############################################################################

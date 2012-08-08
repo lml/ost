@@ -1,0 +1,12 @@
+
+<%= unless_errors_in(@assignment_plan, 'message_dialog_errors') do %>
+  $("#assignment_plan_<%= @assignment_plan.id %>").replaceWith("<%= ej(render :partial => 'assignment_plans/show', :locals => {:assignment_plan => @assignment_plan})%>");
+
+  var event = $('#calendar').fullCalendar( 'clientEvents', 'assignment_plan_<%= @assignment_plan.id %>' )[0];
+  event.title = '<%= @assignment_plan.name %>';
+  event.color = <%= @assignment_plan.is_test ? "get_os_color('orange')" : "get_os_color('blue')" %>;
+  $('#calendar').fullCalendar( 'updateEvent', event );
+
+  refresh_buttons();
+  $("#message_dialog").dialog('close');
+<% end %> 

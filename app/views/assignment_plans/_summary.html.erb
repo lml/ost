@@ -1,0 +1,8 @@
+<% if false %>
+  <%# This temporarily removed until we can update it when someone drags on the calendar %>
+  <%= assignment_plan.starts_at.strftime("%-m/%-d/%y")%>-<%= assignment_plan.ends_at.strftime("%-m/%-d/%y")%>, 
+<% end %>
+
+<span class="hide_when_expanded">
+  <%= pluralize(assignment_plan.assignment_plan_topics.count, 'Topic') %>
+</span>
