@@ -46,6 +46,7 @@
         
         klass_minus_utc_hours = <%=
           original_time_zone = Time.zone
+          # This is not accounting for daylight vs standard time re the incoming time
           Time.zone = @learning_plan.learning_plannable.time_zone
           offset = Time.zone.now.utc_offset/3600;
           Time.zone = original_time_zone
@@ -56,9 +57,16 @@
         local_time = dd.getTime();
         klass_time = new Date(local_time - (utc_minus_local_hours + klass_minus_utc_hours)*60*60*1000);
         
+        alert (
+          "klass_minus_utc_hours: " + klass_minus_utc_hours + "\n" +
+          "utc_minus_local_hours: " + utc_minus_local_hours + "\n" +
+          "local_time:            " + local_time + "\n" +
+          "klass_time:            " + klass_time + "\n"
+        );
+        
         return klass_time;
       }
-      
+  
       function update_assignment_plan_times(id, starts_at, ends_at, revertFunc) {
         $.ajax({
           type: "POST",

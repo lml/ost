@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120808175809) do
+ActiveRecord::Schema.define(:version => 20120808200212) do
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -24,17 +24,17 @@ ActiveRecord::Schema.define(:version => 20120808175809) do
   add_index "assignment_exercises", ["assignment_id"], :name => "index_assignment_exercises_on_assignment_id"
   add_index "assignment_exercises", ["topic_exercise_id"], :name => "index_assignment_exercises_on_topic_exercise_id"
 
-  create_table "assignment_topics", :force => true do |t|
-    t.integer  "assignment_id", :null => false
-    t.integer  "topic_id",      :null => false
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+  create_table "assignment_plan_topics", :force => true do |t|
+    t.integer  "assignment_plan_id", :null => false
+    t.integer  "topic_id",           :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
-  add_index "assignment_topics", ["assignment_id"], :name => "index_assignment_topics_on_assignment_id"
-  add_index "assignment_topics", ["topic_id"], :name => "index_assignment_topics_on_topic_id"
+  add_index "assignment_plan_topics", ["assignment_plan_id"], :name => "index_assignment_plan_topics_on_assignment_plan_id"
+  add_index "assignment_plan_topics", ["topic_id"], :name => "index_assignment_plan_topics_on_topic_id"
 
-  create_table "assignments", :force => true do |t|
+  create_table "assignment_plans", :force => true do |t|
     t.integer  "learning_plan_id",                     :null => false
     t.string   "name",                  :limit => 100
     t.boolean  "is_test"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(:version => 20120808175809) do
     t.datetime "updated_at",                           :null => false
   end
 
-  add_index "assignments", ["learning_plan_id"], :name => "index_assignments_on_learning_plan_id"
+  add_index "assignment_plans", ["learning_plan_id"], :name => "index_assignments_on_learning_plan_id"
 
   create_table "cohorts", :force => true do |t|
     t.integer  "section_id"
