@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Settings:</b>
+  <%= @percent_scheduler.settings %>
+</p>
+
+<p>
+  <b>Learning condition:</b>
+  <%= @percent_scheduler.learning_condition_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_percent_scheduler_path(@percent_scheduler) %> |
+<%= link_to 'Back', percent_schedulers_path %>

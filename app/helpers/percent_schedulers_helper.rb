@@ -1,0 +1,2 @@
+module PercentSchedulersHelper
+end

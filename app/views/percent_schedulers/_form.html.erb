@@ -1,0 +1,25 @@
+<%= form_for(@percent_scheduler) do |f| %>
+  <% if @percent_scheduler.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@percent_scheduler.errors.count, "error") %> prohibited this percent_scheduler from being saved:</h2>
+
+      <ul>
+      <% @percent_scheduler.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :settings %><br />
+    <%= f.text_area :settings %>
+  </div>
+  <div class="field">
+    <%= f.label :learning_condition_id %><br />
+    <%= f.number_field :learning_condition_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

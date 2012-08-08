@@ -1,0 +1,25 @@
+<h1>Listing percent_schedulers</h1>
+
+<table>
+  <tr>
+    <th>Settings</th>
+    <th>Learning condition</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @percent_schedulers.each do |percent_scheduler| %>
+  <tr>
+    <td><%= percent_scheduler.settings %></td>
+    <td><%= percent_scheduler.learning_condition_id %></td>
+    <td><%= link_to 'Show', percent_scheduler %></td>
+    <td><%= link_to 'Edit', edit_percent_scheduler_path(percent_scheduler) %></td>
+    <td><%= link_to 'Destroy', percent_scheduler, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Percent scheduler', new_percent_scheduler_path %>

@@ -2,6 +2,8 @@ Ost::Application.routes.draw do
 
   
 
+  resources :percent_schedulers
+
   # resources :learning_conditions
   # 
   # resources :consent_forms

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120731221707) do
+ActiveRecord::Schema.define(:version => 20120808175809) do
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -175,6 +175,15 @@ ActiveRecord::Schema.define(:version => 20120731221707) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end
+
+  create_table "percent_schedulers", :force => true do |t|
+    t.text     "settings"
+    t.integer  "learning_condition_id"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  add_index "percent_schedulers", ["learning_condition_id"], :name => "index_percent_schedulers_on_learning_condition_id"
 
   create_table "registration_requests", :force => true do |t|
     t.integer  "user_id",                            :null => false
