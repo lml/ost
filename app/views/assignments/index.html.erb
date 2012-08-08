@@ -1,0 +1,25 @@
+<h1>Listing assignments</h1>
+
+<table>
+  <tr>
+    <th>Assignment plan</th>
+    <th>Cohort</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @assignments.each do |assignment| %>
+  <tr>
+    <td><%= assignment.assignment_plan_id %></td>
+    <td><%= assignment.cohort_id %></td>
+    <td><%= link_to 'Show', assignment %></td>
+    <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
+    <td><%= link_to 'Destroy', assignment, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Assignment', new_assignment_path %>
