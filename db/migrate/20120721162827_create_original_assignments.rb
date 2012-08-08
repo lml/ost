@@ -1,4 +1,4 @@
-class CreateAssignments < ActiveRecord::Migration
+class CreateOriginalAssignments < ActiveRecord::Migration
   def change
     create_table :assignments do |t|
       t.integer :learning_plan_id, :null => false
