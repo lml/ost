@@ -10,7 +10,7 @@ class AssignmentExercise < ActiveRecord::Base
   
   acts_as_numberable :container => :assignment
   
-  attr_accessible
+  attr_accessible :assignment, :topic_exercise
     
   def destroyable?
     raise NotYetImplemented

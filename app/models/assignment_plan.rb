@@ -30,11 +30,18 @@ class AssignmentPlan < ActiveRecord::Base
   end
   
   def assigned?
-    assignments.any?{|a| a.assigned?}
+    assignments.any?
+    # assignments.any?{|a| a.assigned?}
   end
   
   def peers
     learning_plan.assignment_plans
+  end
+  
+  # The assignment that starts first is the first plan and has number 0, the one
+  # that starts next is the second plan and has number 1, and so on.
+  def number
+    peers.index{|ap| ap.id == this_assignment_plan.id}
   end
   
   #############################################################################

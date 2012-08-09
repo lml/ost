@@ -1,0 +1,1 @@
+be rake db:test:purge db:test:load db:test:prepare

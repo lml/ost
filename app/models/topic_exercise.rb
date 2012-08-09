@@ -21,7 +21,9 @@ class TopicExercise < ActiveRecord::Base
   end
   
   def assigned?
-    StudentExercise.joins{assignment_exercise.topic_exercise}.where{assignment_exercise.topic_exercise_id == id}.any?
+    assignment_exercises.any?
+    # The following works but is no longer the way we do it -- keeping in case we need an example
+    # StudentExercise.joins{assignment_exercise.topic_exercise}.where{assignment_exercise.topic_exercise_id == id}.any?
   end
   
   def changing_topic_not_assigned    

@@ -5,7 +5,7 @@ FactoryGirl.define do
     learning_plannable_id 1
     learning_plannable_type "MyString"
     # learning_plannable FactoryGirl.create(:course)
-    name "Learning Plan #{FactoryGirl.generate(:unique_number)}"
+    sequence(:name)  {|n| "Learning Plan #{n}"}
     description Faker::Lorem::paragraphs(1).join
   end
 end
