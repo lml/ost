@@ -48,12 +48,11 @@ class PercentScheduler < ActiveRecord::Base
           topic_exercises = topic_exercises.take( num_topic_exercises_to_use )
 
           topic_exercises.each do |topic_exercise|
-            assignment.assignment_exercises <<
-              AssignmentExercise.new(:topic_exercise => topic_exercise)
-              
-            # AssignedExercise.create(:assignment => assignment,
-            #                         :topic_exercise => topic_exercise)
-            # TODO add tags here!
+            assignment_exercise = AssignmentExercise.new(:topic_exercise => topic_exercise)
+            
+            assignment_exercise.add_tags(rule[:tags])
+            
+            assignment.assignment_exercises << assignment_exercise
           end        
         end 
       

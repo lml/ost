@@ -46,7 +46,9 @@ class PercentSchedulerTest < ActiveSupport::TestCase
     
     # Make a scheduler
 
-    scheduler = PercentScheduler.new(:schedules => [[{:percent => 50}, {:percent => 30}, {:percent => 20}]])
+    scheduler = PercentScheduler.new(:schedules => [[{:percent => 50, :tags => 'E1'}, 
+                                                     {:percent => 30, :tags => 'E2'}, 
+                                                     {:percent => 20, :tags => 'E3, howdy'}]])
     
     cohort = FactoryGirl.create(:cohort,
                                 :klass => lp.klass)
@@ -63,9 +65,9 @@ class PercentSchedulerTest < ActiveSupport::TestCase
     # Here are the URLs/tags that we expect in each assignment
 
     expected = [
-      [ ["q.a.1", ''], ["q.a.2", ''], ["q.a.3", ''] ],
-      [ ["q.b.1", ''], ["q.b.2", ''], ["q.c.1", ''], ["q.c.2", ''], ["q.c.3", ''], ["q.a.4", ''] ],
-      [ ["q.d.1", ''], ["q.d.2", ''], ["q.d.3", ''], ["q.d.4", ''], ["q.d.5", ''], ["q.b.3", ''], ["q.c.4", ''], ["q.a.5", '']]
+      [ ["q.a.1", 'e1'], ["q.a.2", 'e1'], ["q.a.3", 'e1'] ],
+      [ ["q.b.1", 'e1'], ["q.b.2", 'e1'], ["q.c.1", 'e1'], ["q.c.2", 'e1'], ["q.c.3", 'e1'], ["q.a.4", 'e2'] ],
+      [ ["q.d.1", 'e1'], ["q.d.2", 'e1'], ["q.d.3", 'e1'], ["q.d.4", 'e1'], ["q.d.5", 'e1'], ["q.b.3", 'e2'], ["q.c.4", 'e2'], ["q.a.5", ['e3', 'howdy'] ]]
     ]
 
     # Make sure expected == actual
@@ -73,6 +75,9 @@ class PercentSchedulerTest < ActiveSupport::TestCase
     assignments.each_with_index do |assignment, ii|
       assignment.assignment_exercises.each_with_index do |ae, jj|
         assert_equal expected[ii][jj][0], ae.topic_exercise.exercise.url
+        [expected[ii][jj][1]].flatten.each do |expected_tag| 
+          assert ae.has_tag?(expected_tag)
+        end 
       end
     end
     

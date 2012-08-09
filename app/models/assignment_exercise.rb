@@ -3,6 +3,8 @@ class AssignmentExercise < ActiveRecord::Base
   belongs_to :topic_exercise
   has_many :student_exercises
   
+  acts_as_taggable
+  
   # only checking for the assignment_id on update so that we can build up an
   # entire assignment and save it all together (assignment gets saved last, so
   # the assignment ID doesn't exist in time to be approved by this validation)
@@ -17,5 +19,14 @@ class AssignmentExercise < ActiveRecord::Base
     
   def destroyable?
     raise NotYetImplemented
+  end
+  
+  # Expects comma-delimted tags, eg. "tag1, tag2"
+  def add_tags(tags)
+    tag_list.add(tags, :parse => true) if !tags.blank?
+  end
+  
+  def has_tag?(tag)
+    tag_list.include?(tag.downcase)
   end
 end
