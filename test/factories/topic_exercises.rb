@@ -2,9 +2,8 @@
 
 FactoryGirl.define do
   factory :topic_exercise do
-    topic_id 1
-    exercise_id 1
-    concept_id 1
-    number 1
+    topic
+    exercise
+    concept 
   end
 end

@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :cohort do
-    section
+    klass
   end
 end

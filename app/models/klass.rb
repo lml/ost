@@ -1,7 +1,7 @@
 class Klass < ActiveRecord::Base
   belongs_to :course
   belongs_to :consent_form
-  has_one :learning_plan, :as => :learning_plannable, :dependent => :destroy
+  has_one :learning_plan, :dependent => :destroy
   has_many :sections, :dependent => :destroy
   has_many :cohorts, :dependent => :destroy, :order => :number
   has_many :educators, :dependent => :destroy

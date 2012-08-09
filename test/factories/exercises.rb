@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :exercise do
-    url "MyString"
+    sequence(:url)  {|n| "http://example.com/#{n}"}
     is_dynamic false
     content_cache "MyText"
   end

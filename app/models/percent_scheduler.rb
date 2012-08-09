@@ -5,7 +5,7 @@ class PercentScheduler < ActiveRecord::Base
   
   # todo validates :schedules
   
-  attr_accessible :learning_condition, :settings
+  attr_accessible :learning_condition, :schedules
   
   # TODO instead of taking a cohort this could take a cohort or a study
   # result would still be an assignmnent, but if the assignment is for a study
@@ -23,7 +23,7 @@ class PercentScheduler < ActiveRecord::Base
     # preview it)
     assignment = Assignment.new(:assignment_plan => assignment_plan,
                                 :cohort => cohort)
-    
+    # debugger
     schedule.each do |rule|    
       topics = current_assignment_plan.topics      
       num_plan_exercises = topics.collect{|t| t.topic_exercises.size}.sum
@@ -35,21 +35,22 @@ class PercentScheduler < ActiveRecord::Base
           num_topic_exercises = topic_exercises.size
         
           max_num_exercises_from_this_topic = 
+            max_num_assignment_exercises.nil? ?
+            num_topic_exercises :
             min(num_topic_exercises, 
                 num_topic_exercises/num_plan_exercises * max_num_assignment_exercises)
         
           # Don't round yet (?)
-          num_topic_exercises_to_use = floor(rule[:percent]/100 * max_num_exercises_from_this_topic)
+          num_topic_exercises_to_use = (rule[:percent]/100.0 * max_num_exercises_from_this_topic).floor
         
           # Ignore topic exercises that have previously been assigned
           topic_exercises.reject!{|te| te.assigned?}        
           topic_exercises = topic_exercises.take( num_topic_exercises_to_use )
 
           topic_exercises.each do |topic_exercise|
-            assignment.assigned_exercises <<
-              AssignedExercise.new(:assignment => assignment,
-                                   :topic_exercise => topic_exercise)
-
+            assignment.assignment_exercises <<
+              AssignmentExercise.new(:topic_exercise => topic_exercise)
+              
             # AssignedExercise.create(:assignment => assignment,
             #                         :topic_exercise => topic_exercise)
             # TODO add tags here!
@@ -57,8 +58,8 @@ class PercentScheduler < ActiveRecord::Base
         end 
       
       end
-      
-      current_assignment_plan = assignment_plan.predecessor
+
+      current_assignment_plan = current_assignment_plan.predecessor
       break if current_assignment_plan.nil?
     end
     

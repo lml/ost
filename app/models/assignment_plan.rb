@@ -16,6 +16,7 @@ class AssignmentPlan < ActiveRecord::Base
   validates :starts_at, :presence => true
   validates :ends_at, :presence => true, :date => {:after => :starts_at}
   validate :start_and_end_in_bounds
+  validates :max_num_exercises, :allow_nil => true, :numericality => { :greater_than_or_equal_to => 0 }
   
   attr_accessible :ends_at, :introduction, :is_group_work_allowed, :is_open_book, 
                   :is_ready, :is_test, :learning_plan_id, :name, :starts_at, :learning_plan
@@ -41,7 +42,15 @@ class AssignmentPlan < ActiveRecord::Base
   # The assignment that starts first is the first plan and has number 0, the one
   # that starts next is the second plan and has number 1, and so on.
   def number
-    peers.index{|ap| ap.id == this_assignment_plan.id}
+    peers.index{|ap| ap.id == self.id}
+  end
+  
+  def predecessor
+    AssignmentPlan.joins{learning_plan}
+                  .where{learning_plan.id == my{learning_plan}.id}
+                  .where{starts_at.lt my{starts_at}}
+                  .order{starts_at.desc}
+                  .first
   end
   
   #############################################################################
@@ -66,28 +75,30 @@ class AssignmentPlan < ActiveRecord::Base
   
 protected
 
-  def initialize_start_end
+  def initialize_start_end  
+    return if !starts_at.nil? && !ends_at.nil?
+    
     latest_end = peers.blank? ? nil : peers.collect{|p| p.ends_at}.max
 
-    self.starts_at = latest_end.nil? ? learning_plan.learning_plannable.start_date : latest_end
+    self.starts_at = latest_end.nil? ? learning_plan.klass.start_date : latest_end
     self.ends_at = self.starts_at + 7.days
 
-    if self.ends_at > learning_plan.learning_plannable.end_date
-      self.ends_at = learning_plan.learning_plannable.end_date
+    if self.ends_at > learning_plan.klass.end_date
+      self.ends_at = learning_plan.klass.end_date
       self.starts_at = self.ends_at - 7.days
       
-      if self.starts_at < learning_plan.learning_plannable.start_date
-        self.starts_at = learning_plan.learning_plannable.start_date
+      if self.starts_at < learning_plan.klass.start_date
+        self.starts_at = learning_plan.klass.start_date
       end
     end
   end
   
   def start_and_end_in_bounds
     errors.add(:starts_at, "This assignment cannot start before its class starts.") \
-      if starts_at < learning_plan.learning_plannable.start_date
+      if starts_at < learning_plan.klass.start_date
         
     errors.add(:ends_at, "This assignment cannot end after its class ends.") \
-      if ends_at > learning_plan.learning_plannable.end_date
+      if ends_at > learning_plan.klass.end_date
 
     errors.none?
   end

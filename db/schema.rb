@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120808224952) do
+ActiveRecord::Schema.define(:version => 20120809182958) do
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20120808224952) do
     t.float    "grade_weight"
     t.datetime "created_at",                           :null => false
     t.datetime "updated_at",                           :null => false
+    t.integer  "max_num_exercises"
   end
 
   add_index "assignment_plans", ["learning_plan_id"], :name => "index_assignments_on_learning_plan_id"
@@ -159,15 +160,14 @@ ActiveRecord::Schema.define(:version => 20120808224952) do
   add_index "learning_conditions", ["cohort_id"], :name => "index_learning_conditions_on_cohort_id"
 
   create_table "learning_plans", :force => true do |t|
-    t.integer  "learning_plannable_id",                 :null => false
-    t.string   "learning_plannable_type", :limit => 40, :null => false
+    t.integer  "klass_id",    :null => false
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
-  add_index "learning_plans", ["learning_plannable_id", "learning_plannable_type"], :name => "learning_plannable_index"
+  add_index "learning_plans", ["klass_id"], :name => "index_learning_plans_on_klass_id"
 
   create_table "organization_managers", :force => true do |t|
     t.integer  "organization_id", :null => false

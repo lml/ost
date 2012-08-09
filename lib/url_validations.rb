@@ -27,6 +27,10 @@ end
 
 class UrlFormatValidator < ActiveModel::EachValidator
   def validate_each(object, attribute, value)
+    
+    return if Rails.configuration.respond_to?(:enable_url_format_validations) &&
+              !Rails.configuration.enable_url_format_validations
+    
     config = { :message => "is not formatted correctly", 
                :regex => /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix }
     config.update(options)

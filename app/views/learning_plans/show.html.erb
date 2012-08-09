@@ -47,7 +47,7 @@
         klass_minus_utc_hours = <%=
           original_time_zone = Time.zone
           # This is not accounting for daylight vs standard time re the incoming time
-          Time.zone = @learning_plan.learning_plannable.time_zone
+          Time.zone = @learning_plan.klass.time_zone
           offset = Time.zone.now.utc_offset/3600;
           Time.zone = original_time_zone
           offset
@@ -125,6 +125,6 @@
 
 <%
   navitem(:can_update?, @learning_plan) {link_to 'Edit', edit_learning_plan_path(@learning_plan)}
-  navitem { link_to "#{t(@learning_plan.learning_plannable.class)}", @learning_plan.learning_plannable }
+  navitem { link_to "#{t(@learning_plan.klass.class)}", @learning_plan.klass }
   navitem { link_to "Concepts", learning_plan_concepts_path(@learning_plan)}
 %>

@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :concept do
-    name "MyString"
-    learning_plan_id 1
+    sequence(:name)  {|n| "Concept #{n}"}
+    learning_plan
   end
 end

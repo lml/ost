@@ -1,16 +1,15 @@
 class LearningPlan < ActiveRecord::Base
-  belongs_to :learning_plannable, :polymorphic => true
+  belongs_to :klass
   has_many :topics, :dependent => :destroy, :order => :number
   has_many :assignment_plans, :dependent => :destroy, :order => :starts_at
   has_many :concepts, :dependent => :destroy, :order => :number
   
-  validates :learning_plannable_id, :presence => true
-  validates :learning_plannable_type, :presence => true
+  validates :klass_id, :presence => true
   validates :name, :presence => true
   
   before_destroy :destroyable?
   
-  attr_accessible :description, :name #:learning_plannable_id, :learning_plannable_type
+  attr_accessible :description, :name
   
   def destroyable?
     true # depends on children freaking out if they shouldn't be destroyed
@@ -21,7 +20,7 @@ class LearningPlan < ActiveRecord::Base
   #############################################################################
   
   def can_be_read_by?(user)
-    learning_plannable.can_be_read_by?(user)
+    klass.can_be_read_by?(user)
   end
     
   def can_be_created_by?(user)
@@ -29,11 +28,11 @@ class LearningPlan < ActiveRecord::Base
   end
   
   def can_be_updated_by?(user)
-    learning_plannable.can_be_updated_by?(user)
+    klass.can_be_updated_by?(user)
   end
   
   def can_be_destroyed_by?(user)
-    learning_plannable.can_be_destroyed_by?(user)
+    klass.can_be_destroyed_by?(user)
   end
   
   def children_can_be_read_by?(user, children_symbol)

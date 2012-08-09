@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :assignment_plan_topic do
-    assignment_id 1
-    topic_id 1
+    assignment_plan
+    topic
   end
 end

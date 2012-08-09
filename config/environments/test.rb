@@ -36,4 +36,7 @@ Ost::Application.configure do
   config.active_support.deprecation = :stderr
   
   config.enable_recaptcha = false
+  
+  config.enable_url_existence_validations = false
+  config.enable_url_format_validations = false
 end

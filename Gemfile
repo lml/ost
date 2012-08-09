@@ -47,6 +47,7 @@ group :development, :test do
   gem 'timecop', '~> 0.3.5'
   gem 'thin', '~> 1.4.1'
   gem 'quiet_assets', '~> 1.0.1'
+  gem 'cheat'
 end
 
 group :production do

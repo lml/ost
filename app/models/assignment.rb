@@ -4,7 +4,9 @@ class Assignment < ActiveRecord::Base
   has_many :student_assignments, :dependent => :destroy
   has_many :assignment_exercises, :dependent => :destroy
   
-  attr_accessible :assignment_plan, :cohort
+  attr_accessible :assignment_plan, :cohort, :assignment_exercises_attributes
+  
+  accepts_nested_attributes_for :assignment_exercises
   
   before_destroy :destroyable?
   
