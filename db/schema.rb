@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120809225912) do
+ActiveRecord::Schema.define(:version => 20120810033835) do
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -226,6 +226,14 @@ ActiveRecord::Schema.define(:version => 20120809225912) do
   end
 
   add_index "resources", ["topic_id"], :name => "index_resources_on_topic_id"
+
+  create_table "schedulers", :force => true do |t|
+    t.text     "settings"
+    t.integer  "learning_condition_id"
+    t.string   "type"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
 
   create_table "sections", :force => true do |t|
     t.integer  "klass_id",   :null => false

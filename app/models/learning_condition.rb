@@ -1,8 +1,13 @@
 class LearningCondition < ActiveRecord::Base
   belongs_to :cohort
-  # belongs_to :klass # for convenience
   
-  attr_accessible #:klass_id
+  has_one :scheduler
+  
+  attr_accessible
+  
+  def build_assignment(assignment_plan)
+    scheduler.build_assignment(assignment_plan, cohort)
+  end
   
   def notify_student_exercise_event(student_exercise, event) # event is an enum
     # Events:
@@ -52,6 +57,6 @@ class LearningCondition < ActiveRecord::Base
     
     cohort.klass.is_controlled_experiment ? 
       Researcher.is_one?(user) || user.is_administrator? :
-      cohort.klass.is_instructor(user) || user.is_administrator?
+      cohort.klass.is_instructor?(user) || user.is_administrator?
   end
 end

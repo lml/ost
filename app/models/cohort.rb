@@ -14,7 +14,7 @@ class Cohort < ActiveRecord::Base
   attr_accessible :section
   
   def name
-    name.blank? ? "Cohort #{number}" : name
+    read_attribute(:name) || "Cohort #{number}"
   end
   
   #############################################################################

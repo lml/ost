@@ -1,0 +1,5 @@
+
+<%= pageHeading "Scheduler Editing (#{scheduler_name(@scheduler)})"%>
+
+<%= render :partial => "#{view_dir(@scheduler)}/form", 
+           :locals => {:scheduler => @scheduler} %>

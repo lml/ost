@@ -1,0 +1,22 @@
+
+<p>Your scheduler is what determines which students will get what exercises when.  Different learning strategies dictate different approaches to scheduling.  Choose the schedule below that fits your needs best.</p>
+
+<p>Note: if you already have a scheduler, hitting the 'Choose' button below will replace it with what you've selected.</p>
+
+<%= form_tag(learning_condition_schedulers_path(@learning_condition), :method => :post) do %>
+  
+  <table class="list">
+    <tr>
+      <th width="175">Type</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><%= radio_button_tag(:type, "percent") %> <%= scheduler_name(PercentScheduler.new) %></td>
+      <td>This scheduler lets you schedule exercises for assignments by using portions of the exercises defined for this assignment and for previous assignments.  Arbitrary tags (labels) can be applied to each assigned exercise to cause different behavior in other parts of the learning experience (e.g. how feedback is given for particular problems).</td>
+    </tr>    
+  </table>
+    
+  <br/>
+  <%= submit_tag "Choose" %>
+<% end %>
+

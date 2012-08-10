@@ -1,2 +1,2 @@
-module LearningConditionsHelper
+module LearningConditionsHelper  
 end

@@ -1,23 +1,40 @@
-<h1>Listing learning_conditions</h1>
+<%= pageHeading "Learning Conditions" %>
 
-<table>
-  <tr>
-    <th>Cohort</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<p><%= link_to "Here be dragons!", "http://en.wikipedia.org/wiki/Here_be_dragons" %></p>
 
-<% @learning_conditions.each do |learning_condition| %>
-  <tr>
-    <td><%= learning_condition.cohort_id %></td>
-    <td><%= link_to 'Show', learning_condition %></td>
-    <td><%= link_to 'Edit', edit_learning_condition_path(learning_condition) %></td>
-    <td><%= link_to 'Destroy', learning_condition, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+<p>We strongly advise that you chat with the OpenStax team before making a bunch 
+   of changes here, as the settings below strongly impact the experience that your
+   students will have on <%= SITE_NAME %>.</p>
+
+<% @klass.cohorts.each do |cohort| %>
+  
+  <%= section "Cohort: #{cohort.name}" do %>
+        
+    <% learning_condition = cohort.learning_condition %>
+        
+    <%= sub_section "Scheduler" do %>
+    
+      <% scheduler = learning_condition.scheduler %>
+      
+      <div id="scheduler">
+        <% if scheduler.nil? %>
+          <p>No scheduler selected</p>
+        <% else %>
+          <%= render :partial => "#{view_dir(scheduler)}/show", :locals => {:scheduler => scheduler} %>
+        <% end %>
+      </div>
+      
+      <%= link_to 'Edit', edit_scheduler_path(scheduler) if !scheduler.nil? %> |
+      <%= link_to scheduler.nil? ? 'Choose ...' : 'Change ...', 
+                  new_learning_condition_scheduler_path(learning_condition),
+                  :remote => true %>
+
+    <% end %>
+    
+    <%= sub_section "Feedback Rules" do %>
+    
+    <% end %>
+    
+  <% end %>
+
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Learning condition', new_learning_condition_path %>

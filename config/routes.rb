@@ -1,12 +1,10 @@
 Ost::Application.routes.draw do
 
-  
+  # resources :assignments
 
-  resources :assignments
+  # resources :percent_schedulers
 
-  resources :percent_schedulers
 
-  # resources :learning_conditions
   # 
   # resources :consent_forms
   # 
@@ -64,6 +62,11 @@ Ost::Application.routes.draw do
     resources :students, :shallow => true, :only => [:index, :show, :update]    
     resources :sections, :shallow => true
     resources :registration_requests, :shallow => true, :only => [:new, :index]
+    resources :learning_conditions, :shallow => true, :only => [:index]
+  end
+  
+  resources :learning_conditions, :only => [] do
+    resources :schedulers, :shallow => true, :except => [:index, :show, :destroy]
   end
   
   resources :students, :only => [] do

@@ -35,7 +35,7 @@
 </div>
 
 
-<%= section "Course Information" do %>
+<%= section "Class Information" do %>
 
   <% 
     educators = @klass.educators
@@ -148,4 +148,5 @@
   navitem(present_user.can_update?(@klass)) { link_to('Edit Class', edit_klass_path(@klass)) }
   navitem(:can_read?, @klass.learning_plan) { link_to("Learning Plan", @klass.learning_plan) }
   navitem(:can_read_children?, @klass, :sections) { link_to("Sections", klass_sections_path(@klass)) }
+  navitem { link_to("Learning Conditions", klass_learning_conditions_path(@klass)) }
 %>

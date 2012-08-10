@@ -14,7 +14,8 @@ class ApplicationController < ActionController::Base
   helper_method :user_is_disabled?,
                 :site_in_maintenance?,
                 :user_is_admin?,
-                :present_user
+                :present_user,
+                :view_dir
 
   unless Ost::Application.config.consider_all_requests_local
     rescue_from Exception, :with => :rescue_from_exception
@@ -174,6 +175,10 @@ protected
   
   def set_user_time_zone
     Time.zone = current_user.time_zone if user_signed_in?
+  end
+  
+  def view_dir(object)
+    object.type.underscore.pluralize
   end
 
 end

@@ -1,11 +1,11 @@
-class PercentScheduler < ActiveRecord::Base
+class PercentScheduler < Scheduler
   belongs_to :learning_condition
   
-  store :settings, accessors: [:schedules]
+  store_accessor :settings, :schedules
   
   # todo validates :schedules
   
-  attr_accessible :learning_condition, :schedules
+  attr_accessible :schedules
   
   # TODO instead of taking a cohort this could take a cohort or a study
   # result would still be an assignmnent, but if the assignment is for a study
@@ -18,12 +18,9 @@ class PercentScheduler < ActiveRecord::Base
     max_num_assignment_exercises = assignment_plan.max_num_exercises
     current_assignment_plan = assignment_plan
     
-    # TODO see if we can just do this with new, not create (ditto for 
-    # AssignedExercise below - that way we can build an assignment just to
-    # preview it)
     assignment = Assignment.new(:assignment_plan => assignment_plan,
                                 :cohort => cohort)
-    # debugger
+
     schedule.each do |rule|    
       topics = current_assignment_plan.topics      
       num_plan_exercises = topics.collect{|t| t.topic_exercises.size}.sum
@@ -40,7 +37,6 @@ class PercentScheduler < ActiveRecord::Base
             min(num_topic_exercises, 
                 num_topic_exercises/num_plan_exercises * max_num_assignment_exercises)
         
-          # Don't round yet (?)
           num_topic_exercises_to_use = (rule[:percent]/100.0 * max_num_exercises_from_this_topic).floor
         
           # Ignore topic exercises that have previously been assigned
