@@ -5,7 +5,25 @@ class PercentScheduler < Scheduler
   
   # todo validates :schedules
   
+  before_create :init_schedules
+  
   attr_accessible :schedules
+  
+  # Adds a schedule and returns it
+  def add_schedule
+    self.schedules.push([{:percent => 0, :tags => ""}]).last
+  end
+  
+  # Adds a row to a specific schedule and returns the row along with 
+  # the row number (1-indexed)
+  def add_schedule_row(number)
+    [self.schedules[number].push({:percent => 0, :tags => ""}).last, 
+     self.schedules[number].size]
+  end
+  
+  def pop_schedule_row(schedule_number)
+    self.schedules[schedule_number].pop
+  end
   
   # TODO instead of taking a cohort this could take a cohort or a study
   # result would still be an assignmnent, but if the assignment is for a study
@@ -59,6 +77,12 @@ class PercentScheduler < Scheduler
     end
     
     assignment    
+  end
+  
+protected
+
+  def init_schedules
+    self.schedules = []
   end
   
 end

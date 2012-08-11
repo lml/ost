@@ -1,0 +1,28 @@
+<%= section "Schedule #{number+1}" do %>
+  
+  <table width="90%">
+    <tr>
+      <th width="34%"><i>n</i> assignments ago</th>
+      <th width="33%">Percent to draw</th>
+      <th width="33%">Labels to apply</th>
+    </tr>
+    <tbody id="schedule_<%= number %>_body">
+    <% schedule.each_with_index do |row, index| %>
+      <%= render :partial => 'percent_schedulers/schedule_row', 
+                 :locals => {:row => row, :index => index} %>
+    <% end %>
+    </tbody>
+    <tr>
+      <td colspan="3" style="padding-top:15px">
+        <%= link_to "Add a new row", percent_scheduler_add_schedule_row_path(scheduler, :number => number), 
+                                     :class => 'add_row', :id => "schedule_new_row_#{number}", 
+                                     :remote => true, :method => :post %>
+        <span id="delete_row_<%= number %>" style="display:<%= schedule.size > 0 ? 'inline' : 'none' %>">
+          | <%= link_to "Delete last row", percent_scheduler_pop_schedule_row_path(scheduler, :schedule_number => number),
+                                           :method => :delete, :remote => true %>
+        </span>
+      </td>
+    </tr>
+  </table>
+
+<% end %>

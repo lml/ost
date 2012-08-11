@@ -1,0 +1,5 @@
+$('#schedule_<%= @schedule_number %>_body tr:last-child').remove();
+
+if ($('#schedule_<%= @schedule_number %>_body').children().length == 0) {
+  $('#delete_row_<%= @schedule_number %>').hide();
+}

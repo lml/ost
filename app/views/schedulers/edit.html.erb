@@ -3,3 +3,6 @@
 
 <%= render :partial => "#{view_dir(@scheduler)}/form", 
            :locals => {:scheduler => @scheduler} %>
+
+
+<% navitem { link_to "Learning Condition", klass_learning_conditions_path(@scheduler.learning_condition.cohort.klass) }%>

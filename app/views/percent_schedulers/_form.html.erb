@@ -1,7 +1,20 @@
 <%= form_for(scheduler.becomes(Scheduler)) do |f| %>
 
-  <p>Placeholder for Percent Scheduler form</p>
+  <p>TBD explanation of what to do on this form</p>
+  
+  <div id="schedules">
+    <% (scheduler.schedules || []).each_with_index do |schedule, number| %>
+    
+      <%= render :partial => 'percent_schedulers/schedule', 
+                 :locals => {:number => number, :schedule => schedule, :scheduler => scheduler} %>
+      
+    <% end %>    
+  </div>
 
+  <br/><br/>
+  <%= link_to "Add a new schedule", percent_scheduler_add_schedule_path(scheduler), :method => :post, :remote => true %>
+  <br/><br/>
+  
   <div class="actions">
     <%= f.submit %>
   </div>

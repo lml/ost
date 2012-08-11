@@ -1,0 +1,3 @@
+$('#schedule_<%= @schedule_number %>_body').append("<%= ej(render :partial => 'percent_schedulers/schedule_row', :locals => {:row => @schedule_row, :index => @schedule_size-1}) %>");
+
+$('#delete_row_<%= @schedule_number %>').show();

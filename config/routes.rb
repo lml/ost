@@ -69,6 +69,12 @@ Ost::Application.routes.draw do
     resources :schedulers, :shallow => true, :except => [:index, :show, :destroy]
   end
   
+  resources :percent_schedulers, :only => [] do
+    post 'add_schedule'
+    post 'add_schedule_row'
+    delete 'pop_schedule_row'
+  end
+  
   resources :students, :only => [] do
     put 'drop', :on => :member
   end

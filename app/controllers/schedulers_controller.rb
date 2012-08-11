@@ -9,7 +9,7 @@ class SchedulersController < ApplicationController
 
   def create
     raise SecurityTransgression unless present_user.can_update?(@learning_condition)
-    
+
     Scheduler.transaction do
       @learning_condition.scheduler.destroy if !@learning_condition.scheduler.nil?
       
