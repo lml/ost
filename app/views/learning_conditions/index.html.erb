@@ -24,6 +24,7 @@
         <% end %>
       </div>
       
+      <br/>
       <%= link_to 'Edit', edit_scheduler_path(scheduler) if !scheduler.nil? %> |
       <%= link_to scheduler.nil? ? 'Choose ...' : 'Change ...', 
                   new_learning_condition_scheduler_path(learning_condition),

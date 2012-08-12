@@ -1,1 +1,13 @@
-<p>Placeholder for Percentage Scheduler Summary</p>
+<% scheduler.schedules.each_with_index do |schedule, ii| %>
+  
+  <p>Schedule <%= ii+1 %></p>
+  
+  <div style="padding-left:15px">
+    <% schedule.each do |rule| %>
+      <div>
+        <%= rule[:percent] %>% <%= "&rarr; #{rule[:tags].split(',').collect{|t| t.strip}.join(', ')}".html_safe if !rule[:tags].blank? %>
+      </div>
+    <% end %>
+  </div>
+  
+<% end %>
