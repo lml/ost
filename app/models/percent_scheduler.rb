@@ -3,7 +3,7 @@ class PercentScheduler < Scheduler
   
   store_accessor :settings, :schedules
   
-  # todo validates :schedules
+  validate :schedules_ok
   
   before_create :init_schedules
   
@@ -83,6 +83,17 @@ protected
 
   def init_schedules
     self.schedules = []
+  end
+  
+  def schedules_ok
+    schedules.each_with_index do |schedule, index|
+      ps = PercentSchedule.new(schedule)
+      if !ps.valid?
+        ps.errors[:base].each do |msg|
+          self.errors.add(:base, msg)
+        end
+      end
+    end
   end
   
 end

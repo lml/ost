@@ -1,5 +1,7 @@
+<% @count ||= -1 %>
+<% @count += 1 %>
 <tr>
   <td align="center"><%= index %></td>
-  <td><%= text_field_tag :percent, row[:percent] %></td>
-  <td><%= text_field_tag :tags, row[:tags] %></td>
+  <td><%= text_field_tag "scheduler[schedules][#{schedule_number}][][percent]", row[:percent] %></td>
+  <td><%= text_field_tag "scheduler[schedules][#{schedule_number}][][tags]", row[:tags] %></td>
 </tr>

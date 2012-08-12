@@ -33,6 +33,17 @@ class SchedulersController < ApplicationController
     @scheduler = Scheduler.find(params[:id])
     raise SecurityTransgression unless present_user.can_update?(@scheduler)
 
+    raise SecurityTransgression unless @scheduler.type == params[:type]
+    
+    case params[:type]
+    when 'PercentScheduler'
+      params[:scheduler][:schedules] = params[:scheduler][:schedules].values
+    else
+      raise IllegalArgument
+    end    
+   
+    Rails.logger.debug params.inspect
+    
     respond_to do |format|
       if @scheduler.update_attributes(params[:scheduler])
         format.html { redirect_to klass_learning_conditions_path(@scheduler.learning_condition.cohort.klass), notice: 'Schedule was successfully updated.' }

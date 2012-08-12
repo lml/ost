@@ -1,6 +1,10 @@
+<% @errors = scheduler.errors %>
+
 <%= form_for(scheduler.becomes(Scheduler)) do |f| %>
 
   <p>TBD explanation of what to do on this form</p>
+  
+  <%= hidden_field_tag :type, 'PercentScheduler' %>
   
   <div id="schedules">
     <% (scheduler.schedules || []).each_with_index do |schedule, number| %>

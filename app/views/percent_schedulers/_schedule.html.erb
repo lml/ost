@@ -9,7 +9,7 @@
     <tbody id="schedule_<%= number %>_body">
     <% schedule.each_with_index do |row, index| %>
       <%= render :partial => 'percent_schedulers/schedule_row', 
-                 :locals => {:row => row, :index => index} %>
+                 :locals => {:row => row, :index => index, :schedule_number => number} %>
     <% end %>
     </tbody>
     <tr>
