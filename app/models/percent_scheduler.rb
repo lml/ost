@@ -55,7 +55,7 @@ class PercentScheduler < Scheduler
             min(num_topic_exercises, 
                 num_topic_exercises/num_plan_exercises * max_num_assignment_exercises)
         
-          num_topic_exercises_to_use = (rule[:percent]/100.0 * max_num_exercises_from_this_topic).floor
+          num_topic_exercises_to_use = (rule[:percent].to_i/100.0 * max_num_exercises_from_this_topic).floor
         
           # Ignore topic exercises that have previously been assigned
           topic_exercises.reject!{|te| te.assigned?}        

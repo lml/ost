@@ -1,0 +1,22 @@
+<%= pageHeading "Preview of Assignments" %>
+
+
+<% @assignments.each do |assignment| %>
+  
+  <%= section "#{assignment[0].assignment_plan.name}" do %>
+    
+    <% @cohorts.each_with_index do |cohort, cc| %>
+      <p><b>Cohort: <%= cohort.name %></b></p>
+      <ol>
+        <% assignment[cc].assignment_exercises.each do |ae| %>
+          <% te = ae.topic_exercise %>
+          <% exercise = te.exercise %>
+          <li><%= link_to "#{exercise.quadbase_id}", exercise.url %> [<%= te.topic.name %> / <%= te.concept.try(:name) || 'no concept' %>]</li>
+        <% end %>
+      </ol>
+    <% end %>
+  
+  <% end %>
+  
+  
+<% end %>

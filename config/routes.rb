@@ -64,6 +64,7 @@ Ost::Application.routes.draw do
     resources :registration_requests, :shallow => true, :only => [:new, :index]
     resources :learning_conditions, :shallow => true, :only => [:index]
     resources :cohorts, :shallow => true
+    get 'preview_assignments', :on => :member
   end
   
   resources :learning_conditions, :only => [] do
@@ -85,7 +86,7 @@ Ost::Application.routes.draw do
     put 'reject', :as => "reject", :on => :member
   end
       
-  resources :learning_plans do
+  resources :learning_plans, :only => [:show] do
     resources :topics, :shallow => true, :except => [:index, :show]
     resources :assignment_plans, :shallow => true
     resources :concepts, :shallow => true do

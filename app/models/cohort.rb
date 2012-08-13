@@ -3,6 +3,7 @@ class Cohort < ActiveRecord::Base
   belongs_to :section
   has_many :students, :dependent => :nullify
   has_one :learning_condition, :dependent => :destroy
+  has_many :assignments
   
   validates :klass_id, :presence => :true
   validate :section_unchanged?, :on => :update
@@ -63,6 +64,7 @@ protected
 
   def destroyable?
     errors.add(:base, "Cannot delete this cohort because it has students") if students.any?
+    errors.add(:base, "Cannot delete this cohort because it has assignments") if assignments.any?
     errors.none?
   end
   

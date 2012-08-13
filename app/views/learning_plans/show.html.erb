@@ -32,7 +32,9 @@
   <br/>
   <%= link_to "Add new assignment ...", 
               new_learning_plan_assignment_plan_path(@learning_plan), 
-              :remote => true %>
+              :remote => true %> |
+  <%= link_to "Preview assignments",
+              preview_assignments_klass_path(@learning_plan.klass) %>
 <% end %>
 
 <%= section "Scheduling" do %>
@@ -124,7 +126,6 @@
 </div>
 
 <%
-  navitem(:can_update?, @learning_plan) {link_to 'Edit', edit_learning_plan_path(@learning_plan)}
   navitem { link_to "#{t(@learning_plan.klass.class)}", @learning_plan.klass }
   navitem { link_to "Concepts", learning_plan_concepts_path(@learning_plan)}
 %>

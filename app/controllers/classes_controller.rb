@@ -63,6 +63,46 @@ class ClassesController < ApplicationController
     @klass.destroy
     redirect_to klasses_url
   end
+  
+  def preview_assignments
+    @klass = Klass.find(params[:id])
+    raise SecurityTransgression unless present_user.can_read?(@klass.learning_plan)
+    
+    @assignments = []
+    
+    # We probably have to save assignments during this "preview" so do it
+    # in a transaction so we can roll everything back.
+    Klass.transaction do
+    
+      @cohorts = @klass.cohorts
+      learning_conditions = @cohorts.collect{|c| c.learning_condition}
+    
+      # Iterate through learning plans, building up assignments
+      @klass.learning_plan.assignment_plans.each do |assignment_plan|
+        @assignments.push([])
+
+        # Iterate through the cohorts, pushing the assignments for them onto the list
+        @cohorts.each_with_index do |cohort, cc|
+          
+          # If this assignment plan has already had an assignment built for it
+          # (because it has already been sent out) use it; otherwise, make it
+          
+          assignment = cohort.assignments.where{assignment_plan_id == assignment_plan.id}.first
+          
+          if assignment.nil?
+            learning_condition = learning_conditions[cc]
+            assignment = learning_condition.build_assignment(assignment_plan)
+            assignment.save
+          end
+          
+          @assignments.last.push(assignment)
+        end
+      end   
+    
+      raise ActiveRecord::Rollback
+    end   
+       
+  end
 
 protected
 
