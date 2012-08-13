@@ -1,13 +1,21 @@
-<% scheduler.schedules.each_with_index do |schedule, ii| %>
+<% if scheduler.schedules.empty? %>
+
+  <p>No schedules set yet</p>
+
+<% else %>
+
+  <% scheduler.schedules.each_with_index do |schedule, ii| %>
   
-  <p>Schedule <%= ii+1 %></p>
+    <p>Schedule <%= ii+1 %></p>
   
-  <div style="padding-left:15px">
-    <% schedule.each do |rule| %>
-      <div>
-        <%= rule[:percent] %>% <%= "&rarr; #{rule[:tags].split(',').collect{|t| t.strip}.join(', ')}".html_safe if !rule[:tags].blank? %>
-      </div>
-    <% end %>
-  </div>
+    <div style="padding-left:15px">
+      <% schedule.each do |rule| %>
+        <div>
+          <%= rule[:percent] %>% <%= "&rarr; #{rule[:tags].split(',').collect{|t| t.strip}.join(', ')}".html_safe if !rule[:tags].blank? %>
+        </div>
+      <% end %>
+    </div>
+  
+  <% end %>
   
 <% end %>

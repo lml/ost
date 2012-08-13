@@ -71,14 +71,12 @@ protected
   end
   
   def section_unchanged?
-    errors.add(:section_id, "A cohort's section cannot be changed") if section_was != section
+    errors.add(:section_id, "A cohort's section cannot be changed") if section_id_was != section_id
     errors.none?
-    # Rails.logger.info("TODO Cohort.klass_unchanged?") # TODO    
   end
   
   def klass_unchanged?
-    errors.add(:klass_id, "A cohort's class cannot be changed") if klass_was != klass
+    errors.add(:klass_id, "A cohort's class cannot be changed") if klass_id_was != klass_id
     errors.none?
-    # Rails.logger.info("TODO Cohort.klass_unchanged?") # TODO
   end
 end

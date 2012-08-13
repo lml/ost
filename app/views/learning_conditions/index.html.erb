@@ -25,10 +25,13 @@
       </div>
       
       <br/>
-      <%= link_to 'Edit', edit_scheduler_path(scheduler) if !scheduler.nil? %> |
-      <%= link_to scheduler.nil? ? 'Choose ...' : 'Change ...', 
+      <%= link_to "Choose #{scheduler.nil? ? 'New' : 'Different'} Scheduler", 
                   new_learning_condition_scheduler_path(learning_condition),
                   :remote => true %>
+      <% if !scheduler.nil? %>
+        | <%= link_to 'Edit', edit_scheduler_path(scheduler) %>
+      <% end %>
+
 
     <% end %>
     

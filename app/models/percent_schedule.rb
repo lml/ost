@@ -20,5 +20,6 @@ class PercentSchedule
         end
       end
     end
+    errors.any?
   end
 end

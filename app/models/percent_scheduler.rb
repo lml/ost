@@ -86,7 +86,7 @@ protected
   end
   
   def schedules_ok
-    schedules.each_with_index do |schedule, index|
+    (schedules || []).each_with_index do |schedule, index|
       ps = PercentSchedule.new(schedule)
       if !ps.valid?
         ps.errors[:base].each do |msg|
@@ -94,6 +94,7 @@ protected
         end
       end
     end
+    errors.none?
   end
   
 end
