@@ -5,13 +5,15 @@ class Cohort < ActiveRecord::Base
   has_one :learning_condition, :dependent => :destroy
   
   validates :klass_id, :presence => :true
+  validate :section_unchanged?, :on => :update
+  validate :klass_unchanged?, :on => :update
 
   before_create :init_learning_condition
   before_destroy :destroyable?
   
   acts_as_numberable :container => :klass
   
-  attr_accessible :section
+  attr_accessible :section, :klass
   
   def name
     read_attribute(:name) || "Cohort #{number}"
@@ -27,35 +29,56 @@ class Cohort < ActiveRecord::Base
   # can work in.
 
   def can_be_read_by?(user)
-    Researcher.is_one?(user) || user.is_administrator?
+    can_anything?(user)
   end
 
   def can_be_created_by?(user)
-    Researcher.is_one?(user) || user.is_administrator?
+    can_anything?(user)
   end
 
   def can_be_updated_by?(user)
-    Researcher.is_one?(user) || user.is_administrator?
+    can_anything?(user)  
   end
 
   def can_be_destroyed_by?(user)
-    Researcher.is_one?(user) || user.is_administrator?
+    can_anything?(user)
   end
   
   def children_can_be_read_by?(user, children_symbol)
     case children_symbol
     when :students
-      Researcher.is_one?(user) || user.is_administrator?
+      can_anything?(user)
+    when :learning_condition
+      (klass.is_controlled_experiment ? Researcher.is_one?(user) : klass.is_instructor?(user)) || 
+      user.is_administrator?
     end
+  end
+  
+  def can_anything?(user)
+    (klass.is_controlled_experiment ? Researcher.is_one?(user) : klass.is_teaching_assistant?(user)) || 
+    user.is_administrator?
   end
   
 protected
 
   def destroyable?
-    raise NotYetImplemented
+    errors.add(:base, "Cannot delete this cohort because it has students") if students.any?
+    errors.none?
   end
   
   def init_learning_condition
     self.learning_condition = LearningCondition.new
+  end
+  
+  def section_unchanged?
+    errors.add(:section_id, "A cohort's section cannot be changed") if section_was != section
+    errors.none?
+    # Rails.logger.info("TODO Cohort.klass_unchanged?") # TODO    
+  end
+  
+  def klass_unchanged?
+    errors.add(:klass_id, "A cohort's class cannot be changed") if klass_was != klass
+    errors.none?
+    # Rails.logger.info("TODO Cohort.klass_unchanged?") # TODO
   end
 end

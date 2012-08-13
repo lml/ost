@@ -1,15 +1,11 @@
-<p id="notice"><%= notice %></p>
+<%= pageHeading "Cohort Details" %>
 
 <p>
   <b>Section:</b>
-  <%= @cohort.section_id %>
+  <%= @cohort.section.try(:name) || "None" %>
 </p>
 
-<p>
-  <b>Number:</b>
-  <%= @cohort.number %>
-</p>
-
-
-<%= link_to 'Edit', edit_cohort_path(@cohort) %> |
-<%= link_to 'Back', cohorts_path %>
+<% 
+  navitem { link_to 'Edit', edit_cohort_path(@cohort) } 
+  navitem { link_to 'Cohort List', klass_cohorts_path(@cohort.klass) }
+%>

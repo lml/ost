@@ -46,6 +46,7 @@ class ClassesController < ApplicationController
   def update
     @klass = Klass.find(params[:id])
     raise SecurityTransgression unless present_user.can_update?(@klass)
+    @klass.enable_admin_controls = present_user.is_administrator?
 
     respond_to do |format|
       if @klass.update_attributes(params[:klass])

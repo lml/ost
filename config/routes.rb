@@ -63,6 +63,7 @@ Ost::Application.routes.draw do
     resources :sections, :shallow => true
     resources :registration_requests, :shallow => true, :only => [:new, :index]
     resources :learning_conditions, :shallow => true, :only => [:index]
+    resources :cohorts, :shallow => true
   end
   
   resources :learning_conditions, :only => [] do
@@ -83,12 +84,7 @@ Ost::Application.routes.draw do
     put 'approve', :as => "approve", :on => :member
     put 'reject', :as => "reject", :on => :member
   end
-    
-  
-  resources :sections, :only => [] do
-    resources :cohorts, :shallow => true
-  end
-  
+      
   resources :learning_plans do
     resources :topics, :shallow => true, :except => [:index, :show]
     resources :assignment_plans, :shallow => true

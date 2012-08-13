@@ -1,18 +1,20 @@
 
 class CohortsController < ApplicationController
 
-  before_filter :get_section, :only => [:index, :new, :create]
+  before_filter :get_klass, :only => [:index, :new, :create]
 
   def index
-    @cohorts = @section.cohorts
+    @cohorts = @klass.cohorts
+    raise SecurityTransgression unless present_user.can_read_children?(@klass, :cohorts)
   end
 
   def show
     @cohort = Cohort.find(params[:id])
+    raise SecurityTransgression unless present_user.can_read?(@cohort)
   end
 
   def new
-    @cohort = Cohort.new(:section => @section)  
+    @cohort = Cohort.new(:klass => @klass)  
   end
 
   def edit
@@ -21,7 +23,7 @@ class CohortsController < ApplicationController
 
   def create
     @cohort = Cohort.new(params[:cohort])
-    @cohort.section = @section
+    @cohort.klass = @klass
 
     respond_to do |format|
       if @cohort.save
@@ -51,8 +53,8 @@ class CohortsController < ApplicationController
   
 protected
 
-  def get_section
-    @section = Section.find(params[:section_id])
+  def get_klass
+    @klass = Klass.find(params[:klass_id])
   end
 
 end

@@ -10,6 +10,7 @@ class Klass < ActiveRecord::Base
   validates :end_date, :presence => true, :date => {:after => :start_date}
   validates :course_id, :presence => true
   validates :time_zone, :presence => true
+  validate :is_controlled_experiment_change_ok?, :on => :update
 
   before_destroy :destroyable?
   before_create :set_first_instructor
@@ -17,7 +18,7 @@ class Klass < ActiveRecord::Base
   before_create :init_first_section
   before_create :init_first_cohort
 
-  attr_accessor :source_learning_plan_id, :creator
+  attr_accessor :source_learning_plan_id, :creator, :enable_admin_controls
 
   attr_accessible :start_date, :end_date, :approved_emails, :time_zone, 
                   :source_learning_plan_id, :is_controlled_experiment,
@@ -96,6 +97,10 @@ class Klass < ActiveRecord::Base
     case children_symbol
     when :sections
       is_educator?(user) || user.is_administrator?
+    when :cohorts
+      (is_controlled_experiment ? Researcher.is_one?(user) : is_teaching_assistant?(user)) || user.is_administrator?
+    when :learning_conditions # not a direct child
+      (is_controlled_experiment ? Researcher.is_one?(user) : is_instructor?(user)) || user.is_administrator?
     end
   end
 
@@ -123,6 +128,12 @@ protected
   
   def init_first_cohort
     self.cohorts << Cohort.new
+  end
+  
+  def is_controlled_experiment_change_ok?
+    errors.add(:is_controlled_experiment, "can only be changed by an administrator.") \
+      if is_controlled_experiment_was != is_controlled_experiment && !enable_admin_controls
+    errors.none?
   end
 
 end

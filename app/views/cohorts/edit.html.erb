@@ -1,6 +1,8 @@
-<h1>Editing cohort</h1>
+<%= pageHeading "Editing a Cohort"%>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @cohort %> |
-<%= link_to 'Back', cohorts_path %>
+<%
+  navitem { link_to "Cohort", @cohort }
+  navitem { link_to "Cohort List", klass_cohorts_path(@cohort.klass) }
+%>

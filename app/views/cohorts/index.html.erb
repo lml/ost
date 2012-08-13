@@ -1,25 +1,8 @@
-<h1>Listing cohorts</h1>
+<%= pageHeading "#{@klass.course.name} Cohorts"%>
 
-<table>
-  <tr>
-    <th>Section</th>
-    <th>Number</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<%= uber_list @cohorts, :name %>
 
-<% @cohorts.each do |cohort| %>
-  <tr>
-    <td><%= cohort.section_id %></td>
-    <td><%= cohort.number %></td>
-    <td><%= link_to 'Show', cohort %></td>
-    <td><%= link_to 'Edit', edit_cohort_path(cohort) %></td>
-    <td><%= link_to 'Destroy', cohort, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Cohort', new_cohort_path %>
+<% 
+  navitem(:can_create?, Cohort.new(:klass => @klass)) { link_to('New Cohort', new_klass_cohort_path(@klass)) } 
+  navitem(:can_read?, @klass) { link_to('Class', klass_path(@klass)) }
+%>
