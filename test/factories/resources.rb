@@ -2,11 +2,8 @@
 
 FactoryGirl.define do
   factory :resource do
-    resourceable_type "MyString"
-    resourceable_id 1
-    url "MyString"
-    name "MyString"
-    notes "MyText"
-    number 1
+    topic
+    sequence(:url)  {|n| "http://example.com/#{n}"}
+    notes "MyText aslkdfj lkafdj lkadjf klajdflk ajdflkaj sdflkaj dlfkjasdlkfj"
   end
 end
