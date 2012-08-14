@@ -41,8 +41,9 @@ gem 'best_in_place'
 
 gem 'acts-as-taggable-on', '~> 2.3.1'
 
+gem 'sqlite3', '~> 1.3.6'
+
 group :development, :test do
-  gem 'sqlite3', '~> 1.3.6'
   gem 'debugger', '~> 1.1.4'
   gem 'faker', '~> 1.0.1'
   gem 'factory_girl_rails', '~> 3.4.0'
