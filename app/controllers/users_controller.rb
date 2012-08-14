@@ -32,7 +32,9 @@ class UsersController < ApplicationController
     raise SecurityTransgression unless Rails.env.development? || current_user.is_administrator?
     
     sign_in(:user, User.find(params[:user_id]))
-    redirect_to request.referer # root_path
+
+    # redirect_to request.referer
+    redirect_to root_path
   end
 
 end

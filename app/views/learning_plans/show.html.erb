@@ -58,7 +58,8 @@
         utc_minus_local_hours = dd.getTimezoneOffset()/60;
         local_time = dd.getTime();
         klass_time = new Date(local_time - (utc_minus_local_hours + klass_minus_utc_hours)*60*60*1000);
-        
+      
+      <% if Rails.env.development? %>  
         alert (
           "incoming time:         " + dd + "\n" +
           "klass_minus_utc_hours: " + klass_minus_utc_hours + "\n" +
@@ -66,6 +67,7 @@
           "local_time:            " + local_time + "\n" +
           "klass_time:            " + klass_time + "\n"
         );
+      <% end %>
         
         return klass_time;
       }

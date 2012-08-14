@@ -328,6 +328,40 @@ module ApplicationHelper
     user_signed_in? ? text : "[ hidden ]"
   end
   
+  def admin_only(text)
+    user_is_admin? ? text : "[ hidden ]"
+  end
+  
+  def full_name(user)
+    sanitized_text({:researcher => user.research_id, :other => user.full_name})
+  end
+  
+  def first_name(user)
+    sanitized_text({:researcher => user.research_id, :other => user.full_name})
+  end
+  
+  def last_name(user)
+    sanitized_text({:other => user.last_name})
+  end
+  
+  def username(user)
+    sanitized_text({:other => user.username})
+  end
+  
+  def email(user)
+    sanitized_text({:other => hide_email(user.email)})
+  end
+  
+  def sanitized_text(options={})
+    options[:not_signed_in] ||= '[ hidden ]'
+    options[:researcher] ||= '[ hidden ]'    
+    
+    return options[:not_signed_in] if !user_signed_in?
+    return options[:researcher] if present_user.is_researcher? #Researcher.is_one?(present_user)
+    options[:other]
+  end
+  
+  
   def site_name
     SITE_NAME
   end
