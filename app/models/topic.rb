@@ -1,6 +1,6 @@
 class Topic < ActiveRecord::Base
   belongs_to :learning_plan
-  has_many :topic_exercises, :dependent => :destroy, :order => :number
+  has_many :topic_exercises, :dependent => :destroy, :order => :number, :include => :exercise
   has_many :assignment_plan_topics, :dependent => :destroy
   has_many :assignment_plans, :through => :assignment_plan_topics
   has_many :resources, :order => :number

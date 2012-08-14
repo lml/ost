@@ -121,6 +121,7 @@ Ost::Application.routes.draw do
   get 'contact', :to => 'home#contact'
   post 'contact', :to => 'home#contact_submit', :as => 'contact_submit'
   get 'join', :to => 'home#join'
+  get 'dashboard', :to => 'home#dashboard'
 
   get 'dev/toolbox', :as => 'dev_toolbox'
   put 'dev/reset_time'

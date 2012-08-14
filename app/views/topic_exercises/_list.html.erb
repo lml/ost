@@ -5,7 +5,8 @@
                                      :list_number => "q#{topic.id}",
                                      :remote_buttons => true,
                                      :sort_path => sort_topic_topic_exercises_path(topic), 
-                                     :class => 'topic_sub_section'
+                                     :class => 'topic_sub_section',
+                                     :do_can_checks_once => true
                                    } do |te|
     "#{te.exercise.quadbase_id} #{te.concept.nil? ? '' : '(' + te.concept.name + ')'}"
   end 

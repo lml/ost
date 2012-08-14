@@ -33,4 +33,8 @@ class HomeController < ApplicationController
     end
   end
   
+  def dashbaord
+    
+  end
+  
 end

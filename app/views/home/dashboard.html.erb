@@ -1,0 +1,28 @@
+<%= pageHeading "Dashboard" %>
+
+
+<% if (students = present_user.students).any? %>
+  <%= section "Classes I'm Taking" do %>
+    
+    <ul>
+    <% students.each do |student| %>
+      <% klass = student.section.klass %>
+      <li><%= link_to klass.course.name, klass %></li>    
+    <% end %>
+    </ul>
+  
+  <% end %>
+<% end %>
+
+<% if (educators = present_user.educators).any? %>
+  <%= section "Classes I'm Teaching" do %>
+    
+    <ul>
+    <% educators.each do |educator| %>
+      <% klass = educator.klass %>
+      <li><%= link_to klass.course.name, klass %></li>    
+    <% end %>
+    </ul>
+  
+  <% end %>
+<% end %>

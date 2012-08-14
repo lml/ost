@@ -3,6 +3,7 @@
                                    :list_number => "r#{topic.id}",
                                    :remote_buttons => true,
                                    :sort_path => sort_topic_resources_path(topic), 
+                                   :do_can_checks_once => true,
                                    :class => 'topic_sub_section'} do |resource|
     resource.name.blank? ? resource.url : resource.name
   end 

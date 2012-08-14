@@ -189,6 +189,7 @@ module ApplicationHelper
     options[:hide_edit] ||= false
     options[:hide_trash] ||= false
     options[:remote_buttons] ||= false
+    options[:do_can_checks_once] ||= false
     
     @uber_list_count = (@uber_list_count ||= 0) + 1
     uber_list_id_num = options[:list_number] || @uber_list_count
@@ -226,6 +227,8 @@ module ApplicationHelper
     end
 
     bullet_class = options[:sort_path].nil? ? 'ui-icon-triangle-1-e' : 'ui-icon-arrow-4'
+    
+    can_update = can_destroy = nil
 
     content_tag :div, :id => "#{@uber_list_id}", :class => options[:class], :style => options[:style] do
       content_tag(:div, "None", :style => "#{!entries.empty? ? 'display:none' : ''}") +
@@ -263,10 +266,24 @@ module ApplicationHelper
             button_target = options[:namespace].nil? ? 
                             entry : 
                             [options[:namespace], entry]
-            (options[:hide_edit] || !present_user.can_update?(button_target) ? 
+                            
+            # For long lists where the items have the same permissions, more efficient to do
+            # the checks just once.
+            
+            hide_edit = options[:hide_edit] || 
+                        !(options[:do_can_checks_once] ? 
+                           (can_update ||= present_user.can_update?(button_target)) : 
+                           present_user.can_update?(button_target)) 
+                           
+            hide_trash = options[:hide_trash] ||
+                         !(options[:do_can_checks_once] ? 
+                            (can_destroy ||= present_user.can_destroy?(button_target)) : 
+                            present_user.can_destroy?(button_target))
+            
+            (hide_edit ? 
               "".html_safe : 
               edit_button(button_target, {:small => true, :remote => options[:remote_buttons]}) ) +
-            (options[:hide_trash] || !present_user.can_destroy?(button_target) ? 
+            (hide_trash ? 
               "".html_safe : 
               trash_button(button_target, {:small => true, :remote => options[:remote_buttons]}) )
           end
