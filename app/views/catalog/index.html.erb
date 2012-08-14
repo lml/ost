@@ -1,21 +1,26 @@
 <%= pageHeading "Course Catalog" %>
 
+<p>This course catalog shows all of the courses that have been or will soon be offered on <%= SITE_NAME %>.  Interested in taking a class?  Check out our <%= link_to "current classes", klasses_path %> to see the courses that are going on now.</p>
+
 <% @courses.group_by{|c| c.organization}.sort.each do |organization, courses| %>
 
   <div>
-    <%= organization.name %>
+    
+  <%= section organization.name do %>
+    <%#= organization.name %>
 
-    <div style="padding-left:25px">
+    <div style="padding-left:0px">
       <% courses.each do |course| %>
         <div style="padding: 5px 0 8px">
           <p><b><%= course.name %></b></p>
           <p><%= course.description %></p>
-          <p><%= link_to "Teach this course", new_course_klass_path(course) %></p>
+          <p style="margin-bottom: 0px"><%= link_to "Teach this course", new_course_klass_path(course) %></p>
           <%# TODO put in a "last offered: 2012" note %>
         </div>
       <% end %>
     </div>
 
+<% end %>
   </div>
 
 <% end %>

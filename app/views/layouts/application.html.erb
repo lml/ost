@@ -179,7 +179,7 @@
           <a href="/" class="logo"></a>
             <ul>
               <li>
-                <%= link_to nil do %>
+                <%= link_to about_path do %>
                   <span style="position:relative">ABOUT<% if @highlight_faculty %><span class="current"></span><% end %></span>
                 <% end %>
               </li>
@@ -200,7 +200,7 @@
               </li>
               
               <li>
-                <%= link_to nil do %>
+                <%= link_to mytutor_path do %>
                   <span style="position:relative">MY TUTOR<% if @highlight_staxdash %><span class="current"></span><% end %></span>
                 <% end %>
               </li>
@@ -323,7 +323,7 @@
       
           Supported by the
           <%= link_to "National Science Foundation", "http://www.nsf.org" %>,
-          <%= link_to "Google", "http://www.google.org" %>, and
+          <%= link_to "Google", "http://www.google.org" %>, <%= link_to "Duke University", "http://www.duke.edu" %>, and
           <%= link_to "Rice University", "http://www.rice.edu" %>
           <br/>
         </div>
