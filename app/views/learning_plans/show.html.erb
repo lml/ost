@@ -100,9 +100,9 @@
             },
             events: [
               <% events = @learning_plan.assignment_plans.each_with_index do |assignment_plan, ii| %>
-                <%= render :partial => 'assignment_plans/assignment_plan_event', 
-                           :locals => {:assignment_plan => assignment_plan} %>
-                <%= ',' if ii != @learning_plan.assignment_plans.count - 1%>
+                <%= (render :partial => 'assignment_plans/assignment_plan_event', 
+                           :locals => {:assignment_plan => assignment_plan}).html_safe %>
+                <%= ','.html_safe if ii != @learning_plan.assignment_plans.count - 1%>
               <% end %>
             ],
             eventClick: function(calEvent, jsEvent, view) {

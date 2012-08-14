@@ -6,5 +6,5 @@
   editable: true,
   ost_id : <%= assignment_plan.id %>,
   id: 'assignment_plan_<%= assignment_plan.id %>',
-  color: <%= assignment_plan.is_test ? "get_os_color('orange')" : "get_os_color('blue')" %>
+  color: <%= assignment_plan.is_test ? "get_os_color('orange')".html_safe : "get_os_color('blue')".html_safe %>
 }
