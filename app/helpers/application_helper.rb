@@ -184,6 +184,15 @@ module ApplicationHelper
     javascript_include_tag 'protect_form'
   end
   
+  def do_once(name)
+    @have_done_once ||= {}
+    
+    if !@have_done_once[name]
+      yield
+      @have_done_once[name] = true      
+    end
+  end
+  
   def uber_list(entries, entry_text_method=nil, options={}, &entry_text_block)
     
     options[:hide_edit] ||= false
@@ -217,14 +226,20 @@ module ApplicationHelper
       end
     end
     
-    content_for :javascript do
-      javascript_tag do
-          "$('.sortable_item_entry').live('mouseenter mouseleave', function(event) {
-              $(this).children('.sortable_item_buttons:first')
-                     .css('display', event.type == 'mouseenter' ? 'inline-block' : 'none');
-          });".html_safe      
+    
+    do_once :uberlist_js_sort_buttons do
+    
+      content_for :javascript do
+        javascript_tag do
+            "$('.sortable_item_entry').live('mouseenter mouseleave', function(event) {
+                $(this).children('.sortable_item_buttons:first')
+                       .css('display', event.type == 'mouseenter' ? 'inline-block' : 'none');
+            });".html_safe      
+        end
       end
+    
     end
+
 
     bullet_class = options[:sort_path].nil? ? 'ui-icon-triangle-1-e' : 'ui-icon-arrow-4'
     

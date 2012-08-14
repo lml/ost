@@ -14,10 +14,11 @@ class Cohort < ActiveRecord::Base
   
   acts_as_numberable :container => :klass
   
-  attr_accessible :section, :klass
+  attr_accessible :section, :klass, :name, :section_id
   
   def name
-    read_attribute(:name) || "Cohort #{number}"
+    true_name = read_attribute(:name)
+    true_name.blank? ? "Cohort #{number}" : true_name
   end
   
   #############################################################################
@@ -73,12 +74,12 @@ protected
   end
   
   def section_unchanged?
-    errors.add(:section_id, "A cohort's section cannot be changed") if section_id_was != section_id
+    errors.add(:section_id, "cannot be changed") if section_id_was != section_id
     errors.none?
   end
   
   def klass_unchanged?
-    errors.add(:klass_id, "A cohort's class cannot be changed") if klass_id_was != klass_id
+    errors.add(:klass_id, "cannot be changed") if klass_id_was != klass_id
     errors.none?
   end
 end

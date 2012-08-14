@@ -1,5 +1,7 @@
-<h1>New cohort</h1>
+<%= pageHeading "New Cohort" %>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', cohorts_path %>
+<%
+  navitem { link_to 'Cohort List', klass_cohorts_path(@klass) }
+%>

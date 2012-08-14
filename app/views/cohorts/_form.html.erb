@@ -1,9 +1,22 @@
+<% @errors = @cohort.errors %>
+
+<% klass = @klass || @cohort.klass %>
+
 <%= form_for([@klass, @cohort]) do |f| %>
 
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
+  <div class="field">
+    Section (optional)<br/>
+    <%= f.select(:section_id, 
+                     options_from_collection_for_select(klass.sections, :id, :name, 
+                                                        @cohort.section.nil? ? nil : @cohort.section.id),  
+                     :prompt => "Choose a section")%>
+  </div>
+  
+  
   <div class="actions">
     <%= f.submit %>
   </div>

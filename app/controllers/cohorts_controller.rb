@@ -15,15 +15,19 @@ class CohortsController < ApplicationController
 
   def new
     @cohort = Cohort.new(:klass => @klass)  
+    raise SecurityTransgression unless present_user.can_create?(@cohort)
   end
 
   def edit
     @cohort = Cohort.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@cohort)
   end
 
   def create
     @cohort = Cohort.new(params[:cohort])
     @cohort.klass = @klass
+    
+    raise SecurityTransgression unless present_user.can_create?(@cohort)
 
     respond_to do |format|
       if @cohort.save
@@ -36,6 +40,7 @@ class CohortsController < ApplicationController
 
   def update
     @cohort = Cohort.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@cohort)
 
     respond_to do |format|
       if @cohort.update_attributes(params[:cohort])
@@ -48,7 +53,11 @@ class CohortsController < ApplicationController
 
   def destroy
     @cohort = Cohort.find(params[:id])
+    raise SecurityTransgression unless present_user.can_destroy?(@cohort)
+    
     @cohort.destroy
+    
+    redirect_to klass_cohorts_path(@cohort.klass)
   end
   
 protected
