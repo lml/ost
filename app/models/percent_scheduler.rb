@@ -30,6 +30,9 @@ class PercentScheduler < Scheduler
   # it could have separate properties, different consent, etc
   def build_assignment(assignment_plan, cohort)
     
+    # This method is not appropriate for test assignment plans
+    raise IllegalOperation if assignment_plan.is_test
+    
     schedule_number = assignment_plan.number % schedules.size
     schedule = schedules[schedule_number]
     
@@ -57,8 +60,9 @@ class PercentScheduler < Scheduler
         
           num_topic_exercises_to_use = (rule[:percent].to_i/100.0 * max_num_exercises_from_this_topic).floor
         
-          # Ignore topic exercises that have previously been assigned
-          topic_exercises.reject!{|te| te.assigned?}        
+          # Ignore topic exercises that have previously been assigned or are
+          # reserved for tests
+          topic_exercises.reject!{|te| te.reserved_for_tests || te.assigned?}        
           topic_exercises = topic_exercises.take( num_topic_exercises_to_use )
 
           topic_exercises.each do |topic_exercise|
@@ -72,7 +76,7 @@ class PercentScheduler < Scheduler
       
       end
 
-      current_assignment_plan = current_assignment_plan.predecessor
+      current_assignment_plan = current_assignment_plan.predecessors.non_tests.first
       break if current_assignment_plan.nil?
     end
     

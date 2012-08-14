@@ -6,6 +6,8 @@ class LearningCondition < ActiveRecord::Base
   attr_accessible
   
   def build_assignment(assignment_plan)
+    assignment_plan.is_test? ?
+    TestBuilder.build_assignment(assignment_plan, cohort) : # take specific percentages from each topics test reserves
     scheduler.build_assignment(assignment_plan, cohort)
   end
   

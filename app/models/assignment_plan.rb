@@ -45,14 +45,13 @@ class AssignmentPlan < ActiveRecord::Base
     peers.index{|ap| ap.id == self.id}
   end
   
-  def predecessor
+  def predecessors
     AssignmentPlan.joins{learning_plan}
                   .where{learning_plan.id == my{learning_plan}.id}
                   .where{starts_at.lt my{starts_at}}
                   .order{starts_at.desc}
-                  .first
   end
-  
+    
   #############################################################################
   # Access control methods
   #############################################################################

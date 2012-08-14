@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120810033835) do
+ActiveRecord::Schema.define(:version => 20120813233453) do
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -306,12 +306,13 @@ ActiveRecord::Schema.define(:version => 20120810033835) do
   end
 
   create_table "topic_exercises", :force => true do |t|
-    t.integer  "topic_id",    :null => false
-    t.integer  "exercise_id", :null => false
+    t.integer  "topic_id",                              :null => false
+    t.integer  "exercise_id",                           :null => false
     t.integer  "concept_id"
     t.integer  "number"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.boolean  "reserved_for_tests", :default => false
   end
 
   add_index "topic_exercises", ["concept_id"], :name => "index_topic_exercises_on_concept_id"

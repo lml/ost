@@ -7,6 +7,9 @@
     <%= text_field_tag :exercise_url, @topic_exercise.exercise.url, :style => "width: 90%" %>
   </div>
   <div class="field">
+    <%= f.check_box :reserved_for_tests %> This exercise is reserved for use in tests.
+  </div>
+  <div class="field">
     Concept<br/>
     <%= f.select(:concept_id, 
                      options_from_collection_for_select(topic.learning_plan.concepts, :id, :name, 
