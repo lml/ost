@@ -23,6 +23,11 @@ class AssignmentPlan < ActiveRecord::Base
   
   scope :non_tests, where(:is_test => false)
   scope :tests, where(:is_test => true)
+  scope :started, where{starts_at.lt Time.now}
+  scope :not_finished, where{ends_at.gt Time.now}
+  scope :in_progress, started.not_finished
+  scope :not_assigned, joins{assignments.outer}.where{assignments.assignment_plan_id == nil}
+  scope :can_be_assigned, not_assigned.in_progress.where{is_ready == true}
   
   def destroyable?
     errors.add(:base, "This assignment cannot be deleted because it has been assigned") \
@@ -51,7 +56,18 @@ class AssignmentPlan < ActiveRecord::Base
                   .where{starts_at.lt my{starts_at}}
                   .order{starts_at.desc}
   end
-    
+
+  def self.build_and_distribute_assignments
+    AssignmentPlan.can_be_assigned.each do |assignment_plan|
+      cohorts = assignment_plan.learning_plan.klass.cohorts
+      
+      cohorts.each do |cohort|
+        assignment = cohort.learning_condition.build_assignment(assignment_plan)
+        assignment.save
+      end
+    end
+  end
+      
   #############################################################################
   # Access control methods
   #############################################################################

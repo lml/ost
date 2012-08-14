@@ -31,6 +31,7 @@ Ost::Application.routes.draw do
   # resources :educators
 
   get "admin", :to => 'admin#index'
+  put "admin/cron", :to => 'admin#cron', :as => "cron"
 
 
 

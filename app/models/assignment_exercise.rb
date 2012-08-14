@@ -18,7 +18,9 @@ class AssignmentExercise < ActiveRecord::Base
   attr_accessible :assignment, :topic_exercise, :assignment_id
     
   def destroyable?
-    raise NotYetImplemented
+    errors.add(:base, "This assignment exercise cannot be deleted because it has already been distributed to students") \
+      if student_exercises.any?
+    errors.none?
   end
   
   # Expects comma-delimted tags, eg. "tag1, tag2"
