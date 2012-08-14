@@ -11,7 +11,14 @@
         <% assignment[cc].assignment_exercises.each do |ae| %>
           <% te = ae.topic_exercise %>
           <% exercise = te.exercise %>
-          <li><%= link_to "#{exercise.quadbase_id}", exercise.url %> [<%= te.topic.name %> / <%= te.concept.try(:name) || 'no concept' %>]</li>
+          <li><%= link_to "#{exercise.quadbase_id}", exercise.url %> 
+              [<%= te.topic.name %> / 
+               <%= te.concept.try(:name) || 'no concept' %>
+               <% if present_user.is_researcher? || present_user.is_administrator? %> 
+                 / <%= ae.tag_list %>
+               <% end %>
+              ]
+          </li>
         <% end %>
       </ol>
     <% end %>

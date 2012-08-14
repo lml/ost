@@ -7,7 +7,7 @@ class TestBuilder
   def self.build_assignment(assignment_plan, cohort)
     raise IllegalOperation if !assignment_plan.is_test
     
-    raise NotYetImplemented
+    return Assignment.new(:cohort => cohort, :assignment_plan => assignment_plan)
   end
   
 end

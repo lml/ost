@@ -24,6 +24,10 @@ class Klass < ActiveRecord::Base
                   :source_learning_plan_id, :is_controlled_experiment,
                   :allow_student_specified_id
   
+  scope :started, where{start_date.lt Time.now}
+  scope :not_finished, where{end_date.gt Time.now}
+  scope :in_progress, started.not_finished
+  
   def registration_requests
     RegistrationRequest.joins{section.klass}.where{section.klass.id == self.id}
   end
@@ -72,6 +76,14 @@ class Klass < ActiveRecord::Base
            .where{(section.klass.id == self.id)}
            .where{(user.id == a_user.id)}
   end
+  
+  # def self.build_and_distribute_assignments
+  #   AssignmentPlan.joins{learning_plan.klass}.where
+  # end
+  
+  # def self.build_assignments
+  #   Section.in_progress.each{|section| section.assign_lesson_if_needed}
+  # end
 
   #############################################################################
   # Access control methods
