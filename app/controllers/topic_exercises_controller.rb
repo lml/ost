@@ -29,7 +29,7 @@ class TopicExercisesController < ApplicationController
   def update
     @topic_exercise = TopicExercise.find(params[:id])
     raise SecurityTransgression unless present_user.can_update?(@topic_exercise)
-    
+        
     begin
       # Using a transaction here b/c the updates are a tad more complicated than
       # just updating some fields in a record (one of them involves a move from

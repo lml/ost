@@ -15,6 +15,10 @@
                      options_from_collection_for_select(topic.learning_plan.concepts, :id, :name, 
                                                         @topic_exercise.concept.nil? ? nil : @topic_exercise.concept.id),  
                      :prompt => "Choose a concept")%>
+    <% if false %>
+      or provide a new concept: <%= text_field_tag :concept_name %>
+      <%= link_to "New Concept", new_learning_plan_concept_path(topic.learning_plan), :remote => true %>
+    <% end %>
   </div>
   <div class="actions">
     <%= f.submit :disable_with => "Please wait..." %>
