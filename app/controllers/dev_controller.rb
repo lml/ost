@@ -22,6 +22,10 @@ class DevController < ApplicationController
     Timecop.freeze(params[:offset_days].to_i.days.since(Time.now))
   end
   
+  def test_error
+    render :template => "errors/#{params[:number]}"
+  end
+  
 protected
 
   def check_dev_env

@@ -116,6 +116,7 @@ Ost::Application.routes.draw do
     post 'become'
   end
 
+  post "write", :to => 'write#index', :as => 'write'
 
   get 'terms', :to => 'home#terms'
   get 'contact', :to => 'home#contact'
@@ -127,6 +128,7 @@ Ost::Application.routes.draw do
   put 'dev/reset_time'
   post 'dev/freeze_time'
   post 'dev/time_travel'
+  match 'dev/test_error/:number', :to => 'dev#test_error'
   
   resources :website_configurations, :only => [:index] do
     collection do
