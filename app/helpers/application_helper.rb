@@ -212,7 +212,7 @@ module ApplicationHelper
                    url: '#{options[:sort_path]}'
                 });
              }
-          }).disableSelection();"
+          }).disableSelection();".html_safe
         end
       end
     end
@@ -222,7 +222,7 @@ module ApplicationHelper
           "$('.sortable_item_entry').live('mouseenter mouseleave', function(event) {
               $(this).children('.sortable_item_buttons:first')
                      .css('display', event.type == 'mouseenter' ? 'inline-block' : 'none');
-          });"      
+          });".html_safe      
       end
     end
 
@@ -279,6 +279,8 @@ module ApplicationHelper
                          !(options[:do_can_checks_once] ? 
                             (can_destroy ||= present_user.can_destroy?(button_target)) : 
                             present_user.can_destroy?(button_target))
+                            
+                            Rails.logger.debug("hide_edit: #{hide_edit} hide_trash: #{hide_trash}")
             
             (hide_edit ? 
               "".html_safe : 
@@ -375,7 +377,7 @@ module ApplicationHelper
             var obj = jQuery.parseJSON(jqxhr.responseText);
             open_message_dialog(true, 100, 300, 'Error!', obj.toString());
           });
-        });"
+        });".html_safe
       end
     end
     
