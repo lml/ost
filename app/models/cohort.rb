@@ -21,6 +21,22 @@ class Cohort < ActiveRecord::Base
     true_name.blank? ? "Cohort #{number}" : true_name
   end
   
+  def get_student(user)
+    students.where{user_id == user.id}
+  end
+  
+  def is_student?(user)
+    Cohort.joins{students.user}.where{students.user_id == user.id}.any?
+  end
+  
+  def is_educator?(user)
+    Cohort.joins{klass.educators}.where{klass.educators.user_id == user.id}.any?
+  end
+  
+  def is_member?(user)
+    is_student?(user) || is_educator?(user)
+  end
+  
   #############################################################################
   # Access control methods
   #############################################################################

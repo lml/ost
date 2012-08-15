@@ -1,0 +1,6 @@
+<%= unless_errors_in(@assignment_coworker, 'user_action_dialog_errors') do %>
+   $("#user_action_form_<%= @assignment_coworker.student.user_id %>").html("Added");
+   $("#coworker_list").append("<%= ej(render :partial => 'assignment_coworkers/entry', 
+                              :locals => {:coworker => @assignment_coworker}) %>")
+   refresh_buttons();
+<% end %>

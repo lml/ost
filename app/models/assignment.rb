@@ -2,7 +2,12 @@ class Assignment < ActiveRecord::Base
   belongs_to :assignment_plan
   belongs_to :cohort
   has_many :student_assignments, :dependent => :destroy
-  has_many :assignment_exercises, :dependent => :destroy
+  has_many :assignment_exercises, :order => :number, :dependent => :destroy
+
+  validates :assignment_plan_id, :presence => true
+  validates :cohort_id, :presence => true,
+                        :uniqueness => {:scope => :assignment_plan_id}                    
+
   
   attr_accessible :assignment_plan, :cohort, :assignment_exercises_attributes
   
@@ -20,4 +25,21 @@ class Assignment < ActiveRecord::Base
   def assigned?
     student_assignments.any?
   end
+
+  def active?
+    assignment_plan.active?
+  end
+
+  #############################################################################
+  # Access control methods
+  #############################################################################
+
+  def can_be_read_by?(user)
+    cohort.is_member?(user) || Researcher.is_one?(user)
+  end
+
+  def can_be_updated_by?(user)
+    cohort.klass.is_educator?(user)
+  end
+
 end
