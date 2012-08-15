@@ -1,15 +1,166 @@
-<p id="notice"><%= notice %></p>
+<%
+  assignment_plan = @assignment.assignment_plan
+  klass = @assignment.cohort.klass
+%>
 
-<p>
-  <b>Assignment plan:</b>
-  <%= @assignment.assignment_plan_id %>
-</p>
+<%= pageHeading("Assignment: #{assignment_plan.name}", 
+                {:sub_heading_text => klass.name}) %>
 
-<p>
-  <b>Cohort:</b>
-  <%= @assignment.cohort_id %>
-</p>
+<% if !@student_assignment.blank? %>
+  <%= render :partial => 'shared/response_times',
+             :locals => {:response_timeable => @student_assignment,
+                         :page => "assignment"} %>
+<% end %>
 
+<% important_message = "Due: #{standard_datetime(assignment_plan.ends_at)}" %>
 
-<%= link_to 'Edit', edit_assignment_path(@assignment) %> |
-<%= link_to 'Back', assignments_path %>
+<% important_message += "<br/><br/>This assignment is #{assignment_plan.is_open_book ? 'OPEN' : 'CLOSED' } book." %>
+
+<%= important(important_message.html_safe) %>
+
+<%= section "Introduction" do %>
+
+  <%= simple_format assignment_plan.introduction %>
+
+<% end %>
+
+<%= section "Study Resources" do %>
+
+<% resources = assignment_plan.resources %>
+  <% if resources.blank? %>
+    <p>There are no resources for this assignment</p>
+  <% else %>
+
+    <ol>
+      <% resources.each do |resource| %>
+        <li><%= link_to resource.name.blank? ? resource.url : resource.name, 
+                        resource.url,
+                        :class => 'activity_link' %></li>
+      <% end %>
+    </ol>
+  <% end %>
+<% end %>
+
+<%#= @activity_zones[0] %>
+
+<% if !@student_assignment.blank? %>
+  <%= section "Coworkers" do %>
+    <% if !assignment_plan.group_work_allowed %>
+      You may not work in groups on these exercises.
+    <% else %>
+      <p>I worked with the following students on this assignment: 
+         (<%= link_to "Add coworkers...", 
+                      new_student_assignment_assignment_coworker_path(@student_assignment), 
+                      :remote => true %>)
+        <br/>
+        <span style="margin-left:15px" id="coworker_list">
+          <% @student_assignment.assignment_coworkers.each do |coworker| %>
+            <%= render :partial => 'assignment_coworkers/entry', :locals => {:coworker => coworker} %>
+        <% end %>
+        </span>
+      </p>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= section "Exercises" do %>
+
+  <% if @student_assignment.blank? %>
+    <p>This assignment has <%= pluralize(@assignment.assignment_exercises.count, "exercise") %>.</p>
+    <p>You cannot see or work the exercises because you are not a student in this class.</p>
+  <% else %>    
+    <%= render :partial => 'student_exercises/list', 
+               :locals => {:student_assignment => @student_assignment} %>  
+  <% end %>
+
+<% end %>
+
+<% if klass.is_educator?(present_user) || Researcher.is_one?(present_user) %>
+
+  <%= section "Results" do %>
+    <%= link_to_function "Click here if the results are clipped in your browser", 
+                         "$('#outer').css('width','2000px');", 
+                         :style => "font-size:9px; float:right;"%><br/>
+  
+    <% assignments = Assignment.where{assignment_plan_id == assignment_plan.id} %>
+    
+    <% assignments.each do |assignment| %>
+    
+      <%= sub_section "Cohort: #{assignment.cohort.name} do "%>
+  
+        <% num_exercises = assignment.assignment_exercises.count %>
+    
+        <% exercise_registered_right_counts = num_exercises.times.collect{0} %>
+        <% exercise_registered_taken_counts = num_exercises.times.collect{0} %>
+    
+        <table class="list" width="100%" style="margin-top:10px">
+          <tr>
+            <th>Name</th>
+            <% [*1..num_exercises].each do |ii| %>
+            <th style="text-align:center"><%= ii.to_s %></th>
+            <% end %>
+          </tr>
+      
+          <% students = assignment.cohort.students.visible(present_user).std_sort(present_user) %>
+      
+          <% students.each do |student| %>
+          <tr>
+            <% sa = StudentAssignment.for_assignment(assignment).for_student(student).first %>
+            <td>
+              <%= link_to student.full_name(present_user), sa %> 
+              <%= "(C)" if present_user.is_administrator? && student.consent.try(:did_consent) %>
+            </td>
+            <% if sa.nil? %>
+              <td colspan="<%= num_exercises %>"><center>Not Started</center></td>
+            <% else %>
+              <% student_exercises = sa.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
+              <% student_exercises.each_with_index do |se, ee| %>
+                <td style="text-align:center">
+                  <% if !se.response_text_submitted? %>
+                    <%= image_tag 'empty_circle_v2.png' %>              
+                  <% elsif !se.response_choice_submitted? %>
+                    <%= image_tag 'half_filled_circle_v2.png' %>              
+                  <% else %>
+                    <% if se.is_correct? %>
+                      <% if se.past_due %>
+                        <%= image_tag 'red_check_v2.png' %>
+                      <% else %>
+                        <%= image_tag 'green_check_v2.png' %>
+                      <% end %>
+                      <% exercise_registered_right_counts[ee] += 1 if student.registered? %>
+                    <% else %>
+                      <%= image_tag 'red_x_v2.png' %>
+                    <% end %>
+                    <% exercise_registered_taken_counts[ee] += 1 if student.registered? %>
+                  <% end %>
+                </td>
+              <% end %>
+            <% end %>
+          </tr>
+          <% end %>
+          <tr>
+            <td>Correct % (Registered Students)</td>
+            <% [*0..num_exercises-1].each do |ee| %>
+              <% pct = exercise_registered_taken_counts[ee] == 0 ? 
+                       "--" : 
+                       exercise_registered_right_counts[ee] * 100 / exercise_registered_taken_counts[ee] %>
+              <td style="text-align:center"><%= pct %></td>
+            <% end %>
+          </tr>
+        </table>
+        
+      <% end # sub_section %>
+      
+    <% end # assignments.each %> 
+  <% end # results section %>
+  
+  <center>
+    <%= image_tag 'empty_circle_v2.png', :style => "vertical-align:middle" %> = Not started, 
+    <%= image_tag 'half_filled_circle_v2.png', :style => "vertical-align:middle" %> = Free-form locked, 
+    <%= image_tag 'red_x_v2.png', :style => "vertical-align:middle" %> = Wrong, 
+    <%= image_tag 'green_check_v2.png', :style => "vertical-align:middle" %> = Right,
+    <%= image_tag 'red_check_v2.png', :style => "vertical-align:middle" %> = Right but late
+  </center>        
+  
+
+<% end %>

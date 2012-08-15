@@ -53,6 +53,8 @@ class Cohort < ActiveRecord::Base
     when :learning_condition
       (klass.is_controlled_experiment ? Researcher.is_one?(user) : klass.is_instructor?(user)) || 
       user.is_administrator?
+    when :assignments
+      klass.is_educator?(user) || klass.is_student?(user) || Researcher.is_one?(user) || user.is_administrator?
     end
   end
   

@@ -142,6 +142,50 @@
 
 <% end %>
 
+<%= section "Assignments" do %>
+
+  <%# Currently all cohorts have the same assignment due dates and assignment names,
+      so just choose one for now %>
+      
+  <% cohort_1 = @klass.cohorts.first %>
+
+  <% if !present_user.can_read_children?(cohort_1, :assignments) %>
+
+    <p>Assignments are only visible to this section's students and educators.</p>
+
+  <% else %>
+
+    <% assignments = cohort_1.assignments %>
+    
+    <% if assignments.none? %>
+      <p>No assignments yet!</p>
+    <% else %>
+    
+      <table class="list" width="90%">
+        <tr>
+          <th width="5%"></th>
+          <th width="65%">Name</th>
+          <th width="15%">Starts</th>
+          <th width="15%">Ends</th>
+        </tr>
+    
+      <% count = 0 %>
+      <% cohort_1.assignments.each do |assignment| %>
+        <% plan = assignment.assignment_plan %>
+        <tr>
+          <td><%= count += 1 %>.</td>
+          <td><%= link_to(plan.name, assignment) %></td>
+          <td><%= standard_date(plan.starts_at) %></td>
+          <td><%= standard_date(plan.ends_at) %></td>
+        </tr>
+      <% end %>
+      </table>
+    
+    <% end %>
+    
+  <% end %>
+
+<% end %>
 
 
 <%

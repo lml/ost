@@ -1,15 +1,52 @@
-<p id="notice"><%= notice %></p>
+<%= pageHeading("Assignment for #{@student_assignment.student.full_name(present_user)}",
+                {:sub_heading_text => @student_assignment.student.section.klass.name})%>
 
-<p>
-  <b>Student:</b>
-  <%= @student_assignment.student_id %>
-</p>
+<%= section "Assignment Times", {:collapsible => true, :collapsed => true } do %>
+  <%= render :partial => 'response_times/list', 
+             :locals => {:response_times => @student_assignment.response_times} %>
+<% end %>
 
-<p>
-  <b>Assignment:</b>
-  <%= @student_assignment.assignment_id %>
-</p>
-
-
-<%= link_to 'Edit', edit_student_assignment_path(@student_assignment) %> |
-<%= link_to 'Back', student_assignments_path %>
+<%= section "Exercise Responses" do %>
+  <table class="list" width="90%">
+    <tr>
+      <th width="3%">#</th>
+      <th width="58%">Response</th>
+      <th width="15%">Conf (0-4)</th>
+      <th width="8%">Choice</th>
+      <th width="8%">Credit</th>
+      <th width="8%">Times</th>
+      <th></th>
+    </tr>
+    <% student_exercises = @student_assignment.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
+    
+    <% student_exercises.each_with_index do |se,ii| %>
+      <tr>
+        <td><%= ii+1%>.</td>
+        <td><%= se.response_text.blank? ? "(blank)" : simple_format(se.response_text) %></td>
+        <td><%= se.response_confidence.nil? ? "--" : se.response_confidence %></td>
+        <td><%= se.response_choice.nil? ? "--" : "(#{choice_letter(se.response_choice)})" %></td>
+        <td><%= se.response_choice.nil? ? "0" : (se.past_due ? "Late" : se.score) %></td>
+        <td>
+          <%= link_to_function "Show", "$('#se_#{ii}_rts').show(); $(this).hide(); $(this).next().show(); " %>
+          <%= link_to_function "Hide", "$('#se_#{ii}_rts').hide(); $(this).hide(); $(this).prev().show(); ", :style => "display:none" %>  
+        </td>
+        <td><%= link_to("Make Correct", 
+                        student_exercise_make_correct_path(er), 
+                        :remote => true, 
+                        :method => :put, 
+                        :confirm => "Are you sure you want to force " +
+                                    "#{@student_assignment.student.full_name(present_user)}'s " +
+                                    "answer to be correct for this problem?\n\nTHIS CANNOT BE UNDONE!!") \
+                if !se.is_correct? && se.response_choice_submitted? %></td>
+      </tr>
+      <tr id="se_<%= ii %>_rts" style="display:none">
+        <td></td>
+        <td colspan="5">
+          <%= render :partial => 'response_times/list', 
+                     :locals => {:response_times => se.response_times, :show_page => true} %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  
+<% end %>

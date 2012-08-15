@@ -1,25 +1,23 @@
-<h1>Listing assignments</h1>
+<%= pageHeading(full_section_name(@section) + " Assignments")%>
 
-<table>
+<table class="list" width="90%">
   <tr>
-    <th>Assignment plan</th>
-    <th>Cohort</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th width="5%"></th>
+    <th width="65%">Title</th>
+    <th width="15%">Starts</th>
+    <th width="15%">Ends</th>
   </tr>
 
 <% @assignments.each do |assignment| %>
   <tr>
-    <td><%= assignment.assignment_plan_id %></td>
-    <td><%= assignment.cohort_id %></td>
-    <td><%= link_to 'Show', assignment %></td>
-    <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
-    <td><%= link_to 'Destroy', assignment, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= assignment.lesson.number %>.</td>
+    <td><%= link_to_if(assignment.active?, assignment.lesson.title, assignment) %></td>
+    <td><%= standard_date(assignment.start_date) %></td>
+    <td><%= standard_date(assignment.end_date) %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Assignment', new_assignment_path %>
+<% @show_section_link = true %>

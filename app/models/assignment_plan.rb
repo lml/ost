@@ -40,6 +40,10 @@ class AssignmentPlan < ActiveRecord::Base
     # assignments.any?{|a| a.assigned?}
   end
   
+  def active?
+    Time.now > starts_at && Time.now < ends_at
+  end
+  
   def peers
     learning_plan.assignment_plans
   end

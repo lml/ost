@@ -1,0 +1,19 @@
+<%# 
+  Clients must provide either:
+       assignment_response
+       student_exercise 
+%>
+
+<% student_exercise ||= nil %>
+<% student_assignment ||= student_exercise.student_assignment  %>
+
+<% student_exercises = student_assignment.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
+
+<ol>
+<% student_exercises.each do |se| %>
+  <li><%= link_to_unless_current se.status, se %> 
+      <% if se.feedback_is_available? # TODO use learning condition %>
+        (<%= link_to_unless_current "Feedback", student_exercise_feedback_path(er) %>)
+      <% end %>
+<% end %>
+</ol>

@@ -16,6 +16,7 @@
 //= require jquery.purr
 //= require best_in_place
 //= require fullcalendar
+//= require codecogs_editor
 //= require_tree .
 
 

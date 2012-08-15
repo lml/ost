@@ -1,7 +1,5 @@
 Ost::Application.routes.draw do
 
-  # resources :assignments
-
   # resources :percent_schedulers
 
 
@@ -13,10 +11,6 @@ Ost::Application.routes.draw do
   # resources :student_exercises
   # 
   # resources :assignment_exercises
-  # 
-  # resources :student_assignments
-  # 
-  # 
   # 
 
   # 
@@ -99,6 +93,8 @@ Ost::Application.routes.draw do
     resources :assignment_plan_topics, :shallow => true, :only => [:new, :create, :destroy]
   end
   
+  resources :assignments, :only => [:show]
+  
   resources :topics, :only => [] do
     resources :resources, :shallow => true, :except => [:index, :show] do
       post 'sort', :on => :collection
@@ -107,7 +103,28 @@ Ost::Application.routes.draw do
       post 'sort', :on => :collection
     end
   end
+    
+  resources :response_times, :only => [:create]
 
+  resources :student_assignments, :only => [:show, :create] do
+    resources :assignment_coworkers, :shallow => true, :only => [:new, :create, :destroy] do
+      collection do
+        post 'search'
+      end
+    end
+  end
+  
+  resources :student, :only => [] do
+    resources :student_assignments, :only => [:index]
+    resources :consents, :shallow => true, :except => [:edit, :update, :destroy]
+  end
+
+  resources :student_exercises, :only => [:show, :update] do
+    get 'preview_free_response'
+    get 'feedback'
+    put 'make_correct'
+  end
+  
   # For users, we mix devise with our own users controller.  We have overriden
   # some devise controller methods, so point that out here.
   devise_for :users, :controllers => {:registrations => "registrations"}

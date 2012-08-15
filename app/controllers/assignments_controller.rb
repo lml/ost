@@ -1,84 +1,33 @@
 
 class AssignmentsController < ApplicationController
-  # GET /assignments
-  # GET /assignments.json
-  def index
-    @assignments = Assignment.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @assignments }
-    end
-  end
+  before_filter :enable_timeout, :only => [:show]
 
-  # GET /assignments/1
-  # GET /assignments/1.json
   def show
     @assignment = Assignment.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @assignment }
-    end
-  end
+    raise SecurityTransgression unless present_user.can_read?(@assignment)
 
-  # GET /assignments/new
-  # GET /assignments/new.json
-  def new
-    @assignment = Assignment.new
+    student = @assignment.cohort.get_student(present_user)
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @assignment }
-    end
-  end
+    turn_on_consenting(student)
 
-  # GET /assignments/1/edit
-  def edit
-    @assignment = Assignment.find(params[:id])
-  end
+    if !student.nil?
+      @student_assignment = StudentAssignment.for_student(student).for_assignment(@assignment)
 
-  # POST /assignments
-  # POST /assignments.json
-  def create
-    @assignment = Assignment.new(params[:assignment])
+      if @student_assignment.blank?
+        @student_assignment = StudentAssignment.new(:student_id => student.id, 
+                                                    :assignment_id => @assignment.id)
 
-    respond_to do |format|
-      if @assignment.save
-        format.html { redirect_to @assignment, notice: 'Assignment was successfully created.' }
-        format.json { render json: @assignment, status: :created, location: @assignment }
+        raise SecurityTransgression unless present_user.can_create?(@student_assignment)
+
+        # Normally, one wouldn't want to change the database in a GET call, but
+        # this is just lazy-instantiation so it is OK.
+        @student_assignment.save
       else
-        format.html { render action: "new" }
-        format.json { render json: @assignment.errors, status: :unprocessable_entity }
+        @student_assignment = @student_assignment.first
       end
-    end
+    end    
   end
 
-  # PUT /assignments/1
-  # PUT /assignments/1.json
-  def update
-    @assignment = Assignment.find(params[:id])
-
-    respond_to do |format|
-      if @assignment.update_attributes(params[:assignment])
-        format.html { redirect_to @assignment, notice: 'Assignment was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @assignment.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /assignments/1
-  # DELETE /assignments/1.json
-  def destroy
-    @assignment = Assignment.find(params[:id])
-    @assignment.destroy
-
-    respond_to do |format|
-      format.html { redirect_to assignments_url }
-      format.json { head :no_content }
-    end
-  end
 end

@@ -433,5 +433,8 @@ module ApplicationHelper
     @best_in_place_already_set = true
   end
 
+  def choice_letter(index)
+    ("a".ord + index).chr
+  end
   
 end

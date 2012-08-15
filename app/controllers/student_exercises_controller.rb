@@ -1,84 +1,58 @@
 
 class StudentExercisesController < ApplicationController
-  # GET /student_exercises
-  # GET /student_exercises.json
-  def index
-    @student_exercises = StudentExercise.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @student_exercises }
-    end
-  end
+  before_filter :enable_timeout, :only => [:show, :feedback]
 
-  # GET /student_exercises/1
-  # GET /student_exercises/1.json
   def show
     @student_exercise = StudentExercise.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @student_exercise }
-    end
+    raise SecurityTransgression unless present_user.can_read?(@student_exercise)
+    @include_mathjax = true    
   end
 
-  # GET /student_exercises/new
-  # GET /student_exercises/new.json
-  def new
-    @student_exercise = StudentExercise.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @student_exercise }
-    end
-  end
-
-  # GET /student_exercises/1/edit
-  def edit
-    @student_exercise = StudentExercise.find(params[:id])
-  end
-
-  # POST /student_exercises
-  # POST /student_exercises.json
-  def create
-    @student_exercise = StudentExercise.new(params[:student_exercise])
-
-    respond_to do |format|
-      if @student_exercise.save
-        format.html { redirect_to @student_exercise, notice: 'Student exercise was successfully created.' }
-        format.json { render json: @student_exercise, status: :created, location: @student_exercise }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @student_exercise.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /student_exercises/1
-  # PUT /student_exercises/1.json
   def update
     @student_exercise = StudentExercise.find(params[:id])
-
+    raise SecurityTransgression unless present_user.can_update?(@student_exercise)
+   
+    @student_exercise.lock_response_text_on_next_save = true if params[:save_and_lock]
+   
     respond_to do |format|
       if @student_exercise.update_attributes(params[:student_exercise])
-        format.html { redirect_to @student_exercise, notice: 'Student exercise was successfully updated.' }
-        format.json { head :no_content }
+        flash[:notice] = "Response saved."
+        if @student_exercise.selected_answer_submitted? && @student_exercise.is_for_pls_lesson? # TODO use learning condition
+          format.html { redirect_to(student_exercise_feedback_path(@student_exercise)) }
+        else
+          format.html { redirect_to(@student_exercise) }
+        end
       else
-        format.html { render action: "edit" }
-        format.json { render json: @student_exercise.errors, status: :unprocessable_entity }
+        @include_mathjax = true
+        format.html { render :action => "show" }  
       end
     end
   end
-
-  # DELETE /student_exercises/1
-  # DELETE /student_exercises/1.json
-  def destroy
-    @student_exercise = StudentExercise.find(params[:id])
-    @student_exercise.destroy
-
+  
+  def make_correct
+    @student_exercise = StudentExercise.find(params[:student_exercise_id])
+    raise SecurityTransgression unless @student_exercise.can_be_changed_by?(present_user)
+    @student_exercise.force_to_be_correct!
     respond_to do |format|
-      format.html { redirect_to student_exercises_url }
-      format.json { head :no_content }
+      format.js { render :text => 'alert("Refresh page to see that the problem is corrected.")'}
     end
   end
+  
+  def preview_free_response
+    @text = params[:student_exercise][:free_response]    
+    @student_exercise = StudentExercise.find(params[:student_exercise_id])
+    ResponseTime.create(:response_timeable => @student_exercise,
+                        :event => "ACTIVITY",
+                        :note => "preview",
+                        :page => "work")
+  end
+  
+  def feedback
+    @student_exercise = StudentExercise.find(params[:student_exercise_id])
+    raise SecurityTransgression unless present_user.can_read?(@student_exercise) && 
+                                       @student_exercise.feedback_is_available? # TODO use learning condition
+    @include_mathjax = true
+  end
+
 end
