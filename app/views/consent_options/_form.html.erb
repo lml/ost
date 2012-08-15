@@ -1,0 +1,39 @@
+<% @errors = @consent_options.errors %>
+<% @include_timepicker = true %>
+
+<%= form_for(@consent_options) do |f| %>
+  <% time_zone = @consent_options.consent_optionable.time_zone %>
+  
+  <div class="field">
+    Consent Form: 
+  
+    <% consent_forms = ConsentForm.all %>
+  
+    <% if consent_forms.empty? %>
+      <i>None available</i>
+    <% else %>
+      <%= f.select(:consent_form_id, 
+                   options_from_collection_for_select(ConsentForm.all, :id, :name, 
+                                                      @consent_options.consent_form_id),  
+                   {:include_blank => "Select one"}) %>
+    <% end %>
+  </div>
+  <div class="field">
+    Consenting window opens at<br />
+    <%= f.datetime_text_field :opens_at, {:time_zone => time_zone} %>
+  </div>
+  <div class="field">
+    Consenting window closes at<br />
+    <%= f.datetime_text_field :closes_at, {:time_zone => time_zone} %>
+  </div>
+  <div class="field">
+    <%= f.check_box :enable_reask %> Turn on reasking for consent when student did not decline
+  </div>
+  <div class="field">
+    Wait <%= f.text_field :days_before_reask %> days before reasking for consent (when turned on)
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

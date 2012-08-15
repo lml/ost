@@ -44,6 +44,14 @@ class AnonymousUser
   def is_administrator?
     false
   end
+  
+  def is_researcher?
+    false
+  end
+
+  def is_visitor?
+    false
+  end
 
   # Necessary if an anonymous user ever runs into an Exception
   # or else the developer email doesn't work

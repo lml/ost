@@ -194,4 +194,5 @@
   navitem(:can_read_children?, @klass, :sections) { link_to("Sections", klass_sections_path(@klass)) }
   navitem(:can_read_children?, @klass, :learning_conditions) { link_to("Learning Conditions", klass_learning_conditions_path(@klass)) }
   navitem(:can_read_children?, @klass, :cohorts) { link_to("Cohorts", klass_cohorts_path(@klass)) }
+  navitem(:can_read?, @klass.consent_options) { link_to("Consent Options", @klass.consent_options) }
 %>

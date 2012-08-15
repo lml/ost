@@ -1,20 +1,23 @@
-<p id="notice"><%= notice %></p>
+<%= pageHeading "Consent Form: #{@consent_form.name}" %>
 
-<p>
-  <b>Html:</b>
-  <%= @consent_form.html %>
-</p>
+<table class="left_heading">
+  <tr>
+    <th>Content</th>
+    <td><%= @consent_form.html.html_safe %></td>
+  </tr>
+  <tr>
+    <th>Opens At</th>
+    <td><%= standard_datetime(@consent_form.open_date) %></td>
+  </tr>
+  <tr>
+    <th>Closes At</th>
+    <td><%= standard_datetime(@consent_form.close_date) %></td>
+  </tr>
+  <tr>
+    <th>E-signature Required?</th>
+    <td><%= tf_to_yn(@consent_form.esignature_required) %></td>
+  </tr>
+</table>
 
-<p>
-  <b>Esignature required:</b>
-  <%= @consent_form.esignature_required %>
-</p>
-
-<p>
-  <b>Name:</b>
-  <%= @consent_form.name %>
-</p>
-
-
-<%= link_to 'Edit', edit_consent_form_path(@consent_form) %> |
-<%= link_to 'Back', consent_forms_path %>
+<% @show_consent_form_edit_link = true %>
+<% @show_consent_forms_link = true %>

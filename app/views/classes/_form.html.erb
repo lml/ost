@@ -19,20 +19,6 @@
     <%= f.datetime_text_field :end_date, {:time_zone => time_zone} %>
   </div>
   <div class="field">
-    Consent Form: 
-    
-    <% consent_forms = ConsentForm.all %>
-    
-    <% if consent_forms.empty? %>
-      <i>None available</i>
-    <% else %>
-      <%= f.select(:consent_form_id, 
-                   options_from_collection_for_select(ConsentForm.all, :id, :name, 
-                                                      @klass.consent_form_id),  
-                   {:include_blank => "Select one"})%>
-    <% end %>
-  </div>
-  <div class="field">
     Is this class part of a formal study controlled by <%= SITE_NAME %> researchers?<br/>
     <%= f.radio_button :is_controlled_experiment, true %> Yes
     <%= f.radio_button :is_controlled_experiment, false %> No  

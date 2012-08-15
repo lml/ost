@@ -1,27 +1,23 @@
-<h1>Listing consent_forms</h1>
+<%= pageHeading "Consent Forms" %>
 
-<table>
+<table class="list">
   <tr>
-    <th>Html</th>
-    <th>Esignature required</th>
-    <th>Name</th>
-    <th></th>
+    <th width="50%">Name</th>
+    <th width="35%">E-signature Required?</th>
+    <th width="15%"># Consents</th>
     <th></th>
     <th></th>
   </tr>
 
 <% @consent_forms.each do |consent_form| %>
   <tr>
-    <td><%= consent_form.html %></td>
-    <td><%= consent_form.esignature_required %></td>
-    <td><%= consent_form.name %></td>
-    <td><%= link_to 'Show', consent_form %></td>
-    <td><%= link_to 'Edit', edit_consent_form_path(consent_form) %></td>
-    <td><%= link_to 'Destroy', consent_form, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to consent_form.name, consent_form %></td>
+    <td><%= tf_to_yn(consent_form.esignature_required) %></td>
+    <td><%= consent_form.consents.count %></td>
+    <td><%= edit_button(consent_form) %></td>
+    <td><%= trash_button(consent_form) %></td>
   </tr>
 <% end %>
 </table>
 
-<br />
-
-<%= link_to 'New Consent form', new_consent_form_path %>
+<% @show_consent_form_new_link = true %>

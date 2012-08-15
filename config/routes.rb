@@ -1,6 +1,10 @@
 Ost::Application.routes.draw do
 
-  # resources :consent_forms
+  resources :consents
+  resources :consent_forms
+  resources :consent_options, :only => [:show, :edit, :update]
+  
+
   # 
   # resources :organization_managers
   # 

@@ -1,0 +1,31 @@
+<h1>Listing consents</h1>
+
+<table>
+  <tr>
+    <th>Consentable</th>
+    <th>Consentable type</th>
+    <th>Esignature</th>
+    <th>Consent form</th>
+    <th>Did consent</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @consents.each do |consent| %>
+  <tr>
+    <td><%= consent.consentable_id %></td>
+    <td><%= consent.consentable_type %></td>
+    <td><%= consent.esignature %></td>
+    <td><%= consent.consent_form_id %></td>
+    <td><%= consent.did_consent %></td>
+    <td><%= link_to 'Show', consent %></td>
+    <td><%= link_to 'Edit', edit_consent_path(consent) %></td>
+    <td><%= link_to 'Destroy', consent, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Consent', new_consent_path %>

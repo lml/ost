@@ -1,27 +1,19 @@
+<% @include_timepicker = true %>
+
+<% @errors = @consent_form.errors %>
+
 <%= form_for(@consent_form) do |f| %>
-  <% if @consent_form.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@consent_form.errors.count, "error") %> prohibited this consent_form from being saved:</h2>
-
-      <ul>
-      <% @consent_form.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <div class="field">
-    <%= f.label :html %><br />
+    <%= f.label "Name" %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label "HTML" %><br />
     <%= f.text_area :html %>
   </div>
   <div class="field">
-    <%= f.label :esignature_required %><br />
+    <%= f.label "E-signature Required?" %><br />
     <%= f.check_box :esignature_required %>
-  </div>
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
   </div>
   <div class="actions">
     <%= f.submit %>

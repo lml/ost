@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120813233453) do
+ActiveRecord::Schema.define(:version => 20120815200230) do
+
+  create_table "assignment_coworkers", :force => true do |t|
+    t.integer  "student_assignment_id"
+    t.integer  "student_id"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  add_index "assignment_coworkers", ["student_assignment_id"], :name => "index_assignment_coworkers_on_student_assignment_id"
+  add_index "assignment_coworkers", ["student_id"], :name => "index_assignment_coworkers_on_student_id"
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -92,6 +102,33 @@ ActiveRecord::Schema.define(:version => 20120813233453) do
     t.datetime "updated_at",                         :null => false
   end
 
+  create_table "consent_options", :force => true do |t|
+    t.integer  "consent_optionable_id",                                    :null => false
+    t.string   "consent_optionable_type", :limit => 40,                    :null => false
+    t.integer  "consent_form_id"
+    t.datetime "opens_at"
+    t.datetime "closes_at"
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
+    t.float    "days_before_reask"
+    t.boolean  "enable_reask",                          :default => false
+  end
+
+  add_index "consent_options", ["consent_optionable_id", "consent_optionable_type"], :name => "consent_optionable_index"
+
+  create_table "consents", :force => true do |t|
+    t.integer  "consentable_id"
+    t.string   "consentable_type"
+    t.string   "esignature"
+    t.boolean  "did_consent"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.integer  "consent_options_id", :null => false
+  end
+
+  add_index "consents", ["consent_options_id"], :name => "index_consents_on_consent_options_id"
+  add_index "consents", ["consentable_id", "consentable_type"], :name => "consentable_index"
+
   create_table "course_instructors", :force => true do |t|
     t.integer  "course_id",  :null => false
     t.integer  "user_id",    :null => false
@@ -138,7 +175,6 @@ ActiveRecord::Schema.define(:version => 20120813233453) do
   create_table "klasses", :force => true do |t|
     t.integer  "course_id"
     t.text     "approved_emails"
-    t.integer  "consent_form_id"
     t.datetime "start_date"
     t.datetime "end_date"
     t.string   "time_zone"
@@ -148,7 +184,6 @@ ActiveRecord::Schema.define(:version => 20120813233453) do
     t.boolean  "allow_student_specified_id", :default => false, :null => false
   end
 
-  add_index "klasses", ["consent_form_id"], :name => "index_klasses_on_consent_form_id"
   add_index "klasses", ["course_id"], :name => "index_klasses_on_course_id"
 
   create_table "learning_conditions", :force => true do |t|
@@ -226,6 +261,18 @@ ActiveRecord::Schema.define(:version => 20120813233453) do
   end
 
   add_index "resources", ["topic_id"], :name => "index_resources_on_topic_id"
+
+  create_table "response_times", :force => true do |t|
+    t.integer  "response_timeable_id",                 :null => false
+    t.string   "response_timeable_type", :limit => 40, :null => false
+    t.string   "event"
+    t.string   "note"
+    t.string   "page"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+  end
+
+  add_index "response_times", ["response_timeable_id", "response_timeable_type"], :name => "response_timeable_index"
 
   create_table "schedulers", :force => true do |t|
     t.text     "settings"

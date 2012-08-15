@@ -1,0 +1,31 @@
+<%= pageHeading "Consent Options for #{@consent_options.consent_optionable.name}"%>
+
+<p>
+  <b>Consent form:</b>
+  <%= link_to @consent_options.consent_form.name, @consent_options.consent_form %>
+</p>
+
+<p>
+  <b>Opens at:</b>
+  <%= standard_datetime(@consent_options.opens_at) %>
+</p>
+
+<p>
+  <b>Closes at:</b>
+  <%= standard_datetime(@consent_options.closes_at) %>
+</p>
+
+<p>
+  <b>Reask Enabled?</b>
+  <%= tf_to_yn(@consent_options.enable_reask) %>
+</p>
+
+<p>
+  <b>Days to wait before reasking:</b> 
+  <%= @consent_options.days_before_reask %>
+</p>
+
+<%
+  navitem { link_to 'Edit', edit_consent_option_path(@consent_options) }
+  navitem { link_to 'Back', @consent_options.consent_optionable }
+%> 

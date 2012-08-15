@@ -1,6 +1,6 @@
 class Klass < ActiveRecord::Base
   belongs_to :course
-  belongs_to :consent_form
+  has_one :consent_options, :as => :consent_optionable, :dependent => :destroy
   has_one :learning_plan, :dependent => :destroy
   has_many :sections, :dependent => :destroy
   has_many :cohorts, :dependent => :destroy, :order => :number
@@ -17,6 +17,7 @@ class Klass < ActiveRecord::Base
   before_create :init_learning_plan
   before_create :init_first_section
   before_create :init_first_cohort
+  before_create :init_consent_options
 
   attr_accessor :source_learning_plan_id, :creator, :enable_admin_controls
 
@@ -27,6 +28,10 @@ class Klass < ActiveRecord::Base
   scope :started, where{start_date.lt Time.now}
   scope :not_finished, where{end_date.gt Time.now}
   scope :in_progress, started.not_finished
+  
+  def name
+    course.name
+  end
   
   def registration_requests
     RegistrationRequest.joins{section.klass}.where{section.klass.id == self.id}
@@ -144,6 +149,10 @@ protected
   
   def init_first_cohort
     self.cohorts << Cohort.new
+  end
+  
+  def init_consent_options
+    self.consent_options = ConsentOptions.new
   end
   
   def is_controlled_experiment_change_ok?

@@ -1,0 +1,37 @@
+<%= form_for(@consent) do |f| %>
+  <% if @consent.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@consent.errors.count, "error") %> prohibited this consent from being saved:</h2>
+
+      <ul>
+      <% @consent.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :consentable_id %><br />
+    <%= f.number_field :consentable_id %>
+  </div>
+  <div class="field">
+    <%= f.label :consentable_type %><br />
+    <%= f.text_field :consentable_type %>
+  </div>
+  <div class="field">
+    <%= f.label :esignature %><br />
+    <%= f.text_field :esignature %>
+  </div>
+  <div class="field">
+    <%= f.label :consent_form_id %><br />
+    <%= f.number_field :consent_form_id %>
+  </div>
+  <div class="field">
+    <%= f.label :did_consent %><br />
+    <%= f.check_box :did_consent %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Consentable:</b>
+  <%= @consent.consentable_id %>
+</p>
+
+<p>
+  <b>Consentable type:</b>
+  <%= @consent.consentable_type %>
+</p>
+
+<p>
+  <b>Esignature:</b>
+  <%= @consent.esignature %>
+</p>
+
+<p>
+  <b>Consent form:</b>
+  <%= @consent.consent_form_id %>
+</p>
+
+<p>
+  <b>Did consent:</b>
+  <%= @consent.did_consent %>
+</p>
+
+
+<%= link_to 'Edit', edit_consent_path(@consent) %> |
+<%= link_to 'Back', consents_path %>
