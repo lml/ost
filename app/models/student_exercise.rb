@@ -40,6 +40,10 @@ class StudentExercise < ActiveRecord::Base
     assignment_exercise.assignment
   end  
   
+  def student
+    student_assignment.student
+  end
+  
   def status
     return "NOT YET ANSWERED" if !free_response_submitted?
     return "COMPLETED" if selected_answer_submitted?

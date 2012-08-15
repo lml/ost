@@ -1,28 +1,9 @@
 Ost::Application.routes.draw do
 
-  # resources :percent_schedulers
-
-
-  # 
   # resources :consent_forms
   # 
   # resources :organization_managers
   # 
-  # resources :student_exercises
-  # 
-  # resources :assignment_exercises
-  # 
-
-  # 
-  # resources :assignments
-  # 
-  # resources :exercises
-  # 
-  # resources :topics
-  # 
-  # resources :researchers
-  # 
-  # resources :educators
 
   get "admin", :to => 'admin#index'
   put "admin/cron", :to => 'admin#cron', :as => "cron"

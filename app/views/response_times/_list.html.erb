@@ -1,0 +1,28 @@
+<% show_page ||= false %>
+
+<table class="list" width="90%">
+  <tr>
+    <th width="16%">Event</th>
+    <th width="25%">Time</th>
+    <% if show_page %>
+    <th width="15%">Page</th>
+    <% end %>
+    <th width="<%= show_page ? '44' : '55' %>%">Note</th>
+  </tr>
+<% if response_times.blank? %>
+  <tr>
+    <td colspan="<%= show_page ? '4' : '3' %>"><center>None Yet</center></td>
+  </tr>
+<% else %>
+  <% response_times.each do |rt| %>
+    <tr>
+      <td><%= rt.event %></td>
+      <td><%= rt.created_at.nil? ? "---" : rt.created_at.strftime("%m/%d %H:%M:%S") %></td> 
+      <% if show_page %>
+      <td><%= rt.page %></td>
+      <% end %>
+      <td><%= rt.note %></td>
+    </tr>
+  <% end %>
+<% end %>
+</table>

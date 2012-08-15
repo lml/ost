@@ -31,7 +31,7 @@
           <%= link_to_function "Hide", "$('#se_#{ii}_rts').hide(); $(this).hide(); $(this).prev().show(); ", :style => "display:none" %>  
         </td>
         <td><%= link_to("Make Correct", 
-                        student_exercise_make_correct_path(er), 
+                        student_exercise_make_correct_path(se), 
                         :remote => true, 
                         :method => :put, 
                         :confirm => "Are you sure you want to force " +
