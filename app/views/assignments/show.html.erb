@@ -56,7 +56,7 @@
 
 <% if !@student_assignment.blank? %>
   <%= section "Coworkers" do %>
-    <% if !assignment_plan.group_work_allowed %>
+    <% if !assignment_plan.is_group_work_allowed %>
       You may not work in groups on these exercises.
     <% else %>
       <p>I worked with the following students on this assignment: 
@@ -175,4 +175,8 @@
   
 
 <% end %>
+
+<%
+  navitem { link_to "Class", klass_path(klass) }
+%>
 

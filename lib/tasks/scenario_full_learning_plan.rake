@@ -94,6 +94,13 @@ namespace :db do
     
       FactoryGirl.create(:researcher, :user => User.find_by_username("eve"))
       
+      puts "Adding students (Alice in Cohort 1, Bob in Cohort 2)...\n"
+
+      FactoryGirl.create(:student, :user => User.find_by_username("alice"), 
+                                   :section => klass.sections.first, :cohort => klass.cohorts.first)
+      FactoryGirl.create(:student, :user => User.find_by_username("bob"), 
+                                   :section => klass.sections.first, :cohort => klass.cohorts.last)
+      
     end
 
   end

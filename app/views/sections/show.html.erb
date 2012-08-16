@@ -9,5 +9,4 @@
 <% 
   navitem(:can_update?, @section) { link_to 'Edit', edit_section_path(@section) }
   navitem(:can_read_children?, @section.klass, :sections) { link_to 'Section List', klass_sections_path(@section.klass) }
-  navitem(:can_create?, Cohort.new(:section => @section)) { link_to 'New Cohort', new_section_cohort_path(@section) }
 %>

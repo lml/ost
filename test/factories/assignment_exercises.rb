@@ -2,8 +2,7 @@
 
 FactoryGirl.define do
   factory :assignment_exercise do
-    assignment_id 1
-    topic_exercise_id 1
-    number 1
+    assignment
+    topic_exercise
   end
 end

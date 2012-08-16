@@ -8,7 +8,7 @@ class ResponseTime < ActiveRecord::Base
 
   before_save :clear_undefined_fields
 
-  attr_accessible :event, :note, :page, :response_timeable_id, :response_timeable_type
+  attr_accessible :event, :note, :page, :response_timeable_id, :response_timeable_type, :response_timeable
 
   alias_attribute :timestamp, :created_at
 

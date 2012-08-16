@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :student do
     section
+    cohort
     user
     is_auditing false
   end

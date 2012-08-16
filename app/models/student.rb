@@ -74,7 +74,7 @@ class Student < ActiveRecord::Base
   
   def not_currently_consentable?
     # Auditing students are not included in informed consent research
-    auditing || 
+    is_auditing || 
     # Haven't consented but no consent form available to consent to
     (consent.nil? && consent_options.consent_form_id.nil?) || 
     # There is a consent form but the consenting window isn't open

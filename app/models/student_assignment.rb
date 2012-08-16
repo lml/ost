@@ -2,10 +2,10 @@ class StudentAssignment < ActiveRecord::Base
   belongs_to :assignment
   belongs_to :student
   has_many :student_exercises, :dependent => :destroy
-  # has_many :response_times, :as => :response_timeable, :dependent => :destroy, :order => :created_at
-  # has_many :assignment_coworkers, :dependent => :destroy
+  has_many :response_times, :as => :response_timeable, :dependent => :destroy, :order => :created_at
+  has_many :assignment_coworkers, :dependent => :destroy
   
-  attr_accessible
+  attr_accessible :assignment_id, :student_id
   
   validates :assignment_id, :presence => true
   validates :student_id, :presence => true, :uniqueness => {:scope => :assignment_id}
@@ -17,7 +17,7 @@ class StudentAssignment < ActiveRecord::Base
 
   def assignment_has_exercises?
     errors.add(:assignment, "doesn't have any exercises.") \
-      if assignment.assignment_exercises.empty?
+      if assignment(true).assignment_exercises.empty?
     errors.empty?
   end
 
@@ -53,7 +53,7 @@ protected
   def create_student_exercises
     assignment.assignment_exercises.each do |assignment_exercise|
       student_exercise = StudentExercise.new
-      student_exercise.student = student
+      # student_exercise.student = student
       student_exercise.assignment_exercise = assignment_exercise
       student_exercise.student_assignment = self
       student_exercise.save!

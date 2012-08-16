@@ -63,7 +63,7 @@ class Klass < ActiveRecord::Base
   end
   
   def is_student?(user)
-    query_student_for(user).nil?
+    query_student_for(user).any?
   end
   
   def is_active_student?(user)

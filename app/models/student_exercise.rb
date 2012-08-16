@@ -1,7 +1,7 @@
 class StudentExercise < ActiveRecord::Base
   belongs_to :student_assignment
   belongs_to :assignment_exercise
-  # has_many :response_times, :as => :response_timeable, :dependent => :destroy
+  has_many :response_times, :as => :response_timeable, :dependent => :destroy
   
   before_destroy :destroyable?
   
@@ -15,7 +15,7 @@ class StudentExercise < ActiveRecord::Base
                                 :less_than_or_equal_to => 4, 
                                 :allow_nil => true}
 
-  validates :response_choice, :presence => {:if => Proc.new{|se| se.response_text_submitted?}}
+  # validates :selected_answer, :presence => {:if => Proc.new{|se| se.free_response_submitted?}}
   
   # Past due answers now allowed, but get no credit # TODO make configurable by course
   # validate :not_past_due, :on => :update 
@@ -71,6 +71,10 @@ class StudentExercise < ActiveRecord::Base
 
   def score
     past_due ? 0 : credit
+  end
+  
+  def learning_condition
+    # joins{}
   end
 
   #############################################################################

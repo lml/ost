@@ -1,6 +1,6 @@
 <p>Howdy,</p>
 
-<p>An assignment has been posted for a <%= SITE_NAME %> class you are teaching (<%= full_section_name(@assignment.section) %>).  Check it out at:</p>
+<p>An assignment has been posted for a <%= SITE_NAME %> class you are teaching (<%= full_class_name(@assignment) %>).  Check it out at:</p>
 
 <p><%= link_to assignment_url(@assignment), assignment_url(@assignment) %></p>
 

@@ -2,8 +2,15 @@
 module Ost
   module Utilities
 
-    def full_section_name(section)
-      section.klass.course.name + " (" + section.name + ")"
+    def full_class_name(object)
+      
+      case object.class.name
+      when "Section"
+        object.klass.course.name
+      when "Assignment"
+        object.cohort.klass.course.name
+      end
+      
     end
 
   end
