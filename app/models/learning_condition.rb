@@ -2,6 +2,7 @@ class LearningCondition < ActiveRecord::Base
   belongs_to :cohort
   
   has_one :scheduler
+  has_many :feedback_conditions, :order => :number
   
   attr_accessible
   
@@ -29,8 +30,15 @@ class LearningCondition < ActiveRecord::Base
     # exercises (or just on the student assignment?) and then schedule
     # an email to each student that tells them the feedback is available)
   end
-
   
+  def get_feedback_condition(student_exercise)
+    feedback_conditions.detect{|fc| fc.applies_to?(student_exercise)} ||
+      DummyFeedbackCondition.new
+  end
+  
+  def is_feedback_available?(student_exercise)
+    get_feedback_condition(student_exercise).is_feedback_available?(student_exercise)
+  end
   
   #############################################################################
   # Access control methods

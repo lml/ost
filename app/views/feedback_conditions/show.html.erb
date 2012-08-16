@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Learning condition:</b>
+  <%= @feedback_condition.learning_condition_id %>
+</p>
+
+<p>
+  <b>Settings:</b>
+  <%= @feedback_condition.settings %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @feedback_condition.type %>
+</p>
+
+<p>
+  <b>Number:</b>
+  <%= @feedback_condition.number %>
+</p>
+
+
+<%= link_to 'Edit', edit_feedback_condition_path(@feedback_condition) %> |
+<%= link_to 'Back', feedback_conditions_path %>

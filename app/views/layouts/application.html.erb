@@ -256,7 +256,7 @@
 
             <%= yield(:main) %>         
 
-          <% elsif content_for?(:right_column) || !@navitems.empty? %>
+          <% elsif content_for?(:right_column) || !@navitems.empty? || content_for?(:other_nav_content) %>
 
             <%= yield(:page_heading) %>                     
                <div style="clear:both"></div>
@@ -284,6 +284,8 @@
                      <% @navitems.each do |navitem| %>
                        <p><%= navitem %></p>
                      <% end %>
+                     
+                     <%= yield(:other_nav_content) %>
                      
                    </div>
                    <div style="clear:both"></div>

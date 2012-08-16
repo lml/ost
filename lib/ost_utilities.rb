@@ -9,6 +9,8 @@ module Ost
         object.klass.course.name
       when "Assignment"
         object.cohort.klass.course.name
+      when "StudentExercise"
+        object.student_assignment.student.section.klass.course.name
       end
       
     end

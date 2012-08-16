@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120815200230) do
+ActiveRecord::Schema.define(:version => 20120816220756) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -172,6 +172,17 @@ ActiveRecord::Schema.define(:version => 20120815200230) do
     t.datetime "updated_at",    :null => false
   end
 
+  create_table "feedback_conditions", :force => true do |t|
+    t.integer  "learning_condition_id", :null => false
+    t.text     "settings"
+    t.string   "type"
+    t.integer  "number"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  add_index "feedback_conditions", ["learning_condition_id"], :name => "index_feedback_conditions_on_learning_condition_id"
+
   create_table "klasses", :force => true do |t|
     t.integer  "course_id"
     t.text     "approved_emails"
@@ -221,15 +232,6 @@ ActiveRecord::Schema.define(:version => 20120815200230) do
     t.datetime "updated_at",        :null => false
   end
 
-  create_table "percent_schedulers", :force => true do |t|
-    t.text     "settings"
-    t.integer  "learning_condition_id"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-  end
-
-  add_index "percent_schedulers", ["learning_condition_id"], :name => "index_percent_schedulers_on_learning_condition_id"
-
   create_table "registration_requests", :force => true do |t|
     t.integer  "user_id",                            :null => false
     t.integer  "section_id",                         :null => false
@@ -276,11 +278,13 @@ ActiveRecord::Schema.define(:version => 20120815200230) do
 
   create_table "schedulers", :force => true do |t|
     t.text     "settings"
-    t.integer  "learning_condition_id"
+    t.integer  "learning_condition_id", :null => false
     t.string   "type"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
   end
+
+  add_index "schedulers", ["learning_condition_id"], :name => "index_schedulers_on_learning_condition_id"
 
   create_table "sections", :force => true do |t|
     t.integer  "klass_id",   :null => false

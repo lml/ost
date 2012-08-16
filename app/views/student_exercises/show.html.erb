@@ -1,10 +1,11 @@
 <%
   assignment_exercise = @student_exercise.assignment_exercise
-  assignment_plan = assignment_exercise.assignment.assignment_plan
+  assignment = assignment_exercise.assignment
+  assignment_plan = assignment.assignment_plan
 %>
 
 <%= pageHeading("Assignment: #{assignment_plan.name}, Exercise #{assignment_exercise.number}", 
-                {:sub_heading_text => @student_exercise.student_assignment.student.section.klass.name}) %>
+                {:sub_heading_text => full_class_name(@student_exercise)}) %>
 
 
 <% if !assignment_plan.active? %>
@@ -13,7 +14,7 @@
 
 <div id="exercise_response_show"> 
 
-  <% exercise_data = assignment_exercise.exercise.content %>  
+  <% exercise_data = assignment_exercise.topic_exercise.exercise.content %>  
   
   <%= section "The Question" do %>
   <br/>
@@ -156,18 +157,18 @@
     function preview_response() {
       alert('this code needs work! bottom of student_exercises/show');
       
-      $.get('<%= exercise_response_preview_response_text_path(@exercise_response) %>', 
-            $('form.edit_exercise_response').serializeArray());
+      $.get('<%= student_exercise_preview_free_response_path(@student_exercise) %>', 
+            $('form.edit_student_exercise').serializeArray());
     }
-    
-    $("#response_text_preview").dialog({ 
-        autoOpen: false, 
-        modal: true, 
-        height:250, 
-        width:300,
-        title: "Response Preview"
-    });
   <% end %>
 <% end %>
 
 <%= protect_form %>
+
+<% navitem{ link_to 'Show Assignment', assignment_path(assignment) }%>
+
+<% content_for :other_nav_content do %>
+  Exercises
+  <%= render :partial => 'student_exercises/list', 
+             :locals => {:student_exercise => @student_exercise} %>
+<% end %>

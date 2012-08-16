@@ -1,5 +1,7 @@
 Ost::Application.routes.draw do
 
+  resources :feedback_conditions
+
   resources :consents
   resources :consent_forms
   resources :consent_options, :only => [:show, :edit, :update]

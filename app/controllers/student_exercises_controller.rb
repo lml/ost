@@ -18,7 +18,7 @@ class StudentExercisesController < ApplicationController
     respond_to do |format|
       if @student_exercise.update_attributes(params[:student_exercise])
         flash[:notice] = "Response saved."
-        if @student_exercise.selected_answer_submitted? && @student_exercise.is_for_pls_lesson? # TODO use learning condition
+        if @student_exercise.selected_answer_submitted? && @student_exercise.is_feedback_available?
           format.html { redirect_to(student_exercise_feedback_path(@student_exercise)) }
         else
           format.html { redirect_to(@student_exercise) }
@@ -51,7 +51,7 @@ class StudentExercisesController < ApplicationController
   def feedback
     @student_exercise = StudentExercise.find(params[:student_exercise_id])
     raise SecurityTransgression unless present_user.can_read?(@student_exercise) && 
-                                       @student_exercise.feedback_is_available? # TODO use learning condition
+                                       @student_exercise.is_feedback_available?
     @include_mathjax = true
   end
 

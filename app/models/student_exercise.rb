@@ -34,7 +34,7 @@ class StudentExercise < ActiveRecord::Base
   #                 :free_response_submitted_at, :manual_credit, :selected_answer, 
   #                 :selected_answer_submitted_at, :was_submitted_late
 
-  attr_accessible :free_response_text, :free_response_confidence, :selected_answer
+  attr_accessible :free_response, :free_response_confidence, :selected_answer
 
   def assignment
     assignment_exercise.assignment
@@ -64,7 +64,7 @@ class StudentExercise < ActiveRecord::Base
   
   def force_to_be_correct!
     self.skip_update_callbacks = true
-    self.update_attribute(:selected_answer, assignment_exercise.exercise.correct_choice_index)
+    self.update_attribute(:selected_answer, assignment_exercise.topic_exercise.exercise.correct_choice_index)
     self.skip_update_callbacks = true
     self.update_attribute(:credit, 1)
   end
@@ -78,6 +78,10 @@ class StudentExercise < ActiveRecord::Base
     LearningCondition.joins{cohort.students.student_assignments.student_exercises}
                      .where{cohort.students.student_assignments.student_exercises.id == id}
                      .first
+  end
+  
+  def is_feedback_available?
+    learning_condition.is_feedback_available?(self)
   end
 
   #############################################################################
@@ -136,8 +140,8 @@ protected
     # populate the credit the student gets for this answer.
     if ["selected_answer"] == self.changed && !skip_update_callbacks
       self.free_response_submitted_at = Time.now 
-      self.credit = assignment_exercise.exercise.get_credit(selected_answer)
-      self.past_due = assignment_exercise.assignment.end_date < Time.now 
+      self.automated_credit = assignment_exercise.topic_exercise.exercise.get_credit(selected_answer)
+      self.past_due = assignment_exercise.assignment_plan.ends_at < Time.now 
       notify_observers(:selected_answer_to_be_locked)
     end
   end

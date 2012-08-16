@@ -1,6 +1,6 @@
 <%# 
   Clients must provide either:
-       assignment_response
+       student_assignment
        student_exercise 
 %>
 
@@ -12,8 +12,8 @@
 <ol>
 <% student_exercises.each do |se| %>
   <li><%= link_to_unless_current se.status, se %> 
-      <% if se.feedback_is_available? # TODO use learning condition %>
-        (<%= link_to_unless_current "Feedback", student_exercise_feedback_path(er) %>)
+      <% if se.is_feedback_available? %>
+        (<%= link_to_unless_current "Feedback", student_exercise_feedback_path(se) %>)
       <% end %>
 <% end %>
 </ol>
