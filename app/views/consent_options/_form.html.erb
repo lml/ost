@@ -30,7 +30,7 @@
     <%= f.check_box :enable_reask %> Turn on reasking for consent when student did not decline
   </div>
   <div class="field">
-    Wait <%= f.text_field :days_before_reask %> days before reasking for consent (when turned on)
+    Wait <%= f.text_field :days_before_reask, :size => 5 %> days before reasking for consent (when turned on)
   </div>
   
   <div class="actions">

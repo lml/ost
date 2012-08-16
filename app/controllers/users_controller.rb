@@ -33,8 +33,8 @@ class UsersController < ApplicationController
     
     sign_in(:user, User.find(params[:user_id]))
 
-    # redirect_to request.referer
-    redirect_to root_path
+    redirect_to request.referer
+    # redirect_to root_path
   end
 
 end

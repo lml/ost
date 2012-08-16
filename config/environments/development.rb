@@ -38,6 +38,8 @@ Ost::Application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   
   config.enable_recaptcha = false
+  
+  config.enable_url_existence_validations = true
 end
 
 Devise.setup do |config|

@@ -45,7 +45,7 @@ class AssignmentPlan < ActiveRecord::Base
   end
   
   def peers
-    learning_plan.assignment_plans
+    learning_plan.assignment_plans(true)
   end
   
   # The assignment that starts first is the first plan and has number 0, the one

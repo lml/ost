@@ -2,17 +2,17 @@
 
 <p>
   <b>Consent form:</b>
-  <%= link_to @consent_options.consent_form.name, @consent_options.consent_form %>
+  <%= @consent_options.consent_form.nil? ? "Not selected" : (link_to @consent_options.consent_form.name, @consent_options.consent_form) %>
 </p>
 
 <p>
   <b>Opens at:</b>
-  <%= standard_datetime(@consent_options.opens_at) %>
+  <%= @consent_options.opens_at.nil? ? 'Not set' : standard_datetime(@consent_options.opens_at) %>
 </p>
 
 <p>
   <b>Closes at:</b>
-  <%= standard_datetime(@consent_options.closes_at) %>
+  <%= @consent_options.closes_at.nil? ? 'Not set' : standard_datetime(@consent_options.closes_at) %>
 </p>
 
 <p>

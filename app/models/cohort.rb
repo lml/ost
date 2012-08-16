@@ -22,7 +22,7 @@ class Cohort < ActiveRecord::Base
   end
   
   def get_student(user)
-    students.where{user_id == user.id}
+    students.where{user_id == user.id}.first
   end
   
   def is_student?(user)

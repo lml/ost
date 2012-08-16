@@ -106,6 +106,8 @@
       <td><%= standard_datetime(@klass.end_date) %></td>
     </tr>
     
+    <% if @klass.is_teaching_assistant?(present_user) %>
+
     <tr>
       <th style="text-align:right">Preapprovals?</th>
       <td><%= tf_to_yn(!@klass.approved_emails.blank?) %></td>
@@ -113,9 +115,10 @@
 
     <tr>
       <th style="text-align:right">Consent Form</th>
-      <td><%= @klass.consent_form.try(:name) || "None selected" %></td>
+      <td><%= @klass.consent_options.consent_form.try(:name) || "None selected" %></td>
     </tr>
     
+    <% end %>
     
     <% @klass.sections.each_with_index do |section,ii| %>
     

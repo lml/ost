@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :assignment do
-    assignment_plan_id 1
-    cohort_id 1
+    assignment_plan
+    cohort
   end
 end

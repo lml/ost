@@ -2,5 +2,7 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @consent_options %> |
-<%= link_to 'Back', @consent_options.consent_optionable %>
+<%
+  navitem { link_to 'Show', @consent_options }
+  navitem { link_to 'Back', @consent_options.consent_optionable }
+%>

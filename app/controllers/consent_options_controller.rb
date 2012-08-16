@@ -15,7 +15,7 @@ class ConsentOptionsController < ApplicationController
     raise SecurityTransgression unless present_user.can_update?(@consent_options)
 
     respond_to do |format|
-      if @consent_options.update_attributes(params[:consent_option])
+      if @consent_options.update_attributes(params[:consent_options])
         format.html { redirect_to @consent_options, notice: 'Consent options was successfully updated.' }
       else
         format.html { render action: "edit" }

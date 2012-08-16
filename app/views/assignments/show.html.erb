@@ -3,6 +3,7 @@
   klass = @assignment.cohort.klass
 %>
 
+
 <%= pageHeading("Assignment: #{assignment_plan.name}", 
                 {:sub_heading_text => klass.name}) %>
 
@@ -26,19 +27,29 @@
 
 <%= section "Study Resources" do %>
 
-<% resources = assignment_plan.resources %>
-  <% if resources.blank? %>
-    <p>There are no resources for this assignment</p>
-  <% else %>
+  <% no_resources = true %>
 
-    <ol>
-      <% resources.each do |resource| %>
-        <li><%= link_to resource.name.blank? ? resource.url : resource.name, 
-                        resource.url,
-                        :class => 'activity_link' %></li>
-      <% end %>
-    </ol>
+  <% assignment_plan.topics.each do |topic| %>
+    <% resources = topic.resources %>
+    
+    <% if resources.any? %>
+      <% no_resources = false %>
+      <b><%= topic.name %></b>
+      
+      <ol>
+        <% resources.each do |resource| %>
+          <li><%= link_to resource.name.blank? ? resource.url : resource.name, 
+                          resource.url,
+                          :class => 'activity_link' %></li>
+        <% end %>
+      </ol>
+    <% end %>
   <% end %>
+  
+  <% if no_resources %>
+    <p>There are no resources for this assignment</p>
+  <% end %>
+
 <% end %>
 
 <%#= @activity_zones[0] %>
@@ -56,7 +67,7 @@
         <span style="margin-left:15px" id="coworker_list">
           <% @student_assignment.assignment_coworkers.each do |coworker| %>
             <%= render :partial => 'assignment_coworkers/entry', :locals => {:coworker => coworker} %>
-        <% end %>
+          <% end %>
         </span>
       </p>
     <% end %>
@@ -86,7 +97,7 @@
     
     <% assignments.each do |assignment| %>
     
-      <%= sub_section "Cohort: #{assignment.cohort.name} do "%>
+      <%= sub_section "Cohort: #{assignment.cohort.name}" do %>
   
         <% num_exercises = assignment.assignment_exercises.count %>
     
@@ -164,3 +175,4 @@
   
 
 <% end %>
+

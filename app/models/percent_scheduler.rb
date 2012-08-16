@@ -86,7 +86,7 @@ class PercentScheduler < Scheduler
 protected
 
   def init_schedules
-    self.schedules = []
+    self.schedules ||= []
   end
   
   def schedules_ok
