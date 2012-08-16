@@ -74,7 +74,10 @@ class StudentExercise < ActiveRecord::Base
   end
   
   def learning_condition
-    # joins{}
+    # a joins approach instead of doing multiple queries to get up the containment chain
+    LearningCondition.joins{cohort.students.student_assignments.student_exercises}
+                     .where{cohort.students.student_assignments.student_exercises.id == id}
+                     .first
   end
 
   #############################################################################

@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :registration_request do
-    user_id 1
-    section_id 1
+    user
+    section
     is_auditing false
   end
 end

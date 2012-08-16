@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :educator do
-    klass_id 1
-    user_id 1
+    klass
+    user
     is_instructor false
     is_teaching_assistant false
     is_grader false

@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :assignment_coworker do
-    student_assignment_id 1
-    student_id 1
+    student_assignment
+    student
   end
 end

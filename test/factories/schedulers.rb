@@ -3,7 +3,6 @@
 FactoryGirl.define do
   factory :scheduler do
     settings "MyText"
-    learning_condition_id 1
-    type ""
+    learning_condition
   end
 end

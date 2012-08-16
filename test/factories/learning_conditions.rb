@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :learning_condition do
-    cohort_id 1
+    cohort
   end
 end

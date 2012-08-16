@@ -2,10 +2,9 @@
 
 FactoryGirl.define do
   factory :consent_option, :class => 'ConsentOptions' do
-    consent_form_id 1
-    consent_optionable_id 1
-    consent_optionable_type "MyString"
-    opens_at "2012-08-15 12:04:55"
-    closes_at "2012-08-15 12:04:55"
+    consent_form
+    consent_optionable { Factory(:klass) }
+    opens_at {Time.now}
+    closes_at {Time.now+3.months}
   end
 end

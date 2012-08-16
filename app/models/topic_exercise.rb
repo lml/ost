@@ -26,6 +26,10 @@ class TopicExercise < ActiveRecord::Base
     # StudentExercise.joins{assignment_exercise.topic_exercise}.where{assignment_exercise.topic_exercise_id == id}.any?
   end
   
+  def assigned_in_cohort?(cohort)
+    assignment_exercises.joins{assignment}.where{assignment.cohort_id == cohort.id}.any?
+  end
+  
   def changing_topic_not_assigned    
     return true if !topic_id_changed?
     old_topic = Topic.find(topic_id_was)

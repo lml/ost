@@ -60,9 +60,9 @@ class PercentScheduler < Scheduler
         
           num_topic_exercises_to_use = (rule[:percent].to_i/100.0 * max_num_exercises_from_this_topic).floor
         
-          # Ignore topic exercises that have previously been assigned or are
-          # reserved for tests
-          topic_exercises.reject!{|te| te.reserved_for_tests || te.assigned?}        
+          # Ignore topic exercises that have previously been assigned for this cohort
+          # or that are reserved for tests
+          topic_exercises.reject!{|te| te.reserved_for_tests || te.assigned_in_cohort?(cohort)}        
           topic_exercises = topic_exercises.take( num_topic_exercises_to_use )
 
           topic_exercises.each do |topic_exercise|
