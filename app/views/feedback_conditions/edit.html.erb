@@ -1,6 +1,8 @@
-<h1>Editing feedback_condition</h1>
 
-<%= render 'form' %>
+<%= pageHeading "Feedback Condition Editing (#{feedback_condition_name(@feedback_condition)})" %>
 
-<%= link_to 'Show', @feedback_condition %> |
-<%= link_to 'Back', feedback_conditions_path %>
+<%= render :partial => "#{view_dir(@feedback_condition)}/form", 
+           :locals => {:feedback_condition => @feedback_condition} %>
+
+
+<% navitem { link_to "Learning Condition", klass_learning_conditions_path(@feedback_condition.learning_condition.cohort.klass) }%>

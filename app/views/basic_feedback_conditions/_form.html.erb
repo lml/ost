@@ -1,0 +1,57 @@
+<% @errors = feedback_condition.errors %>
+
+<% events = options_for_select(BasicFeedbackCondition::AvailabilityEvent.options, feedback_condition.try(:availability_event)) %>
+
+<%= form_for feedback_condition, :as => :feedback_condition, :url => feedback_condition_path(feedback_condition)  do |f| %>
+
+  <p>TBD explanation of what to do on this form</p>
+
+  <%= hidden_field_tag :type, 'BasicFeedbackCondition' %>
+  
+  <div class="field">
+    Match Labels Against:
+    <%= f.text_field :label_regex %>
+  </div>
+  <div class="field">
+    <%= f.check_box :is_feedback_required_for_credit %>
+    Students must view the feedback to get credit for the problem.
+  </div>
+  <div class="field">
+    The assignment event to use when determining feedback availability:
+    <%= f.select :availability_event, events %>
+  </div>
+  <div class="field">
+    Feedback becomes available...</br>
+  
+    <div style="padding-left:15px">
+      <p>
+      <%= enum_radio_button f, :availability_opens_option, 
+                            BasicFeedbackCondition::AvailabilityOpensOption, :NEVER %></p>
+      <p>
+      <%= enum_radio_button f, :availability_opens_option, 
+                            BasicFeedbackCondition::AvailabilityOpensOption, :IMMEDIATELY_AFTER_EVENT %></p>
+      <p>
+      <%= enum_radio_button f, :availability_opens_option, 
+                            BasicFeedbackCondition::AvailabilityOpensOption, :DELAY_AFTER_EVENT %>
+      of <%= f.text_field :availability_opens_delay_days, :size => 4 %> days</p>
+    </div>
+  </div>
+  <div class="field">
+    Feedback becomes unavailable...</br>
+  
+    <div style="padding-left:15px">
+      <p>
+      <%= enum_radio_button f, :availability_closes_option, 
+                            BasicFeedbackCondition::AvailabilityClosesOption, :NEVER %></p>
+      <p>
+      <%= enum_radio_button f, :availability_closes_option, 
+                            BasicFeedbackCondition::AvailabilityClosesOption, :DELAY_AFTER_OPEN %>
+      of <%= f.text_field :availability_closes_delay_days, :size => 4 %> days</p>
+    </div>
+  </div>
+  
+  <br/>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

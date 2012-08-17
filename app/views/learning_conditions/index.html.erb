@@ -39,7 +39,31 @@
 
     <% end %>
     
-    <%= sub_section "Feedback Rules" do %>
+    <%= sub_section "Feedback Conditions" do %>
+    
+      <% feedback_conditions = learning_condition.feedback_conditions %>
+      
+      <div id="feedback_conditions">
+        <% if feedback_conditions.empty? %>
+          <p>No feedback conditions yet</p>
+        <% else %>
+          <% feedback_conditions.each do |feedback_condition| %>
+            <div id="feedback_condition_<%= feedback_condition.id %>">
+              <%= render :partial => "#{view_dir(feedback_condition)}/show", 
+                         :locals => {:feedback_condition => feedback_condition} %>
+              <%= link_to "Edit", edit_feedback_condition_path(feedback_condition) %> |
+              <%= link_to "Delete", feedback_condition_path(feedback_condition), 
+                                    :method => :delete, :remote => true,
+                                    :confirm => "Are you sure?" %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      
+      <br/>
+      <%= link_to "Add a New Feedback Condition", 
+                  new_learning_condition_feedback_condition_path(learning_condition), 
+                  :remote => true %>
     
     <% end %>
     

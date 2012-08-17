@@ -1,0 +1,22 @@
+
+<p>A feedback condition is what determines how students receive and view feedback.  Different learning strategies dictate different approaches to providing feedback.  Choose the type of feedback condition below that fits your needs best.</p>
+
+<%= form_tag(learning_condition_feedback_conditions_path(@learning_condition), :method => :post) do %>
+  
+  <table class="list">
+    <tr>
+      <th width="175">Type</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><%= radio_button_tag(:type, "basic") %> <%= feedback_condition_name(BasicFeedbackCondition.new) %></td>
+      <td>This condition is activated if it matches the labels attached to the exercise the student 
+          is working on (set from the scheduler).  It lets you set several different options for when to
+          show feedback and whether or not viewing of feedback is required.</td>
+    </tr>    
+  </table>
+    
+  <br/>
+  <%= submit_tag "Choose" %>
+<% end %>
+

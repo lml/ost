@@ -437,4 +437,8 @@ module ApplicationHelper
     ("a".ord + index).chr
   end
   
+  def enum_radio_button(form_builder, field_symbol, enum_class, enum_name)
+    (form_builder.radio_button field_symbol, enum_class[enum_name]) + enum_name.to_s.humanize
+  end
+  
 end

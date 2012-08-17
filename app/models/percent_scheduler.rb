@@ -1,6 +1,4 @@
 class PercentScheduler < Scheduler
-  belongs_to :learning_condition
-  
   store_accessor :settings, :schedules
   
   validate :schedules_ok

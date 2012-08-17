@@ -31,11 +31,6 @@ class LearningCondition < ActiveRecord::Base
     # an email to each student that tells them the feedback is available)
   end
   
-  def get_feedback_condition(student_exercise)
-    feedback_conditions.detect{|fc| fc.applies_to?(student_exercise)} ||
-      DummyFeedbackCondition.new
-  end
-  
   def is_feedback_available?(student_exercise)
     get_feedback_condition(student_exercise).is_feedback_available?(student_exercise)
   end
@@ -69,4 +64,12 @@ class LearningCondition < ActiveRecord::Base
       Researcher.is_one?(user) || user.is_administrator? :
       cohort.klass.is_instructor?(user) || user.is_administrator?
   end
+  
+protected
+
+  def get_feedback_condition(student_exercise)
+    feedback_conditions.detect{|fc| fc.applies_to?(student_exercise)} ||
+    DummyFeedbackCondition.new
+  end
+
 end

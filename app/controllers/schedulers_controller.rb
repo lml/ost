@@ -41,8 +41,6 @@ class SchedulersController < ApplicationController
     else
       raise IllegalArgument
     end    
-   
-    Rails.logger.debug params.inspect
     
     respond_to do |format|
       if @scheduler.update_attributes(params[:scheduler])

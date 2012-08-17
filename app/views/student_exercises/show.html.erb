@@ -74,9 +74,8 @@
                     :name => "save" %>&nbsp;&nbsp;&nbsp;
             <%= f.submit "Save (and lock!)", 
                     :name => "save_and_lock",
-                    :confirm => "Are you sure you want to lock your answer?  If so " +
-                                "click OK, otherwise click cancel.\n\nAfter your " + 
-                                "answer is locked it CANNOT BE CHANGED."%>
+                    :confirm => "After you lock your answer, you can no longer change it. " + 
+                                "Are you sure you want to lock your answer?" %>
           </div>
           </center>
         <% end %>
@@ -120,9 +119,8 @@
         <center>
           <div class="actions">
             <%= f.submit "Save and lock!", 
-                    :confirm => "Are you sure you want to lock your answer?  If so " +
-                                "click OK, otherwise click cancel.\n\nAfter your " + 
-                                "answer is locked it CANNOT BE CHANGED."%>
+                    :confirm => "After you lock your answer, you can no longer change it. " + 
+                                "Are you sure you want to lock your answer?" %>
           </div>
         </center>
       <% end %>

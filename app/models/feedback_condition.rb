@@ -5,6 +5,8 @@ class FeedbackCondition < ActiveRecord::Base
   
   attr_accessible :learning_condition
   
+  acts_as_numberable :container => :learning_condition
+  
   #############################################################################
   # Access control methods
   #############################################################################
