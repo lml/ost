@@ -15,7 +15,8 @@ class StudentExercise < ActiveRecord::Base
                                 :less_than_or_equal_to => 4, 
                                 :allow_nil => true}
 
-  # validates :selected_answer, :presence => {:if => Proc.new{|se| se.free_response_submitted?}}
+  # If the free response has been submitted, the next update should have a selected answer
+  validates :selected_answer, :presence => {:if => Proc.new{|se| se.free_response_submitted?}}
   
   # Past due answers now allowed, but get no credit # TODO make configurable by course
   # validate :not_past_due, :on => :update 
@@ -30,10 +31,6 @@ class StudentExercise < ActiveRecord::Base
   attr_accessor :skip_update_callbacks
   before_save :notify_updated, :on => :update
   
-  # attr_accessible :automated_credit, :content_cache, :free_response, :free_response_confidence, 
-  #                 :free_response_submitted_at, :manual_credit, :selected_answer, 
-  #                 :selected_answer_submitted_at, :was_submitted_late
-
   attr_accessible :free_response, :free_response_confidence, :selected_answer
 
   def assignment
@@ -70,7 +67,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def score
-    past_due ? 0 : credit
+    was_submitted_late ? 0 : credit
   end
   
   def learning_condition
@@ -139,9 +136,9 @@ protected
     # Lock the response choice in if it has been made, and take this chance to 
     # populate the credit the student gets for this answer.
     if ["selected_answer"] == self.changed && !skip_update_callbacks
-      self.free_response_submitted_at = Time.now 
+      self.selected_answer_submitted_at = Time.now 
       self.automated_credit = assignment_exercise.topic_exercise.exercise.get_credit(selected_answer)
-      self.past_due = assignment_exercise.assignment_plan.ends_at < Time.now 
+      self.was_submitted_late = assignment_exercise.assignment.assignment_plan.ends_at < Time.now 
       notify_observers(:selected_answer_to_be_locked)
     end
   end
