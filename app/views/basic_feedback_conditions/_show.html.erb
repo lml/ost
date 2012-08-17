@@ -1,6 +1,24 @@
-
+<% assignment_event = BasicFeedbackCondition::AvailabilityEvent[feedback_condition.availability_event].to_s.humanize.downcase %>
 <ul>
   <li>Matches Labels Against: <%= feedback_condition.label_regex || "[Not set]" %></li>
   <li>Feedback Viewing is Required?: <%= tf_to_yn(feedback_condition.is_feedback_required_for_credit) %></li>
+  <li>Feedback   
+  <%= 
+    case feedback_condition.availability_opens_option 
+    when BasicFeedbackCondition::AvailabilityOpensOption::NEVER 
+      "never becomes available" 
+    when BasicFeedbackCondition::AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT
+      "becomes available immediately after #{assignment_event}"
+    when BasicFeedbackCondition::AvailabilityOpensOption::DELAY_AFTER_EVENT  
+      "becomes available #{feedback_condition.availability_opens_delay_days} days after #{assignment_event}"
+    end
+  %><%= 
+    case feedback_condition.availability_closes_option
+    when BasicFeedbackCondition::AvailabilityClosesOption::NEVER
+      "."
+    when BasicFeedbackCondition::AvailabilityClosesOption::DELAY_AFTER_OPEN
+      " and becomes unavailable #{feedback_condition.availability_closes_delay_days} days after that."
+    end
+  %></li>
 </ul>
 

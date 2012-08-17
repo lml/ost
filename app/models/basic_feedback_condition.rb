@@ -24,6 +24,10 @@ class BasicFeedbackCondition < FeedbackCondition
                                       greater_than: 0 }
 
   validate :delay_days_specified_if_delay_chosen
+  validate :not_applicable_event_only_for_never
+  validate :feedback_cannot_close_if_never_opened
+  
+  before_save :nil_out_days_if_those_options_not_set
   
   class AvailabilityOpensOption < Enum
     NEVER = 0
@@ -63,8 +67,24 @@ protected
     errors.add(:availability_closes_delay_days, "must be specified") \
       if AvailabilityClosesOption::DELAY_AFTER_OPEN == availability_closes_option &&
          availability_closes_delay_days.nil?
-         
-    errors.none?
+  end
+  
+  def not_applicable_event_only_for_never
+    errors.add(:availability_event, "cannot be NOT APPLICABLE") \
+      if AvailabilityEvent::NOT_APPLICABLE == availability_event &&
+         AvailabilityOpensOption::NEVER != availability_opens_option
+  end
+  
+  def feedback_cannot_close_if_never_opened
+    errors.add(:availability_closes_option, "must be 'Never' since feedback never opens") \
+      if AvailabilityOpensOption::NEVER == availability_opens_option &&
+         AvailabilityClosesOption::NEVER != availability_closes_option
+  end
+  
+  def nil_out_days_if_those_options_not_set
+    self.availability_opens_delay_days = nil if AvailabilityOpensOption::DELAY_AFTER_EVENT != availability_opens_option
+    self.availability_closes_delay_days = nil if AvailabilityClosesOption::DELAY_AFTER_OPEN != availability_closes_option
+    true
   end
   
 end
