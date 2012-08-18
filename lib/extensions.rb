@@ -157,7 +157,8 @@ module LocalActiveRecordExtensions
         validation_method_name = "cast_#{key}_to_#{datatype.to_s}"
         
         define_method(validation_method_name) do
-          precast_value = send("#{key}").strip
+          precast_value = send("#{key}")
+          precast_value.strip! if !precast_value.nil?
 
           cast_value, error_msg = ActiveRecord::Base.cast_from_string_with_error_checking(precast_value, datatype)
 

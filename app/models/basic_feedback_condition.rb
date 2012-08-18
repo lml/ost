@@ -19,8 +19,13 @@ class BasicFeedbackCondition < FeedbackCondition
   before_validation :strip_and_downcase_regex
   before_validation :nil_out_blank_regex
 
-  validates :availability_opens_delay_days, numericality: { only_integer: true,
-                                      greater_than: 0 }
+  validates :availability_opens_delay_days, allow_nil: true,
+                                            numericality: { only_integer: true,
+                                                            greater_than: 0 }
+
+  validates :availability_closes_delay_days, allow_nil: true,
+                                             numericality: { only_integer: true,
+                                                             greater_than: 0 }
 
   validate :delay_days_specified_if_delay_chosen
   validate :not_applicable_event_only_for_never
@@ -67,11 +72,12 @@ protected
     self.is_feedback_required_for_credit ||= false
     self.availability_opens_option ||= AvailabilityOpensOption::NEVER
     self.availability_closes_option ||= AvailabilityClosesOption::NEVER
+    self.availability_event ||= AvailabilityEvent::NOT_APPLICABLE
     true
   end
   
   def strip_and_downcase_regex
-    self.label_regex.strip!.downcase!
+    self.label_regex.strip!.downcase! if !self.label_regex.nil?
   end
   
   def nil_out_blank_regex
