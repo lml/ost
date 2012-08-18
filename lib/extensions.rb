@@ -125,58 +125,58 @@ module LocalActiveRecordExtensions
 
   module ClassMethods
     # add your static(class) methods here
+    
+    def cast_from_string_with_error_checking(precast_value, datatype)
+      cast_value = nil
+      error_msg = nil
+      
+      if !precast_value.blank?
+        case datatype
+        when :integer
+          cast_value = precast_value.to_i
+          error_msg = "is not an integer" if cast_value.to_s != precast_value
+        when :boolean
+          case precast_value.downcase
+          when "1", "true", "t", "yes"
+            cast_value = true
+          when "0", "false", "f", "no"
+            cast_value = false
+          else
+            error_msg = 'is not a boolean'
+          end
+        end
+      end
+
+      return [cast_value, error_msg]
+    end
+    
     def store_typed_accessor(store_attribute, datatype, *keys)
       store_accessor(store_attribute, keys)
       
       Array(keys).flatten.each do |key|
-        case datatype
-        when :integer
-          define_method("cast_#{key}_to_integer") do
-            precast_value = send("#{key}")            
-            cast_value = precast_value.to_i
-          
-            if precast_value.blank?
-              cast_value = nil
-            else            
-              if cast_value.to_s != precast_value
-                errors.add(key, "is not an integer")
-                cast_value = precast_value # return the value to what it was
-              end
-            end
-            
-            send("#{key}=", cast_value)
-            errors.none?
-          end
-        end
+        validation_method_name = "cast_#{key}_to_#{datatype.to_s}"
+        
+        define_method(validation_method_name) do
+          precast_value = send("#{key}").strip
 
-        before_validation "cast_#{key}_to_integer"        
-      end
+          cast_value, error_msg = ActiveRecord::Base.cast_from_string_with_error_checking(precast_value, datatype)
+
+          if !error_msg.nil?
+            errors.add(key, error_msg)
+            cast_value = precast_value
+          end
+
+          send("#{key}=", cast_value)
+          errors.none?
+        end
+        
+        before_validation validation_method_name    
+      end # keys.each
     end
+    
   end
+  
 end
 
 # include the extension 
 ActiveRecord::Base.send(:include, LocalActiveRecordExtensions)
-
-  # 
-  # Array(keys).flatten.each do |key|
-  #   case datatype
-  #   when :integer
-  #     define_method("cast_#{key}_to_integer") do
-  #       precast_value = send("#{key}")
-  #       
-  #       if precast_value.blank?
-  #         cast_
-  #       else
-  #         cast_value = precast_value.to_i
-  #       
-  #         if cast_value.to_s != precast_value
-  #           errors.add(key, "is not an integer")
-  #           cast_value = precast_value # return the value to what it was
-  #         end
-  #       end
-  #       
-  #       send("#{key}=", cast_value)
-  #       errors.none?
-  #     end
-  #   end

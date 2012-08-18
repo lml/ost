@@ -3,7 +3,7 @@ class BasicFeedbackCondition < FeedbackCondition
   require 'enum'
   
   store_accessor       :settings, :label_regex
-  store_accessor       :settings, :is_feedback_required_for_credit
+  store_typed_accessor :settings, :boolean, :is_feedback_required_for_credit
   store_typed_accessor :settings, :integer, :availability_opens_option
   store_typed_accessor :settings, :integer, :availability_opens_delay_days
   store_typed_accessor :settings, :integer, :availability_closes_option
@@ -18,6 +18,7 @@ class BasicFeedbackCondition < FeedbackCondition
                   :availability_event
                   
   before_validation :init, :on => :create
+  before_validation :strip_regex
   before_validation :nil_out_blank_regex
 
   validates :availability_opens_delay_days, numericality: { only_integer: true,
@@ -47,16 +48,30 @@ class BasicFeedbackCondition < FeedbackCondition
     ASSIGNMENT_COMPLETE = 3
   end
   
+  def applies_to?(student_exercise)
+    
+  end
+  
+  def is_feedback_available?(student_exercise)
+    student_exercise.selected_answer_submitted?
+  end
+  
 protected
 
   def init
     self.is_feedback_required_for_credit ||= false
     self.availability_opens_option ||= AvailabilityOpensOption::NEVER
     self.availability_closes_option ||= AvailabilityClosesOption::NEVER
+    true
+  end
+  
+  def strip_regex
+    self.label_regex.strip!
   end
   
   def nil_out_blank_regex
     self.label_regex = nil if label_regex.blank?
+    true
   end
   
   def delay_days_specified_if_delay_chosen
