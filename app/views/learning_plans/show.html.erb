@@ -43,84 +43,73 @@
 
   <% content_for :javascript do %>
     <%= javascript_tag do %>
-    
-      function timeInClassZone(dd) {
-        
-        klass_minus_utc_hours = <%=
-          original_time_zone = Time.zone
-          # This is not accounting for daylight vs standard time re the incoming time
-          Time.zone = @learning_plan.klass.time_zone
-          offset = Time.zone.now.utc_offset/3600;
-          Time.zone = original_time_zone
-          offset
-        %>;
-        
-        utc_minus_local_hours = dd.getTimezoneOffset()/60;
-        local_time = dd.getTime();
-        klass_time = new Date(local_time - (utc_minus_local_hours + klass_minus_utc_hours)*60*60*1000);
-      
-      <% if Rails.env.development? %>  
-        alert (
-          "incoming time:         " + dd + "\n" +
-          "klass_minus_utc_hours: " + klass_minus_utc_hours + "\n" +
-          "utc_minus_local_hours: " + utc_minus_local_hours + "\n" +
-          "local_time:            " + local_time + "\n" +
-          "klass_time:            " + klass_time + "\n"
-        );
-      <% end %>
-        
-        return klass_time;
-      }
+
+ 	function pad_leading_zeros (num, size) {
+		var s = num + "";
+		while (s.length < size)
+		  s = "0" + s;
+		return s;
+	}
+
+	function format_event_date(calDate) {
+		s = pad_leading_zeros(calDate.getFullYear(), 4)  + "-" +
+		    pad_leading_zeros(calDate.getMonth()+1, 2)   + "-" +
+		    pad_leading_zeros(calDate.getDate(), 2)      + " " +
+			pad_leading_zeros(calDate.getHours(), 2)     + ":" +
+			pad_leading_zeros(calDate.getMinutes(), 2)   + ":" +
+			pad_leading_zeros(calDate.getSeconds(), 2);
+		return s;
+	}
   
-      function update_assignment_plan_times(id, starts_at, ends_at, revertFunc) {
-        $.ajax({
-          type: "POST",
-          url: '/assignment_plans/' + id,
-          data: { 
-                  _method:'PUT', 
-                  assignment_plan : { 
-                      starts_at: timeInClassZone(starts_at), 
-                      ends_at: timeInClassZone(ends_at) 
-                  } 
-          },
-          dataType: 'json',
-          success: function(msg) {},
-          error: function(jqXHR, textStatus, errorThrown) {
-            open_message_dialog(true, 150, 440, 'Error!', jQuery.parseJSON(jqXHR.responseText).join("<br/><br/>"));
-            revertFunc();
-          }
-        });
-      }
-      
-      $(document).ready(function() {
-        $('#calendar').fullCalendar({
-            timeFormat:  'h(:mm)t { - h(:mm)t}  ',
-            eventColor: get_os_color('blue'),
-            header: {
-              left: 'title',
-              center: 'agendaWeek,month',
-              right: 'today prev,next'
-            },
-            events: [
-              <% events = @learning_plan.assignment_plans.each_with_index do |assignment_plan, ii| %>
-                <%= (render :partial => 'assignment_plans/assignment_plan_event', 
-                           :locals => {:assignment_plan => assignment_plan}).html_safe %>
-                <%= ','.html_safe if ii != @learning_plan.assignment_plans.count - 1%>
-              <% end %>
-            ],
-            eventClick: function(calEvent, jsEvent, view) {
-              $('#calendar').fullCalendar('changeView', view.name == 'agendaWeek' ? 'month' : 'agendaWeek' )
-                            .fullCalendar('gotoDate', calEvent.start);
-            },
-            eventResize: function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) { 
-              update_assignment_plan_times(event.ost_id, event.start, event.end, revertFunc);
-            },
-            eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-              update_assignment_plan_times(event.ost_id, event.start, event.end, revertFunc);
-            }
-        });        
-      });
-      
+	function handle_event_update(calEvent, revertFunc) {
+		 $.ajax({
+		   type: "POST",
+		   url: '/assignment_plans/' + calEvent.ost_id,
+		   data: { 
+		           _method:'PUT', 
+		           assignment_plan : { 
+		               starts_at_string: format_event_date(calEvent.start), 
+		               ends_at_string:   format_event_date(calEvent.end) 
+		           } 
+		   },
+		   dataType: 'json',
+		   success: function(msg) {},
+		   error: function(jqXHR, textStatus, errorThrown) {
+		     open_message_dialog(true, 150, 440, 'Error!', jQuery.parseJSON(jqXHR.responseText).join("<br/><br/>"));
+		     revertFunc();
+		   }
+		 });
+	}
+  
+	$(document).ready(function() {
+	  $('#calendar').fullCalendar({
+	      timeFormat:  'h(:mm)t { - h(:mm)t}  ',
+	      eventColor: get_os_color('blue'),
+	      header: {
+	        left: 'title',
+	        center: 'agendaWeek,month',
+	        right: 'today prev,next'
+	      },
+	      events: [
+	        <% events = @learning_plan.assignment_plans.each_with_index do |assignment_plan, ii| %>
+	          <%= (render :partial => 'assignment_plans/assignment_plan_event', 
+	                     :locals => {:assignment_plan => assignment_plan}).html_safe %>
+	          <%= ','.html_safe if ii != @learning_plan.assignment_plans.count - 1%>
+	        <% end %>
+	      ],
+	      eventClick: function(calEvent, jsEvent, view) {
+	        $('#calendar').fullCalendar('changeView', view.name == 'agendaWeek' ? 'month' : 'agendaWeek' )
+	                      .fullCalendar('gotoDate', calEvent.start);
+	      },
+	      eventResize: function(calEvent, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) { 
+	        handle_event_update(calEvent, revertFunc);
+	      },
+	      eventDrop: function(calEvent,dayDelta,minuteDelta,allDay,revertFunc) {
+	        handle_event_update(calEvent, revertFunc);
+	      }
+	  });        
+	});
+         
     <% end %>
   <% end %>
 
