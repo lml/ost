@@ -36,6 +36,13 @@ class StudentAssignment < ActiveRecord::Base
     raise NotYetImplemented
   end
   
+  def mark_complete_if_indicated!
+    if student_exercises.where{selected_answer_submitted_at == nil}.none?
+      self.completed_at = Time.now
+      self.save!
+    end
+  end
+  
   #############################################################################
   # Access control methods
   #############################################################################

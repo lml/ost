@@ -37,7 +37,7 @@
   
   <div style="padding-top:20px">
   <%= check_box_tag(:agreement_checkbox) %> 
-  I have read the <%= link_to SiteLicense.latest.title, terms_path %> 
+  I have read the <%= link_to SiteLicense.latest.title, terms_path, :target => "_blank" %> 
   and I agree to be bound by its terms.
   </div>
   

@@ -11,7 +11,7 @@
     <div style="padding-left:15px">
       <% schedule.each do |rule| %>
         <div>
-          <%= rule[:percent] %>% <%= "&rarr; #{rule[:tags].split(',').collect{|t| t.strip}.join(', ')}".html_safe if !rule[:tags].blank? %>
+          <%= rule[:percent] %>% <%= "&rarr; #{rule[:tags].split(',').collect{|t| t.strip.downcase}.join(', ')}".html_safe if !rule[:tags].blank? %>
         </div>
       <% end %>
     </div>

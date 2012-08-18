@@ -63,7 +63,38 @@ class BasicFeedbackCondition < FeedbackCondition
   end
   
   def is_feedback_available?(student_exercise)
-    student_exercise.selected_answer_submitted? # && need information about the state of the SE and assignment
+    return false if AvailabilityOpensOption::NEVER == availability_opens_option
+
+    event_occurred_at = 
+      case availability_event
+      when AvailabilityEvent::ASSIGNMENT_DUE
+        student_exercise.due_at
+      when AvailabilityEvent::EXERCISE_COMPLETE
+        student_exercise.selected_answer_submitted_at
+      when AvailabilityEvent::ASSIGNMENT_COMPLETE
+        student_exercise.student_assignment.completed_at
+      end
+
+    # If the event hasn't occurred yet, we can't give feedback
+    return false if event_occurred_at.nil?
+    
+    feedback_opens_at =
+      case availability_opens_option
+      when AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT
+        event_occurred_at
+      when AvailabilityOpensOption::DELAY_AFTER_EVENT
+        event_occurred_at + availability_opens_delay_days.days
+      end
+
+    feedback_closes_at =
+      case availability_closes_option
+      when AvailabilityClosesOption::NEVER
+        event_occurred_at + 100.years
+      when AvailabilityClosesOption::DELAY_AFTER_OPEN
+        event_occurred_at + availability_closes_delay_days.days
+      end
+
+    return Time.now > feedback_opens_at && Time.now < feedback_closes_at
   end
   
 protected
@@ -77,7 +108,7 @@ protected
   end
   
   def strip_and_downcase_regex
-    self.label_regex.strip!.downcase! if !self.label_regex.nil?
+    self.label_regex = label_regex.strip.downcase if !self.label_regex.nil?
   end
   
   def nil_out_blank_regex

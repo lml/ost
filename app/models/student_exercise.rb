@@ -33,6 +33,10 @@ class StudentExercise < ActiveRecord::Base
   
   attr_accessible :free_response, :free_response_confidence, :selected_answer
 
+  def due_at
+    assignment.assignment_plan.ends_at
+  end
+
   def assignment
     assignment_exercise.assignment
   end  

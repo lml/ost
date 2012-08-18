@@ -25,7 +25,7 @@ class SiteLicensesController < ApplicationController
 
     respond_to do |format|
       if @site_license.save
-        format.html { redirect_to @site_license, notice: 'Terms was successfully created.' }
+        format.html { redirect_to @site_license, notice: 'Site license was successfully created.' }
       else
         format.html { render action: "new" }
       end
@@ -33,12 +33,12 @@ class SiteLicensesController < ApplicationController
   end
 
   def update
-    @site_license = Terms.find(params[:id])
+    @site_license = SiteLicense.find(params[:id])
     raise SecurityTransgression unless present_user.can_update?(@site_license)
 
     respond_to do |format|
       if @site_license.update_attributes(params[:site_license])
-        format.html { redirect_to @site_license, notice: 'Terms was successfully updated.' }
+        format.html { redirect_to @site_license, notice: 'Site license was successfully updated.' }
       else
         format.html { render action: "edit" }
       end
