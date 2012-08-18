@@ -60,7 +60,7 @@ class StudentExercise < ActiveRecord::Base
   end   
   
   def is_correct?
-    1.0 == credit
+    1.0 == automated_credit
   end
   
   def force_to_be_correct!

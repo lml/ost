@@ -1,8 +1,15 @@
+<% 
+  is_educator = @klass.is_educator?(present_user)
+  student = @klass.student_for(present_user) 
+  is_student = !student.nil?
+  student_cohort = student.try(:cohort)
+%>
+
 
 <div style="float:right; padding-right:30px">
-  <% student = @klass.student_for(present_user) %>
   
-  <% if !student.nil? %>
+  
+  <% if is_student %>
 
     <% if student.active? %>
       <%= link_to "Drop this class!", 
@@ -145,42 +152,57 @@
 
 <% end %>
 
+
 <%= section "Assignments" do %>
 
-  <%# Currently all cohorts have the same assignment due dates and assignment names,
-      so just choose one for now %>
-      
-  <% cohort_1 = @klass.cohorts.first %>
-
-  <% if !present_user.can_read_children?(cohort_1, :assignments) %>
+  <% if !present_user.can_read_children?(@klass.cohorts.first, :assignments) %>
 
     <p>Assignments are only visible to this section's students and educators.</p>
 
   <% else %>
 
-    <% assignments = cohort_1.assignments %>
-    
-    <% if assignments.none? %>
+    <% assignment_plans = @klass.learning_plan.assignment_plans.select{|ap| ap.assigned?} %>
+  
+    <% if assignment_plans.none? %>
       <p>No assignments yet!</p>
     <% else %>
     
       <table class="list" width="90%">
         <tr>
           <th width="5%"></th>
-          <th width="65%">Name</th>
-          <th width="15%">Starts</th>
-          <th width="15%">Ends</th>
+          <th width="55%">Name</th>
+          <th width="20%">Starts</th>
+          <th width="20%">Ends</th>
         </tr>
     
+      <% sees_all_cohort_assignments = is_educator || present_user.is_researcher? || present_user.is_administrator? %>
+    
       <% count = 0 %>
-      <% cohort_1.assignments.each do |assignment| %>
-        <% plan = assignment.assignment_plan %>
+      <%# cohort_1.assignments.each do |assignment| %>
+      <% assignment_plans.each do |plan| %>
+        <% assignments = plan.assignments %>        
         <tr>
           <td><%= count += 1 %>.</td>
-          <td><%= link_to(plan.name, assignment) %></td>
+          <td>
+            <% if sees_all_cohort_assignments %>
+              <%= plan.name %>
+            <% else %>
+              <%= link_to(plan.name, assignments.where{cohort_id == student_cohort.id}.first) %>
+            <% end %>
+          </td>
           <td><%= standard_date(plan.starts_at) %></td>
           <td><%= standard_date(plan.ends_at) %></td>
         </tr>
+        <% if sees_all_cohort_assignments %>
+          <% assignments.each do |assignment| %>
+            <tr>
+              <td></td>
+              <td colspan="3">
+                &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to assignment.cohort.name, assignment %><%= '  (me)' if assignment.cohort == student_cohort %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
       <% end %>
       </table>
     

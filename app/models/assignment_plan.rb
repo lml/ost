@@ -3,13 +3,8 @@ class AssignmentPlan < ActiveRecord::Base
   has_many :assignments, :dependent => :destroy
   has_many :assignment_plan_topics, :dependent => :destroy
   has_many :topics, :through => :assignment_plan_topics
-
-  # These move over to assignment.rb
-  # has_many :student_assignments, :dependent => :destroy
-  # has_many :assignment_exercises, :dependent => :destroy, :order => :number
   
   before_destroy :destroyable?
-
 
   ##
   ## Start and end times
@@ -23,19 +18,6 @@ class AssignmentPlan < ActiveRecord::Base
   validates :starts_at, :ends_at, :presence => true
   validates :ends_at, :date => {:after => :starts_at, :message => "End time must be after start time"}, :if => :starts_ends_at_present?
   validate :starts_ends_at_in_bounds
-
-  # def starts_at_string
-  #   if starts_at.present?
-  #     @starts_at_string = TimeUtils.time_to_time_in_zone_string(starts_at, learning_plan.klass.time_zone)
-  #   end
-  #   @starts_at_string
-  # end
-  # def ends_at_string
-  #   if ends_at.present?
-  #     @ends_at_string = TimeUtils.time_to_time_in_zone_string(ends_at, learning_plan.klass.time_zone)
-  #   end
-  #   @ends_at_string
-  # end
   
   def starts_ends_at_present?
     starts_at.present? && ends_at.present?
