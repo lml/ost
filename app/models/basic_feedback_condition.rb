@@ -18,7 +18,7 @@ class BasicFeedbackCondition < FeedbackCondition
                   :availability_event
                   
   before_validation :init, :on => :create
-  before_validation :strip_regex
+  before_validation :strip_and_downcase_regex
   before_validation :nil_out_blank_regex
 
   validates :availability_opens_delay_days, numericality: { only_integer: true,
@@ -49,11 +49,18 @@ class BasicFeedbackCondition < FeedbackCondition
   end
   
   def applies_to?(student_exercise)
+    label_regex_array = label_regex.split(",").collect{|lr| lr.strip}
+    labels = student_exercise.assignment_exercise.tag_list
     
+    label_regex_array.any? do |regex|
+      labels.any? do |label|
+        label == regex || label.match(regex)
+      end
+    end
   end
   
   def is_feedback_available?(student_exercise)
-    student_exercise.selected_answer_submitted?
+    student_exercise.selected_answer_submitted? # && need information about the state of the SE and assignment
   end
   
 protected
@@ -65,8 +72,8 @@ protected
     true
   end
   
-  def strip_regex
-    self.label_regex.strip!
+  def strip_and_downcase_regex
+    self.label_regex.strip!.downcase!
   end
   
   def nil_out_blank_regex
