@@ -9,8 +9,6 @@ class BasicFeedbackCondition < FeedbackCondition
   store_typed_accessor :settings, :integer, :availability_closes_option
   store_typed_accessor :settings, :integer, :availability_closes_delay_days
   store_typed_accessor :settings, :integer, :availability_event
-
-  # store_typed_accessor :settings, :integer, :test
     
   attr_accessible :label_regex, :is_feedback_required_for_credit, 
                   :availability_opens_option, :availability_opens_delay_days, 

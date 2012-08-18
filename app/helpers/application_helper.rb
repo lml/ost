@@ -352,7 +352,7 @@ module ApplicationHelper
   end
   
   def first_name(user)
-    sanitized_text({:researcher => user.research_id, :other => user.full_name})
+    sanitized_text({:researcher => user.research_id, :other => user.first_name})
   end
   
   def last_name(user)

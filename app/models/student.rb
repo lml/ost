@@ -5,6 +5,8 @@ class Student < ActiveRecord::Base
   has_many :student_assignments, :dependent => :destroy
   has_one :consent, :as => :consentable, :dependent => :destroy
   
+  before_create :assign_to_cohort
+  
   before_destroy :destroyable?
 
   validates :section_id, :presence => true
@@ -25,6 +27,10 @@ class Student < ActiveRecord::Base
       scoped
     end
   }
+  
+  scope :same_kind_as, lambda { |student| 
+    student.registered? ? registered : auditing
+  }
 
   scope :std_sort, lambda { |user_arg| 
     if user_arg.is_researcher? || user_arg.is_visitor?
@@ -37,7 +43,19 @@ class Student < ActiveRecord::Base
   }
 
   def full_name(requesting_user)
-    can_view_name?(requesting_user) ? user.full_name : user.research_id
+    if can_view_name?(requesting_user)
+      if student_specified_id.blank?
+        user.full_name
+      else
+        if requesting_user.is_administrator?
+          "#{user.full_name} (#{student_specified_id})"
+        else
+          student_specified_id
+        end
+      end
+    else
+      user.research_id
+    end
   end
   
   def can_view_name?(user)
@@ -45,11 +63,11 @@ class Student < ActiveRecord::Base
   end
   
   def auditing?
-    auditing
+    is_auditing
   end
   
   def registered?
-    !auditing
+    !is_auditing
   end
   
   def active?
@@ -110,6 +128,32 @@ protected
   def destroyable?
     raise NotYetImplemented
     false
+  end
+  
+  def assign_to_cohort
+    # When a new student registers for a section, she will be added to the cohort with 
+    # the fewest members.  If there is more than one cohort with the same number of 
+    # fewest members, she will be randomly assigned to one of them.
+    # 
+    # Our first instinct was that since auditors are not part of the formal research 
+    # study, they should not be members of cohorts.  However, this means their 
+    # whole OST experience would be broken (because without a cohort, they are not 
+    # linked to a learning condition).  So what we do below is assign them to cohorts 
+    # as we would any normal registered student.  However, when we're assigning 
+    # registered students to cohorts we do not count auditing students already in 
+    # cohorts; this way the cohorts will continue to have equal numbers of registered 
+    # students. While not totally required, for simplicity when adding auditors we also
+    # don't  count registered students. We will also continue to not include auditing 
+    # students in the research reports.
+        
+    cohorts = section.cohorts
+    cohorts = section.klass.cohorts if cohorts.empty?
+
+    smallest_cohort_size = cohorts.collect{|c| c.students.same_kind_as(self).count}.min
+    candidate_cohorts = cohorts.select{|c| c.students.same_kind_as(self).count == smallest_cohort_size}
+    
+    target_cohort = candidate_cohorts.sample
+    self.cohort = target_cohort
   end
     
 end

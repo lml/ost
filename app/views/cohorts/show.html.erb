@@ -5,6 +5,13 @@
   <%= @cohort.section.try(:name) || "None" %>
 </p>
 
+<p>
+  <b>Students</b>
+  <%= uber_list @cohort.students, nil, {:hide_trash => true, :hide_edit => true} do |entry| %>
+    <% entry.full_name(present_user) + " " + (entry.auditing? ? "(AUDITING)" : "(REGISTERED)")%>
+  <% end %>
+</p>
+
 <% 
   navitem { link_to 'Edit', edit_cohort_path(@cohort) } 
   navitem { link_to 'Cohort List', klass_cohorts_path(@cohort.klass) }

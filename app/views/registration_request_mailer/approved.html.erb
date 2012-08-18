@@ -1,5 +1,5 @@
 <p>Hi <%= @registration_request.user.first_name %>,</p>
 
-<p>You have been accepted into <%= full_section_name(@registration_request.section) %>.</p>
+<p>You have been accepted into <%= full_class_name(@registration_request) %>.</p>
 
 <%= render :partial => 'shared/email_closing' %>

@@ -39,7 +39,7 @@ class RegistrationRequestsController < ApplicationController
 
     @registration_request.approve!
 
-    flash[:notice] = "Added #{@registration_request.user.full_name} to this section."
+    flash[:notice] = "Added #{@registration_request.requestor_full_name} to this section."
     respond_with(@registration_request)
   end
 
@@ -49,7 +49,7 @@ class RegistrationRequestsController < ApplicationController
 
     @registration_request.reject!
 
-    flash[:notice] = "Rejected #{@registration_request.user.full_name}'s request."
+    flash[:notice] = "Rejected #{@registration_request.requestor_full_name}'s request."
     respond_with(@registration_request)
   end
 
