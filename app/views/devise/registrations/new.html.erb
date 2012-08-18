@@ -34,11 +34,34 @@
   <% if @enable_recaptcha %>
   <p><%= recaptcha_tags :ssl => true %></p>
   <% end %>
-
-  <div><%= f.submit "Sign up" %></div>
+  
+  <div style="padding-top:20px">
+  <%= check_box_tag(:agreement_checkbox) %> 
+  I have read the <%= link_to SiteLicense.latest.title, terms_path %> 
+  and I agree to be bound by its terms.
+  </div>
+  
+  <div style="padding: 10px 0"><%= f.submit "Sign up", :id => 'register_submit', :class => "ui-state-disabled", :disabled => true %></div>
 <% end %>
 
+<br/><br/>
 <%= render "devise/shared/links" %>
 
+
+<%# JS to enable/disable the submit button dependent on if the agree checkbox is checked %>
+<% content_for :javascript do %>
+  <%= javascript_tag do %>
+    $('#agreement_checkbox').live('click', function() {
+       if ($('#agreement_checkbox').is(':checked')) {
+          $('#register_submit').removeAttr('disabled');
+          $('#register_submit').removeClass('ui-state-disabled');
+       } 
+       else {
+          $('#register_submit').attr('disabled', 'disabled');
+          $('#register_submit').addClass('ui-state-disabled');
+       }
+    });
+  <% end %>
+<% end %>
 
 

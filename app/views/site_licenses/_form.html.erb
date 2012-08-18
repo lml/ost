@@ -1,0 +1,14 @@
+<% @errors = @site_license.errors %>
+<%= form_for(@site_license) do |f| %>
+
+  <div class="field">
+    Title: <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    Body: <%= f.text_area :body, :rows => 20, :size => 80 %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

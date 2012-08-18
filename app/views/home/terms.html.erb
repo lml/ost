@@ -1,3 +1,3 @@
-<%= pageHeading "Terms of Use" %>
+<%= pageHeading @site_license.try(:title) || "Terms of Use" %>
 
-TBD
+<%= render :partial => 'site_licenses/show' %>

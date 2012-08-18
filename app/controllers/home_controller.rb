@@ -3,7 +3,9 @@ class HomeController < ApplicationController
   skip_before_filter :authenticate_user!, :only => [:index, :terms, :contact, :contact_submit]
 
   def index; end
-  def terms; end
+  def terms; 
+    @site_license = SiteLicense.latest
+  end
   
   def contact
     @topic = params[:topic]

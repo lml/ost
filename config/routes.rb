@@ -1,5 +1,7 @@
 Ost::Application.routes.draw do
 
+  resources :site_licenses
+
   resources :feedback_conditions
 
   resources :consents

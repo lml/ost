@@ -1,0 +1,23 @@
+<h1>Listing Site Licenses</h1>
+
+<table>
+  <tr>
+    <th width="60%"></th>
+    <th width="40%"></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @site_licenses.each do |site_license| %>
+  <tr>
+    <td><%= link_to site_license.title, site_license %></td>
+    <td><%= standard_datetime(site_license.updated_at) %></td>
+    <td><%= edit_button site_license if present_user.can_update?(site_license) %></td>
+    <td><%= trash_button site_license if present_user.can_destroy?(site_license) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Site License', new_site_license_path %>
