@@ -52,6 +52,14 @@ class BasicFeedbackCondition < FeedbackCondition
     ASSIGNMENT_COMPLETE = 3
   end
   
+  def self.immediate_feedback_condition
+    BasicFeedbackCondition.new(:label_regex => 'standard practice', 
+                               :is_feedback_required_for_credit => false.to_s,
+                               :availability_opens_option => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
+                               :availability_closes_option => AvailabilityClosesOption::NEVER.to_s, 
+                               :availability_event => AvailabilityEvent::EXERCISE_COMPLETE.to_s)
+  end
+  
   def applies_to?(student_exercise)
     label_regex_array = label_regex.split(",").collect{|lr| lr.strip}
     labels = student_exercise.assignment_exercise.tag_list

@@ -4,6 +4,8 @@ class LearningCondition < ActiveRecord::Base
   has_one :scheduler
   has_many :feedback_conditions, :order => :number
   
+  before_create :set_defaults
+  
   attr_accessible
   
   def build_assignment(assignment_plan)
@@ -70,6 +72,11 @@ protected
   def get_feedback_condition(student_exercise)
     feedback_conditions.detect{|fc| fc.applies_to?(student_exercise)} ||
     DummyFeedbackCondition.new
+  end
+  
+  def set_defaults
+    self.scheduler = PercentScheduler.standard_practice_scheduler
+    self.feedback_conditions << BasicFeedbackCondition.immediate_feedback_condition
   end
 
 end

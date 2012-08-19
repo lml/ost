@@ -7,6 +7,12 @@ class PercentScheduler < Scheduler
   
   attr_accessible :schedules
   
+  def self.standard_practice_scheduler
+    new_scheduler = PercentScheduler.new
+    new_scheduler.schedules = [[{:percent => 100, :tags => "standard practice"}]]
+    new_scheduler
+  end
+  
   # Adds a schedule and returns it
   def add_schedule
     self.schedules.push([{:percent => 0, :tags => ""}]).last
