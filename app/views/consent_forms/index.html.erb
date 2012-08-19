@@ -4,7 +4,6 @@
   <tr>
     <th width="50%">Name</th>
     <th width="35%">E-signature Required?</th>
-    <th width="15%"># Consents</th>
     <th></th>
     <th></th>
   </tr>
@@ -13,11 +12,10 @@
   <tr>
     <td><%= link_to consent_form.name, consent_form %></td>
     <td><%= tf_to_yn(consent_form.esignature_required) %></td>
-    <td><%= consent_form.consents.count %></td>
     <td><%= edit_button(consent_form) %></td>
     <td><%= trash_button(consent_form) %></td>
   </tr>
 <% end %>
 </table>
 
-<% @show_consent_form_new_link = true %>
+<% navitem { link_to "New Consent Form", new_consent_form_path }%>

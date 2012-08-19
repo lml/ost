@@ -20,11 +20,13 @@
   </div>
   <div class="field">
     Consenting window opens at<br />
-    <%= f.datetime_text_field :opens_at, {:time_zone => time_zone} %>
+    <%= f.datetime_text_field :opens_at, {:time_zone => time_zone} %><br/>
+    <span class="field_help">Defaults to the start date/time of the class if left blank.</span>
   </div>
   <div class="field">
     Consenting window closes at<br />
-    <%= f.datetime_text_field :closes_at, {:time_zone => time_zone} %>
+    <%= f.datetime_text_field :closes_at, {:time_zone => time_zone} %><br/>
+    <span class="field_help">Defaults to the start date/time of the class if left blank.</span>
   </div>
   <div class="field">
     <%= f.check_box :enable_reask %> Turn on reasking for consent when student did not decline

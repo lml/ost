@@ -13,7 +13,7 @@ class ConsentOptions < ActiveRecord::Base
   end
   
   def consenting_is_open?
-    !opens_at.nil? && !closes_at.nil? && Time.now.between?(opens_at, closes_at)
+    Time.now.between?(opens_at || consent_optionable.start_date, closes_at || consent_optionable.end_date)
   end
   
   #############################################################################

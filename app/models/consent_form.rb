@@ -1,13 +1,16 @@
 class ConsentForm < ActiveRecord::Base
-  has_many :consents 
-  has_many :consent_options 
-
+  has_many :consent_options, :class_name => 'ConsentOptions'
+  
   attr_accessible :esignature_required, :html, :name
   
   validate :html_change_ok, :on => :update
 
   def used?
-    consent_options.any?
+    consent_options.empty?
+  end
+  
+  def any_consents?
+    used? && consent_options.any?{|co| co.consents.any?{|c| c.consent_set?}}
   end
   
   #############################################################################
@@ -27,11 +30,11 @@ class ConsentForm < ActiveRecord::Base
   end
   
   def can_be_updated_by?(user)
-    user.is_administrator? || user.is_researcher?
+    user.is_administrator? || user.is_researcher? && !any_consents?
   end
   
   def can_be_destroyed_by?(user)
-    (user.is_administrator? || user.is_researcher?) && consents.none?{|c| !c.did_consent.nil?}
+    (user.is_administrator? || user.is_researcher?) && !any_consents?
   end
 
 protected

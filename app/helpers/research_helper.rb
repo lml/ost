@@ -1,0 +1,2 @@
+module ResearchHelper
+end

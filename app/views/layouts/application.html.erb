@@ -98,7 +98,10 @@
     
     <div id="toolbox" style="position:absolute; top:0; left:0">
       <% if present_user.is_administrator? %>
-        <%= link_to "Admin", admin_path %><br/>
+        <%= link_to "Admin Console", admin_path %><br/>
+      <% end %>
+      <% if present_user.is_researcher? || present_user.is_administrator? %>
+        <%= link_to "Research Console", research_path %><br/>
       <% end %>
       <% if Rails.env.development? %>
         Current user: <%= present_user.username %><br/>

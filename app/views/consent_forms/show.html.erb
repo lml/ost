@@ -6,18 +6,12 @@
     <td><%= @consent_form.html.html_safe %></td>
   </tr>
   <tr>
-    <th>Opens At</th>
-    <td><%= standard_datetime(@consent_form.open_date) %></td>
-  </tr>
-  <tr>
-    <th>Closes At</th>
-    <td><%= standard_datetime(@consent_form.close_date) %></td>
-  </tr>
-  <tr>
     <th>E-signature Required?</th>
     <td><%= tf_to_yn(@consent_form.esignature_required) %></td>
   </tr>
 </table>
 
-<% @show_consent_form_edit_link = true %>
-<% @show_consent_forms_link = true %>
+<%
+  navitem { link_to "Edit", edit_consent_form_path(@consent_form) }
+  navitem { link_to "List", consent_forms_path }
+%>

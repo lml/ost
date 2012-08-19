@@ -105,6 +105,10 @@ protected
   def authenticate_admin!
     raise SecurityTransgression unless user_is_admin?
   end
+  
+  def authenticate_researcher_or_admin!
+    raise SecurityTransgression unless user_is_admin? || present_user.is_researcher?
+  end
 
   # Like current_user, but for users who aren't logged in returns an 
   # AnonymousUser instead of nil

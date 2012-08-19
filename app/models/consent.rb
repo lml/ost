@@ -30,6 +30,10 @@ class Consent < ActiveRecord::Base
   def consented_at
     did_consent ? created_at : nil
   end
+  
+  def consent_set?
+    !did_consent.nil?
+  end
 
   def ready_for_reask?
     consent_options.ready_for_reask?(self)

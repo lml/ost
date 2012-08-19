@@ -1,5 +1,7 @@
 Ost::Application.routes.draw do
 
+
+
   resources :site_licenses
 
   resources :feedback_conditions
@@ -16,7 +18,7 @@ Ost::Application.routes.draw do
   get "admin", :to => 'admin#index'
   put "admin/cron", :to => 'admin#cron', :as => "cron"
 
-
+  get "research", :to => 'research#index'
 
   get "catalog", :to => 'catalog#index'
 
