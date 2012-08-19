@@ -33,6 +33,18 @@ class Klass < ActiveRecord::Base
     course.name
   end
   
+  def in_progress?
+    started? && !ended?
+  end
+  
+  def started?
+    Time.now >= start_date
+  end
+  
+  def ended?
+    Time.now > end_date
+  end
+  
   def registration_requests
     RegistrationRequest.joins{section.klass}.where{section.klass.id == self.id}
   end
