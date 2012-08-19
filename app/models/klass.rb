@@ -90,7 +90,7 @@ class Klass < ActiveRecord::Base
   def query_student_for(a_user)
     Student.joins{section.klass}
            .joins{:user}
-           .where{(section.klass.id == self.id)}
+           .where{(section.klass.id == my{id})}
            .where{(user.id == a_user.id)}
   end
   
