@@ -1,6 +1,8 @@
 class Resource < ActiveRecord::Base
   belongs_to :topic
   
+  before_validation :fix_up_url
+  
   validates :topic_id, :presence => true
   # validate :enough_content
   validates :url, :presence => true,
@@ -41,5 +43,9 @@ protected
   # def enough_content
   #   return if !url.blank?
   # end
+
+  def fix_up_url
+    self.url = 'http://' + url if !url[/^https?:\/\//]
+  end
 
 end

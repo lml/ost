@@ -21,6 +21,8 @@
 
 
 function open_message_dialog(is_modal, height, width, title, body) {
+  $('#message_dialog_errors').html('');
+  
   $("#message_dialog_body").html(body);
   
   $("#message_dialog").dialog({ 

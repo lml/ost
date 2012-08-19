@@ -55,6 +55,8 @@ class TopicExercise < ActiveRecord::Base
   end
   
   def update_url!(url)
+    url = 'http://' + url if !url[/^https?:\/\//]
+    
     return if !exercise.nil? && exercise.url == url
     self.exercise_id_will_change!
     self.exercise = Exercise.new_or_existing(url)
