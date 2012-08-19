@@ -1,6 +1,6 @@
 class Concept < ActiveRecord::Base
   belongs_to :learning_plan
-  has_many :topic_exercises
+  has_many :topic_exercises, :dependent => :nullify
   
   validates :learning_plan_id, :presence => true
   validates :name, :presence => true, :uniqueness => {:scope => :learning_plan_id}
@@ -18,7 +18,8 @@ class Concept < ActiveRecord::Base
   end
   
   def editable?
-    topic_exercises.none?
+    # topic_exercises.none?
+    true
   end
   
   #############################################################################

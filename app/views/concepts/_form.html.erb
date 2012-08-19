@@ -4,6 +4,15 @@
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
+  <% if @concept.topic_exercises.any? %>
+    <p>IMPORTANT: This concept is linked to the following exercises.  If you change the name here, this change will apply to all of these exercises.</p>
+    
+    <ul>
+    <% @concept.topic_exercises.each do |te| %>
+      <li><%= link_to te.exercise.quadbase_id, te.exercise.url, :target => '_blank' %></li>
+    <% end %>
+    </ul>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>
