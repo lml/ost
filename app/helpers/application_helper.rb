@@ -294,8 +294,6 @@ module ApplicationHelper
                          !(options[:do_can_checks_once] ? 
                             (can_destroy ||= present_user.can_destroy?(button_target)) : 
                             present_user.can_destroy?(button_target))
-                            
-                            Rails.logger.debug("hide_edit: #{hide_edit} hide_trash: #{hide_trash}")
             
             (hide_edit ? 
               "".html_safe : 

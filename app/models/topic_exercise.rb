@@ -14,7 +14,7 @@ class TopicExercise < ActiveRecord::Base
         
   acts_as_numberable :container => :topic
   
-  attr_accessible :exercise_id, :topic_id, :exercise, :topic
+  attr_accessible :exercise_id, :topic_id, :exercise, :topic, :reserved_for_tests
   
   def destroyable?
     !assigned?
