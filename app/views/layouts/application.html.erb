@@ -222,7 +222,7 @@
             <span id="account_info">
               <% if user_signed_in? %>
                 <%= link_to current_user.first_name.upcase, edit_user_registration_path %> <%= image_tag 'blackdot.png', :size => '1x18'%> 
-                <%= link_to "SIGN OUT", destroy_user_session_path, :method => :delete %>
+                <%= link_to "SIGN OUT", destroy_user_session_path, :method => :delete, :id => 'signout_link' %>
               <% else %>
                 <%= link_to "SIGN IN", new_user_session_path %> <%= image_tag 'blackdot.png', :size => '1x18'%> 
                 <%= link_to "JOIN NOW", new_user_registration_path %>
