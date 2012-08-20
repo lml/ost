@@ -24,7 +24,7 @@ class AssignmentsController < ApplicationController
 
         # Normally, one wouldn't want to change the database in a GET call, but
         # this is just lazy-instantiation so it is OK.
-        @student_assignment.save
+        @student_assignment.save!
       else
         @student_assignment = @student_assignment.first
       end

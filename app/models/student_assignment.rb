@@ -10,8 +10,6 @@ class StudentAssignment < ActiveRecord::Base
   validates :assignment_id, :presence => true
   validates :student_id, :presence => true, :uniqueness => {:scope => :assignment_id}
 
-  validate :assignment_has_exercises?, :on => :create
-
   after_create :create_student_exercises
   before_destroy :destroyable?
 

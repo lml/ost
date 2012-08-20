@@ -8,6 +8,8 @@ class Assignment < ActiveRecord::Base
   validates :cohort_id, :presence => true,
                         :uniqueness => {:scope => :assignment_plan_id}                    
 
+  # Commented this out b/c do we really care?
+  # validate :check_has_exercises, :on => :create
   
   attr_accessible :assignment_plan, :cohort, :assignment_exercises_attributes
   
@@ -16,6 +18,10 @@ class Assignment < ActiveRecord::Base
   before_destroy :destroyable?
   
   attr_accessor :dry_run
+  
+  def check_has_exercises
+    errors.add(:base, "All assignments must have at least one exercise") if assignment_exercises.none?
+  end
   
   def destroyable?
     # TODO eventually might allow destruction if sudo enabled

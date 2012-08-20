@@ -24,6 +24,8 @@ class StudentExerciseObserver < ActiveRecord::Observer
   def after_save(student_exercise)
     if student_exercise.selected_answer_submitted?
       student_exercise.student_assignment.mark_complete_if_indicated!
+      student_exercise.learning_condition.notify_student_exercise_event(student_exercise, event)
     end
   end
+  
 end
