@@ -1,83 +1,55 @@
 class ConsentsController < ApplicationController
-  # GET /consents
-  # GET /consents.json
-  def index
-    @consents = Consent.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @consents }
-    end
+  before_filter :get_consentable, :only => [:new, :create]
+
+  def index
+    raise SecurityTransgression unless present_user.can_list?(Consent)
+    @consents = Consent.all
   end
 
-  # GET /consents/1
-  # GET /consents/1.json
   def show
     @consent = Consent.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @consent }
-    end
+    raise SecurityTransgression unless present_user.can_read?(@consent)
   end
 
-  # GET /consents/new
-  # GET /consents/new.json
   def new
-    @consent = Consent.new
+    @consent ||= Consent.new({:consent_options => @consentable.options_for_new_consent, 
+                              :consentable => @consentable})
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @consent }
-    end
+    raise SecurityTransgression unless present_user.can_create?(@consent)
   end
 
-  # GET /consents/1/edit
-  def edit
-    @consent = Consent.find(params[:id])
-  end
-
-  # POST /consents
-  # POST /consents.json
   def create
     @consent = Consent.new(params[:consent])
+    @consent.consentable = @consentable
+    @consent.consent_options = @consentable.options_for_new_consent
+
+    case (params['consent_button'])
+    when 'I do not consent'
+      @consent.did_consent = false
+    when 'I do consent'
+      @consent.did_consent = true
+    when 'Remind me later'
+      @consent.did_consent = nil
+    end
+
+    raise SecurityTransgression unless present_user.can_create?(@consent)
 
     respond_to do |format|
       if @consent.save
-        format.html { redirect_to @consent, notice: 'Consent was successfully created.' }
-        format.json { render json: @consent, status: :created, location: @consent }
+        format.html { redirect_to(new_polymorphic_path([@consentable, Consent.new]), :notice => 'Your consent decision was saved.') }
+        format.js
       else
-        format.html { render action: "new" }
-        format.json { render json: @consent.errors, status: :unprocessable_entity }
+        format.html { render :action => "new" }
+        format.js
       end
     end
   end
 
-  # PUT /consents/1
-  # PUT /consents/1.json
-  def update
-    @consent = Consent.find(params[:id])
+protected
 
-    respond_to do |format|
-      if @consent.update_attributes(params[:consent])
-        format.html { redirect_to @consent, notice: 'Consent was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @consent.errors, status: :unprocessable_entity }
-      end
-    end
+  def get_consentable
+    @consentable = Student.find(params[:student_id]) if params[:student_id]
   end
 
-  # DELETE /consents/1
-  # DELETE /consents/1.json
-  def destroy
-    @consent = Consent.find(params[:id])
-    @consent.destroy
-
-    respond_to do |format|
-      format.html { redirect_to consents_url }
-      format.json { head :no_content }
-    end
-  end
 end

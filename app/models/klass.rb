@@ -94,18 +94,6 @@ class Klass < ActiveRecord::Base
            .where{(user.id == a_user.id)}
   end
   
-  def self.build_and_distribute_assignments
-    AssignmentPlan.can_be_assigned.each do |assignment_plan|
-      
-    end
-  end
-  
-  
-  
-  # def self.build_assignments
-  #   Section.in_progress.each{|section| section.assign_lesson_if_needed}
-  # end
-
   #############################################################################
   # Access control methods
   #############################################################################

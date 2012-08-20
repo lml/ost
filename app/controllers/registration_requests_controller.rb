@@ -70,6 +70,6 @@ protected
   end
 
   def teaching_assistant_and_up_required!
-    @klass.is_teaching_assistant?(present_user)
+    raise SecurityTransgression unless @klass.is_teaching_assistant?(present_user)
   end
 end

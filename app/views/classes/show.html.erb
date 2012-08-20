@@ -127,6 +127,15 @@
     
     <% end %>
     
+    <% if is_student && @klass.is_controlled_experiment %>
+    
+    <tr>
+      <th style="text-align:right">Consent</th>
+      <td><%= link_to "View/Update", new_student_consent_path(student) %>
+    </tr>
+    
+    <% end %>
+    
     <% @klass.sections.each_with_index do |section,ii| %>
     
       <tr>

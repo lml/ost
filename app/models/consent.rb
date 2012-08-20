@@ -17,6 +17,8 @@ class Consent < ActiveRecord::Base
   belongs_to :consentable, :polymorphic => true
   belongs_to :consent_options
 
+  before_validation :delete_old_consents
+
   validates :consentable_type, :presence => true
   validates :consentable_id, :presence => true, :uniqueness => {:scope => :consentable_type}
   validates :consent_options_id, :presence => true
@@ -24,8 +26,7 @@ class Consent < ActiveRecord::Base
 
   attr_protected :consent_options_id, :consentable_id, :consentable_type
 
-  before_create :set_consent_form
-  before_create :delete_old_consents
+  before_create :set_consent_options
 
   def consented_at
     did_consent ? created_at : nil
@@ -54,7 +55,7 @@ class Consent < ActiveRecord::Base
   def can_be_created_by?(user)
     !user.is_anonymous? && 
     consentable.is_consentable_for_user?(user) &&
-    consent_form.can_set_consent_now?
+    consent_options.consenting_is_open?
   end
 
   def can_be_updated_by?(user)
@@ -72,6 +73,7 @@ protected
   end
 
   def delete_old_consents
-    Consent.where(:consentable => consentable).destroy_all
+    consentable.consent.try(:destroy)
+    true
   end
 end

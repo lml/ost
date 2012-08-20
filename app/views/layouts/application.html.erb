@@ -163,7 +163,7 @@
         <br/>
         <div id="consent_form_dialog_errors"></div>        
         
-        <%= @consentable.form_for_new_consent.html.html_safe %>
+        <%= @consentable.consent_options.consent_form.html.html_safe %>
 
         <%= form_for([@consentable, Consent.new]) do |f| %>
           Signature: <%= f.text_field :esignature %>

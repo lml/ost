@@ -11,6 +11,7 @@ class ClassesController < ApplicationController
   def show
     @klass = Klass.find(params[:id])
     raise SecurityTransgression unless present_user.can_read?(@klass)
+    turn_on_consenting(@klass.student_for(present_user))
   end
 
   def new

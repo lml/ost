@@ -1,5 +1,9 @@
-<h1>New consent</h1>
+<%= pageHeading "Consent Form Submission" %>
 
-<%= render 'form' %>
+<% @errors = @consent.errors %>
 
-<%= link_to 'Back', consents_path %>
+<%= render :partial => 'form' %>
+
+<% 
+  navitem { link_to "Class", @consent.consent_options.consent_optionable}
+%>
