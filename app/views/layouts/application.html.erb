@@ -118,6 +118,14 @@
           <% end %>
         <% end %>
       <% end %>
+      
+      <% if (@clock_enabled && user_signed_in?) %>
+      <br/>
+      <span id="clock">
+        <%= standard_time(Time.zone.now) %><br/>(on last refresh)
+      </span>
+      <% end %>
+      
     </div>
 
     
@@ -210,7 +218,7 @@
             </ul>
           </div>
 
-          <div style="clear:right; float:right; padding-top:15px">
+          <div style="clear:right; float:right; padding-bottom:15px">
             <span id="account_info">
               <% if user_signed_in? %>
                 <%= link_to current_user.first_name.upcase, edit_user_registration_path %> <%= image_tag 'blackdot.png', :size => '1x18'%> 
@@ -231,11 +239,6 @@
           <% end %>
           
           
-          <% if user_signed_in? %>
-          <span id="clock" style="float:right; clear:right">
-            <%= standard_datetime(Time.zone.now) %> (on last refresh)
-          </span>
-          <% end %>
       </div>
 
      
@@ -285,7 +288,7 @@
                      <%= yield(:right_column)%>
                      
                      <% @navitems.each do |navitem| %>
-                       <p><%= navitem %></p>
+                       <p style="text-align:right"><%= navitem %></p>
                      <% end %>
                      
                      <%= yield(:other_nav_content) %>

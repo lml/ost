@@ -15,7 +15,8 @@ class ApplicationController < ActionController::Base
                 :site_in_maintenance?,
                 :user_is_admin?,
                 :present_user,
-                :view_dir
+                :view_dir,
+                :enable_clock
 
   unless Ost::Application.config.consider_all_requests_local
     rescue_from Exception, :with => :rescue_from_exception
@@ -183,6 +184,10 @@ protected
   
   def view_dir(object)
     object.type.underscore.pluralize
+  end
+  
+  def enable_clock
+    @clock_enabled = true
   end
 
 end

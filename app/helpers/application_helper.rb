@@ -131,6 +131,10 @@ module ApplicationHelper
     datetime.nil? ? "" : datetime.strftime(STANDARD_DATETIME_FORMAT)
   end
   
+  def standard_time(datetime)
+    datetime.nil? ? "" : datetime.strftime(STANDARD_TIME_FORMAT)
+  end
+  
   def standard_datetime_zone(datetime, zone)
     datetime.nil? ? "" : datetime.in_time_zone(zone).strftime(STANDARD_DATETIME_FORMAT + " %Z")
   end

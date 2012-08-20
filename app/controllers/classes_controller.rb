@@ -3,6 +3,7 @@ class ClassesController < ApplicationController
   skip_before_filter :authenticate_user!, :only => [:index]
   before_filter :get_course, :only => [:new, :create]
   before_filter :set_time_zone, :only => [:create, :update]
+  before_filter :enable_clock
 
   def index
     @klasses = Klass.where{end_date > Time.zone.now}

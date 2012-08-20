@@ -2,6 +2,7 @@
 class AssignmentsController < ApplicationController
 
   before_filter :enable_timeout, :only => [:show]
+  before_filter :enable_clock
 
   def show
     @assignment = Assignment.find(params[:id])

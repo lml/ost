@@ -15,6 +15,8 @@ STANDARD_DATETIME_FORMAT = "%b %d, %Y %l:%M %p %Z"
 # STANDARD_DATE_FORMAT = "%m/%d/%Y"
 STANDARD_DATE_FORMAT = "%b %d, %Y"
 
+STANDARD_TIME_FORMAT = "%l:%M %p %Z"
+
 SITE_NAME = "OpenStax Tutor"
 COPYRIGHT_HOLDER = "Rice University"
 
