@@ -1,1 +1,3 @@
-$('#topics').append("<%= ej(render :partial => 'topics/show', :locals => {:topic => @topic})%>")
+$('#topics').append("<%= ej(render :partial => 'topics/show', :locals => {:topic => @topic})%>");
+enable_best_in_place();
+refresh_buttons();

@@ -1,5 +1,7 @@
 <%= pageHeading "Learning Plan: #{@learning_plan.name}"%>
 
+<% enable_best_in_place %>
+
 <% if !@learning_plan.description.blank? %>
   <%= @learning_plan.description %>
 <% end %>

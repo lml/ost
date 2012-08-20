@@ -417,14 +417,16 @@ module ApplicationHelper
     
     content_for :javascript do
       javascript_tag do
-        "$(document).ready(function() {
+        "function enable_best_in_place() {
           $(\'.best_in_place\').best_in_place();
-          
+        
           $('.best_in_place').ajaxError(function(e, jqxhr, settings, exception) {
             var obj = jQuery.parseJSON(jqxhr.responseText);
             open_message_dialog(true, 100, 300, 'Error!', obj.toString());
           });
-        });".html_safe
+        }
+        
+          $(document).ready(function() { enable_best_in_place(); });".html_safe
       end
     end
     
