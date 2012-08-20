@@ -63,14 +63,14 @@ class BasicFeedbackCondition < FeedbackCondition
   def applies_to?(student_exercise)
     label_regex_array = label_regex.split(",").collect{|lr| lr.strip}
     labels = student_exercise.assignment_exercise.tag_list
-    
+
     label_regex_array.any? do |regex|
       labels.any? do |label|
         label == regex || label.match(regex)
       end
-    end
+    end    
   end
-  
+    
   def is_feedback_available?(student_exercise)
     return false if AvailabilityOpensOption::NEVER == availability_opens_option
 

@@ -55,7 +55,8 @@ class Consent < ActiveRecord::Base
   def can_be_created_by?(user)
     !user.is_anonymous? && 
     consentable.is_consentable_for_user?(user) &&
-    consent_options.consenting_is_open?
+    consent_options.consenting_is_open? &&
+    consentable.currently_consentable?
   end
 
   def can_be_updated_by?(user)

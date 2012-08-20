@@ -99,6 +99,10 @@ class Student < ActiveRecord::Base
     (!consent_options.consent_form_id.nil? && !consent_options.consenting_is_open?) 
   end
   
+  def currently_consentable?
+    !not_currently_consentable?
+  end
+  
   def consent_options
     section.klass.consent_options
   end

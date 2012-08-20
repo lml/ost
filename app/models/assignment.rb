@@ -15,6 +15,8 @@ class Assignment < ActiveRecord::Base
   
   before_destroy :destroyable?
   
+  attr_accessor :dry_run
+  
   def destroyable?
     # TODO eventually might allow destruction if sudo enabled
     errors.add(:base, "This assignment cannot be deleted because it has been given out to students") \

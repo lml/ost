@@ -94,6 +94,7 @@ class ClassesController < ApplicationController
           if assignment.nil?
             learning_condition = learning_conditions[cc]
             assignment = learning_condition.build_assignment(assignment_plan)
+            assignment.dry_run = true
             assignment.save
           end
           

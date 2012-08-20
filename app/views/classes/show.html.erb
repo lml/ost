@@ -127,7 +127,7 @@
     
     <% end %>
     
-    <% if is_student && @klass.is_controlled_experiment %>
+    <% if is_student && @klass.is_controlled_experiment && student.currently_consentable? %>
     
     <tr>
       <th style="text-align:right">Consent</th>
