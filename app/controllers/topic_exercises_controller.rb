@@ -17,6 +17,7 @@ class TopicExercisesController < ApplicationController
 
     begin
       @topic_exercise.update_url!(params[:exercise_url])
+      @topic_exercise.update_concept!(params[:topic_exercise][:concept_id])
       @topic_exercise.save
     rescue Exception => invalid
       logger.error("An error occurred when creating a lesson exercise: #{invalid.message}")
