@@ -41,7 +41,7 @@
   and I agree to be bound by its terms.
   </div>
   
-  <div style="padding: 10px 0"><%= f.submit "Sign up", :id => 'register_submit', :class => "ui-state-disabled", :disabled => true %></div>
+  <div style="padding: 10px 0"><%= f.submit "Sign up", :id => 'register_submit', :class => "ui-state-default ui-state-disabled" %></div>
 <% end %>
 
 <br/><br/>
@@ -51,16 +51,33 @@
 <%# JS to enable/disable the submit button dependent on if the agree checkbox is checked %>
 <% content_for :javascript do %>
   <%= javascript_tag do %>
+  
+  function disable_button(id) {
+     $(id).attr('disabled', 'disabled');
+     $(id).addClass('ui-state-disabled ui-button-disabled');
+     $(id).attr('aria-disabled', true);
+  }
+  
+  function enable_button(id) {
+    $(id).removeAttr('disabled');
+    $(id).removeAttr('aria-disabled');
+    $(id).removeClass('ui-state-disabled ui-button-disabled');
+    $(id).button();
+  }
+  
+  $(document).ready(function() {
+    disable_button('#register_submit');
+    
     $('#agreement_checkbox').live('click', function() {
        if ($('#agreement_checkbox').is(':checked')) {
-          $('#register_submit').removeAttr('disabled');
-          $('#register_submit').removeClass('ui-state-disabled');
+         enable_button('#register_submit');
        } 
        else {
-          $('#register_submit').attr('disabled', 'disabled');
-          $('#register_submit').addClass('ui-state-disabled');
+         disable_button('#register_submit');
        }
     });
+    
+  });
   <% end %>
 <% end %>
 
