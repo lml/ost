@@ -1,4 +1,7 @@
 class StudentExercise < ActiveRecord::Base
+  
+  require 'enum'
+  
   belongs_to :student_assignment
   belongs_to :assignment_exercise
   has_many :response_times, :as => :response_timeable, :dependent => :destroy
@@ -32,6 +35,11 @@ class StudentExercise < ActiveRecord::Base
   before_save :notify_updated, :on => :update
   
   attr_accessible :free_response, :free_response_confidence, :selected_answer
+
+  class Event < Enum
+    DUE = 0
+    COMPLETE = 1 
+  end
 
   def due_at
     assignment.assignment_plan.ends_at
