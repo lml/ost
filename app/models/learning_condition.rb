@@ -14,7 +14,9 @@ class LearningCondition < ActiveRecord::Base
     scheduler.build_assignment(assignment_plan, cohort)
   end
   
+  
   def notify_student_exercise_event(student_exercise, event) # event is an enum
+    get_feedback_condition(student_exercise).notify_student_exercise_event(student_exercise, event)
     # Events:
     #    first viewed the feedback
     #    finished the problem
@@ -24,6 +26,9 @@ class LearningCondition < ActiveRecord::Base
   end
 
   def notify_student_assignment_event(student_assignment, event)
+    student_assignment.student_exercises.each do |student_exercise|
+      notify_student_exercise_event(student_exercise, event)
+    end
     # Need cron job that periodically checks to see which assignments 
     # have come due (that haven't been noticed before -- by checking
     # the observed event table).  For those assignments, get the 

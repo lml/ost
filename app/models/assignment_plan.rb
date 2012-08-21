@@ -3,6 +3,7 @@ class AssignmentPlan < ActiveRecord::Base
   has_many :assignments, :dependent => :destroy
   has_many :assignment_plan_topics, :dependent => :destroy
   has_many :topics, :through => :assignment_plan_topics
+  has_many :observations, :as => :observable
   
   before_destroy :destroyable?
 

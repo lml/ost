@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120818213947) do
+ActiveRecord::Schema.define(:version => 20120821195244) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -147,6 +147,7 @@ ActiveRecord::Schema.define(:version => 20120818213947) do
     t.integer  "number"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.string   "short_name"
   end
 
   add_index "courses", ["organization_id"], :name => "index_courses_on_organization_id"
@@ -276,6 +277,17 @@ ActiveRecord::Schema.define(:version => 20120818213947) do
 
   add_index "response_times", ["response_timeable_id", "response_timeable_type"], :name => "response_timeable_index"
 
+  create_table "scheduled_notifications", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "subject"
+    t.text     "message"
+    t.datetime "send_after"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "scheduled_notifications", ["user_id"], :name => "index_scheduled_notifications_on_user_id"
+
   create_table "schedulers", :force => true do |t|
     t.text     "settings"
     t.integer  "learning_condition_id", :null => false
@@ -303,11 +315,12 @@ ActiveRecord::Schema.define(:version => 20120818213947) do
   end
 
   create_table "student_assignments", :force => true do |t|
-    t.integer  "student_id",    :null => false
-    t.integer  "assignment_id", :null => false
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "student_id",      :null => false
+    t.integer  "assignment_id",   :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.datetime "completed_at"
+    t.datetime "observed_due_at"
   end
 
   add_index "student_assignments", ["assignment_id"], :name => "index_student_assignments_on_assignment_id"

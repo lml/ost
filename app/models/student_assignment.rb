@@ -1,4 +1,7 @@
 class StudentAssignment < ActiveRecord::Base
+  
+  require 'enum'
+  
   belongs_to :assignment
   belongs_to :student
   has_many :student_exercises, :dependent => :destroy
@@ -12,6 +15,11 @@ class StudentAssignment < ActiveRecord::Base
 
   after_create :create_student_exercises
   before_destroy :destroyable?
+
+  class Event < Enum
+    DUE = 0
+    COMPLETE = 1 
+  end
 
   def assignment_has_exercises?
     errors.add(:assignment, "doesn't have any exercises.") \
@@ -38,7 +46,30 @@ class StudentAssignment < ActiveRecord::Base
     if student_exercises.where{selected_answer_submitted_at == nil}.none?
       self.completed_at = Time.now
       self.save!
+      notify(:complete)
     end
+  end
+  
+  # Checks for student assignments that have just become due, marks them as having
+  # been observed as due, and notifies any observers.
+  def self.note_if_due!
+    observation_time = Time.now
+    
+    due_sas = StudentAssignment.joins{assignment.assignment_plan}
+                               .where{assignment.assignment_plan.ends_at.lt observation_time}
+                               .where{observed_due_at.nil?}
+                               
+    due_sas.each do |due_sa|
+      self.due_sa.observed_due_at = observation_time
+      self.save!
+      notify(:due)
+    end
+  end
+  
+  def learning_condition
+    LearningCondition.joins{cohort.students.student_assignments}
+                     .where{cohort.students.student_assignments.id == id}
+                     .first
   end
   
   #############################################################################
