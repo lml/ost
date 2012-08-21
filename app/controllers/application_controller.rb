@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_user_time_zone
   before_filter :include_jquery
+  before_filter :include_timepicker
   before_filter :use_2_column_layout
 
   helper_method :user_is_disabled?,

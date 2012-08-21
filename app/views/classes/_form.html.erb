@@ -1,5 +1,4 @@
 <% @errors = @klass.errors %>
-<% @include_timepicker = true %>
 
 <%= form_for([@course, @klass]) do |f| %>
   <% time_zone = @klass.time_zone || @course.organization.default_time_zone %>
