@@ -133,7 +133,7 @@
                     <%= image_tag 'half_filled_circle_v2.png' %>              
                   <% else %>
                     <% if se.is_correct? %>
-                      <% if se.past_due %>
+                      <% if se.was_submitted_late %>
                         <%= image_tag 'red_check_v2.png' %>
                       <% else %>
                         <%= image_tag 'green_check_v2.png' %>
