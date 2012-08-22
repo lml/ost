@@ -136,6 +136,7 @@
     
     <% end %>
     
+    <% num_sections = @klass.sections.count %>
     <% @klass.sections.each_with_index do |section,ii| %>
     
       <tr>
@@ -151,7 +152,7 @@
             | <%= link_to("#{section.registration_requests.count} Pending", 
                         klass_registration_requests_path(@klass)) %>
           <% end %>
-          
+          <%= "&nbsp;(#{section.name})".html_safe if num_sections > 1 %>
         </td>
       </tr>
     

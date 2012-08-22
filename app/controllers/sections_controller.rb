@@ -14,7 +14,7 @@ class SectionsController < ApplicationController
   end
 
   def new
-    @section = Section.new
+    @section = Section.new(:klass => @klass)
     raise SecurityTransgression unless present_user.can_create?(@section)
   end
 
