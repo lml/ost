@@ -29,3 +29,7 @@ every 30.minutes do
   runner "StudentAssignment.note_if_due!"
 end
 
+every 1.hour, :at => [10, 40] do
+  runner "ScheduledNotificationMailer.send!"
+end
+

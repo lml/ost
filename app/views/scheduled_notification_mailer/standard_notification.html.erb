@@ -1,0 +1,13 @@
+<%= Rails.logger.debug "in mailer template" %>
+
+<p>Hi <%= @user.first_name %>,</p>
+
+<p>Here are some notifications and reminders from <%= SITE_NAME %>:</p>
+
+<ul>
+  <% @notifications.each do |notification| %>
+    <li><%= notification.message.html_safe %></li>
+  <% end %>
+</ul>
+
+<%= render :partial => 'shared/email_closing' %>

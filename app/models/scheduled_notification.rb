@@ -4,8 +4,4 @@ class ScheduledNotification < ActiveRecord::Base
   attr_accessible :message, :send_after, :subject, :user
   
   validates :send_after, :presence => true
-  
-  def deliver!
-    raise NotYetImplemented
-  end
 end

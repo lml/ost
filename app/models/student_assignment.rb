@@ -46,8 +46,14 @@ class StudentAssignment < ActiveRecord::Base
     if student_exercises.where{selected_answer_submitted_at == nil}.none?
       self.completed_at = Time.now
       self.save!
-      notify(:complete)
+      notify_observers(:complete)
     end
+  end
+  
+  def mark_observed_due!(time)
+    self.observed_due_at = time
+    self.save!
+    notify_observers(:due)
   end
   
   # Checks for student assignments that have just become due, marks them as having
@@ -55,15 +61,13 @@ class StudentAssignment < ActiveRecord::Base
   def self.note_if_due!
     observation_time = Time.now
     
-    due_sas = StudentAssignment.joins{assignment.assignment_plan}
-                               .where{assignment.assignment_plan.ends_at.lt observation_time}
-                               .where{observed_due_at.nil?}
+    due_sa_ids = StudentAssignment.joins{assignment.assignment_plan}
+                                  .where{assignment.assignment_plan.ends_at.lt observation_time}
+                                  .where{observed_due_at.nil?}.collect{|sa| sa.id}
+                                  
+    due_sas = StudentAssignment.find(due_sa_ids)
                                
-    due_sas.each do |due_sa|
-      self.due_sa.observed_due_at = observation_time
-      self.save!
-      notify(:due)
-    end
+    due_sas.each{ |due_sa| due_sa.mark_observed_due!(observation_time) }
   end
   
   def learning_condition

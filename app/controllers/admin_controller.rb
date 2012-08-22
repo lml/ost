@@ -9,6 +9,7 @@ class AdminController < ApplicationController
   def cron
     AssignmentPlan.build_and_distribute_assignments
     StudentAssignment.note_if_due!
+    ScheduledNotificationMailer.send!
     flash[:notice] = "Ran cron tasks"
     redirect_to admin_path  
   end
