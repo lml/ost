@@ -40,7 +40,7 @@ class ConsentForm < ActiveRecord::Base
 protected
   
   def html_change_ok
-    if html_changed? && consents.any?{|c| !c.did_consent.nil?}
+    if html_changed? && any_consents?
       errors.add(:html, "cannot be changed because the form has active consents") 
     end      
     errors.none?
