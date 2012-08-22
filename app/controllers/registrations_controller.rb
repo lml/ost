@@ -42,6 +42,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def destroy
+    raise NotYetImplemented # TODO make sure this method does what we want in the OST
     resource.disable!
     sign_out_and_redirect(self.resource)
     set_flash_message :notice, :destroyed

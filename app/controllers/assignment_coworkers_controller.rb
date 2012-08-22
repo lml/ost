@@ -1,8 +1,12 @@
 class AssignmentCoworkersController < ApplicationController
 
-  before_filter :get_student_assignment, :only => [:search, :create]
+  before_filter :get_student_assignment, :only => [:new, :search, :create]
 
   def new
+    coworker = AssignmentCoworker.new
+    coworker.student_assignment = @student_assignment
+    raise SecurityTransgression unless present_user.can_create?(coworker)
+    
     @action_dialog_title = "Add a coworker"
     @action_search_path = search_student_assignment_assignment_coworkers_path
 
@@ -12,12 +16,16 @@ class AssignmentCoworkersController < ApplicationController
   end
 
   def search
+    coworker = AssignmentCoworker.new
+    coworker.student_assignment = @student_assignment
+    raise SecurityTransgression unless present_user.can_create?(coworker)
+    
     @selected_type = params[:selected_type]
     @text_query = params[:text_query]
     # Limit users to those in the same section and with the same auditing status
     @users = User.joins(:students)
                  .where(:students => {:cohort_id => @student_assignment.assignment.cohort_id,
-                                      :auditing => @student_assignment.student.auditing})
+                                      :is_auditing => @student_assignment.student.is_auditing})
                  .search(@selected_type, @text_query)
 
     @users.reject! do |user| 

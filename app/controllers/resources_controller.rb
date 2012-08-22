@@ -7,6 +7,8 @@ class ResourcesController < ApplicationController
 
   def new
     @resource = Resource.new
+    @resource.topic = @topic
+    raise SecurityTransgression unless present_user.can_create?(@resource)
   end
 
   def edit

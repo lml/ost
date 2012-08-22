@@ -20,7 +20,7 @@ class AssignmentCoworker < ActiveRecord::Base
   #############################################################################
 
   def can_be_created_by?(user)
-    owned_by?(user) && student_assignment.assignment.assignment_plan.group_work_allowed
+    owned_by?(user) && student_assignment.assignment.assignment_plan.is_group_work_allowed
   end
 
   def can_be_destroyed_by?(user)
@@ -36,7 +36,7 @@ protected
   end
 
   def same_auditing_status
-    return true if student_assignment.student.auditing == student.auditing
+    return true if student_assignment.student.is_auditing == student.is_auditing
     errors.add(:base, "Coworkers must have the same auditing status")
     false
   end

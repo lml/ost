@@ -12,6 +12,6 @@
 </table>
 
 <%
-  navitem { link_to "Edit", edit_consent_form_path(@consent_form) }
-  navitem { link_to "List", consent_forms_path }
+  navitem(:can_update?, @consent_form) { link_to "Edit", edit_consent_form_path(@consent_form) }
+  navitem(:can_list?, ConsentForm) { link_to "List", consent_forms_path }
 %>

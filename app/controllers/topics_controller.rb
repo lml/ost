@@ -5,6 +5,7 @@ class TopicsController < ApplicationController
 
   def edit
     @topic = Topic.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@topic)
   end
 
   def create

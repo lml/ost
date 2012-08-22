@@ -5,10 +5,12 @@ class TopicExercisesController < ApplicationController
 
   def new
     @topic_exercise = TopicExercise.new(:topic => @topic, :exercise => Exercise.new)
+    raise SecurityTransgression unless present_user.can_create?(@topic_exercise)
   end
 
   def edit
     @topic_exercise = TopicExercise.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@topic_exercise)
   end
 
   def create

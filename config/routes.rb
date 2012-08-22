@@ -4,15 +4,14 @@ Ost::Application.routes.draw do
 
   resources :site_licenses
 
-  resources :feedback_conditions
+  resources :feedback_conditions, :except => [:index, :show]
 
-  resources :consents
   resources :consent_forms
   resources :consent_options, :only => [:show, :edit, :update]
   
-
   # 
   # resources :organization_managers
+  # resources :researchers
   # 
 
   get "admin", :to => 'admin#index'
@@ -74,7 +73,7 @@ Ost::Application.routes.draw do
   end
       
   resources :learning_plans, :only => [:show] do
-    resources :topics, :shallow => true, :except => [:index, :show]
+    resources :topics, :shallow => true, :except => [:new, :index, :show]
     resources :assignment_plans, :shallow => true
     resources :concepts, :shallow => true do
       post 'sort', :on => :collection
@@ -108,7 +107,7 @@ Ost::Application.routes.draw do
   
   resources :student, :only => [] do
     resources :student_assignments, :only => [:index]
-    resources :consents, :shallow => true, :except => [:edit, :update, :destroy]
+    resources :consents, :shallow => true, :except => [:index, :show, :edit, :update, :destroy]
   end
 
   resources :student_exercises, :only => [:show, :update] do

@@ -2,15 +2,15 @@ class ConsentsController < ApplicationController
 
   before_filter :get_consentable, :only => [:new, :create]
 
-  def index
-    raise SecurityTransgression unless present_user.can_list?(Consent)
-    @consents = Consent.all
-  end
-
-  def show
-    @consent = Consent.find(params[:id])
-    raise SecurityTransgression unless present_user.can_read?(@consent)
-  end
+  # def index
+  #   raise SecurityTransgression unless present_user.can_list?(Consent)
+  #   @consents = Consent.all
+  # end
+  # 
+  # def show
+  #   @consent = Consent.find(params[:id])
+  #   raise SecurityTransgression unless present_user.can_read?(@consent)
+  # end
 
   def new
     @consent ||= Consent.new({:consent_options => @consentable.options_for_new_consent, 
