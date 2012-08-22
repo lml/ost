@@ -21,9 +21,9 @@ class StudentsController < ApplicationController
   
   def drop
     @student = Student.find(params[:id])
-    raise SecurityTransgression unless present_user.can_update?(@student)
+    raise SecurityTransgression unless present_user.id == @student.user_id
     @student.drop!
-    redirect_to @student.section.klass
+    redirect_to root_path
   end
 
 protected
