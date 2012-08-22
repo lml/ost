@@ -46,7 +46,7 @@ class Klass < ActiveRecord::Base
   end
   
   def registration_requests
-    RegistrationRequest.joins{section.klass}.where{section.klass.id == self.id}
+    RegistrationRequest.joins{section.klass}.where{section.klass.id == my{id}}
   end
   
   def is_preapproved?(user)
