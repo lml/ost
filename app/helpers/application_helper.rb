@@ -185,7 +185,7 @@ module ApplicationHelper
   end
   
   def protect_form
-    javascript_include_tag 'protect_form'
+    #javascript_include_tag 'protect_form'
   end
   
   def do_once(name)
