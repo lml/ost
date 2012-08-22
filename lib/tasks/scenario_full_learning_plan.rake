@@ -4,6 +4,8 @@ namespace :db do
     task :full_learning_plan, [:start_date] => ["db:drop", "db:migrate", "db:populate", :environment] do |t, args|
       args.with_defaults(:start_date => Time.now)
     
+      FactoryGirl.create(:site_license)
+      
       puts "Building organizations...\n"
       
       rice = FactoryGirl.create(:organization, :name => "Rice University", :default_time_zone => 'Central Time (US & Canada)')

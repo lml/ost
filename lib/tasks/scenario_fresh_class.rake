@@ -3,6 +3,8 @@ namespace :db do
   
     task :fresh_class, [:start_date] => ["db:drop", "db:migrate", "db:populate", :environment] do |t, args|
       args.with_defaults(:start_date => Time.now)
+      
+      FactoryGirl.create(:site_license)
     
       rice = Factory.create(:organization, :name => "Rice University", :default_time_zone => 'Central Time (US & Canada)')
       gatech = Factory.create(:organization, :name => "Georgia Tech", :default_time_zone => 'Eastern Time (US & Canada)')
