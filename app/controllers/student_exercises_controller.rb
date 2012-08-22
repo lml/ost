@@ -2,6 +2,7 @@
 class StudentExercisesController < ApplicationController
 
   before_filter :enable_timeout, :only => [:show, :feedback]
+  before_filter :enable_clock, :only => [:show, :feedback]
 
   def show
     @student_exercise = StudentExercise.find(params[:id])

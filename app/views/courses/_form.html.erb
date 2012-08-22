@@ -2,7 +2,13 @@
 
   <div class="field">
     <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.text_field :name %><br/>
+    <span class="field_help">e.g. Math 101: Single-Variable Calculus</span>
+  </div>
+  <div class="field">
+    <%= f.label :short_name %><br />
+    <%= f.text_field :short_name %><br/>
+    <span class="field_help">e.g. Math 101</span>
   </div>
   <div class="field">
     <%= f.label :description %><br />

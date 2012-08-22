@@ -72,12 +72,19 @@ class BasicFeedbackCondition < FeedbackCondition
   end
     
   def is_feedback_available?(student_exercise)
-    return false if AvailabilityOpensOption::NEVER == availability_opens_option
+    feedback_opens_at, feedback_closes_at = get_feedback_availability_window(student_exercise)
+    
+    return (!feedback_opens_at.nil? && !feedback_closes_at.nil?) && 
+           (Time.now > feedback_opens_at && Time.now < feedback_closes_at)
+  end
+  
+  def get_feedback_availability_window(student_exercise)
+    return [nil, nil] if AvailabilityOpensOption::NEVER == availability_opens_option
 
     event_occurred_at = 
       case availability_event
       when AvailabilityEvent::ASSIGNMENT_DUE
-        student_exercise.due_at
+        student_exercise.has_come_due? ? student_exercise.due_at : nil
       when AvailabilityEvent::EXERCISE_COMPLETE
         student_exercise.selected_answer_submitted_at
       when AvailabilityEvent::ASSIGNMENT_COMPLETE
@@ -85,7 +92,7 @@ class BasicFeedbackCondition < FeedbackCondition
       end
 
     # If the event hasn't occurred yet, we can't give feedback
-    return false if event_occurred_at.nil?
+    return [nil, nil] if event_occurred_at.nil?
     
     feedback_opens_at =
       case availability_opens_option
@@ -102,9 +109,36 @@ class BasicFeedbackCondition < FeedbackCondition
       when AvailabilityClosesOption::DELAY_AFTER_OPEN
         event_occurred_at + availability_closes_delay_days.days
       end
-
-    return Time.now > feedback_opens_at && Time.now < feedback_closes_at
+      
+    return [feedback_opens_at, feedback_closes_at]
   end
+  
+  def notify_student_exercise_event(student_exercise, event)
+    # Only schedule a feedback availability notification to the student
+    # if the feedback opens after a delay and the observed event
+    # matches what this condition is configured for.
+    
+    return unless availability_event == AvailabilityOpensOption::DELAY_AFTER_EVENT
+    return unless (event == StudentAssignment::Event::DUE &&
+                   availability_event == AvailabilityEvent::ASSIGNMENT_DUE) ||
+                  (event == StudentAssignment::Event::COMPLETE &&
+                   availability_event == AvailabilityEvent::ASSIGNMENT_COMPLETE) ||
+                  (event == StudentExercise::Event::COMPLETE &&
+                   availability_event == AvailabilityEvent::EXERCISE_COMPLETE)
+  
+    feedback_opens_at, feedback_closes_at = get_feedback_availability_window(student_exercise)
+  
+    return if feedback_opens_at.nil? || feedback_closes_at.nil?
+                                             
+    course = student_exercise.course
+    message = BasicFeedbackConditionRenderer.new.feedback_availability_message(self, student_exercise, feedback_closes_at)
+    
+    ScheduledNotification.create(:user => student_exercise.student.user,
+                                 :send_after => feedback_opens_at,
+                                 :subject => (course.short_name || course.name || "Exercise") + " feedback available",
+                                 :message => message)
+  end
+  
   
 protected
 

@@ -70,5 +70,7 @@ Ost::Application.configure do
   config.action_mailer.delivery_method = :ses
   config.action_mailer.default_url_options = { :host => 'openstaxtutor.org' }
   
+  config.action_controller.default_url_options = {:host => "openstaxtutor.org"}
+  
   config.middleware.use Rack::SslEnforcer
 end

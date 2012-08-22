@@ -6,7 +6,7 @@ class SiteMailer < ActionMailer::Base
   default :from => "noreply@openstaxtutor.org"
 
   def mail(headers={}, &block)
-    headers[:subject] = "[OpenStax Tutor] " + headers[:subject]
+    headers[:subject] = "[OST] " + headers[:subject]
     super(headers, &block)
   end
 end

@@ -136,7 +136,7 @@ module ApplicationHelper
   end
   
   def standard_datetime_zone(datetime, zone)
-    datetime.nil? ? "" : datetime.in_time_zone(zone).strftime(STANDARD_DATETIME_FORMAT + " %Z")
+    datetime.nil? ? "" : datetime.in_time_zone(zone).strftime(STANDARD_DATETIME_FORMAT)
   end
   
   def month_year(datetime)

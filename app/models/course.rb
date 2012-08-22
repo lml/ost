@@ -8,7 +8,7 @@ class Course < ActiveRecord::Base
   
   acts_as_numberable :container => :organization
   
-  attr_accessible :description, :name, :typically_offered
+  attr_accessible :description, :name, :typically_offered, :short_name
   
   def is_instructor?(user)
     course_instructors.any?{|ci| ci.user_id == user.id}

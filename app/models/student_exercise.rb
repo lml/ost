@@ -44,6 +44,10 @@ class StudentExercise < ActiveRecord::Base
   def due_at
     assignment.assignment_plan.ends_at
   end
+  
+  def has_come_due?
+    due_at < Time.now
+  end
 
   def assignment
     assignment_exercise.assignment
@@ -87,6 +91,12 @@ class StudentExercise < ActiveRecord::Base
     LearningCondition.joins{cohort.students.student_assignments.student_exercises}
                      .where{cohort.students.student_assignments.student_exercises.id == id}
                      .first
+  end
+  
+  def course
+    Course.joins{klasses.sections.students.student_assignments.student_exercises}
+          .where{klasses.sections.students.student_assignments.student_exercises.id == my{id}}
+          .first
   end
   
   def is_feedback_available?
