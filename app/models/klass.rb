@@ -122,6 +122,8 @@ class Klass < ActiveRecord::Base
       (is_controlled_experiment ? Researcher.is_one?(user) : is_teaching_assistant?(user)) || user.is_administrator?
     when :learning_conditions # not a direct child
       (is_controlled_experiment ? Researcher.is_one?(user) : is_instructor?(user)) || user.is_administrator?
+    when :students
+      is_educator?(user) || user.is_researcher? || user.is_administrator?
     end
   end
 

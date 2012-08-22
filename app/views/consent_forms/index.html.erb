@@ -18,4 +18,4 @@
 <% end %>
 </table>
 
-<% navitem { link_to "New Consent Form", new_consent_form_path }%>
+<% navitem(:can_create?, ConsentForm.new) { link_to "New Consent Form", new_consent_form_path } %>

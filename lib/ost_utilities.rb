@@ -7,6 +7,8 @@ module Ost
       case object.class.name
       when "Section"
         object.klass.course.name
+      when "Student"
+        object.cohort.klass.course.name
       when "Assignment"
         object.cohort.klass.course.name
       when "StudentExercise"

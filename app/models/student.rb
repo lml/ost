@@ -126,6 +126,15 @@ class Student < ActiveRecord::Base
   def can_be_updated_by?(user)
     section.klass.is_teaching_assistant?(user) || user.is_administrator?
   end
+  
+  def children_can_be_read_by?(user, children_symbol)
+    case children_symbol
+    when :student_assignments
+      return section.klass.is_educator?(user) || Researcher.is_one?(user) || user.is_administrator?
+    end
+    false
+  end
+  
 
 protected
 

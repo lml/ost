@@ -18,7 +18,7 @@ class ConsentForm < ActiveRecord::Base
   #############################################################################
 
   def self.can_be_listed_by?(user)
-    true
+    user.is_researcher? || user.is_administrator?
   end
 
   def can_be_read_by?(user)

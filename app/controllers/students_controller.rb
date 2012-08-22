@@ -4,22 +4,19 @@ class StudentsController < ApplicationController
   before_filter :get_klass, :only => [:index]
 
   def index
+    raise SecurityTransgression unless present_user.can_read_children?(@klass, :students)
   end
 
   def show
     @student = Student.find(params[:id])
+    raise SecurityTransgression unless present_user.can_read?(@student)
   end
 
   def update
     @student = Student.find(params[:id])
-
-    respond_to do |format|
-      if @student.update_attributes(params[:student])
-        format.html { redirect_to @student, notice: 'Student was successfully updated.' }
-      else
-        format.html { render action: "edit" }
-      end
-    end
+    raise SecurityTransgression unless present_user.can_update?(@student)
+    @student.update_attributes(params[:student])
+    redirect_to @student
   end
   
   def drop

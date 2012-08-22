@@ -22,10 +22,10 @@
     <% student_exercises.each_with_index do |se,ii| %>
       <tr>
         <td><%= ii+1%>.</td>
-        <td><%= se.response_text.blank? ? "(blank)" : simple_format(se.response_text) %></td>
-        <td><%= se.response_confidence.nil? ? "--" : se.response_confidence %></td>
-        <td><%= se.response_choice.nil? ? "--" : "(#{choice_letter(se.response_choice)})" %></td>
-        <td><%= se.response_choice.nil? ? "0" : (se.past_due ? "Late" : se.score) %></td>
+        <td><%= se.free_response.blank? ? "(blank)" : simple_format(se.free_response) %></td>
+        <td><%= se.free_response_confidence.nil? ? "--" : se.free_response_confidence %></td>
+        <td><%= se.selected_answer.nil? ? "--" : "(#{choice_letter(se.selected_answer)})" %></td>
+        <td><%= se.selected_answer.nil? ? "0" : (se.has_come_due? ? "Late" : se.score) %></td>
         <td>
           <%= link_to_function "Show", "$('#se_#{ii}_rts').show(); $(this).hide(); $(this).next().show(); " %>
           <%= link_to_function "Hide", "$('#se_#{ii}_rts').hide(); $(this).hide(); $(this).prev().show(); ", :style => "display:none" %>  
@@ -37,7 +37,7 @@
                         :confirm => "Are you sure you want to force " +
                                     "#{@student_assignment.student.full_name(present_user)}'s " +
                                     "answer to be correct for this problem?\n\nTHIS CANNOT BE UNDONE!!") \
-                if !se.is_correct? && se.response_choice_submitted? %></td>
+                if !se.is_correct? && se.selected_answer_submitted? %></td>
       </tr>
       <tr id="se_<%= ii %>_rts" style="display:none">
         <td></td>
