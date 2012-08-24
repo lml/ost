@@ -108,9 +108,10 @@ function show_none_row_if_needed(table_id) {
 
 function refresh_datetime_pickers() {
    $(".date_time_picker").datetimepicker({
+	 numberOfMonths: 3,
      timeFormat: 'h:mm TT',
      dateFormat: 'M d, yy',
-     stepMinute: 5, 
+     stepMinute: 1, 
      ampm:true, 
      hour:9, 
      minute:0});
