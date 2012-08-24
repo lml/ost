@@ -1,7 +1,7 @@
 {
   title  : '<%= assignment_plan.name %>',
-  start  : '<%= TimeUtils.time_to_time_in_zone_string(assignment_plan.starts_at, assignment_plan.learning_plan.klass.time_zone, "%Y-%m-%d %H:%M") %>',
-  end  : '<%= TimeUtils.time_to_time_in_zone_string(assignment_plan.ends_at, assignment_plan.learning_plan.klass.time_zone, "%Y-%m-%d %H:%M") %>',
+  start  : '<%= TimeUtils.time_and_zonestr_to_timestr_in_zone(assignment_plan.starts_at, assignment_plan.learning_plan.klass.time_zone, "%Y-%m-%d %H:%M") %>',
+  end  : '<%= TimeUtils.time_and_zonestr_to_timestr_in_zone(assignment_plan.ends_at, assignment_plan.learning_plan.klass.time_zone, "%Y-%m-%d %H:%M") %>',
   allDay : false,
   editable: true,
   ost_id : <%= assignment_plan.id %>,

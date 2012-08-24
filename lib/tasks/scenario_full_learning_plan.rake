@@ -64,9 +64,12 @@ namespace :db do
       Ost::Application.config.enable_url_existence_validations = old_url_existence_flag
       
       puts "Building assignment plans (shown as 'assignments' to user)...\n"
-      
+
+      # debugger
+
       3.times do |n|
-        assignment_plan = FactoryGirl.create(:assignment_plan, :learning_plan => learning_plan, :is_ready => true, :starts_at => nil, :ends_at => nil)
+        assignment_plan = FactoryGirl.create(:assignment_plan, :learning_plan => learning_plan, :is_ready => true)
+        assignment_plan.initialize_starts_ends_at_from_learning_plan
         assignment_plan.topics << learning_plan.topics[n]
         assignment_plan.save
       end

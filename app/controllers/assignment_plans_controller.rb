@@ -10,6 +10,7 @@ class AssignmentPlansController < ApplicationController
 
   def new
     @assignment_plan = AssignmentPlan.new(:learning_plan => @learning_plan)
+    @assignment_plan.initialize_starts_ends_at
     raise SecurityTransgression unless present_user.can_create?(@assignment_plan)
   end
 
@@ -21,6 +22,7 @@ class AssignmentPlansController < ApplicationController
   def create
     @assignment_plan = AssignmentPlan.new(params[:assignment_plan])
     @assignment_plan.learning_plan = @learning_plan
+    @assignment_plan.initialize_starts_ends_at
     raise SecurityTransgression unless present_user.can_create?(@assignment_plan)
     @assignment_plan.save
   end

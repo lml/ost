@@ -28,6 +28,30 @@ class Klass < ActiveRecord::Base
   scope :started, where{start_date.lt Time.now}
   scope :not_finished, where{end_date.gt Time.now}
   scope :in_progress, started.not_finished
+
+  def start_date=(timeOrTimestr)
+    time = nil
+    if timeOrTimestr.present?
+      time = Chronic.parse(timeOrTimestr.to_s)
+      time = time.change(:min => time.min - (time.min % 1))
+      if learning_plan.present?
+        time = TimeUtils.time_and_zone_to_utc_time(time, TimeUtils.zonestr_to_zone(time_zone))
+      end
+    end
+    write_attribute(:start_date, time)
+  end
+
+  def end_date=(timeOrTimestr)
+    time = nil
+    if timeOrTimestr.present?
+      time = Chronic.parse(timeOrTimestr.to_s)
+      time = time.change(:min => time.min - (time.min % 1))
+      if learning_plan.present?
+        time = TimeUtils.time_and_zone_to_utc_time(time, TimeUtils.zonestr_to_zone(time_zone))
+      end
+    end
+    write_attribute(:end_date, time)
+  end
   
   def name
     course.name

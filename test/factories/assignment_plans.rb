@@ -9,7 +9,7 @@ FactoryGirl.define do
     is_group_work_allowed false
     is_ready false
     introduction Faker::Lorem::paragraphs(2).join("\n")
-    starts_at {Time.now}
-    ends_at {Time.now + 7.days}
+    starts_at { learning_plan.klass.start_date}
+    ends_at { learning_plan.klass.start_date + 15.minutes }
   end
 end
