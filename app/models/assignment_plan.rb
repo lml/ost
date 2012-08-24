@@ -6,38 +6,32 @@ class AssignmentPlan < ActiveRecord::Base
   
   before_destroy :destroyable?
 
+  after_initialize :post_initialize
+  
+  def post_initialize
+    initialize_times
+  end
+  
   ##
   ## Start and end times
   ##
 
   attr_accessible :starts_at, :ends_at
-  attr_accessor :starts_at_string, :ends_at_string # virtual
-  attr_accessible :starts_at_string, :ends_at_string
-  
-  before_validation :initialize_starts_ends_at # will abort validations if returns false
-  validates :starts_at, :ends_at, :presence => true
-  validates :ends_at, :date => {:after => :starts_at, :message => "End time must be after start time"}, :if => :starts_ends_at_present?
-  validate :starts_ends_at_in_bounds
-  
-  def starts_ends_at_present?
-    starts_at.present? && ends_at.present?
-  end
 
-  def initialize_starts_ends_at
-    if starts_at_string.present? || ends_at_string.present? 
-      # construct from starts_at/ends_at strings
-      initialize_starts_at_from_string
-      initialize_ends_at_from_string
-    else
-      # constructing default using other AssignmentPlans in Klass
+  before_validation :correct_starts_ends_at_zone
+  
+  validates :starts_at, :ends_at, :presence => true
+  validates :ends_at, :date => {:after => :starts_at, :message => "must be after start time"}, :if => :starts_ends_at_present?
+  validate :starts_ends_at_in_bounds, :if => :starts_ends_at_present?
+
+  def initialize_times
+    if starts_at.blank? || ends_at.blank?
       initialize_starts_ends_at_default
     end
     errors.none?
   end
 
   def initialize_starts_ends_at_default
-    return if !starts_at.nil? && !ends_at.nil?
-    
     latest_end = peers.blank? ? nil : peers.collect{|p| p.ends_at}.max
 
     self.starts_at = latest_end.nil? ? learning_plan.klass.start_date : latest_end
@@ -50,34 +44,25 @@ class AssignmentPlan < ActiveRecord::Base
       if self.starts_at < learning_plan.klass.start_date
         self.starts_at = learning_plan.klass.start_date
       end
-    end
+    end    
   end
 
-  def initialize_starts_at_from_string
-    self.starts_at = nil
-    if starts_at_string.present?
-      self.starts_at = TimeUtils.time_and_zone_strings_to_utc_time(starts_at_string, learning_plan.klass.time_zone)
-    else
-      errors.add(:starts_at, 'can\'t be blank')
-    end
-  rescue Exception => ex
-    errors.add(:starts_at_string, 'could not be parsed')
+  def correct_starts_ends_at_zone
+    self.starts_at = TimeUtils.time_and_zone_strings_to_utc_time(TimeUtils.time_to_time_string(starts_at), learning_plan.klass.time_zone) \
+      if starts_at.present?
+    self.ends_at   = TimeUtils.time_and_zone_strings_to_utc_time(TimeUtils.time_to_time_string(ends_at),   learning_plan.klass.time_zone) \
+      if ends_at.present?
   end
-
-  def initialize_ends_at_from_string
-    self.ends_at = nil
-    if ends_at_string.present?
-      self.ends_at = TimeUtils.time_and_zone_strings_to_utc_time(ends_at_string, learning_plan.klass.time_zone)
-    else
-      errors.add(:ends_at, 'can\'t be blank')
-    end
-  rescue Exception => ex
-    errors.add(:ends_at_string, 'could not be parsed')
+  
+  def starts_ends_at_present?
+    starts_at.present? && ends_at.present?
   end
 
   def starts_ends_at_in_bounds
-    errors.add(:starts_at, "This assignment cannot start before its class starts.") if starts_at < learning_plan.klass.start_date
-    errors.add(:ends_at, "This assignment cannot end after its class ends.") if ends_at > learning_plan.klass.end_date
+    errors.add(:base, "This assignment cannot start before its class starts.") \
+      if starts_at < learning_plan.klass.start_date
+    errors.add(:base, "This assignment cannot end after its class ends.") \
+      if ends_at > learning_plan.klass.end_date
   end
 
 

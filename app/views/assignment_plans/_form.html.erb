@@ -9,6 +9,14 @@
     <%= f.text_area :introduction, :rows => 3, :style => "width:90%" %>
   </div>
   <div class="field">
+    <%= t(:start_date_time) %><br />
+    <%= f.datetime_text_field :starts_at, {:time_zone => @assignment_plan.learning_plan.klass.time_zone} %>
+  </div>
+  <div class="field">
+    <%= t(:end_date_time) %><br />
+    <%= f.datetime_text_field :ends_at, {:time_zone => @assignment_plan.learning_plan.klass.time_zone} %>
+  </div>
+  <div class="field">
     <%= f.check_box :is_test %> This is a test
   </div>
   <div class="field">
@@ -26,4 +34,5 @@
   <div class="actions">
     <%= f.submit %>
   </div>
+
 <% end %>

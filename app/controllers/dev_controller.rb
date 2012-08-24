@@ -3,7 +3,6 @@ require 'chronic'
 class DevController < ApplicationController
   skip_before_filter :authenticate_user!
   before_filter :check_dev_env
-  before_filter :include_timepicker
 
   def toolbox
   end

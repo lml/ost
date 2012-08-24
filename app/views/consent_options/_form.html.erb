@@ -1,5 +1,4 @@
 <% @errors = @consent_options.errors %>
-<% @include_timepicker = true %>
 
 <%= form_for(@consent_options) do |f| %>
   <% time_zone = @consent_options.consent_optionable.time_zone %>
