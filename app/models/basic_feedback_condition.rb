@@ -117,8 +117,9 @@ class BasicFeedbackCondition < FeedbackCondition
     # Only schedule a feedback availability notification to the student
     # if the feedback opens after a delay and the observed event
     # matches what this condition is configured for.
-    
-    return unless availability_event == AvailabilityOpensOption::DELAY_AFTER_EVENT
+
+    return unless availability_opens_option == AvailabilityOpensOption::DELAY_AFTER_EVENT
+
     return unless (event == StudentAssignment::Event::DUE &&
                    availability_event == AvailabilityEvent::ASSIGNMENT_DUE) ||
                   (event == StudentAssignment::Event::COMPLETE &&

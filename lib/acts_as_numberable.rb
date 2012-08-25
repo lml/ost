@@ -88,7 +88,7 @@ module ActsAsNumberable
     protected
 
     def assign_number
-      self.number = self.class.count + 1
+      self.number ||= self.class.count + 1
     end
      
     def mark_as_destroyed
@@ -140,7 +140,7 @@ module ActsAsNumberable
     protected
     
     def assign_number
-      self.number = self.class
+      self.number ||= self.class
                       .where(container_column => self.send(container_column))
                       .count + 1
     end

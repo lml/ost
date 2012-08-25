@@ -36,9 +36,11 @@ class StudentExercise < ActiveRecord::Base
   
   attr_accessible :free_response, :free_response_confidence, :selected_answer
 
+  # Realized a little late in the game that it is bad when these numbers are the same as
+  # the Event enum numbers in student assignment, so made them different
   class Event < Enum
-    DUE = 0
-    COMPLETE = 1 
+    DUE = 200
+    COMPLETE = 201 
   end
 
   def due_at

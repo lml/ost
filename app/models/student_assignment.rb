@@ -16,9 +16,11 @@ class StudentAssignment < ActiveRecord::Base
   after_create :create_student_exercises
   before_destroy :destroyable?
 
+  # Realized a little late in the game that it is bad when these numbers are the same as
+  # the Event enum numbers in student exercise, so made them different
   class Event < Enum
-    DUE = 0
-    COMPLETE = 1 
+    DUE = 100
+    COMPLETE = 101 
   end
 
   def assignment_has_exercises?

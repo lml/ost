@@ -69,12 +69,15 @@ class PercentScheduler < Scheduler
           topic_exercises.reject!{|te| te.reserved_for_tests || te.assigned_in_cohort?(cohort)}        
           topic_exercises = topic_exercises.take( num_topic_exercises_to_use )
 
-          topic_exercises.each do |topic_exercise|
+          topic_exercises.each_with_index do |topic_exercise, tt|
             assignment_exercise = AssignmentExercise.new(:topic_exercise => topic_exercise)
             
             assignment_exercise.add_tags(rule[:tags])
             
             assignment.assignment_exercises << assignment_exercise
+            # We must manually set the number since we keep adding them without saving them
+            # (if we don't do this they'll all have number 1)
+            assignment_exercise.number = tt+1
           end        
         end 
       
