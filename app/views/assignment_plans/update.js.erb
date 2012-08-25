@@ -5,6 +5,8 @@
   var event = $('#calendar').fullCalendar( 'clientEvents', 'assignment_plan_<%= @assignment_plan.id %>' )[0];
   event.title = '<%= @assignment_plan.name %>';
   event.color = <%= (@assignment_plan.is_test ? "get_os_color('orange')" : "get_os_color('blue')").html_safe %>;
+  event.start = "<%= @assignment_plan.starts_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>";
+  event.end = "<%= @assignment_plan.ends_at.strftime('%Y-%m-%dT%H:%M:%S%z') %>";
   $('#calendar').fullCalendar( 'updateEvent', event );
 
   refresh_buttons();

@@ -70,8 +70,8 @@
 		   data: { 
 		           _method:'PUT', 
 		           assignment_plan : { 
-		               starts_at_string: format_event_date(calEvent.start), 
-		               ends_at_string:   format_event_date(calEvent.end) 
+		               starts_at: format_event_date(calEvent.start), 
+		               ends_at:   format_event_date(calEvent.end) 
 		           } 
 		   },
 		   dataType: 'json',
@@ -100,8 +100,7 @@
 	        <% end %>
 	      ],
 	      eventClick: function(calEvent, jsEvent, view) {
-	        $('#calendar').fullCalendar('changeView', view.name == 'agendaWeek' ? 'month' : 'agendaWeek' )
-	                      .fullCalendar('gotoDate', calEvent.start);
+	        $.ajax({type: "GET", url: "/assignment_plans/" + calEvent.ost_id + "/edit"});
 	      },
 	      eventResize: function(calEvent, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) { 
 	        handle_event_update(calEvent, revertFunc);
