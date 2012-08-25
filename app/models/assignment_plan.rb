@@ -85,11 +85,18 @@ class AssignmentPlan < ActiveRecord::Base
   
   scope :non_tests, where(:is_test => false)
   scope :tests, where(:is_test => true)
-  scope :started, where{starts_at.lt Time.now}
-  scope :not_finished, where{ends_at.gt Time.now}
-  scope :in_progress, started.not_finished
   scope :not_assigned, joins{assignments.outer}.where{assignments.assignment_plan_id == nil}
-  scope :can_be_assigned, not_assigned.in_progress.where{is_ready == true}
+
+  # To get around some scope issues having to do with when their guts are evaluated,
+  # define those that depend on Time.now in class methods
+  #
+  # https://rails.lighthouseapp.com/projects/8994/tickets/4960-scopes-cached-in-production-mode
+  # https://github.com/ernie/squeel/wiki/Common-issues
+  
+  def self.started;         where{starts_at.lt Time.now}; end
+  def self.not_finished;    where{ends_at.gt Time.now}; end 
+  def self.in_progress;     started.not_finished; end
+  def self.can_be_assigned; not_assigned.in_progress.where{is_ready == true}; end
   
   def destroyable?
     errors.add(:base, "This assignment cannot be deleted because it has been assigned") \

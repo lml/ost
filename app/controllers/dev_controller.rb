@@ -14,7 +14,8 @@ class DevController < ApplicationController
 
   def time_travel
     Timecop.return
-    Timecop.travel(Chronic.parse(params[:new_time]))
+    new_time_in_zone = TimeUtils.timestr_and_zonestr_to_utc_time(params[:new_time], params[:time_zone])
+    Timecop.travel(new_time_in_zone)
   end
   
   def freeze_time
