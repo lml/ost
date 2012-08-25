@@ -25,9 +25,9 @@ class Klass < ActiveRecord::Base
                   :source_learning_plan_id, :is_controlled_experiment,
                   :allow_student_specified_id
   
-  scope :started, where{start_date.lt Time.now}
-  scope :not_finished, where{end_date.gt Time.now}
-  scope :in_progress, started.not_finished
+  def self.started;  where{start_date.lt Time.now}; end 
+  def self.not_finished; where{end_date.gt Time.now}; end
+  def self.in_progress; started.not_finished; end
 
   def start_date=(timeOrTimestr)
     time = nil

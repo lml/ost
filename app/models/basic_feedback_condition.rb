@@ -84,7 +84,7 @@ class BasicFeedbackCondition < FeedbackCondition
     event_occurred_at = 
       case availability_event
       when AvailabilityEvent::ASSIGNMENT_DUE
-        student_exercise.has_come_due? ? student_exercise.due_at : nil
+        student_exercise.has_come_due? && student_exercise.selected_answer_submitted? ? student_exercise.due_at : nil
       when AvailabilityEvent::EXERCISE_COMPLETE
         student_exercise.selected_answer_submitted_at
       when AvailabilityEvent::ASSIGNMENT_COMPLETE
