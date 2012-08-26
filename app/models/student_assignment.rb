@@ -76,7 +76,7 @@ class StudentAssignment < ActiveRecord::Base
   
   def learning_condition
     LearningCondition.joins{cohort.students.student_assignments}
-                     .where{cohort.students.student_assignments.id == id}
+                     .where{cohort.students.student_assignments.id == my{id}}
                      .first
   end
   
