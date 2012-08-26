@@ -2,12 +2,15 @@ class Student < ActiveRecord::Base
   belongs_to :user
   belongs_to :cohort
   belongs_to :section
+
+  before_destroy :destroyable?
   has_many :student_assignments, :dependent => :destroy
+
   has_one :consent, :as => :consentable, :dependent => :destroy
   
   before_create :assign_to_cohort
   
-  before_destroy :destroyable?
+
   
   before_validation :handle_section_change, :on => :update
 
