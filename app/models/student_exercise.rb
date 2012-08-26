@@ -107,6 +107,10 @@ class StudentExercise < ActiveRecord::Base
   def is_feedback_available?
     learning_condition.is_feedback_available?(self)
   end
+  
+  def can_automatically_show_feedback?
+    learning_condition.can_automatically_show_feedback?(self)
+  end
 
   #############################################################################
   # Access control methods

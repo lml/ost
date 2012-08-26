@@ -19,7 +19,9 @@ class StudentExercisesController < ApplicationController
     respond_to do |format|
       if @student_exercise.update_attributes(params[:student_exercise])
         flash[:notice] = "Response saved."
-        if @student_exercise.selected_answer_submitted? && @student_exercise.is_feedback_available?
+        if @student_exercise.selected_answer_submitted? && 
+           @student_exercise.is_feedback_available? &&
+           @student_exercise.can_automatically_show_feedback?
           format.html { redirect_to(student_exercise_feedback_path(@student_exercise)) }
         else
           format.html { redirect_to(@student_exercise) }

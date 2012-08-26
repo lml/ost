@@ -42,6 +42,10 @@ class LearningCondition < ActiveRecord::Base
     get_feedback_condition(student_exercise).is_feedback_available?(student_exercise)
   end
   
+  def can_automatically_show_feedback?(student_exercise)
+    get_feedback_condition(student_exercise).can_automatically_show_feedback?(student_exercise)
+  end
+  
   #############################################################################
   # Access control methods
   #############################################################################

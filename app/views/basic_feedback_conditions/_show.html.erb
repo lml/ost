@@ -1,7 +1,8 @@
 <% assignment_event = BasicFeedbackCondition::AvailabilityEvent[feedback_condition.availability_event].to_s.humanize.downcase %>
 <ul>
-  <li>Matches Labels Against: <%= feedback_condition.label_regex || "[Not set]" %></li>
-  <li>Feedback Viewing is Required?: <%= tf_to_yn(feedback_condition.is_feedback_required_for_credit) %></li>
+  <li>Matches labels against: <%= feedback_condition.label_regex || "[Not set]" %></li>
+  <li>Feedback viewing is required?: <%= tf_to_yn(feedback_condition.is_feedback_required_for_credit) %></li>
+  <li>Can automatically show feedback?: <%= tf_to_yn(feedback_condition.can_automatically_show_feedback) %></li>
   <li>Feedback   
   <%= 
     case feedback_condition.availability_opens_option 

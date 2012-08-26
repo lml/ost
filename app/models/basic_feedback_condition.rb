@@ -4,6 +4,7 @@ class BasicFeedbackCondition < FeedbackCondition
   
   store_accessor       :settings, :label_regex
   store_typed_accessor :settings, :boolean, :is_feedback_required_for_credit
+  store_typed_accessor :settings, :boolean, :can_automatically_show_feedback
   store_typed_accessor :settings, :integer, :availability_opens_option
   store_typed_accessor :settings, :integer, :availability_opens_delay_days
   store_typed_accessor :settings, :integer, :availability_closes_option
@@ -13,7 +14,7 @@ class BasicFeedbackCondition < FeedbackCondition
   attr_accessible :label_regex, :is_feedback_required_for_credit, 
                   :availability_opens_option, :availability_opens_delay_days, 
                   :availability_closes_option, :availability_closes_delay_days,
-                  :availability_event
+                  :availability_event, :can_automatically_show_feedback
                   
   before_validation :init, :on => :create
   before_validation :strip_and_downcase_regex
@@ -69,6 +70,10 @@ class BasicFeedbackCondition < FeedbackCondition
         label == regex || label.match(regex)
       end
     end    
+  end
+  
+  def can_automatically_show_feedback?(student_exercise)
+    can_automatically_show_feedback
   end
     
   def is_feedback_available?(student_exercise)
@@ -133,9 +138,11 @@ protected
   def schedule_feedback_availability_notification(student_exercise, event)
     # Only schedule a feedback availability notification to the student
     # if the feedback opens after a delay and the observed event
-    # matches what this condition is configured for.
+    # matches what this condition is configured for, or if the student has
+    # to view feedback for credit.
 
-    return unless availability_opens_option == AvailabilityOpensOption::DELAY_AFTER_EVENT
+    return unless availability_opens_option == AvailabilityOpensOption::DELAY_AFTER_EVENT ||
+                  is_feedback_required_for_credit
 
     return unless (event == StudentAssignment::Event::DUE &&
                    availability_event == AvailabilityEvent::ASSIGNMENT_DUE) ||
