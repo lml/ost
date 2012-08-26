@@ -11,12 +11,20 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
     raise SecurityTransgression unless present_user.can_read?(@student)
   end
+  
+  def edit
+    @student = Student.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@student)    
+  end
 
   def update
     @student = Student.find(params[:id])
     raise SecurityTransgression unless present_user.can_update?(@student)
-    @student.update_attributes(params[:student])
-    redirect_to @student
+    if @student.update_attributes(params[:student])
+      redirect_to @student,  notice: 'Student was successfully updated.'
+    else
+      render :action => 'edit'
+    end
   end
   
   def drop
@@ -25,7 +33,7 @@ class StudentsController < ApplicationController
     @student.drop!
     redirect_to root_path
   end
-
+  
 protected
 
   def get_klass

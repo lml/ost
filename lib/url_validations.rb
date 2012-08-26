@@ -16,7 +16,7 @@ class UrlExistenceValidator < ActiveModel::EachValidator
     
     begin # check header response
       case Net::HTTP.get_response(URI.parse(value))
-        when Net::HTTPSuccess, Net::HTTPMovedPermanently then true
+        when Net::HTTPSuccess, Net::HTTPMovedPermanently, Net::HTTPMovedTemporarily then true
         else object.errors.add(attribute, config[:message]) and false
       end
     rescue # Recover on DNS failures..

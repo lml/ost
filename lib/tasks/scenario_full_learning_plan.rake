@@ -1,8 +1,11 @@
 namespace :db do
   namespace :scenario do
   
-    task :full_learning_plan, [:start_date] => ["db:drop", "db:migrate", "db:populate", :environment] do |t, args|
+    task :full_learning_plan, [:start_date, :add_students] => ["db:drop", "db:migrate", "db:populate", :environment] do |t, args|
       args.with_defaults(:start_date => Time.now)
+      args.with_defaults(:add_students => true)
+      
+      add_students = args.add_students.to_bool
     
       FactoryGirl.create(:site_license)
       
@@ -99,13 +102,16 @@ namespace :db do
     
       FactoryGirl.create(:researcher, :user => User.find_by_username("eve"))
       
-      puts "Adding students (Alice in Cohort 1, Bob in Cohort 2)...\n"
+      if add_students      
+        puts "Adding students (Alice in Cohort 1, Bob in Cohort 2)...\n"
 
-      FactoryGirl.create(:student, :user => User.find_by_username("alice"), 
-                                   :section => klass.sections.first, :cohort => klass.cohorts.first)
-      FactoryGirl.create(:student, :user => User.find_by_username("bob"), 
-                                   :section => klass.sections.first, :cohort => klass.cohorts.last)
-      
+        FactoryGirl.create(:student, :user => User.find_by_username("alice"), 
+                                     :section => klass.sections.first, :cohort => klass.cohorts.first)
+        FactoryGirl.create(:student, :user => User.find_by_username("bob"), 
+                                     :section => klass.sections.first, :cohort => klass.cohorts.last)
+      else
+        puts "Skipping addition of students"
+      end
     end
 
   end

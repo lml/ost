@@ -1,16 +1,7 @@
-<% @errors = @student.errors %>
-
 <%= pageHeading(@student.full_name(present_user), {:sub_heading_text => full_class_name(@student.section)}) %>
 
 <%= section "Status" do %>
-  <p><%= @student.full_name(present_user) %> is <%= @student.is_auditing ? "auditing" : "fully registered for" %> this class.</p>
-
-  <% if present_user.can_update?(@student) %>
-    <% form_for(@student) do |f| %>
-      <%= f.hidden_field :is_auditing, :value => !@student.is_auditing %>
-      <center><%= f.submit "Toggle This Status", :disable_with => "Please Wait..." %></center>
-    <% end %>
-  <% end %>
+  <p><%= @student.full_name(present_user) %> is <%= @student.is_auditing ? "auditing" : "fully registered for" %> this class in the <%= @student.section.name %> section<%= " (in cohort #{@student.cohort.name})" if present_user.can_read_children?(@student.section.klass, :cohorts) %>.</p>
 <% end %>
 
 <% if present_user.can_read_children?(@student, :student_assignments) %>
@@ -26,6 +17,7 @@
 <% klass = @student.section.klass %>
 
 <%
+  navitem(:can_update?, @student) { link_to "Edit", edit_student_path(@student)}
   navitem(:can_read_children?, klass, :students) { link_to "Students", klass_students_path(klass) }
   navitem(:can_read?, klass) { link_to "Class", klass }
 %>

@@ -1,0 +1,26 @@
+<%= pageHeading("Editing " + @student.full_name(present_user), {:sub_heading_text => full_class_name(@student.section)}) %>
+
+<% @errors = @student.errors %>
+
+<% form_for(@student) do |f| %>
+  <%# TODO The model needs to be updated to check that the student isn't a researcher if 
+      the toggle is making them a registered student %>
+  <%= f.hidden_field :is_auditing, :value => !@student.is_auditing %>
+  <center><%= f.submit "Toggle Auditing/Fully Registered", :disable_with => "Please Wait..." %></center>
+<% end %>
+
+<% other_sections = @student.section.klass.sections.reject{|s| s.id == @student.section_id} %>
+
+<% if other_sections.any? %>
+  <%= form_for(@student) do |f| %>
+    <%= f.submit "Change section to ", :disable_with => "Please Wait..." %>
+      <%= f.select :section_id, options_from_collection_for_select(other_sections, :id, :name) %>  
+  <% end %>
+<% end %>
+
+<%
+  klass = @student.section.klass
+  navitem(:can_read?, @student) { link_to "Show", @student }
+  navitem(:can_read_children?, klass, :students) { link_to "Students", klass_students_path(klass) }
+  navitem(:can_read?, klass) { link_to "Class", klass }
+%>

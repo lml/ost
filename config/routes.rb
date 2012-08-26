@@ -44,7 +44,7 @@ Ost::Application.routes.draw do
         post 'search_assistants' => 'educators#search', :type => 'teaching_assistant'
       end
     end
-    resources :students, :shallow => true, :only => [:index, :show, :update]    
+    resources :students, :shallow => true, :only => [:index, :show, :update, :edit]    
     resources :sections, :shallow => true
     resources :registration_requests, :shallow => true, :only => [:new, :index]
     resources :learning_conditions, :shallow => true, :only => [:index]

@@ -8,6 +8,8 @@ class Student < ActiveRecord::Base
   before_create :assign_to_cohort
   
   before_destroy :destroyable?
+  
+  before_validation :handle_section_change, :on => :update
 
   validates :section_id, :presence => true
   validates :user_id, :presence => true, :uniqueness => {:scope => :cohort_id}
@@ -167,6 +169,23 @@ protected
     
     target_cohort = candidate_cohorts.sample
     self.cohort = target_cohort
+  end
+  
+  # If someone is trying to change the section, make sure we can do that (haven't)
+  # already started work and that we change the cohort too.
+  def handle_section_change
+    # No action needed if:
+    #  a) section didn't change or 
+    #  b) the current cohort is not linked to a section and the new section isn't linked to any cohorts
+    return true if !section_id_changed? || (cohort.section_id.nil? && section.cohorts.empty?)
+    
+    if student_assignments.any?
+      self.errors.add(:base, "Student cannot be moved because they've already started work in their existing section.")
+      return false
+    end
+
+    assign_to_cohort
+    true
   end
     
 end
