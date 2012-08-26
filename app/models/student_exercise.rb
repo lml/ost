@@ -25,7 +25,7 @@ class StudentExercise < ActiveRecord::Base
   # validate :not_past_due, :on => :update 
   
   validate :changes_match_state, :on => :update
-
+  
   before_save :lock_choice_if_indicated, :on => :update
 
   attr_accessor :lock_response_text_on_next_save
@@ -34,13 +34,16 @@ class StudentExercise < ActiveRecord::Base
   attr_accessor :skip_update_callbacks
   before_save :notify_updated, :on => :update
   
-  attr_accessible :free_response, :free_response_confidence, :selected_answer
+  after_save :notify_if_answer_selected, :on => :update
+  
+  attr_accessible :free_response, :free_response_confidence, :selected_answer, :feedback_credit_multiplier
 
   # Realized a little late in the game that it is bad when these numbers are the same as
   # the Event enum numbers in student assignment, so made them different
   class Event < Enum
     DUE = 200
     COMPLETE = 201 
+    FEEDBACK_VIEWED = 202
   end
 
   def due_at
@@ -81,11 +84,11 @@ class StudentExercise < ActiveRecord::Base
     self.skip_update_callbacks = true
     self.update_attribute(:selected_answer, assignment_exercise.topic_exercise.exercise.correct_choice_index)
     self.skip_update_callbacks = true
-    self.update_attribute(:credit, 1)
+    self.update_attribute(:automated_credit, 1)
   end
 
   def score
-    was_submitted_late ? 0 : credit
+    was_submitted_late || automated_credit.nil? ? 0 : feedback_credit_multiplier * automated_credit
   end
   
   def learning_condition
@@ -110,7 +113,7 @@ class StudentExercise < ActiveRecord::Base
   #############################################################################
 
   def can_be_read_by?(user)
-    !user.is_anonymous? && (belongs_to_student_user?(user) || is_educator?(user))
+    !user.is_anonymous? && (belongs_to_student_user?(user) || is_educator?(user)) || user.is_administrator?
   end
 
   def can_be_updated_by?(user)
@@ -118,7 +121,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def can_be_changed_by?(user)
-    !user.is_anonymous? && is_educator?(user)
+    !user.is_anonymous? && is_educator?(user) || user.is_administrator?
   end
   
   def belongs_to_student_user?(user)
@@ -153,13 +156,14 @@ protected
   def changes_match_state
     return true if !free_response_submitted?
     return true if !selected_answer_submitted? && (["selected_answer"] == self.changed || [] == self.changed)
+    return true if ["feedback_credit_multiplier"] == self.changed
     errors.add(:base, "The response to this exercise cannot be modified.") && false
   end
 
   def lock_choice_if_indicated 
     # Lock the response choice in if it has been made, and take this chance to 
     # populate the credit the student gets for this answer.
-    if ["selected_answer"] == self.changed && !skip_update_callbacks
+    if selected_answer_changed? && !skip_update_callbacks
       self.selected_answer_submitted_at = Time.now 
       self.automated_credit = assignment_exercise.topic_exercise.exercise.get_credit(selected_answer)
       self.was_submitted_late = assignment_exercise.assignment.assignment_plan.ends_at < Time.now 
@@ -169,6 +173,10 @@ protected
 
   def notify_updated
     notify_observers(:updated) unless skip_update_callbacks
+  end
+  
+  def notify_if_answer_selected
+    notify_observers(:answer_selected) if selected_answer_changed? && !skip_update_callbacks
   end
                   
 end

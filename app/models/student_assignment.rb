@@ -85,7 +85,7 @@ class StudentAssignment < ActiveRecord::Base
   #############################################################################
       
   def can_be_read_by?(user)
-    !user.is_anonymous? && (student.section.klass.is_educator?(user) || (user.is_researcher? && student.consented?))
+    !user.is_anonymous? && (student.section.klass.is_educator?(user) || (user.is_researcher? && student.consented?)) || user.is_administrator?
   end
       
   def can_be_created_by?(user)

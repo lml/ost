@@ -114,6 +114,23 @@ class BasicFeedbackCondition < FeedbackCondition
   end
   
   def notify_student_exercise_event(student_exercise, event)
+    # There are a number of things we may want to do; hand off to specialized
+    # methods which can decide to take action if necessary.
+    schedule_feedback_availability_notification(student_exercise, event)
+    adjust_credit(student_exercise, event)
+  end  
+  
+protected
+
+  def init
+    self.is_feedback_required_for_credit ||= false
+    self.availability_opens_option ||= AvailabilityOpensOption::NEVER
+    self.availability_closes_option ||= AvailabilityClosesOption::NEVER
+    self.availability_event ||= AvailabilityEvent::NOT_APPLICABLE
+    true
+  end
+  
+  def schedule_feedback_availability_notification(student_exercise, event)
     # Only schedule a feedback availability notification to the student
     # if the feedback opens after a delay and the observed event
     # matches what this condition is configured for.
@@ -140,15 +157,17 @@ class BasicFeedbackCondition < FeedbackCondition
                                  :message => message)
   end
   
-  
-protected
-
-  def init
-    self.is_feedback_required_for_credit ||= false
-    self.availability_opens_option ||= AvailabilityOpensOption::NEVER
-    self.availability_closes_option ||= AvailabilityClosesOption::NEVER
-    self.availability_event ||= AvailabilityEvent::NOT_APPLICABLE
-    true
+  def adjust_credit(student_exercise, event)    
+    if StudentExercise::Event::COMPLETE == event
+      student_exercise.update_attributes({:feedback_credit_multiplier => 
+                                          (is_feedback_required_for_credit ? 0 : 1)})
+    end
+    
+    if StudentExercise::Event::FEEDBACK_VIEWED == event
+      if is_feedback_required_for_credit
+        student_exercise.update_attributes({:feedback_credit_multiplier => 1})
+      end
+    end
   end
   
   def strip_and_downcase_regex

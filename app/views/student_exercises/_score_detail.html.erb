@@ -1,0 +1,16 @@
+<ul>
+  <li>Has been answered?: <%= tf_to_yn(!@student_exercise.selected_answer.nil?) %></li>
+  <li>Correctness Credit: <%= @student_exercise.automated_credit %></li>
+  <li>Submitted Late?: <%= tf_to_yn(@student_exercise.was_submitted_late) %></li>
+  <li>Feedback Scaling: <%= @student_exercise.feedback_credit_multiplier %></li>
+  <li><b>Overall Score</b>: <%= @student_exercise.score %></li>
+</ul>
+
+<%= link_to("Make Correct", 
+                student_exercise_make_correct_path(@student_exercise), 
+                :remote => true, 
+                :method => :put, 
+                :confirm => "Are you sure you want to force " +
+                            "#{@student_exercise.student_assignment.student.full_name(present_user)}'s " +
+                            "answer to be correct for this problem?\n\nTHIS CANNOT BE UNDONE!!") \
+        if !@student_exercise.is_correct? && @student_exercise.selected_answer_submitted? %>

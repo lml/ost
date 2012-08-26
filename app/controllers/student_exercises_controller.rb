@@ -53,7 +53,21 @@ class StudentExercisesController < ApplicationController
     @student_exercise = StudentExercise.find(params[:student_exercise_id])
     raise SecurityTransgression unless present_user.can_read?(@student_exercise) && 
                                        @student_exercise.is_feedback_available?
+    
+    # If the person going to look at the feedback is the student whose exercise this is,
+    # notify their learning condition that they've viewed it.                                   
+    if @student_exercise.student.user_id == present_user.id
+      @student_exercise.learning_condition
+                       .notify_student_exercise_event(@student_exercise, 
+                                                      StudentExercise::Event::FEEDBACK_VIEWED)    
+    end
+    
     @include_mathjax = true
+  end
+  
+  def score_detail
+    @student_exercise = StudentExercise.find(params[:student_exercise_id]) 
+    raise SecurityTransgression unless @student_exercise.can_be_changed_by?(present_user)
   end
 
 end

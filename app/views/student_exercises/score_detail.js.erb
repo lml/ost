@@ -1,0 +1,11 @@
+<%
+  assignment_exercise = @student_exercise.assignment_exercise
+  assignment = assignment_exercise.assignment
+  assignment_plan = assignment.assignment_plan
+%>
+
+<%= message_dialog "Score Detail (#{assignment_plan.name}, ##{assignment_exercise.number})", {:width => 450, :height => 180} do %>
+  <%= render :partial => 'student_exercises/score_detail' %>
+<% end %>
+
+refresh_buttons();

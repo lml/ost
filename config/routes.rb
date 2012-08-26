@@ -114,6 +114,7 @@ Ost::Application.routes.draw do
     get 'preview_free_response'
     get 'feedback'
     put 'make_correct'
+    get 'score_detail'
   end
   
   # For users, we mix devise with our own users controller.  We have overriden

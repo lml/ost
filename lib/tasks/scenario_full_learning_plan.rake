@@ -3,7 +3,7 @@ namespace :db do
   
     task :full_learning_plan, [:start_date, :add_students] => ["db:drop", "db:migrate", "db:populate", :environment] do |t, args|
       args.with_defaults(:start_date => Time.now)
-      args.with_defaults(:add_students => true)
+      args.with_defaults(:add_students => "true")
       
       add_students = args.add_students.to_bool
     

@@ -11,11 +11,10 @@
     <tr>
       <th width="3%">#</th>
       <th width="58%">Response</th>
-      <th width="15%">Conf (0-4)</th>
+      <th width="8%">Conf<br/>(0-4)</th>
       <th width="8%">Choice</th>
-      <th width="8%">Credit</th>
+      <th width="8%">Score</th>
       <th width="8%">Times</th>
-      <th></th>
     </tr>
     <% student_exercises = @student_assignment.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
     
@@ -25,19 +24,11 @@
         <td><%= se.free_response.blank? ? "(blank)" : simple_format(se.free_response) %></td>
         <td><%= se.free_response_confidence.nil? ? "--" : se.free_response_confidence %></td>
         <td><%= se.selected_answer.nil? ? "--" : "(#{choice_letter(se.selected_answer)})" %></td>
-        <td><%= se.selected_answer.nil? ? "0" : (se.has_come_due? ? "Late" : se.score) %></td>
+        <td><%= link_to se.score, student_exercise_score_detail_path(se), :remote => true %></td>
         <td>
           <%= link_to_function "Show", "$('#se_#{ii}_rts').show(); $(this).hide(); $(this).next().show(); " %>
           <%= link_to_function "Hide", "$('#se_#{ii}_rts').hide(); $(this).hide(); $(this).prev().show(); ", :style => "display:none" %>  
         </td>
-        <td><%= link_to("Make Correct", 
-                        student_exercise_make_correct_path(se), 
-                        :remote => true, 
-                        :method => :put, 
-                        :confirm => "Are you sure you want to force " +
-                                    "#{@student_assignment.student.full_name(present_user)}'s " +
-                                    "answer to be correct for this problem?\n\nTHIS CANNOT BE UNDONE!!") \
-                if !se.is_correct? && se.selected_answer_submitted? %></td>
       </tr>
       <tr id="se_<%= ii %>_rts" style="display:none">
         <td></td>

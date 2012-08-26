@@ -43,7 +43,7 @@ class Assignment < ActiveRecord::Base
   #############################################################################
 
   def can_be_read_by?(user)
-    cohort.is_member?(user) || Researcher.is_one?(user)
+    cohort.is_member?(user) || Researcher.is_one?(user) || user.is_administrator?
   end
 
   def can_be_updated_by?(user)
