@@ -5,9 +5,9 @@
 %>
 
 <% student_exercise ||= nil %>
-<% student_assignment ||= student_exercise.student_assignment  %>
+<% student_assignment ||= student_exercise.student_assignment %>
 
-<% student_exercises = student_assignment.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
+<% student_exercises = student_assignment.student_exercises.joins{assignment_exercise}.order{assignment_exercise.number.asc} %>
 
 <ol>
 <% student_exercises.each do |se| %>
