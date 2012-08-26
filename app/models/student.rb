@@ -141,8 +141,8 @@ class Student < ActiveRecord::Base
 protected
 
   def destroyable?
-    raise NotYetImplemented
-    false
+    errors.add(:base, "Cannot delete a student who has already started work!") if student_assignments.any?
+    errors.none?
   end
   
   def assign_to_cohort
