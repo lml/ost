@@ -18,7 +18,7 @@ class Topic < ActiveRecord::Base
   
   def destroyable?
     self.errors.add(:base, "This topic cannot be destroyed because it is included in at least one assignment.") \
-      if assignment_plan_topics.any?
+      if assignment_plan_topics(true).any?
     self.errors.none?
   end
   

@@ -17,11 +17,12 @@ class TopicExercise < ActiveRecord::Base
   attr_accessible :exercise_id, :topic_id, :exercise, :topic, :reserved_for_tests
   
   def destroyable?
-    !assigned?
+    errors.add(:base, "This exercise cannot be deleted because it has already been assigned.") if assigned?
+    errors.none?
   end
   
   def assigned?
-    assignment_exercises.any?
+    assignment_exercises(true).any?
     # The following works but is no longer the way we do it -- keeping in case we need an example
     # StudentExercise.joins{assignment_exercise.topic_exercise}.where{assignment_exercise.topic_exercise_id == id}.any?
   end

@@ -1,1 +1,3 @@
-$("#uber_list_r<%= @resource.topic.id %>").children("#sortable_item_<%= @resource.id %>").remove();
+<%= unless_errors_in(@resource) do %>
+  $("#uber_list_r<%= @resource.topic.id %>").children("#sortable_item_<%= @resource.id %>").remove();
+<% end %>

@@ -78,6 +78,7 @@ Ost::Application.routes.draw do
     resources :concepts, :shallow => true do
       post 'sort', :on => :collection
     end
+    put 'refresh_exercises'
   end
   
   resources :assignment_plans do

@@ -15,6 +15,14 @@ class LearningPlan < ActiveRecord::Base
     true # depends on children freaking out if they shouldn't be destroyed
   end
   
+  def clear_cached_exercise_content!
+    exercises = Exercise.joins{topic_exercises.topic.learning_plan}
+                        .where{topic_exercises.topic.learning_plan.id == my{id}}
+    exercises = Exercise.find(exercises.collect{|e| e.id})
+    exercises.each{|e| e.clear_content_cache!}
+  end
+  
+  
   #############################################################################
   # Access control methods
   #############################################################################

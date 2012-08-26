@@ -120,5 +120,6 @@
 
 <%
   navitem { link_to "#{t(@learning_plan.klass.class)}", @learning_plan.klass }
-  navitem { link_to "Concepts", learning_plan_concepts_path(@learning_plan)}
+  navitem { link_to "Concepts", learning_plan_concepts_path(@learning_plan) }
+  navitem { link_to "Refresh Exercises", learning_plan_refresh_exercises_path(@learning_plan), :method => :put, :remote => true }
 %>
