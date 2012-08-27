@@ -17,6 +17,8 @@ class Scenario1Test < ActiveSupport::TestCase
     topic = FactoryGirl.create(:topic, :learning_plan => learning_plan)
     te = TopicExercise.new(:topic => topic)
     te.update_url!("http://quadbase.org/questions/q561v2")
+    te = TopicExercise.new(:topic => topic)
+    te.update_url!("http://quadbase.org/questions/q561v1")
     
     assignment_plan = FactoryGirl.create(:assignment_plan, :learning_plan => learning_plan, :is_ready => true)
     assignment_plan.starts_at = "Aug 1, 2012 9:00 AM"
@@ -57,15 +59,24 @@ class Scenario1Test < ActiveSupport::TestCase
     
     travel_to("Aug 1, 2012 9:00 AM", klass.time_zone)
 
-    # AssignmentPlan.build_and_distribute_assignments
     Ost::Cron::execute_cron_jobs
     
     assert_equal 0, ScheduledNotification.count
 
-    StudentAssignment.create(:student_id => s1.id, 
-                             :assignment_id => s1.cohort.assignments.first)
+    sa = StudentAssignment.create(:student_id => s1.id, 
+                                  :assignment_id => s1.cohort.assignments.first)
+                             
+    se1 = sa.student_exercises[0]
+    se2 = sa.student_exercises[1]
+    debugger
+    assert_equal 0, se1.score
+    assert_equal 0, se2.score
     
-    work_it(s1.student_assignments.first.student_exercises.first)
+    work_exercise(se1, true)
+    work_exercise(se2, true)
+
+    assert_equal 0, se1.score
+    assert_equal 0, se2.score
     
     assert_equal 0, ScheduledNotification.count
     
@@ -78,6 +89,13 @@ class Scenario1Test < ActiveSupport::TestCase
     assert_difference 'ActionMailer::Base.deliveries.count', 1 do
       Ost::Cron::execute_cron_jobs
     end
+    
+    se1.note_feedback_viewed!
+
+    Ost::Cron::execute_cron_jobs
+
+    assert_equal 1, se1.score
+    assert_equal 0, se2.score
 
     travel_to("Aug 10, 2012 9:00 AM", klass.time_zone)
     
@@ -87,16 +105,4 @@ class Scenario1Test < ActiveSupport::TestCase
         
   end
   
-  def work_it(student_exercise)
-    student_exercise.free_response = "blah"
-    student_exercise.free_response_confidence = 0
-    student_exercise.lock_response_text_on_next_save = true
-    student_exercise.save!
-    student_exercise.selected_answer = 0
-    student_exercise.save!
-  end
-  
-  # test "the truth" do
-  #   assert true
-  # end
 end

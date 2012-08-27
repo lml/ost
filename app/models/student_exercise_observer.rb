@@ -28,4 +28,10 @@ class StudentExerciseObserver < ActiveRecord::Observer
                                                    StudentExercise::Event::COMPLETE)    
   end
   
+  def feedback_viewed(student_exercise)
+    student_exercise.learning_condition
+                    .notify_student_exercise_event(student_exercise, 
+                                                   StudentExercise::Event::FEEDBACK_VIEWED)    
+  end
+  
 end
