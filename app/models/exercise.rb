@@ -49,6 +49,10 @@ class Exercise < ActiveRecord::Base
     content["simple_question"]["answer_choices"].index{|ac| ac["credit"] == 1}
   end
   
+  def num_choices
+    content["simple_question"]["answer_choices"].count
+  end
+  
   def quadbase_id
     url.split("/").last
   end

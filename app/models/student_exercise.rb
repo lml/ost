@@ -141,6 +141,16 @@ class StudentExercise < ActiveRecord::Base
   def destroyable?
     raise NotYetImplemented
   end
+  
+  def note_feedback_viewed!
+    notify_observers(:feedback_viewed)
+  end
+  
+  def update_feedback_credit_multiplier!(value)
+    self.skip_update_callbacks = true
+    self.update_attribute(:feedback_credit_multiplier, value)
+    self.skip_update_callbacks = false
+  end
 
 protected
 
@@ -160,7 +170,6 @@ protected
   def changes_match_state
     return true if !free_response_submitted?
     return true if !selected_answer_submitted? && (["selected_answer"] == self.changed || [] == self.changed)
-    return true if ["feedback_credit_multiplier"] == self.changed
     errors.add(:base, "The response to this exercise cannot be modified.") && false
   end
 

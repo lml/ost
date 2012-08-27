@@ -58,11 +58,7 @@ class StudentExercisesController < ApplicationController
     
     # If the person going to look at the feedback is the student whose exercise this is,
     # notify their learning condition that they've viewed it.                                   
-    if @student_exercise.student.user_id == present_user.id
-      @student_exercise.learning_condition
-                       .notify_student_exercise_event(@student_exercise, 
-                                                      StudentExercise::Event::FEEDBACK_VIEWED)    
-    end
+    @student_exercise.note_feedback_viewed! if @student_exercise.belongs_to_student_user?(present_user)
     
     @include_mathjax = true
   end

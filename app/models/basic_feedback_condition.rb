@@ -166,13 +166,12 @@ protected
   
   def adjust_credit(student_exercise, event)    
     if StudentExercise::Event::COMPLETE == event
-      student_exercise.update_attributes({:feedback_credit_multiplier => 
-                                          (is_feedback_required_for_credit ? 0 : 1)})
+      student_exercise.update_feedback_credit_multiplier!(is_feedback_required_for_credit ? 0 : 1)
     end
     
     if StudentExercise::Event::FEEDBACK_VIEWED == event
       if is_feedback_required_for_credit && student_exercise.feedback_credit_multiplier != 1
-        student_exercise.update_attributes({:feedback_credit_multiplier => 1})
+        student_exercise.update_feedback_credit_multiplier!(1)
       end
     end
   end
