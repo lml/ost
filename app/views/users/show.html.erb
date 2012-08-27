@@ -32,6 +32,12 @@
       user_become_path(@user),
         :method => :post,
         :onclick => please_wait_js %>
+  <% if !@user.confirmed? %>
+    <%= button_to 'Confirm this user',
+        user_confirm_path(@user),
+          :method => :put,
+          :onclick => please_wait_js %>  
+  <% end %>
 <% end %>
 
 

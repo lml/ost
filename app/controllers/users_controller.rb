@@ -28,6 +28,12 @@ class UsersController < ApplicationController
     respond_with(@user)
   end
   
+  def confirm
+    @user = User.find(params[:user_id])
+    @user.confirm!
+    redirect_to(user_path(@user))
+  end
+  
   def become
     raise SecurityTransgression unless Rails.env.development? || current_user.is_administrator?
     

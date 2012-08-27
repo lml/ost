@@ -124,6 +124,7 @@ Ost::Application.routes.draw do
   
   resources :users, :only => [:index, :show, :edit, :update] do
     post 'become'
+    put 'confirm'
   end
 
   post "write", :to => 'write#index', :as => 'write'
