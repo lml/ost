@@ -12,6 +12,9 @@ set :normalize_asset_timestamps, false # get rid of public/[images, javascripts,
 
 require "bundler/capistrano"
 
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
+
 load 'deploy/assets'  # to precompile assets
 
 set :user, DEPLOY_SETTINGS["deploy_server_username"]   # Your server account's username
