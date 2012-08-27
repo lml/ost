@@ -3,7 +3,7 @@ include Ost::Cron
 
 class Scenario1Test < ActiveSupport::TestCase
   
-  test 'alpha' do
+  test 'number_of_emails_for_assignment_due_feedback' do
     org = FactoryGirl.create(:organization, :default_time_zone => 'Central Time (US & Canada)')
     course = FactoryGirl.create(:course, :organization => org)    
     
@@ -61,7 +61,7 @@ class Scenario1Test < ActiveSupport::TestCase
     Ost::Cron::execute_cron_jobs
     
     assert_equal 0, ScheduledNotification.count
-    # debugger
+
     StudentAssignment.create(:student_id => s1.id, 
                              :assignment_id => s1.cohort.assignments.first)
     
@@ -72,24 +72,18 @@ class Scenario1Test < ActiveSupport::TestCase
     travel_to("Aug 8, 2012 9:00 AM", klass.time_zone)
     
     Ost::Cron::execute_cron_jobs
-
+    
     travel_to("Aug 9, 2012 9:00 AM", klass.time_zone)
     
-    Ost::Cron::execute_cron_jobs
+    assert_difference 'ActionMailer::Base.deliveries.count', 1 do
+      Ost::Cron::execute_cron_jobs
+    end
 
     travel_to("Aug 10, 2012 9:00 AM", klass.time_zone)
     
-    Ost::Cron::execute_cron_jobs
-
-
-        
-    assert_equal 0, ScheduledNotification.count
-    
-    Ost::Cron::execute_cron_jobs
-    
-    debugger
-    
-    puts 'hi'
+    assert_difference 'ActionMailer::Base.deliveries.count', 0 do
+      Ost::Cron::execute_cron_jobs
+    end    
         
   end
   
