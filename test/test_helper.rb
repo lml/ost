@@ -10,4 +10,11 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  
+  def travel_to(time_string, time_zone_string)
+    new_time_in_zone = TimeUtils.timestr_and_zonestr_to_utc_time(time_string, time_zone_string)
+    Timecop.travel(new_time_in_zone)    
+  end
+  
+  
 end

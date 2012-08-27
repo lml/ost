@@ -1,3 +1,4 @@
+include Ost::Cron
 
 class AdminController < ApplicationController
   
@@ -7,9 +8,7 @@ class AdminController < ApplicationController
   end
   
   def cron
-    AssignmentPlan.build_and_distribute_assignments
-    StudentAssignment.note_if_due!
-    ScheduledNotificationMailer.send!
+    Ost::execute_cron_jobs
     flash[:notice] = "Ran cron tasks"
     redirect_to admin_path  
   end

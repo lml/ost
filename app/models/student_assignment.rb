@@ -65,7 +65,7 @@ class StudentAssignment < ActiveRecord::Base
     
     due_sa_ids = StudentAssignment.joins{assignment.assignment_plan}
                                   .where{assignment.assignment_plan.ends_at.lt observation_time}
-                                  .where{observed_due_at.nil?}.collect{|sa| sa.id}
+                                  .where{observed_due_at == nil}.collect{|sa| sa.id}
     
     # Doing this find instead of using the query results above so we avoid
     # an activerecord readonly error                              

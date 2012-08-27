@@ -9,6 +9,7 @@ require 'belongs_to_exercise'
 require 'acts_as_numberable'
 require 'enum'
 require 'time_utils'
+require 'cron_jobs'
 
 # STANDARD_DATETIME_FORMAT = "%m/%d/%Y %l:%M %p"
 STANDARD_DATETIME_FORMAT = "%b %d, %Y %l:%M %p %Z"
