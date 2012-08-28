@@ -23,7 +23,7 @@ class TopicExercisesController < ApplicationController
       @topic_exercise.save
     rescue Exception => invalid
       logger.error("An error occurred when creating a lesson exercise: #{invalid.message}")
-      @topic_exercise.errors.add(:base, "This URL is no good.  Can you recheck?")
+      @topic_exercise.errors.add(:base, "Unable to create exercise from the given URL.")
     end
     
     render :template => 'topic_exercises/create_update'
