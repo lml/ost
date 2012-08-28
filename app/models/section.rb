@@ -11,10 +11,6 @@ class Section < ActiveRecord::Base
   
   attr_accessible :name, :klass
   
-  def register!(user, is_auditing)
-    raise NotYetImplemented
-  end
-  
   #############################################################################
   # Access control methods
   #############################################################################

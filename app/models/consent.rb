@@ -64,7 +64,7 @@ class Consent < ActiveRecord::Base
   end
 
   def can_be_destroyed_by?(user)
-    raise NotYetImplemented
+    false # consents are only destroyed when a new one is created
   end
 
 protected

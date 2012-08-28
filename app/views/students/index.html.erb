@@ -1,6 +1,10 @@
 <%= pageHeading "Student Roster, #{@klass.course.name}" %>
 
-<p>Students who have dropped out are shown in <span class="dropped_student">gray</span>.
+<p>Students who have dropped out are shown in <span class="dropped_student">gray</span>.</p>
+
+<% if present_user.is_researcher? %>
+  <p>Since you are a researcher, this list only includes students who have consented.</p>
+<% end %>
 
 <% num_sections = @klass.sections.count %>
 
@@ -18,13 +22,16 @@
   </tr>
 
   <% @klass.sections.each do |section| %>
-    <% if section.students.any? %>
+  
+    <% students = section.students.visible(present_user).std_sort(present_user) %>
+    
+    <% if students.any? %>
       <% if num_sections > 1 %>
         <tr>
           <td colspan="<%= num_columns %>"><%= section.name %></td>
         </tr>
       <% end %>
-      <% section.students.each do |student| %>
+      <% students.each do |student| %>
         <tr <%= "class='dropped_student'" if student.has_dropped? %>>
           <% if num_sections > 1 %>
             <td></td>
