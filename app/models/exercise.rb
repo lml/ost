@@ -13,6 +13,9 @@ class Exercise < ActiveRecord::Base
                   
   validate :can_get_content?
   
+  validate :check_is_simple_question
+  validate :check_has_simple_question_answer_choices
+  
   attr_accessible :content_cache, :is_dynamic, :url
   
   def self.new_or_existing(url)
@@ -57,6 +60,14 @@ class Exercise < ActiveRecord::Base
     url.split("/").last
   end
   
+  def is_simple_question?
+    content.present? && content["simple_question"].present?
+  end
+
+  def has_simple_question_answer_choices?
+    is_simple_question? && content["simple_question"]["answer_choices"].present?
+  end
+
 protected
 
   attr_accessor :json_cache
@@ -81,4 +92,18 @@ protected
     end
     errors.empty?
   end
+  
+  def check_is_simple_question
+    return if content.nil?
+    self.errors.add(:base,"This exercise is not a simple question " +
+                           "(multi-part questions are not supported at this time).") \
+      if content["simple_question"].nil?
+  end
+
+  def check_has_simple_question_answer_choices
+    return if !is_simple_question?
+    self.errors.add(:base,"This exercise is missing answer choices.") \
+      if content["simple_question"]["answer_choices"].nil?
+  end
+
 end
