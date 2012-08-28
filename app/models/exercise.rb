@@ -13,8 +13,8 @@ class Exercise < ActiveRecord::Base
                   
   validate :can_get_content?
   
-  validate :is_simple_question?
-  validate :has_answer_choices?
+  validate :check_is_simple_question
+  validate :check_has_simple_question_answer_choices
   
   attr_accessible :content_cache, :is_dynamic, :url
   
@@ -59,6 +59,14 @@ class Exercise < ActiveRecord::Base
   def quadbase_id
     url.split("/").last
   end
+  
+  def is_simple_question?
+    content.present? && content["simple_question"].present?
+  end
+
+  def has_simple_question_answer_choices?
+    is_simple_question? && content["simple_question"]["answer_choices"].present?
+  end
 
 protected
 
@@ -85,16 +93,15 @@ protected
     errors.empty?
   end
   
-  def is_simple_question?
+  def check_is_simple_question
     return if content.nil?
     self.errors.add(:base,"This exercise is not a simple question " +
                            "(multi-part questions are not supported at this time).") \
       if content["simple_question"].nil?
   end
 
-  def has_answer_choices?
-    return if content.nil?
-    return if content["simple_question"].nil?
+  def check_has_simple_question_answer_choices
+    return if !is_simple_question?
     self.errors.add(:base,"This exercise is missing answer choices.") \
       if content["simple_question"]["answer_choices"].nil?
   end
