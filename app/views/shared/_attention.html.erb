@@ -12,12 +12,14 @@
   <% end %>  
   
   <% @errors.each do |attr,msg| %>
-    <% if :base != attr %>  
-      <% field_name =  !@human_field_names[attr].nil? ? 
-                       @human_field_names[attr] : 
-                       attr.to_s.titleize %>
+    <% if :base != attr && %> 
+      <% field_name =  attr.to_s.ends_with?(".base") ? 
+                         "" :
+                         !@human_field_names[attr].nil? ? 
+                           @human_field_names[attr] + " ": 
+                           attr.to_s.titleize + " " %>
       
-      <% alert_messages.push(field_name + " " + msg)%>
+      <% alert_messages.push(field_name + msg)%>
     <% end %>
   <% end %>  
 <% end %>
