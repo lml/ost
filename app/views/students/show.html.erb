@@ -1,7 +1,16 @@
 <%= pageHeading(@student.full_name(present_user), {:sub_heading_text => full_class_name(@student.section)}) %>
 
 <%= section "Status" do %>
-  <p><%= @student.full_name(present_user) %> is <%= @student.is_auditing ? "auditing" : "fully registered for" %> this class in the <%= @student.section.name %> section<%= " (in cohort #{@student.cohort.name})" if present_user.can_read_children?(@student.section.klass, :cohorts) %>.</p>
+
+    <p><%= @student.full_name(present_user) %> has been assigned to the <%= @student.section.name %> section<%= " (in cohort #{@student.cohort.name})" if present_user.can_read_children?(@student.section.klass, :cohorts) %>.</p>
+  <% if @student.has_dropped? %>
+    <p><%= @student.full_name(present_user) %> has dropped this class.</p>
+  <% elsif @student.registered? %>
+    <p><%= @student.full_name(present_user) %> is fully registered for this class.</p>
+  <% elsif @student.auditing? %>
+    <p><%= @student.full_name(present_user) %> is auditing this class.</p>
+  <% end%>
+
 <% end %>
 
 <% if present_user.can_read_children?(@student, :student_assignments) %>

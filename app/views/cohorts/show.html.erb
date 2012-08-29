@@ -8,7 +8,7 @@
 <p>
   <b>Students</b>
   <%= uber_list @cohort.students, nil, {:hide_trash => true, :hide_edit => true} do |entry| %>
-    <% entry.full_name(present_user) + " " + (entry.auditing? ? "(AUDITING)" : "(REGISTERED)")%>
+    <% entry.full_name(present_user) + " (" + student_status_string(entry) + ")" %>
   <% end %>
 </p>
 

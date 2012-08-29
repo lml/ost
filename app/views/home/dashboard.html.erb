@@ -1,11 +1,24 @@
 <%= pageHeading "Dashboard" %>
 
 
-<% if (students = present_user.students).any? %>
+<% if (students = present_user.students).active.any? %>
   <%= section "Classes I'm Taking" do %>
     
     <ul>
-    <% students.each do |student| %>
+    <% students.active.each do |student| %>
+      <% klass = student.section.klass %>
+      <li><%= link_to klass.course.name, klass %></li>    
+    <% end %>
+    </ul>
+  
+  <% end %>
+<% end %>
+
+<% if (students = present_user.students).dropped.any? %>
+  <%= section "Classes I've Dropped" do %>
+    
+    <ul>
+    <% students.dropped.each do |student| %>
       <% klass = student.section.klass %>
       <li><%= link_to klass.course.name, klass %></li>    
     <% end %>
