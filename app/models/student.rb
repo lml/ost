@@ -167,8 +167,8 @@ protected
     cohorts = section.cohorts
     cohorts = section.klass.cohorts if cohorts.empty?
 
-    smallest_cohort_size = cohorts.collect{|c| c.students.same_kind_as(self).count}.min
-    candidate_cohorts = cohorts.select{|c| c.students.same_kind_as(self).count == smallest_cohort_size}
+    smallest_cohort_size = cohorts.collect{|c| c.students.active.same_kind_as(self).count}.min
+    candidate_cohorts = cohorts.select{|c| c.students.active.same_kind_as(self).count == smallest_cohort_size}
     
     target_cohort = candidate_cohorts.sample
     self.cohort = target_cohort
