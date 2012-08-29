@@ -445,4 +445,14 @@ module ApplicationHelper
     (form_builder.radio_button field_symbol, enum_class[enum_name]) + enum_name.to_s.humanize
   end
   
+  def student_status_string(student)
+    if student.has_dropped?
+      "DROPPED"
+    elsif student.auditing?
+      "AUDITING"
+    else
+      "REGISTERED"
+    end
+  end
+  
 end
