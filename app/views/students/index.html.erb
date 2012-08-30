@@ -1,7 +1,5 @@
 <%= pageHeading "Student Roster, #{@klass.course.name}" %>
 
-<p>Students who have dropped out are shown in <span class="dropped_student">gray</span>.</p>
-
 <% if present_user.is_researcher? %>
   <p>Since you are a researcher, this list only includes students who have consented.</p>
 <% end %>
@@ -32,7 +30,7 @@
         </tr>
       <% end %>
       <% students.each do |student| %>
-        <tr <%= "class='dropped_student'" if student.has_dropped? %>>
+        <tr>
           <% if num_sections > 1 %>
             <td></td>
           <% end %>
@@ -40,7 +38,7 @@
           <% if present_user.is_administrator? %>
             <td><%= student.user.research_id %></td>
           <% end %>
-          <td><%= student.is_auditing ? "AUDITING" : "REGISTERED" %>
+          <td><%= student_status_string(student) %>
         </tr>
       <% end %>
     <% end %>

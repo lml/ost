@@ -117,7 +117,7 @@ class StudentExercise < ActiveRecord::Base
   #############################################################################
 
   def can_be_read_by?(user)
-    !user.is_anonymous? && (belongs_to_student_user?(user) || is_educator?(user)) || user.is_administrator?
+    !user.is_anonymous? && (belongs_to_active_student_user?(user) || is_educator?(user)) || user.is_administrator?
   end
 
   def can_be_updated_by?(user)
@@ -132,6 +132,10 @@ class StudentExercise < ActiveRecord::Base
     student_assignment.student.user_id == user.id
     # TODO see if the following statement works (also do in is_educator? below)
     # joins{student_assignment.student.user}.any{student_assignment.student.user_id == my{user}.id}
+  end
+
+  def belongs_to_active_student_user?(user)
+    belongs_to_student_user?(user) && student_assignment.student.active?
   end
   
   def is_educator?(user)

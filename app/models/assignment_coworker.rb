@@ -20,11 +20,11 @@ class AssignmentCoworker < ActiveRecord::Base
   #############################################################################
 
   def can_be_created_by?(user)
-    owned_by?(user) && student_assignment.assignment.assignment_plan.is_group_work_allowed
+    owned_by?(user) && student_assignment.student.active? && student_assignment.assignment.assignment_plan.is_group_work_allowed
   end
 
   def can_be_destroyed_by?(user)
-    owned_by?(user)
+    owned_by?(user) && student_assignment.student.active?
   end
 
 protected

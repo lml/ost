@@ -9,6 +9,15 @@
   <center><%= f.submit "Toggle Auditing/Fully Registered", :disable_with => "Please Wait..." %></center>
 <% end %>
 
+<% if @student.has_dropped? %>
+	<%= form_for(@student) do |f| %>
+	  <%= f.hidden_field :has_dropped, :value => false %>
+	  <center><%= f.submit "Reinstate Dropped Student ", 
+						   :confirm => "Are you sure you want to reinstate this student?\n\nThis cannot be undone by you!",
+						   :disable_with => "Please Wait..." %></center>
+	<% end %>
+<% end %>
+
 <% other_sections = @student.section.klass.sections.reject{|s| s.id == @student.section_id} %>
 
 <% if other_sections.any? %>
