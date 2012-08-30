@@ -30,7 +30,7 @@ class Cohort < ActiveRecord::Base
   end
 
   def is_active_student?(user)
-    Cohort.joins{students.user}.where{students.user_id == user.id}.where{students.has_dropped == false}.any?
+    students.where{user_id == user.id}.where{has_dropped == false}.any?
   end
   
   def is_educator?(user)
