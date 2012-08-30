@@ -1,0 +1,13 @@
+<%
+   @options ||= {}
+   @height = @options[:height] || 300
+   @width = @options[:width] || 400
+   @body ||= yield #'Specify a body argument!'
+   @title ||= ''
+%>
+
+open_specified_dialog('<%= @name %>', true, <%= @height %>, <%= @width %>, "<%= @title %>", "<%= escape_javascript(@body) %>");
+
+refresh_buttons();
+<%= reload_mathjax("#{@name}_dialog") %>
+refresh_datetime_pickers();

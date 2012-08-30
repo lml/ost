@@ -1,0 +1,10 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%
+   @height = @options[:height] ? @options[:height] : 300
+   @width = @options[:width] ? @options[:width] : 400
+%>
+
+open_specified_dialog('help', true, <%= @height %>, <%= @width %>, "<%= @title %>", 
+                      "<%= escape_javascript(render :partial => 'help/topics/' + @partial_name) %>");
