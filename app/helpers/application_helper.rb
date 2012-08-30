@@ -118,7 +118,7 @@ module ApplicationHelper
     
     @options = options
     
-    link_to (text.blank? ? image_tag('help_button_v2.png') : text), 
+    link_to (text.blank? ? image_tag('help_icon_v3.png') : text), 
             topic_help_path(topic, :options => options), 
             :remote => true
   end

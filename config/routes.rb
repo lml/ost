@@ -136,6 +136,8 @@ Ost::Application.routes.draw do
   get 'dashboard', :to => 'home#dashboard'
   get 'about', :to => 'home#about'
   get 'mytutor', :to => 'home#mytutor'
+  
+  get 'help/topic/:topic_name', :to => 'help#topic', :as => 'topic_help'
 
   get 'dev/toolbox', :as => 'dev_toolbox'
   put 'dev/reset_time'

@@ -47,7 +47,7 @@ pre {
   // padding: 0px 20px;
 }
 
-a, #message_dialog_body a {
+a, #message_dialog_body a, #help_dialog_body a {
    text-decoration: none;
    color: $os_green;
    &:link {}
@@ -56,7 +56,7 @@ a, #message_dialog_body a {
    &:active { color: #000;}
 }
 
-#main a, #message_dialog_body a {
+#main a, #message_dialog_body a, #help_dialog_body a {
    font-weight: normal;
 }
 
