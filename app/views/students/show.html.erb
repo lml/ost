@@ -16,8 +16,11 @@
 <% if present_user.can_read_children?(@student, :student_assignments) %>
   <%= section "Assignments" do %>
     <ol>
-    <% @student.student_assignments.each do |student_assignment| %>
-      <li><%= link_to student_assignment.assignment.assignment_plan.name, student_assignment %></li>
+	<% student_cohort_id = @student.cohort.id %>
+	<% assignment_plans = @student.section.klass.learning_plan.assignment_plans.select{|ap| ap.assigned?} %>
+    <% assignment_plans.each do |plan| %>
+	  <% assignment = plan.assignments.where{cohort_id == student_cohort_id}.first %>
+      <li><%= link_to(plan.name, assignment) %></li>
     <% end %>
     </ol>
   <% end %>
