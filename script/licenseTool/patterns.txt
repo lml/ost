@@ -1,0 +1,40 @@
+###############################################################################
+# USAGE
+###############################################################################
+#
+# Each entry in this file consists of one line containing a perl regular
+# expression (regex) and a comment style name.  Whitespace at the beginning and
+# end of a line and between the regex and the comment style name is ignored.
+# The last token on a line is considered to be the comment style name.  Text
+# after a '#' symbol is considered a comment and is ignored.  Blank lines are
+# ignored.
+#
+# For each filename being processed, this file is scanned from top to bottom.
+# The first regex matching the filename causes the associated comment style to
+# be applied to the license for that file.  The supported comment styles are:
+#    NONE          do not apply the license to the file
+#    HTML          use <%# ... %> delimiters on first and last lines
+###############################################################################
+
+
+\.git					NONE
+\.png$					NONE
+script/license.txt$		NONE
+\.zip$					NONE
+
+\.rb$					RUBY
+
+\.html\.erb$			HTML
+\.html$					HTML
+
+#app/views/admin/index\.html\.erb$ 		HTML
+
+\.css$					CSS
+\.scss$					CSS
+
+\.js$					JS
+\.coffee$				COFFEE
+
+\.pl$					PERL
+
+\.rake$					RAKE
