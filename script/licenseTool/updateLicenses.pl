@@ -109,6 +109,14 @@ foreach (@filenamesToProcess)
 		} else {
 			removeLicenseHtml($setup, $curFilename);
 		}
+	} elsif ("RUBY" eq $commentStyle) {
+		if ($setup->{addLicense}) {
+			addLicenseRuby($setup, $curFilename);
+		} else {
+			removeLicenseRuby($setup, $curFilename);
+		}
+	} elsif ("NONE" eq $commentStyle) {
+		print STDOUT ("doing nothing to $curFilename\n");
 	} else {
 		#print STDOUT ("cannot handle comment style $commentStyle\n");
 	}
@@ -175,6 +183,70 @@ sub createLicenseTextHtml
 	}
 	my $licenseText = join("", @licenseLines, "\n\n");
 	return $licenseText;
+}
+
+sub addLicenseRuby
+{
+	my ($setup, $filename) = @_;
+	
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextRuby(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	if ($fileText !~ m/^$licenseTextEscaped/s) {
+		print STDOUT ("adding license to $filename\n");
+		open(OUT, ">$filename");
+		print OUT ($licenseText, $fileText);
+		close(OUT);
+	} else {
+		print STDOUT ("$filename already contains license\n");
+	}
+}
+
+sub removeLicenseRuby
+{
+	my ($setup, $filename) = @_;
+
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextRuby(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
+		my $newFileText = $1;
+		print STDOUT ("removing license from $filename\n");
+		open(OUT, ">$filename");
+		print OUT ($newFileText);
+		close(OUT);
+	} else {
+		print STDOUT ("$filename does not contain the license\n");
+	}
+}
+
+sub createLicenseTextRuby
+{
+	return prependAndJoinLines("# ", @_) . "\n\n";
+}
+
+sub prependAndJoinLines
+{
+	my ($pre, @lines) = @_;
+	
+	foreach (@lines) {
+		my $curLineRef = \$_;
+		chomp(${$curLineRef});
+		${$curLineRef} = $pre . ${$curLineRef} . "\n";
+	}
+	
+	my $text = join("", @lines);
+	return $text;
 }
 
 sub parseArgs
