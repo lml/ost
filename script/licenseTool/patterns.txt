@@ -18,9 +18,11 @@
 # be applied to the license for that file.  The supported comment styles are:
 #
 #    NONE          do not apply the license to the file
-#    HTML          use <%# ... %> delimiters on first and last lines
+#    HTML          use '<%# ... %>' delimiters on first and last lines
 #    RUBY          prepend '# ' to each line
 #    JS            prepend '// ' to each line
+#    CSS           use '/* ... */' delimiters on first and last lines
+#    SCSS          prepend '// ' to each line
 #
 # All lines in license.txt are commented.  Note, however, that each style adds
 # additional blank lines between the license text and the file contents as
@@ -40,7 +42,7 @@ script/license.txt$		NONE
 \.html$					HTML
 
 \.css$					CSS
-\.scss$					CSS
+\.scss$					SCSS
 
 \.js$					JS
 \.coffee$				COFFEE

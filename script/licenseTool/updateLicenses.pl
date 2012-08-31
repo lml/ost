@@ -103,30 +103,95 @@ foreach (@filenamesToProcess)
 
 	#print STDOUT (sprintf("%-10.10s", $commentStyle) . " $curFilename\n");
 	
+	my $actionString = "UNKNOWN STYLE";
+	
 	if ("HTML" eq $commentStyle) {
 		if ($setup->{addLicense}) {
-			addLicenseHtml($setup, $curFilename);
+			$actionString = addLicenseHtml($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
 		} else {
-			removeLicenseHtml($setup, $curFilename);
+			$actionString = removeLicenseHtml($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
 		}
 	} elsif ("JS" eq $commentStyle) {
 		if ($setup->{addLicense}) {
-			addLicenseJs($setup, $curFilename);
+			$actionString = addLicenseJs($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
 		} else {
-			removeLicenseJs($setup, $curFilename);
+			$actionString = removeLicenseJs($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
 		}
 	} elsif ("RUBY" eq $commentStyle) {
 		if ($setup->{addLicense}) {
-			addLicenseRuby($setup, $curFilename);
+			$actionString = addLicenseRuby($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
 		} else {
-			removeLicenseRuby($setup, $curFilename);
+			$actionString = removeLicenseRuby($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
+		}
+	} elsif ("CSS" eq $commentStyle) {
+		if ($setup->{addLicense}) {
+			$actionString = addLicenseCss($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
+		} else {
+			$actionString = removeLicenseCss($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
+		}
+	} elsif ("SCSS" eq $commentStyle) {
+		if ($setup->{addLicense}) {
+			$actionString = addLicenseScss($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
+		} else {
+			$actionString = removeLicenseScss($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
 		}
 	} elsif ("NONE" eq $commentStyle) {
-		print STDOUT ("doing nothing to $curFilename\n");
-	} else {
-		#print STDOUT ("cannot handle comment style $commentStyle\n");
+		$actionString = "NO_ACTION"
 	}
+	
+	print STDOUT (sprintf("%-20.20s %s\n", $actionString, $curFilename));
 }
+
+sub addLicenseCss
+{
+	my ($setup, $filename) = @_;
+	
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextCss(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	my $result = 0;
+	if ($fileText !~ m/^$licenseTextEscaped/s) {
+		$result = 1;
+		open(OUT, ">$filename");
+		print OUT ($licenseText, $fileText);
+		close(OUT);
+	}
+	return $result;
+}
+
+sub removeLicenseCss
+{
+	my ($setup, $filename) = @_;
+
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextCss(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	my $result = 0;
+	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
+		$result = 1;
+		my $newFileText = $1;
+		open(OUT, ">$filename");
+		print OUT ($newFileText);
+		close(OUT);
+	}
+	return $result;
+}
+
+sub createLicenseTextCss
+{
+	return join("", "/*\n", prependAndJoinLines(" * ", @_), " */\n", "\n\n");
+}
+
 
 sub addLicenseHtml
 {
@@ -140,14 +205,14 @@ sub addLicenseHtml
 	my $licenseText = createLicenseTextHtml(@{$setup->{licenseLines}});
 	my $licenseTextEscaped = quotemeta($licenseText);
 
+	my $result = 0;
 	if ($fileText !~ m/^$licenseTextEscaped/s) {
-		print STDOUT ("adding license to $filename\n");
+		$result = 1;
 		open(OUT, ">$filename");
 		print OUT ($licenseText, $fileText);
 		close(OUT);
-	} else {
-		print STDOUT ("$filename already contains license\n");
 	}
+	return $result;
 }
 
 sub removeLicenseHtml
@@ -162,15 +227,15 @@ sub removeLicenseHtml
 	my $licenseText = createLicenseTextHtml(@{$setup->{licenseLines}});
 	my $licenseTextEscaped = quotemeta($licenseText);
 
+	my $result = 0;
 	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
+		$result = 1;
 		my $newFileText = $1;
-		print STDOUT ("removing license from $filename\n");
 		open(OUT, ">$filename");
 		print OUT ($newFileText);
 		close(OUT);
-	} else {
-		print STDOUT ("$filename does not contain the license\n");
 	}
+	return $result;
 }
 
 sub createLicenseTextHtml
@@ -203,14 +268,14 @@ sub addLicenseJs
 	my $licenseText = createLicenseTextJs(@{$setup->{licenseLines}});
 	my $licenseTextEscaped = quotemeta($licenseText);
 
+	my $result = 0;
 	if ($fileText !~ m/^$licenseTextEscaped/s) {
-		print STDOUT ("adding license to $filename\n");
+		my $result = 1;
 		open(OUT, ">$filename");
 		print OUT ($licenseText, $fileText);
 		close(OUT);
-	} else {
-		print STDOUT ("$filename already contains license\n");
 	}
+	return $result;
 }
 
 sub removeLicenseJs
@@ -225,15 +290,15 @@ sub removeLicenseJs
 	my $licenseText = createLicenseTextJs(@{$setup->{licenseLines}});
 	my $licenseTextEscaped = quotemeta($licenseText);
 
+	my $result = 0;
 	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
+		$result = 1;
 		my $newFileText = $1;
-		print STDOUT ("removing license from $filename\n");
 		open(OUT, ">$filename");
 		print OUT ($newFileText);
 		close(OUT);
-	} else {
-		print STDOUT ("$filename does not contain the license\n");
 	}
+	return $result;
 }
 
 sub createLicenseTextJs
@@ -253,14 +318,14 @@ sub addLicenseRuby
 	my $licenseText = createLicenseTextRuby(@{$setup->{licenseLines}});
 	my $licenseTextEscaped = quotemeta($licenseText);
 
+	my $result = 0;
 	if ($fileText !~ m/^$licenseTextEscaped/s) {
-		print STDOUT ("adding license to $filename\n");
+		$result = 1;
 		open(OUT, ">$filename");
 		print OUT ($licenseText, $fileText);
 		close(OUT);
-	} else {
-		print STDOUT ("$filename already contains license\n");
 	}
+	return $result;
 }
 
 sub removeLicenseRuby
@@ -275,20 +340,70 @@ sub removeLicenseRuby
 	my $licenseText = createLicenseTextRuby(@{$setup->{licenseLines}});
 	my $licenseTextEscaped = quotemeta($licenseText);
 
+	my $result = 0;
 	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
+		$result = 1;
 		my $newFileText = $1;
-		print STDOUT ("removing license from $filename\n");
 		open(OUT, ">$filename");
 		print OUT ($newFileText);
 		close(OUT);
-	} else {
-		print STDOUT ("$filename does not contain the license\n");
 	}
+	return $result;
 }
 
 sub createLicenseTextRuby
 {
 	return prependAndJoinLines("# ", @_) . "\n\n";
+}
+
+sub addLicenseScss
+{
+	my ($setup, $filename) = @_;
+	
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextScss(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	my $result = 0;
+	if ($fileText !~ m/^$licenseTextEscaped/s) {
+		$result = 1;
+		open(OUT, ">$filename");
+		print OUT ($licenseText, $fileText);
+		close(OUT);
+	}
+	return $result;
+}
+
+sub removeLicenseScss
+{
+	my ($setup, $filename) = @_;
+
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextScss(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	my $result = 0;
+	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
+		$result = 1;
+		my $newFileText = $1;
+		open(OUT, ">$filename");
+		print OUT ($newFileText);
+		close(OUT);
+	}
+	return $result;
+}
+
+sub createLicenseTextScss
+{
+	return prependAndJoinLines("// ", @_) . "\n\n";
 }
 
 sub prependAndJoinLines
