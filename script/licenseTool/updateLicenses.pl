@@ -105,11 +105,11 @@ foreach (@filenamesToProcess)
 	
 	my $actionString = "UNKNOWN STYLE";
 	
-	if ("HTML" eq $commentStyle) {
+	if ("ERB" eq $commentStyle) {
 		if ($setup->{addLicense}) {
-			$actionString = addLicenseHtml($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
+			$actionString = addLicenseErb($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
 		} else {
-			$actionString = removeLicenseHtml($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
+			$actionString = removeLicenseErb($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
 		}
 	} elsif ("JS" eq $commentStyle) {
 		if ($setup->{addLicense}) {
@@ -128,6 +128,12 @@ foreach (@filenamesToProcess)
 			$actionString = addLicensePerl($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
 		} else {
 			$actionString = removeLicensePerl($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
+		}
+	} elsif ("RAKE" eq $commentStyle) {
+		if ($setup->{addLicense}) {
+			$actionString = addLicenseRake($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
+		} else {
+			$actionString = removeLicenseRake($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
 		}
 	} elsif ("RUBY" eq $commentStyle) {
 		if ($setup->{addLicense}) {
@@ -205,7 +211,7 @@ sub removeLicenseCoffee
 
 sub createLicenseTextCoffee
 {
-	return prependAndJoinLines("# ", @_) . "\n\n";
+	return prependAndJoinLines("# ", @_) . "\n";
 }
 
 ##
@@ -259,14 +265,14 @@ sub removeLicenseCss
 
 sub createLicenseTextCss
 {
-	return join("", "/*\n", prependAndJoinLines(" * ", @_), " */\n", "\n\n");
+	return join("", "/*\n", prependAndJoinLines(" * ", @_), " */\n", "\n");
 }
 
 ##
-## HTML
+## ERB
 ##
 
-sub addLicenseHtml
+sub addLicenseErb
 {
 	my ($setup, $filename) = @_;
 	
@@ -275,7 +281,7 @@ sub addLicenseHtml
 	close(IN);
 	my $fileText = join("", @fileLines);
 	
-	my $licenseText = createLicenseTextHtml(@{$setup->{licenseLines}});
+	my $licenseText = createLicenseTextErb(@{$setup->{licenseLines}});
 	my $licenseTextEscaped = quotemeta($licenseText);
 
 	my $result = 0;
@@ -288,7 +294,7 @@ sub addLicenseHtml
 	return $result;
 }
 
-sub removeLicenseHtml
+sub removeLicenseErb
 {
 	my ($setup, $filename) = @_;
 
@@ -297,7 +303,7 @@ sub removeLicenseHtml
 	close(IN);
 	my $fileText = join("", @fileLines);
 	
-	my $licenseText = createLicenseTextHtml(@{$setup->{licenseLines}});
+	my $licenseText = createLicenseTextErb(@{$setup->{licenseLines}});
 	my $licenseTextEscaped = quotemeta($licenseText);
 
 	my $result = 0;
@@ -311,7 +317,7 @@ sub removeLicenseHtml
 	return $result;
 }
 
-sub createLicenseTextHtml
+sub createLicenseTextErb
 {
 	my @licenseLines = @_;
 	
@@ -325,7 +331,7 @@ sub createLicenseTextHtml
 			$licenseLines[$idx] = "    " . $licenseLines[$idx] . "\n";			
 		}
 	}
-	my $licenseText = join("", @licenseLines, "\n\n");
+	my $licenseText = join("", @licenseLines, "\n");
 	return $licenseText;
 }
 
@@ -380,7 +386,7 @@ sub removeLicenseJs
 
 sub createLicenseTextJs
 {
-	return prependAndJoinLines("// ", @_) . "\n\n";
+	return prependAndJoinLines("// ", @_) . "\n";
 }
 
 ##
@@ -443,6 +449,60 @@ sub createLicenseTextPerl
 }
 
 ##
+## RAKE
+##
+
+sub addLicenseRake
+{
+	my ($setup, $filename) = @_;
+	
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextRake(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	my $result = 0;
+	if ($fileText !~ m/^$licenseTextEscaped/s) {
+		$result = 1;
+		open(OUT, ">$filename");
+		print OUT ($licenseText, $fileText);
+		close(OUT);
+	}
+	return $result;
+}
+
+sub removeLicenseRake
+{
+	my ($setup, $filename) = @_;
+
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextRake(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	my $result = 0;
+	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
+		$result = 1;
+		my $newFileText = $1;
+		open(OUT, ">$filename");
+		print OUT ($newFileText);
+		close(OUT);
+	}
+	return $result;
+}
+
+sub createLicenseTextRake
+{
+	return prependAndJoinLines("# ", @_) . "\n";
+}
+
+##
 ## RUBY
 ##
 
@@ -493,7 +553,7 @@ sub removeLicenseRuby
 
 sub createLicenseTextRuby
 {
-	return prependAndJoinLines("# ", @_) . "\n\n";
+	return prependAndJoinLines("# ", @_) . "\n";
 }
 
 ##
@@ -547,7 +607,7 @@ sub removeLicenseScss
 
 sub createLicenseTextScss
 {
-	return prependAndJoinLines("// ", @_) . "\n\n";
+	return prependAndJoinLines("// ", @_) . "\n";
 }
 
 ##
