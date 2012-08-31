@@ -25,7 +25,7 @@
 #    CSS           use '/* ... */' delimiters before first and after last lines
 #                  and prefix each line with ' * '
 #    SCSS          prepend '// ' to each line
-#    PERL          prepend '# ' to each line; insert after first line of file
+#    SCRIPT        prepend '# ' to each line; insert after first line of file
 #    RAKE          prepend '# ' to each line
 #
 # All lines in license.txt are commented.  Note, however, that each style adds
@@ -34,7 +34,7 @@
 #
 ###############################################################################
 
-
+/vendor                 NONE
 \.git					NONE
 \.png$					NONE
 script/license.txt$		NONE
@@ -50,6 +50,6 @@ script/license.txt$		NONE
 \.js$					JS
 \.coffee$				COFFEE
 
-\.pl$					PERL
+\.pl$					SCRIPT
 
 \.rake$					RAKE

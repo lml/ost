@@ -123,11 +123,11 @@ foreach (@filenamesToProcess)
 		} else {
 			$actionString = removeLicenseCoffee($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
 		}
-	} elsif ("PERL" eq $commentStyle) {
+	} elsif ("SCRIPT" eq $commentStyle) {
 		if ($setup->{addLicense}) {
-			$actionString = addLicensePerl($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
+			$actionString = addLicenseScript($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
 		} else {
-			$actionString = removeLicensePerl($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
+			$actionString = removeLicenseScript($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
 		}
 	} elsif ("RAKE" eq $commentStyle) {
 		if ($setup->{addLicense}) {
@@ -390,10 +390,10 @@ sub createLicenseTextJs
 }
 
 ##
-## PERL
+## SCRIPT
 ##
 
-sub addLicensePerl
+sub addLicenseScript
 {
 	my ($setup, $filename) = @_;
 	
@@ -402,7 +402,7 @@ sub addLicensePerl
 	close(IN);
 	my $fileText = join("", @fileLines);
 	
-	my $licenseText = createLicenseTextPerl(@{$setup->{licenseLines}});
+	my $licenseText = createLicenseTextScript(@{$setup->{licenseLines}});
 	my $licenseTextEscaped = quotemeta($licenseText);
 	my $firstLine = shift(@fileLines);
 	my $firstLineEscaped = quotemeta($firstLine);
@@ -418,7 +418,7 @@ sub addLicensePerl
 	return $result;
 }
 
-sub removeLicensePerl
+sub removeLicenseScript
 {
 	my ($setup, $filename) = @_;
 
@@ -427,7 +427,7 @@ sub removeLicensePerl
 	close(IN);
 	my $fileText = join("", @fileLines);
 	
-	my $licenseText = createLicenseTextPerl(@{$setup->{licenseLines}});
+	my $licenseText = createLicenseTextScript(@{$setup->{licenseLines}});
 	my $licenseTextEscaped = quotemeta($licenseText);
 	my $firstLine = shift(@fileLines);
 	my $firstLineEscaped = quotemeta($firstLine);
@@ -443,7 +443,7 @@ sub removeLicensePerl
 	return $result;
 }
 
-sub createLicenseTextPerl
+sub createLicenseTextScript
 {
 	return "\n" . prependAndJoinLines("# ", @_);
 }
