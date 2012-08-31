@@ -21,7 +21,9 @@
 #    HTML          use '<%# ... %>' delimiters on first and last lines
 #    RUBY          prepend '# ' to each line
 #    JS            prepend '// ' to each line
-#    CSS           use '/* ... */' delimiters on first and last lines
+#    COFFEE        prepend "# " to each line
+#    CSS           use '/* ... */' delimiters before first and after last lines
+#                  and prefix each line with " * "
 #    SCSS          prepend '// ' to each line
 #
 # All lines in license.txt are commented.  Note, however, that each style adds

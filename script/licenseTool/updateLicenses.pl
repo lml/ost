@@ -117,6 +117,12 @@ foreach (@filenamesToProcess)
 		} else {
 			$actionString = removeLicenseJs($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
 		}
+	} elsif ("COFFEE" eq $commentStyle) {
+		if ($setup->{addLicense}) {
+			$actionString = addLicenseCoffee($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
+		} else {
+			$actionString = removeLicenseCoffee($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
+		}
 	} elsif ("RUBY" eq $commentStyle) {
 		if ($setup->{addLicense}) {
 			$actionString = addLicenseRuby($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
@@ -140,6 +146,56 @@ foreach (@filenamesToProcess)
 	}
 	
 	print STDOUT (sprintf("%-20.20s %s\n", $actionString, $curFilename));
+}
+
+sub addLicenseCoffee
+{
+	my ($setup, $filename) = @_;
+	
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextCoffee(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	my $result = 0;
+	if ($fileText !~ m/^$licenseTextEscaped/s) {
+		$result = 1;
+		open(OUT, ">$filename");
+		print OUT ($licenseText, $fileText);
+		close(OUT);
+	}
+	return $result;
+}
+
+sub removeLicenseCoffee
+{
+	my ($setup, $filename) = @_;
+
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextCoffee(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	my $result = 0;
+	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
+		$result = 1;
+		my $newFileText = $1;
+		open(OUT, ">$filename");
+		print OUT ($newFileText);
+		close(OUT);
+	}
+	return $result;
+}
+
+sub createLicenseTextCoffee
+{
+	return prependAndJoinLines("# ", @_) . "\n\n";
 }
 
 sub addLicenseCss
