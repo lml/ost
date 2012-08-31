@@ -109,6 +109,12 @@ foreach (@filenamesToProcess)
 		} else {
 			removeLicenseHtml($setup, $curFilename);
 		}
+	} elsif ("JS" eq $commentStyle) {
+		if ($setup->{addLicense}) {
+			addLicenseJs($setup, $curFilename);
+		} else {
+			removeLicenseJs($setup, $curFilename);
+		}
 	} elsif ("RUBY" eq $commentStyle) {
 		if ($setup->{addLicense}) {
 			addLicenseRuby($setup, $curFilename);
@@ -183,6 +189,56 @@ sub createLicenseTextHtml
 	}
 	my $licenseText = join("", @licenseLines, "\n\n");
 	return $licenseText;
+}
+
+sub addLicenseJs
+{
+	my ($setup, $filename) = @_;
+	
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextJs(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	if ($fileText !~ m/^$licenseTextEscaped/s) {
+		print STDOUT ("adding license to $filename\n");
+		open(OUT, ">$filename");
+		print OUT ($licenseText, $fileText);
+		close(OUT);
+	} else {
+		print STDOUT ("$filename already contains license\n");
+	}
+}
+
+sub removeLicenseJs
+{
+	my ($setup, $filename) = @_;
+
+	open(IN, $filename);
+	my @fileLines = <IN>;
+	close(IN);
+	my $fileText = join("", @fileLines);
+	
+	my $licenseText = createLicenseTextJs(@{$setup->{licenseLines}});
+	my $licenseTextEscaped = quotemeta($licenseText);
+
+	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
+		my $newFileText = $1;
+		print STDOUT ("removing license from $filename\n");
+		open(OUT, ">$filename");
+		print OUT ($newFileText);
+		close(OUT);
+	} else {
+		print STDOUT ("$filename does not contain the license\n");
+	}
+}
+
+sub createLicenseTextJs
+{
+	return prependAndJoinLines("// ", @_) . "\n\n";
 }
 
 sub addLicenseRuby
