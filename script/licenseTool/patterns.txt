@@ -27,8 +27,6 @@ script/license.txt$		NONE
 \.html\.erb$			HTML
 \.html$					HTML
 
-#app/views/admin/index\.html\.erb$ 		HTML
-
 \.css$					CSS
 \.scss$					CSS
 
