@@ -3,53 +3,58 @@
 ###############################################################################
 #
 # Each entry in this file consists of one line containing a perl regular
-# expression (regex) and a comment style name.  The last token on a line is 
-# considered to be the comment style name. 
+# expression (regex) and a Licenser name.  The last token on a line is 
+# considered to be the Licenser name. 
 #
 # Whitespace at the beginning and end of a line and between the regex and the 
-# comment style name is ignored.
+# Licenser name is ignored.
 #
 # Text after a '#' symbol is considered a comment and is ignored.
 #
 # Blank lines are ignored.
 #
 # For each filename being processed, this file is scanned from top to bottom.
-# The first regex matching the filename causes the associated comment style to
-# be applied to the license for that file.  The supported comment styles are:
+# The first regex matching the filename causes the associated Licenser to
+# apply the license to that file.
 #
-#    NONE          do not apply the license to the file
-#    ERB           use '<%# ... %>' delimiters on first and last lines
-#    RUBY          prepend '# ' to each line
-#    JS            prepend '// ' to each line
-#    COFFEE        prepend "# " to each line
-#    CSS           use '/* ... */' delimiters before first and after last lines
-#                  and prefix each line with ' * '
-#    SCSS          prepend '// ' to each line
-#    SCRIPT        prepend '# ' to each line; insert after first line of file
-#    RAKE          prepend '# ' to each line
-#
-# All lines in license.txt are commented.  Note, however, that each style adds
-# additional blank lines between the license text and the file contents as
+# All lines in license.txt are commented.  Note, however, that each Licenser
+# adds additional blank lines between the license text and the file contents as
 # appropriate.
+#
+# The exact list of supported Licenser names is determined by the perl
+# modules matching the pattern "*Licenser.pm" in the script directory.  The
+# name of a Licenser is the part of the filename matching the '*'.  Some of
+# the currently supported Licenser names are:
+#
+#    Noop          do not apply the license to the file
+#    Erb           use '<%# ... %>' delimiters on first and last lines
+#    Ruby          prepend '# ' to each line
+#    JavsScript    prepend '// ' to each line
+#    Coffee        prepend "# " to each line
+#    Css           use '/* ... */' delimiters before first and after last lines
+#                  and prefix each line with ' * '
+#    Scss          prepend '// ' to each line
+#    Script        prepend '# ' to each line; insert after first line of file
+#    Rake          prepend '# ' to each line
 #
 ###############################################################################
 
-/vendor                 NONE
-\.git					NONE
-\.png$					NONE
-script/license.txt$		NONE
-\.zip$					NONE
+/vendor                 Noop
+\.git					Noop
+\.png$					Noop
+script/license.txt$		Noop
+\.zip$					Noop
 
-\.rb$					RUBY
+\.rb$					Ruby
 
-\.erb$                  ERB
+\.erb$                  Erb
 
-\.css$					CSS
-\.scss$					SCSS
+\.css$					Css
+\.scss$					Scss
 
-\.js$					JS
-\.coffee$				COFFEE
+\.js$					JavaScript
+\.coffee$				Coffee
 
-\.pl$					SCRIPT
+\.pl$					Script
 
-\.rake$					RAKE
+\.rake$					Rake

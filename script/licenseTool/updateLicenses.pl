@@ -17,376 +17,137 @@ BEGIN
 	# print STDOUT ("WORKING_DIR = $WORKING_DIR\n");
 	# print STDOUT ("SCRIPT_DIR  = $SCRIPT_DIR\n");
 	# print STDOUT ("SCRIPT_NAME = $SCRIPT_NAME\n");
+	
+	push(@INC, $SCRIPT_DIR);
 }
+
+use Module::Load;
 
 my $setup = parseArgs(@ARGV);
 
-##
-## Open and read the license file.
-##
+readLicenseFile($setup);
+importLicensers($setup);
+readPatternsFile($setup);
+processFiles($setup);
 
-die ("\n\nERROR: could not open license file ($setup->{licenseFilename}) [$!]\n\n")
-  if !open(IN, $setup->{licenseFilename});
-my @licenseLines = <IN>;
-close(IN);
-
-$setup->{licenseLines} = \@licenseLines;
-
-##
-## Open and read the patterns file.
-##
-
-die ("\n\nERROR: could not open regex file ($setup->{patternFilename}) [$!]\n\n")
-  if !open(IN, $setup->{patternFilename});
-my @regexLines = <IN>;
-close(IN);
-
-$setup->{patterns} = {};
-$setup->{patternsArray} = [];
+sub readLicenseFile
+{
+	my ($setup) = @_;
 	
-foreach (@regexLines) {
-	my $curLine = $_;
+	die ("\n\nERROR: could not open license file ($setup->{licenseFilename}) [$!]\n\n")
+	  if !open(IN, $setup->{licenseFilename});
+	my @licenseLines = <IN>;
+	close(IN);
 
-	$curLine =~ s/#.*//;
-	$curLine =~ s/^\s+|\s+$//g;
-	next
-		if $curLine eq "";
-	
-	if ($curLine =~ m/^(.+?)\s+(\S+)$/) {
-		my $regex = qr($1);
-		my $commentStyle = $2;
-		if (!defined($setup->{patterns}->{$regex})) {
-			$setup->{patterns}->{$regex} = $commentStyle;
-			push(@{$setup->{patternsArray}}, $regex);
-		}
-		else {
-			print STDERR ("\nERROR: duplicate pattern ($regex)\n\n");
-		}
-	}
-	else {
-		print STDERR ("\nERROR: invalid pattern line ($curLine)\n\n")
-	}	
+	$setup->{licenseLines} = \@licenseLines;	
 }
 
-##
-## Create a list of filenames to process.
-##
-
-my $cmd = "find $setup->{fileRootDir} -type f";
-my @filenamesToProcess = `$cmd`;
-
-##
-## Loop through the filenames, adding the license based on the
-## matching pattern in the patterns file.
-##
-
-foreach (@filenamesToProcess) 
+sub importLicensers
 {
-	my $curFilename = $_;
-	$curFilename =~ s/^\s+|\s+$//g;
-	next
-		if $curFilename eq "";
-
-	my $curFilenameMatchedPattern = 0;
-	my $commentStyle = "  ------  ";
-
-	foreach (@{$setup->{patternsArray}})
+	my ($setup) = @_;
+	
+	opendir(DIR, $SCRIPT_DIR);
+	my @filenames = readdir(DIR);
+	closedir(DIR);
+	
+	foreach (@filenames)
 	{
-		my $curPattern = $_;
-		#print STDOUT ("curPattern: ($curPattern)\n");
-		if ($curFilename =~ m/$curPattern/) {
-			$curFilenameMatchedPattern = 1;
-			$commentStyle = $setup->{patterns}->{$curPattern};
-			last;
-		}
-	}
+		my $curFilename = $_;
 
-	#print STDOUT (sprintf("%-10.10s", $commentStyle) . " $curFilename\n");
-	
-	my $actionString = "UNKNOWN STYLE";
-	
-	if ("ERB" eq $commentStyle) {
-		if ($setup->{addLicense}) {
-			$actionString = addLicenseErb($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
-		} else {
-			$actionString = removeLicenseErb($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
+		next
+			if ($curFilename !~ m/^([a-zA-Z]+)Licenser\.pm$/);
+		my $licenserName = $1;
+		my $className = $curFilename;
+		$className =~ s/\.pm$//;
+
+		print STDOUT ("loading $className as $licenserName\n");
+
+		load $className;
+		my $licenser = new $className;
+		if (${licenser}->is_concrete()) {
+			print STDOUT ("  ...and adding it as a concrete licenser\n");
+			$setup->{licenserByName}->{$licenserName} = $licenser
 		}
-	} elsif ("JS" eq $commentStyle) {
-		if ($setup->{addLicense}) {
-			$actionString = addLicenseJs($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
-		} else {
-			$actionString = removeLicenseJs($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
-		}
-	} elsif ("COFFEE" eq $commentStyle) {
-		if ($setup->{addLicense}) {
-			$actionString = addLicenseCoffee($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
-		} else {
-			$actionString = removeLicenseCoffee($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
-		}
-	} elsif ("SCRIPT" eq $commentStyle) {
-		if ($setup->{addLicense}) {
-			$actionString = addLicenseScript($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
-		} else {
-			$actionString = removeLicenseScript($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
-		}
-	} elsif ("RAKE" eq $commentStyle) {
-		if ($setup->{addLicense}) {
-			$actionString = addLicenseRake($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
-		} else {
-			$actionString = removeLicenseRake($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
-		}
-	} elsif ("RUBY" eq $commentStyle) {
-		if ($setup->{addLicense}) {
-			$actionString = addLicenseRuby($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
-		} else {
-			$actionString = removeLicenseRuby($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
-		}
-	} elsif ("CSS" eq $commentStyle) {
-		if ($setup->{addLicense}) {
-			$actionString = addLicenseCss($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
-		} else {
-			$actionString = removeLicenseCss($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
-		}
-	} elsif ("SCSS" eq $commentStyle) {
-		if ($setup->{addLicense}) {
-			$actionString = addLicenseScss($setup, $curFilename) ? "ADDED_LICENSE" : "NO_ACTION";
-		} else {
-			$actionString = removeLicenseScss($setup, $curFilename) ? "REMOVED_LICENSE" : "NO_ACTION";
-		}
-	} elsif ("NONE" eq $commentStyle) {
-		$actionString = "NO_ACTION"
 	}
-	
-	print STDOUT (sprintf("%-20.20s %s\n", $actionString, $curFilename));
 }
 
-##
-## COFFEE
-##
-
-sub addLicenseCoffee
+sub readPatternsFile
 {
-	my ($setup, $filename) = @_;
-	
-	open(IN, $filename);
-	my @fileLines = <IN>;
+	my ($setup) = @_;
+
+	die ("\n\nERROR: could not open regex file ($setup->{patternFilename}) [$!]\n\n")
+	  if !open(IN, $setup->{patternFilename});
+	my @regexLines = <IN>;
 	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextCoffee(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
 
-	my $result = 0;
-	if ($fileText !~ m/^$licenseTextEscaped/s) {
-		$result = 1;
-		open(OUT, ">$filename");
-		print OUT ($licenseText, $fileText);
-		close(OUT);
+	$setup->{licenserByPattern} = {};
+	$setup->{patternsArray} = [];
+
+	foreach (@regexLines) {
+		my $curLine = $_;
+
+		$curLine =~ s/#.*//;
+		$curLine =~ s/^\s+|\s+$//g;
+		next
+			if $curLine eq "";
+
+		die ("\n\nERROR: invalid pattern line in $setup->{patternFilename} ($curLine)\n\n")
+			if ($curLine !~ m/^(.+?)\s+(\S+)$/);
+
+		my $regex = qr($1);
+		my $licenserName = $2;
+		
+		die ("\n\nERROR: duplicate pattern in $setup->{patternFilename} ($regex)\n\n")
+			if defined($setup->{licenserByPattern}->{$regex});
+
+		die ("\n\nERROR: invalid licenser name in $setup->{patternFilename} ($licenserName)\n\n")
+			if !defined($setup->{licenserByName}->{$licenserName});
+		
+		$setup->{licenserByPattern}->{$regex} = $setup->{licenserByName}->{$licenserName};
+		push(@{$setup->{patternsArray}}, $regex);
 	}
-	return $result;
 }
 
-sub removeLicenseCoffee
+sub processFiles
 {
-	my ($setup, $filename) = @_;
+	my ($setup) = @_;
 
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextCoffee(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
+	my $cmd = "find $setup->{fileRootDir} -type f";
+	my @filenamesToProcess = `$cmd`;
 
-	my $result = 0;
-	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
-		$result = 1;
-		my $newFileText = $1;
-		open(OUT, ">$filename");
-		print OUT ($newFileText);
-		close(OUT);
-	}
-	return $result;
-}
+	foreach (@filenamesToProcess) 
+	{
+		my $curFilename = $_;
+		$curFilename =~ s/^\s+|\s+$//g;
+		next
+			if $curFilename eq "";
 
-sub createLicenseTextCoffee
-{
-	return prependAndJoinLines("# ", @_) . "\n";
-}
+		my $curFilenameMatchedPattern = 0;
+		my $licenser = undef;
 
-##
-## CSS
-##
-
-sub addLicenseCss
-{
-	my ($setup, $filename) = @_;
-	
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextCss(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText !~ m/^$licenseTextEscaped/s) {
-		$result = 1;
-		open(OUT, ">$filename");
-		print OUT ($licenseText, $fileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub removeLicenseCss
-{
-	my ($setup, $filename) = @_;
-
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextCss(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
-		$result = 1;
-		my $newFileText = $1;
-		open(OUT, ">$filename");
-		print OUT ($newFileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub createLicenseTextCss
-{
-	return join("", "/*\n", prependAndJoinLines(" * ", @_), " */\n", "\n");
-}
-
-##
-## ERB
-##
-
-sub addLicenseErb
-{
-	my ($setup, $filename) = @_;
-	
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextErb(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText !~ m/^$licenseTextEscaped/s) {
-		$result = 1;
-		open(OUT, ">$filename");
-		print OUT ($licenseText, $fileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub removeLicenseErb
-{
-	my ($setup, $filename) = @_;
-
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextErb(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
-		$result = 1;
-		my $newFileText = $1;
-		open(OUT, ">$filename");
-		print OUT ($newFileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub createLicenseTextErb
-{
-	my @licenseLines = @_;
-	
-	for (my $idx=0; $idx<scalar(@licenseLines); $idx++) {
-		chomp($licenseLines[$idx]);
-		if (0 == $idx) {
-			$licenseLines[$idx] = "<\%# " . $licenseLines[$idx] . "\n";
-		} elsif (scalar(@licenseLines)-1 == $idx) {
-			$licenseLines[$idx] = "    " . $licenseLines[$idx] . " %>\n";
-		} else {
-			$licenseLines[$idx] = "    " . $licenseLines[$idx] . "\n";			
+		foreach (@{$setup->{patternsArray}})
+		{
+			my $curPattern = $_;
+			if ($curFilename =~ m/$curPattern/) {
+				$licenser = $setup->{licenserByPattern}->{$curPattern};
+				last;
+			}
 		}
-	}
-	my $licenseText = join("", @licenseLines, "\n");
-	return $licenseText;
-}
 
-##
-## JS
-##
-
-sub addLicenseJs
-{
-	my ($setup, $filename) = @_;
-	
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextJs(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText !~ m/^$licenseTextEscaped/s) {
-		my $result = 1;
-		open(OUT, ">$filename");
-		print OUT ($licenseText, $fileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub removeLicenseJs
-{
-	my ($setup, $filename) = @_;
-
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextJs(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
-		$result = 1;
-		my $newFileText = $1;
-		open(OUT, ">$filename");
-		print OUT ($newFileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub createLicenseTextJs
-{
-	return prependAndJoinLines("// ", @_) . "\n";
+		if (defined($licenser))
+		{
+			if ($setup->{addLicense}) {
+				$actionString = $licenser->addLicense($curFilename, $setup->{licenseLines}) ? "ADDED_LICENSE" : "NO_ACTION";
+			} else {
+				$actionString = $licenser->removeLicense($curFilename, $setup->{licenseLines}) ? "REMOVED_LICENSE" : "NO_ACTION";
+			}
+			print STDOUT (sprintf("%-20.20s %s\n", $actionString, $curFilename));
+		}
+		else
+		{
+			#print STDOUT ("\nERROR: file did not match any pattern ($curFilename)\n\n");
+		}
+	} # foreach (filename to process)
 }
 
 ##
@@ -448,167 +209,6 @@ sub createLicenseTextScript
 	return "\n" . prependAndJoinLines("# ", @_);
 }
 
-##
-## RAKE
-##
-
-sub addLicenseRake
-{
-	my ($setup, $filename) = @_;
-	
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextRake(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText !~ m/^$licenseTextEscaped/s) {
-		$result = 1;
-		open(OUT, ">$filename");
-		print OUT ($licenseText, $fileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub removeLicenseRake
-{
-	my ($setup, $filename) = @_;
-
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextRake(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
-		$result = 1;
-		my $newFileText = $1;
-		open(OUT, ">$filename");
-		print OUT ($newFileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub createLicenseTextRake
-{
-	return prependAndJoinLines("# ", @_) . "\n";
-}
-
-##
-## RUBY
-##
-
-sub addLicenseRuby
-{
-	my ($setup, $filename) = @_;
-	
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextRuby(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText !~ m/^$licenseTextEscaped/s) {
-		$result = 1;
-		open(OUT, ">$filename");
-		print OUT ($licenseText, $fileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub removeLicenseRuby
-{
-	my ($setup, $filename) = @_;
-
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextRuby(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
-		$result = 1;
-		my $newFileText = $1;
-		open(OUT, ">$filename");
-		print OUT ($newFileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub createLicenseTextRuby
-{
-	return prependAndJoinLines("# ", @_) . "\n";
-}
-
-##
-## SCSS
-##
-
-sub addLicenseScss
-{
-	my ($setup, $filename) = @_;
-	
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextScss(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText !~ m/^$licenseTextEscaped/s) {
-		$result = 1;
-		open(OUT, ">$filename");
-		print OUT ($licenseText, $fileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub removeLicenseScss
-{
-	my ($setup, $filename) = @_;
-
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextScss(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-
-	my $result = 0;
-	if ($fileText =~ m/^${licenseTextEscaped}(.*)$/s) {
-		$result = 1;
-		my $newFileText = $1;
-		open(OUT, ">$filename");
-		print OUT ($newFileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub createLicenseTextScss
-{
-	return prependAndJoinLines("// ", @_) . "\n";
-}
 
 ##
 ## UTILITY METHODS
