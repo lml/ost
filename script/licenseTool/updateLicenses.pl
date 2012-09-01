@@ -151,82 +151,8 @@ sub processFiles
 }
 
 ##
-## SCRIPT
-##
-
-sub addLicenseScript
-{
-	my ($setup, $filename) = @_;
-	
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextScript(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-	my $firstLine = shift(@fileLines);
-	my $firstLineEscaped = quotemeta($firstLine);
-
-	my $result = 0;
-	if ($fileText !~ m/^${firstLineEscaped}${licenseTextEscaped}/s) {
-		$result = 1;
-		my $newFileText = join("", $firstLine, $licenseText, @fileLines);
-		open(OUT, ">$filename");
-		print OUT ($newFileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub removeLicenseScript
-{
-	my ($setup, $filename) = @_;
-
-	open(IN, $filename);
-	my @fileLines = <IN>;
-	close(IN);
-	my $fileText = join("", @fileLines);
-	
-	my $licenseText = createLicenseTextScript(@{$setup->{licenseLines}});
-	my $licenseTextEscaped = quotemeta($licenseText);
-	my $firstLine = shift(@fileLines);
-	my $firstLineEscaped = quotemeta($firstLine);
-
-	my $result = 0;
-	if ($fileText =~ m/^(${firstLineEscaped})${licenseTextEscaped}(.*)$/s) {
-		$result = 1;
-		my $newFileText = $1 . $2;
-		open(OUT, ">$filename");
-		print OUT ($newFileText);
-		close(OUT);
-	}
-	return $result;
-}
-
-sub createLicenseTextScript
-{
-	return "\n" . prependAndJoinLines("# ", @_);
-}
-
-
-##
 ## UTILITY METHODS
 ##
-
-sub prependAndJoinLines
-{
-	my ($pre, @lines) = @_;
-	
-	foreach (@lines) {
-		my $curLineRef = \$_;
-		chomp(${$curLineRef});
-		${$curLineRef} = $pre . ${$curLineRef} . "\n";
-	}
-	
-	my $text = join("", @lines);
-	return $text;
-}
 
 sub parseArgs
 {
