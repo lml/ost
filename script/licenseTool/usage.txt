@@ -1,0 +1,24 @@
+
+This script adds or removes license text from files in the codebase containing the script (the 
+script must be located under BASEDIR/scripts/licenseTool/).
+
+    USAGE: updateLicenses.pl [-remove]
+
+By default, the license.txt file in the script directory will be used as the license text to
+be inserted or removed.
+
+By default, the patterns.txt file in the script directory will be used to determine the comment
+styles for each file.  See that file for usage details.
+
+By default, the root directory of the codebase is assumed to be BASEDIR (two levels up from the
+script location).
+
+By default, the license text will be inserted (per patterns.txt) into files in which it is not
+already present.
+
+The following command-line arguments can be given:
+
+    -remove
+        Remove the license from files in the codebase, if it is present.
+
+
