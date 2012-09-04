@@ -21,8 +21,9 @@
 
   <% @klass.sections.each do |section| %>
   
-    <% students = section.students.visible(present_user).std_sort(present_user) %>
-    
+    <% groups = section.students.visible(present_user).std_sort(present_user).group_by { |s| student_status_string(s) } %>
+	<% students = groups[student_status_string_registered] + groups[student_status_string_auditing] + groups[student_status_string_dropped] %>
+
     <% if students.any? %>
       <% if num_sections > 1 %>
         <tr>
