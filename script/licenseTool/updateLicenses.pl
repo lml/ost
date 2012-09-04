@@ -64,7 +64,7 @@ sub importLicensers
 
 		load $className;
 		my $licenser = new $className;
-		if (${licenser}->is_concrete()) {
+		if ($licenser->isa("BaseLicenser") and ${licenser}->is_concrete()) {
 			print STDOUT ("  ...and adding it as a concrete licenser\n");
 			$setup->{licenserByName}->{$licenserName} = $licenser
 		}

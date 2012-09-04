@@ -23,7 +23,7 @@ sub _commentLicenseText
 		chomp($_);
 		$_ = $pre . $_ . "\n";
 	}
-	push(@licenseLines, "")
+	push(@licenseLines, "\n")
 		if $self->add_blank_line();
 
 	return join("", @licenseLines);
