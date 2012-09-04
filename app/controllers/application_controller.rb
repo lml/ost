@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
                         :site_not_in_maintenance!,
                         :authenticate_user!
 
+  before_filter :enable_miniprofiler_for_devs
+
   before_filter :set_user_time_zone
   before_filter :include_jquery
   before_filter :include_timepicker
@@ -188,6 +190,12 @@ protected
   
   def enable_clock
     @clock_enabled = true
+  end
+  
+  def enable_miniprofiler_for_devs
+    if Rails.env.development? || user_is_admin?
+      Rack::MiniProfiler.authorize_request
+    end
   end
 
 end
