@@ -1,4 +1,3 @@
-
 This script adds or removes license text from files in the codebase containing the script (the 
 script must be located under BASEDIR/scripts/licenseTool/).
 
