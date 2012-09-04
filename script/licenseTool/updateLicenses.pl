@@ -39,7 +39,14 @@ sub readLicenseFile
 	my @licenseLines = <IN>;
 	close(IN);
 
-	$setup->{licenseLines} = \@licenseLines;	
+	$setup->{licenseLines} = \@licenseLines;
+	
+	foreach (@licenseLines) {
+		return
+			if ($_ =~ m/\S/);
+	}
+	
+	die ("\n\nERROR: license file contains no non-whitespace text\n\n")
 }
 
 sub importLicensers
@@ -64,7 +71,7 @@ sub importLicensers
 
 		load $className;
 		my $licenser = new $className;
-		if (${licenser}->is_concrete()) {
+		if ($licenser->isa("BaseLicenser") and ${licenser}->is_concrete()) {
 			print STDOUT ("  ...and adding it as a concrete licenser\n");
 			$setup->{licenserByName}->{$licenserName} = $licenser
 		}
