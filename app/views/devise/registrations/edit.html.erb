@@ -6,6 +6,12 @@
   <div class="field">Username<br />
   <%= f.text_field :username %></div>
 
+  <div class="field"><%= f.label :email %><br />
+  <%= f.email_field :email %></div>
+
+  <div class="field"><%= f.label :email_confirmation %> <i>(leave blank if email hasn't changed)</i><br />
+  <%= f.email_field :email_confirmation %></div>
+
   <div class="field"><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
   <%= f.password_field :password, :autocomplete => "off" %></div>
 
