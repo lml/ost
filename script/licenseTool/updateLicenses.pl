@@ -39,7 +39,14 @@ sub readLicenseFile
 	my @licenseLines = <IN>;
 	close(IN);
 
-	$setup->{licenseLines} = \@licenseLines;	
+	$setup->{licenseLines} = \@licenseLines;
+	
+	foreach (@licenseLines) {
+		return
+			if ($_ =~ m/\S/);
+	}
+	
+	die ("\n\nERROR: license file contains no non-whitespace text\n\n")
 }
 
 sub importLicensers
