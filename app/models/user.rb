@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   validates_format_of :username, :with => /^[A-Za-z\d_]+$/  # alphanum + _
   validate :validate_username_unchanged, :on => :update
   
-  validates_confirmation_of :email
+  validates_confirmation_of :email, :if => Proc.new { |user| user.email_changed? }
   
   before_create :assign_research_id
   before_create :assign_education_id
