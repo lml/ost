@@ -62,7 +62,7 @@ sub _removeCommentedLicense
 	my $firstLineEscaped = quotemeta($firstLine);
 	my $commentedLicenseEscaped = quotemeta($commentedLicenseText);
 
-	$fileText =~ m/^(${firstLine})${commentedLicenseEscaped}(.*)$/s;
+	$fileText =~ m/^(${firstLineEscaped})${commentedLicenseEscaped}(.*)$/s;
 	return join("", $1, $2);
 }
 

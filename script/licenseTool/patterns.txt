@@ -26,16 +26,20 @@
 # name of a Licenser is the part of the filename matching the '*'.  Some of
 # the currently supported Licenser names are:
 #
-#    Noop          do not apply the license to the file
-#    Erb           use '<%# ... %>' delimiters on first and last lines
-#    Ruby          prepend '# ' to each line
-#    JavsScript    prepend '// ' to each line
 #    Coffee        prepend "# " to each line
 #    Css           use '/* ... */' delimiters before first and after last lines
 #                  and prefix each line with ' * '
-#    Scss          prepend '// ' to each line
-#    Script        prepend '# ' to each line; insert after first line of file
+#    Erb           use '<%# ... %>' delimiters on first and last lines
+#    JavsScript    prepend '// ' to each line
+#    Latex         prepend '% ' to each line
+#    Noop          do not apply the license to the file
+#    PerlModule    prepend '# ' to each line
+#    Ruby          prepend '# ' to each line
 #    Rake          prepend '# ' to each line
+#    Script        prepend '# ' to each line; insert after first line of file
+#    Scss          prepend '// ' to each line
+#    Text          prepend '# ' to each line
+#    Yaml          prepend '# ' to each line
 #
 ###############################################################################
 

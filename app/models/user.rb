@@ -7,16 +7,20 @@ class User < ActiveRecord::Base
   has_many :registration_requests, :dependent => :destroy
   has_many :course_instructors, :dependent => :destroy
   has_many :educators, :dependent => :destroy
+
+  attr_accessor :email_confirmation
   
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me,
+  attr_accessible :username, :email, :email_confirmation, :password, :password_confirmation, :remember_me,
                   :first_name, :last_name, :nickname, :time_zone
-  
+    
   validates_presence_of :first_name, :last_name, :username
   validates_uniqueness_of :username, :case_sensitive => false
   validates_length_of :username, :in => 3..40
   validates_format_of :username, :with => /^[A-Za-z\d_]+$/  # alphanum + _
   validate :validate_username_unchanged, :on => :update
-
+  
+  validates_confirmation_of :email, :if => Proc.new { |user| user.email_changed? }
+  
   before_create :assign_research_id
   before_create :assign_education_id
   before_create :make_first_user_an_admin
