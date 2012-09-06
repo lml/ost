@@ -212,7 +212,6 @@ module Mail
       begin
         original_deliver
       rescue StandardError => e
-        debugger
         raise if options[:safe_delivery_disabled]
         DeveloperNotifier.exception_email(e, nil, "An error occurred trying to deliver the following email: #{self.inspect}")
       end
