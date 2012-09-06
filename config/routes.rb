@@ -50,6 +50,7 @@ Ost::Application.routes.draw do
     resources :learning_conditions, :shallow => true, :only => [:index]
     resources :cohorts, :shallow => true
     get 'preview_assignments', :on => :member
+    get 'report', :on => :member
   end
   
   resources :learning_conditions, :only => [] do

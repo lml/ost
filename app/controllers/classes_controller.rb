@@ -106,6 +106,18 @@ class ClassesController < ApplicationController
     end   
        
   end
+  
+  def report
+    @klass = Klass.find(params[:id])
+        
+    raise SecurityTransgression unless present_user.can_read_children?(@klass, :report)
+    
+    respond_to do |format|
+      # format.csv
+      format.xls
+    end
+  end
+  
 
 protected
 
