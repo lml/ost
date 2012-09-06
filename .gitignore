@@ -10,3 +10,4 @@ public/system/**
 db/data.yml
 *~
 .vagrant
+brakeman.html

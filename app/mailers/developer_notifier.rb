@@ -2,15 +2,18 @@
 
 class DeveloperNotifier < SiteMailer
   
-  def exception_email(exception, user, full_trace = false)
+  def exception_email(exception, user = nil, msg = nil, full_trace = false)
     @user = user
     @exception = exception
     @backtrace = full_trace ?
                  exception.backtrace :
                  Rails.backtrace_cleaner.clean(exception.backtrace)
+    @msg = msg
+    
+    subject = user.nil? ? "An exception occurred" : user.username + " encountered an exception"
 
     mail(:to => User.active_administrators.collect { |a| a.email },
-         :subject => user.username + " encountered an exception").deliver
+         :subject => subject).deliver(:safe_delivery_disabled => true)
   end
 
   def custom_email(msg)
