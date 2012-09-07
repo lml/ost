@@ -1,7 +1,7 @@
 <% 
 present_user_is_researcher = present_user.is_researcher? 
 
-visible_students = Student.joins{section}.where{section.klass_id == my{@klass}.id}.visible(present_user)
+visible_students = Student.joins{section}.where{section.klass_id == my{@klass}.id}.visible(present_user).active
 
 ses = StudentExercise.joins{student_assignment.student.section.klass.course} \
                      .joins{student_assignment.student.cohort} \
@@ -63,6 +63,7 @@ ses.find_each do |se|
         <Cell><Data ss:Type="String">Submitted Late</Data></Cell>
         <Cell><Data ss:Type="String">Feedback Scaling</Data></Cell>
         <Cell><Data ss:Type="String">Overall Score</Data></Cell>
+        <Cell><Data ss:Type="String"># Feedback Loads</Data></Cell>
       </Row>
     <% ses.find_each do |se| %>
       <Row>
@@ -81,6 +82,7 @@ ses.find_each do |se|
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.was_submitted_late) %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.feedback_credit_multiplier %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.score %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= se.response_times.where{page == "feedback"}.where{note == "READY"}.count %></Data></Cell>
       </Row>
     <% end %>
     </Table>
