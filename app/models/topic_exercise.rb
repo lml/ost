@@ -43,7 +43,7 @@ class TopicExercise < ActiveRecord::Base
   end
   
   def url_unchanged_when_assigned
-    return true if topic.not_assigned? || (!exercise_id_changed? && !exercise.new_record?)
+    return true if not_assigned? || (!exercise_id_changed? && !exercise.new_record?)
     self.errors.add(:base, "The exercise content cannot be changed because this " + 
                            "exercise's topic has already been assigned")
     false
