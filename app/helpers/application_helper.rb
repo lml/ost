@@ -471,4 +471,8 @@ module ApplicationHelper
     "class=#{var}" if var
   end
   
+  def vertical_bar(height, width=1)
+    content_tag :span, nil, :class => 'vertical_bar', :style => "width: #{width}px; height: #{height}px"
+  end
+  
 end

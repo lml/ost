@@ -194,23 +194,28 @@
           <div id="help_dialog_body"></div>
         </div>
         
-        <div style="clear:right; float:right; padding-bottom:15px">
-          <div id="account_info">
+        <% show_account_bar = !@main_div_background_image %>
+        <% icon_color = show_account_bar ? 'gray' : 'white' %>
+        
+        <div class="account_info <%= 'account_bar' if !@main_div_background_image %>">
+          <div>
             <% if user_signed_in? %>
               <span style="color: black">Welcome <%= current_user.first_name.capitalize %></span> &nbsp;&nbsp;
               <%= link_to "My Account", edit_user_registration_path %> 
-              <%= image_tag 'whitedot.png', :size => '1x12'%> 
+              <%= vertical_bar(12) %>
               <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :id => 'signout_link' %>
             <% else %>
-              <%= link_to "Join now", new_user_registration_path %> <%= image_tag 'whitedot.png', :size => '1x12'%> 
+              <%= link_to "Join now", new_user_registration_path %> 
+              <%= vertical_bar(12) %>
               <%= link_to "Sign in", new_user_session_path %>
             <% end %>
             <%= link_to nil, :style => 'margin-left: 16px' do %>
-              <%= image_tag("fb_round_white.png") %>
+              <%= image_tag("fb_round_#{icon_color}.png") %>
             <% end %>
             <%= link_to nil do %>
-              <%= image_tag("twitter_round_white.png") %>
+              <%= image_tag("twitter_round_#{icon_color}.png") %>
             <% end %> 
+
           </div>
         </div>
         

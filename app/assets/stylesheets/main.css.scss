@@ -84,21 +84,59 @@ $header_height: 52px;
   }
 }
 
-#account_info {
+@mixin vertical-bar-common {
+  display:inline;
+  border-left: 1px solid white;
+  margin-left: 4px;
+  margin-right: 6px;
+}
+
+.account_info {
+  @include header-main-footer-common;
+  margin-left: -$edge_distance;
+    
+  font-size: 11px;
+  color: white;
+  font-family: arial, helvetica, sans-serif;
+  padding-top: 27px;
+  height: 44px;
+  width: 100%;
+  
+  div {
+    float: right;
+  }
+  
   img {
     vertical-align: middle;
     padding: 0px 3px 2px 3px;
   }
+  
+  a {
+    font-size: 11px;
+    color: white;
+    &:hover { color: $ost_hot_blue; }
+  }
+  
+  .vertical_bar {
+    @include vertical-bar-common;
+    border-left-color: white;
+  }
 }
 
-#account_info, #account_info a {
-  font-size: 11px;
-  color: white;
-  font-family: arial, helvetica, sans-serif;
-  letter-spacing: 0.04em;
-  margin-top: 12px;
-  &:hover { color: $ost_hot_blue; }
+.account_info.account_bar {
+  margin-left: -$edge_distance;
+  background-color: $ost_light_beige;
+  
+  a {
+    color: $ost_account_gray;
+  }
+  
+  .vertical_bar {
+    @include vertical-bar-common;
+    border-left-color: $ost_account_gray;
+  }
 }
+
 
 #tagline {
   float:right; 
@@ -203,7 +241,6 @@ $nav_bar_height: $header_height;
 
 #main {
   @include header-main-footer-common;
-  padding-top: 15px;
   padding-bottom: 0px;
   margin-bottom: -15px;
 }
