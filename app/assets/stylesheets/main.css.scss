@@ -40,12 +40,9 @@ pre {
 	font-weight: normal;
 	font-color: #000;
 	margin-top: 0px;
-	//border-width: 0 0 1px 0;
 }
 
-.top_level_container {
-  // padding: 0px 20px;
-}
+.top_level_container {}
 
 a, #message_dialog_body a, #help_dialog_body a {
    text-decoration: none;
@@ -60,35 +57,45 @@ a, #message_dialog_body a, #help_dialog_body a {
    font-weight: normal;
 }
 
+$edge_distance: 54px;
+
+@mixin header-main-footer-common {
+  padding-left: $edge_distance;
+  padding-right: $edge_distance;
+}
+
+$header_height: 52px;
+
 #header {
-    height: 68px;
-    background-color: $background_color;
-    margin: 10px auto 0px;
-    width: 100%;
-    
-    .logo  {
-    	border: 0 none;
-    	opacity: 1;
-    	float: left;   
-    	background: image-url("ost_logo_horiz_sm_beta.png") no-repeat transparent;
-      margin-top: 5px;
-    	height: 49px;
-    	width: 286px;
+  @include header-main-footer-common;
+
+  height: $header_height;
+//  margin: 10px auto 0px;
+//  width: 100%;
+  
+  .logo  {
+  	border: 0 none;
+  	opacity: 1;
+  	float: left;   
+  	background: image-url("ost_logo_beta.png") no-repeat transparent;
+    margin-top: 11px;
+  	height: 49px;
+  	width: 286px;
+  }
+  
+  #account_info {
+    img {
+      vertical-align: middle;
+      padding: 0px 3px 2px 3px;
     }
-    
-    #account_info {
-      img {
-        vertical-align: middle;
-        padding: 0px 3px 2px 3px;
-      }
-    }
-    
-    #account_info, #account_info a {
-      font-size: 8.5px;
-      color: black;
-      font-family: arial, helvetica, sans-serif;
-      letter-spacing: 0.04em;
-    }
+  }
+  
+  #account_info, #account_info a {
+    font-size: 8.5px;
+    color: black;
+    font-family: arial, helvetica, sans-serif;
+    letter-spacing: 0.04em;
+  }
 }
 
 #tagline {
@@ -98,26 +105,17 @@ a, #message_dialog_body a, #help_dialog_body a {
   font-family: arial, helvetica, sans-serif;
 }
 
-$nav_bar_height: 64px;
-
-#nav_bar {
-   height: $nav_bar_height;
-//   border-bottom: 2px black solid;
-//   border-top: 1px solid black;
-}
-
-$our_books_box_height: 20px;
+$nav_bar_height: $header_height;
 
 #nav_bar {
   
+  height: $nav_bar_height;    
   
-  
-  font-size: 16px;
   ul {
     display:inline;
     padding-left: 0px;
+    padding-top: 7px;
     float:right;
-    margin: ($nav_bar_height - $our_books_box_height)/2 0;
      
     li {
       display:inline;
@@ -129,8 +127,8 @@ $our_books_box_height: 20px;
       a {
         color: #000;
         text-decoration: none;
-        height: $our_books_box_height; //$nav_bar_height;
-        line-height: $our_books_box_height; //$nav_bar_height;
+        height: $header_height;
+//        line-height: $our_books_box_height; //$nav_bar_height;
        
         &:hover {
           color:$os_green;
@@ -142,7 +140,7 @@ $our_books_box_height: 20px;
           float:left;
           width:30px;
           margin-top: -1px;
-          height: $our_books_box_height;
+          height: $header_height;
           background-repeat: no-repeat;
           background-position: center center;
         }
@@ -151,7 +149,7 @@ $our_books_box_height: 20px;
       span {
         float:left;
         padding-left: 18px;
-        font-size: 12px;
+        font-size: 10px;
         font-family: arial, helvetica, sans-serif;
         
         span.current {
@@ -170,32 +168,7 @@ $our_books_box_height: 20px;
       }  
     }
   }
-  
-  // For left aligned nav ULs
-  ul.left {
-    float:left;
-    
-    span {
-      padding-left: 0px;
-    }
-    
-    .our_books_button {
-      background-color: $os_orange;
-      color: white;
-      font-weight: bold;
-      padding: 0 13px 0 14px;
-     
-        &:hover {
-         background-color: darken($os_orange,10%);
-        }
-     
-     // a {
-     //        background-color: $os_orange;
-     //        
-     //        
-     //      }
-    }
-  }
+
 }
 
 .link_button {
@@ -228,26 +201,37 @@ $our_books_box_height: 20px;
 
 
 #main {
-  padding: 9px 0 13px;
+  @include header-main-footer-common;
+//  margin-right: $edge_distance;
+//  margin-left: $edge_distance;
+  padding-top: 15px;
+  padding-bottom: 0px;
+  margin-bottom: -15px;
 }
 
 #footer {
-  padding-top: 11px;
-  border-top: 1px solid rgb(86,86,86);
-  font-size: 8.5px;
-  padding-bottom: 28px;
-  //letter-spacing: -0.3px;
-  line-height: 13px;
+  @include header-main-footer-common;
+
+  background: image-url("footer_flare.png") top right no-repeat;
+  height: 77px;
+  background-color: #7d7d7d;
+  color: white;
+  font-size: 10px;
+  line-height: 14px;
    
   a {
-    font-size: 8.5px;
+    font-size: 10px;
     text-decoration: none;
-    color: $os_gray;
+    color: white;
     &:hover { color: $os_green; }
   }
   
+  img {
+    padding-top: 21px;
+  }
+  
   #copy {
-//    padding-top:3px;
+    padding-top: 24px;
   }
 }
 
@@ -748,9 +732,16 @@ span.antispam {display:none;}
 .os_blue { background-color: $os_blue; }
 .os_dark_orange { background-color: $os_dark_orange; }
 
+.ost_light_beige { background-color: $ost_light_beige; }
+
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 .fc-today {
   background: lighten($os_yellow,20%);
+}
+
+.home_page_image {
+  background: image-url("student_full_home_haze.jpg");
+  height: 544px;
 }

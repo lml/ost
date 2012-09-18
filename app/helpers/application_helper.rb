@@ -467,4 +467,8 @@ module ApplicationHelper
     end
   end
   
+  def classify(var)
+    "class=#{var}" if var
+  end
+  
 end

@@ -1,0 +1,47 @@
+<% content_for :javascript do %>
+  <%= javascript_tag do %>
+    function create_consent(did_consent) {
+      var data = $('#new_consent').serializeArray();
+      if (null != did_consent) {
+        data.push({name: "consent[did_consent]", value: did_consent});
+      }              
+      return $.post($("#new_consent").attr('action'), data, null, "script");      
+    }
+  
+    $(document).ready(function() {
+      $('#consent_form_dialog').dialog({
+        modal: true,
+        height: 500,
+        width: 700,
+        buttons: [
+          {
+            text: "I consent",
+            click: function() { create_consent(true); }
+          },
+          {
+            text: "Remind me later",
+            click: function() { create_consent(null); }
+          },
+          {
+            text: "I do not consent",
+            click: function() { create_consent(false); }
+          }
+        ] 
+      });
+     
+    });
+  <% end %>
+<% end %>
+    
+<div id="consent_form_dialog" style="display:none" title="Research Consent Form">
+  <%= link_to "Open in a separate window", 
+              new_polymorphic_path([@consentable, Consent.new]), :style => 'float:right; font-size:10px' %>
+  <br/>
+  <div id="consent_form_dialog_errors"></div>        
+  
+  <%= @consentable.consent_options.consent_form.html.html_safe %>
+
+  <%= form_for([@consentable, Consent.new]) do |f| %>
+    Signature: <%= f.text_field :esignature %>
+  <% end %>    
+</div>
