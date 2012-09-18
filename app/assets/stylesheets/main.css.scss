@@ -82,20 +82,22 @@ $header_height: 52px;
   	height: 49px;
   	width: 286px;
   }
-  
-  #account_info {
-    img {
-      vertical-align: middle;
-      padding: 0px 3px 2px 3px;
-    }
+}
+
+#account_info {
+  img {
+    vertical-align: middle;
+    padding: 0px 3px 2px 3px;
   }
-  
-  #account_info, #account_info a {
-    font-size: 8.5px;
-    color: black;
-    font-family: arial, helvetica, sans-serif;
-    letter-spacing: 0.04em;
-  }
+}
+
+#account_info, #account_info a {
+  font-size: 11px;
+  color: white;
+  font-family: arial, helvetica, sans-serif;
+  letter-spacing: 0.04em;
+  margin-top: 12px;
+  &:hover { color: $ost_hot_blue; }
 }
 
 #tagline {
@@ -128,7 +130,6 @@ $nav_bar_height: $header_height;
         color: #000;
         text-decoration: none;
         height: $header_height;
-//        line-height: $our_books_box_height; //$nav_bar_height;
        
         &:hover {
           color:$os_green;
@@ -202,8 +203,6 @@ $nav_bar_height: $header_height;
 
 #main {
   @include header-main-footer-common;
-//  margin-right: $edge_distance;
-//  margin-left: $edge_distance;
   padding-top: 15px;
   padding-bottom: 0px;
   margin-bottom: -15px;
@@ -215,15 +214,15 @@ $nav_bar_height: $header_height;
   background: image-url("footer_flare.png") top right no-repeat;
   height: 77px;
   background-color: #7d7d7d;
-  color: white;
+  color: #dddddd;
   font-size: 10px;
   line-height: 14px;
    
   a {
     font-size: 10px;
     text-decoration: none;
-    color: white;
-    &:hover { color: $os_green; }
+    color: #dddddd;
+    &:hover { color: $ost_hot_blue; }
   }
   
   img {

@@ -195,15 +195,23 @@
         </div>
         
         <div style="clear:right; float:right; padding-bottom:15px">
-          <span id="account_info">
+          <div id="account_info">
             <% if user_signed_in? %>
-              <%= link_to current_user.first_name.upcase, edit_user_registration_path %> <%= image_tag 'blackdot.png', :size => '1x18'%> 
-              <%= link_to "SIGN OUT", destroy_user_session_path, :method => :delete, :id => 'signout_link' %>
+              <span style="color: black">Welcome <%= current_user.first_name.capitalize %></span> &nbsp;&nbsp;
+              <%= link_to "My Account", edit_user_registration_path %> 
+              <%= image_tag 'whitedot.png', :size => '1x12'%> 
+              <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :id => 'signout_link' %>
             <% else %>
-              <%= link_to "SIGN IN", new_user_session_path %> <%= image_tag 'blackdot.png', :size => '1x18'%> 
-              <%= link_to "JOIN NOW", new_user_registration_path %>
+              <%= link_to "Join now", new_user_registration_path %> <%= image_tag 'whitedot.png', :size => '1x12'%> 
+              <%= link_to "Sign in", new_user_session_path %>
             <% end %>
-          </span>
+            <%= link_to nil, :style => 'margin-left: 16px' do %>
+              <%= image_tag("fb_round_white.png") %>
+            <% end %>
+            <%= link_to nil do %>
+              <%= image_tag("twitter_round_white.png") %>
+            <% end %> 
+          </div>
         </div>
         
         
@@ -280,7 +288,7 @@
         </div>
 
         <div id="copy">
-          Copyright &copy; <%= year = Time.now.year; 2011 == year ? "2011" : "2011&ndash;#{year}".html_safe %> <%= COPYRIGHT_HOLDER %> |
+          Copyright &copy; <%= year = Time.now.year; 2012 == year ? "2012" : "2011&ndash;#{year}".html_safe %> <%= COPYRIGHT_HOLDER %> |
           <%= link_to "Terms of Use", terms_path %> |
           <%= link_to "Contact Us", contact_path %>
       
