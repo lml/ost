@@ -1,0 +1,124 @@
+<%= pageHeading "Help | Topics" do %>
+<% end %>
+
+Overview of topics<br/>
+Organizing topics<br/>
+Create a new topic<br/>
+Rename or delete a topic<br/>
+Add resources and exercises to a topic<br/>
+Add concept tags to an exercise<br/>
+Re-order exercises and resources
+
+<%= section "Overview of topics" do %>
+
+The topics section is where you add and organize course materials in OST. Your course material will be sorted into topics As the chart explains, OST builds assignments by pulling content from topics. 
+
+<center>
+<%= image_tag("topics_chart.png", {:border => 1, :width => "70%", :height => "70%", :title=>"create new topic"})%>
+</center>
+
+A topic is 
+(a) a group of related exercises and resources; <br/>
+(b) a building block of the assignments you will create in OST. </br>
+
+<p>How you organize your topics is up to you.</p> 
+
+<% end %>
+
+<%= section "Topics interface" do %>
+
+Screencast.  
+  
+<% end %>
+
+<%= section "Organizing course material into topics" do %>
+
+<p>As described above, OST enables you to sort your course materials into <em>topics</em>. How you organize your topics is up to you. 
+  
+    <li>Learning conditions, if any, set for your class</li>  
+  <li>Structure of assignments: how many assignments? how many topic(s) will each assignment cover?
+</p>
+
+Why learning conditions matter 
+
+A learning condition is a set of rules that you tell OST to apply when building assignments. An example of a learning condition is: each assignment pulls 50% of its questions from the current topic and 50% of its questions from the previous topic. 
+
+In this case, 
+
+No experimental conditions (the simplest case)
+
+In general, given no experimental conditions, the number of topics you create will depend on the number of assignments you plan to give. For example, if you plan to give 12 assignments in OST, you might create 12 topics. 
+
+<% end %>
+
+<%= section "Create a new topic" do %>
+  <ol>
+  <li>Under Topics, click "Add new topic...";</li>
+  <center>
+  <%= image_tag("newtopic1.png", {:border => 1, :width => "50%", :height => "50%", :title=>"create new topic"})%>
+  </center>
+  <li>Double click the New Topic 1 box that appears; </li>
+  <center>
+  <%= image_tag("newtopic5.png", {:border => 1, :width => "50%", :height => "50%", :title=>"create new topic"})%>
+  </center>
+  
+  
+<% end %>  
+
+<%= section "Rename or delete a topic" do %>
+  <ol>
+  <li>Hover your mouse over topic until orange edit and trash icons will appear;</li>
+  <center>
+  <%= image_tag("edit_topic1.png", {:border => 1, :width => "50%", :height => "50%", :title=>"create new topic"})%>
+  </center>
+  <li><em>Delete a topic</em> by clicking the trash icon and clicking OK.</li>
+  <li><em>Rename a topic</em> by clicking the pencil icon and entering new name in the text box that appears; </li>
+  <center>
+  <%= image_tag("edit_topic2.png", {:border => 1, :width => "50%", :height => "50%", :title=>"create new topic"})%>
+  </center>
+  <li>Save new name by hitting Enter on your keyboard.</li>
+  
+    
+<% end %>    
+  
+<%= section "Add resources and exercises to a topic" do %>
+<ol>
+<li>Double click the topic box you want to populate; </li>
+<center>
+<%= image_tag("newtopic5.png", {:border => 1, :width => "50%", :height => "50%", :title=>"create new topic"})%>
+</center>
+<li>To add resources, click "Add..." on the first line;</li>
+<center>
+<%= image_tag("add_resources.png", {:border => 1, :width => "50%", :height => "50%", :title=>"create new topic"})%>
+</center>
+  <li>Enter full resource URL, resource description, and notes, then click Save Resources to close;</li>
+  <br/>
+  <center>
+  <%= image_tag("newtopic4.png", {:border => 1, :width => "40%", :height => "40%", :title=>"create new topic"})%>
+  </center>
+  <br/>
+  <li>Continue adding more resources as necessary;</li>
+  <li>  
+  <li>To add exercises, click "Add..." on the second line;</li>
+  	<center>
+  	  <%= image_tag("add_exercises.png", {:border => 1, :width => "40%", :height => "40%", :title=>"create new topic"})%>
+  	</center>
+  </li>
+  <li>Double click on the topic box to begin adding course materials;
+  	<center>
+  		[add image here]
+  	</center>
+  </li>
+  <li>Click "Add" on the first line to add resources;</li>
+  <li>A dialog box will pop up, prompting you for the resource URL, name and any notes about the resource; 
+  	<center>
+  		[add image here]
+  	</center>
+  </li>
+  <li>Click "Create Resource" to save the resource;</li>
+  <li>Repeat steps above to continue adding resources;</li>	
+  </ol>
+<% end %>
+
+
+<% link_to "Main Help", help_path %>
