@@ -1,6 +1,8 @@
 class HelpController < ApplicationController
 
   skip_before_filter :authenticate_user!
+  
+  before_filter :highlight_help
 
   # This class variable maps topic names to partial names.  This is mostly
   # useful when the topic name does not match the partial name.  If 
@@ -18,6 +20,12 @@ class HelpController < ApplicationController
       format.html
       format.js
     end
+  end
+  
+protected
+
+  def highlight_help
+    @highlight = :help
   end
   
 end

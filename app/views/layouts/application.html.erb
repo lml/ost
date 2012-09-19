@@ -136,37 +136,25 @@
                  
         <div id="nav_bar">
           <a href="/" class="logo"></a>
+            <% nav_links = [
+                ["ABOUT", about_path, "", :about],
+                ["DASHBOARD", dashboard_path, "", :dashboard],
+                ["COURSE CATALOG", catalog_path, "", :catalog],
+                ["CURRENT CLASSES", klasses_path, "", :classes],
+                ["MY TUTOR", mytutor_path, "", :mytutor],
+                ["HELP #{image_tag 'help_icon_v4.png', :height => '12px', :width => '12px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}", 
+                  help_path, "help_highlight", :help]
+              ] %>
+            
             <ul>
-              <li>
-                <%= link_to about_path do %>
-                  <span style="position:relative">ABOUT<% if @highlight_faculty %><span class="current"></span><% end %></span>
-                <% end %>
-              </li>
-              <li>
-                <%= link_to dashboard_path do %>
-                  <span style="position:relative">DASHBOARD<% if @highlight_students %><span class="current"></span><% end %></span>
-                <% end %>
-              </li>
-              <li>
-                <%= link_to catalog_path do %>
-                  <span style="position:relative">COURSE CATALOG<% if @highlight_administrators %><span class="current"></span><% end %></span>
-                <% end %>
-              </li>
-              <li>
-                <%= link_to klasses_path do %>
-                  <span style="position:relative">CURRENT CLASSES<% if @highlight_administrators %><span class="current"></span><% end %></span>
-                <% end %>
-              </li>              
-              <li>
-                <%= link_to mytutor_path do %>
-                  <span style="position:relative">MY TUTOR<% if @highlight_staxdash %><span class="current"></span><% end %></span>
-                <% end %>
-              </li>
-              <li>
-                <%= link_to help_path do %>
-                  <span style="position:relative">HELP<% if @highlight_staxdash %><span class="current"></span><% end %></span>
-                <% end %>
-              </li>
+              <% nav_links.each do |nav_link| %>
+                <li>
+                  <%= link_to nav_link[1] do %>
+                    <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %>" 
+                          style="display:inline; position:relative"><%= nav_link[0].html_safe %><em></em></span>
+                  <% end %>
+                </li>              
+              <% end %>
             </ul>
           </div>
 

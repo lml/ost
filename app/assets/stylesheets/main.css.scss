@@ -70,10 +70,7 @@ $header_height: 52px;
   @include header-main-footer-common;
 
   height: $header_height;
-//  background-color: white;
-//  margin: 10px auto 0px;
-//  width: 100%;
-  
+
   .logo  {
   	border: 0 none;
   	opacity: 1;
@@ -128,6 +125,7 @@ $header_height: 52px;
 .account_info.account_bar {
   margin-left: -$edge_distance;
   background-color: $ost_light_beige;
+//  z-index:-3;
   
   a {
     color: $ost_account_gray;
@@ -148,7 +146,8 @@ $nav_bar_height: $header_height;
   ul {
     display:inline;
     padding-left: 0px;
-    padding-top: 7px;
+//    padding-top: 7px;
+margin-top: 0px;
     float:right;
      
     li {
@@ -161,44 +160,98 @@ $nav_bar_height: $header_height;
       a {
         color: #000;
         text-decoration: none;
-        height: $header_height;
-       
+        width: 100%;
+//        position: absolute;
+        
         &:hover {
           color:white;
-          //  background: url(navigation/nav_hover.gif);
         }
-       
-        em {
-          display:inline;
+        
+        span {
           float:left;
-          width:30px;
-          margin-top: -1px;
-          height: $header_height;
-          background-repeat: no-repeat;
-          background-position: center center;
+          font-size: 10px;
+          font-family: arial, helvetica, sans-serif;
+          
+          $padding-top: 20px;
+          padding-top: $padding-top;
+          padding-left: 9px;
+          padding-right: 9px;
+          
+          height: $header_height - $padding-top;
+          &:hover {
+            background-color: $ost_hot_blue;
+          }
+          
+          .down-arrow {
+            display:none;
+          }
+          
+          em {
+            font-style:normal;
+          }
         }
-      }
-     
-      span {
-        float:left;
-        padding-left: 18px;
-        font-size: 10px;
-        font-family: arial, helvetica, sans-serif;
+        
+        span.help_highlight {
+          background-color: $os_yellow;
+          color: white;
+          &:hover {
+            background-color: $ost_hot_blue;
+          }
+        }
         
         span.current {
-          position:absolute; 
-          top:25px; 
-          left:12px; 
-          background-color: $os_green; 
-          width: 100%; 
-          height: 4px;
+//                    background: image-url("pointer.png") no-repeat top center;
+          background-color: $ost_hot_blue;
+//          position: absolute;
+          color: white;
+          position: absolute;
+//          height:62px;
+//        z-index: 2;
+        
+          em {
+             background: image-url("pointer.png") no-repeat top center;
+               position: absolute;
+               height:62px;
+               width: 100%;
+               top: 3px;
+               left: 0%;
+               font-style: normal;
+             z-index: 2;
+             
+          }
+
+          
+       //   div {
+       //            width: 100%;
+       //            height: $header_height;
+       //            margin-left: -9px;
+       //            margin-right: -9px;
+       ////            text-align: center;
+       //            position: absolute;
+       //            bottom: 0px;
+       //            
+       //                             //    .down-arrow {
+       //                             //                                   display: inline;
+       //                             //                      //                        position: absolute;
+       //                             //            
+       //                             //                                  //            right: 0;
+       //                             ////                                              text-align: center;
+       //                             ////                                                 position: absolute;
+       //                             ////                                                 bottom: -32px;
+       //                             //            
+       //                             //                                             width: 0px; 
+       //                             //                                             height: 0; 
+       //                             //                                             
+       //                             //                                             border-left: 15px solid transparent;
+       //                             //                                             border-right: 15px solid transparent;
+       //                             //                                             border-top: 15px solid #f00;
+       //                             //                                 }
+       //          }
+          
+
         }
+        
       }
-    
-      .current a {
-//        color:blue;
-        // background:url(navigation/nav_hover.gif);
-      }  
     }
   }
 
