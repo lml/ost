@@ -5,7 +5,7 @@
 <% exercise_data = @student_exercise.assignment_exercise.topic_exercise.exercise.content %>
 <% solutions_data = @student_exercise.assignment_exercise.topic_exercise.exercise.solutions_content %>
 
-<%= section "The Answer" do %>
+<%= section "The Answer", {:classes => 'first' } do %>
 
   <% answer_choices = exercise_data["simple_question"]["answer_choices"] %>
   <% correct_answer_index = answer_choices.index{|choice| choice["credit"].to_i == 1} %>

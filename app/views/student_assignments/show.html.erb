@@ -1,7 +1,7 @@
 <%= pageHeading("Assignment for #{@student_assignment.student.full_name(present_user)}",
                 {:sub_heading_text => @student_assignment.student.section.klass.name})%>
 
-<%= section "Assignment Times", {:collapsible => true, :collapsed => true } do %>
+<%= section "Assignment Times", {:collapsible => true, :collapsed => true, :classes => 'first' } do %>
   <%= render :partial => 'response_times/list', 
              :locals => {:response_times => @student_assignment.response_times} %>
 <% end %>

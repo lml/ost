@@ -1,6 +1,6 @@
 <%= pageHeading(@student.full_name(present_user), {:sub_heading_text => full_class_name(@student.section)}) %>
 
-<%= section "Status" do %>
+<%= section "Status", {:classes => 'first' } do %>
     <p><%= @student.full_name(present_user) %> has been assigned to the <%= @student.section.name %> section<%= " (in cohort #{@student.cohort.name})" if present_user.can_read_children?(@student.section.klass, :cohorts) %>.</p>
 
   <% if @student.has_dropped? %>

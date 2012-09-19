@@ -1,8 +1,9 @@
 <% collapsible ||= false %>
 <% collapsed ||= false %>
 <% help_topic ||= nil %>
+<% classes ||= "" %>
 
-<div class="section activity_zone">
+<div class="section activity_zone <%= classes %>">
   <div class="section_heading">
     <%= title %>
     <% if !help_topic.nil? %>

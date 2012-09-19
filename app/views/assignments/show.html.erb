@@ -19,7 +19,7 @@
 
 <%= important(important_message.html_safe) %>
 
-<%= section "Introduction" do %>
+<%= section "Introduction", {:classes => 'first' } do %>
 
   <%= simple_format assignment_plan.introduction %>
 

@@ -3,7 +3,7 @@
 
 <% @assignments.each do |assignment| %>
   
-  <%= section "#{assignment[0].assignment_plan.name}" do %>
+  <%= section "#{assignment[0].assignment_plan.name}", {:classes => 'first' } do %>
     
     <% @cohorts.each_with_index do |cohort, cc| %>
       <p><b>Cohort: <%= cohort.name %></b></p>

@@ -1,6 +1,6 @@
 <%= pageHeading "#{@course.organization.name}: #{@course.name}"%>
 
-<%= section "Description" do %>
+<%= section "Description", {:classes => 'first' } do %>
   <p>
     <b>Name:</b>
     <%= @course.name %>
