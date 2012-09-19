@@ -46,7 +46,7 @@ pre {
 
 a, #message_dialog_body a, #help_dialog_body a {
    text-decoration: none;
-   color: $os_green;
+   color: $ost_hot_blue;
    &:link {}
    &:hover { color: $os_orange;}
    &:visited {}
@@ -70,6 +70,7 @@ $header_height: 52px;
   @include header-main-footer-common;
 
   height: $header_height;
+//  background-color: white;
 //  margin: 10px auto 0px;
 //  width: 100%;
   
@@ -101,6 +102,7 @@ $header_height: 52px;
   padding-top: 27px;
   height: 44px;
   width: 100%;
+  margin-bottom: 35px;
   
   div {
     float: right;
@@ -137,14 +139,6 @@ $header_height: 52px;
   }
 }
 
-
-#tagline {
-  float:right; 
-  font-size:15px; 
-  color: $os_green; 
-  font-family: arial, helvetica, sans-serif;
-}
-
 $nav_bar_height: $header_height;
 
 #nav_bar {
@@ -170,7 +164,7 @@ $nav_bar_height: $header_height;
         height: $header_height;
        
         &:hover {
-          color:$os_green;
+          color:white;
           //  background: url(navigation/nav_hover.gif);
         }
        
@@ -241,7 +235,7 @@ $nav_bar_height: $header_height;
 
 #main {
   @include header-main-footer-common;
-  padding-bottom: 0px;
+  padding-bottom: 47px;
   margin-bottom: -15px;
 }
 
@@ -519,26 +513,12 @@ table.left_heading th, td {
   width: 250px;
 }
 
-.book_item_box {
-  float: left;
-  margin: 0 45px 0px 0;
-  width: 250px;
-  
-  p {
-    height: 100px;
-  }
-}
-
-.item_box, .book_item_box {
+.item_box {
   h3 {
     color: $os_dark_gray;
     font-weight:normal;
-    border-bottom: 1px solid $os_green;
+    border-bottom: 1px solid $ost_hot_blue;
   }
-}
-
-.last_book_item_box {
-  margin-right: 0px;
 }
 
 .book_box {
@@ -555,96 +535,6 @@ table.left_heading th, td {
     font-weight:normal;
     margin-top: 0;
   }    
-}
-
-#book_carousel li {
-  a { 
-    color: $os_dark_gray;
-    img {
-      border: 1px solid black;
-    }
-    
-    &:hover {
-      color: $os_green;
-    }
-  }
-}
-
-#goal_box {
-  padding-top:14px;
-  margin-bottom: 10px;
-  background-color: rgb(198,198,198);
-  color: white;
-  
-  #goal_banner {
-    background-color: $os_green;
-    width: 100%;
-    margin-bottom: 14px;
-    
-    #goal_text {
-      padding: 0 15px;
-      letter-spacing: 0.17em;
-      font-size: 11px;
-    }
-  }
-  
-  #goal_content {
-    padding: 0 15px 15px;
-  }
-  
-  .large_text {
-    font-size:18px;
-  }
-
-  .highlight {
-    color: $os_green;
-  }
-  
-  .small_text {
-    font-size: 12px;
-  }
-}
-
-#goal_counter {
-  color: $os_green;
-}
-
-///////////////////////////
-
-#toc {
-	list-style: none;
-	margin-bottom: 0px;
-	padding-left: 20px;
-	
-	ul {
-	  list-style: none;
-	}
-
-  li {
-  	padding-bottom: 2px;
-  	position:relative;
-  	
-  	span.fade {
-      background: image-url('fade_out_15.png') repeat-x;
-        position: absolute;
-        top: 8px;
-        display: block;
-        width: 100%;
-        height: 15px;
-    }
-  }
-  
-  li.excess_hidden {
-    display: none;
-  }
-}
- 
-
-.toc_chapter {
-  padding-top: 5px;
-}
-.toc_section {
-  font-style: italic;
 }
 
 span.switcheroo { unicode-bidi:bidi-override; direction: rtl; }
@@ -769,6 +659,7 @@ span.antispam {display:none;}
 .os_dark_orange { background-color: $os_dark_orange; }
 
 .ost_light_beige { background-color: $ost_light_beige; }
+.white { background-color: white; }
 
 //
 ////////////////////////////////////////////////////////////////////////////////
@@ -777,7 +668,8 @@ span.antispam {display:none;}
   background: lighten($os_yellow,20%);
 }
 
-.home_page_image {
+#main.home_page_image {
   background: image-url("student_full_home_haze.jpg");
   height: 544px;
+  padding-bottom: 0px;
 }
