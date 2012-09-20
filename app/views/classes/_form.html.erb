@@ -12,11 +12,11 @@
   </div>
   <div class="field">
     <%= t(:start_date_time) %><br />
-    <%= f.datetime_text_field :start_date, {:time_zone => time_zone} %>
+    <%= f.datetime_text_field :start_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
     <%= t(:end_date_time) %><br />
-    <%= f.datetime_text_field :end_date, {:time_zone => time_zone} %>
+    <%= f.datetime_text_field :end_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
     Is this class part of a formal study controlled by <%= SITE_NAME %> researchers?<br/>
