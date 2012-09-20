@@ -8,6 +8,7 @@ function refresh_buttons() {
    $(".edit_button").button({icons: {primary: "ui-icon-pencil"}, text: false });
    $(".trash_button").button({icons: {primary: "ui-icon-trash"}, text: false });
    $(".calendar_button").button({icons: {primary: "ui-icon-calendar"}, text: false });
+   refresh_datetime_pickers();
 }
 
 function remove_fields(link) {
@@ -107,14 +108,17 @@ function show_none_row_if_needed(table_id) {
 }
 
 function refresh_datetime_pickers() {
-   $(".date_time_picker").datetimepicker({
-	 numberOfMonths: 3,
-     timeFormat: 'h:mm TT',
-     dateFormat: 'M d, yy',
-     stepMinute: 1, 
-     ampm:true, 
-     hour:9, 
-     minute:0});
+  $(".date_time_picker").each( function(index) {
+    $(this).datetimepicker({
+      numberOfMonths: parseInt($(this).attr("number_of_months")) || 3,
+      timeFormat:     $(this).attr("time_format")                || 'h:mm TT', // this only takes effect after refresh
+      dateFormat:     $(this).attr("date_format")                || 'M d, yy', // this only takes effect after refresh
+      stepMinute:     parseInt($(this).attr("step_minute"))      || 1, 
+      ampm:           true, 
+      hour:           parseInt($(this).attr("hour"))             || 9,
+      minute:         parseInt($(this).attr("minute"))           || 0
+    });
+  });
 }
 
 Number.prototype.formatMoney = function(c, d, t) {
