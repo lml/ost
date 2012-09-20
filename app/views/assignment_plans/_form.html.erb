@@ -10,11 +10,11 @@
   </div>
   <div class="field">
     <%= t(:start_date_time) %><br />
-    <%= f.datetime_text_field :starts_at, {:time_zone => @assignment_plan.learning_plan.klass.time_zone, :numberOfMonths => 2} %>
+    <%= f.datetime_text_field :starts_at, {:time_zone => @assignment_plan.learning_plan.klass.time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
     <%= t(:end_date_time) %><br />
-    <%= f.datetime_text_field :ends_at, {:time_zone => @assignment_plan.learning_plan.klass.time_zone, :numberOfMonths => 2} %>
+    <%= f.datetime_text_field :ends_at, {:time_zone => @assignment_plan.learning_plan.klass.time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
     <%= f.check_box :is_test %> This is a test

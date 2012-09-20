@@ -20,12 +20,12 @@
   </div>
   <div class="field">
     Consenting window opens at<br />
-    <%= f.datetime_text_field :opens_at, {:time_zone => time_zone} %><br/>
+    <%= f.datetime_text_field :opens_at, {:time_zone => time_zone, :number_of_months => 2} %><br/>
     <span class="field_help">Defaults to the start date/time of the class if left blank.</span>
   </div>
   <div class="field">
     Consenting window closes at<br />
-    <%= f.datetime_text_field :closes_at, {:time_zone => time_zone} %><br/>
+    <%= f.datetime_text_field :closes_at, {:time_zone => time_zone, :number_of_months => 2} %><br/>
     <span class="field_help">Defaults to the start date/time of the class if left blank.</span>
   </div>
   <div class="field">
