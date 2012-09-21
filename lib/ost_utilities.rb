@@ -1,3 +1,4 @@
+require 'net/http'
 
 module Ost
   module Utilities
@@ -19,6 +20,25 @@ module Ost
         raise IllegalArgument
       end
       
+    end
+
+    def url_responds?(url)
+      begin # check header response
+        case Net::HTTP.get_response(URI.parse(url))
+          when Net::HTTPSuccess, Net::HTTPMovedPermanently, Net::HTTPMovedTemporarily then true
+          else false
+        end
+      rescue # Recover on DNS failures..
+        false
+      end
+    end
+    
+    def online?
+      url_responds?("http://www.google.com")
+    end
+    
+    def get_boolean_config(name)
+      Rails.configuration.respond_to?(name) && Rails.configuration.send(name)
     end
 
   end

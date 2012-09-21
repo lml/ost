@@ -1,4 +1,7 @@
+require 'ost_utilities'
+
 Ost::Application.configure do
+  include Ost::Utilities
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
@@ -46,7 +49,7 @@ Ost::Application.configure do
   
   config.enable_recaptcha = false
   
-  config.enable_url_existence_validations = true
+  config.enable_url_existence_validations = online?
 end
 
 Devise.setup do |config|

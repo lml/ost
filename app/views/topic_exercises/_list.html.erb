@@ -8,6 +8,6 @@
                                      :class => 'topic_sub_section',
                                      :do_can_checks_once => true
                                    } do |te|
-    "#{te.exercise.quadbase_id} #{te.concept.nil? ? '' : '(' + te.concept.name + ')'}"
+    "#{te.exercise.quadbase_id} #{te.reserved_for_tests ? '[Test]' : ''}#{te.concept.nil? ? '' : '(' + te.concept.name + ')'}"
   end 
 %>

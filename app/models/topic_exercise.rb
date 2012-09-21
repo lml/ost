@@ -16,6 +16,8 @@ class TopicExercise < ActiveRecord::Base
   
   attr_accessible :exercise_id, :topic_id, :exercise, :topic, :reserved_for_tests
   
+  scope :for_tests, where{reserved_for_tests == true}
+  
   def destroyable?
     errors.add(:base, "This exercise cannot be deleted because it has already been assigned.") if assigned?
     errors.none?

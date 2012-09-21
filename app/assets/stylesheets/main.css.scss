@@ -55,7 +55,7 @@ a, #message_dialog_body a, #help_dialog_body a {
    text-decoration: none;
    color: $ost_hot_blue;
    &:link {}
-   &:hover { color: $os_orange;}
+   &:hover { color: black;}
    &:visited {}
    &:active { color: #000;}
 }
