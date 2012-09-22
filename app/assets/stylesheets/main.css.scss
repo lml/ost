@@ -320,6 +320,10 @@ $nav_bar_height: $header_height;
   margin-top: 0px;
 }
 
+.section.no_bar {
+  border-top: none;
+}
+
 .section_heading {
    font-size: 16px;
    a { font-size: 16px; }
@@ -475,6 +479,10 @@ div.field label {
 	padding: 0 10px 0 0;
    width: 600px;
    float:left;
+}
+
+#main_column_2c.bar_topped_block {
+  @extend .bar_topped_block;
 }
 
 /************ GENERIC LIST TABLE *********************/

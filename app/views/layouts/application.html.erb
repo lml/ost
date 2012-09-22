@@ -215,12 +215,14 @@
 
             <%= yield(:page_heading) %>
 
-            <div id="attention">
-              <%= render 'shared/attention' %>
+            <div class="bar_topped_block">
+              <div id="attention">
+                <%= render 'shared/attention' %>
+              </div>
+
+              <%= yield(:main) %>         
             </div>
-
-            <%= yield(:main) %>         
-
+            
           <% elsif content_for?(:right_column) || !@navitems.empty? || content_for?(:other_nav_content) %>
 
             <%= yield(:page_heading) %>                     
@@ -231,7 +233,7 @@
             <div id="column_container_2c">
               <div style="clear:both"></div>
               
-              <div id="main_column_2c" class="column">
+              <div id="main_column_2c" class="column bar_topped_block">
                 <%= yield(:important) %>
                 <div style="clear:both"></div>
                 <%= yield %>
@@ -258,12 +260,14 @@
 
              <div style="clear:both"></div>
 
-             <div id="attention">
-               <%= render 'shared/attention' %>
-             </div>
+             <div class="<%= content_for?(:page_heading) ? 'bar_topped_block' : '' %>">
+               <div id="attention">
+                 <%= render 'shared/attention' %>
+               </div>
 
-             <%= yield %>
-              
+               <%= yield %>
+             </div>
+             
              <div style="clear:both"></div>
 
            <% end %>

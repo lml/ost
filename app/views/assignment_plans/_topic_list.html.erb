@@ -6,25 +6,29 @@
                 :list_number => "at_#{assignment_plan.id}"
               } do |apt| %>
   <%= apt.topic.name %>
-  <% num_available_exercises = apt.topic_exercises.for_tests.count %>
-  &nbsp;&nbsp;&nbsp;Using 
-  <%= best_in_place_if present_user.can_update?(apt), 
-                       apt, :num_exercises_to_use, :type => :select, :nil => 0, 
-                       :display_with => Proc.new {|v| "hi"},
-                       :collection => [*0..num_available_exercises].map{|i| [i, i.to_s]} %> / 
-                       <%= num_available_exercises %> exercises
   
-  <% bip_id = "best_in_place_assignment_plan_topic_#{apt.id}_num_exercises_to_use" %>
+  <% if assignment_plan.is_test %>
+    <% num_available_exercises = apt.topic_exercises.for_tests.count %>
+    &nbsp;&nbsp;&nbsp;Using 
+    <%= best_in_place_if present_user.can_update?(apt), 
+                         apt, :num_exercises_to_use, :type => :select, :nil => 0, 
+                         :display_with => Proc.new {|v| "hi"},
+                         :collection => [*0..num_available_exercises].map{|i| [i, i.to_s]} %> / 
+                         <%= num_available_exercises %> exercises
   
-  <style type="text/css">
-    #<%= bip_id %> {
-      color: #43BFF9;
-    }
-    #<%= bip_id %>:hover {
-     color: black; 
-    }
+    <% bip_id = "best_in_place_assignment_plan_topic_#{apt.id}_num_exercises_to_use" %>
+  
+    <style type="text/css">
+      #<%= bip_id %> {
+        color: #43BFF9;
+      }
+      #<%= bip_id %>:hover {
+       color: black; 
+      }
     
-  </style>
+    </style>
+  <% end %>
+  
 <% end %>
 
 <%#  %>
