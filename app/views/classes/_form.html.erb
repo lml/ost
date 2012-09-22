@@ -32,6 +32,16 @@
     Learning Plan: A new learning plan will be created for you
   </div>
   <div class="field">
+    Labels to apply to all tests<br/>
+    <%= f.text_field :test_exercise_tags %><br/>
+    <span class="field_help">(Optional) Comma-separated tags listed here will be attached to all assigned test exercises.</span>
+  </div>
+  <div class="field">
+    Labels to apply to all non-test assignments<br/>
+    <%= f.text_field :nontest_exercise_tags %><br/>
+    <span class="field_help">(Optional) Comma-separated tags listed here will be attached to all assigned non-test exercises.</span>
+  </div>
+  <div class="field">
     <%= f.label :approved_emails %><br />
     <%= f.text_area :approved_emails %>
   </div>

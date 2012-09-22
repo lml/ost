@@ -32,7 +32,8 @@ class TestBuilderTest < ActiveSupport::TestCase
                               :starts_at => Time.now + 1.day + ii.days,
                               :ends_at => Time.now + 4.days + ii.days,
                               :learning_plan => lp,
-                              :is_test => true)
+                              :is_test => true,
+                              :exercise_tags => 'midterm')
 
       topic_defs = ap_def
       
@@ -62,7 +63,7 @@ class TestBuilderTest < ActiveSupport::TestCase
     # the next assignment build can know what has been assigned.
     #debugger
     
-    test_assignment = TestBuilder.build_assignment(lp.assignment_plans(true)[0], cohort, "midterm").tap{|a| a.save!}
+    test_assignment = TestBuilder.build_assignment(lp.assignment_plans(true)[0], cohort).tap{|a| a.save!}
 
     # Here are the URLs/tags that we expect in each assignment
 

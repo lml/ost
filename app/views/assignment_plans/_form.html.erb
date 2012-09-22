@@ -16,20 +16,28 @@
     <%= t(:end_date_time) %><br />
     <%= f.datetime_text_field :ends_at, {:time_zone => @assignment_plan.learning_plan.klass.time_zone, :number_of_months => 2} %>
   </div>
-  <div class="field">
+  <div class="field" style="width:280px; float:left">
     <%= f.check_box :is_test %> This is a test
   </div>
-  <div class="field">
+  <div class="field" style="width:280px; float: left">
     <%= f.check_box :is_open_book %> This is open book
   </div>
-  <div class="field">
+  
+  <div style="clear:both"></div>
+  
+  <div class="field" style="width:280px; float: left">
     <%= f.check_box :is_group_work_allowed %> Group work is allowed
   </div>
-  <div class="field">
+  <div class="field" style="width:280px; float: left">
     <%= f.check_box :is_ready %> This is ready to be assigned    
   </div>
+  
+  <div style="clear:both"></div>
+  
   <div class="field">
-    <i>Set assignment start and end dates and times using the scheduling calendar.</i>
+    Extra labels to apply<br />
+    <%= f.text_field :exercise_tags, :style => "width:90%"%><br/>
+    <span class="field_help">(Optional) Comma-separated labels here will be attached to each exercise in the assignment.</span>
   </div>
   <div class="actions">
     <%= f.submit %>

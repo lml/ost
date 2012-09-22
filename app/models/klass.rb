@@ -11,6 +11,8 @@ class Klass < ActiveRecord::Base
   validates :course_id, :presence => true
   validates :time_zone, :presence => true
   validate :is_controlled_experiment_change_ok?, :on => :update
+  validates :test_exercise_tags, :tag_list_format => true
+  validates :nontest_exercise_tags, :tag_list_format => true
 
   before_destroy :destroyable?
   before_create :set_first_instructor
@@ -23,7 +25,8 @@ class Klass < ActiveRecord::Base
 
   attr_accessible :start_date, :end_date, :approved_emails, :time_zone, 
                   :source_learning_plan_id, :is_controlled_experiment,
-                  :allow_student_specified_id
+                  :allow_student_specified_id, :test_exercise_tags, 
+                  :nontest_exercise_tags
   
   def self.started;  where{start_date.lt Time.now}; end 
   def self.not_finished; where{end_date.gt Time.now}; end

@@ -6,12 +6,15 @@ class AssignmentPlan < ActiveRecord::Base
   
   before_destroy :destroyable?
 
+  
+  attr_accessible :introduction, :is_group_work_allowed, :is_open_book, 
+                  :is_ready, :is_test, :learning_plan_id, :name, :learning_plan,
+                  :exercise_tags, :starts_at, :ends_at
+
   ##
   ## Start and end times
   ##
 
-  attr_accessible :starts_at, :ends_at
-  
   validates :starts_at, :ends_at, :presence => true
   validates :ends_at, :date => {:after => :starts_at, :message => "End time must be after start time"}, :if => :starts_ends_at_present?
   validate :starts_ends_at_in_bounds, :if => :starts_ends_at_present?
@@ -79,9 +82,7 @@ class AssignmentPlan < ActiveRecord::Base
   
   validates :name, :presence => true, :uniqueness => {:scope => :learning_plan_id}
   validates :max_num_exercises, :allow_nil => true, :numericality => { :greater_than_or_equal_to => 0 }
-  
-  attr_accessible :introduction, :is_group_work_allowed, :is_open_book, 
-                  :is_ready, :is_test, :learning_plan_id, :name, :learning_plan
+  validates :exercise_tags, :tag_list_format => true
   
   scope :non_tests, where(:is_test => false)
   scope :tests, where(:is_test => true)

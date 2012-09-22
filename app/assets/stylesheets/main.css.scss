@@ -347,7 +347,9 @@ $nav_bar_height: $header_height;
 }
 
 #attention {
-   margin-bottom:8px;
+   margin-bottom:18px;
+   margin-top:-10px;
+   clear:both;
 }
 
 div.field, div.actions {
