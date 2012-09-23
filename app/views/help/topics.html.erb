@@ -4,18 +4,18 @@
 Overview of topics<br/>
 Create a new topic<br/>
 Rename or delete a topic<br/>
-Add resources to a topic<br/>
-Add exercises to a topic<br/>
+Add, edit or delete resources in a topic<br/>
+Add, edit or delete exercises in a topic<br/>
 Re-order exercises and resources<br/>
 Add concept tags to an exercise<br/>
 
 <%= section "Overview of topics" do %>
 
-The topics section is where you add course materials, i.e. exercises and resources, in OST.<p>
+In OST, the topics section is where you add course materials, i.e. exercises and resources.<p>
    
-<p>A topic represents 2 things in OST:</p>   
+<p>A topic can be understood in 2 ways: </p>   
   (a) <strong>a topic is a group of related exercises and resources</strong>; and <br/>
-  (b) <strong>a topic is a component of an assignment</strong>. <br/>
+  (b) <strong>a topic is a building block of an assignment</strong>. <br/>
   
 <p>The following chart explains more specifically how topics relate to assignments.</p>
 
@@ -36,20 +36,19 @@ Screencast.
 <%= section "Create a new topic" do %>
   <ol>
   <li>In the Learning Plan, under Topics, click "Add new topic...";</li>
-  <center>
-  <%= image_tag("newtopic1.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
-  </center>
-  <li>Double click the New Topic 1 box that appears; </li>
-  <center>
-  <%= image_tag("newtopic5.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
-  </center>
-  
+    <center>
+      <%= image_tag("newtopic1.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
+    </center>
+  <li>Double click the New Topic 1 box that appears to begin adding course materials. </li>
+    <center>
+      <%= image_tag("newtopic5.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
+    </center>
   
 <% end %>  
 
 <%= section "Rename or delete a topic" do %>
   <ol>
-  <li>Hover your mouse over topic until orange edit and trash icons will appear;</li>
+  <li>Hover your mouse over topic until orange edit and trash icons appear;</li>
   <center>
   <%= image_tag("newtopic5arrow.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
   </center>
@@ -63,7 +62,7 @@ Screencast.
     
 <% end %>    
   
-<%= section "Add resources to a topic" do %>
+<%= section "Add, edit or delete resources in a topic" do %>
 <ol>
   <li>Double click the topic box you want to populate; </li>
   <center>
@@ -79,11 +78,19 @@ Screencast.
     <%= image_tag("newtopic4.png", {:border => 1, :width => "40%", :height => "40%", :title=>"create new topic"})%>
   </center>
   <br/>
-  <li>Repeat steps above to add as many resources as necessary. </li>  
+  <li>Repeat steps above to add as many resources as necessary; </li>  
+  <li>Edit a resource by hovering your mouse over the resource link, until the orange edit/trash buttons appear;</li>
+  <br/>
+  <center>
+    <%= image_tag("edit_topic4.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
+  </center>
+  <br/>
+  <li>Click the pencil icon to edit the resource; or</li>
+  <li>Click the trash icon to delete the resource.</li>
   
 <% end %>  
 
-<%= section "Add exercises to a topic" do %> 
+<%= section "Add, edit or delete exercises in a topic" do %> 
 <ol>
   <li>Double click the topic box you want to populate; </li>
   <center>
@@ -95,12 +102,23 @@ Screencast.
   	  <%= image_tag("add_exercises.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
   	</center>
   </li>
-  <li>Enter the full exercise URL. If applicable, check whether the exercise is reserved for a test and select a concept tag. To save the exercise, click Create Topic Exercise;</lis>
+  <li>Enter the full exercise URL. If applicable, check whether the exercise is reserved for a test and select any applicable concept tag. To save the exercise, click Create Topic Exercise;</li>
+    <br/>
   	<center>
   		<%= image_tag("newtopic6.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
   	</center>
+  	<br/>
   </li>
   <li>Repeat steps above to add as many exercises as necessary.</li>	
+  <li>Edit an exercise by hovering your mouse over the resource link, until the orange edit/trash buttons appear;</li>
+  <br/>
+  <center>
+    <%= image_tag("edit_topic3.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
+  </center>
+  <br/>
+  <li>Click the pencil icon to edit the exercise; or</li>
+  <li>Click the trash icon to delete the exercise.</li>
+  
   </ol>
 <% end %>
 
@@ -109,3 +127,34 @@ Screencast.
 <%= render :partial => 'help/blurbs/reorder' %>
 
 <% end %>
+
+<%= section "Add a concept tag to an exercise" do %>
+
+<p>Adding a concept tag to an exercise requires two separate processes: (1) create the concept tag and (2) link the concept tag to an exercise. The below tutorial describes both processes.</p>
+<ol>
+  <li><em>Create the concept tag</em> by navigating to the Concepts section of the Learning Plan;</li>
+  <center>
+		<%= image_tag("concept1.png", {:border => 1, :width => "80%", :height => "70%", :title=>"create new concept"})%>
+	</center>
+  <li>Click on New Concept;</li>
+  <center>
+		<%= image_tag("concept2.png", {:border => 1, :width => "80%", :height => "70%", :title=>"create new concept"})%>
+	</center>
+  <li>Type the concept name in the text box and click Create Concept to save;</li>
+  <li>Return to the Topics section of the Learning Plan and open the topic where you will add the concept tag;</li>
+  <li>Open the exercise requiring a concept tag (may be you need to add a new exercise, or edit an existing exercise) </li>
+  <li><em>Add the concept tag to the exercise</em> by clicking on Choose a Concept and selecting the relevant topic;</li>
+  <br/>
+  <center>
+		<%= image_tag("concept3.png", {:border => 1, :width => "80%", :height => "80%", :title=>"create new concept"})%>
+	</center>
+  <br/>
+  <li>Click Update Topic exercise to save. Your concept should now appear next to your exercise.</li>
+  <br/>
+  <center>
+		<%= image_tag("concept4.png", {:border => 1, :width => "80%", :height => "80%", :title=>"create new concept"})%>
+	</center>
+  <br/>
+</ol>
+<% end %>
+
