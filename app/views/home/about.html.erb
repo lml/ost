@@ -2,32 +2,86 @@
 
 <%= pageHeading "About #{SITE_NAME}"%>
 
-<p><%= SITE_NAME %> leverages new cyber and social
-  infrastructures to put powerful learning tools in the hands of educators and learners.</p>
-  
-<p>The system uniquely fuses:</p>
 
-<table>
-  <tr>
-    <td style="vertical-align:top"><b>Cognitive Science</b></td>
-    <td>Our system builds on three principles from cognitive science that 
-      are robust, highly replicable, and generalize across different types 
-      of learners, materials, and contexts:  <i style="white-space:nowrap">retrieval practice</i>, <i>spacing</i>, 
-      and <i>feedback</i>. Each of these principles has been shown to increase
-      long-term retention and transfer of learning.</td>
-  </tr>
-  <tr>
-    <td style="vertical-align:top"><b>Community Content</b></td>
-    <td>We greatly expand the universe of learning content, problems, 
-      solutions, and feedback hints available to the learner by bringing 
-      together materials and metadata from some of the world’s foremost 
-      open-access educational repositories.</td>
-  </tr>
-  <tr>
-    <td style="vertical-align:top"><b>Machine Learning</b></td>
-    <td>We increase the flexibility, generalizability, and scalability of the system
-    by eschewing hand-coded rules-based systems for providing feedback in favor of data-driven
-    machine learning algorithms that learn and optimize feedback by analyzing the large universe of
-    content and data from a large number of learner interactions.</td>
-  </tr>
-</table>
+<%#
+
+  Better Learning
+  Personalized Pathways
+
+  Learning Analytics
+  Foundation-Supported
+  Advancing Learning Science
+  Open Source
+  Teach a course!
+  
+%>
+
+<p><%= SITE_NAME %> melds new cyber and social infrastructures to put powerful learning tools in the hands of educators and learners.  <%= SITE_NAME %> is an ambitious effort that combines high-quality, public-ready software with advanced research pursuits.  We are still in beta and some of our features are still being developed.  The following points will give you a flavor of where <%= SITE_NAME %> is now and where it is heading.</p>
+
+<%= section "The Big Questions", :classes => 'no_bar' do %>
+
+  <div class="item_box">
+    <h3>What is it?</h3>
+    <p>A study resource, homework, and test delivery system for your class that uses powerful, advanced techniques to improve student learning and instructor understanding.</p>
+  </div>
+
+  <div class="item_box">
+    <h3>Who runs <%= SITE_NAME %>?</h3>
+    <p><%= SITE_NAME %> is a non-profit venture at Rice University, run by professional software developers and learning researchers, and supported by foundations.</p>
+  </div>
+  
+  <div class="item_box">
+    <h3>How much does it cost?</h3>
+    <p><%= SITE_NAME %> is free for individuals students and teachers.  Depending on their size, organization-level users may pay a small mission-support fee.</p>
+  </div>
+  
+<% end %>
+
+<div style="clear:left"></div>
+
+<%= section "Cool Features", :classes => 'no_bar' do %>
+
+<div class="item_box">
+  <h3>Better Learning</h3>
+  <p>Our courses use principles from cognitive science that have been shown to increase 
+  long-term retention and transfer of learning.</p>
+</div>
+
+  <div class="item_box">
+    <h3>Learner Analytics</h3>
+    <p>In one view, quickly see how well your students have mastered different concepts.  </p>
+  </div>
+
+  <div class="item_box">
+    <h3>Personalized Pathways</h3>
+    <p><%= SITE_NAME %> studies how your students learn and then adjusts their experience to optimize their retention.</p>
+  </div>
+
+<% end %>
+
+<div style="clear:left"></div>
+
+<%= section "Get Involved", :classes => 'no_bar' do %>
+
+  <div class="item_box">
+    <h3>Run a Research Study</h3>
+    <p><%= SITE_NAME %> is fully equipped to handle informed-consent for human subjects research studies centering around how students best learn.  If you're interested in running a study, <%= email_link "info", "let us know" %>!</p>
+  </div>
+
+  <div class="item_box">
+    <h3>Write Code</h3>
+ 
+    <p><%= SITE_NAME %> is an open source project and thrives on community involvement.</p>
+  </div>
+
+  <div class="item_box">
+    <h3>Teach a Course!</h3>
+ 
+    <p>Teaching a course on <%= SITE_NAME %> is super easy.  Our support staff can guide you through the process and answer all your questions.  Ready to teach?  <%= email_link "info", "Drop us a line" %>.</p>
+  </div>
+<% end %>
+
+<div style="clear:left"></div>
+
+<p style="padding-top:40px; padding-bottom:10px">Still have questions?  Just <%= email_link "info", "drop us a line" %> and we'd be glad to answer them.</p>
+  
