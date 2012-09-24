@@ -1,6 +1,6 @@
 class FeedbackConditionsController < ApplicationController
 
-  before_filter :get_learning_condition, :only => [:new, :create]
+  before_filter :get_learning_condition, :only => [:new, :create, :sort]
 
   def new
     raise SecurityTransgression unless present_user.can_update?(@learning_condition)
@@ -44,6 +44,10 @@ class FeedbackConditionsController < ApplicationController
     @feedback_condition = FeedbackCondition.find(params[:id])
     raise SecurityTransgression unless present_user.can_destroy?(@feedback_condition)
     @feedback_condition.destroy
+  end
+  
+  def sort
+    super('feedback_condition', FeedbackCondition, @learning_condition, :learning_condition)
   end
   
   
