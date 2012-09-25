@@ -9,7 +9,7 @@ class AssignmentPlan < ActiveRecord::Base
   
   attr_accessible :introduction, :is_group_work_allowed, :is_open_book, 
                   :is_ready, :is_test, :learning_plan_id, :name, :learning_plan,
-                  :exercise_tags, :starts_at, :ends_at
+                  :exercise_tags, :starts_at, :ends_at, :section_id
 
   ##
   ## Start and end times
@@ -133,7 +133,11 @@ class AssignmentPlan < ActiveRecord::Base
 
   def self.build_and_distribute_assignments
     AssignmentPlan.can_be_assigned.each do |assignment_plan|
-      cohorts = assignment_plan.learning_plan.klass.cohorts
+      cohorts_group = section_id.nil? ?
+                      assignment_plan.learning_plan.klass :
+                      section
+      
+      cohorts = cohorts_group.cohorts
       
       cohorts.each do |cohort|
         assignment = cohort.learning_condition.build_assignment(assignment_plan)

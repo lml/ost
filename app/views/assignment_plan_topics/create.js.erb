@@ -2,6 +2,10 @@
 <%= unless_errors_in(@assignment_plan_topic, 'message_dialog_errors') do %>
   $("#assignment_plan_<%= @assignment_plan.id %>").replaceWith("<%= ej(render :partial => 'assignment_plans/show', :locals => {:assignment_plan => @assignment_plan}) %>")
 
+  $("#assignment_plan_<%= @assignment_plan.id %>.hide_when_expanded").hide();
+  $("#assignment_plan_<%= @assignment_plan.id %> .lp_item_body").show();
+
   refresh_buttons();
+  enable_best_in_place();
   $("#message_dialog").dialog('close');
 <% end %> 

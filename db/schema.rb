@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120922200710) do
+ActiveRecord::Schema.define(:version => 20120925171216) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -60,9 +60,11 @@ ActiveRecord::Schema.define(:version => 20120922200710) do
     t.datetime "updated_at",                           :null => false
     t.integer  "max_num_exercises"
     t.string   "exercise_tags"
+    t.integer  "section_id"
   end
 
   add_index "assignment_plans", ["learning_plan_id"], :name => "index_assignments_on_learning_plan_id"
+  add_index "assignment_plans", ["section_id"], :name => "index_assignment_plans_on_section_id"
 
   create_table "assignments", :force => true do |t|
     t.integer  "assignment_plan_id"
