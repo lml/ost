@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120925171216) do
+ActiveRecord::Schema.define(:version => 20120925174419) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20120925171216) do
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
     t.integer  "num_exercises_to_use"
+    t.boolean  "hide_resources"
   end
 
   add_index "assignment_plan_topics", ["assignment_plan_id"], :name => "index_assignment_plan_topics_on_assignment_plan_id"

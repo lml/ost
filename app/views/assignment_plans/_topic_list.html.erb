@@ -7,26 +7,38 @@
               } do |apt| %>
   <%= apt.topic.name %>
   
+  <% can_update = present_user.can_update?(apt) %>
+  
   <% if assignment_plan.is_test %>
+  
+
+    <div style="padding: 0 0 5px 20px">
     <% num_available_exercises = apt.topic_exercises.for_tests.count %>
     &nbsp;&nbsp;&nbsp;Using 
-    <%= best_in_place_if present_user.can_update?(apt), 
+    <%= best_in_place_if can_update, 
                          apt, :num_exercises_to_use, :type => :select, :nil => 0, 
                          :display_with => Proc.new {|v| "hi"},
                          :collection => [*0..num_available_exercises].map{|i| [i, i.to_s]} %> / 
                          <%= num_available_exercises %> exercises
   
-    <% bip_id = "best_in_place_assignment_plan_topic_#{apt.id}_num_exercises_to_use" %>
-  
+    <% bip_num_exercises_id = "best_in_place_assignment_plan_topic_#{apt.id}_num_exercises_to_use" %>
+    <% bip_resources_id = "best_in_place_assignment_plan_topic_#{apt.id}_hide_resources"%>
+
+    
     <style type="text/css">
-      #<%= bip_id %> {
+      #<%= bip_num_exercises_id %>, #<%= bip_resources_id %> {
         color: #43BFF9;
       }
-      #<%= bip_id %>:hover {
+      #<%= bip_num_exercises_id %>:hover, #<%= bip_resources_id %>:hover {
        color: black; 
       }
     
     </style>
+    
+    
+    &nbsp;&nbsp;&nbsp; Resources are <%= best_in_place_if can_update, 
+                         apt, :hide_resources, :type => :checkbox, :collection => ["visible", "hidden"], :nil => false %>
+    </div>
   <% end %>
   
 <% end %>

@@ -255,12 +255,12 @@ module ApplicationHelper
       entries.collect { |entry|
         content_tag :div, :id => "sortable_item_#{entry.id}", 
                           :class => 'sortable_item_entry', 
-                          :style => "height:24px;" do
+                          :style => "height:24px; display:table" do
 
           a = content_tag(:span, "", :class => "ui-icon #{bullet_class} handle",
                                  :style => 'display:inline-block; height: 14px')
           
-          b = content_tag(:div, {:style => 'display:inline-block'}, :escape => false) do
+          b = content_tag(:div, {:style => 'display:table-cell'}, :escape => false) do
             link_text = entry_text_method.nil? ? 
                         entry_text_block.call(entry) :
                         entry.send(entry_text_method)
@@ -280,7 +280,7 @@ module ApplicationHelper
           end
           
           c = content_tag(:div, {:class => "sortable_item_buttons", 
-                             :style => 'padding-left: 8px; display:none; vertical-align:top'},
+                             :style => 'padding-left: 8px; display:table-cell; visibility:hidden; vertical-align:top'},
                             :escape => false) do
             button_target = options[:namespace].nil? ? 
                             entry : 

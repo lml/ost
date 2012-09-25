@@ -29,7 +29,8 @@
 
   <% no_resources = true %>
 
-  <% assignment_plan.topics.each do |topic| %>
+  <% assignment_plan.assignment_plan_topics.resources_visible.each do |apt| %>
+    <% topic = apt.topic %>
     <% resources = topic.resources %>
     
     <% if resources.any? %>

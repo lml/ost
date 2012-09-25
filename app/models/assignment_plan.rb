@@ -3,6 +3,7 @@ class AssignmentPlan < ActiveRecord::Base
   has_many :assignments, :dependent => :destroy
   has_many :assignment_plan_topics, :dependent => :destroy
   has_many :topics, :through => :assignment_plan_topics
+  belongs_to :section
   
   before_destroy :destroyable?
 
@@ -133,9 +134,9 @@ class AssignmentPlan < ActiveRecord::Base
 
   def self.build_and_distribute_assignments
     AssignmentPlan.can_be_assigned.each do |assignment_plan|
-      cohorts_group = section_id.nil? ?
+      cohorts_group = assignment_plan.section_id.nil? ?
                       assignment_plan.learning_plan.klass :
-                      section
+                      assignment_plan.section
       
       cohorts = cohorts_group.cohorts
       
