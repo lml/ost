@@ -40,7 +40,7 @@
     <div class="field">
       This assignment is meant for 
       <%= f.select :section_id, "<option value=''>All Sections</option>".html_safe + 
-                                options_from_collection_for_select(klass.sections, :id, :name)%>
+                                options_from_collection_for_select(klass.sections, :id, :name, f.object.section_id)%>
     </div>
   <% end %>
   
