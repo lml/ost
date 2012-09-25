@@ -36,7 +36,7 @@
   
   <div style="clear:both"></div>
   
-  <% if klass.sections.size > 1 %>
+  <% if klass.sections.size > 1 && klass.sections.all?{|s| s.cohorts.any?} %>
     <div class="field">
       This assignment is meant for 
       <%= f.select :section_id, "<option value=''>All Sections</option>".html_safe + 

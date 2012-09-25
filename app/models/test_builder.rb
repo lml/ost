@@ -25,7 +25,7 @@ class TestBuilder
 
       topic_exercises = topic.topic_exercises.for_tests
       topic_exercises.reject!{|te| te.assigned_in_cohort?(cohort)}
-      topic_exercises = topic_exercises.take( apt.num_exercises_to_use )
+      topic_exercises = topic_exercises.take( apt.num_exercises_to_use || 0 )
       
       topic_exercises.each do |topic_exercise|
         assignment.add_topic_exercise(topic_exercise, tags)

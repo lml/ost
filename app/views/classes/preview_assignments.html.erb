@@ -1,9 +1,9 @@
 <%= pageHeading "Preview of Assignments" %>
 
 
-<% @assignments.each do |assignment| %>
+<% @assignments.each_with_index do |assignment, ii| %>
   
-  <%= section "#{assignment[0].assignment_plan.name}", {:classes => 'first' } do %>
+  <%= section "#{assignment[0].assignment_plan.name}", {:classes => "#{ii == 0 ? 'first no_bar' : ''}" } do %>
     
     <% @cohorts.each_with_index do |cohort, cc| %>
       <p><b>Cohort: <%= cohort.name %></b></p>
