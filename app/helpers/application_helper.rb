@@ -237,7 +237,7 @@ module ApplicationHelper
         javascript_tag do
             "$('.sortable_item_entry').live('mouseenter mouseleave', function(event) {
                 $(this).children('.sortable_item_buttons:first')
-                       .css('display', event.type == 'mouseenter' ? 'inline-block' : 'none');
+                       .css('visibility', event.type == 'mouseenter' ? 'visible' : 'hidden');
             });".html_safe      
         end
       end
