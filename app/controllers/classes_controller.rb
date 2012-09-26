@@ -86,6 +86,8 @@ class ClassesController < ApplicationController
         # Iterate through the cohorts, pushing the assignments for them onto the list
         @cohorts.each_with_index do |cohort, cc|
           
+          next if !assignment_plan.applies_to_klass_cohort?(cohort)
+          
           # If this assignment plan has already had an assignment built for it
           # (because it has already been sent out) use it; otherwise, make it
           

@@ -146,6 +146,11 @@ class AssignmentPlan < ActiveRecord::Base
       end
     end
   end
+  
+  # This method assumes the argument is a klass cohort
+  def applies_to_klass_cohort?(cohort)
+    section_id.nil? || section.cohorts.where{id == cohort.id}.any?
+  end
       
   #############################################################################
   # Access control methods

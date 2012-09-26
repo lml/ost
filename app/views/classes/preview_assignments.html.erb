@@ -1,14 +1,18 @@
 <%= pageHeading "Preview of Assignments" %>
 
 
-<% @assignments.each_with_index do |assignment, ii| %>
+<% @assignments.each_with_index do |assignment_array, ii| %>
   
-  <%= section "#{assignment[0].assignment_plan.name}", {:classes => "#{ii == 0 ? 'first no_bar' : ''}" } do %>
+  <% next if assignment_array.empty? %>
+  
+  <%= section "#{assignment_array[0].assignment_plan.name}", {:classes => "#{ii == 0 ? 'first no_bar' : ''}" } do %>
     
-    <% @cohorts.each_with_index do |cohort, cc| %>
-      <p><b>Cohort: <%= cohort.name %></b></p>
+    <% assignment_array.each do |assignment| %>
+      <% cohort = assignment.cohort %>
+    
+      <p><b>Cohort: <%= cohort.name %> <%= ", Section: #{cohort.section.name}" if !cohort.section_id.nil? %></b></p>
       <ol>
-        <% assignment[cc].assignment_exercises.each do |ae| %>
+        <% assignment.assignment_exercises.each do |ae| %>
           <% te = ae.topic_exercise %>
           <% exercise = te.exercise %>
           <li><%= link_to "#{exercise.quadbase_id}", exercise.url %> 
