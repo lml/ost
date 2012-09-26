@@ -35,12 +35,12 @@ ActiveRecord::Schema.define(:version => 20120925174419) do
   add_index "assignment_exercises", ["topic_exercise_id"], :name => "index_assignment_exercises_on_topic_exercise_id"
 
   create_table "assignment_plan_topics", :force => true do |t|
-    t.integer  "assignment_plan_id",   :null => false
-    t.integer  "topic_id",             :null => false
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.integer  "assignment_plan_id",                      :null => false
+    t.integer  "topic_id",                                :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.integer  "num_exercises_to_use"
-    t.boolean  "hide_resources"
+    t.boolean  "hide_resources",       :default => false
   end
 
   add_index "assignment_plan_topics", ["assignment_plan_id"], :name => "index_assignment_plan_topics_on_assignment_plan_id"
