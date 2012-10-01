@@ -1,3 +1,7 @@
+<% addTestMeta {{:page_type  => "show"}} %>
+<% addTestMeta {{:major_name => @course.organization.name}} %>
+<% addTestMeta {{:minor_name => @course.name}} %>
+
 <%= pageHeading "#{@course.organization.name}: #{@course.name}"%>
 
 <%= section "Description", {:classes => 'first' } do %>

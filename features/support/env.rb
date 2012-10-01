@@ -169,8 +169,8 @@ Spork.prefork do
   #
   ActionController::Base.allow_rescue = false
 
+  # Make sure the Cucumber versions of the FG factories are loaded
   FactoryGirl.definition_file_paths = [Rails.root.join("test", "fg_factories")]
-  STDOUT.puts FactoryGirl.definition_file_paths
   FactoryGirl.find_definitions
   
 end

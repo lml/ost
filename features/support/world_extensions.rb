@@ -18,7 +18,7 @@ end
 module WorldExtensions
 
   def wait_for_browser
-    page.has_content?('')
+    page.find('div#footer')
   end
   
   ##
