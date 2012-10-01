@@ -1,0 +1,11 @@
+<%
+rerun = File.file?('cucumber_rerun.txt') ? IO.read('cucumber_rerun.txt') : ""
+opts = []
+opts << "--drb"
+opts << "--format rerun --out cucumber_rerun.txt"
+opts << "--format pretty"
+opts << "--strict"
+opts << rerun if !rerun.to_s.strip.empty?
+opts = opts.join(" ")
+%>
+default: <%= opts %>

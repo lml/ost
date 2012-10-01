@@ -67,6 +67,22 @@ module ApplicationHelper
     
   end
   
+  ## USAGE: addTestMeta { {:key1 => value1, ..., :keyN => valueN} }
+  ## The outer braces are needed to define a block, and the inner braces
+  ## define a hash.  This allows lazy evaluation of the values, which
+  ## could involve some "slow" operations that we want to avoid in production.
+  ## This does nothing in the production environment.
+  def addTestMeta(&block)
+    return if Rails.env.production?
+    
+    options = block.call # lazily evaluate params
+
+    content_for :test_meta do
+      render(:partial => 'shared/test_meta',
+             :locals => {:options => options})
+    end
+  end
+
   def important(text, options={})
     content_for :important do
       render(:partial => 'shared/important', 

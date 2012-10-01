@@ -1,7 +1,11 @@
 # Copyright (c) 2011 Rice University.  All rights reserved.
 
 namespace :db do
+  
   task :populate_users => :environment do
+    # ensure that the non-cucumber FactoryGirl factories are loaded
+    Dir[Rails.root.join("test", "jp_factories", "*.rb")].each {|file| require file }
+  
     create_user("Admin", "Jones")
     create_user("User", "Jones")
     first_names = ["Prof", "Student", "Alice", "Bob", "Carlos", "Carol", "Charlie", "Chuck", "Dave",

@@ -2,6 +2,9 @@ namespace :db do
   namespace :scenario do
   
     task :fresh_class, [:start_date] => ["db:drop", "db:migrate", "db:populate", :environment] do |t, args|
+      # ensure that the non-cucumber FactoryGirl factories are loaded
+      Dir[Rails.root.join("test", "jp_factories", "*.rb")].each {|file| require file }
+
       args.with_defaults(:start_date => Time.now)
       
       FactoryGirl.create(:site_license)
