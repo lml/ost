@@ -1,5 +1,12 @@
 @import "common";
 
+
+@mixin rounded($radius: 0.5em) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
 @mixin top-level {
    width: $master_width;
    margin-left: auto;
@@ -40,18 +47,15 @@ pre {
 	font-weight: normal;
 	font-color: #000;
 	margin-top: 0px;
-	//border-width: 0 0 1px 0;
 }
 
-.top_level_container {
-  // padding: 0px 20px;
-}
+.top_level_container {}
 
 a, #message_dialog_body a, #help_dialog_body a {
    text-decoration: none;
-   color: $os_green;
+   color: $ost_hot_blue;
    &:link {}
-   &:hover { color: $os_orange;}
+   &:hover { color: black;}
    &:visited {}
    &:active { color: #000;}
 }
@@ -60,64 +64,96 @@ a, #message_dialog_body a, #help_dialog_body a {
    font-weight: normal;
 }
 
+$edge_distance: 54px;
+
+@mixin header-main-footer-common {
+  padding-left: $edge_distance;
+  padding-right: $edge_distance;
+}
+
+$header_height: 52px;
+
 #header {
-    height: 68px;
-    background-color: $background_color;
-    margin: 10px auto 0px;
-    width: 100%;
-    
-    .logo  {
-    	border: 0 none;
-    	opacity: 1;
-    	float: left;   
-    	background: image-url("ost_logo_horiz_sm_beta.png") no-repeat transparent;
-      margin-top: 5px;
-    	height: 49px;
-    	width: 286px;
-    }
-    
-    #account_info {
-      img {
-        vertical-align: middle;
-        padding: 0px 3px 2px 3px;
-      }
-    }
-    
-    #account_info, #account_info a {
-      font-size: 8.5px;
-      color: black;
-      font-family: arial, helvetica, sans-serif;
-      letter-spacing: 0.04em;
-    }
+  @include header-main-footer-common;
+
+  height: $header_height;
+
+  .logo  {
+  	border: 0 none;
+  	opacity: 1;
+  	float: left;   
+  	background: image-url("ost_logo_beta.png") no-repeat transparent;
+    margin-top: 11px;
+  	height: 49px;
+  	width: 286px;
+  }
 }
 
-#tagline {
-  float:right; 
-  font-size:15px; 
-  color: $os_green; 
+@mixin vertical-bar-common {
+  display:inline;
+  border-left: 1px solid white;
+  margin-left: 4px;
+  margin-right: 6px;
+}
+
+.account_info {
+  @include header-main-footer-common;
+  margin-left: -$edge_distance;
+    
+  font-size: 11px;
+  color: white;
   font-family: arial, helvetica, sans-serif;
+  padding-top: 27px;
+  height: 44px;
+  width: 100%;
+  margin-bottom: 35px;
+  
+  div {
+    float: right;
+  }
+  
+  img {
+    vertical-align: middle;
+    padding: 0px 3px 2px 3px;
+  }
+  
+  a {
+    font-size: 11px;
+    color: white;
+    &:hover { color: $ost_hot_blue; }
+  }
+  
+  .vertical_bar {
+    @include vertical-bar-common;
+    border-left-color: white;
+  }
 }
 
-$nav_bar_height: 64px;
-
-#nav_bar {
-   height: $nav_bar_height;
-//   border-bottom: 2px black solid;
-//   border-top: 1px solid black;
+.account_info.account_bar {
+  margin-left: -$edge_distance;
+  background-color: $ost_light_beige;
+  
+  a {
+    color: $ost_account_gray;
+  }
+  
+  .vertical_bar {
+    @include vertical-bar-common;
+    border-left-color: $ost_account_gray;
+  }
 }
 
-$our_books_box_height: 20px;
+$nav_bar_height: $header_height;
 
 #nav_bar {
   
+  height: $nav_bar_height;    
   
-  
-  font-size: 16px;
   ul {
     display:inline;
     padding-left: 0px;
+    margin-top: 0px;
     float:right;
-    margin: ($nav_bar_height - $our_books_box_height)/2 0;
      
     li {
       display:inline;
@@ -129,84 +165,86 @@ $our_books_box_height: 20px;
       a {
         color: #000;
         text-decoration: none;
-        height: $our_books_box_height; //$nav_bar_height;
-        line-height: $our_books_box_height; //$nav_bar_height;
-       
+        width: 100%;
+        
         &:hover {
-          color:$os_green;
-          //  background: url(navigation/nav_hover.gif);
+          color:white;
         }
-       
-        em {
-          display:inline;
+        
+        span {
           float:left;
-          width:30px;
-          margin-top: -1px;
-          height: $our_books_box_height;
-          background-repeat: no-repeat;
-          background-position: center center;
+          font-size: 10px;
+          font-family: arial, helvetica, sans-serif;
+          
+          $padding-top: 20px;
+          padding-top: $padding-top;
+          padding-left: 9px;
+          padding-right: 9px;
+          
+          height: $header_height - $padding-top;
+          &:hover {
+            background-color: $ost_hot_blue;
+          }
+          
+          .down-arrow {
+            display:none;
+          }
+          
+          em {
+            font-style:normal;
+          }
         }
-      }
-     
-      span {
-        float:left;
-        padding-left: 18px;
-        font-size: 12px;
-        font-family: arial, helvetica, sans-serif;
+        
+        span.help_highlight {
+          background-color: $os_yellow;
+          color: white;
+          &:hover {
+            background-color: $ost_hot_blue;
+          }
+        }
         
         span.current {
-          position:absolute; 
-          top:25px; 
-          left:12px; 
-          background-color: $os_green; 
-          width: 100%; 
-          height: 4px;
+          background-color: $ost_hot_blue;
+          color: white;
+          position: absolute;
+
+          em {
+             background: image-url("pointer.png") no-repeat top center;
+             position: absolute;
+             height:62px;
+             width: 100%;
+             top: 3px;
+             left: 0%;
+             font-style: normal;
+             z-index: 2;             
+          }
         }
+        
       }
-    
-      .current a {
-//        color:blue;
-        // background:url(navigation/nav_hover.gif);
-      }  
     }
   }
-  
-  // For left aligned nav ULs
-  ul.left {
-    float:left;
-    
-    span {
-      padding-left: 0px;
-    }
-    
-    .our_books_button {
-      background-color: $os_orange;
-      color: white;
-      font-weight: bold;
-      padding: 0 13px 0 14px;
-     
-        &:hover {
-         background-color: darken($os_orange,10%);
-        }
-     
-     // a {
-     //        background-color: $os_orange;
-     //        
-     //        
-     //      }
+
+}
+
+#right_column_2c.column {
+  a {
+    color: black;
+    &:hover {
+      color: $ost_hot_blue;
     }
   }
 }
 
 .link_button {
-  background-color: $os_orange;
+  background-color: $ost_hot_blue;
   color: white;
   font-weight: bold;
   padding: 5px 13px 5px 14px;
   font-size: 11px;
+  @include rounded(13px);
  
   &:hover {
-   background-color: $os_dark_orange;
+   background-color: darken($ost_hot_blue, 10%);
    color: white;
   }
 }
@@ -228,26 +266,34 @@ $our_books_box_height: 20px;
 
 
 #main {
-  padding: 9px 0 13px;
+  @include header-main-footer-common;
+  padding-bottom: 47px;
+  margin-bottom: -15px;
 }
 
 #footer {
-  padding-top: 11px;
-  border-top: 1px solid rgb(86,86,86);
-  font-size: 8.5px;
-  padding-bottom: 28px;
-  //letter-spacing: -0.3px;
-  line-height: 13px;
+  @include header-main-footer-common;
+
+  background: image-url("footer_flare.png") top right no-repeat;
+  height: 77px;
+  background-color: #7d7d7d;
+  color: #dddddd;
+  font-size: 10px;
+  line-height: 14px;
    
   a {
-    font-size: 8.5px;
+    font-size: 10px;
     text-decoration: none;
-    color: $os_gray;
-    &:hover { color: $os_green; }
+    color: #dddddd;
+    &:hover { color: $ost_hot_blue; }
+  }
+  
+  img {
+    padding-top: 21px;
   }
   
   #copy {
-//    padding-top:3px;
+    padding-top: 24px;
   }
 }
 
@@ -267,6 +313,15 @@ $our_books_box_height: 20px;
 
 .section {
    margin: 28px 0px 18px 0px;
+   @extend .bar_topped_block;
+}
+
+.section.first {
+  margin-top: 0px;
+}
+
+.section.no_bar {
+  border-top: none;
 }
 
 .section_heading {
@@ -296,7 +351,9 @@ $our_books_box_height: 20px;
 }
 
 #attention {
-   margin-bottom:8px;
+   margin-bottom:18px;
+   margin-top:-10px;
+   clear:both;
 }
 
 div.field, div.actions {
@@ -383,6 +440,11 @@ div.field label {
    color: #b22222;
 }
 
+.bar_topped_block {
+  padding-top: 15px;
+  border-top: 1px solid #898989;
+}
+
 /************ Specific Pages ******************/
 
 #exercise_response_show .section_body {
@@ -400,10 +462,12 @@ div.field label {
 
 #right_column_2c {
    float:right;
-   width:180px;
+   width:170px;
    padding: 0px 0px 0px 10px;
-   border-left: 1px solid #eeeeee
+}
 
+#right_column_2c.bar_topped_block {
+  @extend .bar_topped_block;
 }
 
 #column_container_2c .column {
@@ -413,8 +477,12 @@ div.field label {
 
 #main_column_2c {
 	padding: 0 10px 0 0;
-   width: 620px;
+   width: 600px;
    float:left;
+}
+
+#main_column_2c.bar_topped_block {
+  @extend .bar_topped_block;
 }
 
 /************ GENERIC LIST TABLE *********************/
@@ -496,29 +564,15 @@ table.left_heading th, td {
 .item_box {
   float: left;
   margin: 0 45px 10px 0;
-  width: 250px;
+  width: 230px;
 }
 
-.book_item_box {
-  float: left;
-  margin: 0 45px 0px 0;
-  width: 250px;
-  
-  p {
-    height: 100px;
-  }
-}
-
-.item_box, .book_item_box {
+.item_box {
   h3 {
     color: $os_dark_gray;
     font-weight:normal;
-    border-bottom: 1px solid $os_green;
+//    border-bottom: 1px solid lighten($os_gray,40%);
   }
-}
-
-.last_book_item_box {
-  margin-right: 0px;
 }
 
 .book_box {
@@ -535,96 +589,6 @@ table.left_heading th, td {
     font-weight:normal;
     margin-top: 0;
   }    
-}
-
-#book_carousel li {
-  a { 
-    color: $os_dark_gray;
-    img {
-      border: 1px solid black;
-    }
-    
-    &:hover {
-      color: $os_green;
-    }
-  }
-}
-
-#goal_box {
-  padding-top:14px;
-  margin-bottom: 10px;
-  background-color: rgb(198,198,198);
-  color: white;
-  
-  #goal_banner {
-    background-color: $os_green;
-    width: 100%;
-    margin-bottom: 14px;
-    
-    #goal_text {
-      padding: 0 15px;
-      letter-spacing: 0.17em;
-      font-size: 11px;
-    }
-  }
-  
-  #goal_content {
-    padding: 0 15px 15px;
-  }
-  
-  .large_text {
-    font-size:18px;
-  }
-
-  .highlight {
-    color: $os_green;
-  }
-  
-  .small_text {
-    font-size: 12px;
-  }
-}
-
-#goal_counter {
-  color: $os_green;
-}
-
-///////////////////////////
-
-#toc {
-	list-style: none;
-	margin-bottom: 0px;
-	padding-left: 20px;
-	
-	ul {
-	  list-style: none;
-	}
-
-  li {
-  	padding-bottom: 2px;
-  	position:relative;
-  	
-  	span.fade {
-      background: image-url('fade_out_15.png') repeat-x;
-        position: absolute;
-        top: 8px;
-        display: block;
-        width: 100%;
-        height: 15px;
-    }
-  }
-  
-  li.excess_hidden {
-    display: none;
-  }
-}
- 
-
-.toc_chapter {
-  padding-top: 5px;
-}
-.toc_section {
-  font-style: italic;
 }
 
 span.switcheroo { unicode-bidi:bidi-override; direction: rtl; }
@@ -748,9 +712,18 @@ span.antispam {display:none;}
 .os_blue { background-color: $os_blue; }
 .os_dark_orange { background-color: $os_dark_orange; }
 
+.ost_light_beige { background-color: $ost_light_beige; }
+.white { background-color: white; }
+
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 .fc-today {
   background: lighten($os_yellow,20%);
+}
+
+#main.home_page_image {
+  background: image-url("student_full_home_haze.jpg");
+  height: 544px;
+  padding-bottom: 0px;
 }

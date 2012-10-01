@@ -16,6 +16,8 @@ class TopicExercise < ActiveRecord::Base
   
   attr_accessible :exercise_id, :topic_id, :exercise, :topic, :reserved_for_tests
   
+  scope :for_tests, where{reserved_for_tests == true}
+  
   def destroyable?
     errors.add(:base, "This exercise cannot be deleted because it has already been assigned.") if assigned?
     errors.none?
@@ -43,7 +45,7 @@ class TopicExercise < ActiveRecord::Base
   end
   
   def url_unchanged_when_assigned
-    return true if topic.not_assigned? || (!exercise_id_changed? && !exercise.new_record?)
+    return true if !assigned? || (!exercise_id_changed? && !exercise.new_record?)
     self.errors.add(:base, "The exercise content cannot be changed because this " + 
                            "exercise's topic has already been assigned")
     false

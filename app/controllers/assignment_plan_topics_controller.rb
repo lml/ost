@@ -17,6 +17,19 @@ class AssignmentPlanTopicsController < ApplicationController
     raise SecurityTransgression unless present_user.can_create?(@assignment_plan_topic)
     @assignment_plan_topic.save
   end
+  
+  def update
+    @assignment_plan_topic = AssignmentPlanTopic.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@assignment_plan_topic)
+
+    respond_to do |format|
+      if @assignment_plan_topic.update_attributes(params[:assignment_plan_topic])
+        format.json { respond_with_bip(@assignment_plan_topic) }
+      else
+        format.json { respond_with_bip(@assignment_plan_topic) }
+      end
+    end
+  end
 
   def destroy
     @assignment_plan_topic = AssignmentPlanTopic.find(params[:id])

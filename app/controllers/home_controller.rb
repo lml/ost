@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
 
-  skip_before_filter :authenticate_user!, :only => [:index, :terms, :contact, :contact_submit]
+  skip_before_filter :authenticate_user!, :only => [:index, :terms, :contact, :contact_submit, :about]
 
   def index; end
   def terms; 

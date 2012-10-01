@@ -6,6 +6,11 @@
 %>
 
 
+
+
+
+<%= section "Class Information", {:classes => 'first no_bar' } do %>
+
 <div style="float:right; padding-right:30px">
   
   
@@ -40,9 +45,6 @@
     
   <% end %>  
 </div>
-
-
-<%= section "Class Information" do %>
 
   <% 
     educators = @klass.educators
@@ -188,9 +190,17 @@
       <% sees_all_cohort_assignments = is_educator || present_user.is_researcher? || present_user.is_administrator? %>
     
       <% count = 0 %>
-      <%# cohort_1.assignments.each do |assignment| %>
+
       <% assignment_plans.each do |plan| %>
-        <% assignments = plan.assignments %>        
+
+        <% assignments = plan.assignments %>
+        
+        <%# If this is a regular student looking at the page, and he doesn't 
+            have this assignment, go to next.  This can happen when one assignment
+            is only for certain sections %>
+            
+        <% next if !sees_all_cohort_assignments && assignments.where{cohort_id == student_cohort.id}.first.nil? %>        
+        
         <tr>
           <td><%= count += 1 %>.</td>
           <td>
@@ -230,4 +240,5 @@
   navitem(:can_read_children?, @klass, :learning_conditions) { link_to("Learning Conditions", klass_learning_conditions_path(@klass)) }
   navitem(:can_read_children?, @klass, :cohorts) { link_to("Cohorts", klass_cohorts_path(@klass)) }
   navitem(:can_read?, @klass.consent_options) { link_to("Consent Options", @klass.consent_options) }
+  navitem(:can_read_children?, @klass, :report) { link_to("Report", report_klass_path(@klass, :format => :xls)) }
 %>

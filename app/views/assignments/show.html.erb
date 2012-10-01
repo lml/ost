@@ -19,17 +19,18 @@
 
 <%= important(important_message.html_safe) %>
 
-<%= section "Introduction" do %>
+<%= section "Introduction", {:classes => 'first no_bar' } do %>
 
   <%= simple_format assignment_plan.introduction %>
 
 <% end %>
 
-<%= section "Study Resources" do %>
+<%= section "Study Resources", {:classes => 'no_bar'} do %>
 
   <% no_resources = true %>
 
-  <% assignment_plan.topics.each do |topic| %>
+  <% assignment_plan.assignment_plan_topics.resources_visible.each do |apt| %>
+    <% topic = apt.topic %>
     <% resources = topic.resources %>
     
     <% if resources.any? %>
@@ -55,7 +56,7 @@
 <%#= @activity_zones[0] %>
 
 <% if !@student_assignment.blank? %>
-  <%= section "Coworkers" do %>
+  <%= section "Coworkers", {:classes => 'no_bar'} do %>
     <% if !assignment_plan.is_group_work_allowed %>
       You may not work in groups on these exercises.
     <% else %>
@@ -74,7 +75,7 @@
   <% end %>
 <% end %>
 
-<%= section "Exercises" do %>
+<%= section "Exercises", {:classes => 'no_bar'} do %>
 
   <% if @student_assignment.blank? %>
     <p>This assignment has <%= pluralize(@assignment.assignment_exercises.count, "exercise") %>.</p>

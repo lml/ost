@@ -3,15 +3,19 @@ class AssignmentPlan < ActiveRecord::Base
   has_many :assignments, :dependent => :destroy
   has_many :assignment_plan_topics, :dependent => :destroy
   has_many :topics, :through => :assignment_plan_topics
+  belongs_to :section
   
   before_destroy :destroyable?
+
+  
+  attr_accessible :introduction, :is_group_work_allowed, :is_open_book, 
+                  :is_ready, :is_test, :learning_plan_id, :name, :learning_plan,
+                  :exercise_tags, :starts_at, :ends_at, :section_id
 
   ##
   ## Start and end times
   ##
 
-  attr_accessible :starts_at, :ends_at
-  
   validates :starts_at, :ends_at, :presence => true
   validates :ends_at, :date => {:after => :starts_at, :message => "End time must be after start time"}, :if => :starts_ends_at_present?
   validate :starts_ends_at_in_bounds, :if => :starts_ends_at_present?
@@ -79,9 +83,7 @@ class AssignmentPlan < ActiveRecord::Base
   
   validates :name, :presence => true, :uniqueness => {:scope => :learning_plan_id}
   validates :max_num_exercises, :allow_nil => true, :numericality => { :greater_than_or_equal_to => 0 }
-  
-  attr_accessible :introduction, :is_group_work_allowed, :is_open_book, 
-                  :is_ready, :is_test, :learning_plan_id, :name, :learning_plan
+  validates :exercise_tags, :tag_list_format => true
   
   scope :non_tests, where(:is_test => false)
   scope :tests, where(:is_test => true)
@@ -132,13 +134,22 @@ class AssignmentPlan < ActiveRecord::Base
 
   def self.build_and_distribute_assignments
     AssignmentPlan.can_be_assigned.each do |assignment_plan|
-      cohorts = assignment_plan.learning_plan.klass.cohorts
+      cohorts_group = assignment_plan.section_id.nil? ?
+                      assignment_plan.learning_plan.klass :
+                      assignment_plan.section
+      
+      cohorts = cohorts_group.cohorts
       
       cohorts.each do |cohort|
         assignment = cohort.learning_condition.build_assignment(assignment_plan)
         assignment.save
       end
     end
+  end
+  
+  # This method assumes the argument is a klass cohort
+  def applies_to_klass_cohort?(cohort)
+    section_id.nil? || section.cohorts.where{id == cohort.id}.any?
   end
       
   #############################################################################

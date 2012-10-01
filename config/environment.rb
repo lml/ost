@@ -3,6 +3,7 @@ require File.expand_path('../application', __FILE__)
 
 require 'extensions'
 require 'url_validations'
+require 'tag_list_format_validator'
 require 'form_builder_extensions'
 require 'ost_utilities'
 require 'belongs_to_exercise'

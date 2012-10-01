@@ -197,5 +197,27 @@ protected
       Rack::MiniProfiler.authorize_request
     end
   end
+  
+  def sort(params_name, model_class, parent = nil, parent_method = nil)
+    sorted_ids = params[params_name]
+    return if sorted_ids.blank?
+  
+    items = model_class.find(sorted_ids)
+  
+    items.each do |item|
+      if !parent.nil? && !parent_method.nil?
+        raise SecurityTransgression unless item.send(parent_method) == parent
+      end
+      raise SecurityTransgression unless item.can_be_sorted_by?(present_user)      
+    end
+    
+    begin 
+      model_class.sort!(sorted_ids)
+    rescue Exception => invalid
+      flash[:alert] = "An error occurred: #{invalid.message}"
+    end
+    
+    # render :template => 'shared/sort'
+  end
 
 end

@@ -50,11 +50,14 @@ Ost::Application.routes.draw do
     resources :learning_conditions, :shallow => true, :only => [:index]
     resources :cohorts, :shallow => true
     get 'preview_assignments', :on => :member
+    get 'report', :on => :member
   end
   
   resources :learning_conditions, :only => [] do
     resources :schedulers, :shallow => true, :except => [:index, :show, :destroy]
-    resources :feedback_conditions, :shallow => true, :except => [:index, :show]
+    resources :feedback_conditions, :shallow => true, :except => [:index, :show] do
+      post 'sort', :on => :collection
+    end
   end
   
   resources :percent_schedulers, :only => [] do
@@ -82,7 +85,7 @@ Ost::Application.routes.draw do
   end
   
   resources :assignment_plans do
-    resources :assignment_plan_topics, :shallow => true, :only => [:new, :create, :destroy]
+    resources :assignment_plan_topics, :shallow => true, :only => [:new, :create, :destroy, :update]
   end
   
   resources :assignments, :only => [:show]
@@ -136,6 +139,7 @@ Ost::Application.routes.draw do
   get 'dashboard', :to => 'home#dashboard'
   get 'about', :to => 'home#about'
   get 'mytutor', :to => 'home#mytutor'
+  get 'help', :to => 'help#index'
   
   get 'help/blurbs/:blurb_name', :to => 'help#blurb', :as => 'blurb_help'
   match 'help/faq'

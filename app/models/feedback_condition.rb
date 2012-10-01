@@ -27,6 +27,10 @@ class FeedbackCondition < ActiveRecord::Base
     can_anything?(user)
   end
   
+  def can_be_sorted_by?(user)
+    can_anything?(user)
+  end
+  
   def can_anything?(user)
     learning_condition.can_anything?(user)
   end

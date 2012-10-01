@@ -19,6 +19,16 @@ class Assignment < ActiveRecord::Base
   
   attr_accessor :dry_run
   
+  def add_topic_exercise(topic_exercise, tags)
+    assignment_exercise = AssignmentExercise.new(:topic_exercise => topic_exercise)
+    assignment_exercise.add_tags(tags)
+    self.assignment_exercises << assignment_exercise
+  
+    # We must manually set the number since we keep adding them without saving them
+    # (if we don't do this they'll all have number 1)
+    assignment_exercise.number = assignment_exercises.size
+  end
+  
   def check_has_exercises
     errors.add(:base, "All assignments must have at least one exercise") if assignment_exercises.none?
   end

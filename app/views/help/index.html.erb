@@ -1,15 +1,3 @@
-intro paragraph
+<%= pageHeading "Help" %>
 
-<ul>
-  <li><%= link_to "Frequently Asked Questions (FAQ)", help_faq_path %></li>
-  <li>Topics
-    <ul>
-      <li><%= link_to "Topic help", help_topics_path %></li>
-    </ul>
-  </li>
-</ul>
-
-<%= link_to "blah", help_instructor_getting_started_path %>
-<p> <%= render :partial => 'help/blurbs/topic' %> <p>
-
-  
+<p>We're in the process of adding great help documentation to <%= SITE_NAME %>.  Until then, if you're having trouble using the site, feel free to contact us at <%= email_link "support", "support@openstaxtutor.org" %>

@@ -2,6 +2,8 @@ require 'open-uri'
 require 'json'
 
 class Exercise < ActiveRecord::Base
+  include Ost::Utilities
+  
   has_many :topic_exercises, :dependent => :destroy
   
   before_validation :cleanup_url
@@ -34,7 +36,12 @@ class Exercise < ActiveRecord::Base
   
   def content
     if json_cache.nil?
-      self.update_attribute(:content_cache, open(url+".json").read) if self.content_cache.nil?
+      if self.content_cache.nil?
+        cache = get_boolean_config(:fake_json_content) ? 
+                '{"simple_question":{"answer_choices":{}}}' :
+                open(url+".json").read
+        self.update_attribute(:content_cache, cache) 
+      end
       self.json_cache = JSON.parse(content_cache)
     end
     json_cache

@@ -196,3 +196,35 @@ class String
 end
 #
 ###############################################################################
+
+
+###############################################################################
+#
+# Wrap deliver and deliver! so if there's an exception it doesn't blow up
+#
+module Mail
+  class Message
+ 
+    alias_method :original_deliver, :deliver
+    alias_method :original_deliver!, :deliver!
+
+    def deliver(options={})
+      begin
+        original_deliver
+      rescue StandardError => e
+        raise if options[:safe_delivery_disabled]
+        DeveloperNotifier.exception_email(e, nil, "An error occurred trying to deliver the following email: #{self.inspect}")
+      end
+    end
+
+    def deliver!(options={})
+      begin
+        original_deliver!
+      rescue StandardError => e
+        raise if options[:safe_delivery_disabled]
+        DeveloperNotifier.exception_email(e, nil, "An error occurred trying to deliver! the following email: #{self.inspect}")
+      end
+    end
+    
+  end
+end

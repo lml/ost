@@ -5,14 +5,22 @@ class AssignmentPlanTopic < ActiveRecord::Base
   validates :assignment_plan_id, :presence => true
   validates :topic_id, :presence => true, :uniqueness => {:scope => :assignment_plan_id}
   
-  attr_accessible :assignment_plan, :topic_id
+  attr_accessible :assignment_plan, :topic_id, :num_exercises_to_use, :hide_resources
   
   before_destroy :destroyable?
+  
+  scope :resources_visible, where(:hide_resources => false)
+    
+    
   
   def destroyable?
     self.errors.add(:base, "This topic cannot be removed from its assignment because the assignment has been issued.") \
       if assignment_plan.assigned?
     self.errors.none?
+  end
+  
+  def topic_exercises
+    TopicExercise.joins{topic.assignment_plan_topics}.where{topic.assignment_plan_topics.id == my{id}}
   end
   
   #############################################################################

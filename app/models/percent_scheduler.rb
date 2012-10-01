@@ -1,4 +1,6 @@
 class PercentScheduler < Scheduler
+  include Ost::Utilities
+  
   store_accessor :settings, :schedules
   
   validate :schedules_ok
@@ -45,6 +47,8 @@ class PercentScheduler < Scheduler
     
     assignment = Assignment.new(:assignment_plan => assignment_plan,
                                 :cohort => cohort)
+                                
+    klass_tags = assignment_plan.learning_plan.klass.nontest_exercise_tags
 
     schedule.each do |rule|    
       topics = current_assignment_plan.topics      
@@ -69,15 +73,12 @@ class PercentScheduler < Scheduler
           topic_exercises.reject!{|te| te.reserved_for_tests || te.assigned_in_cohort?(cohort)}        
           topic_exercises = topic_exercises.take( num_topic_exercises_to_use )
 
+          tags = merge_delimited_strings(",", rule[:tags], 
+                                              current_assignment_plan.exercise_tags, 
+                                              klass_tags)
+
           topic_exercises.each_with_index do |topic_exercise, tt|
-            assignment_exercise = AssignmentExercise.new(:topic_exercise => topic_exercise)
-            
-            assignment_exercise.add_tags(rule[:tags])
-            
-            assignment.assignment_exercises << assignment_exercise
-            # We must manually set the number since we keep adding them without saving them
-            # (if we don't do this they'll all have number 1)
-            assignment_exercise.number = tt+1
+            assignment.add_topic_exercise(topic_exercise, tags)
           end        
         end 
       

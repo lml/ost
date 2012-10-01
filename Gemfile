@@ -48,11 +48,23 @@ gem 'rack-mini-profiler'
 group :development, :test do
   gem 'debugger', '~> 1.1.4'
   gem 'faker', '~> 1.0.1'
-  gem 'factory_girl_rails', '~> 3.4.0'
   gem 'timecop', '~> 0.3.5'
   gem 'thin', '~> 1.4.1'
   gem 'quiet_assets', '~> 1.0.1'
   gem 'cheat'
+  gem 'brakeman'
+end
+
+group :development, :test do
+  gem 'factory_girl_rails', '~> 4.0'
+  gem 'rspec-rails'
+  gem 'cucumber-rails', :require => false
+  gem 'capybara-webkit'
+  gem 'capybara-screenshot'
+  gem 'poltergeist'
+  gem 'launchy'
+  gem 'database_cleaner'
+  gem 'spork-rails'
 end
 
 group :production do

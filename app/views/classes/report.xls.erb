@@ -1,0 +1,110 @@
+<% 
+present_user_is_researcher = present_user.is_researcher? 
+
+visible_students = Student.joins{section}.where{section.klass_id == my{@klass}.id}.visible(present_user).active
+
+ses = StudentExercise.joins{student_assignment.student.section.klass.course} \
+                     .joins{student_assignment.student.cohort} \
+                     .joins{assignment_exercise.assignment.assignment_plan} \
+                     .joins{assignment_exercise.topic_exercise.exercise} \
+                     .joins{assignment_exercise.topic_exercise.concept.outer} \
+                     .joins{assignment_exercise.topic_exercise.topic}. 
+                      where{student_assignment.student_id.in(visible_students.select{id})}.  # Current class
+                      order{student_assignment.student_id}.
+                      order{assignment_exercise.assignment.assignment_plan.starts_at}.
+                      order{assignment_exercise.number}
+                      
+%>
+            
+<%#         
+ses.find_each do |se|
+  csv << [
+    full_name(se.student_assignment.student),
+    
+    
+  ]
+  
+  csv << [full_name(subject.user), 
+          present_user_is_researcher ? tf_to_yn(subject.consent.nil? ? false : subject.consent.did_consent) : "HIDDEN",
+          assignment_response.assignment.lesson.number, 
+          exercise_response.assigned_exercise.number, 
+          tf_to_yn(!exercise_response.assigned_exercise.is_standard_practice),
+          exercise_response.assigned_exercise.lesson_exercise.lesson_exercise_set.lesson.number,
+          exercise_response.assigned_exercise.lesson_exercise.lesson_exercise_set.number,
+          lesson_exercise.concept.nil? ? "undefined" : lesson_exercise.concept.id,
+          exercise_response.response_text, 
+          exercise_response.response_confidence,
+          exercise_response.response_choice,
+          exercise_response.credit]
+%>
+
+
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Data">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Name/ID</Data></Cell>
+        <Cell><Data ss:Type="String">Section</Data></Cell>
+        <Cell><Data ss:Type="String">Cohort</Data></Cell>
+        <Cell><Data ss:Type="String">Assignment #</Data></Cell>
+        <Cell><Data ss:Type="String">Exercise #</Data></Cell>
+        <Cell><Data ss:Type="String">Exercise ID</Data></Cell>
+        <Cell><Data ss:Type="String">Concept</Data></Cell>
+        <Cell><Data ss:Type="String">Labels</Data></Cell>
+        <Cell><Data ss:Type="String">Free Response</Data></Cell>
+        <Cell><Data ss:Type="String">Confidence</Data></Cell>
+        <Cell><Data ss:Type="String">Choice</Data></Cell>
+        <Cell><Data ss:Type="String">Correctness Credit</Data></Cell>
+        <Cell><Data ss:Type="String">Submitted Late</Data></Cell>
+        <Cell><Data ss:Type="String">Feedback Scaling</Data></Cell>
+        <Cell><Data ss:Type="String">Overall Score</Data></Cell>
+        <Cell><Data ss:Type="String"># Feedback Loads</Data></Cell>
+      </Row>
+    <% ses.find_each do |se| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= se.student.full_name(present_user) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.student_assignment.student.section.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.student_assignment.student.cohort.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.assignment_exercise.assignment.assignment_plan.name %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= se.assignment_exercise.number %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.assignment_exercise.topic_exercise.exercise.quadbase_id %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= concept = se.assignment_exercise.topic_exercise.concept; concept.name if !concept.nil? %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.assignment_exercise.tag_list %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.free_response %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= se.free_response_confidence %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= se.selected_answer %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= se.automated_credit %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.was_submitted_late) %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= se.feedback_credit_multiplier %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= se.score %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= se.response_times.where{page == "feedback"}.where{note == "READY"}.count %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+  <Worksheet ss:Name="Info">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Organization</Data></Cell>
+        <Cell><Data ss:Type="String"><%= @klass.course.organization.name %></Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">Class</Data></Cell>
+        <Cell><Data ss:Type="String"><%= @klass.name %></Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">Dates</Data></Cell>
+        <Cell><Data ss:Type="String"><%= standard_datetime(@klass.start_date) + " to " + standard_datetime(@klass.end_date)%></Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">Instructors</Data></Cell>
+        <Cell><Data ss:Type="String"><%= @klass.educators.select{|e| e.is_instructor}.collect{|e| e.user.full_name}.join(", ") %></Data></Cell>
+      </Row>
+    </Table>
+  </Worksheet>
+</Workbook>

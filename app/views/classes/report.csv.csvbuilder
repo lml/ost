@@ -1,0 +1,83 @@
+# csv << ["subject_id", "consented", "assignment", "question", "is_pls", "lesson", "set", "concept", "free_response", "confidence", "mc_response", "is_correct"]
+# 
+# present_user_is_researcher = present_user.is_researcher? 
+# 
+# visible_students = Student.joins{section}.where{section.klass_id == my{@klass}.id}.visible(present_user)
+# 
+# ses = StudentExercise.joins{student_assignment.student.section.klass.course} \
+#                      .joins{student_assignment.student.cohort} \
+#                      .joins{assignment_exercise.assignment.assignment_plan} \
+#                      .joins{assignment_exercise.topic_exercise.exercise} \
+#                      .joins{assignment_exercise.topic_exercise.concept.outer} \
+#                      .joins{assignment_exercise.topic_exercise.topic}. 
+#                       where{student_assignment.student_id.in(visible_students.select{id})}. # Current class
+#                       group{student_assignment.student_id}
+#                      
+# ses.find_each do |se|
+#   csv << [
+#     full_name(se.student_assignment.student),
+#     
+#     
+#   ]
+#   
+#   csv << [full_name(subject.user), 
+#           present_user_is_researcher ? tf_to_yn(subject.consent.nil? ? false : subject.consent.did_consent) : "HIDDEN",
+#           assignment_response.assignment.lesson.number, 
+#           exercise_response.assigned_exercise.number, 
+#           tf_to_yn(!exercise_response.assigned_exercise.is_standard_practice),
+#           exercise_response.assigned_exercise.lesson_exercise.lesson_exercise_set.lesson.number,
+#           exercise_response.assigned_exercise.lesson_exercise.lesson_exercise_set.number,
+#           lesson_exercise.concept.nil? ? "undefined" : lesson_exercise.concept.id,
+#           exercise_response.response_text, 
+#           exercise_response.response_confidence,
+#           exercise_response.response_choice,
+#           exercise_response.credit]
+#   
+#   
+#   
+# end
+# 
+# ####
+# 
+# # subjects = @klass.registered_students.all(
+# #    :include => [
+# #       :consent,
+# #       :user,
+# #       :assignment_responses, 
+# #       {:assignment_responses => [
+# #          {:assignment => :lesson}, 
+# #          :exercise_responses => [
+# #             {:assigned_exercise => [
+# #                {:lesson_exercise => [
+# #                   {:lesson_exercise_set => :lesson},
+# #                   :concept
+# #                ]}
+# #             ]}
+# #          ]
+# #       ]}
+# #    ]
+# # )
+#    
+# # subjects.select!{|s| !s.consent.nil? && s.consent.did_consent} if present_user_is_researcher   
+# 
+# subjects.each do |subject|
+#    subject.assignment_responses.each do |assignment_response|
+#       assignment_response.exercise_responses.each do |exercise_response|
+#          lesson_exercise = exercise_response.assigned_exercise.lesson_exercise
+#          lesson_exercise_set = lesson_exercise.lesson_exercise_set
+#          
+#          csv << [full_name(subject.user), 
+#                  present_user_is_researcher ? tf_to_yn(subject.consent.nil? ? false : subject.consent.did_consent) : "HIDDEN",
+#                  assignment_response.assignment.lesson.number, 
+#                  exercise_response.assigned_exercise.number, 
+#                  tf_to_yn(!exercise_response.assigned_exercise.is_standard_practice),
+#                  exercise_response.assigned_exercise.lesson_exercise.lesson_exercise_set.lesson.number,
+#                  exercise_response.assigned_exercise.lesson_exercise.lesson_exercise_set.number,
+#                  lesson_exercise.concept.nil? ? "undefined" : lesson_exercise.concept.id,
+#                  exercise_response.response_text, 
+#                  exercise_response.response_confidence,
+#                  exercise_response.response_choice,
+#                  exercise_response.credit]
+#       end
+#    end
+# end

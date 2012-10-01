@@ -34,7 +34,6 @@
       <%= yield(:head) %>
     <% end %>
     
-
     <meta name="Description" content="A personalized learning experience from a tutor that adapts to you.">
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/ico"/>
@@ -125,112 +124,39 @@
         <%= standard_time(Time.zone.now) %><br/>(on last refresh)
       </span>
       <% end %>
-      
     </div>
 
-    
-    <% if @ask_for_consent %>
-      <% content_for :javascript do %>
-        <%= javascript_tag do %>
-          function create_consent(did_consent) {
-            var data = $('#new_consent').serializeArray();
-            if (null != did_consent) {
-              data.push({name: "consent[did_consent]", value: did_consent});
-            }              
-            return $.post($("#new_consent").attr('action'), data, null, "script");      
-          }
-        
-          $(document).ready(function() {
-            $('#consent_form_dialog').dialog({
-              modal: true,
-              height: 500,
-              width: 700,
-              buttons: [
-                {
-                  text: "I consent",
-                  click: function() { create_consent(true); }
-                },
-                {
-                  text: "Remind me later",
-                  click: function() { create_consent(null); }
-                },
-                {
-                  text: "I do not consent",
-                  click: function() { create_consent(false); }
-                }
-              ] 
-            });
-           
-          });
-        <% end %>
-      <% end %>
-    
-      <div id="consent_form_dialog" style="display:none" title="Research Consent Form">
-        <%= link_to "Open in a separate window", 
-                    new_polymorphic_path([@consentable, Consent.new]), :style => 'float:right; font-size:10px' %>
-        <br/>
-        <div id="consent_form_dialog_errors"></div>        
-        
-        <%= @consentable.consent_options.consent_form.html.html_safe %>
-
-        <%= form_for([@consentable, Consent.new]) do |f| %>
-          Signature: <%= f.text_field :esignature %>
-        <% end %>    
-      </div>
-    <% end %>
+    <%= render :partial => 'consent_forms/consent_form_machinery' if @ask_for_consent %>
 
     <div id="outer">
       
-
+      <%# #########################   HEADER   ############################## #%>
       
-      
-      <div id="header">
+      <div id="header" <%= classify(@header_class || "white") %>>
                  
         <div id="nav_bar">
           <a href="/" class="logo"></a>
+            <% nav_links = [
+                ["ABOUT", about_path, "", :about],
+                ["DASHBOARD", dashboard_path, "", :dashboard],
+                ["COURSE CATALOG", catalog_path, "", :catalog],
+                ["CURRENT CLASSES", klasses_path, "", :classes],
+                ["MY TUTOR", mytutor_path, "", :mytutor],
+                ["HELP #{image_tag 'help_icon_v4.png', :height => '12px', :width => '12px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}", 
+                  help_path, "help_highlight", :help]
+              ] %>
+            
             <ul>
-              <li>
-                <%= link_to about_path do %>
-                  <span style="position:relative">ABOUT<% if @highlight_faculty %><span class="current"></span><% end %></span>
-                <% end %>
-              </li>
-              <li>
-                <%= link_to dashboard_path do %>
-                  <span style="position:relative">DASHBOARD<% if @highlight_students %><span class="current"></span><% end %></span>
-                <% end %>
-              </li>
-              <li>
-                <%= link_to catalog_path do %>
-                  <span style="position:relative">COURSE CATALOG<% if @highlight_administrators %><span class="current"></span><% end %></span>
-                <% end %>
-              </li>
-              <li>
-                <%= link_to klasses_path do %>
-                  <span style="position:relative">CURRENT CLASSES<% if @highlight_administrators %><span class="current"></span><% end %></span>
-                <% end %>
-              </li>
-              
-              <li>
-                <%= link_to mytutor_path do %>
-                  <span style="position:relative">MY TUTOR<% if @highlight_staxdash %><span class="current"></span><% end %></span>
-                <% end %>
-              </li>
+              <% nav_links.each do |nav_link| %>
+                <li>
+                  <%= link_to nav_link[1] do %>
+                    <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %>" 
+                          style="display:inline; position:relative"><%= nav_link[0].html_safe %><em></em></span>
+                  <% end %>
+                </li>              
+              <% end %>
             </ul>
           </div>
-
-          <div style="clear:right; float:right; padding-bottom:15px">
-            <span id="account_info">
-              <% if user_signed_in? %>
-                <%= link_to current_user.first_name.upcase, edit_user_registration_path %> <%= image_tag 'blackdot.png', :size => '1x18'%> 
-                <%= link_to "SIGN OUT", destroy_user_session_path, :method => :delete, :id => 'signout_link' %>
-              <% else %>
-                <%= link_to "SIGN IN", new_user_session_path %> <%= image_tag 'blackdot.png', :size => '1x18'%> 
-                <%= link_to "JOIN NOW", new_user_registration_path %>
-              <% end %>
-
-            </span>
-          </div>
-
 
           <% if user_signed_in? && current_user.is_administrator? && WebsiteConfiguration.get_value(:sudo_enabled) %>
             <span style="float:left; color:#b22222; font-size:16px; font-weight:bold">
@@ -238,11 +164,13 @@
             </span>        
           <% end %>
           
-          
       </div>
 
+      <%# #########################   MAIN   ############################## #%>
      
-      <div id="main">
+      
+     
+      <div id="main" <%= "class=#{@main_div_background_image}" if @main_div_background_image %>>
         
         <div id="message_dialog" style="display:none" title="">
           <div id="message_dialog_errors"></div>
@@ -254,6 +182,32 @@
           <div id="help_dialog_body"></div>
         </div>
         
+        <% show_account_bar = !@main_div_background_image %>
+        <% icon_color = show_account_bar ? 'gray' : 'white' %>
+        
+        <div class="account_info <%= 'account_bar' if !@main_div_background_image %>">
+          <div>
+            <% if user_signed_in? %>
+              <span style="color: black">Welcome <%= current_user.first_name.capitalize %></span> &nbsp;&nbsp;
+              <%= link_to "My Account", edit_user_registration_path %> 
+              <%= vertical_bar(12) %>
+              <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :id => 'signout_link' %>
+            <% else %>
+              <%= link_to "Join now", new_user_registration_path %> 
+              <%= vertical_bar(12) %>
+              <%= link_to "Sign in", new_user_session_path %>
+            <% end %>
+            <%= link_to nil, :style => 'margin-left: 16px' do %>
+              <%= image_tag("fb_round_#{icon_color}.png") %>
+            <% end %>
+            <%= link_to nil do %>
+              <%= image_tag("twitter_round_#{icon_color}.png") %>
+            <% end %> 
+
+          </div>
+        </div>
+        
+        
         <% @navitems ||= [] %>
         
         <div class="top_level_container">
@@ -261,74 +215,78 @@
 
             <%= yield(:page_heading) %>
 
-            <div id="attention">
-              <%= render 'shared/attention' %>
+            <div class="bar_topped_block">
+              <div id="attention">
+                <%= render 'shared/attention' %>
+              </div>
+
+              <%= yield(:main) %>         
             </div>
-
-            <%= yield(:main) %>         
-
+            
           <% elsif content_for?(:right_column) || !@navitems.empty? || content_for?(:other_nav_content) %>
 
             <%= yield(:page_heading) %>                     
-               <div style="clear:both"></div>
-              <div id="column_container_2c">
-<div style="clear:both"></div>
-                   <div id="main_column_2c" class="column">
-
-
-                     <%= yield(:important) %>
-
-                     <div style="clear:both"></div>
-
-                     <div id="attention">
-                       <%= render 'shared/attention' %>
-                     </div>
-
-                      <%= yield %>
-                   </div>
-
-                  
-
-                   <div id="right_column_2c" class="column">
-                     <%= yield(:right_column)%>
-                     
-                     <% @navitems.each do |navitem| %>
-                       <p style="text-align:right"><%= navitem %></p>
-                     <% end %>
-                     
-                     <%= yield(:other_nav_content) %>
-                     
-                   </div>
-                   <div style="clear:both"></div>
+            
+            <div id="attention"><%= render 'shared/attention' %></div>
+            
+            <div style="clear:both"></div>
+            <div id="column_container_2c">
+              <div style="clear:both"></div>
+              
+              <div id="main_column_2c" class="column bar_topped_block">
+                <%= yield(:important) %>
+                <div style="clear:both"></div>
+                <%= yield %>
               </div>
-                            <div style="clear:both"></div>
+            
+              <div id="right_column_2c" class="column bar_topped_block">
+                <%= yield(:right_column)%>
+                  
+                <% @navitems.each do |navitem| %>
+                  <span style="display:block; padding-bottom: 4px"><%= navitem %></span>
+                <% end %>
+                  
+                <%= yield(:other_nav_content) %>    
+              </div>
+              
+              <div style="clear:both"></div>
+            </div>
+            <div style="clear:both"></div>
+
            <% else %>
            
-              <%= yield(:page_heading) %>
-               <%= yield(:important) %>
+             <%= yield(:page_heading) %>
+             <%= yield(:important) %>
 
-               <div style="clear:both"></div>
+             <div style="clear:both"></div>
 
+             <div class="<%= content_for?(:page_heading) ? 'bar_topped_block' : '' %>">
                <div id="attention">
                  <%= render 'shared/attention' %>
                </div>
 
-              <%= yield %>
-              
-              <div style="clear:both"></div>
+               <%= yield %>
+             </div>
+             
+             <div style="clear:both"></div>
+
            <% end %>
+
         </div>
       </div>
 
+      <%# #########################   FOOTER   ############################## #%>
+
       <div id="footer">
+        
         <div style="float:right">
           <%= link_to "http://www.rice.edu" do %>
-            <%= image_tag 'ricelogo.gif', :style => 'float:right' %>
+            <%= image_tag 'rice_logo_4.png', :style => 'float:right' %>
           <% end %>
         </div>
 
         <div id="copy">
-          Copyright &copy; <%= year = Time.now.year; 2011 == year ? "2011" : "2011&ndash;#{year}".html_safe %> <%= COPYRIGHT_HOLDER %> |
+          Copyright &copy; <%= year = Time.now.year; 2012 == year ? "2012" : "2011&ndash;#{year}".html_safe %> <%= COPYRIGHT_HOLDER %> |
           <%= link_to "Terms of Use", terms_path %> |
           <%= link_to "Contact Us", contact_path %>
       
@@ -348,6 +306,7 @@
 
   <%= yield :javascript %>
   
+  <%= yield :test_meta %>
   
   </body>
 

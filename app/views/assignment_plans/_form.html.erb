@@ -1,3 +1,5 @@
+<% klass = @assignment_plan.learning_plan.klass %>
+
 <%= form_for([@learning_plan, @assignment_plan], :remote => true) do |f| %>
 
   <div class="field">
@@ -8,28 +10,44 @@
     <%= f.label :introduction %><br />
     <%= f.text_area :introduction, :rows => 3, :style => "width:90%" %>
   </div>
-  <div class="field">
+  <div class="field" style="float:left">
     <%= t(:start_date_time) %><br />
-    <%= f.datetime_text_field :starts_at, {:time_zone => @assignment_plan.learning_plan.klass.time_zone, :numberOfMonths => 2} %>
+    <%= f.datetime_text_field :starts_at, {:time_zone => klass.time_zone, :number_of_months => 2} %>
   </div>
-  <div class="field">
+  <div class="field" style="float:right; padding-right: 50px">
     <%= t(:end_date_time) %><br />
-    <%= f.datetime_text_field :ends_at, {:time_zone => @assignment_plan.learning_plan.klass.time_zone, :numberOfMonths => 2} %>
+    <%= f.datetime_text_field :ends_at, {:time_zone => klass.time_zone, :number_of_months => 2} %>
   </div>
-  <div class="field">
+  <div class="field" style="width:280px; float:left">
     <%= f.check_box :is_test %> This is a test
   </div>
-  <div class="field">
+  <div class="field" style="width:280px; float: left">
     <%= f.check_box :is_open_book %> This is open book
   </div>
-  <div class="field">
+  
+  <div style="clear:both"></div>
+  
+  <div class="field" style="width:280px; float: left">
     <%= f.check_box :is_group_work_allowed %> Group work is allowed
   </div>
-  <div class="field">
+  <div class="field" style="width:280px; float: left">
     <%= f.check_box :is_ready %> This is ready to be assigned    
   </div>
+  
+  <div style="clear:both"></div>
+  
+  <% if klass.sections.size > 1 && klass.sections.all?{|s| s.cohorts.any?} %>
+    <div class="field">
+      This assignment is meant for 
+      <%= f.select :section_id, "<option value=''>All Sections</option>".html_safe + 
+                                options_from_collection_for_select(klass.sections, :id, :name, f.object.section_id)%>
+    </div>
+  <% end %>
+  
   <div class="field">
-    <i>Set assignment start and end dates and times using the scheduling calendar.</i>
+    Extra labels to apply<br />
+    <%= f.text_field :exercise_tags, :style => "width:90%"%><br/>
+    <span class="field_help">(Optional) Comma-separated labels here will be attached to each exercise in the assignment.</span>
   </div>
   <div class="actions">
     <%= f.submit %>

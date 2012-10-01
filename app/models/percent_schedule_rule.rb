@@ -6,8 +6,8 @@ class PercentScheduleRule
   validates :percent, :presence => true, 
                       :numericality => {:greater_than_or_equal_to => 0, 
                                         :less_than_or_equal_to => 100}
-  validate :tag_format_ok
-                                       
+  validates :tags, :tag_list_format => true
+                                         
   def initialize(attributes = {})  
     attributes.each do |name, value|  
       send("#{name}=", value)  

@@ -3,7 +3,6 @@ require 'test_helper'
 class PercentSchedulerTest < ActiveSupport::TestCase
 
   def test_basic  
-    
     # Lay out the question URLs to use in each topic in each assignment plan
       
     ap_defs = [
@@ -24,9 +23,12 @@ class PercentSchedulerTest < ActiveSupport::TestCase
     
     lp = FactoryGirl.create(:learning_plan)
     
+    Rails.configuration.fake_json_content = true
+    
     ap_defs.each_with_index do |ap_def, ii|
       ap = FactoryGirl.create(:assignment_plan, 
-                              :starts_at => Time.now + ii.days,
+                              :starts_at => Time.now + 1.day + ii.days,
+                              :ends_at => Time.now + 4.days + ii.days,
                               :learning_plan => lp)
 
       topic_defs = ap_def
@@ -44,6 +46,8 @@ class PercentSchedulerTest < ActiveSupport::TestCase
       end
     end
     
+    Rails.configuration.fake_json_content = false
+    
     # Make a scheduler
 
     scheduler = PercentScheduler.new(:schedules => [[{:percent => 50, :tags => 'E1'}, 
@@ -55,7 +59,7 @@ class PercentSchedulerTest < ActiveSupport::TestCase
 
     # Build up the assignments.  They must be saved after making them so that
     # the next assignment build can know what has been assigned.
-    
+    #debugger
     assignments = [
       scheduler.build_assignment(lp.assignment_plans(true)[0], cohort).tap{|a| a.save!},
       scheduler.build_assignment(lp.assignment_plans(true)[1], cohort).tap{|a| a.save!},
@@ -74,7 +78,8 @@ class PercentSchedulerTest < ActiveSupport::TestCase
 
     assignments.each_with_index do |assignment, ii|
       assignment.assignment_exercises.each_with_index do |ae, jj|
-        assert_equal expected[ii][jj][0], ae.topic_exercise.exercise.url
+        assert_equal "http://" + expected[ii][jj][0], ae.topic_exercise.exercise.url
+        assert_equal jj+1, ae.number
         [expected[ii][jj][1]].flatten.each do |expected_tag| 
           assert ae.has_tag?(expected_tag)
         end 
