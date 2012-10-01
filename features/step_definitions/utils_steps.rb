@@ -125,8 +125,8 @@ end
 
 Given %r{^that I am logged in as (#{CAPTURE_USER_FULL_NAME})$} do |target_name|
   user = find_or_create_unique_user_by_full_name(target_name)
-
-  if user != @current_user
+  
+  if user.id != @current_user_id
     # NOTE: The Devise::TestHelper approach (sign_in user) doesn't work
     #       outside of controller/functional tests.  For details, see:
     #       https://github.com/plataformatec/devise/issues/1114
@@ -147,37 +147,42 @@ Given %r{^that I am logged in as (#{CAPTURE_USER_FULL_NAME})$} do |target_name|
     current_path.should eq(root_path), "Not redirected to #{root_path} after login (probably invalid username/password combo)"
     page.should have_content("Sign out")
     #save_screen('logged_in', URI.parse(current_url).path)
-    @current_user = user
+    @current_user_id = user.id
   end
-
-  @current_user.should eq(user)
+  verify_test_meta :current_user_id => user.id
+  @current_user_id.should eq(user.id)
 end
 
 Then %r{^I am logged in as (#{CAPTURE_USER_FULL_NAME})$} do |target_name|
   user = find_unique_user_by_full_name(target_name)
-  @current_user.should eq(user)
+  verify_test_meta :current_user_id => user.id
 end
 
 Given %r{^that I am logged out$} do
-  if !@current_user.nil?
+  if !@current_user_id.nil?
     visit root_path
     wait_for_browser
-
+  
     click_on "Sign out"
     wait_for_browser
-
+  
     page.should have_content("Sign in")
-    @current_user = nil
+    @current_user_id = nil
   end
-  @current_user.should eq(nil)
+  @current_user_id.should eq(nil)
 end
 
 Then %r{^I am logged out$} do
-  @current_user.should eq(nil)
+  @current_user_id.should eq(nil)
+end
+
+Then %r{^I am not logged out$} do
+  @current_user_id.should_not eq(nil)
+  verify_test_meta :current_user_id => @current_user_id
 end
 
 When %r{^I log out$} do
-  @current_user.should_not eq(nil)
+  @current_user_id.should_not eq(nil)
   visit root_path
   wait_for_browser
 
@@ -185,7 +190,7 @@ When %r{^I log out$} do
   wait_for_browser
   page.should have_content("Sign in")
 
-  @current_user = nil
+  @current_user_id = nil
 end
 
 ##
@@ -205,14 +210,11 @@ Then %r{^I am (?:taken to|on) the "(.*?)" page$} do |page_title|
 end
 
 Then %r{^I am taken to the "(.*?)" page for "([^"]*?)"$} do |page_type, major_name|
-  page.find(:xpath, "//meta[@property='test:page_type' and @content='#{page_type}']").should be_true
-  page.find(:xpath, "//meta[@property='test:major_name' and @content='#{major_name}']").should be_true
+  verify_test_meta :page_type => page_type, :major_name => major_name
 end
 
 Then %r{^I am taken to the "(.*?)" page for "([^"]*?)" under "(.*?)"$} do |page_type, minor_name, major_name|
-  page.find(:xpath, "//meta[@property='test:page_type' and @content='#{page_type}']").should be_true
-  page.find(:xpath, "//meta[@property='test:major_name' and @content='#{major_name}']").should be_true
-  page.find(:xpath, "//meta[@property='test:minor_name' and @content='#{minor_name}']").should be_true
+  verify_test_meta :page_type => page_type, :major_name => major_name, :minor_name => minor_name
 end
 
 Then %r{^the "(.*?)" field contains "(.*?)"$} do |field_name, field_content|
@@ -265,8 +267,7 @@ end
 
 When %r{^I click (?:on\s)*the delete icon for "(.*?)" and "(.*?)"$} do |uberlist_content, confirm_or_decline|
   accept = /confirm|accept/i =~ confirm_or_decline
-  page.execute_script("$('div.sortable_item_entry:contains(\"#{uberlist_content}\")').trigger('mouseover');")  
-  #page.find(:xpath, "//div[@class='sortable_item_entry' and contains(.,'#{uberlist_content}')]").trigger('mouseover')
+  uberlist_mouseover(uberlist_content)
   find_link("Delete").visible?.should be_true
   handle_js_confirm(accept) do
     click_link "Delete"
@@ -275,13 +276,12 @@ When %r{^I click (?:on\s)*the delete icon for "(.*?)" and "(.*?)"$} do |uberlist
 end
 
 When %r{^I mouse over the edit icon for "(.*?)"$} do |uberlist_content|
-  page.execute_script("$('div.sortable_item_entry:contains(\"#{uberlist_content}\")').trigger('mouseover');")  
+  uberlist_mouseover(uberlist_content)
   wait_for_browser
 end
 
 When %r{^I click (?:on\s)*the edit icon for "(.*?)"$} do |uberlist_content|
-  #page.find(:xpath, "//div[@class='sortable_item_entry' and contains(.,'#{uberlist_content}')]").trigger('mouseover')
-  page.execute_script("$('div.sortable_item_entry:contains(\"#{uberlist_content}\")').trigger('mouseover');")  
+  uberlist_mouseover(uberlist_content)
   find_link("Edit").visible?.should be_true
   click_link "Edit"
   wait_for_browser

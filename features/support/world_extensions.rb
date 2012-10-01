@@ -21,6 +21,16 @@ module WorldExtensions
     page.find('div#footer')
   end
   
+  def verify_test_meta(options)
+    options.each do |key, val|
+      page.find(:xpath, "//meta[@property='test:#{key}' and @content='#{val}']").should be_true
+    end
+  end
+  
+  def uberlist_mouseover(uberlist_content)
+    page.execute_script("$('div.sortable_item_entry:contains(\"#{uberlist_content}\")').trigger('mouseover');")  
+  end
+  
   ##
   ## User-related
   ## 
