@@ -132,22 +132,21 @@ Given %r{^that I am logged in as (#{CAPTURE_USER_FULL_NAME})$} do |target_name|
     #       https://github.com/plataformatec/devise/issues/1114
     visit root_path
     wait_for_browser
-    current_path.should eq(root_path), "Could not visit #{root_path}"
+    verify_test_meta :page_type => "index", :major_name => "Home"
 
     click_link('Sign in')
     wait_for_browser
-    current_path.should eq(new_user_session_path)
+    verify_test_meta(:page_type => "new", :major_name => "Devise::Session")
     
-    #save_screen('not_logged_in', URI.parse(current_url).path)
     fill_in "Username", :with => user.username
     fill_in "Password", :with => "password"
-    #save_screen('ready_to_click', URI.parse(current_url).path)
     click_button "Sign in"
     wait_for_browser
-    current_path.should eq(root_path), "Not redirected to #{root_path} after login (probably invalid username/password combo)"
-    page.should have_content("Sign out")
-    #save_screen('logged_in', URI.parse(current_url).path)
+    verify_test_meta(:page_type => "index", :major_name => "Home") 
+    verify_test_meta(:current_user_id => user.id)
     @current_user_id = user.id
+
+    page.should have_content("Sign out")
   end
   verify_test_meta :current_user_id => user.id
   @current_user_id.should eq(user.id)

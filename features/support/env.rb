@@ -132,12 +132,12 @@ Spork.prefork do
   # match default and javascript drivers.
   # Capybara.javascript_driver = :webkit
   # Capybara.default_driver    = :rack_test
-  # Capybara.javascript_driver = :webkit
-  # Capybara.default_driver    = :webkit
+  Capybara.javascript_driver = :webkit
+  Capybara.default_driver    = :webkit
   # Capybara.javascript_driver = :selenium
   # Capybara.default_driver    = :selenium
-  Capybara.javascript_driver = :poltergeist
-  Capybara.default_driver    = :poltergeist
+  # Capybara.javascript_driver = :poltergeist
+  # Capybara.default_driver    = :poltergeist
 
   #############################
   # OTHER CONFIGURATION OPTIONS

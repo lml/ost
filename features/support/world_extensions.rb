@@ -16,20 +16,6 @@ CAPTURE_LINK_TEXT = Transform /"(.*)"/ do |link_text|
 end
 
 module WorldExtensions
-
-  def wait_for_browser
-    page.find('div#footer')
-  end
-  
-  def verify_test_meta(options)
-    options.each do |key, val|
-      page.find(:xpath, "//meta[@property='test:#{key}' and @content='#{val}']").should be_true
-    end
-  end
-  
-  def uberlist_mouseover(uberlist_content)
-    page.execute_script("$('div.sortable_item_entry:contains(\"#{uberlist_content}\")').trigger('mouseover');")  
-  end
   
   ##
   ## User-related
@@ -136,6 +122,7 @@ module WorldExtensions
   ## Misc Utils
   ## 
   
+  # Example usage: save_screen('not_logged_in', URI.parse(current_url).path)
   def save_screen(prefix, path)
     new_path = path.clone
     new_path.gsub!(%r{/}, ":")
@@ -166,6 +153,22 @@ module WorldExtensions
     yield
   ensure
     page.evaluate_script "window.confirm = window.original_confirm_function"
+  end
+  
+  def wait_for_browser
+    page.find('div#footer')
+  end
+  
+  def verify_test_meta(options)
+    msg = nil || options[:fail_message]
+    options.each do |key, val|
+      next if key == :fail_message
+      page.find(:xpath, "//meta[@property='test:#{key}' and @content='#{val}']").should be_true, msg
+    end
+  end
+  
+  def uberlist_mouseover(uberlist_content)
+    page.execute_script("$('div.sortable_item_entry:contains(\"#{uberlist_content}\")').trigger('mouseover');")  
   end
   
 end
