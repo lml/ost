@@ -1,5 +1,11 @@
 
 <div id="topic_<%= topic.id %>" class="lp_item_info">
+  
+  <span class="lp_item_buttons">
+    <%= edit_button nil, {:small => true, :remote => true, :id => "edit_topic_#{topic.id}"} if present_user.can_update?(topic) %>    
+    <%= trash_button topic, {:small => true, :remote => true} if present_user.can_destroy?(topic) %>
+  </span>
+  
   <span class="lp_item_heading">
     <%= best_in_place_if present_user.can_update?(topic), 
                          topic, :name, :type => :input, :activator =>  "#edit_topic_#{topic.id}" %>
@@ -9,11 +15,6 @@
     <span class="hide_when_expanded">
       <%= pluralize(topic.resources.count, "Resource") %>, <%= pluralize(topic.topic_exercises.count, "Exercise") %>
     </span>
-  </span>
-  
-  <span class="lp_item_buttons">
-    <%= edit_button nil, {:small => true, :remote => true, :id => "edit_topic_#{topic.id}"} if present_user.can_update?(topic) %>    
-    <%= trash_button topic, {:small => true, :remote => true} if present_user.can_destroy?(topic) %>
   </span>
   
   <div class="lp_item_body">
