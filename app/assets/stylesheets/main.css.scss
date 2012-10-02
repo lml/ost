@@ -676,6 +676,8 @@ span.antispam {display:none;}
   
   .lp_item_summary {
     padding-left: 15px;
+    padding-top: 3px;
+    display: block;
   }
   
   .lp_item_sub_section {
@@ -698,6 +700,10 @@ span.antispam {display:none;}
   .lp_item_body {
     display:none;
   }
+}
+
+.sortable_item_buttons .edit_button {
+  margin-right: 7px;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
