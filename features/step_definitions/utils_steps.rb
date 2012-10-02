@@ -272,9 +272,10 @@ end
 When %r{^I click (?:on\s)*the delete icon for "(.*?)" and "(.*?)"$} do |uberlist_content, confirm_or_decline|
   accept = /confirm|accept/i =~ confirm_or_decline
   uberlist_mouseover(uberlist_content)
-  find_link("Delete").visible?.should be_true
+  elem = uberlist_find_delete_link(uberlist_content)
+  elem.visible?.should be_true
   handle_js_confirm(accept) do
-    click_link "Delete"
+    elem.click
   end
   wait_for_browser
 end
@@ -286,8 +287,9 @@ end
 
 When %r{^I click (?:on\s)*the edit icon for "(.*?)"$} do |uberlist_content|
   uberlist_mouseover(uberlist_content)
-  find_link("Edit").visible?.should be_true
-  click_link "Edit"
+  elem = uberlist_find_edit_link(uberlist_content)
+  elem.visible?.should be_true
+  elem.click
   wait_for_browser
 end
 

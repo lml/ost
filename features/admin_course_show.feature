@@ -1,20 +1,18 @@
-Feature: Admins can view the list of existing Organizations
+Feature: Admins can show an existing Course
 
-  Admins have the ability to view the list of existing Organizations
+  Admins have the ability to show an existing Course
   via the Admin Console.
   
-  Scenario: An admin views the list of existing Organizations
+  Scenario: An admin shows an existing Course.
     Given that there is a single user named "Joe Admin"
-    And   that there is a single organization named "Org One"
-    And   that there is a single organization named "Org Two"
     And   that "Joe Admin" is an admin
+    And   that there is a single organization named "Only Org"
+    And   that organization "Only Org" has a course named "Intro 101: Only the Easy Stuff"
     And   that I am logged in as "Joe Admin"
     When  I visit the main page
     And   I click on the "Admin Console" link
     Then  I am taken to the "Administrator's Console" page
     When  I click on the "Organizations" link
     Then  I am taken to the "index" page for "Organization"
-    Then  I see "Org One"
-    And   I see "Org Two"
-    
-    
+    When  I click on the "Only Org" link
+    Then  I am taken to the "show" page for "Only Org"

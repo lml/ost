@@ -1,6 +1,7 @@
 Feature: Admins can add a new Course to an existing Organization
 
-  Admins have the ability to add a new Course to an existing Organization.
+  Admins have the ability to add a new Course to an existing Organization
+  via the Admin Console.
   
   Scenario: An admin adds a new Course to an existing Organization.
     Given that there is a single user named "Joe Admin"

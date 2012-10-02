@@ -1,7 +1,7 @@
 Feature: Admins can delete an existing Organization
 
   Admins have the ability to delete an existing Organization
-  via the Admin Console
+  via the Admin Console.
   
   @javascript
   Scenario: An admin deletes an existing Organization

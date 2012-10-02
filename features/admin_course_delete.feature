@@ -1,7 +1,9 @@
 Feature: Admins can delete an existing Course from an Organization
 
-  Admins have the ability to delete an existing Course from an Organization.
+  Admins have the ability to delete an existing Course from an Organization
+  via the Admin Console.
   
+  @javascript
   Scenario: An admin deletes an existing Course to an Organization.
     Given that there is a single user named "Joe Admin"
     And   that "Joe Admin" is an admin

@@ -1,8 +1,8 @@
 Feature: Admins can edit existing Organizations.
 
   Admins have the ability to edit an existing Organization
-  via the Admin Console.  This can be done via the Edit link
-  or via the Edit icon.
+  via the Admin Console.  This can be done by the Edit link
+  or by the Edit icon.
 
   Scenario: An admin edits an existing Organization using the Edit link
     Given that there is a single user named "Joe Admin"
