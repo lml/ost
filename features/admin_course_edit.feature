@@ -12,15 +12,12 @@ Feature: Admins can edit an existing Course
     And   that I am logged in as "Joe Admin"
     When  I visit the main page
     And   I click on the "Admin Console" link
-    Then  I am taken to the "Administrator's Console" page
+    Then  I am taken to the "admin console" page
     When  I click on the "Organizations" link
     Then  I am taken to the "index" page for "Organization"
-    And   screencapture "organizations"
     When  I click on the "Only Org" link
     Then  I am taken to the "show" page for "Only Org"
-    And   screencapture "before_edit_click"
     And   I click the edit icon for "Intro 101: Only the Easy Stuff" 
-    And   screencapture "after_edit_click"
     Then  I am taken to the "edit" page for "Intro 101: Only the Easy Stuff" under "Only Org"
     When  I enter "Intro 101: Only the Hard Stuff" in the "Name" field
     And   I click the "Update Course" button

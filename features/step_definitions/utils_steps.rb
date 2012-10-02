@@ -27,23 +27,31 @@ Then %r{^there is a single user named (#{CAPTURE_USER_FULL_NAME})$} do |target_n
   find_unique_user_by_full_name(target_name)
 end
 
-Given %r{^that (#{CAPTURE_USER_FULL_NAME}) is an admin$} do |target_name|
+Given %r{^that (#{CAPTURE_USER_FULL_NAME}) is (not\s)*an admin$} do |target_name, do_not|
   user = find_unique_user_by_full_name(target_name)
-  if !user.is_administrator?
-    user.is_administrator = true
-    user.save
+
+  if do_not
+    if user.is_administrator?
+      user.is_administrator = false
+      user.save
+    end
+    user.is_administrator?.should be_false
+  else
+    if !user.is_administrator?
+      user.is_administrator = true
+      user.save
+    end
+    user.is_administrator?.should be_true
   end
-  
-  user.is_administrator?.should be_true
   user.new_record?.should be_false
 end
 
-Then %r{^(#{CAPTURE_USER_FULL_NAME}) is an admin$} do |target_name|
-  find_unique_user_by_full_name(target_name).is_administrator?.should be_true
-end
-
-Then %r{^(#{CAPTURE_USER_FULL_NAME}) is not an admin$} do |target_name|
-  find_unique_user_by_full_name(target_name).is_administrator?.should be_false
+Then %r{^(#{CAPTURE_USER_FULL_NAME}) is (not\s)*an admin$} do |target_name, do_not|
+  if do_not
+    find_unique_user_by_full_name(target_name).is_administrator?.should be_false
+  else
+    find_unique_user_by_full_name(target_name).is_administrator?.should be_true
+  end
 end
 
 ##
@@ -89,6 +97,16 @@ end
 
 Then %r{^there is no course named (#{CAPTURE_COURSE_NAME})$} do |target_name|
   find_courses_by_name(target_name).size.should eq(0)
+end
+
+##
+## CourseInstructor-related
+##
+
+Then %r{^(#{CAPTURE_USER_FULL_NAME}) is an instructor for (#{CAPTURE_COURSE_NAME})$} do |target_user_name, target_course_name|
+  user = find_unique_user_by_full_name(target_user_name)
+  course = find_unique_course_by_name(target_course_name)
+  CourseInstructor.where{ course_id == course.id }.where { user_id == user.id }.size.should eq(1)
 end
 
 ##
@@ -205,19 +223,15 @@ Then %r{^I should see a(?:n*?) "(.*?)" link$} do |link_text|
   find_link(link_text).visible?.should be_true
 end
 
-Then %r{^I see "(.*?)"$} do |text|
-  page.has_content?(text).should be_true
-end
-
-Then %r{^I am (?:taken to|on) the "(.*?)" page$} do |page_title|
-  page.find('title').has_content?(page_title).should be_true
+Then %r{^I am (?:taken to|on) the "(.*?)" page$} do |page_type|
+  verify_test_meta :page_type => page_type
 end
 
 Then %r{^I am taken to the "(.*?)" page for "([^"]*?)"$} do |page_type, major_name|
   verify_test_meta :page_type => page_type, :major_name => major_name
 end
 
-Then %r{^I am taken to the "(.*?)" page for "([^"]*?)" under "(.*?)"$} do |page_type, minor_name, major_name|
+Then %r{^I am (?:taken to|on) the "(.*?)" page for "([^"]*?)" under "(.*?)"$} do |page_type, minor_name, major_name|
   verify_test_meta :page_type => page_type, :major_name => major_name, :minor_name => minor_name
 end
 
@@ -226,6 +240,35 @@ Then %r{^the "(.*?)" field contains "(.*?)"$} do |field_name, field_content|
   page.has_field?(field_name, :with => field_content).should be_true
 end
 
+Then %r{^I (do not\s)*see the "(.*?)" dialog$} do |do_not, dialog_title|
+  title_span_xpath = "//span[@class='ui-dialog-title' and text()='#{dialog_title}']"
+  title_span = page.find(:xpath, title_span_xpath) if page.has_xpath?(title_span_xpath)
+
+  if do_not
+    if title_span
+      title_span.visible?.should be_false
+    end
+  else
+    title_span.should be_true
+    title_span.visible?.should be_true
+  end
+end
+
+Then %r{^I (do not\s)*see "([^"]*?)"$} do |do_not,content|
+  if do_not
+    page.has_no_content?(content).should be_true
+  else
+    page.has_content?(content).should be_true
+  end
+end
+
+Then %r{^I (do not\s)*see (?:a|an|the) "([^"]*?)" link$} do |do_not,link_name|
+  if do_not
+    page.has_no_link?(link_name).should be_true
+  else
+    page.has_link?(link_name).should be_true
+  end
+end
 
 ##
 ## User Action-related

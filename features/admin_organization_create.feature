@@ -9,9 +9,9 @@ Feature: Admins can create Organizations.
     And   that I am logged in as "Joe Admin"
     When  I visit the main page
     And   I click on the "Admin Console" link
-    Then  I am taken to the "Administrator's Console" page
+    Then  I am taken to the "admin console" page
     When  I click on the "Organizations" link
-    Then  I am taken to the "Organizations" page
+    Then  I am taken to the "index" page for "Organization"
     When  I click on the "New Organization" link
     Then  I am taken to the "new" page for "Organization"
     When  I enter "Awesome Org" in the "Name" field
