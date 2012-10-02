@@ -66,12 +66,17 @@ Then %r{^there is no organization named (#{CAPTURE_ORGANIZATION_NAME})$} do |tar
   find_organizations_by_name(target_name).size.should eq(0)
 end
 
+Given %r{^that organization (#{CAPTURE_ORGANIZATION_NAME}) has a course named (#{CAPTURE_COURSE_NAME})$} do |organization_name, course_name|
+  org = find_or_create_unique_organization_by_name(organization_name)
+  find_or_create_unique_organization_course_by_name(org, course_name)
+end
+
 ##
 ## Course-related
 ##
 
 Given %r{^that there is a single course named (#{CAPTURE_COURSE_NAME})$} do |target_name|
-  course = find_or_create_unique_course_by_name(target_name)
+  find_or_create_unique_course_by_name(target_name)
 end
 
 Then %r{^there is a single course named (#{CAPTURE_COURSE_NAME})$} do |target_name|

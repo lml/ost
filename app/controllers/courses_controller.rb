@@ -55,7 +55,7 @@ class CoursesController < ApplicationController
     @course = Course.find(params[:id])
     @course.destroy
     raise SecurityTransgression unless present_user.can_destroy?(@course)
-    redirect_to courses_url
+    redirect_to organization_url(@course.organization)
   end
   
 protected

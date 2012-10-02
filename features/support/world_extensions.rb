@@ -69,6 +69,21 @@ module WorldExtensions
     create_organization_by_name(target_name)
   end
 
+  def find_or_create_unique_organization_course_by_name(org, target_course_name)
+    courses = Course.where{ name == target_course_name }
+    raise "there are #{courses.size} Courses with name '#{target_course_name}" if courses.size > 1
+
+    if courses.size == 0
+      course = FactoryGirl.create(:course, :name => target_course_name, :organization => org)
+    else
+      course = courses[0]
+    end
+
+    raise "there is a Course named '#{course.name}' under Organization '#{course.organization.name}'" \
+      if course.organization.name != org.name
+    course
+  end
+  
   ##
   ## Course-related
   ## 
