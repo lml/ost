@@ -1,25 +1,21 @@
 
-CAPTURE_USER_FULL_NAME = Transform /"(.*)"/ do |full_name|
+CAPTURE_USER_FULL_NAME = Transform %r{"([^"]*)"} do |full_name|
   full_name
 end
 
-CAPTURE_ORGANIZATION_NAME = Transform /"(.*)"/ do |org_name|
+CAPTURE_ORGANIZATION_NAME = Transform %r{"([^"]*)"} do |org_name|
   org_name
 end
 
-CAPTURE_COURSE_NAME = Transform /"(.*)"/ do |course_name|
+CAPTURE_COURSE_NAME = Transform %r{"([^"]*)"} do |course_name|
   course_name
 end
 
-CAPTURE_LINK_TEXT = Transform /"(.*)"/ do |link_text|
+CAPTURE_LINK_TEXT = Transform %r{"([^"]*)"} do |link_text|
   link_text
 end
 
 module WorldExtensions
-
-  def wait_for_browser
-    page.find('div#footer')
-  end
   
   ##
   ## User-related
@@ -73,6 +69,19 @@ module WorldExtensions
     create_organization_by_name(target_name)
   end
 
+  def find_or_create_unique_organization_course_by_name(org, target_course_name)
+    courses = find_courses_by_name(target_course_name)
+    raise "there are #{courses.size} Courses with name '#{target_course_name}" if courses.size > 1
+    if courses.size == 0
+      FactoryGirl.create(:course, :name => target_course_name, :organization => org)
+    end
+
+    course = find_unique_course_by_name(target_course_name)
+    raise "there is a Course named '#{course.name}' under Organization '#{course.organization.name}'" \
+      if course.organization.name != org.name
+    course
+  end
+  
   ##
   ## Course-related
   ## 
@@ -126,6 +135,7 @@ module WorldExtensions
   ## Misc Utils
   ## 
   
+  # Example usage: save_screen('not_logged_in', URI.parse(current_url).path)
   def save_screen(prefix, path)
     new_path = path.clone
     new_path.gsub!(%r{/}, ":")
@@ -158,6 +168,34 @@ module WorldExtensions
     page.evaluate_script "window.confirm = window.original_confirm_function"
   end
   
+  def wait_for_browser
+    page.find('div#footer')
+  end
+  
+  def verify_test_meta(options)
+    msg = nil || options[:fail_message]
+    options.each do |key, val|
+      next if key == :fail_message
+      page.find(:xpath, "//meta[@property='test:#{key}' and @content='#{val}']").should be_true, msg
+    end
+  end
+  
+  def uberlist_mouseover(uberlist_content)
+    page.find("div.sortable_item_entry:contains('#{uberlist_content}')").should be_true
+    page.execute_script("$('div.sortable_item_entry:contains(\"#{uberlist_content}\")').trigger('mouseover');")  
+  end
+
+  def uberlist_find_edit_link(uberlist_content)
+    elem = page.find("div.sortable_item_entry:contains('#{uberlist_content}')").find("a.edit_button")
+    elem.should be_true
+    elem
+  end
+  
+  def uberlist_find_delete_link(uberlist_content)
+    elem = page.find("div.sortable_item_entry:contains('#{uberlist_content}')").find("a.trash_button")
+    elem.should be_true
+    elem
+  end
 end
 
 World(WorldExtensions)
