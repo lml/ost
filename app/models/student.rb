@@ -14,7 +14,7 @@ class Student < ActiveRecord::Base
 
   validates :section_id, :presence => true
   validates :user_id, :presence => true, :uniqueness => {:scope => :cohort_id}
-  validates :cannot_audit_if_researcher
+  validate :cannot_audit_if_researcher
 
   attr_accessible :is_auditing , :user_id, :section_id, :student_specified_id, :has_dropped
   
