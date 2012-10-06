@@ -53,6 +53,7 @@ group :development, :test do
   gem 'quiet_assets', '~> 1.0.1'
   gem 'cheat'
   gem 'brakeman'
+  gem 'rvm-capistrano'
 end
 
 group :development, :test do
