@@ -241,5 +241,5 @@
   navitem(:can_read_children?, @klass, :cohorts) { link_to("Cohorts", klass_cohorts_path(@klass)) }
   navitem(:can_read?, @klass.consent_options) { link_to("Consent Options", @klass.consent_options) }
   navitem(:can_read_children?, @klass, :report) { link_to("Report", report_klass_path(@klass, :format => :xls)) }
-  navitem(:can_read_children?, @klass, :report) { link_to("Grades", grades_klass_path(@klass, :format => :xls)) }
+  navitem(:can_read_children?, @klass, :grades) { link_to("Grades", grades_klass_path(@klass, :format => :xls)) }
 %>
