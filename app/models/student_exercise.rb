@@ -89,6 +89,7 @@ class StudentExercise < ActiveRecord::Base
 
   def score
     was_submitted_late || automated_credit.nil? ? 0 : feedback_credit_multiplier * automated_credit
+    # x=rand; x -= x % 0.01
   end
   
   def learning_condition
