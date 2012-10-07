@@ -24,14 +24,24 @@ klass_aps = @klass.learning_plan.assignment_plans
   xmlns:x="urn:schemas-microsoft-com:office:excel"
   xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
   xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Styles>
+    <Style ss:ID="s20" ss:Name="Percent">
+      <NumberFormat ss:Format="0%"/>
+    </Style>
+  </Styles>
   <Worksheet ss:Name="Data">
     <Table>
       <Row>
         <Cell><Data ss:Type="String">Name/ID</Data></Cell>
         <Cell><Data ss:Type="String">Section</Data></Cell>
         <Cell><Data ss:Type="String">Cohort</Data></Cell>
+    <% hw_count = 0 %>
+    <% test_count = 0 %>
 		<% klass_aps.each do |ap| %>
-        <Cell><Data ss:Type="String"><%= ap.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ap.is_test ? "HW #{hw_count += 1}" : "T #{test_count += 1}" %></Data><Comment
+      ss:Author="<%= SITE_NAME %>"><Data><Font
+        html:Size="9" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40"><%= ap.name %></Font></Data></Comment></Cell>
 		<% end %>
       </Row>
     <% visible_students.each do |vs| %>
@@ -50,9 +60,9 @@ klass_aps = @klass.learning_plan.assignment_plans
 					<% score = ses.inject(0) {|sum,se| sum += se.score if !se.nil? } %>
 					<% score /= ses.size if ses.size > 0 %>
 				<% end %>
-				<% score -= score % 0.0001 %>
+				<%# score -= score % 0.0001 %>
 			<% end%>
-        <Cell><Data ss:Type="Number"><%= score %></Data></Cell>
+        <Cell ss:StyleID="s20"><Data ss:Type="Number"><%= score %></Data></Cell>
 		<% end %>
       </Row>
     <% end %>
