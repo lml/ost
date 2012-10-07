@@ -38,7 +38,7 @@ klass_aps = @klass.learning_plan.assignment_plans
     <% hw_count = 0 %>
     <% test_count = 0 %>
 		<% klass_aps.each do |ap| %>
-        <Cell><Data ss:Type="String"><%= ap.is_test ? "HW #{hw_count += 1}" : "T #{test_count += 1}" %></Data><Comment
+        <Cell><Data ss:Type="String"><%= !ap.is_test ? "HW #{hw_count += 1}" : "T #{test_count += 1}" %></Data><Comment
       ss:Author="<%= SITE_NAME %>"><Data><Font
         html:Size="9" html:Color="#000000"
         xmlns="http://www.w3.org/TR/REC-html40"><%= ap.name %></Font></Data></Comment></Cell>
@@ -50,7 +50,7 @@ klass_aps = @klass.learning_plan.assignment_plans
         <Cell><Data ss:Type="String"><%= vs.section.name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= vs.cohort.name %></Data></Cell>
 		<% klass_aps.each do |ap| %>
-			<% score = "" %>
+			<% score = nil %>
 			<% assignment = Assignment.where{ (cohort_id == vs.cohort_id) & (assignment_plan_id == ap.id) }.first %>
 			<% if !assignment.nil? %>
 				<% score = 0.0 %>
@@ -62,7 +62,7 @@ klass_aps = @klass.learning_plan.assignment_plans
 				<% end %>
 				<%# score -= score % 0.0001 %>
 			<% end%>
-        <Cell ss:StyleID="s20"><Data ss:Type="Number"><%= score %></Data></Cell>
+        <Cell ss:StyleID="s20"><Data ss:Type="<%= score.nil? ? 'Text' : 'Number' %>"><%= score || "" %></Data></Cell>
 		<% end %>
       </Row>
     <% end %>
