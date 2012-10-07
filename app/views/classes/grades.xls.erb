@@ -62,7 +62,7 @@ klass_aps = @klass.learning_plan.assignment_plans
 				<% end %>
 				<%# score -= score % 0.0001 %>
 			<% end%>
-        <Cell ss:StyleID="s20"><Data ss:Type="<%= score.nil? ? 'Text' : 'Number' %>"><%= score || "" %></Data></Cell>
+        <Cell ss:StyleID="s20"><Data ss:Type="<%= score.nil? ? 'String' : 'Number' %>"><%= score || "" %></Data></Cell>
 		<% end %>
       </Row>
     <% end %>
