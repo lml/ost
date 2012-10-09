@@ -120,10 +120,10 @@ class ClassesController < ApplicationController
     end
   end
   
-  def grades
+  def class_grades
     @klass = Klass.find(params[:id])
 
-    raise SecurityTransgression unless present_user.can_read_children?(@klass, :grades)
+    raise SecurityTransgression unless present_user.can_read_children?(@klass, :class_grades)
 
     respond_to do |format|
       format.xls

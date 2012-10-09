@@ -511,6 +511,59 @@ table.list tr {
 	border-bottom:1px solid #ddd;
 }
 
+table.list td.assignment_name {
+	padding-right: 10px;
+}
+
+table.list td.assignment_grade {
+	text-align: right
+}
+
+table.list.assignment {
+	width: 95%;
+
+	th.assignment_number {
+		width: 5%;
+	}
+	
+	th.assignment_name {
+		width: 55%;
+	}
+
+	th.assignment_start {
+		width: 20%;
+	}
+
+	th.assignment_end {
+		width: 20%;
+	}
+}
+
+table.list.student_assignment {
+	width: 95%;
+	
+	th.assignment_number {
+		width: 5%;
+	}
+	
+	th.assignment_name {
+		width: 40%;
+	}
+
+	th.assignment_start {
+		width: 20%;
+	}
+
+	th.assignment_end {
+		width: 20%;
+	}
+	
+	th.assignment_grade {
+		width: 15%;
+		text-align: right
+	}
+}
+
 table.left_heading {
 	font-size: 13px;
 	font-weight: normal;
