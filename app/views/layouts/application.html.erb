@@ -122,6 +122,7 @@
       <% if (@clock_enabled && user_signed_in?) %>
       <br/>
       <span id="clock">
+		<%= standard_date(Time.zone.now) %><br/>
         <%= standard_time(Time.zone.now) %><br/>(on last refresh)
       </span>
       <% end %>
@@ -212,6 +213,9 @@
         <% @navitems ||= [] %>
         
         <div class="top_level_container">
+	
+		  <% has_nav_content = content_for?(:right_column) || !@navitems.empty? || content_for?(:other_nav_content) %>
+	
           <% if content_for?(:main) %>
 
             <%= yield(:page_heading) %>
@@ -224,7 +228,7 @@
               <%= yield(:main) %>         
             </div>
             
-          <% elsif content_for?(:right_column) || !@navitems.empty? || content_for?(:other_nav_content) %>
+          <% elsif @force_nav_bar || has_nav_content %>
 
             <%= yield(:page_heading) %>                     
             
@@ -240,7 +244,7 @@
                 <%= yield %>
               </div>
             
-              <div id="right_column_2c" class="column bar_topped_block">
+              <div id="right_column_2c" class="column <%= 'bar_topped_block' if has_nav_content %>">
                 <%= yield(:right_column)%>
                   
                 <% @navitems.each do |navitem| %>
