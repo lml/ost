@@ -5,6 +5,8 @@
 <% end %>
 
 <% num_sections = @klass.sections.count %>
+<% num_consents = 0 %>
+<% num_students = 0 %>
 
 <% name_width = 75 - (num_sections > 1 ? 15 : 0) - (present_user.is_administrator? ? 15 : 0) %>
 <% num_columns = 4 - (num_sections > 1 ? 1 : 0)  - (present_user.is_administrator? ? 1 : 0) %>
@@ -32,13 +34,20 @@
         </tr>
       <% end %>
       <% students.each do |student| %>
+        <% num_students += 1 %>
         <tr>
           <% if num_sections > 1 %>
             <td></td>
           <% end %>
           <td><%= link_to_if(present_user.can_read?(student), student.full_name(present_user), student) %></td>
           <% if present_user.is_administrator? %>
-            <td><%= student.user.research_id %></td>
+            <td>
+              <%= student.user.research_id %> 
+              <% if student.consented? %> 
+                <% num_consents += 1 %>
+                (C)
+              <% end %>
+            </td>
           <% end %>
           <td><%= student_status_string(student) %>
         </tr>
@@ -48,5 +57,8 @@
 
 </table>
 
+<% if present_user.is_administrator? %>
+  <p>Number of consents: <%= num_consents %> / <%= num_students %></p>
+<% end %>
 
 <% navitem { link_to "Class", klass_path(@klass) }%>

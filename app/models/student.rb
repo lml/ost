@@ -10,12 +10,11 @@ class Student < ActiveRecord::Base
   
   before_create :assign_to_cohort
   
-
-  
   before_validation :handle_section_change, :on => :update
 
   validates :section_id, :presence => true
   validates :user_id, :presence => true, :uniqueness => {:scope => :cohort_id}
+  validate :cannot_audit_if_researcher
 
   attr_accessible :is_auditing , :user_id, :section_id, :student_specified_id, :has_dropped
   
@@ -189,6 +188,11 @@ protected
 
     assign_to_cohort
     true
+  end
+    
+  def cannot_audit_if_researcher
+    self.errors.add(:is_auditing, "A researcher cannot be fully registered for a class.") \
+      if !self.is_auditing && user.is_researcher?
   end
     
 end
