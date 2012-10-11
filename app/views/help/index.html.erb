@@ -1,6 +1,8 @@
 <%= pageHeading "Help" %>
 
-<p>We're in the process of adding great help documentation to <%= SITE_NAME %>.  Until then, if you're having trouble using the site, feel free to contact us at <%= email_link "support", "support@openstaxtutor.org" %>
-  <%= render :partial => 'help/blurbs/join_ost' %>
+<p>We're in the process of adding great help documentation to <%= SITE_NAME %>.  Until then, if you're having trouble using the site, feel free to contact us at <%= email_link "support", "support@openstaxtutor.org" %></p>
+  
+<p>  <%= link_to "Getting Started as an Instructor", help_instructor_getting_started_path   %></p>
 
-  <%= render :partial => 'help/blurbs/add_instructor_to_class' %>
+<%= render :partial => 'help/blurbs/teach_a_class_in_ost' %>
+    

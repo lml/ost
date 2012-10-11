@@ -1,0 +1,25 @@
+<%= section "Register to teach a new class in OpenStax Tutor" do %> 
+
+<p>Before you can register to teach a new class in <%= SITE_NAME %>, you must do the following:
+  <ol>
+        <li><%= link_to "Create an OpenStax Tutor account", new_user_registration_path %>, if you haven't already.</li>
+        <li>Request an administrator add your class to the Course Catalog and give you instructor permissions, as described below. </li>
+      </ol>
+<p>
+  
+<p>Once you have created your account, email <%= email_link "OST administrators", "support@openstaxtutor.org" %> and provide the following information:</p>
+    <ul>
+      <li>Name of your organization;</li>
+      <li>Full course name, e.g. Math 101: Single-Variable Calculus;</li>
+      <li>Short course name, e.g. Math 101;</li>
+      <li>Brief description of the course;</li>
+      <li>When class is typically offered, e.g. Fall or Spring; and</li>
+      <li>Your OpenStax Tutor username, i.e. username you use to log in to the site.</li>
+    </ul>
+<p>Once the administrator has added your course to the catalog and has given you instructor permissions, find your course in the Catalog and click <strong>Teach this course</strong> to get started. </p>
+
+<center>
+     <%= image_tag("teach_this_course.png", {:border => 1, :width => "80%", :height => "80%", :title=>"teach this course"})%> 
+</center>
+  
+  <% end %>
