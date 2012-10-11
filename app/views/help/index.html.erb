@@ -4,5 +4,12 @@
   
 <p>  <%= link_to "Getting Started as an Instructor", help_instructor_getting_started_path   %></p>
 
-<%= render :partial => 'help/blurbs/teach_a_class_in_ost' %>
+<p> <%= link_to "Frequently Asked Questions", help_faq_path %> </p>
+
+<p> <%= link_to "Topics help", help_topics_path %>
+
+    <%= render :partial => 'help/blurbs/register_new_class'%>
+
+    <%= render :partial => 'help/blurbs/plan_class' %>
     
+    <%= render :partial => 'help/blurbs/set_up_class' %>

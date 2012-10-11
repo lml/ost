@@ -11,10 +11,12 @@ Add concept tags to an exercise<br/>
 
 <%= section "Overview of topics" do %>
 
-<p>The topics section is where you add links to your course materials. You will organize and sequence your materials into topics, that is, groups of related exercises and resources. Eventually, you will create assignments by specifying the topic(s) you want each assignment to cover.</p> 
-   
-<p>Before adding any course materials to the topics section, we recommend you review our planning document.</p>
+<p>The Topics section is where you will add links to course materials you plan to assign to your students. You will organize and sequence these materials into groups, where each group contains resources and exercises related to a particular <em>topic</em> taught in your course.</p>
+  
+<p>In <%= SITE_NAME %>, these "groups" of related exercises and resources are simply called <em>topics</em>. Eventually, you will use create assignments using the topics you create.<p>
 
+<p>Before adding any content to your Topics section, your course materials must be hosted on on <%= link_to "Connexions", "http://www.cnx.org" %> and <%= link_to "Quadbase", "http://www.quadbase.org" %>. Check out our Class Planning guide for more help.</p> 
+   
 <% end %>
 
 <%= section "Topics interface" do %>
@@ -29,7 +31,7 @@ Screencast.
     <center>
       <%= image_tag("newtopic1.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
     </center>
-  <li>Double click the New Topic 1 box that appears to begin adding course materials. </li>
+  <li><strong>Double click</strong> the New Topic 1 box that appears to begin adding course materials. </li>
     <center>
       <%= image_tag("newtopic5.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
     </center>
@@ -62,7 +64,7 @@ Screencast.
   <center>
     <%= image_tag("add_resources.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
   </center>
-  <li>Enter full resource URL, resource description, and notes, then click Create Resource to close;</li>
+  <li>Copy the full URL from Connexions, paste it in the URL box, add optional resource description and notes and then click Create Resource to close;</li>
   <br/>
   <center>
     <%= image_tag("newtopic4.png", {:border => 1, :width => "40%", :height => "40%", :title=>"create new topic"})%>
@@ -120,7 +122,6 @@ Screencast.
 
 <%= section "Add a concept tag to an exercise" do %>
 
-<p>Adding a concept tag to an exercise requires two separate processes: (1) create the concept tag and (2) link the concept tag to an exercise. The below tutorial describes both processes.</p>
 <ol>
   <li><em>Create the concept tag</em> by navigating to the Concepts section of the Learning Plan;</li>
   <center>
@@ -130,11 +131,10 @@ Screencast.
   <center>
 		<%= image_tag("concept2.png", {:border => 1, :width => "80%", :height => "70%", :title=>"create new concept"})%>
 	</center>
-  <li>Type the concept name in the text box and click Create Concept to save;</li>
-  <li>Return to the Topics section of the Learning Plan and open the topic where you will add the concept tag;</li>
-  <li>Open the exercise requiring a concept tag (may be you need to add a new exercise, or edit an existing exercise) </li>
-  <li><em>Add the concept tag to the exercise</em> by clicking on Choose a Concept and selecting the relevant topic;</li>
-  <br/>
+  <li>Enter the concept name and click Create Concept;</li>
+  <li>Return to the Topics section of the Learning Plan and create a new exercise or open an existing exercise; 
+  <li><em>Select the concept tag from the dropdown Concept menu</li>
+    <br/>
   <center>
 		<%= image_tag("concept3.png", {:border => 1, :width => "80%", :height => "80%", :title=>"create new concept"})%>
 	</center>
