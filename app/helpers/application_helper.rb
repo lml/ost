@@ -174,7 +174,7 @@ module ApplicationHelper
     options[:small] ||= false
     options[:id] ||= "edit_button_#{@edit_button_count}"
     
-    klass = "edit_button icon_only_button" + (options[:small] ? "_small" : "")
+    klass = "test clickable edit_button icon_only_button" + (options[:small] ? "_small" : "")
     
     link_to "", target.nil? ? nil : edit_polymorphic_path(target), :class => klass, :id => options[:id], :remote => options[:remote], :title => 'Edit'
   end
@@ -187,7 +187,7 @@ module ApplicationHelper
     options[:small] ||= false
     options[:id] ||= "trash_button_#{@trash_button_count}"
     
-    klass = "trash_button icon_only_button" + (options[:small] ? "_small" : "")
+    klass = "test clickable trash_button icon_only_button" + (options[:small] ? "_small" : "")
     link_to '', target, 
                 :id => options[:id],
                 :class => klass,
@@ -274,7 +274,7 @@ module ApplicationHelper
       
       entries.collect { |entry|
         content_tag :div, :id => "sortable_item_#{entry.id}", 
-                          :class => 'sortable_item_entry', 
+                          :class => 'test mouseable sortable_item_entry', 
                           :style => "height:24px; display:table" do
 
           a = content_tag(:span, "", :class => "ui-icon #{bullet_class} handle",
@@ -296,7 +296,7 @@ module ApplicationHelper
                           link_target : 
                           [options[:namespace], link_target]
                           
-            link_to(link_text.blank? ? 'unnamed' : link_text, link_target)
+            link_to(link_text.blank? ? 'unnamed' : link_text, link_target, :class => "test clickable uberlist_link")
           end
           
           c = content_tag(:div, {:class => "sortable_item_buttons", 

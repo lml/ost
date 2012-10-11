@@ -152,6 +152,8 @@ Spork.prefork do
   # Turn off automatic screencapture when scenario fails
   Capybara::Screenshot.autosave_on_failure = false
 
+  Capybara.default_wait_time = 0.1;
+  
   # By default, any exception happening in your Rails application will bubble up
   # to Cucumber so that your scenario will fail. This is a different from how 
   # your application behaves in the production environment, where an error page will 

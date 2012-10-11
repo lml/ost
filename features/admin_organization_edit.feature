@@ -10,17 +10,17 @@ Feature: Admins can edit existing Organizations.
     And   that "Joe Admin" is an admin
     And   that I am logged in as "Joe Admin"
     When  I visit the main page
-    And   I click on the "Admin Console" link
+    And   I click on "admin_console"
     Then  I am taken to the "admin console" page
-    When  I click on the "Organizations" link
+    When  I click on "organizations"
     Then  I am taken to the "index" page for "Organization"
-    When  I click on the "Only Org" link
+    When  I click on "Only Org"
     Then  I am taken to the "show" page for "Only Org"
-    When  I click on the "Edit" link
+    When  I click on "edit_organization"
     Then  I am taken to the "edit" page for "Only Org"
     And   the "Name" field contains "Only Org"
     When  I enter "Renamed Org" in the "Name" field
-    And   I click the "Update Organization" button
+    And   I click on "submit"
     Then  I am taken to the "show" page for "Renamed Org"
     And   there is a single organization named "Renamed Org"
     And   there is no organization named "Only Org"
@@ -32,15 +32,14 @@ Feature: Admins can edit existing Organizations.
       And   that "Joe Admin" is an admin
       And   that I am logged in as "Joe Admin"
       When  I visit the main page
-      And   I click on the "Admin Console" link
+      And   I click on "admin_console"
       Then  I am taken to the "admin console" page
-      When  I click on the "Organizations" link
-      Then  I am taken to the "index" page for "Organization"
-      When  I click on the edit icon for "Only Org"
+      When  I click on "organizations"
+      When  I click the edit icon for "Only Org"
       Then  I am taken to the "edit" page for "Only Org"
       And   the "Name" field contains "Only Org"
       When  I enter "Renamed Org" in the "Name" field
-      And   I click the "Update Organization" button
+      And   I click on "submit"
       Then  I am taken to the "show" page for "Renamed Org"
       And   there is a single organization named "Renamed Org"
       And   there is no organization named "Only Org"

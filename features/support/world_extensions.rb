@@ -1,19 +1,19 @@
-
-CAPTURE_USER_FULL_NAME = Transform %r{"([^"]*)"} do |full_name|
-  full_name
-end
-
-CAPTURE_ORGANIZATION_NAME = Transform %r{"([^"]*)"} do |org_name|
-  org_name
-end
-
-CAPTURE_COURSE_NAME = Transform %r{"([^"]*)"} do |course_name|
-  course_name
-end
-
-CAPTURE_LINK_TEXT = Transform %r{"([^"]*)"} do |link_text|
-  link_text
-end
+# 
+# CAPTURE_USER_FULL_NAME = Transform %r{"([^"]*)"} do |full_name|
+#   full_name
+# end
+# 
+# CAPTURE_ORGANIZATION_NAME = Transform %r{"([^"]*)"} do |org_name|
+#   org_name
+# end
+# 
+# CAPTURE_COURSE_NAME = Transform %r{"([^"]*)"} do |course_name|
+#   course_name
+# end
+# 
+# CAPTURE_LINK_TEXT = Transform %r{"([^"]*)"} do |link_text|
+#   link_text
+# end
 
 module WorldExtensions
   
@@ -180,19 +180,45 @@ module WorldExtensions
     end
   end
   
+  def mouseover(content_text)
+    begin
+      query = ".test.mouseable.#{class_text}"
+      elem = find(query)
+      elem.should be_true
+      page.execute_script("$('#{query}').trigger('mouseover');")
+    rescue
+      elem = find(".test.mouseable", :text => content_text)
+      elem.should be_true
+      page.execute_script("$('test.mouseable:contains(\"#{content_text}\")').trigger('mouseover');")        
+    end    
+  end
+  
+  def mouseover_content(content_text)
+    elem = find(".test.mouseable", :text => content_text)
+    elem.should be_true
+    page.execute_script("$('test.mouseable:contains(\"#{content_text}\")').trigger('mouseover');")        
+  end
+
+  def mouseover_class(class_text)
+    query = ".test.mouseable.#{class_text}"
+    elem = find(query)
+    elem.should be_true
+    page.execute_script("$('#{query}').trigger('mouseover');")        
+  end
+  
   def uberlist_mouseover(uberlist_content)
     page.find("div.sortable_item_entry:contains('#{uberlist_content}')").should be_true
     page.execute_script("$('div.sortable_item_entry:contains(\"#{uberlist_content}\")').trigger('mouseover');")  
   end
 
   def uberlist_find_edit_link(uberlist_content)
-    elem = page.find("div.sortable_item_entry:contains('#{uberlist_content}')").find("a.edit_button")
+    elem = page.find(".test.mouseable", :text => uberlist_content).find(".test.clickable.edit_button")
     elem.should be_true
     elem
   end
   
   def uberlist_find_delete_link(uberlist_content)
-    elem = page.find("div.sortable_item_entry:contains('#{uberlist_content}')").find("a.trash_button")
+    elem = page.find(".test.mouseable", :text => uberlist_content).find(".test.clickable.trash_button")
     elem.should be_true
     elem
   end

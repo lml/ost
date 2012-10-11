@@ -6,17 +6,17 @@
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <% @errors = resource.errors %>
   
-  <div class="field"><%= f.label :username %><br />
+  <div class="field test input user_username"><%= f.label :username %><br />
   <%= f.text_field :username %></div>
 
-  <div class="field"><%= f.label :password %><br />
+  <div class="field test input user_password"><%= f.label :password %><br />
   <%= f.password_field :password %></div>
 
   <% if devise_mapping.rememberable? -%>
     <div class="field"><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
   <% end -%>
 
-  <div><%= f.submit "Sign in" %></div>
+  <div><%= f.submit "Sign in", :class => "test clickable submit" %></div>
 <% end %>
 
 <br/>

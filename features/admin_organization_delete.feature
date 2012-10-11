@@ -10,11 +10,11 @@ Feature: Admins can delete an existing Organization
     And   that "Joe Admin" is an admin
     And   that I am logged in as "Joe Admin"
     When  I visit the main page
-    And   I click on the "Admin Console" link
+    And   I click on "admin_console"
     Then  I am taken to the "admin console" page
-    When  I click on the "Organizations" link
+    When  I click on "organizations"
     Then  I am taken to the "index" page for "Organization"
-    When  I click on the delete icon for "Only Org" and "confirm"
+    When  I click the delete icon for "Only Org" and "confirm"
     Then  I am taken to the "index" page for "Organization"
     And   there is no organization named "Only Org"
     
