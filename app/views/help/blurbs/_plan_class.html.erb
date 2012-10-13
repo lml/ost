@@ -1,82 +1,25 @@
-<%= section "Plan your class before adding any new course materials to OpenStax Tutor" do %> 
+<%= section "2. Plan your class before adding any new course materials to OpenStax Tutor." do %> 
 
-<p>Before adding any course materials to the site, we recommend you take some time to consider how you want to use <%= SITE_NAME %>.</p>
+<p>Before adding any course materials to <%= SITE_NAME %>, we recommend you take some time to plan. Consider the following:</p>
   
   <ol>
-    <li>Plan what course materials, i.e. resources and exercises, you will assign to students.</li>
-    <li>Ensure your course materials are hosted on Connexions and Quadbase.</li>
-    <li>Decide if you will partner with <%= SITE_NAME %> researchers to run an educational experiment in connection with your class. </li>
-    <li>Organize and sequence related course materials into topics.</li>
-    <li>Begin thinking about the assignments (homeworks and tests) you will assign via <%= SITE_NAME %>.</li>
-    <li>Consider if you will set up any learning conditions for your assignments. </li>
-  </ol>
+          
+  <li><strong>Think about partnering with <%= SITE_NAME %> researchers to run an educational experiment in your class.</strong></li>
 
-<p><strong>1. Plan the course materials you will assign to students via <%= SITE_NAME %>.</strong></p>
-
-<p>Consider the following:</p>
-  <ul>
-    <li>What topics and concepts will you cover in class?</li>
-    <p>
-    <li>What course materials will you assign via <%= SITE_NAME %> to reinforce these topics and concepts?</li>
-    <p>
-    <li>You can assign two (2) types of course materials:</li> 
-    <p>
-      <ul>
-    <li><em>Resources</em>: background material (text, tables, images, audio, video files etc) that you can attach to an assignment; and</li> 
-    <li><em>Exercises</em>: free-form, multiple choice and true/false homework and test questions that students work for credit.</li>
-    </ul>
-  </ul>
-      
-<p><strong>2. Ensure your course materials are hosted on <%= link_to "Connexions", "http://www.cnx.org" %> and <%= link_to "Quadbase", "http://www.quadbase.org" %>.</strong></p> 
-  
-  <ul>
-    <li><%= SITE_NAME %> does not host course materials. Instead, the site is set up to use <em>resources</em> from <%= link_to "Connexions", "http://www.cnx.org" %>, the educational content repository, and <em>exercises</em> from <%= link_to "Quadbase", "http://www.quadbase.org" %>, the question and answer database.</li>
-    <p>
-    <li>Content in Connexions and Quadbase is licensed under the <%= link_to "Creative Commons Attribution License", "http://creativecommons.org/licenses/by/3.0/" %> and therefore free to use or reuse. Similarly, content you add to Connexions and Quadbase is easily shared -- allowing others to use and reuse it legally -- while still giving you recognition and attribution for your work.</li>
-    <p>
-    <li><%= link_to "Create new resources in Connexions", "http://cnx.org/help/authoring/createmodule" %> or <%= link_to "search for reusable Connexions resources", "http://cnx.org/content/" %>.</li> 
-    <p>
-    <li><%= link_to "Create new exercises in Quadbase", "https://quadbase.org/questions/get_started"%> or <%=link_to "search for reusable Quadbase exercises", "https://quadbase.org/questions"%>.</li>
-  </ul>
-  
-<p><strong>3. Decide if you will partner with <%= SITE_NAME %> researchers to run an educational experiment in connection with your class.</strong></p>
-
-  <p>We strongly encourage educators <%= email_link "support@openstaxtutor.org", "contact us" %> to discuss this possibility. Your class can be easily integrated into human subjects cognitive science research studies, and your participation will support advanced research pursuits.</p>
-
-  <p>Should you decide to participate, it will be useful to consult with them throughout the planning phase.</p>
-
-<p><strong>4. Organize and sequence your course materials into topics.</strong></p>
-
-  <p>Group related exercises and resources together, where each group contains resources and exercises related to a particular <em>topic</em> taught in your class. In <%= SITE_NAME %>, those "groups" are simply called <em>topics</em>. As you plan, consider the following:</p>
-
-    <ul>
-      <li>What are the overarching lessons, or topics, you want to teach in your class? Is there a logical way to group resources and exercises together? Which course materials reinforce each topic? Is there a logical order or sequence to your topics? </li>
-      <p>
-      <li>Remember that one end goal of using <%= SITE_NAME %> is to assess student performance on each topic. Given this, ideally each topic should include only topic-related exercises and resources.</li>
-      <p>
-      <li>You can organize your topics however you like, with any number of topics and any number of materials within each topic. A typical math/engineering class has 10-15 topics.</li>
-      <p>  
-      <li>If you are participating in a research study, the research team will work with you on this step to ensure that experimental conditions meet both educational and research objectives.</li> 
-    </ul>
-<p><strong>5. Plan the assignments (homeworks and tests) you will assign via <%= SITE_NAME %>. </strong></p>
-
-  <p>Some things to consider as you plan assignments:</p>
-  <ul>    
-    <li><em>You will create assignments by specifying the topic, or topics, each assignment should cover</em>. Given this, what topic(s) will each assignment cover? For example, a homework assignment may cover only one topic but a midterm may cover 5 topics.</li>
-    <p>
-    <li>How many homeworks and tests will you give?</li>
-    <p>
-    <li>Roughly how many exercises do you want each assignment to have?</li>
-    <p>
-    <li> If you are partnering with researchers on a research study, the research team will work with you to ensure that experimental cohorts receive the same exercises, and the same number of exercises, throughout the semester.</li>
-  </ul>
-<p><strong>6. Consider if you will set up any learning conditions for your assignments.</strong></p>
-    <ul>
-    <p>
-      <li>Will you use the Percentage Scheduler feature to distribute practice of topics across multiple assignments? If so, across how many assignments will you distribute practice? How do you want the Scheduler to build each assignment? </li>
-      <p>
-      <li>Will your students receive feedback when they work assignments? When? Do you want to make feedback required for credit?</li>
-      
+    <%= render :partial => 'help/blurbs/research_study'%>
+    
+    <li><p><strong>Plan course materials and ensure they are hosted on <%= link_to "Connexions", "http://www.cnx.org" %> and <%= link_to "Quadbase", "http://www.quadbase.org" %>.</strong></li>
+    <%= render :partial => 'help/blurbs/plan_content'%>
+    
+    <li><strong>Organize and sequence your course materials into <em>topics</em>.</strong></li>
+    <%= render :partial => 'help/blurbs/organize_topics'%>
+    
+    <li><strong>Plan assignments and decide if you will set up any learning conditions for them. </strong></li>
+    <%= render :partial => 'help/blurbs/plan_assignments'%>
+    
+    </ol>
     
     
   <% end %>
+  
+  

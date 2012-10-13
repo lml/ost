@@ -1,9 +1,7 @@
 <%= pageHeading "Frequently Asked Questions (FAQ) | Help" %>
 <%= section "Account FAQ" do %>
-<ul>
-I signed up but never received a confirmation email. What should I do?<br/>
-How can I change my account settings, i.e. email address, password or time zone? <br/>
-Can I change the username I used to register? Can I change my first and last name in OST?<br/> 
+<%= link_to "I signed up but never received a confirmation email. What should I do?", "#email_confirmation" %><br/>
+<%= link_to "How do I update my account information?", "#change_account_settings" %> <br/>
 It's been awhile and I forgot my password. Can you reset it?<br/>
 <br/>
 </ul>
@@ -32,7 +30,31 @@ Is there a way to pre-approve students so I don't have to manually approve every
 When I create an assignment, there is no place to add exercises. How do I add exercises to an assignment?<br/>
 Override incorrect / late / feedback viewed.. <br/>
 There is an error in one of the exercises I assigned to students, and the assignment has already gone out. How can I fix it?<br/>
-
- 
 </ul>
+
+<div class="sectionHeading" id="email_confirmation"><strong>I signed up but never received a confirmation email. What should I do?</strong></div>
+<ol>
+  <li>Please check your Spam folder and verify that noreply@openstaxtutor.org is not being blocked.</li>
+  <li>If no luck in the spam folder, <%= link_to "go here to resend the confirmation instructions", new_user_confirmation_path %>.</li>
+  <li>If the email doesn't arrive, it's possible that there was a typo in your email address when you registered. Please <%= link_to 'register again', 'new_user_registration_path' %>, verifying that the email address is correct.</li>
+  <li>If you have still not received a confirmation email, and if your email address is otherwise receiving emails properly, please contact us at <%= email_link "email not confirmed", "support@openstaxtutor.org" %>.</li>
+</ol>
+<p>
+  
+<div class ="sectionHeading" id="change_account_settings"><strong>How do I update my account information?</strong></div>
+
+<p>You can change some account settings, including email address, password and time zone. Note that you <em>cannot</em> change your user name or first and last name.</p>
+
+<p>To update account settings:</p>
+<ol>
+  <li>Sign in;</li>
+  <li>In the upper right hand corner, next to the Welcome message, click <strong>My Account</strong>;</li>
+  <li>Make your changes, enter your password to confirm changes and click Update.</li>
+    
+How can I change my account settings, i.e. email address, password or time zone? <br/>
+Can I change the username I used to register? Can I change my first and last name in OST?<br/> 
+It's been awhile and I forgot my password. Can you reset it?
+
+
+
 <% end %>
