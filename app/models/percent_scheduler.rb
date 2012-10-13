@@ -39,7 +39,7 @@ class PercentScheduler < Scheduler
     # This method is not appropriate for test assignment plans
     raise IllegalOperation if assignment_plan.is_test
     
-    schedule_number = assignment_plan.number % schedules.size
+    schedule_number = assignment_plan.homework_number % schedules.size
     schedule = schedules[schedule_number]
     
     max_num_assignment_exercises = assignment_plan.max_num_exercises

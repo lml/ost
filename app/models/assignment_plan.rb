@@ -124,6 +124,10 @@ class AssignmentPlan < ActiveRecord::Base
   def number
     peers.index{|ap| ap.id == self.id}
   end
+
+  def homework_number
+    peers.non_tests.index{|ap| ap.id == self.id}
+  end
   
   def predecessors
     AssignmentPlan.joins{learning_plan}
