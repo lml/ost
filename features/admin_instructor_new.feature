@@ -3,7 +3,6 @@ Feature: Admins can add an Instructor to an existing Course
   Admins have the ability to add an Instructor to an existing Course
   via the Admin Console.
   
-  @javascript
   Scenario: An admin adds an Instructor to an existing Course
     Given that there is a single user named "Joe Admin"
     And   that "Joe Admin" is an admin

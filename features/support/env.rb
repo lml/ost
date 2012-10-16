@@ -131,7 +131,7 @@ Spork.prefork do
   # Because of the precautions taken above w.r.t. connections, transactions and domains, we can freely mix and
   # match default and javascript drivers.
   # Capybara.javascript_driver = :webkit
-  # Capybara.default_driver    = :rack_test
+  # Capybara.default_driver    = :rack_test  ## NOTE: currently all scenarios assume @javascript, so :rack_test will cause problems
   Capybara.javascript_driver = :webkit
   Capybara.default_driver    = :webkit
   # Capybara.javascript_driver = :selenium
@@ -152,6 +152,8 @@ Spork.prefork do
   # Turn off automatic screencapture when scenario fails
   Capybara::Screenshot.autosave_on_failure = false
 
+  # This causes capybara #has_css? and #find selectors to return quickly
+  # in the event of a failure
   Capybara.default_wait_time = 0.1;
   
   # By default, any exception happening in your Rails application will bubble up

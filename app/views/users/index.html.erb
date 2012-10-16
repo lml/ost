@@ -1,5 +1,8 @@
 <%# Copyright (c) 2011 Rice University.  All rights reserved. %>
 
+<% addTestMeta {{:page_type  => "index"}} %>
+<% addTestMeta {{:major_name => "User"}} %>
+
 <%= pageHeading("User List") %>
 
 <table class="list" width="100%">
@@ -13,7 +16,7 @@
   </tr>
 
 <% @users.each do |user| %>
-  <tr>
+  <tr class="test row">
     <td><%= admin_only(user.first_name) %></td>
     <td><%= admin_only(user.last_name) %></td>
     <td><%= admin_only(user.username) %></td>

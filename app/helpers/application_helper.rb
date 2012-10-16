@@ -164,7 +164,7 @@ module ApplicationHelper
   end
   
   def show_button(target)
-    link_to("", target, :class => "icon_only_button show_button")
+    link_to("", target, :class => "icon_only_button test clickable show_button")
   end
   
   def edit_button(target, options={})

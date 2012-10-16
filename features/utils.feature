@@ -55,3 +55,9 @@ Feature: Scenario utility functions work properly
     When  I log out
     Then  I am logged out
     
+  Scenario: Time travel
+    Given that I am logged in as "First User"
+    When  I time travel to "Dec 25, 2012" "UTC"
+    And   cron jobs are run
+    And   I refresh the page
+    Then  I see "Dec 25, 2012"

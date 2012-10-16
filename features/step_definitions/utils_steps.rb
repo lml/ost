@@ -1,3 +1,14 @@
+##
+## Before/after hooks
+##
+
+Before do
+  Timecop.return
+end
+
+After do
+  Timecop.return
+end
 
 ##
 ## User-related
@@ -292,16 +303,22 @@ When %r{^I click on (.+)$} do |orig_line|
     end
     
     %r{^(?<id>.+?)(\s+containing\s+(?<content>.+))?$} =~ entry
-    
-    id = $~.prematch if %r{\s+containing\s+(?<content>.+)$} =~ id
+
+    # puts "entry   = ( #{entry} )"
+    # puts "id      = ( #{id} )"
+    # puts "content = ( #{content} )"
     
     if !id.match(/\s/) && content.nil? && elem.has_css?(".test.#{id}")
       elem = elem.find(".test.#{id}")
+    elsif !id.match(/\s/) && elem.has_css?(".test.#{id}", :text => content)
+      elem = elem.find(".test.#{id}", :text => content)
     elsif elem.has_css?(".test", :text => id)
       elem = elem.find(".test", :text => id)
     else
       raise "could not find element for: #{orig_line} (#{id})"
     end
+
+    # puts "elem    = ( #{elem.path} )"
 
     mouseover_elem(elem)
     break if elem[:class].include?('clickable')
@@ -321,6 +338,11 @@ When %r{^I visit the main page$} do
   wait_for_browser
 end
 
+When %r{^I refresh the page$} do
+  visit current_path
+  wait_for_browser
+end
+
 When %r{^I enter "(.*?)" in the "(.*?)" field$} do |text, field_name|
   fill_in field_name, :with => text
 end
@@ -332,6 +354,16 @@ end
 ##
 ## Misc Util-related
 ##
+
+And %r{^I time travel to "([^"]+?)" "([^"]+?)"$} do |time_str, zone_str|
+  Timecop.return
+  new_time_utc = TimeUtils.timestr_and_zonestr_to_utc_time(time_str, zone_str)
+  Timecop.travel(new_time_utc)
+end
+
+And %r{^cron jobs (?:are|have been|were) run} do
+  Ost::execute_cron_jobs
+end
 
 And %r{^screencapture "(.*?)"$} do |prefix|
   save_screen(prefix, URI.parse(current_url).path)
