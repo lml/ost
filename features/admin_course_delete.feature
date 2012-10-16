@@ -3,7 +3,6 @@ Feature: Admins can delete an existing Course from an Organization
   Admins have the ability to delete an existing Course from an Organization
   via the Admin Console.
   
-  @javascript
   Scenario: An admin deletes an existing Course to an Organization.
     Given that there is a single user named "Joe Admin"
     And   that "Joe Admin" is an admin
@@ -17,6 +16,6 @@ Feature: Admins can delete an existing Course from an Organization
     Then  I am taken to the "index" page for "Organization"
     When  I click on "Only Org"
     Then  I am taken to the "show" page for "Only Org"
-    When  I click the delete icon for "Intro 101" and "confirm"
+    When  I click on "row containing Intro 101" "trash_button" "and confirm"
     Then  I am taken to the "show" page for "Only Org"
     And   there is no course named "Intro 101"

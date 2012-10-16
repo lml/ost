@@ -180,47 +180,22 @@ module WorldExtensions
     end
   end
   
-  def mouseover(content_text)
-    begin
-      query = ".test.mouseable.#{class_text}"
-      elem = find(query)
-      elem.should be_true
-      page.execute_script("$('#{query}').trigger('mouseover');")
-    rescue
-      elem = find(".test.mouseable", :text => content_text)
-      elem.should be_true
-      page.execute_script("$('test.mouseable:contains(\"#{content_text}\")').trigger('mouseover');")        
-    end    
+  def mouseover_elem(elem)
+    elem.should be_true
+    xpath = elem.path
+    css = xpath_to_css(xpath)
+    cmd = "$(\"#{css}\").trigger('mouseover');"
+    cmd = "$(\"#{css}\").trigger('mousemove');"
+    cmd = "$(\"#{css}\").trigger('mouseenter');"
+    page.execute_script(cmd)
   end
   
-  def mouseover_content(content_text)
-    elem = find(".test.mouseable", :text => content_text)
-    elem.should be_true
-    page.execute_script("$('test.mouseable:contains(\"#{content_text}\")').trigger('mouseover');")        
-  end
-
-  def mouseover_class(class_text)
-    query = ".test.mouseable.#{class_text}"
-    elem = find(query)
-    elem.should be_true
-    page.execute_script("$('#{query}').trigger('mouseover');")        
-  end
-  
-  def uberlist_mouseover(uberlist_content)
-    page.find("div.sortable_item_entry:contains('#{uberlist_content}')").should be_true
-    page.execute_script("$('div.sortable_item_entry:contains(\"#{uberlist_content}\")').trigger('mouseover');")  
-  end
-
-  def uberlist_find_edit_link(uberlist_content)
-    elem = page.find(".test.mouseable", :text => uberlist_content).find(".test.clickable.edit_button")
-    elem.should be_true
-    elem
-  end
-  
-  def uberlist_find_delete_link(uberlist_content)
-    elem = page.find(".test.mouseable", :text => uberlist_content).find(".test.clickable.trash_button")
-    elem.should be_true
-    elem
+  def xpath_to_css(xpath)
+    css = xpath.dup
+    css.sub!(%r{^/}, '')
+    css.gsub!(%r{/}, ' > ')
+    css.gsub!(%r{\[(?<val>\d+)\]}, ':nth-child(\k<val>)')
+    css.gsub!(%r{@}, '')
   end
 end
 

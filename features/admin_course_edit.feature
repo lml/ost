@@ -3,7 +3,6 @@ Feature: Admins can edit an existing Course
   Admins have the ability to edit an existing Course
   via the Admin Console.
   
-  @javascript
   Scenario: An admin edits an existing Course.
     Given that there is a single user named "Joe Admin"
     And   that "Joe Admin" is an admin
@@ -17,7 +16,7 @@ Feature: Admins can edit an existing Course
     Then  I am taken to the "index" page for "Organization"
     When  I click on "Only Org"
     Then  I am taken to the "show" page for "Only Org"
-    And   I click the edit icon for "Intro 101: Only the Easy Stuff" 
+    And   I click on "row containing Intro 101: Only the Easy Stuff" "edit_button"
     Then  I am taken to the "edit" page for "Intro 101: Only the Easy Stuff" under "Only Org"
     When  I enter "Intro 101: Only the Hard Stuff" in the "Name" field
     And   I click on "submit"

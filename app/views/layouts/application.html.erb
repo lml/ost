@@ -155,7 +155,7 @@
               <% nav_links.each do |nav_link| %>
                 <li>
                   <%= link_to nav_link[1] do %>
-                    <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %>" 
+                    <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %> test clickable <%= nav_link[0].html_safe.downcase.sub(/\s/, '_') %>" 
                           style="display:inline; position:relative"><%= nav_link[0].html_safe %><em></em></span>
                   <% end %>
                 </li>              

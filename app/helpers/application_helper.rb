@@ -274,7 +274,7 @@ module ApplicationHelper
       
       entries.collect { |entry|
         content_tag :div, :id => "sortable_item_#{entry.id}", 
-                          :class => 'test mouseable sortable_item_entry', 
+                          :class => 'test row sortable_item_entry', 
                           :style => "height:24px; display:table" do
 
           a = content_tag(:span, "", :class => "ui-icon #{bullet_class} handle",

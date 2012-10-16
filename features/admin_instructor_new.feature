@@ -27,8 +27,7 @@ Feature: Admins can add an Instructor to an existing Course
     When  I enter "X" in the "Search for:" field
     And   I click on "dialog" "search"
     Then  I see "Professor"
-    And   screencapture "before_click"
-    When  I click on "dialog" "list_row" "add" 
+    When  I click on "dialog" "row containing Professor" "add" 
     Then  I see "Added"
     When  I click on "dialog" "close"
     Then  I do not see the "Add an instructor" dialog

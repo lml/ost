@@ -3,7 +3,6 @@ Feature: Admins can delete an existing Organization
   Admins have the ability to delete an existing Organization
   via the Admin Console.
   
-  @javascript
   Scenario: An admin deletes an existing Organization
     Given that there is a single user named "Joe Admin"
     And   that there is a single organization named "Only Org"
@@ -14,7 +13,7 @@ Feature: Admins can delete an existing Organization
     Then  I am taken to the "admin console" page
     When  I click on "organizations"
     Then  I am taken to the "index" page for "Organization"
-    When  I click the delete icon for "Only Org" and "confirm"
+    When  I click on "row containing Only Org" "trash_button" "and confirm"
     Then  I am taken to the "index" page for "Organization"
     And   there is no organization named "Only Org"
     

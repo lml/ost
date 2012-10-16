@@ -278,45 +278,41 @@ end
 When %r{^I click on (.+)$} do |orig_line|
   line = orig_line.dup
   elem = page
-  while %r{"(?<id>[^"]+?)"} =~ line
+  accept = true
+
+  while %r{"(?<entry>[^"]+?)"} =~ line
     line = $~.post_match
-    if !id.match(/\s/) && elem.has_css?(".test.#{id}")
+
+    if %r{^and (confirm|accept)$} =~ entry
+      accept = true
+      next
+    elsif %r{^and (decline|reject)$} =~ entry
+      accept = false
+      next
+    end
+    
+    %r{^(?<id>.+?)(\s+containing\s+(?<content>.+))?$} =~ entry
+    
+    id = $~.prematch if %r{\s+containing\s+(?<content>.+)$} =~ id
+    
+    if !id.match(/\s/) && content.nil? && elem.has_css?(".test.#{id}")
       elem = elem.find(".test.#{id}")
     elsif elem.has_css?(".test", :text => id)
       elem = elem.find(".test", :text => id)
     else
       raise "could not find element for: #{orig_line} (#{id})"
     end
-    
+
+    mouseover_elem(elem)
     break if elem[:class].include?('clickable')
   end
 
   elem = elem.find(".test.clickable") if !elem[:class].include?('clickable')
-  
   elem.visible?.should be true
-  elem.click
-  wait_for_browser
-end
 
-## DEPRICATED
-When %r{^I click (?:on\s)*?the "([^"]*?)" tab$} do |link_text|
-  elem = find(:xpath, "//span[text()='#{link_text.upcase}']")
-  elem.visible?.should be true
-  elem.click
-  wait_for_browser
-end
-
-## DEPRICATED
-When %r{^I click (?:on\s)*?the "([^"]*?)" link$} do |link_text|
-  find_link(link_text).visible?.should be_true
-  click_link link_text
-  wait_for_browser
-end
-
-When %r{^I click (?:on\s)*?the "([^"]*?)" link and "(.*?)"$} do |link_text, confirm_or_decline|
-  find_link(link_text).visible?.should be_true
-  confirm = /confirm|accept/i =~ confirm_or_decline
-  handle_js_confirm(confirm) { click_link link_text }
+  handle_js_confirm(accept) do
+    elem.click
+  end
   wait_for_browser
 end
 
@@ -331,30 +327,6 @@ end
 
 When %r{^I select "(.*?)" (?:for|from) "(.*?)"$} do |option, selector|
   select option, :from => selector
-end
-
-When %r{^I click the delete icon for "(.*?)" and "(.*?)"$} do |uberlist_content, confirm_or_decline|
-  accept = /confirm|accept/i =~ confirm_or_decline
-  mouseover_content(uberlist_content)
-  elem = uberlist_find_delete_link(uberlist_content)
-  elem.visible?.should be_true
-  handle_js_confirm(accept) do
-    elem.click
-  end
-  wait_for_browser
-end
-
-When %r{^I mouse over "(.*?)"$} do |mouseover_content|
-  mouseover(mouseover_content)
-  wait_for_browser
-end
-
-When %r{^I click (?:on\s)*the edit icon for "(.*?)"$} do |uberlist_content|
-  mouseover(uberlist_content)
-  elem = uberlist_find_edit_link(uberlist_content)
-  elem.visible?.should be_true
-  elem.click
-  wait_for_browser
 end
 
 ##

@@ -25,7 +25,6 @@ Feature: Admins can edit existing Organizations.
     And   there is a single organization named "Renamed Org"
     And   there is no organization named "Only Org"
 
-    @javascript
     Scenario: An admin edits an existing Organization using the Edit icon
       Given that there is a single user named "Joe Admin"
       And   that there is a single organization named "Only Org"
@@ -35,7 +34,7 @@ Feature: Admins can edit existing Organizations.
       And   I click on "admin_console"
       Then  I am taken to the "admin console" page
       When  I click on "organizations"
-      When  I click the edit icon for "Only Org"
+      When  I click on "row containing Only Org" "edit_button"
       Then  I am taken to the "edit" page for "Only Org"
       And   the "Name" field contains "Only Org"
       When  I enter "Renamed Org" in the "Name" field
