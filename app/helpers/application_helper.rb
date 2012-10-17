@@ -139,7 +139,7 @@ module ApplicationHelper
             :remote => true
   end
   
-  def standard_percentage(value)
+  def standard_percentage(value=0)
     "%6.2f" % (100 *value)
   end
   
