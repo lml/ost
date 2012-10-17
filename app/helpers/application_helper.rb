@@ -139,9 +139,10 @@ module ApplicationHelper
             :remote => true
   end
   
-  def standard_percentage(value=0)
-    "%6.2f" % (100 *value)
+  def standard_percentage(value)
+    "%6.2f" % (100 * (value || 0))
   end
+
   
   def standard_date(datetime)
     datetime.nil? ? "" : datetime.strftime(STANDARD_DATE_FORMAT)
