@@ -13,7 +13,5 @@ Feature: Admins can view an existing User
     Then  I am taken to the "admin console" page
     When  I click on "user_list"
     Then  I am taken to the "index" page for "User"
-    Then  I see "Joe"
-    And   I see "Alpha"
     When  I click on "row containing Alpha" "show_button"
     Then  I am taken to the "show" page for "User Alpha"
