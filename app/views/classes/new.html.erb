@@ -1,3 +1,7 @@
+<% addTestMeta {{:page_type  => "new"}} %>
+<% addTestMeta {{:major_name => @course.name}} %>
+<% addTestMeta {{:minor_name => "Class"}} %>
+
 <%= pageHeading "New Class: #{@course.name}" %>
 
 <%= render 'form' %>

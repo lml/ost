@@ -4,10 +4,12 @@
 
 Before do
   Timecop.return
+  # DatabaseCleaner.start
 end
 
 After do
   Timecop.return
+  # DatabaseCleaner.clean
 end
 
 ##
@@ -138,13 +140,6 @@ end
 
 Then %r{^there is no class named "([^"]*?)"$} do |target_name|
   find_klasses_by_course_name(target_name).size.should eq(0)
-end
-
-Given %r{^that "([^"]*?)" is teaching a class named "([^"]*?)"$} do |target_user_full_name, target_course_name|
-  user = find_or_create_unique_user_by_full_name(target_user_full_name)
-  klass = find_or_create_unique_klass_by_course_name(target_course_name)
-  educator = FactoryGirl.create(:educator, :klass => klass, :user => user, :is_instructor => true)
-  klass.is_instructor?(user).should be_true
 end
 
 Then %r{^"(.*?)" is teaching a class named "(.*?)"$} do |target_user_full_name, target_course_name|
@@ -282,6 +277,10 @@ Then %r{^I (do not\s)*see (?:a|an|the) "([^"]*?)" link$} do |do_not,link_name|
   end
 end
 
+Then %r{^I see a flash containing "(.*?)"$} do |content|
+  page.find('div[id="attention"]').has_content?(content).should be_true
+end
+
 ##
 ## User Action-related
 ##
@@ -303,6 +302,8 @@ When %r{^I click on (.+)$} do |orig_line|
     end
     
     %r{^(?<id>.+?)(\s+containing\s+(?<content>.+))?$} =~ entry
+
+    id = "section" if id == "row"
 
     # puts "entry   = ( #{entry} )"
     # puts "id      = ( #{id} )"
@@ -377,11 +378,20 @@ And %r{^dump paths$} do
   puts URI.parse(current_url).path
 end
 
-require "rake"
-Rake.application = Rake::Application.new
-Rake.application.rake_require "tasks/kevin"
-Rake::Task.define_task(:environment)
+And %r{instructor teach scenario setup} do
+  FactoryGirl::create(:user, :first_name => "Admin",     :last_name => "Jones", :username => "adminjones")
+  FactoryGirl::create(:user, :first_name => "Professor", :last_name => "X",     :username => "professor")
+  FactoryGirl::create(:user, :first_name => "John",      :last_name => "Doe",   :username => "jonnydoe")
+  
+  get_smart = FactoryGirl.create(:organization, :name => "Get Smart")
+  
+  intro_101     = FactoryGirl.create(:course, :name => "Intro 101: Only the Easy Stuff",
+                                              :organization => get_smart)
 
-Given %r{^rake task "([^"]+?)"} do |scenario_name|
-  Rake.application["#{scenario_name}"].invoke
+  nightmare_666 = FactoryGirl.create(:course, :name => "Nightmare 666: You Will Fail",
+                                              :organization => get_smart)
+
+  profX = User.find_by_username("professor")
+  
+  FactoryGirl.create(:course_instructor, :user => profX, :course => intro_101)
 end

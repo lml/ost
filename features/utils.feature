@@ -5,11 +5,11 @@ Feature: Scenario utility functions work properly
     Given that there is a single user named "First User"
 
   Scenario: Querying an existing user by unique full name
-  	Given that there is a single user named "John Doe"
+    Given that there is a single user named "John Doe"
   	Then  there is a single user named "John Doe"
 
   Scenario: Querying an non-existent user by full name
-  	Given that there is no user named "John Doe"
+    Given that there is no user named "John Doe"
   	Then  there is no user named "John Doe"
     	  
 	Scenario: Querying an existing organziation by unique name
@@ -35,12 +35,6 @@ Feature: Scenario utility functions work properly
 	Scenario: Querying a non-existent class by course unqiue name
 	  Given that there is no class named "Intro 101"
 	  Then  there is no class named "Intro 101"
-
-  Scenario: Setting up a class with an instructor
-    Given that "Professor X" is teaching a class named "Intro 101"
-    Then  there is a single course named "Intro 101"
-    And   there is a single class named "Intro 101"
-    And   "Professor X" is teaching a class named "Intro 101"
 
   Scenario: Logging in as a user
     Given that I am logged in as "Aard Vark"

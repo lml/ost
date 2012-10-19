@@ -1,13 +1,13 @@
+<% addTestMeta {{:page_type  => "show"}} %>
+<% addTestMeta {{:major_name => @klass.course.organization.name}} %>
+<% addTestMeta {{:minor_name => @klass.course.name}} %>
+
 <% 
   is_educator = @klass.is_educator?(present_user)
   student = @klass.student_for(present_user) 
   is_student = !student.nil?
   student_cohort = student.try(:cohort)
 %>
-
-
-
-
 
 <%= section "Class Information", {:classes => 'first no_bar' } do %>
 

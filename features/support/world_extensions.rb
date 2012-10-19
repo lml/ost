@@ -1,20 +1,3 @@
-# 
-# CAPTURE_USER_FULL_NAME = Transform %r{"([^"]*)"} do |full_name|
-#   full_name
-# end
-# 
-# CAPTURE_ORGANIZATION_NAME = Transform %r{"([^"]*)"} do |org_name|
-#   org_name
-# end
-# 
-# CAPTURE_COURSE_NAME = Transform %r{"([^"]*)"} do |course_name|
-#   course_name
-# end
-# 
-# CAPTURE_LINK_TEXT = Transform %r{"([^"]*)"} do |link_text|
-#   link_text
-# end
-
 module WorldExtensions
   
   ##

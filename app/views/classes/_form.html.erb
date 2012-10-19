@@ -11,11 +11,11 @@
                             :default => time_zone) %>
   </div>
   <div class="field">
-    <%= t(:start_date_time) %><br />
+    <%= f.label :start_date, t(:start_date_time) %><br />
     <%= f.datetime_text_field :start_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
-    <%= t(:end_date_time) %><br />
+    <%= f.label :end_date, t(:end_date_time) %><br />
     <%= f.datetime_text_field :end_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
@@ -46,6 +46,6 @@
     <%= f.text_area :approved_emails %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :class => "test clickable submit" %>
   </div>
 <% end %>
