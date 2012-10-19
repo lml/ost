@@ -145,6 +145,7 @@ Ost::Application.routes.draw do
   match 'help/faq'
   match 'help/topics'
   match 'help/instructor_getting_started'
+  match 'help/learning_conditions'
   match 'help', :to => 'help#index'
   
   get 'dev/toolbox', :as => 'dev_toolbox'

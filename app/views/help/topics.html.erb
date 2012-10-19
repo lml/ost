@@ -1,31 +1,24 @@
 <%= pageHeading "Help | Topics" do %>
 <% end %>
 
-Overview of topics<br/>
-Create a new topic<br/>
-Rename or delete a topic<br/>
-Add, edit or delete resources in a topic<br/>
-Add, edit or delete exercises in a topic<br/>
-Re-order exercises and resources<br/>
-Add concept tags to an exercise<br/>
+<%= link_to "Overview of topics", "#overview_topics" %><br/>
+<%= link_to "Create a new topic", "#create_new_topic" %><br/>
+<%= link_to "Add resources to a topic", "#resources" %><br/>
+<%= link_to "Add exercises to a topic", "#exercises" %><br/>
+<%= link_to "Rename or delete a topic", "#rename_or_delete" %><br/>
+<%= link_to "Edit or delete an exercise or resource", "#edit_or_delete_exercise_or_resource" %><br/>
+<%= link_to "Re-order exercises and resources", "#reorder" %><br/>
+<%= link_to "Attach concept tag to an exercise", "#concept_tags" %><br/>
 
-<%= section "Overview of topics" do %>
+<p></p>
 
-<p>The Topics section is where you will add links to course materials. You will organize and sequence these materials into groups, so that each group contains resources and exercises related to a particular <em>topic</em> taught in your course.</p>
+<div class ="sectionHeading" id="overview_topics"><strong>Overview of Topics</strong></div>
+
+<p>The Topics section is where you will add links to course materials, organized into <em>topics</em>. A topic is a group of related exercises and resources. Eventually you will use your topics to create class assignments.</p>
   
-<p>In <%= SITE_NAME %>, these "groups" of related exercises and resources are simply called <em>topics</em>. Eventually, you will use create assignments using these topics.<p>
+<p>Before adding any content, you must ensure your course materials are hosted on <%= link_to "Connexions", "http://www.cnx.org" %> and <%= link_to "Quadbase", "http://www.quadbase.org" %>. <%= link_to_help 'plan_content' %> In addition, you should decide on the organization and sequence of the course materials you will assign. <%= link_to_help 'organize_topics' %> </p>
 
-<p>Before adding any content to your Topics section, your course materials must be hosted on on <%= link_to "Connexions", "http://www.cnx.org" %> and <%= link_to "Quadbase", "http://www.quadbase.org" %>. Check out our Class Planning guide for more help.</p> 
-   
-<% end %>
-
-<%= section "Topics interface" do %>
-
-Screencast.  
-  
-<% end %>
-
-<%= section "Create a new topic" do %>
+<div class ="sectionHeading" id="create_new_topic"><strong>Create a new topic</strong></div>
   <ol>
   <li>In the Learning Plan, under Topics, click "Add new topic...";</li>
     <center>
@@ -35,28 +28,13 @@ Screencast.
     <center>
       <%= image_tag("newtopic5.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
     </center>
+  </ol>
+<p>
   
-<% end %>  
-
-<%= section "Rename or delete a topic" do %>
-  <ol>
-  <li>Hover your mouse over topic until orange edit and trash icons appear;</li>
-  <center>
-  <%= image_tag("newtopic5arrow.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
-  </center>
-  <li><em>Delete a topic</em> by clicking the trash icon and clicking OK.</li>
-  <li><em>Rename a topic</em> by clicking the pencil icon and entering new name in the text box that appears; </li>
-  <center>
-  <%= image_tag("edit_topic2.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
-  </center>
-  <li>Save new name by hitting Enter on your keyboard.</li>
-  
-    
-<% end %>    
-  
-<%= section "Add, edit or delete resources in a topic" do %>
+<div class ="sectionHeading" id="resources"><strong>Add resources to a topic</strong></div>
+<p>
 <ol>
-  <li>Double click the topic box you want to populate; </li>
+  <li>Double click the topic you want to populate; </li>
   <center>
     <%= image_tag("newtopic5.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
   </center>
@@ -70,21 +48,15 @@ Screencast.
     <%= image_tag("newtopic4.png", {:border => 1, :width => "40%", :height => "40%", :title=>"create new topic"})%>
   </center>
   <br/>
-  <li>Repeat steps above to add as many resources as necessary; </li>  
-  <li>Edit a resource by hovering your mouse over the resource link, until the orange edit/trash buttons appear;</li>
-  <br/>
-  <center>
-    <%= image_tag("edit_topic4.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
-  </center>
-  <br/>
-  <li>Click the pencil icon to edit the resource; or</li>
-  <li>Click the trash icon to delete the resource.</li>
+  <li>Repeat steps above as necessary.</li>  
+  </ol>  
   
-<% end %>  
 
-<%= section "Add, edit or delete exercises in a topic" do %> 
+
+<div class ="sectionHeading" id="exercises"><strong>Add exercises to a topic</strong></div> 
+<p>
 <ol>
-  <li>Double click the topic box you want to populate; </li>
+  <li>Double click the topic you want to populate; </li>
   <center>
     <%= image_tag("newtopic5.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
   </center>
@@ -94,57 +66,78 @@ Screencast.
   	  <%= image_tag("add_exercises.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
   	</center>
   </li>
-  <li>Enter the full exercise URL. If applicable, check whether the exercise is reserved for a test and select any applicable concept tag. To save the exercise, click Create Topic Exercise;</li>
-    <br/>
+  <li>Copy and paste the full exercise URL from Quadbase;</li>
+  <li>Mark if the exercise is reserved for a test, if applicable;</li>
+  <li><%= link_to "Attach a concept tag", "#concept_tags" %>, if applicable;</li>
+  <li>Save the exercise by clicking Create Topic Exercise;</li>
+  <br>
   	<center>
   		<%= image_tag("newtopic6.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
   	</center>
-  	<br/>
   </li>
   <li>Repeat steps above to add as many exercises as necessary.</li>	
-  <li>Edit an exercise by hovering your mouse over the resource link, until the orange edit/trash buttons appear;</li>
-  <br/>
-  <center>
-    <%= image_tag("edit_topic3.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
-  </center>
-  <br/>
-  <li>Click the pencil icon to edit the exercise; or</li>
-  <li>Click the trash icon to delete the exercise.</li>
-  
-  </ol>
-<% end %>
+</ol>
 
-<%= section "Re-order a list of exercises and resources" do %>
+
+<div class ="sectionHeading" id="rename_or_delete"><strong>Rename or delete a topic</strong></div>
+<p>Note that you cannot delete a topic after it has been assigned.</p>
+  <ol>
+    <li>Hover your mouse over the name of the topic you want to edit, until the orange pencil and trash icons appear;</li>
+    <center>
+    <%= image_tag("newtopic5arrow.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
+    </center>
+    <li>To delete the enter topic, including associated resources/exercises, click the trash icon;</li>
+    <li>To rename the topic, click the pencil icon and enter a new topic name in the text box; </li>
+    <center>
+    <%= image_tag("edit_topic2.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
+    </center>
+    <li>Save new topic name by hitting Enter on your keyboard.</li>
+  </ol>
+      <p>
+
+<div class ="sectionHeading" id="edit_or_delete_exercise_or_resource"><strong>Edit or delete an exercise or resource from a topic </strong></div>  
+<p>Note that, once a topic has been assigned to students, you cannot delete any exercises from that topic.</p>  
+  <ol>
+    <li>Hover your mouse over the resource or exercise you want to change, until the orange pencil and trash icons appear;</li>
+    <br/>
+    <center>
+      <%= image_tag("edit_topic3.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>
+    </center>
+    <br/>
+    <li>Click the pencil icon to open the Edit dialog box; or 
+    <li>Click the trash icon to delete the item.</li>
+  </ol>
+<p>
+
+<div class ="sectionHeading" id="reorder"><strong>Re-order a list of exercises and resources</strong></div>
+
+<p>By default, <%= SITE_NAME %> will pull exercises and resources into assignments <em>in the same order they are arranged</em>. You can change the order of exercises and topics as follows:</p>
 
 <%= render :partial => 'help/blurbs/reorder' %>
 
-<% end %>
+<p>
 
-<%= section "Add a concept tag to an exercise" do %>
-
-<ol>
-  <li><em>Create the concept tag</em> by navigating to the Concepts section of the Learning Plan;</li>
-  <center>
-		<%= image_tag("concept1.png", {:border => 1, :width => "80%", :height => "70%", :title=>"create new concept"})%>
-	</center>
-  <li>Click on New Concept;</li>
-  <center>
-		<%= image_tag("concept2.png", {:border => 1, :width => "80%", :height => "70%", :title=>"create new concept"})%>
-	</center>
-  <li>Enter the concept name and click Create Concept;</li>
-  <li>Return to the Topics section of the Learning Plan and create a new exercise or open an existing exercise; 
-  <li><em>Select the concept tag from the dropdown Concept menu</li>
+<div class ="sectionHeading" id="concept_tags"><strong>Attach concept tag to an exercise</strong></div>
+<p>Concept tags enable you to easily track and view all exercises linked to a concept. Attaching a concept tag to an exercise involves two processes, as described below:</p>
+<p>
+<em>Step 1: Create concept tag.</em>
+  <ol>
+    <li>From the Learning Plan, navigate to the Concepts page;</li>
+    <p>
+  		<%= image_tag("concept1.png", {:border => 1, :width => "80%", :height => "80%", :title=>"create new concept"})%>
+    <li>Click New Concept, enter concept name and click Create Concept.</li>
+    <p>
+  		<%= image_tag("concept2.png", {:border => 1, :width => "80%", :height => "80%", :title=>"create new concept"})%>
+  </ol>
+<em>Step 2: Attach concept tag to an exercise.</em>
+  <ol>
+    <li>Return to the Topics section;</li>
+    <li>Create a new exercise, or open an existing exercise;</li>
+    <li>Select the concept tag from the dropdown Concept menu;</li>
     <br/>
-  <center>
-		<%= image_tag("concept3.png", {:border => 1, :width => "80%", :height => "80%", :title=>"create new concept"})%>
-	</center>
-  <br/>
-  <li>Click Update Topic exercise to save. Your concept should now appear next to your exercise.</li>
-  <br/>
-  <center>
+  		<%= image_tag("concept3.png", {:border => 1, :width => "80%", :height => "80%", :title=>"create new concept"})%>
+    <li>Save exercise. Your exercise is now tagged.</li>
 		<%= image_tag("concept4.png", {:border => 1, :width => "80%", :height => "80%", :title=>"create new concept"})%>
-	</center>
-  <br/>
 </ol>
-<% end %>
+<p>You can view all exercises linked to a concept by navigating to the Concepts page and click on the concept name.</p>
 

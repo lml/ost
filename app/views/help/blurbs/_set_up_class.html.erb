@@ -1,21 +1,26 @@
-<%= section "Set up your class." do %> 
+<%= section "3. Set up your class." do %> 
 
-<p>Now that you have registered to teach a class and did some initial planning, you are ready to set up your class.</p>
+<p>After some planning, you are ready to set up your class in <%= SITE_NAME %>.</p>
 
   <ol>
-    <li>Enter/edit basic class information. </li>
-    <li>Customize class Learning Conditions and Cohorts, if any.</li>
-    <li>Customize class Learning Plan. </li>
-      <ol>
-        <li>Add course materials to the Topics section. </li>
-        <li>Create homeworks and tests in the Assignments section. </li>
-        <li>View/schedule assignments using calendar in Scheduling section. </li>
-      </ol>  
-  </ol>
-  
+          
+  <li><strong>Customize class format.</strong></li>
+
+    <%= render :partial => 'help/blurbs/class_format'%>
+    
+    <li><strong>Customize class Learning Conditions, if any.</strong></li>
+    <%= render :partial => 'help/blurbs/learning_conditions'%>
+    
+    <li><strong>Add and organize materials in the Topics section.</strong></li>
+    <%= render :partial => 'help/blurbs/topic'%>
+    
+    <li><strong>Create homeworks and tests in the Assignments section.</strong></li>
+    <%= render :partial => 'help/blurbs/plan_assignments'%>
+    
+    <li><strong>View/schedule assignments in Scheduling section.</strong</li>
+    <%= render :partial => 'help/blurbs/scheduling'%>
+    </ol>
+    
+    
   <% end %>
   
-  Enter/edit basic class information. 
-  
-  Set up sections. 
-   
