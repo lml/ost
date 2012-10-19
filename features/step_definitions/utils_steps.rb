@@ -361,6 +361,8 @@ And %r{^I time travel to "([^"]+?)" "([^"]+?)"$} do |time_str, zone_str|
   Timecop.travel(new_time_utc)
 end
 
+include Ost::Cron
+
 And %r{^cron jobs (?:are|have been|were) run} do
   Ost::execute_cron_jobs
 end
@@ -375,3 +377,11 @@ And %r{^dump paths$} do
   puts URI.parse(current_url).path
 end
 
+require "rake"
+Rake.application = Rake::Application.new
+Rake.application.rake_require "tasks/kevin"
+Rake::Task.define_task(:environment)
+
+Given %r{^rake task "([^"]+?)"} do |scenario_name|
+  Rake.application["#{scenario_name}"].invoke
+end

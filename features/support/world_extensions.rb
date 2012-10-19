@@ -22,7 +22,7 @@ module WorldExtensions
   ## 
 
   def find_users_by_full_name(target_full_name)
-    target_first_name, target_last_name = fg_parse_full_name(target_full_name)
+    target_first_name, target_last_name = parse_full_name(target_full_name)
     User.where{ (first_name == target_first_name) & (last_name == target_last_name) }
   end
 
@@ -33,7 +33,7 @@ module WorldExtensions
   end
 
   def create_user_by_full_name(target_full_name)
-    target_first_name, target_last_name = fg_parse_full_name(target_full_name)
+    target_first_name, target_last_name = parse_full_name(target_full_name)
     FactoryGirl.create(:user, :first_name => target_first_name, :last_name => target_last_name)
     find_unique_user_by_full_name(target_full_name)
   end
@@ -42,6 +42,11 @@ module WorldExtensions
     find_unique_user_by_full_name(target_full_name)
   rescue Exception
     create_user_by_full_name(target_full_name)
+  end
+
+  def parse_full_name(full_name)
+    raise "Invalid user full name: '#{full_name}'" unless %r{(?<fname>\w+)\s+(?<lname>\w+)} =~ full_name
+    [fname, lname]
   end
 
   ##

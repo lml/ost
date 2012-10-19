@@ -16,4 +16,3 @@ Feature: Admins can delete an existing Organization
     When  I click on "row containing Only Org" "trash_button" "and confirm"
     Then  I am taken to the "index" page for "Organization"
     And   there is no organization named "Only Org"
-    
