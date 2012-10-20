@@ -40,8 +40,11 @@ class StudentAssignment < ActiveRecord::Base
     assignment_coworkers.includes(:student).any?{|cw| cw.student.user_id == user.id}
   end
   
+  attr_accessor :sudo_enabled
+
   def destroyable?
-    raise NotYetImplemented
+    sudo_enabled || false
+    # raise NotYetImplemented
   end
   
   def mark_complete_if_indicated!

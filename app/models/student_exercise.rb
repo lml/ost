@@ -141,7 +141,7 @@ class StudentExercise < ActiveRecord::Base
   def is_educator?(user)
     student_assignment.student.section.klass.is_educator?(user)
   end
-  
+
   def destroyable?
     raise NotYetImplemented
   end
