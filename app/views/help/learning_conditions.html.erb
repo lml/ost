@@ -4,8 +4,8 @@
 <%= link_to "Overview of feedback conditions", "#overview" %><br/>
 <%= link_to "Options when setting feedback conditions", "#feedback_options" %><br/>
 <%= link_to "Use labels to control when OpenStax Tutor applies feedback conditions", "#labels" %> <br/>
-<%= link_to "Assign labels to exercises", "#assign_labels_to_exercises" %><br/>
 <%= link_to "Create/Edit feedback condition", "#create_edit" %><br/>
+<%= link_to "Assign labels to exercises", "#assign_labels_to_exercises" %><br/>
   
 <p>  
 <div class ="sectionHeading" id="overview"><strong>Overview of feedback conditions</strong></div>
@@ -35,7 +35,7 @@
   
   <ol>
     <li>Create a feedback condition and assign it some arbitrary label.</li>
-    <li>Attach that feedback label to <em>all exercises you want to receive that feedback condition</em> <%= link_to "(see next section)", "#attach_labels_to_exercises" %>.<br/></li>
+    <li>Attach that feedback label to <em>all exercises you want to receive that feedback condition</em> <%= link_to "(as explained in this section)", "#attach_labels_to_exercises" %>.<br/></li>
     <li>Each additional feedback condition you create should have a different label.</li> 
   </ol>
   
@@ -47,10 +47,6 @@
 </li><strong>Example 2</strong>: if a student completes an exercise labeled <em>Test</em>, and there is no feedback condition matching that exercise label, <%= SITE_NAME %> cannot apply a feedback condition. The student will <em><strong>not</strong></em> receive feedback for that exercise.</li>
 <p>
 </ul>
-
-<div class ="sectionHeading" id="assign_labels_to_exercises"><strong>Assign labels to exercises</strong></div>
-  
-<%= render :partial => 'help/blurbs/attach_feedback_label_to_exercises' %>
 
 <div class ="sectionHeading" id="create_edit"><strong>Create/Edit feedback conditions</strong></div>
 
@@ -70,10 +66,14 @@
   <li>Define when the site can make feedback available by selecting from the drop down menu and entering time settings;</li>
      <%= image_tag("feedback11.png", {:border => 1, :width => "50%", :height => "50%", :title=>"new feedback condition"})%>
   <li>Click Update to save;</li>
-  <li>Create as many feedback conditions as you need, being sure to attach matching labels to exercises.</li>
+  <li>Create as many feedback conditions as you need.</li>
 </ol>
 
+<div class ="sectionHeading" id="assign_labels_to_exercises"><strong>Assign labels to exercises</strong></div>
 
+<p>Once you have set the feedback conditions for your class, make sure that you attach matching labels to the exercises each feedback condition will be applied to.</p> 
+  
+<%= render :partial => 'help/blurbs/attach_feedback_label_to_exercises' %>
 
 
 

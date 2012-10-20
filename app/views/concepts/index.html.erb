@@ -1,6 +1,5 @@
 <%= pageHeading "Concepts for #{@learning_plan.name}"%>
-Create concept tags <%= link_to_help 'concepts' %> to easily categorize exercises by concept. 
-<p>
+Add link so concepts blurb pops up <p>
 <div id="concept_list">
   <%= render :partial => 'list', :locals => {:learning_plan => @learning_plan} %>
 </div>

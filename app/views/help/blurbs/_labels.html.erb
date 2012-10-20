@@ -1,4 +1,4 @@
-<p>The label you enter here controls when <%= SITE_NAME %> activates this feedback condition.</p>
+<p>The label you enter here must match the label of the exercise(s) you want to receive this feedback condition.</p>
 
 <p><%= SITE_NAME %> will activate a feedback condition for an exercise <em>if and only if</em> the following conditions are met:</p> 
 <ul>
@@ -6,7 +6,5 @@
 <li>Exercise has a <em><strong>label</strong></em> attached;</li>
 <li>There is a feedback condition <em><strong>matching that same label</strong></em>.</li>
 </ul>
-
-<p>Enter a label that matches the label of the exercise(s) you want to receive this feedback condition. </p>
 
 <p><%= link_to "Learn more.", help_learning_conditions_path(:anchor => "labels") %></p>
