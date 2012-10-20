@@ -30,7 +30,7 @@ Feature: Instructors can view the Classes they are teaching on the Dashboard.
         When  I visit the main page
         And   I click on "dashboard"
         Then  I am taken to the "index" page for "Dashboard"
-        And   screencapture "profY"
+        # And   screencapture "profY"
         And   I see "Intro 101"
         And   I do not see "Course 102"
         And   I do not see "Nightmare 666"
@@ -42,7 +42,7 @@ Feature: Instructors can view the Classes they are teaching on the Dashboard.
         When  I visit the main page
         And   I click on "dashboard"
         Then  I am taken to the "index" page for "Dashboard"
-        And   screencapture "prof_z"
+        # And   screencapture "prof_z"
         And   I see "Intro 101"
         And   I see "Course 102"
         And   I see "Nightmare 666"
