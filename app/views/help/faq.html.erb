@@ -1,60 +1,90 @@
 <%= pageHeading "Frequently Asked Questions (FAQ) | Help" %>
+aksjfldsk
 <%= section "Account FAQ" do %>
-<%= link_to "I signed up but never received a confirmation email. What should I do?", "#email_confirmation" %><br/>
-<%= link_to "How do I update my account information?", "#change_account_settings" %> <br/>
-It's been awhile and I forgot my password. Can you reset it?<br/>
-<br/>
-</ul>
+<%= link_to "I created an account but never received a confirmation email. What should I do?", "#email_confirmation" %><br/>
 <% end %>
 
-<%= section "Student FAQs" do %>
-<ul>
-I'm not a student at the institutions offering classes. Can I still register for the class?<br/>     
-I accidentally registered as an auditing student, but I want to be fully registered. What can I do?<br/>
-I accidentally registered as a fully registered student, but I am auditing. What can I do?<br/> 
-I registered for the wrong section. Can I change to the other section?<br/>
-I dropped a class but now I want back in. Can I re-register?<br/> 
-I saved a free-form response. So why can't I view the multiple choice answers? <br/>
-Why does my assignment say Not Yet Completed?<br/>
-Where are my grades?<br/> 
-I finished my assignment late. Can I still get credit if I work the exercises after the deadline?<br/>
-</ul>
+<%= section "Student FAQs" do %>  
+<%= link_to "I registered for the wrong section. How do I change to a different section?", "#change_section"%><br/>
+<%= link_to "I dropped a class but now I want back in. Can I re-register?", "#change_section"%><br/>
+<%= link_to "I saved my free-form response, so why won't the site show me the multiple choice answers?", "#multiple_choice"%><br/>
+<%= link_to "I finished my assignment late. Can I still get credit if I work the exercises after the due date?", "#late"%><br/>
+<%= link_to "I unintentionally saved and locked my free-form and/or multiple choice answers before I was finished! Can I go back and fix my work?", "#fix_work"%><br/>
+
 <% end %>
 
 <%= section "Instructor FAQs" do %> 
-<ul>
-I want to add my exercises and resources to Topics, but I only see space to add links. Why?<br/>  
-Where do I approve my students' class registration requests? <br/>
-My student registered for the wrong section. How can I change her to the other section?</br>
-Is there a way to pre-approve students so I don't have to manually approve every request?<br/>
-When I create an assignment, there is no place to add exercises. How do I add exercises to an assignment?<br/>
-Override incorrect / late / feedback viewed.. <br/>
-I sent out an assignment and realized it was missing a resource! Can I add a resource after the assignment has gone out, and will students be able to access it?
-I sent out an assignment and realized there was an error in one of the exercises. Can I fix it? 
-</ul>
+<%= link_to "I want to add my exercises and resources to Topics, but I only see space to add links. Where do I add my course materials?", "#course_materials" %><br/>
+<%= link_to "When I create an assignment, there is no place to add exercises. How do I add exercises to an assignment?", "#assignment" %><br/>
+<%= link_to "I need to override the score OST assigned to a student. How can I do that?", "#override_grades" %><br/>
+<%= link_to "Can I add a resource to a topic after it has been assigned? Will students be able to access it?," "#add_resource" %><br/>
+<%= link_to "My student registered for the wrong section. How can I change her to the other section?", "#change_student_section" %><br/>
+<%= link_to "I sent out an assignment and realized there was an error in one of the exercises. Can I fix it?", "#error_exercise" %><br/>
+<%= link_to "I sent out an assignment and realized I forgot to add an exercise. Can I add the exercise?", "#add_exercise" %><br/>
 
-<div class="sectionHeading" id="email_confirmation"><strong>I signed up but never received a confirmation email. What should I do?</strong></div>
+<p>
+<% end %>
+
+
+
+<%= section "Answers" do %>
+  
+<div class="sectionHeading" id="email_confirmation"><strong>I registered for OpenStax Tutor but never received a confirmation email. What should I do?</strong></div>
 <ol>
-  <li>Please check your Spam folder and verify that noreply@openstaxtutor.org is not being blocked.</li>
-  <li>If no luck in the spam folder, <%= link_to "go here to resend the confirmation instructions", new_user_confirmation_path %>.</li>
-  <li>If the email doesn't arrive, it's possible that there was a typo in your email address when you registered. Please <%= link_to 'register again', 'new_user_registration_path' %>, verifying that the email address is correct.</li>
-  <li>If you have still not received a confirmation email, and if your email address is otherwise receiving emails properly, please contact us at <%= email_link "email not confirmed", "support@openstaxtutor.org" %>.</li>
+  <li>Check your spam folder for the email and confirm that that OpenStax Tutor is not being blocked by your email provider.</li>
+  <li><%= link_to "Click here", new_user_confirmation_path %> and enter the email address you used when creating an account.</li>
+  <li>If you don't receive an email within 24 hours, and if your email address is otherwise receiving emails properly, please <%= email_link "support@openstaxtutor.org", "contact us" %>.</li>
 </ol>
 <p>
   
-<div class ="sectionHeading" id="change_account_settings"><strong>How do I update my account information?</strong></div>
 
-<p>You can change some account settings, including email address, password and time zone. Note that you <em>cannot</em> change your user name or first and last name.</p>
 
-<p>To update account settings:</p>
-<ol>
-  <li>Sign in;</li>
-  <li>In the upper right hand corner, next to the Welcome message, click <strong>My Account</strong>;</li>
-  <li>Make your changes, enter your password to confirm changes and click Update.</li>
-    
-How can I change my account settings, i.e. email address, password or time zone? <br/>
-Can I change the username I used to register? Can I change my first and last name in OST?<br/> 
-It's been awhile and I forgot my password. Can you reset it?
+<div class ="SectionHeading" id="change_section"><strong>I registered for the wrong section. How do I change to a different section?</strong></div
+<p>
+<p>Go to the class page and check if your registration request is still pending. If so, click Cancel my request to join this class and submit a request to join the correct section.</p>
+
+<p>If you do <strong><em>not</em></strong> see Cancel my request to join this class, email the instructor and ask him/her to switch you to a different section.</p> 
+
+<div class ="SectionHeading" id="multiple_choice"> <strong>I saved a free-form response, so why can't I view the multiple choice answers?</strong></div>
+
+<p>In order to view the multiple choice answers, you must save and <em><strong>lock</strong></em> your free form response. If you save but don't lock your free form answer, you cannot view the multiple choice answers. </p>
+
+<div class ="SectionHeading" id="late"><strong>I finished my assignment late. Can I still get credit if I work the exercises after the due date?</strong></div>
+
+<p><%= SITE_NAME %> automatically withholds credit if you enter answers after the due date. Ultimately, however, it is up to your instructor to provide credit or not.</p>
+
+<div class="SectionHeading" id="fix_work"><strong>I unintentionally saved and locked my free-form and/or multiple choice answers before I was finished! Can I go back and fix my work?</strong></div>
+
+<p>If you selected <em><strong>Save, but don't lock!</strong></em>, you can change your free form answer before locking it in. However, once you have saved and locked your free form, and once you have confirmed your mutlipe choice response, you cannot go back and change your answer. It is up to your professor to give you credit or not.</p>
+
+<div class="sectionHeading" id="course_materials"><strong>I want to add my exercises and resources to the Topics section, but I only see space to add links. Where do I add my course materials?</strong></div>
+<%= render :partial => 'help/blurbs/plan_content' %>
+  
+<div class="sectionHeading" id="change_student_section"><strong>My student registered for the wrong section. How can I change my student to a different section?</strong></div>
+
+<p>If you are participating in a research study, check with the research team to find out if moving the student to another section will impact the student's assignments.</p>
+<p>
+<%= render :partial => 'help/blurbs/change_student_section'%>
+  
+<div class="sectionHeading" id="assignment"><strong>When I create an assignment, there is no place to add exercises. How do I add exercises to an assignment?</strong>>/div>
+
+<p>To add exercises to an Assignment, attach the topic(s) you want the assignment to cover. <%= SITE_NAME %> will pull exercises from the topic(s) you list, in accordance with any learning conditions set for your class.</p>
+
+<div class="sectionHeading" id="override_grades"><strong>I need to override the score OST assigned to a student. How can I do that?</strong></div>
+
+<p>You can make an exercise correct by
+  
+<div class="sectionHeading" id="add_resource"><strong>Can I add a resource to a topic after it has been assigned? Will students be able to access it?</strong></div>
+  
+<p>You can add a resource to a topic even after that topic has been assigned. Students will be able to access it.</p>
+  
+<div class="sectionHeading" id="error_exercise"><strong>I sent out an assignment and realized there was an error in one of the exercises. Can I fix it?</strong></div>
+
+<p>You may be able to edit the exercise in Quadbase and update the exercise in the assignment. However, if any students have already viewed that exercise, they won't see the updated version.</p>
+
+<div class="sectionHeading" id="add_exercise"><strong>I sent out an assignment and realized I forgot to add an exercise. Can I add the exercise?</strong></div>
+
+
 
 
 

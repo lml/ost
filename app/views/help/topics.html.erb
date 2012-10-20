@@ -12,12 +12,15 @@
 
 <p></p>
 
-<div class ="sectionHeading" id="overview_topics"><strong>Overview of Topics</strong></div>
+<%= section "Overview of Topics" do %>
+<div class ="Heading" id="overview_topics"><strong>Overview of Topics</strong></div>
 
 <p>The Topics section is where you will add links to course materials, organized into <em>topics</em>. A topic is a group of related exercises and resources. Eventually you will use your topics to create class assignments.</p>
   
 <p>Before adding any content, you must ensure your course materials are hosted on <%= link_to "Connexions", "http://www.cnx.org" %> and <%= link_to "Quadbase", "http://www.quadbase.org" %>. <%= link_to_help 'plan_content' %> In addition, you should decide on the organization and sequence of the course materials you will assign. <%= link_to_help 'organize_topics' %> </p>
 
+<% end %>
+  
 <div class ="sectionHeading" id="create_new_topic"><strong>Create a new topic</strong></div>
   <ol>
   <li>In the Learning Plan, under Topics, click "Add new topic...";</li>
@@ -30,6 +33,7 @@
     </center>
   </ol>
 <p>
+
   
 <div class ="sectionHeading" id="resources"><strong>Add resources to a topic</strong></div>
 <p>

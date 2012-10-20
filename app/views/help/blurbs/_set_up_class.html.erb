@@ -4,21 +4,20 @@
 
   <ol>
           
-  <li><strong>Customize class format.</strong></li>
+  <li><strong>Customize class settings.</strong></li>
 
-    <%= render :partial => 'help/blurbs/class_format'%>
+    <%= render :partial => 'help/blurbs/class_format'%><br/>
     
-    <li><strong>Customize class Learning Conditions, if any.</strong></li>
-    <%= render :partial => 'help/blurbs/learning_conditions'%>
+    <li><strong>Set up Schedule conditions, if not using the default.</strong></li><br/>
     
-    <li><strong>Add and organize materials in the Topics section.</strong></li>
-    <%= render :partial => 'help/blurbs/topic'%>
+    <li><strong><%=link_to "Customize feedback conditions, if not using the default.", help_learning_conditions_path %></strong></li><br/>
     
-    <li><strong>Create homeworks and tests in the Assignments section.</strong></li>
-    <%= render :partial => 'help/blurbs/plan_assignments'%>
+    <li><strong><%= link_to "Add and organize materials in the Topics section.", help_topics_path %></strong></li><br/>
+
+    <li><strong>Create homeworks and tests in the Assignments section.</strong></li><br/>
     
     <li><strong>View/schedule assignments in Scheduling section.</strong</li>
-    <%= render :partial => 'help/blurbs/scheduling'%>
+    <%= render :partial => 'help/blurbs/scheduling'%><br/>
     </ol>
     
     
