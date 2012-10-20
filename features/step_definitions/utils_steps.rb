@@ -285,6 +285,41 @@ end
 ## User Action-related
 ##
 
+Then %r{^in (.*?) I (?:can\s)*see "([^"]*?)"$} do |orig_search, target_content|
+  search = orig_search.dup
+  elem = page
+
+  while %r{"(?<entry>[^"]+?)"} =~ search
+    search = $~.post_match
+
+    %r{^(?<id>.+?)(\s+containing\s+(?<content>.+))?$} =~ entry
+
+    # puts "entry   = ( #{entry} )"
+    # puts "id      = ( #{id} )"
+    # puts "content = ( #{content} )"
+    
+    id = "section" if id == "row"
+
+    if !id.match(/\s/) && content.nil? && elem.has_css?(".test.#{id}")
+      elem = elem.find(".test.#{id}")
+    elsif !id.match(/\s/) && elem.has_css?(".test.#{id}", :text => content)
+      elem = elem.find(".test.#{id}", :text => content)
+    elsif elem.has_css?(".test", :text => id)
+      elem = elem.find(".test", :text => id)
+    else
+      raise "could not find element for: #{orig_line} (#{id})"
+    end
+
+    # puts "elem    = ( #{elem.path} )"
+
+  end
+
+  # puts "target_content = ( #{target_content} )"
+  # puts "elem           = ( #{elem.path} )"
+
+  elem.has_content?(target_content).should be_true
+end
+
 When %r{^I click on (.+)$} do |orig_line|
   line = orig_line.dup
   elem = page
