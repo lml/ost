@@ -94,8 +94,7 @@ Spork.prefork do
   # :truncation initially.
   DatabaseCleaner.clean_with :truncation # clean once to ensure clean slate
   DatabaseCleaner.strategy = :transaction
-  #DatabaseCleaner.strategy = :truncation
-
+  
   ########################################
   # CONFIGURE THE RAILS APPLICATION DOMAIN
   ########################################

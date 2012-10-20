@@ -378,20 +378,3 @@ And %r{^dump paths$} do
   puts URI.parse(current_url).path
 end
 
-And %r{instructor teach scenario setup} do
-  FactoryGirl::create(:user, :first_name => "Admin",     :last_name => "Jones", :username => "adminjones")
-  FactoryGirl::create(:user, :first_name => "Professor", :last_name => "X",     :username => "professor")
-  FactoryGirl::create(:user, :first_name => "John",      :last_name => "Doe",   :username => "jonnydoe")
-  
-  get_smart = FactoryGirl.create(:organization, :name => "Get Smart")
-  
-  intro_101     = FactoryGirl.create(:course, :name => "Intro 101: Only the Easy Stuff",
-                                              :organization => get_smart)
-
-  nightmare_666 = FactoryGirl.create(:course, :name => "Nightmare 666: You Will Fail",
-                                              :organization => get_smart)
-
-  profX = User.find_by_username("professor")
-  
-  FactoryGirl.create(:course_instructor, :user => profX, :course => intro_101)
-end

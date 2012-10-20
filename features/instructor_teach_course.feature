@@ -10,7 +10,7 @@ Feature: Instructors can teach an existing Course
     User "John Doe" is a generic User.
 
     Background:
-        Given instructor teach scenario setup
+        Given instructor teach course scenario setup
 
     Scenario: An Instructor chooses to teach an existing Course
         Given that I am logged in as "Professor X"
