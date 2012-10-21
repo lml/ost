@@ -19,7 +19,7 @@
         <div style="padding: 5px 0 8px" class="test section">
           <p><b><%= course.name %></b></p>
           <p><%= course.description %></p>
-          <p style="margin-bottom: 0px"><%= link_to "Teach this course", new_course_klass_path(course), :class => "test clickable teach" %></p>
+          <p style="margin-bottom: 0px"><%= link_to "Teach this course", new_course_klass_path(course), :test => "teach" %></p>
           <%# TODO put in a "last offered: 2012" note %>
         </div>
       <% end %>

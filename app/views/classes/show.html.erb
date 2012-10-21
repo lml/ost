@@ -147,15 +147,15 @@
           <%= link_to_if(present_user.can_read_children?(section, :students), 
                          "#{section.students.registered.active.count} Registered",
                          klass_students_path(@klass),
-                         :class => "test clickable registered") %> |
+                         :test => "registered") %> |
           <%= link_to_if(present_user.can_read_children?(section, :students), 
                          "#{section.students.auditing.active.count} Auditing",
                          klass_students_path(@klass),
-                         :class => "test clickable auditing") %>
+                         :test => "auditing") %>
           <% if @klass.is_teaching_assistant?(present_user) %>
             | <%= link_to("#{section.registration_requests.count} Pending", 
-                        klass_registration_requests_path(@klass),
-                        :class => "test clickable pending") %>
+                          klass_registration_requests_path(@klass),
+                          :test => "pending") %>
           <% end %>
           <%= "&nbsp;(#{section.name})".html_safe if num_sections > 1 %>
         </td>

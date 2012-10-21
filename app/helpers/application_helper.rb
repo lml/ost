@@ -128,6 +128,23 @@ module ApplicationHelper
                 :border => 1 })
   end
   
+  def link_to (*args, &block)
+    body, url, html_options = *args
+    html_options ||= { }
+
+    class_str    = html_options[:class] || ""
+    class_tokens = class_str.split
+
+    test_tokens = ["test", "clickable"]
+    test_tokens << html_options[:test].split if html_options[:test]
+
+    test_tokens.each { |token| class_tokens << token if !class_tokens.include?(token) }
+
+    html_options[:class] = class_tokens.join(' ') if class_tokens.size > 0
+
+    super(body, url, html_options, &block)
+  end
+
   def link_to_help(topic, text="", options={})
     @include_help_dialog = true
     @include_mathjax = true if options[:include_mathjax]
@@ -165,7 +182,7 @@ module ApplicationHelper
   end
   
   def show_button(target)
-    link_to("", target, :class => "icon_only_button test clickable show_button")
+    link_to("", target, :class => "icon_only_button", :test => "show_button")
   end
   
   def edit_button(target, options={})
@@ -175,7 +192,7 @@ module ApplicationHelper
     options[:small] ||= false
     options[:id] ||= "edit_button_#{@edit_button_count}"
     
-    klass = "test clickable edit_button icon_only_button" + (options[:small] ? "_small" : "")
+    klass = "edit_button icon_only_button" + (options[:small] ? "_small" : "")
     
     link_to "", target.nil? ? nil : edit_polymorphic_path(target), :class => klass, :id => options[:id], :remote => options[:remote], :title => 'Edit'
   end
@@ -188,7 +205,7 @@ module ApplicationHelper
     options[:small] ||= false
     options[:id] ||= "trash_button_#{@trash_button_count}"
     
-    klass = "test clickable trash_button icon_only_button" + (options[:small] ? "_small" : "")
+    klass = "trash_button icon_only_button" + (options[:small] ? "_small" : "")
     link_to '', target, 
                 :id => options[:id],
                 :class => klass,
@@ -297,7 +314,7 @@ module ApplicationHelper
                           link_target : 
                           [options[:namespace], link_target]
                           
-            link_to(link_text.blank? ? 'unnamed' : link_text, link_target, :class => "test clickable uberlist_link")
+            link_to(link_text.blank? ? 'unnamed' : link_text, link_target, :test => "uberlist_link")
           end
           
           c = content_tag(:div, {:class => "sortable_item_buttons", 

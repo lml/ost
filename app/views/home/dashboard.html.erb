@@ -38,7 +38,7 @@
     <ul>
     <% educators.each do |educator| %>
       <% klass = educator.klass %>
-      <li><%= link_to klass.course.name, klass, :class => "test clickable teach" %></li>    
+      <li><%= link_to klass.course.name, klass, :test => "teach" %></li>    
     <% end %>
     </ul>
   
