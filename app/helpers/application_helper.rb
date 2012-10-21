@@ -128,10 +128,28 @@ module ApplicationHelper
                 :border => 1 })
   end
   
-  def link_to (*args, &block)
-    body, url, html_options = *args
-    html_options ||= { }
+  def link_to(*args, &block)
+    # This logic is taken directly from GitHub source
+    if block_given?
+      options      = args.first || {}
+      html_options = args.second || {}
+      add_test_classes html_options
+      super(options, html_options, &block)
+    else
+      name         = args[0]
+      options      = args[1] || {}
+      html_options = args[2] || {}
+      add_test_classes html_options
+      super(name, options, html_options)
+    end
+  end
 
+  def button_to(name, options={}, html_options={})
+    add_test_classes html_options
+    super(name, options, html_options)
+  end
+
+  def add_test_classes(html_options)
     class_str    = html_options[:class] || ""
     class_tokens = class_str.split
 
@@ -141,8 +159,6 @@ module ApplicationHelper
     test_tokens.each { |token| class_tokens << token if !class_tokens.include?(token) }
 
     html_options[:class] = class_tokens.join(' ') if class_tokens.size > 0
-
-    super(body, url, html_options, &block)
   end
 
   def link_to_help(topic, text="", options={})
