@@ -1,20 +1,20 @@
 <%= form_for([@organization, @course]) do |f| %>
 
-  <div class="field test input name">
+  <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %><br/>
     <span class="field_help">e.g. Math 101: Single-Variable Calculus</span>
   </div>
-  <div class="field test input short_name">
+  <div class="field">
     <%= f.label :short_name %><br />
     <%= f.text_field :short_name %><br/>
     <span class="field_help">e.g. Math 101</span>
   </div>
-  <div class="field test input description">
+  <div class="field">
     <%= f.label :description %><br />
     <%= f.text_area :description %>
   </div>
-  <div class="field test input typically_offered">
+  <div class="field">
     <%= f.label :typically_offered %><br />
     <%= f.text_field :typically_offered %>
   </div>
