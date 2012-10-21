@@ -1,9 +1,9 @@
 <%= form_for(@organization) do |f| %>
-  <div class="field">
+  <div class="field test input name">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
-  <div class="field">
+  <div class="field test input default_time_zone">
     <%= f.label :default_time_zone %><br />
     <%= f.time_zone_select( 'default_time_zone', ActiveSupport::TimeZone.us_zones, :default => "Central Time (US & Canada)") %>
   </div>

@@ -1,20 +1,3 @@
-
-CAPTURE_USER_FULL_NAME = Transform %r{"([^"]*)"} do |full_name|
-  full_name
-end
-
-CAPTURE_ORGANIZATION_NAME = Transform %r{"([^"]*)"} do |org_name|
-  org_name
-end
-
-CAPTURE_COURSE_NAME = Transform %r{"([^"]*)"} do |course_name|
-  course_name
-end
-
-CAPTURE_LINK_TEXT = Transform %r{"([^"]*)"} do |link_text|
-  link_text
-end
-
 module WorldExtensions
   
   ##
@@ -22,7 +5,7 @@ module WorldExtensions
   ## 
 
   def find_users_by_full_name(target_full_name)
-    target_first_name, target_last_name = fg_parse_full_name(target_full_name)
+    target_first_name, target_last_name = parse_full_name(target_full_name)
     User.where{ (first_name == target_first_name) & (last_name == target_last_name) }
   end
 
@@ -33,7 +16,7 @@ module WorldExtensions
   end
 
   def create_user_by_full_name(target_full_name)
-    target_first_name, target_last_name = fg_parse_full_name(target_full_name)
+    target_first_name, target_last_name = parse_full_name(target_full_name)
     FactoryGirl.create(:user, :first_name => target_first_name, :last_name => target_last_name)
     find_unique_user_by_full_name(target_full_name)
   end
@@ -42,6 +25,11 @@ module WorldExtensions
     find_unique_user_by_full_name(target_full_name)
   rescue Exception
     create_user_by_full_name(target_full_name)
+  end
+
+  def parse_full_name(full_name)
+    raise "Invalid user full name: '#{full_name}'" unless %r{(?<fname>\w+)\s+(?<lname>\w+)} =~ full_name
+    [fname, lname]
   end
 
   ##
@@ -180,21 +168,22 @@ module WorldExtensions
     end
   end
   
-  def uberlist_mouseover(uberlist_content)
-    page.find("div.sortable_item_entry:contains('#{uberlist_content}')").should be_true
-    page.execute_script("$('div.sortable_item_entry:contains(\"#{uberlist_content}\")').trigger('mouseover');")  
-  end
-
-  def uberlist_find_edit_link(uberlist_content)
-    elem = page.find("div.sortable_item_entry:contains('#{uberlist_content}')").find("a.edit_button")
+  def mouseover_elem(elem)
     elem.should be_true
-    elem
+    xpath = elem.path
+    css = xpath_to_css(xpath)
+    cmd = "$(\"#{css}\").trigger('mouseover');"
+    cmd = "$(\"#{css}\").trigger('mousemove');"
+    cmd = "$(\"#{css}\").trigger('mouseenter');"
+    page.execute_script(cmd)
   end
   
-  def uberlist_find_delete_link(uberlist_content)
-    elem = page.find("div.sortable_item_entry:contains('#{uberlist_content}')").find("a.trash_button")
-    elem.should be_true
-    elem
+  def xpath_to_css(xpath)
+    css = xpath.dup
+    css.sub!(%r{^/}, '')
+    css.gsub!(%r{/}, ' > ')
+    css.gsub!(%r{\[(?<val>\d+)\]}, ':nth-child(\k<val>)')
+    css.gsub!(%r{@}, '')
   end
 end
 

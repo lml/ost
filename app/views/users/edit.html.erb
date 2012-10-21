@@ -1,5 +1,8 @@
 <%# Copyright (c) 2011 Rice University.  All rights reserved. %>
 
+<% addTestMeta {{:page_type  => "edit"}} %>
+<% addTestMeta {{:major_name => @user.full_name}} %>
+
 <div id="upperCornerLinks">
    <%= link_to 'Show', @user %> |
    <%= link_to 'List', users_path %>   
