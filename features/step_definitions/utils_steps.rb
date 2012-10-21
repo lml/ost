@@ -1,3 +1,16 @@
+##
+## Before/after hooks
+##
+
+Before do
+  Timecop.return
+  # DatabaseCleaner.start
+end
+
+After do
+  Timecop.return
+  # DatabaseCleaner.clean
+end
 
 ##
 ## User-related
@@ -11,23 +24,23 @@ Then %r{^there are no users$} do
   User.find(:all).size.should eq(0)
 end
 
-Given %r{^that there is no user named (#{CAPTURE_USER_FULL_NAME})$} do |target_name|
+Given %r{^that there is no user named "([^"]*?)"$} do |target_name|
   find_users_by_full_name(target_name).size.should eq(0)
 end
 
-Then %r{^there is no user named (#{CAPTURE_USER_FULL_NAME})$} do |target_name|
+Then %r{^there is no user named "([^"]*?)"$} do |target_name|
   find_users_by_full_name(target_name).size.should eq(0)
 end
 
-Given %r{^that there is a single user named (#{CAPTURE_USER_FULL_NAME})$} do |target_name|
+Given %r{^that there is a single user named "([^"]*?)"$} do |target_name|
   find_or_create_unique_user_by_full_name(target_name)
 end
 
-Then %r{^there is a single user named (#{CAPTURE_USER_FULL_NAME})$} do |target_name|
+Then %r{^there is a single user named "([^"]*?)"$} do |target_name|
   find_unique_user_by_full_name(target_name)
 end
 
-Given %r{^that (#{CAPTURE_USER_FULL_NAME}) is (not\s)*an admin$} do |target_name, do_not|
+Given %r{^that "([^"]*?)" is (not\s)*an admin$} do |target_name, do_not|
   user = find_unique_user_by_full_name(target_name)
 
   if do_not
@@ -46,7 +59,7 @@ Given %r{^that (#{CAPTURE_USER_FULL_NAME}) is (not\s)*an admin$} do |target_name
   user.new_record?.should be_false
 end
 
-Then %r{^(#{CAPTURE_USER_FULL_NAME}) is (not\s)*an admin$} do |target_name, do_not|
+Then %r{^"([^"]*?)" is (not\s)*an admin$} do |target_name, do_not|
   if do_not
     find_unique_user_by_full_name(target_name).is_administrator?.should be_false
   else
@@ -58,23 +71,23 @@ end
 ## Organization-related
 ##
 
-Given %r{^that there is a single organization named (#{CAPTURE_ORGANIZATION_NAME})$} do |target_name|
+Given %r{^that there is a single organization named "([^"]*?)"$} do |target_name|
   find_or_create_unique_organization_by_name(target_name)
 end
 
-Then %r{^there is a single organization named (#{CAPTURE_ORGANIZATION_NAME})$} do |target_name|
+Then %r{^there is a single organization named "([^"]*?)"$} do |target_name|
   find_unique_organization_by_name(target_name)
 end
 
-Given %r{^that there is no organization named (#{CAPTURE_ORGANIZATION_NAME})$} do |target_name|
+Given %r{^that there is no organization named "([^"]*?)"$} do |target_name|
   find_organizations_by_name(target_name).size.should eq(0)
 end
 
-Then %r{^there is no organization named (#{CAPTURE_ORGANIZATION_NAME})$} do |target_name|
+Then %r{^there is no organization named "([^"]*?)"$} do |target_name|
   find_organizations_by_name(target_name).size.should eq(0)
 end
 
-Given %r{^that organization (#{CAPTURE_ORGANIZATION_NAME}) has a course named (#{CAPTURE_COURSE_NAME})$} do |organization_name, course_name|
+Given %r{^that organization "([^"]*?)" has a course named "([^"]*?)"$} do |organization_name, course_name|
   org = find_or_create_unique_organization_by_name(organization_name)
   find_or_create_unique_organization_course_by_name(org, course_name)
 end
@@ -83,19 +96,19 @@ end
 ## Course-related
 ##
 
-Given %r{^that there is a single course named (#{CAPTURE_COURSE_NAME})$} do |target_name|
+Given %r{^that there is a single course named "([^"]*?)"$} do |target_name|
   find_or_create_unique_course_by_name(target_name)
 end
 
-Then %r{^there is a single course named (#{CAPTURE_COURSE_NAME})$} do |target_name|
+Then %r{^there is a single course named "([^"]*?)"$} do |target_name|
   find_unique_course_by_name(target_name)
 end
 
-Given %r{^that there is no course named (#{CAPTURE_COURSE_NAME})$} do |target_name|
+Given %r{^that there is no course named "([^"]*?)"$} do |target_name|
   find_courses_by_name(target_name).size.should eq(0)
 end
 
-Then %r{^there is no course named (#{CAPTURE_COURSE_NAME})$} do |target_name|
+Then %r{^there is no course named "([^"]*?)"$} do |target_name|
   find_courses_by_name(target_name).size.should eq(0)
 end
 
@@ -103,7 +116,7 @@ end
 ## CourseInstructor-related
 ##
 
-Then %r{^(#{CAPTURE_USER_FULL_NAME}) is an instructor for (#{CAPTURE_COURSE_NAME})$} do |target_user_name, target_course_name|
+Then %r{^"([^"]*?)" is an instructor for "([^"]*?)"$} do |target_user_name, target_course_name|
   user = find_unique_user_by_full_name(target_user_name)
   course = find_unique_course_by_name(target_course_name)
   CourseInstructor.where{ course_id == course.id }.where { user_id == user.id }.size.should eq(1)
@@ -113,27 +126,20 @@ end
 ## Klass-related
 ##
 
-Given %r{^that there is a single class named (#{CAPTURE_COURSE_NAME})$} do |target_name|
+Given %r{^that there is a single class named "([^"]*?)"$} do |target_name|
   find_or_create_unique_klass_by_course_name(target_name)
 end
 
-Then %r{^there is a single class named (#{CAPTURE_COURSE_NAME})$} do |target_name|
+Then %r{^there is a single class named "([^"]*?)"$} do |target_name|
   find_unique_klass_by_course_name(target_name)
 end
 
-Given %r{^that there is no class named (#{CAPTURE_COURSE_NAME})$} do |target_name|
+Given %r{^that there is no class named "([^"]*?)"$} do |target_name|
   find_klasses_by_course_name(target_name).size.should eq(0)
 end
 
-Then %r{^there is no class named (#{CAPTURE_COURSE_NAME})$} do |target_name|
+Then %r{^there is no class named "([^"]*?)"$} do |target_name|
   find_klasses_by_course_name(target_name).size.should eq(0)
-end
-
-Given %r{^that (#{CAPTURE_USER_FULL_NAME}) is teaching a class named (#{CAPTURE_COURSE_NAME})$} do |target_user_full_name, target_course_name|
-  user = find_or_create_unique_user_by_full_name(target_user_full_name)
-  klass = find_or_create_unique_klass_by_course_name(target_course_name)
-  educator = FactoryGirl.create(:educator, :klass => klass, :user => user, :is_instructor => true)
-  klass.is_instructor?(user).should be_true
 end
 
 Then %r{^"(.*?)" is teaching a class named "(.*?)"$} do |target_user_full_name, target_course_name|
@@ -146,7 +152,7 @@ end
 ## Login/Logout-related
 ##
 
-Given %r{^that I am logged in as (#{CAPTURE_USER_FULL_NAME})$} do |target_name|
+Given %r{^that I am logged in as "([^"]*?)"$} do |target_name|
   user = find_or_create_unique_user_by_full_name(target_name)
   
   if user.id != @current_user_id
@@ -157,25 +163,26 @@ Given %r{^that I am logged in as (#{CAPTURE_USER_FULL_NAME})$} do |target_name|
     wait_for_browser
     verify_test_meta :page_type => "index", :major_name => "Home"
 
-    click_link('Sign in')
+    find('.test.clickable.sign_in').click
     wait_for_browser
     verify_test_meta(:page_type => "new", :major_name => "Devise::Session")
     
-    fill_in "Username", :with => user.username
-    fill_in "Password", :with => "password"
-    click_button "Sign in"
+    find('.test.input.user_username').fill_in "user_username", :with => user.username
+    find('.test.input.user_password').fill_in "user_password", :with => "password"
+    find('.test.clickable.submit').click
+
     wait_for_browser
     verify_test_meta(:page_type => "index", :major_name => "Home") 
     verify_test_meta(:current_user_id => user.id)
-    @current_user_id = user.id
+    find('.test.clickable.sign_out').should be_true
 
-    page.should have_content("Sign out")
+    @current_user_id = user.id
   end
   verify_test_meta :current_user_id => user.id
   @current_user_id.should eq(user.id)
 end
 
-Then %r{^I am logged in as (#{CAPTURE_USER_FULL_NAME})$} do |target_name|
+Then %r{^I am logged in as "([^"]*?)"$} do |target_name|
   user = find_unique_user_by_full_name(target_name)
   verify_test_meta :current_user_id => user.id
 end
@@ -270,32 +277,105 @@ Then %r{^I (do not\s)*see (?:a|an|the) "([^"]*?)" link$} do |do_not,link_name|
   end
 end
 
+Then %r{^I see a flash containing "(.*?)"$} do |content|
+  page.find('div[id="attention"]').has_content?(content).should be_true
+end
+
 ##
 ## User Action-related
 ##
 
-When %r{^I click (?:on\s)*?the (#{CAPTURE_LINK_TEXT}) tab$} do |link_text|
-  elem = find(:xpath, "//span[text()='#{link_text.upcase}']")
+Then %r{^in (.*?) I (?:can\s)*see "([^"]*?)"$} do |orig_search, target_content|
+  search = orig_search.dup
+  elem = page
+
+  while %r{"(?<entry>[^"]+?)"} =~ search
+    search = $~.post_match
+
+    %r{^(?<id>.+?)(\s+containing\s+(?<content>.+))?$} =~ entry
+
+    # puts "entry   = ( #{entry} )"
+    # puts "id      = ( #{id} )"
+    # puts "content = ( #{content} )"
+    
+    id = "section" if id == "row"
+
+    if !id.match(/\s/) && content.nil? && elem.has_css?(".test.#{id}")
+      elem = elem.find(".test.#{id}")
+    elsif !id.match(/\s/) && elem.has_css?(".test.#{id}", :text => content)
+      elem = elem.find(".test.#{id}", :text => content)
+    elsif elem.has_css?(".test", :text => id)
+      elem = elem.find(".test", :text => id)
+    else
+      raise "could not find element for: #{orig_line} (#{id})"
+    end
+
+    # puts "elem    = ( #{elem.path} )"
+
+  end
+
+  # puts "target_content = ( #{target_content} )"
+  # puts "elem           = ( #{elem.path} )"
+
+  elem.has_content?(target_content).should be_true
+end
+
+When %r{^I click on (.+)$} do |orig_line|
+  line = orig_line.dup
+  elem = page
+  accept = true
+
+  while %r{"(?<entry>[^"]+?)"} =~ line
+    line = $~.post_match
+
+    if %r{^and (confirm|accept)$} =~ entry
+      accept = true
+      next
+    elsif %r{^and (decline|reject)$} =~ entry
+      accept = false
+      next
+    end
+    
+    %r{^(?<id>.+?)(\s+containing\s+(?<content>.+))?$} =~ entry
+
+    id = "section" if id == "row"
+
+    # puts "entry   = ( #{entry} )"
+    # puts "id      = ( #{id} )"
+    # puts "content = ( #{content} )"
+    
+    if !id.match(/\s/) && content.nil? && elem.has_css?(".test.#{id}")
+      elem = elem.find(".test.#{id}")
+    elsif !id.match(/\s/) && elem.has_css?(".test.#{id}", :text => content)
+      elem = elem.find(".test.#{id}", :text => content)
+    elsif elem.has_css?(".test", :text => id)
+      elem = elem.find(".test", :text => id)
+    else
+      raise "could not find element for: #{orig_line} (#{id})"
+    end
+
+    # puts "elem    = ( #{elem.path} )"
+
+    mouseover_elem(elem)
+    break if elem[:class].include?('clickable')
+  end
+
+  elem = elem.find(".test.clickable") if !elem[:class].include?('clickable')
   elem.visible?.should be true
-  elem.click
-  wait_for_browser
-end
 
-When %r{^I click (?:on\s)*?the (#{CAPTURE_LINK_TEXT}) link$} do |link_text|
-  find_link(link_text).visible?.should be_true
-  click_link link_text
-  wait_for_browser
-end
-
-When %r{^I click (?:on\s)*?the (#{CAPTURE_LINK_TEXT}) link and "(.*?)"$} do |link_text, confirm_or_decline|
-  find_link(link_text).visible?.should be_true
-  confirm = /confirm|accept/i =~ confirm_or_decline
-  handle_js_confirm(confirm) { click_link link_text }
+  handle_js_confirm(accept) do
+    elem.click
+  end
   wait_for_browser
 end
 
 When %r{^I visit the main page$} do
   visit root_path
+  wait_for_browser
+end
+
+When %r{^I refresh the page$} do
+  visit current_path
   wait_for_browser
 end
 
@@ -307,38 +387,21 @@ When %r{^I select "(.*?)" (?:for|from) "(.*?)"$} do |option, selector|
   select option, :from => selector
 end
 
-When %r{^I (?:click(?:\son)*|press) the "(.*?)" button$} do |button_name|
-  click_on button_name
-  wait_for_browser
-end
-
-When %r{^I click (?:on\s)*the delete icon for "(.*?)" and "(.*?)"$} do |uberlist_content, confirm_or_decline|
-  accept = /confirm|accept/i =~ confirm_or_decline
-  uberlist_mouseover(uberlist_content)
-  elem = uberlist_find_delete_link(uberlist_content)
-  elem.visible?.should be_true
-  handle_js_confirm(accept) do
-    elem.click
-  end
-  wait_for_browser
-end
-
-When %r{^I mouse over the edit icon for "(.*?)"$} do |uberlist_content|
-  uberlist_mouseover(uberlist_content)
-  wait_for_browser
-end
-
-When %r{^I click (?:on\s)*the edit icon for "(.*?)"$} do |uberlist_content|
-  uberlist_mouseover(uberlist_content)
-  elem = uberlist_find_edit_link(uberlist_content)
-  elem.visible?.should be_true
-  elem.click
-  wait_for_browser
-end
-
 ##
 ## Misc Util-related
 ##
+
+And %r{^I time travel to "([^"]+?)" "([^"]+?)"$} do |time_str, zone_str|
+  Timecop.return
+  new_time_utc = TimeUtils.timestr_and_zonestr_to_utc_time(time_str, zone_str)
+  Timecop.travel(new_time_utc)
+end
+
+include Ost::Cron
+
+And %r{^cron jobs (?:are|have been|were) run} do
+  Ost::execute_cron_jobs
+end
 
 And %r{^screencapture "(.*?)"$} do |prefix|
   save_screen(prefix, URI.parse(current_url).path)

@@ -94,7 +94,7 @@ Spork.prefork do
   # :truncation initially.
   DatabaseCleaner.clean_with :truncation # clean once to ensure clean slate
   DatabaseCleaner.strategy = :transaction
-
+  
   ########################################
   # CONFIGURE THE RAILS APPLICATION DOMAIN
   ########################################
@@ -130,10 +130,10 @@ Spork.prefork do
   #
   # Because of the precautions taken above w.r.t. connections, transactions and domains, we can freely mix and
   # match default and javascript drivers.
-  Capybara.javascript_driver = :webkit
-  Capybara.default_driver    = :rack_test
   # Capybara.javascript_driver = :webkit
-  # Capybara.default_driver    = :webkit
+  # Capybara.default_driver    = :rack_test  ## NOTE: currently all scenarios assume @javascript, so :rack_test will cause problems
+  Capybara.javascript_driver = :webkit
+  Capybara.default_driver    = :webkit
   # Capybara.javascript_driver = :selenium
   # Capybara.default_driver    = :selenium
   # Capybara.javascript_driver = :poltergeist
@@ -152,6 +152,10 @@ Spork.prefork do
   # Turn off automatic screencapture when scenario fails
   Capybara::Screenshot.autosave_on_failure = false
 
+  # This causes capybara #has_css? and #find selectors to return quickly
+  # in the event of a failure
+  Capybara.default_wait_time = 0.1;
+  
   # By default, any exception happening in your Rails application will bubble up
   # to Cucumber so that your scenario will fail. This is a different from how 
   # your application behaves in the production environment, where an error page will 
@@ -168,10 +172,6 @@ Spork.prefork do
   # recommended as it will mask a lot of errors for you!
   #
   ActionController::Base.allow_rescue = false
-
-  # Make sure the Cucumber versions of the FG factories are loaded
-  FactoryGirl.definition_file_paths = [Rails.root.join("test", "fg_factories")]
-  FactoryGirl.find_definitions
   
 end
 

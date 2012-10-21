@@ -1,13 +1,13 @@
+<% addTestMeta {{:page_type  => "show"}} %>
+<% addTestMeta {{:major_name => @klass.course.organization.name}} %>
+<% addTestMeta {{:minor_name => @klass.course.name}} %>
+
 <% 
   is_educator = @klass.is_educator?(present_user)
   student = @klass.student_for(present_user) 
   is_student = !student.nil?
   student_cohort = student.try(:cohort)
 %>
-
-
-
-
 
 <%= section "Class Information", {:classes => 'first no_bar' } do %>
 
@@ -141,18 +141,21 @@
     <% num_sections = @klass.sections.count %>
     <% @klass.sections.each_with_index do |section,ii| %>
     
-      <tr>
+      <tr class="test section">
         <th style="text-align:right"><%= "Enrollment" if ii == 0 %></th>
         <td>
           <%= link_to_if(present_user.can_read_children?(section, :students), 
                          "#{section.students.registered.active.count} Registered",
-                         klass_students_path(@klass)) %> |
+                         klass_students_path(@klass),
+                         :test => "registered") %> |
           <%= link_to_if(present_user.can_read_children?(section, :students), 
                          "#{section.students.auditing.active.count} Auditing",
-                         klass_students_path(@klass)) %>
+                         klass_students_path(@klass),
+                         :test => "auditing") %>
           <% if @klass.is_teaching_assistant?(present_user) %>
             | <%= link_to("#{section.registration_requests.count} Pending", 
-                        klass_registration_requests_path(@klass)) %>
+                          klass_registration_requests_path(@klass),
+                          :test => "pending") %>
           <% end %>
           <%= "&nbsp;(#{section.name})".html_safe if num_sections > 1 %>
         </td>

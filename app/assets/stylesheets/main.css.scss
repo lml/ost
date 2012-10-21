@@ -759,6 +759,20 @@ span.antispam {display:none;}
   margin-right: 7px;
 }
 
+@if false
+{
+	.test {
+		outline: #ff00ff dotted thin;
+	}
+	
+	@if false {
+		.test.clickable {
+			outline: #00ff00 dotted thin;		
+		}
+	}
+	
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // The following help to make the OS colors available to Javascript (they

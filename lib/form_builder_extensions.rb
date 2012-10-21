@@ -12,23 +12,43 @@ class ActionView::Helpers::FormBuilder
     new_classes = "datetime_field date_time_picker"
     
     options[:class] ||= options[:class].nil? ? 
-                        new_classes : 
-                        options[:class] + " " + new_classes
-                        
+    new_classes : 
+    options[:class] + " " + new_classes
+
     text_field(name, options)
   end
-  
+
+  # Modify submit to add test tags automatically
+  alias orig_submit submit  
+  def submit(value=nil, options={})
+    add_test_classes options, [:test, :clickable, :submit]
+    orig_submit(value, options)
+  end
+
+  # Modify check_box to add test tags automatically
+  alias orig_check_box check_box
+  def check_box(method, options={}, checked_value="1", unchecked_value="0")
+    add_test_classes options, [:test, :clickable]
+    orig_check_box(method, options, checked_value, unchecked_value)
+  end
 end
 
 module ActionView::Helpers::FormTagHelper 
-  
+
   def datetime_text_field_tag(name, value=nil, options={})
-     new_classes = "datetime_field date_time_picker"
+    new_classes = "datetime_field date_time_picker"
 
-     options[:class] ||= options[:class].nil? ? 
-                         new_classes : 
-                         options[:class] + " " + new_classes
+    options[:class] ||= options[:class].nil? ? 
+    new_classes : 
+    options[:class] + " " + new_classes
 
-     text_field_tag(name, value, options)
-   end
+    text_field_tag(name, value, options)
+  end
+
+  alias orig_submit_tag submit_tag
+  def submit_tag(value="Save changes", options={})
+    add_test_classes options, [:test, :clickable]
+    orig_submit_tag(value, options)
+  end
+
 end

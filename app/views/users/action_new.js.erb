@@ -7,9 +7,14 @@ $("body").append("<%= escape_javascript(render :partial => 'users/action_dialog'
 refresh_buttons();
   
 $("#user_action_dialog").dialog({ 
- modal: true, 
- height:400, 
- width:600, 
- buttons: { "Close": function() { $(this).dialog("close"); }},  
-            open: function(event, ui) { $("#text_query").val(''); $("#selected_type").val(''); }
+    modal: true, 
+    height:400, 
+    width:600,
+    buttons: 
+        [{ "text": 'Close',
+	       "click": function() { $(this).dialog("close"); },
+	       "class": 'test clickable close' 
+        }]
 });
+
+$("#user_action_dialog").parent().addClass('test dialog');

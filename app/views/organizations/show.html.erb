@@ -20,6 +20,6 @@
 <% end %>
 
 
-<%= link_to 'Edit', edit_organization_path(@organization) %> |
-<%= link_to 'List', organizations_path %> |
-<%= link_to 'New Course', new_organization_course_path(@organization) %>
+<%= link_to 'Edit', edit_organization_path(@organization), :test => "edit_organization" %> |
+<%= link_to 'List', organizations_path, :test => "list_organizations" %> |
+<%= link_to 'New Course', new_organization_course_path(@organization), :test => "new_course" %>

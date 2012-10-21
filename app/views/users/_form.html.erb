@@ -14,7 +14,7 @@
      </tr>
      <tr>
         <th>Administrator?</th>
-        <td><%= f.check_box :is_administrator %></td>
+        <td><%= f.check_box :is_administrator, :test => "is_admin" %></td>
      </tr>
      <tr>
         <th>Disable Account?</th>
@@ -25,6 +25,6 @@
   <p>
      
   <div class="actions">
-    <%= f.submit(nil) %>
+    <%= f.submit nil %>
   </div>
 <% end %>

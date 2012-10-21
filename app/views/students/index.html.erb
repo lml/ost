@@ -1,3 +1,7 @@
+<% addTestMeta {{:page_type  => "index"}} %>
+<% addTestMeta {{:major_name => @klass.course.name}} %>
+<% addTestMeta {{:minor_name => "Student"}} %>
+
 <%= pageHeading "Student Roster, #{@klass.course.name}" %>
 
 <% if present_user.is_researcher? %>
@@ -35,7 +39,7 @@
       <% end %>
       <% students.each do |student| %>
         <% num_students += 1 %>
-        <tr>
+        <tr class="test section">
           <% if num_sections > 1 %>
             <td></td>
           <% end %>
