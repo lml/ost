@@ -2,5 +2,5 @@
 
 <%= form_for [@course, CourseInstructor.new], :method => :post, :remote => true do |f| %>
   <%= f.hidden_field :user_id, :value => user.id %>
-  <%= f.submit "Add", :onclick => please_wait_js, :class => "test clickable add" %>
+  <%= f.submit "Add", :onclick => please_wait_js, :test => "add" %>
 <% end %>

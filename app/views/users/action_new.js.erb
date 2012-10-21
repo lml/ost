@@ -7,13 +7,17 @@ $("body").append("<%= escape_javascript(render :partial => 'users/action_dialog'
 refresh_buttons();
   
 $("#user_action_dialog").dialog({ 
- modal: true, 
- height:400, 
- width:600,
- buttons: [{
-	"text": 'Close',
-	"click": function() { $(this).dialog("close"); },
-	"class": 'test clickable close'
- }]
+    modal: true, 
+    height:400, 
+    width:600,
+    buttons: [
+	    {  "text": 'Close',
+	       "click": function() { $(this).dialog("close"); },
+	       "class": 'test clickable close' }
+        // ,{  "text": 'Open',
+        //    "click": function(event, ui) { $("#text_query").val(''); $("#selected_type").val(''); },
+        //    "class": 'test clickable open' }
+    ]
 });
+
 $("#user_action_dialog").parent().addClass('test dialog');
