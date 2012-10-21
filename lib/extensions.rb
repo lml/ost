@@ -43,6 +43,8 @@ def utc_from_time_and_zone(time_string, time_zone_string)
 end
 
 def add_test_classes(html_options, test_tokens)
+  return if Rails.env.production?
+
   class_str    = html_options[:class] || ""
   class_tokens = class_str.split
 
