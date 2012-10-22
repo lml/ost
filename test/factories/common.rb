@@ -6,5 +6,8 @@ end
 
 
 def unique_username(first_name, last_name)
-  "#{first_name[0,3]}#{last_name[0,4]}" + "#{SecureRandom.hex(4)}"
+  username = "#{first_name}#{last_name}"
+  username = username[0,19] if username.length > 20
+  username = username + "#{SecureRandom.hex(4)}"
+  username.gsub(/[^A-Za-z\d_]/, '')
 end
