@@ -102,3 +102,47 @@ And %r{instructor enrollment scenario setup} do
   end
 end
 
+And %r{^instructor registration request setup$} do
+  DbUniverse do
+
+    DbCofUser first_name: "Admin",      last_name: "Jones", username: "admin"
+    DbCofUser first_name: "Professor",  last_name: "X",     username: "profx"
+
+    DbCofOrganization name: "Get Smart" do
+
+      DbCofCourse name: "Intro 101: Only the Easy Stuff" do
+        DbCofInstructor for_user: { existing: "profx" } do
+          DbCofClass do
+            DbCofSection name: "Section Alpha"
+          end
+        end
+      end
+
+      DbCofCourse name: "Course 102: Time to Rethink Your Major" do
+        DbCofInstructor for_user: { existing: "profx" } do
+          DbCofClass do
+            DbCofSection name: "Section Alpha" do
+              DbCofRegistrationRequest for_user: {first_name: "Vito"}
+            end
+            DbCofSection name: "Section Beta" do
+              DbCofRegistrationRequest for_user: {first_name: "Phoebe"}
+            end
+          end
+        end
+      end
+
+      DbCofCourse name: "Nightmare 666: You Will Fail" do
+        DbCofInstructor for_user: { existing: "profx" } do
+          DbCofClass do
+            DbCofSection name: "Section Alpha" do
+            end
+            DbCofSection name: "Section Beta" do
+            end
+          end
+        end
+      end
+    
+    end
+
+  end
+end

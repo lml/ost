@@ -3,14 +3,15 @@
 ##
 module Db
   def DbUniverse
-    @db_current_courses       = []
-    @db_current_educators     = []
-    @db_current_instructors   = []
-    @db_current_klasses       = []
-    @db_current_sections      = []
-    @db_current_students      = []
-    @db_current_organizations = []
-    @db_current_users         = []
+    @db_courses               = []
+    @db_educators             = []
+    @db_instructors           = []
+    @db_klasses               = []
+    @db_sections              = []
+    @db_students              = []
+    @db_organizations         = []
+    @db_registration_requests = []
+    @db_users                 = []
 
     yield if block_given?
   end
@@ -20,8 +21,8 @@ module Db
 
     if options[:existing]
       user = User.where{ username == options[:existing] }.first
-    elsif @db_current_users.last
-      user = @db_current_users.last
+    elsif @db_users.last
+      user = @db_users.last
     else
       attrs = FactoryGirl.attributes_for(:user)
       attrs[:first_name]        = options[:first_name]  if options[:first_name]
@@ -32,9 +33,9 @@ module Db
     end
 
     if block_given?
-      @db_current_users.push user
+      @db_users.push user
       yield
-      @db_current_users.pop
+      @db_users.pop
     end
 
     user
@@ -45,8 +46,8 @@ module Db
 
     if options[:existing]
       organization = Organization.where{ name == options[:existing] }.first
-    elsif @db_current_organizations.last
-      organization = @db_current_organizations.last
+    elsif @db_organizations.last
+      organization = @db_organizations.last
     else
       attrs = FactoryGirl.attributes_for(:organization)
       attrs[:name] = options[:name] if options[:name]
@@ -54,9 +55,9 @@ module Db
     end
 
     if block_given?
-      @db_current_organizations.push organization
+      @db_organizations.push organization
       yield
-      @db_current_organizations.pop
+      @db_organizations.pop
     end
 
     organization
@@ -67,8 +68,8 @@ module Db
 
     if options[:existing]
       course = Course.where{ name == options[:existing] }
-    elsif @db_current_courses.last
-      course = @db_current_courses.last
+    elsif @db_courses.last
+      course = @db_courses.last
     else
       attrs = FactoryGirl.attributes_for(:course)
       attrs[:name]         = options[:name] if options[:name]
@@ -77,9 +78,9 @@ module Db
     end
 
     if block_given?
-      @db_current_courses.push course
+      @db_courses.push course
       yield
-      @db_current_courses.pop
+      @db_courses.pop
     end
 
     course
@@ -94,9 +95,9 @@ module Db
     instructor = FactoryGirl.create(:course_instructor, attrs)
 
     if block_given?
-      @db_current_instructors.push instructor
+      @db_instructors.push instructor
       yield
-      @db_current_instructors.pop
+      @db_instructors.pop
     end
 
     instructor
@@ -107,15 +108,15 @@ module Db
 
     if options[:existing]
       klass = Klass.where{ course.name == options[:existing] }.first
-    elsif @db_current_klasses.last
-      klass = @db_current_klasses.last
+    elsif @db_klasses.last
+      klass = @db_klasses.last
     else
       attrs = FactoryGirl.attributes_for(:klass)
       attrs[:course]  = DbCofCourse(options[:for_course])
       if options[:for_creator]
         attrs[:creator] = DbCofUser(options[:for_creator])
-      elsif @db_current_instructors.last
-        attrs[:creator] = @db_current_instructors.last.user
+      elsif @db_instructors.last
+        attrs[:creator] = @db_instructors.last.user
       end
       klass = FactoryGirl.create(:klass, attrs)
       klass.sections.first.name = "DELETE THIS SECTION"
@@ -123,10 +124,10 @@ module Db
     end
 
     if block_given?
-      @db_current_klasses.push klass
-      @db_current_klass = @db_current_klasses.last
+      @db_klasses.push klass
+      @db_klass = @db_klasses.last
       yield
-      @db_current_klass = @db_current_klasses.pop
+      @db_klass = @db_klasses.pop
     end
 
     klass
@@ -135,8 +136,8 @@ module Db
   def DbCofEducator(options={})
     options ||= { }
 
-    if @db_current_educators.last
-      educator = @db_current_educator.last
+    if @db_educators.last
+      educator = @db_educator.last
     else
       attrs = FactoryGirl.attributes_for(:educator)
       attrs[:klass] = DbCofClass(options[:for_class])
@@ -148,10 +149,10 @@ module Db
     end
 
     if block_given?
-      @db_current_educators.push klass
-      @db_current_educator = @db_current_educators.last
+      @db_educators.push klass
+      @db_educator = @db_educators.last
       yield
-      @db_current_educator = @db_current_educators.pop
+      @db_educator = @db_educators.pop
     end
 
     educator
@@ -162,8 +163,8 @@ module Db
 
     if options[:existing]
       section = Section.where{ name == options[:existing] }.first
-    elsif @db_current_sections.last
-      section = @db_current_sections.last
+    elsif @db_sections.last
+      section = @db_sections.last
     else
       attrs = FactoryGirl.attributes_for(:section)
       attrs[:klass] = DbCofClass(options[:for_class])
@@ -177,10 +178,10 @@ module Db
     end
 
     if block_given?
-      @db_current_sections.push section
-      @db_current_section = @db_current_sections.last
+      @db_sections.push section
+      @db_section = @db_sections.last
       yield
-      @db_current_section = @db_current_sections.pop
+      @db_section = @db_sections.pop
     end
 
     section    
@@ -189,8 +190,8 @@ module Db
   def DbCofStudent(options={})
     options ||= { }
 
-    if @db_current_students.last
-      student = @db_current_students.last
+    if @db_students.last
+      student = @db_students.last
     else
       attrs = FactoryGirl.attributes_for(:student)
       attrs[:user]    = DbCofUser(options[:for_user])
@@ -206,15 +207,38 @@ module Db
     end
 
     if block_given?
-      @db_current_students.push klass
-      @db_current_student = @db_current_students.last
+      @db_students.push klass
+      @db_student = @db_students.last
       yield
-      @db_current_student = @db_current_students.pop
+      @db_student = @db_students.pop
     end
 
     student
   end
 
+  def DbCofRegistrationRequest(options={})
+    options ||= { }
+
+    if @db_registration_requests.last
+      request = @db_registration_requests.last
+    else
+      attrs = FactoryGirl.attributes_for(:registration_request)
+      attrs[:user]        = DbCofUser(options[:for_user])
+      attrs[:section]     = DbCofSection(options[:for_section])
+      attrs[:is_auditing] = options[:is_auditing] if options[:is_auditing]
+      request = FactoryGirl.create(:registration_request, attrs)
+    end
+
+    if block_given?
+      @db_registration_requests.push request
+      @db_registration_request = @db_registration_requests.last
+      yield
+      @db_registration_request = @db_registration_requests.pop
+    end
+
+    request
+
+  end
 end
 
 module WorldExtensions
