@@ -1,5 +1,224 @@
+##
+## Db-manipulation related
+##
+module Db
+  def DbUniverse
+    @db_current_courses       = []
+    @db_current_educators     = []
+    @db_current_instructors   = []
+    @db_current_klasses       = []
+    @db_current_sections      = []
+    @db_current_students      = []
+    @db_current_organizations = []
+    @db_current_users         = []
+
+    yield if block_given?
+  end
+
+  def DbCofUser(options={})
+    options ||= { }
+
+    if options[:existing]
+      user = User.where{ username == options[:existing] }.first
+    elsif @db_current_users.last
+      user = @db_current_users.last
+    else
+      attrs = FactoryGirl.attributes_for(:user)
+      attrs[:first_name]        = options[:first_name]  if options[:first_name]
+      attrs[:last_name]         = options[:last_name]   if options[:last_name]
+      attrs[:username]          = options[:username]    if options[:username]
+      attrs[:is_administrator]  = options[:is_admin]    if options[:is_admin]
+      user = FactoryGirl.create(:user, attrs)
+    end
+
+    if block_given?
+      @db_current_users.push user
+      yield
+      @db_current_users.pop
+    end
+
+    user
+  end
+
+  def DbCofOrganization(options={})
+    options ||= { }
+
+    if options[:existing]
+      organization = Organization.where{ name == options[:existing] }.first
+    elsif @db_current_organizations.last
+      organization = @db_current_organizations.last
+    else
+      attrs = FactoryGirl.attributes_for(:organization)
+      attrs[:name] = options[:name] if options[:name]
+      organization = FactoryGirl.create(:organization, attrs)
+    end
+
+    if block_given?
+      @db_current_organizations.push organization
+      yield
+      @db_current_organizations.pop
+    end
+
+    organization
+  end
+
+  def DbCofCourse(options={})
+    options ||= { }
+
+    if options[:existing]
+      course = Course.where{ name == options[:existing] }
+    elsif @db_current_courses.last
+      course = @db_current_courses.last
+    else
+      attrs = FactoryGirl.attributes_for(:course)
+      attrs[:name]         = options[:name] if options[:name]
+      attrs[:organization] = DbCofOrganization(options)
+      course = FactoryGirl.create(:course, attrs)
+    end
+
+    if block_given?
+      @db_current_courses.push course
+      yield
+      @db_current_courses.pop
+    end
+
+    course
+  end
+
+  def DbCofInstructor(options={})
+    options ||= { }
+
+    attrs = FactoryGirl.attributes_for(:course_instructor)
+    attrs[:user]   = DbCofUser(options[:for_user])
+    attrs[:course] = DbCofCourse(options[:for_course])
+    instructor = FactoryGirl.create(:course_instructor, attrs)
+
+    if block_given?
+      @db_current_instructors.push instructor
+      yield
+      @db_current_instructors.pop
+    end
+
+    instructor
+  end
+
+  def DbCofClass(options={})
+    options ||= { }
+
+    if options[:existing]
+      klass = Klass.where{ course.name == options[:existing] }.first
+    elsif @db_current_klasses.last
+      klass = @db_current_klasses.last
+    else
+      attrs = FactoryGirl.attributes_for(:klass)
+      attrs[:course]  = DbCofCourse(options[:for_course])
+      if options[:for_creator]
+        attrs[:creator] = DbCofUser(options[:for_creator])
+      elsif @db_current_instructors.last
+        attrs[:creator] = @db_current_instructors.last.user
+      end
+      klass = FactoryGirl.create(:klass, attrs)
+      klass.sections.first.name = "DELETE THIS SECTION"
+      klass.sections.first.save!
+    end
+
+    if block_given?
+      @db_current_klasses.push klass
+      @db_current_klass = @db_current_klasses.last
+      yield
+      @db_current_klass = @db_current_klasses.pop
+    end
+
+    klass
+  end
+
+  def DbCofEducator(options={})
+    options ||= { }
+
+    if @db_current_educators.last
+      educator = @db_current_educator.last
+    else
+      attrs = FactoryGirl.attributes_for(:educator)
+      attrs[:klass] = DbCofClass(options[:for_class])
+      attrs[:user]  = DbCofUser(options[:for_user])
+      attrs[:is_instructor] = options[:is_instructor] if options[:is_instructor]
+      attrs[:is_assistant]  = options[:is_assistant]  if options[:is_assistant]
+      attrs[:is_grader]     = options[:is_grader]     if options[:is_grader]
+      educator = FactoryGirl.create(:educator, attrs)
+    end
+
+    if block_given?
+      @db_current_educators.push klass
+      @db_current_educator = @db_current_educators.last
+      yield
+      @db_current_educator = @db_current_educators.pop
+    end
+
+    educator
+  end
+
+  def DbCofSection(options={})
+    options ||= { }
+
+    if options[:existing]
+      section = Section.where{ name == options[:existing] }.first
+    elsif @db_current_sections.last
+      section = @db_current_sections.last
+    else
+      attrs = FactoryGirl.attributes_for(:section)
+      attrs[:klass] = DbCofClass(options[:for_class])
+      attrs[:name]  = options[:name] if options[:name]
+      section = FactoryGirl.create(:section, attrs)
+
+      # Klasses automatically contruct a default Section; if the
+      # user has specified a custom Section, remove the default.
+      bogus_section = attrs[:klass].sections.first
+      bogus_section.destroy if bogus_section.name == "DELETE THIS SECTION"
+    end
+
+    if block_given?
+      @db_current_sections.push section
+      @db_current_section = @db_current_sections.last
+      yield
+      @db_current_section = @db_current_sections.pop
+    end
+
+    section    
+  end
+
+  def DbCofStudent(options={})
+    options ||= { }
+
+    if @db_current_students.last
+      student = @db_current_students.last
+    else
+      attrs = FactoryGirl.attributes_for(:student)
+      attrs[:user]    = DbCofUser(options[:for_user])
+      attrs[:section] = DbCofSection(options[:for_section])
+      student = FactoryGirl.create(:student, attrs)
+
+      if options[:status]
+        student.is_auditing = false if options[:status] == :registered
+        student.is_auditing = true  if options[:status] == :auditing
+        student.drop!               if options[:status] == :dropped
+        student.save!
+      end
+    end
+
+    if block_given?
+      @db_current_students.push klass
+      @db_current_student = @db_current_students.last
+      yield
+      @db_current_student = @db_current_students.pop
+    end
+
+    student
+  end
+
+end
+
 module WorldExtensions
-  
+
   ##
   ## User-related
   ## 
@@ -66,10 +285,10 @@ module WorldExtensions
 
     course = find_unique_course_by_name(target_course_name)
     raise "there is a Course named '#{course.name}' under Organization '#{course.organization.name}'" \
-      if course.organization.name != org.name
-    course
-  end
-  
+    if course.organization.name != org.name
+      course
+    end
+
   ##
   ## Course-related
   ## 
@@ -188,4 +407,6 @@ module WorldExtensions
 end
 
 World(WorldExtensions)
+World(Db)
+
 
