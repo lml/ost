@@ -1,12 +1,14 @@
 <%= pageHeading "Frequently Asked Questions (FAQ) | Help" %>
-aksjfldsk
+Fixes: not sure how to answer "Can I add exercise to an assignment after it's been assigned" <br/>
+Add link to Assignments section under "there is no place to add exercises to an assignment."<br/>
+Would be nice to indent answers?
 <%= section "Account FAQ" do %>
 <%= link_to "I created an account but never received a confirmation email. What should I do?", "#email_confirmation" %><br/>
+<%= link_to "How do I update my user settings, e.g. change my password / email address / time zone?", "#update_settings"%><br/>
 <% end %>
 
 <%= section "Student FAQs" do %>  
 <%= link_to "I registered for the wrong section. How do I change to a different section?", "#change_section"%><br/>
-<%= link_to "I dropped a class but now I want back in. Can I re-register?", "#change_section"%><br/>
 <%= link_to "I saved my free-form response, so why won't the site show me the multiple choice answers?", "#multiple_choice"%><br/>
 <%= link_to "I finished my assignment late. Can I still get credit if I work the exercises after the due date?", "#late"%><br/>
 <%= link_to "I unintentionally saved and locked my free-form and/or multiple choice answers before I was finished! Can I go back and fix my work?", "#fix_work"%><br/>
@@ -21,6 +23,7 @@ aksjfldsk
 <%= link_to "My student registered for the wrong section. How can I change her to the other section?", "#change_student_section" %><br/>
 <%= link_to "I sent out an assignment and realized there was an error in one of the exercises. Can I fix it?", "#error_exercise" %><br/>
 <%= link_to "I sent out an assignment and realized I forgot to add an exercise. Can I add the exercise?", "#add_exercise" %><br/>
+<%= link_to "I set up a feedback condition but students aren't receiving the feedback I'm expecting. What's going on?," "#feedback_problem" %>
 
 <p>
 <% end %>
@@ -29,13 +32,19 @@ aksjfldsk
 
 <%= section "Accounts" do %>
   
-<div class="sectionHeading" id="email_confirmation"><strong>I registered for OpenStax Tutor but never received a confirmation email. What should I do?</strong></div>
+<div class="sectionHeading" id="email_confirmation"><strong>I never received a registration confirmation email. What should I do?</strong></div>
 <ol>
   <li>Check your spam folder for the email and confirm that that OpenStax Tutor is not being blocked by your email provider.</li>
   <li><%= link_to "Click here", new_user_confirmation_path %> and enter the email address you used when creating an account.</li>
   <li>If you don't receive an email within 24 hours, and if your email address is otherwise receiving emails properly, please <%= email_link "support@openstaxtutor.org", "contact us" %>.</li>
 </ol>
-<p>
+
+<div class ="sectionHeading" id="update_settings"><strong>How do I update my user settings, e.g. change my password / email address / time zone?</strong></div>
+<p>Sign in and click <strong>My Account</strong>, found at the top of every page. Make changes and enter your current password to confirm updates.</p>
+
+<div class="sectionHeading" id="forgot_password"><strong>It's been awhile and I forgot my password. Can I reset it?</strong></div>
+
+<p>Sure. <%= link_to "Go here to reset your password.", new_user_password_path %></p>
   
 <% end %>
 
@@ -62,9 +71,9 @@ aksjfldsk
 
 <div class="SectionHeading" id="fix_work"><strong>My hand slipped and I accidentally entered the wrong answer. Can I go back and fix my work?</strong></div>
 
-<p>It depends. If you were working on the free form portion, and you saved but did not lock your answer, you can go back and update your work.</p> 
+<p>It depends. If you were working on the free form portion, and you saved but did <em>not</em> lock your answer, you can go back and update your work.</p> 
 
-<p>If you saved and <em><strong>locked</strong></em> your answer, you cannot go back and change your answer. Similarly, if you confirmed your multiple choice answer, you cannot go back and change your answer.</p>
+<p>If you <em>saved and locked</em> your answer, you cannot go back and change your answer. Similarly, if you confirmed your multiple choice answer, you cannot go back and change your answer.</p>
 
 <p>Final decisions about grading are always up to your instructor.</p>
 
@@ -73,11 +82,11 @@ aksjfldsk
 <%= section "Instructors" do %>
 
 <div class="sectionHeading" id="course_materials"><strong>I want to add my exercises and resources to the Topics section, but I only see space to add links. Where do I add my course materials?</strong></div>
-<%= render :partial => 'help/blurbs/plan_content' %>
+<p>OpenStax Tutor does not host course materials. Instead you will add course materials to, or reuse content from, Connexions and Quadbase.  <%= link_to "Go here to read more.", help_topics_path(:anchor => "add_content")%>
   
 <div class="sectionHeading" id="change_student_section"><strong>My student registered for the wrong section. How can I change my student to a different section?</strong></div>
 
-<p>If you are participating in a research study, check with the research team to find out if moving the student to another section will impact the student's assignments.</p>
+<p>If you are participating in a research study, check with the research team before moving a student to another section, as it may impact the student's assignments.</p>
 <p>
 <%= render :partial => 'help/blurbs/change_student_section'%>
   
@@ -87,7 +96,7 @@ aksjfldsk
 
 <div class="sectionHeading" id="override_grades"><strong>I need to override the score OST assigned to a student. How can I do that?</strong></div>
 
-<p>In certain cases, you can override the score OST assigns to a student on an individual exercise.</p>
+<p>To make a wrong answer correct: </p>
 
 <ul>
   <li>Go to <strong>Dashboard > Class > Class Information.</strong></li>
@@ -103,35 +112,19 @@ aksjfldsk
   
 <div class="sectionHeading" id="error_exercise"><strong>I sent out an assignment and realized there was an error in one of the exercises. Can I fix it?</strong></div>
 
-<p>You may be able to edit the exercise in Quadbase and then click Refresh Exercises to update the exercise. In certain cases, you will not be able to use the Refresh Exercises feature. Go here to read more.</p>
+<p>You may be able to edit the exercise in Quadbase and then click Refresh Exercises to update the exercise. There are some limitations to this feature, though. <%= link_to  "Click here to read more.", help_topics_path(:anchor => "refresh_exercises") %></p>
 
 <div class="sectionHeading" id="add_exercise"><strong>I sent out an assignment and realized it is missing an exercise. Can I add the exercise to the assignment?</strong></div>
 
-<p>It depends. If students haven't yet begun the assignment, it may be possible to delete the assignment and send out a new one. Contact us. </p>
+<p>It depends. If students haven't yet begun the assignment, it may be possible to delete the assignment and send out a new one. </p>
 
-<p>Also, before you send out an assignment, it may be useful to go to <strong>Dashboard > Class > Learning Plan</strong> and click <strong>Preview Assignments</strong>. You can preview an assignment and make sure everything looks good beforehand.</p>
+<p>Tip: Before you send out an assignment, go to <strong>Dashboard > Class > Learning Plan</strong> and click <strong>Preview Assignments</strong>. You can preview an assignment and make sure everything looks good before scheduling the assignment.</p>
 
 <div class="sectionHeading" id = "feedback_problem"><strong>I set up a feedback condition but students aren't receiving the feedback I'm expecting. What's going on?</strong>
 
-<p>Some possibilities:</p>
-<ul>
-  <li>Check that your feedback condition is set up the way you expected. If you are expecting feedback immediately after an exercise is complete, but students receive feedback after the assignment is due, your timing settings may be the reason.</li>
-  <p>
-  <li>Verify that the labels attached to the exercises match the feedback condition label. Unless the labels match, the site won't activate your feedback condition. To verify:</li>
-  <p>
-    <ul>
-      <li>Go to <strong>Dashboard > Class > Learning Plan > Assignments</strong> and click <strong>Preview Assignments</strong>.</li>
-      <li>Look at the labels attached to each exercise. </li>
-      <li>Go to <strong>Dashboard > Class > Learning Conditions > Feedback Conditions</strong> and view the feedback condition labels.</li>
-      <li>Verify that the exercise labels match the feedback labels.</li>
-      <li>In this example, the labels clearly don't match, so the site will never show feedback for these exercises.<ul>
-       
-  <li>Verify that there is only <em>one</em> feedback condition matching the exercise label. If you have multiple feedback conditions with the same label, the site will apply the first matching condition.</li>
+<p>Troubleshoot feedback conditions:</p>
 
-<div class="sectionHeading" id=""><strong>?</strong></div>
-<div class="sectionHeading" id=""><strong>?</strong></div>
-<div class="sectionHeading" id=""><strong>?</strong></div>
-<div class="sectionHeading" id=""><strong>?</strong></div>
-<div class="sectionHeading" id=""><strong>?</strong></div>
+<%= render :partial => 'help/blurbs/feedback_problems'%>
+
 
 <% end %>

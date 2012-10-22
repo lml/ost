@@ -1,10 +1,11 @@
 <%= pageHeading "Help | Topics" do %>
 <% end %>
 
+<p>This help page describes, in order, the steps involved in populating your Topics section.</p>
+
 <%= link_to "Overview of topics", "#overview_topics" %><br/>
 <%= link_to "Add course materials to Connexions and Quadbase", "#add_content"%><br/>
 <%= link_to "Organize and sequence course materials into topics", "#organize_content"%><br/>
-<%= link_to "Example Topics section", "#example_topics_section"%><br/>
 <%= link_to "Create a new topic", "#create_new_topic" %><br/>
 <%= link_to "Rename or delete a topic", "#rename_or_delete" %><br/>
 <%= link_to "Add resources to a topic", "#resources" %><br/>
@@ -13,35 +14,28 @@
 <%= link_to "Edit or delete an exercise or resource", "#edit_or_delete_exercise_or_resource" %><br/>
 <%= link_to "Re-order exercises and resources", "#reorder" %><br/>
 <%= link_to "Attach concept tag to an exercise", "#concept_tags" %><br/>
-<%= link_to "Refresh Exercises", "#refresh_exercises"%>
+<%= link_to "Refresh Exercises to synchronize changes from Quadbase", "#refresh_exercises"%>
 
 <p></p>
 
 <div class ="Heading" id="overview_topics"><strong>Overview of Topics</strong></div>
 
-<p>The Topics section is where you will add links to course materials, organized into <em>topics</em>. A topic is a group of related exercises and resources. </p>
+<p>The Topics section is where you will add links to course materials, organized into <em>topics</em>.</p>
 
-<p>Once you've organized your topics, you create assignments by listing the topic(s) each assignment covers:</p>
+<p>A topic is both: 
+<ul>
+  <li>A group of related exercises and resources; and (Can we add a link to show this pop up? topic_map.png)</li>  
+  <li>A building block of an assignment. (show assignment1.png)</li>
+</ul>
 
-<p>Before you add course materials to the Topics section:</p>
-  <ol>
-    <li>Ensure course materials are hosted on <%= link_to "Connexions", "http://www.cnx.org" %> and <%= link_to "Quadbase", "http://www.quadbase.org" %>.
-    <p>
-    <li>Organize and sequence course materials into <em>topics</em>.</p>
-  </ol>
-<p>  
-  
 <div class ="Heading" id="add_content"><strong>Add course materials to Connexions and Quadbase</strong></div>
-  
+
 <%= render :partial => 'help/blurbs/plan_content' %>    
   
 <div class ="Heading" id="organize_content"><strong>Organize and sequence course materials into topics</strong></div>  
+<p>Next, organize your course materials into topics.</p>
 
-<%= render :partial => 'help/blurbs/organize_topics' %>    
-
-<div class ="Heading" id="example_topics_section"><strong>Example Topics section</strong></div>  
-
-<%= render :partial =>'help/blurbs/example_topics_section'%>
+<%= render :partial =>'help/blurbs/organize_topics'%>
   
 <div class ="sectionHeading" id="create_new_topic"><strong>Create a new topic</strong></div>
   <ol>
@@ -89,7 +83,7 @@
     <%= image_tag("newtopic5.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%>  
   <li>Click <strong>Add...</strong> exercises.</li>
   	  <%= image_tag("add_exercises.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create new topic"})%></li>
-  <li>Copy and paste the full exercise URL from Quadbase.</li>
+  <li>Copy and paste the exercise URL from Quadbase.</li>
   <p>
   <li>Mark whether the exercise is reserved for a test, if applicable.</li>
   <p>
@@ -141,6 +135,8 @@
 <div class ="sectionHeading" id="concept_tags"><strong>Attach concept tag to an exercise</strong></div>
 <%= render :partial => 'help/blurbs/concepts'%>
 
-<div class ="sectionHeading" id="Refresh exercises"><strong>Use Refresh Exercises to synchronize changes from Quadbase</strong></div>
+<div class ="sectionHeading" id="refresh_exercises"><strong>Use Refresh Exercises to synchronize changes from Quadbase</strong></div>
 
 <%= render :partial => 'help/blurbs/refresh_exercises'%>
+
+<p>To refresh exercises to the latest version from Quadbase, go to <strong>Dashboard > Class > Learning Plan</strong> and click <strong>Refresh Exercises</strong>.</p>

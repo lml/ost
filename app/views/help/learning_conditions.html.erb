@@ -1,6 +1,6 @@
 <%= pageHeading "Help | Learning Conditions" do %>
 <% end %>
-
+ 
 Overview of learning conditions<br/>
 Default learning conditions<br/>
 Overview of schedule conditions<br/>
@@ -10,22 +10,26 @@ Overview of schedule conditions<br/>
 <%= link_to "Assign labels to exercises", "#assign_labels_to_exercises" %><br/>
 
 <p>
+  <p>This help page details how learning conditions work in <%= SITE_NAME %>.</p>
+
+  <p>If you plan to partner with the research team, they will set up learning conditions for your class. If you aren't partnering with a researcher, you have the option to use the default learning conditions or to customize your own.</p>
+  
 <div class ="sectionHeading" id="overview_learning_conditions"><strong>Overview of Learning Conditions</strong></div>
 
-<p>Learning conditions are rules that control how <%= SITE_NAME %> builds assignments and presents feedback. You can create custom learning conditions or simply use the default conditions.</p>
+<p>Learning conditions are rules that control how <%= SITE_NAME %> builds assignments and presents feedback. There are two (2) kinds of learning conditions:</p>
 
-<em>Schedule</em> conditions define blah.<p>
+<p><em>Schedule</em> conditions define how OST builds and schedules exercises for assignments.</p>
 
-<em>Feedback</em> conditions define when and how the site presents feedback.<%= link_to_help 'example_feedback' %>
-<p>    
+<p><em>Feedback</em> conditions define when and how the site presents feedback.<%= link_to_help 'example_feedback' %></p>
+     
 <div class ="sectionHeading" id="default_learning_conditions"><strong>Default learning conditions</strong></div>
+
+<p><%= SITE_NAME %> automatically sets default learning conditions for your class. As explained above, you can use the default conditions or create your own custom conditions. If you use the default conditions without making any changes, OST will build your assignments and present feedback as follows:</p>
 
   <%= render :partial => 'help/blurbs/default_learning_conditions' %>
 
-
 <div class ="sectionHeading" id="overview"><strong>Overview of feedback conditions</strong></div>
 
-COMMENT THIS OUT 
 <p>You can control the feedback students receive in several ways:</p> 
   
   <ul>
@@ -36,12 +40,9 @@ COMMENT THIS OUT
     <li>Show students the feedback page <em>automatically</em> or require them to <em>manually</em> navigate to the feedback page.</li>
   </ul>
   <p>
-COMMENT THIS OUT 
 
-<div class ="sectionHeading" id="labels"><strong>Use labels to control when OpenStax Tutor applies feedback conditions</strong></div>
-  
-<p>You must use labels to specify which feedback conditions apply to which exercises:</p>
-  
+<div class ="sectionHeading" id="labels"><strong>Understanding how to use labels</strong></div>
+<p> must specify which feedback conditions apply to what exercises.
   <ol>
     <li>Create a feedback condition and assign it some arbitrary label.</li>
     <li>Attach that same feedback label to <em>all exercises you want to receive that feedback condition</em> <%= link_to "(as explained in this section)", "#attach_labels_to_exercises" %>.<br/></li>
