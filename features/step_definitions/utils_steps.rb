@@ -307,7 +307,7 @@ Then %r{^in (.*?) I (?:can\s)*see "([^"]*?)"$} do |orig_search, target_content|
     elsif elem.has_css?(".test", :text => id)
       elem = elem.find(".test", :text => id)
     else
-      raise "could not find element for: #{orig_line} (#{id})"
+      raise "could not find element for: #{orig_search} (#{id})"
     end
 
     # puts "elem    = ( #{elem.path} )"

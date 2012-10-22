@@ -9,7 +9,7 @@ Feature: Instructors can view the Student enrollment for Classes they are teachi
         "Intro 101: Only the Easy Stuff"
         "Course 102: Time to Rethink Your Major"
         "Nightmare 666: You Will Fail"
-    Classes for each of these Courses alreay exist.
+    Classes for each of these Courses already exist.
 
     "Professor X" is an Instructor for "Intro 101".
     "Professor Y" is an Instructor for "Course 102".
