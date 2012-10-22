@@ -1,41 +1,50 @@
-<%= pageHeading "Help | Feedback Conditions" do %>
+<%= pageHeading "Help | Learning Conditions" do %>
 <% end %>
 
+Overview of learning conditions<br/>
+Default learning conditions<br/>
+Overview of schedule conditions<br/>
 <%= link_to "Overview of feedback conditions", "#overview" %><br/>
-<%= link_to "Options when setting feedback conditions", "#feedback_options" %><br/>
 <%= link_to "Use labels to control when OpenStax Tutor applies feedback conditions", "#labels" %> <br/>
 <%= link_to "Create/Edit feedback condition", "#create_edit" %><br/>
 <%= link_to "Assign labels to exercises", "#assign_labels_to_exercises" %><br/>
-  
-<p>  
-<div class ="sectionHeading" id="overview"><strong>Overview of feedback conditions</strong></div>
-  
-<p><%= SITE_NAME %> has the capability to automatically provide <em><strong>feedback</strong></em> to students. The feedback page<%= link_to_help 'example_feedback' %>
- tells the student if his/her answer is correct and shows any available solutions.</p>
 
-<p>By default, <%= SITE_NAME %> is set to present feedback immediately after students complete each exercise, unless the exercise is marked as a test. You can keep the default condition, or create new feedback conditions.</p>
-
-<p>This help page will explain how feedback conditions work and how to set new conditions.</p> 
-  
-<div class ="sectionHeading" id="feedback_options"><strong>Options when setting feedback conditions</strong></div>
-
-<p><%= SITE_NAME %> lets you control the feedback students receive in several ways:</p>
-<ul>
- <li>Apply different conditions to different <em>exercises</em>, e.g. create different conditions for homework and test exercises.</li>
- <li>Apply different conditions to different <em>experimental cohorts</em>.</li> 
-  <li>Set feedback <em>timing</em>, i.e. when it becomes available and how long it stays available.</li>
-  <li>Make viewing feedback <em>optional</em> or <em>mandatory</em>.</li>
-  <li>Show students the feedback page <em>automatically</em> or require them to <em>manually</em> navigate to the feedback page.</li>
-</ul>
 <p>
+<div class ="sectionHeading" id="overview_learning_conditions"><strong>Overview of Learning Conditions</strong></div>
+
+<p>Learning conditions are rules that control how <%= SITE_NAME %> builds assignments and presents feedback. You can create custom learning conditions or simply use the default conditions.</p>
+
+<em>Schedule</em> conditions define blah.<p>
+
+<em>Feedback</em> conditions define when and how the site presents feedback.<%= link_to_help 'example_feedback' %>
+<p>    
+<div class ="sectionHeading" id="default_learning_conditions"><strong>Default learning conditions</strong></div>
+
+  <%= render :partial => 'help/blurbs/default_learning_conditions' %>
+
+
+<div class ="sectionHeading" id="overview"><strong>Overview of feedback conditions</strong></div>
+
+COMMENT THIS OUT 
+<p>You can control the feedback students receive in several ways:</p> 
+  
+  <ul>
+   <li>Apply different conditions to different <em>exercises</em>, e.g. show feedback differently for homework vs tests.</li>
+   <li>Apply different conditions to different <em>experimental cohorts</em>.</li> 
+    <li>Set feedback <em>timing</em>, i.e. when it becomes available and how long it stays available.</li>
+    <li>Make viewing feedback <em>optional</em> or <em>mandatory</em>.</li>
+    <li>Show students the feedback page <em>automatically</em> or require them to <em>manually</em> navigate to the feedback page.</li>
+  </ul>
+  <p>
+COMMENT THIS OUT 
 
 <div class ="sectionHeading" id="labels"><strong>Use labels to control when OpenStax Tutor applies feedback conditions</strong></div>
   
-<p>When you set up the feedback conditions for your class, you must specify which feedback conditions apply to what exercises. To do this, you will assign labels to exercises and feedback conditions: 
+<p>You must use labels to specify which feedback conditions apply to which exercises:</p>
   
   <ol>
     <li>Create a feedback condition and assign it some arbitrary label.</li>
-    <li>Attach that feedback label to <em>all exercises you want to receive that feedback condition</em> <%= link_to "(as explained in this section)", "#attach_labels_to_exercises" %>.<br/></li>
+    <li>Attach that same feedback label to <em>all exercises you want to receive that feedback condition</em> <%= link_to "(as explained in this section)", "#attach_labels_to_exercises" %>.<br/></li>
     <li>Each additional feedback condition you create should have a different label.</li> 
   </ol>
   
@@ -50,22 +59,32 @@
 
 <div class ="sectionHeading" id="create_edit"><strong>Create/Edit feedback conditions</strong></div>
 
-<p>You can create any number of feedback conditions for your class.</p>
+<p>You can create any number of feedback conditions for your class. If you have created multiple experimental cohorts, you must create separate feedback conditions for each cohort.</p>
+<em><p>Step 1: Create new feedback condition.</p></em>
 <ol>
-  <li>From the Class Information page, click on Learning Conditions;</li>
-      <%= image_tag("feedback6.png", {:border => 1, :width => "90%", :height => "90%", :title=>"new feedback condition"})%>
-  <li>On the Learning Conditions page, click Add New Feedback Condition; </li>
-    <%= image_tag("feedback8.png", {:border => 1, :width => "70%", :height => "70%", :title=>"new feedback condition"})%>
-  <li>In the pop up dialog box, select Basic feedback condition and click Choose;</li>
-  <li>Click Edit to customize the condition you just created; </li> 
+  <li>Go to <strong>Dashboard > Class > Learning Conditions</strong>.</li>
+  <li>In the Feedback Conditions section, click <strong>Add New Feedback Condition</strong>.</li>
+  <li>In the pop up dialog box, select <strong>Basic</strong> feedback condition and click <strong>Choose</strong>.</li>
+  <li>You have just created an empty feedback condition.</li>
+</ol>
+
+<p><em>Step 2: Edit feedback condition.</em></p>
+  <ol>
+  <li>Find the feedback condition you want to edit and click <strong>Edit</strong>.</li> 
     <%= image_tag("feedback7.png", {:border => 1, :width => "70%", :height => "70%", :title=>"new feedback condition"})%>
-  <li>In the Labels field, enter the  <%= link_to "label", help_learning_conditions_path(:anchor => "labels") %>  of the exercise(s) this feedback condition will be applied to;</li> 
-    <%= image_tag("feedback5.png", {:border => 1, :width => "70%", :height => "70%", :title=>"new feedback condition"})%>
-  <li>Check the feedback credit box if you want to make viewing feedback <em>mandatory</em> for credit;</li>
-  <li>Check the feedback presentation box if you want OST to present feedback automatically;</li>
-  <li>Define when the site can make feedback available by selecting from the drop down menu and entering time settings;</li>
-     <%= image_tag("feedback11.png", {:border => 1, :width => "50%", :height => "50%", :title=>"new feedback condition"})%>
-  <li>Click Update to save;</li>
+  <li>Complete the <strong>Feedback Condition Editing</strong> form:</li>
+    <p>
+    <ul>
+      <li><strong>Match Labels Against field</strong>: The label you enter here must match the label of the exercise(s) you want to receive this feedback condition. (<%= link_to "Read more about labels.", help_learning_conditions_path(:anchor => "labels") %>) </li>
+      <p>
+      <li><strong>Feedback credit field</strong>: check this box to make viewing feedback <em>mandatory</em> for credit.</li>
+      <p>
+      <li><strong>Feedback presentation field</strong>: check this feedback presentation box to show students feedback automatically, or leave it unchecked to make students manually click on feedback page to view.</li>
+      <p>  
+      <li><strong>Set timing options</strong> by answering the prompts.</li>
+      <p>
+    </ul>
+  <li>Click <strong>Update</strong> to save.</li>
   <li>Create as many feedback conditions as you need.</li>
 </ol>
 

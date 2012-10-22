@@ -143,6 +143,7 @@ Ost::Application.routes.draw do
   
   get 'help/blurbs/:blurb_name', :to => 'help#blurb', :as => 'blurb_help'
   match 'help/faq'
+  match 'help/assignments'
   match 'help/topics'
   match 'help/instructor_getting_started'
   match 'help/learning_conditions'
