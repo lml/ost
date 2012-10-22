@@ -114,6 +114,7 @@ And %r{^instructor registration request setup$} do
         DbCofInstructor for_user: { existing: "profx" } do
           DbCofClass do
             DbCofSection name: "Section Alpha"
+            DbCofSection name: "Section Beta"
           end
         end
       end
@@ -122,10 +123,11 @@ And %r{^instructor registration request setup$} do
         DbCofInstructor for_user: { existing: "profx" } do
           DbCofClass do
             DbCofSection name: "Section Alpha" do
-              DbCofRegistrationRequest for_user: {first_name: "Vito"}
+              DbCofRegistrationRequest for_user: {first_name: "Vito"}, is_auditing: false
             end
             DbCofSection name: "Section Beta" do
-              DbCofRegistrationRequest for_user: {first_name: "Phoebe"}
+              DbCofRegistrationRequest for_user: {first_name: "Phoebe"}, is_auditing: true
+              DbCofRegistrationRequest for_user: {first_name: "Hubert"}, is_auditing: false
             end
           end
         end
@@ -135,8 +137,8 @@ And %r{^instructor registration request setup$} do
         DbCofInstructor for_user: { existing: "profx" } do
           DbCofClass do
             DbCofSection name: "Section Alpha" do
-            end
-            DbCofSection name: "Section Beta" do
+              DbCofRegistrationRequest for_user: {first_name: "Dameon"}, is_auditing: false
+              DbCofRegistrationRequest for_user: {first_name: "Oda"},    is_auditing: true
             end
           end
         end
