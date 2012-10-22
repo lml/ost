@@ -6,5 +6,5 @@ end
 
 
 def unique_username(first_name, last_name)
-  "#{first_name[0,3]}#{last_name[0,4]}" + "#{SecureRandom.hex(4)}"
+  "#{first_name}#{last_name}" + "#{SecureRandom.hex(4)}"
 end
