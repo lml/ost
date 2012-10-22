@@ -16,12 +16,12 @@
                         approve_registration_request_path(rr), 
                         :method => :put,
                         :remote => true,
-                        :class => "approve" %></td>
+                        :test => "approve" %></td>
       <td><%= button_to 'Reject', 
                         reject_registration_request_path(rr), 
                         :method => :put,
                         :remote => true, 
-                        :class => "reject" %></td>
+                        :test => "reject" %></td>
     </tr>
   <% end %>
 </table>
