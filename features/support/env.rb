@@ -138,7 +138,7 @@ Spork.prefork do
 
   # This causes capybara #has_css? and #find selectors to return quickly
   # in the event of a failure
-  Capybara.default_wait_time = 0.1;
+  Capybara.default_wait_time = 0.01;
   
   # By default, any exception happening in your Rails application will bubble up
   # to Cucumber so that your scenario will fail. This is a different from how 
