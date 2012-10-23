@@ -8,7 +8,7 @@
   </tr>
 
   <% section.registration_requests.each do |rr| %>
-    <tr id="rr_<%= rr.id %>" class="test section">
+    <tr id="rr_<%= rr.id %>" class="test test_section">
       <td><%= rr.requestor_full_name %></td>
       <td><%= rr.requestor_email %></td>
       <td><%= tf_to_yn(rr.is_auditing) %></td>
