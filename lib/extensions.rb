@@ -58,6 +58,7 @@ def add_test_classes(html_options, test_tokens)
   end
 
   html_options[:class] = class_tokens.join(' ') if class_tokens.size > 0
+  html_options.delete :test
 end
 
 module ActiveRecord
