@@ -1,8 +1,26 @@
-<p> If you haven't already done so, navigate to the <strong>Dashboard</strong>, click on your class and customize your class settings.</p>
-<ul> 
-    <li>From the Class Information page, click on <strong>Edit Class</strong> and verify the settings here are correct: time zone, start/end date, labels, approved emails, etc. </li>
-    <p>
-    <li>On the Class Information page, give permissions to any co-instructors, teaching assistants or graders.</li>
-    <p>
-    <li>If your class has multiple sections, navigate to the Sections page and add sections by clicking on New Section. Rename or delete a section by hovering your mouse over the section name until the orange edit/trash icons appear.</li>
-</ul>
+<p>This page will describe how to set class settings. Select from the links below.</p>
+
+<%= link_to "Complete the Edit Class form", "#edit_class_form" %><br/>
+<%= link_to "Add class sections", "#sections" %><br/>
+<%= link_to "Add instructor / teaching assistant /grader", "#permissions" %><br/>
+<%= link_to "Cohorts", "#cohorts" %><br/>
+
+<p>
+
+<div class="sectionHeading" id="edit_class_form"><strong>Complete the Edit Class form</strong></div>
+
+<p>This is where you'll set the class start and end date/time, time zone, pre-approved emails and more. </p>
+
+<p>Go to <strong>Dashboard > Class > Edit Class</strong> and follow form instructions.</p>
+
+<div class ="sectionHeading" id="sections"><strong>Add class sections</strong></div>
+
+<%= render :partial => 'help/blurbs/sections' %>
+
+<div class="sectionHeading" id="permissions"><strong>Add instructor / teaching assistant / grader</strong></div>
+
+<%= render :partial => 'help/blurbs/add_instructor'%>
+
+<div class="sectionHeading"id="cohorts"><strong>Cohorts</strong></div>
+
+<%= render :partial => 'help/blurbs/cohorts' %>

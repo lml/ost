@@ -1,18 +1,20 @@
 <%= pageHeading "Help" %>
-
-<p>We're in the process of adding great help documentation to <%= SITE_NAME %>.  Until then, if you're having trouble using the site, feel free to contact us at <%= email_link "support", "support@openstaxtutor.org" %></p>
   
-<p>  <%= link_to "Getting Started as an Instructor", help_instructor_getting_started_path   %></p>
 
-<p> <%= link_to "Frequently Asked Questions", help_faq_path %> </p>
+<p>  <%= link_to "Getting Started as an Instructor", help_instructor_getting_started_path %></p>
 
-<p> <%= link_to "Topics help", help_topics_path %>
+<p>  <%= link_to "Getting Started as a Student", help_student_getting_started_path %><p>
   
-<p> <%= link_to "Feedback conditions help", help_learning_conditions_path %>
+  <p> <%= link_to "Frequently Asked Questions", help_faq_path %> </p>
+  
+  Instructor Help topics
+  
+  Class settings<br/>
+  Topics<br/>
+  Learning Conditions<br/>
+  Assignments<br/>
 
-   <%= render :partial => 'help/blurbs/register_new_class'%>
-
-   <%= render :partial => 'help/blurbs/plan_class' %>
+Students -- all topics are on getting started page. Any other help topics?<br/>
     
-   <%= render :partial => 'help/blurbs/set_up_class'%>
-    
+Inline help -- edit class, topics, assignments, learning conditions<br/>
+  
