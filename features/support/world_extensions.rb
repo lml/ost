@@ -428,6 +428,76 @@ module WorldExtensions
     css.gsub!(%r{\[(?<val>\d+)\]}, ':nth-child(\k<val>)')
     css.gsub!(%r{@}, '')
   end
+
+  def find_innermost_matching_elem(elem, search_entry)
+
+    debug = false
+
+    %r{^(?<class_name>.+?)(\s+containing\s+(?<content>.+))?$} =~ search_entry
+
+    class_name = "test_section" if class_name == "row"
+    class_name = "test_section" if class_name == "section"
+
+    if class_name.match(/\s/)
+      content = class_name
+      class_name      = nil
+    end
+
+    if debug
+      puts "search entry   = ( #{search_entry} )"
+      puts "class_name     = ( #{class_name} )"
+      puts "content        = ( #{content} )"
+    end
+
+    # NOTE: It turns out the #has_css? modifies the element
+    #       when the query fails.  That's why the last matched
+    #       xpath is maintained instead of the actual element.
+    matched_xpath = nil
+    while true
+      match_found = false
+      if class_name && content
+        if elem.has_css?(".test.#{class_name}", :text => content)
+          elem = elem.find(".test.#{class_name}", :text => content)
+          match_found = true
+        end
+      elsif class_name
+        if elem.has_css?(".test.#{class_name}")
+          elem = elem.find(".test.#{class_name}")
+          match_found = true
+        elsif elem.has_css?(".test", :text => class_name)
+          elem = elem.find(".test", :text => class_name)
+          match_found = true
+        end
+      elsif content
+        if elem.has_css?(".test", :text => content)
+          elem = elem.find(".test", :text => content)
+          match_found = true
+        end
+      end
+
+      matched_xpath = elem.path if match_found
+
+      raise "could not find element for: #{search_entry} (#{class_name}) (#{content})" if matched_xpath.nil?
+      break if !match_found
+
+      puts elem_details(elem, "new match element details:", 10) if debug
+
+      if block_given?
+        break if !(yield elem)
+      end
+    end
+
+    matched_xpath  
+  end
+
+  def elem_details(elem, notice="element details:", num_indent=10)
+    indent = " "*num_indent
+    result = indent + notice + "\n"
+    result += indent + "   tag: (#{elem.tag_name})\n"
+    result += indent + "   id:  (#{elem[:id]})\n"
+    result += indent + "   path: (#{elem.path})\n"
+    result += indent + "   text: (#{elem.text})\n"
+  end
 end
 
 World(WorldExtensions)
