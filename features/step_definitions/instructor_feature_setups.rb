@@ -102,6 +102,46 @@ And %r{instructor enrollment scenario setup} do
   end
 end
 
+And %r{^instructor class learning plan setup$} do
+  DbUniverse do
+
+    DbCofUser first_name: "Admin",      last_name: "Jones", username: "admin"
+    DbCofUser first_name: "Professor",  last_name: "X",     username: "profx"
+
+    DbCofExercise url: "http://exercises.com/1"
+    DbCofExercise url: "http://exercises.com/2"
+
+    DbCofOrganization name: "Get Smart" do
+
+      DbCofCourse name: "Intro 101: Only the Easy Stuff" do
+        DbCofInstructor for_user: { existing: "profx" } do
+          DbCofClass do
+          end
+        end
+      end
+
+      DbCofCourse name: "Course 102: Time to Rethink Your Major" do
+        DbCofInstructor for_user: { existing: "profx" } do
+          DbCofClass do
+            DbCofLearningPlan do
+              DbCofConcept name: "Concept One"
+              DbCofTopic name: "First Topic"
+              DbCofTopic name: "Second Topic" do
+                DbCofResource name: "Resource One"
+                DbCofResource url: "http://www.resourcetwo.com/info.txt"
+                DbCofTopicExercise for_exercise: {existing: "http://exercises.com/1"}, for_concept: {existing: "Concept One"}
+                DbCofTopicExercise for_exercise: {existing: "http://exercises.com/2"}, for_concept: {existing: "Concept One"}
+              end
+            end
+          end
+        end
+      end
+
+    end
+
+  end
+end
+
 And %r{^instructor registration request setup$} do
   DbUniverse do
 
