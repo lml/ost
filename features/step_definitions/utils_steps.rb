@@ -285,9 +285,11 @@ end
 ## User Action-related
 ##
 
-Then %r{^in (.*?) I (?:can\s)*see "([^"]*?)"$} do |search_text, target_content|
+Then %r{^(?:in|under) (.*?) I (can\s|do\s|do not\s|cannot\s|can not\s|don't\s|)?see "([^"]*?)"$} do |search_text, can_cannot, target_content|
   orig_search_text = search_text.dup
   elem             = page
+
+  want_to_see = %r{do not\s|cannot\s|can not\s|don't\s} !~ can_cannot
 
   while %r{"(?<search_entry>[^"]+?)"} =~ search_text
     search_text = $~.post_match
@@ -299,7 +301,12 @@ Then %r{^in (.*?) I (?:can\s)*see "([^"]*?)"$} do |search_text, target_content|
 
   # puts elem_details(elem, "final element details:", 10)
 
-  elem.has_content?(target_content).should be_true
+  if want_to_see
+    elem.has_content?(target_content).should be_true
+  else
+    elem.has_no_content?(target_content).should be_true
+  end
+
 end
 
 When %r{^I click on (.+)$} do |search_text|
