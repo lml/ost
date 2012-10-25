@@ -14,7 +14,7 @@ Feature: Instructors can view the Classes they are teaching on the Dashboard.
     Classes for each of these Courses alreay exist.
 
     Background:
-        Given instructor dashboard scenario setup
+        Given instructor dashboard setup
         
     Scenario: Professor X visits the Dashboard
         Given that I am logged in as "Professor X"

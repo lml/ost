@@ -60,7 +60,7 @@ Feature: Instructors can view the Learning Plans for Classes they are teaching.
         Then  I am taken to the "show" page for "Course 102: Time to Rethink Your Major" under "Get Smart"
         # And   screencapture "prof_x_show"
         When  I click on "right_nav" "Learning Plan"
-        And   screencapture "prof_x_lp"
+        # And   screencapture "prof_x_lp"
         Then  I am taken to the "show" page for "Learning Plan" under "Course 102: Time to Rethink Your Major"
         And   under "topics" "section containing First Topic" I see "0 Resources"
         And   under "topics" "section containing First Topic" I see "0 Exercises"
