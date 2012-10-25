@@ -285,82 +285,59 @@ end
 ## User Action-related
 ##
 
-Then %r{^in (.*?) I (?:can\s)*see "([^"]*?)"$} do |orig_search, target_content|
-  search = orig_search.dup
-  elem = page
+Then %r{^(?:in|under) (.*?) I (can\s|do\s|do not\s|cannot\s|can not\s|don't\s|)?see "([^"]*?)"$} do |search_text, can_cannot, target_content|
+  orig_search_text = search_text.dup
+  elem             = page
 
-  while %r{"(?<entry>[^"]+?)"} =~ search
-    search = $~.post_match
+  want_to_see = %r{do not\s|cannot\s|can not\s|don't\s} !~ can_cannot
 
-    %r{^(?<id>.+?)(\s+containing\s+(?<content>.+))?$} =~ entry
+  while %r{"(?<search_entry>[^"]+?)"} =~ search_text
+    search_text = $~.post_match
 
-    # puts "entry   = ( #{entry} )"
-    # puts "id      = ( #{id} )"
-    # puts "content = ( #{content} )"
-    
-    id = "section" if id == "row"
+    matched_xpath = find_innermost_matching_elem(elem, search_entry)
 
-    if !id.match(/\s/) && content.nil? && elem.has_css?(".test.#{id}")
-      elem = elem.find(".test.#{id}")
-    elsif !id.match(/\s/) && elem.has_css?(".test.#{id}", :text => content)
-      elem = elem.find(".test.#{id}", :text => content)
-    elsif elem.has_css?(".test", :text => id)
-      elem = elem.find(".test", :text => id)
-    else
-      raise "could not find element for: #{orig_search} (#{id})"
-    end
-
-    # puts "elem    = ( #{elem.path} )"
-
+    elem = page.find(:xpath, matched_xpath)
   end
 
-  # puts "target_content = ( #{target_content} )"
-  # puts "elem           = ( #{elem.path} )"
+  # puts elem_details(elem, "final element details:", 10)
 
-  elem.has_content?(target_content).should be_true
+  if want_to_see
+    elem.has_content?(target_content).should be_true
+  else
+    elem.has_no_content?(target_content).should be_true
+  end
+
 end
 
-When %r{^I click on (.+)$} do |orig_line|
-  line = orig_line.dup
-  elem = page
-  accept = true
+When %r{^I click on (.+)$} do |search_text|
 
-  while %r{"(?<entry>[^"]+?)"} =~ line
-    line = $~.post_match
+  orig_search_text = search_text.dup
+  elem             = page
+  accept           = true
 
-    if %r{^and (confirm|accept)$} =~ entry
+  while %r{"(?<search_entry>[^"]+?)"} =~ search_text
+    search_text = $~.post_match
+
+    if %r{^and (confirm|accept)$} =~ search_entry
       accept = true
       next
-    elsif %r{^and (decline|reject)$} =~ entry
+    elsif %r{^and (decline|reject)$} =~ search_entry
       accept = false
       next
     end
-    
-    %r{^(?<id>.+?)(\s+containing\s+(?<content>.+))?$} =~ entry
 
-    id = "section" if id == "row"
-
-    # puts "entry   = ( #{entry} )"
-    # puts "id      = ( #{id} )"
-    # puts "content = ( #{content} )"
-    
-    if !id.match(/\s/) && content.nil? && elem.has_css?(".test.#{id}")
-      elem = elem.find(".test.#{id}")
-    elsif !id.match(/\s/) && elem.has_css?(".test.#{id}", :text => content)
-      elem = elem.find(".test.#{id}", :text => content)
-    elsif elem.has_css?(".test", :text => id)
-      elem = elem.find(".test", :text => id)
-    else
-      raise "could not find element for: #{orig_line} (#{id})"
+    matched_xpath = find_innermost_matching_elem(elem, search_entry) do |e|
+      mouseover_elem(e)
+      true
     end
 
-    # puts "elem    = ( #{elem.path} )"
-
-    mouseover_elem(elem)
-    break if elem[:class].include?('clickable')
+    elem = page.find(:xpath, matched_xpath)
   end
 
   elem = elem.find(".test.clickable") if !elem[:class].include?('clickable')
+
+  # puts elem_details(elem, "final element details:", 10)
+
   elem.visible?.should be true
 
   handle_js_confirm(accept) do

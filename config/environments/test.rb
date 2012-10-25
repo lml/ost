@@ -1,4 +1,6 @@
 Ost::Application.configure do
+  include Ost::Utilities
+
   # Settings specified here will take precedence over those in config/application.rb
 
   # The test environment is used exclusively to run your application's
@@ -56,6 +58,7 @@ Ost::Application.configure do
   
   config.enable_recaptcha = false
   
-  config.enable_url_existence_validations = false
-  config.enable_url_format_validations = false
+  config.enable_url_existence_validations = online?
+  # config.enable_url_format_validations = false
+
 end

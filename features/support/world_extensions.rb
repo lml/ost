@@ -1,245 +1,5 @@
-##
-## Db-manipulation related
-##
-module Db
-  def DbUniverse
-    @db_courses               = []
-    @db_educators             = []
-    @db_instructors           = []
-    @db_klasses               = []
-    @db_sections              = []
-    @db_students              = []
-    @db_organizations         = []
-    @db_registration_requests = []
-    @db_users                 = []
-
-    yield if block_given?
-  end
-
-  def DbCofUser(options={})
-    options ||= { }
-
-    if options[:existing]
-      user = User.where{ username == options[:existing] }.first
-    elsif @db_users.last
-      user = @db_users.last
-    else
-      attrs = FactoryGirl.attributes_for(:user)
-      attrs[:first_name]        = options[:first_name]  if options[:first_name]
-      attrs[:last_name]         = options[:last_name]   if options[:last_name]
-      attrs[:username]          = options[:username]    if options[:username]
-      attrs[:is_administrator]  = options[:is_admin]    if options[:is_admin]
-      user = FactoryGirl.create(:user, attrs)
-    end
-
-    if block_given?
-      @db_users.push user
-      yield
-      @db_users.pop
-    end
-
-    user
-  end
-
-  def DbCofOrganization(options={})
-    options ||= { }
-
-    if options[:existing]
-      organization = Organization.where{ name == options[:existing] }.first
-    elsif @db_organizations.last
-      organization = @db_organizations.last
-    else
-      attrs = FactoryGirl.attributes_for(:organization)
-      attrs[:name] = options[:name] if options[:name]
-      organization = FactoryGirl.create(:organization, attrs)
-    end
-
-    if block_given?
-      @db_organizations.push organization
-      yield
-      @db_organizations.pop
-    end
-
-    organization
-  end
-
-  def DbCofCourse(options={})
-    options ||= { }
-
-    if options[:existing]
-      course = Course.where{ name == options[:existing] }
-    elsif @db_courses.last
-      course = @db_courses.last
-    else
-      attrs = FactoryGirl.attributes_for(:course)
-      attrs[:name]         = options[:name] if options[:name]
-      attrs[:organization] = DbCofOrganization(options)
-      course = FactoryGirl.create(:course, attrs)
-    end
-
-    if block_given?
-      @db_courses.push course
-      yield
-      @db_courses.pop
-    end
-
-    course
-  end
-
-  def DbCofInstructor(options={})
-    options ||= { }
-
-    attrs = FactoryGirl.attributes_for(:course_instructor)
-    attrs[:user]   = DbCofUser(options[:for_user])
-    attrs[:course] = DbCofCourse(options[:for_course])
-    instructor = FactoryGirl.create(:course_instructor, attrs)
-
-    if block_given?
-      @db_instructors.push instructor
-      yield
-      @db_instructors.pop
-    end
-
-    instructor
-  end
-
-  def DbCofClass(options={})
-    options ||= { }
-
-    if options[:existing]
-      klass = Klass.where{ course.name == options[:existing] }.first
-    elsif @db_klasses.last
-      klass = @db_klasses.last
-    else
-      attrs = FactoryGirl.attributes_for(:klass)
-      attrs[:course]  = DbCofCourse(options[:for_course])
-      if options[:for_creator]
-        attrs[:creator] = DbCofUser(options[:for_creator])
-      elsif @db_instructors.last
-        attrs[:creator] = @db_instructors.last.user
-      end
-      klass = FactoryGirl.create(:klass, attrs)
-      klass.sections.first.name = "DELETE THIS SECTION"
-      klass.sections.first.save!
-    end
-
-    if block_given?
-      @db_klasses.push klass
-      @db_klass = @db_klasses.last
-      yield
-      @db_klass = @db_klasses.pop
-    end
-
-    klass
-  end
-
-  def DbCofEducator(options={})
-    options ||= { }
-
-    if @db_educators.last
-      educator = @db_educator.last
-    else
-      attrs = FactoryGirl.attributes_for(:educator)
-      attrs[:klass] = DbCofClass(options[:for_class])
-      attrs[:user]  = DbCofUser(options[:for_user])
-      attrs[:is_instructor] = options[:is_instructor] if options[:is_instructor]
-      attrs[:is_assistant]  = options[:is_assistant]  if options[:is_assistant]
-      attrs[:is_grader]     = options[:is_grader]     if options[:is_grader]
-      educator = FactoryGirl.create(:educator, attrs)
-    end
-
-    if block_given?
-      @db_educators.push klass
-      @db_educator = @db_educators.last
-      yield
-      @db_educator = @db_educators.pop
-    end
-
-    educator
-  end
-
-  def DbCofSection(options={})
-    options ||= { }
-
-    if options[:existing]
-      section = Section.where{ name == options[:existing] }.first
-    elsif @db_sections.last
-      section = @db_sections.last
-    else
-      attrs = FactoryGirl.attributes_for(:section)
-      attrs[:klass] = DbCofClass(options[:for_class])
-      attrs[:name]  = options[:name] if options[:name]
-      section = FactoryGirl.create(:section, attrs)
-
-      # Klasses automatically contruct a default Section; if the
-      # user has specified a custom Section, remove the default.
-      bogus_section = attrs[:klass].sections.first
-      bogus_section.destroy if bogus_section.name == "DELETE THIS SECTION"
-    end
-
-    if block_given?
-      @db_sections.push section
-      @db_section = @db_sections.last
-      yield
-      @db_section = @db_sections.pop
-    end
-
-    section    
-  end
-
-  def DbCofStudent(options={})
-    options ||= { }
-
-    if @db_students.last
-      student = @db_students.last
-    else
-      attrs = FactoryGirl.attributes_for(:student)
-      attrs[:user]    = DbCofUser(options[:for_user])
-      attrs[:section] = DbCofSection(options[:for_section])
-      student = FactoryGirl.create(:student, attrs)
-
-      if options[:status]
-        student.is_auditing = false if options[:status] == :registered
-        student.is_auditing = true  if options[:status] == :auditing
-        student.drop!               if options[:status] == :dropped
-        student.save!
-      end
-    end
-
-    if block_given?
-      @db_students.push klass
-      @db_student = @db_students.last
-      yield
-      @db_student = @db_students.pop
-    end
-
-    student
-  end
-
-  def DbCofRegistrationRequest(options={})
-    options ||= { }
-
-    if @db_registration_requests.last
-      request = @db_registration_requests.last
-    else
-      attrs = FactoryGirl.attributes_for(:registration_request)
-      attrs[:user]        = DbCofUser(options[:for_user])
-      attrs[:section]     = DbCofSection(options[:for_section])
-      attrs[:is_auditing] = options[:is_auditing] if options[:is_auditing]
-      request = FactoryGirl.create(:registration_request, attrs)
-    end
-
-    if block_given?
-      @db_registration_requests.push request
-      @db_registration_request = @db_registration_requests.last
-      yield
-      @db_registration_request = @db_registration_requests.pop
-    end
-
-    request
-
-  end
-end
+require 'db_setups_instructor_features'
+World(DbSetup)
 
 module WorldExtensions
 
@@ -428,9 +188,77 @@ module WorldExtensions
     css.gsub!(%r{\[(?<val>\d+)\]}, ':nth-child(\k<val>)')
     css.gsub!(%r{@}, '')
   end
+
+  def find_innermost_matching_elem(elem, search_entry)
+
+    debug = false
+
+    %r{^(?<class_name>.+?)(\s+containing\s+(?<content>.+))?$} =~ search_entry
+
+    class_name = "test_section" if class_name == "row"
+    class_name = "test_section" if class_name == "section"
+
+    if class_name.match(/\s/)
+      content = class_name
+      class_name      = nil
+    end
+
+    if debug
+      puts "search entry   = ( #{search_entry} )"
+      puts "class_name     = ( #{class_name} )"
+      puts "content        = ( #{content} )"
+    end
+
+    # NOTE: It turns out the #has_css? modifies the element
+    #       when the query fails.  That's why the last matched
+    #       xpath is maintained instead of the actual element.
+    matched_xpath = nil
+    while true
+      match_found = false
+      if class_name && content
+        if elem.has_css?(".test.#{class_name}", :text => content)
+          elem = elem.find(".test.#{class_name}", :text => content)
+          match_found = true
+        end
+      elsif class_name
+        if elem.has_css?(".test.#{class_name}")
+          elem = elem.find(".test.#{class_name}")
+          match_found = true
+        elsif elem.has_css?(".test", :text => class_name)
+          elem = elem.find(".test", :text => class_name)
+          match_found = true
+        end
+      elsif content
+        if elem.has_css?(".test", :text => content)
+          elem = elem.find(".test", :text => content)
+          match_found = true
+        end
+      end
+
+      matched_xpath = elem.path if match_found
+
+      raise "could not find element for: #{search_entry} (#{class_name}) (#{content})" if matched_xpath.nil?
+      break if !match_found
+
+      puts elem_details(elem, "new match element details:", 10) if debug
+
+      if block_given?
+        break if !(yield elem)
+      end
+    end
+
+    matched_xpath  
+  end
+
+  def elem_details(elem, notice="element details:", num_indent=10)
+    indent = " "*num_indent
+    result = indent + notice + "\n"
+    result += indent + "   tag: (#{elem.tag_name})\n"
+    result += indent + "   id:  (#{elem[:id]})\n"
+    result += indent + "   path: (#{elem.path})\n"
+    result += indent + "   text: (#{elem.text})\n"
+  end
 end
 
 World(WorldExtensions)
-World(Db)
-
 

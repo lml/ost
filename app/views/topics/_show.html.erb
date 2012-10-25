@@ -1,5 +1,5 @@
 
-<div id="topic_<%= topic.id %>" class="lp_item_info">
+<div id="topic_<%= topic.id %>" class="lp_item_info test test_section">
   
   <span class="lp_item_buttons">
     <%= edit_button nil, {:small => true, :remote => true, :id => "edit_topic_#{topic.id}"} if present_user.can_update?(topic) %>    
@@ -19,7 +19,7 @@
   
   <div class="lp_item_body">
     
-    <div class="lp_item_sub_section">
+    <div class="lp_item_sub_section test test_section resources">
       <div class="left_text">Resources:</div>
       <%= link_to "Add...", new_topic_resource_path(topic), :remote => true %>
   
@@ -28,7 +28,7 @@
       </div>
     </div>
     
-    <div class="lp_item_sub_section">
+    <div class="lp_item_sub_section test test_section exercises">
       <div class="left_text">Exercises:</div>
       <%= link_to "Add...", new_topic_topic_exercise_path(topic), :remote => true %>
       
