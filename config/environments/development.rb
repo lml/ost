@@ -50,6 +50,8 @@ Ost::Application.configure do
   config.enable_recaptcha = false
   
   config.enable_url_existence_validations = online?
+  # config.enable_url_format_validations = false
+
 end
 
 Devise.setup do |config|
