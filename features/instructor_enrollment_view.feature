@@ -35,7 +35,7 @@ Feature: Instructors can view the Student enrollment for Classes they are teachi
             Student "Hubert" is dropped
 
     Background:
-        Given instructor enrollment scenario setup
+        Given instructor enrollment setup
         
     Scenario: Professor X views enrollment for Intro 101
         Given that I am logged in as "Professor X"

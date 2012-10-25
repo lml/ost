@@ -3,7 +3,8 @@
 FactoryGirl.define do
   factory :resource do
     topic
-    sequence(:url)  {|n| "http://example.com/#{n}"}
+    sequence(:name) {|n| "Resource #{n}"}
+    sequence(:url)  {|n| "http://resource.com/#{n}"}
     notes "MyText aslkdfj lkafdj lkadjf klajdflk ajdflkaj sdflkaj dlfkjasdlkfj"
   end
 end

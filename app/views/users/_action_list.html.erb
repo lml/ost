@@ -17,7 +17,7 @@
 </tr>
 <% else %>
 <% @users.each do |user| %>
-  <tr class="test section">
+  <tr class="test test_section">
     <td><%= auth_only(user.first_name) %></td>
     <td><%= auth_only(user.last_name) %></td>
     <td><%= auth_only(user.username) %></td>

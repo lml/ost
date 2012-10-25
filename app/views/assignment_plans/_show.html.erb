@@ -1,5 +1,5 @@
 
-<div id="assignment_plan_<%= assignment_plan.id %>" class="lp_item_info">
+<div id="assignment_plan_<%= assignment_plan.id %>" class="lp_item_info test test_section">
   <span class="lp_item_buttons">
     <%= edit_button assignment_plan, {:small => true, :remote => true} if present_user.can_update?(assignment_plan) %>  
     <%= link_to "", nil, 
@@ -20,7 +20,7 @@
     
   <div class="lp_item_body">
     
-    <div class="lp_item_sub_section">
+    <div class="lp_item_sub_section test test_section topics">
       <div class="left_text">Topics:</div>
       
       <div id="assignment_plan_<%= assignment_plan.id %>_topic_list">
