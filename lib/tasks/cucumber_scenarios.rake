@@ -19,7 +19,7 @@ namespace :db do
         end
 
         task :instructor_teach_course => ["db:drop", "db:migrate", :environment] do 
-            iinstructor_teach_course_setup
+            instructor_teach_course_setup
         end
     end        
 end

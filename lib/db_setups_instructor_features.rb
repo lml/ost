@@ -9,8 +9,8 @@ module DbSetup
       DbCofUser first_name: "Admin",      last_name: "Jones", username: "admin"
       DbCofUser first_name: "Professor",  last_name: "X",     username: "profx"
 
-      DbCofExercise url: "http://exercises.com/1"
-      DbCofExercise url: "http://exercises.com/2"
+      ex1 = DbCofExercise url: "http://google.com/search?q=michael+jordan"
+      ex2 = DbCofExercise url: "http://google.com/search?q=spongebob+squarepants"
 
       DbCofOrganization name: "Get Smart" do
 
@@ -30,8 +30,8 @@ module DbSetup
                 DbCofTopic name: "Second Topic" do
                   DbCofResource name: "Resource One"
                   DbCofResource url: "http://www.google.com"
-                  DbCofTopicExercise for_exercise: {existing: "http://exercises.com/1"}, for_concept: {existing: "Concept One"}
-                  DbCofTopicExercise for_exercise: {existing: "http://exercises.com/2"}, for_concept: {existing: "Concept One"}
+                  DbCofTopicExercise exercise: ex1, for_concept:  {existing: "Concept One"}
+                  DbCofTopicExercise exercise: ex2, for_concept:  {existing: "Concept One"}
                 end
               end
             end
