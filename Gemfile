@@ -68,6 +68,10 @@ group :development, :test do
   gem 'spork-rails'
 end
 
+group :development, :test do
+  gem 'railroady'
+end
+
 group :production do
 	gem 'mysql2', '~> 0.3.11'
 	gem 'rack-ssl-enforcer', '~> 0.2.4'
