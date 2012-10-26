@@ -2,6 +2,48 @@
 ## Db-manipulation related
 ##
 module DbDsl
+
+  def DbCofAssignmentPlan(options={}, &block)
+    options ||= { }
+
+    if options[:existing]
+      assignment_plan = AssignmentPlan.where{ name == options[:existing] }.first
+    elsif assignment_plan = find_on_stack(AssignmentPlan)
+    else
+      attrs = FactoryGirl.attributes_for(:assignment_plan)
+      attrs[:learning_plan]         = options[:learning_plan] || DbCofLearningPlan(options[:for_learning_plan])
+      attrs[:name]                  = options[:name]                  if options[:name]
+      attrs[:is_group_work_allowed] = options[:is_group_work_allowed] if options[:is_group_work_allowed]
+      attrs[:is_open_book]          = options[:is_open_book]          if options[:is_open_book]
+      attrs[:is_ready]              = options[:is_ready]              if options[:is_ready]
+      attrs[:is_test]               = options[:is_test]               if options[:is_test]
+      attrs[:introduction]          = options[:introduction]          if options[:introduction]
+      attrs[:starts_at]             = options[:starts_at]             if options[:starts_at]
+      attrs[:ends_at]               = options[:ends_at]               if options[:ends_at]
+
+      attrs[:starts_at] = TimeUtils.timestr_and_zonestr_to_utc_time(attrs[:starts_at], attrs[:learning_plan].klass.time_zone) \
+        if attrs[:starts_at].class == String
+      attrs[:ends_at] = TimeUtils.timestr_and_zonestr_to_utc_time(attrs[:ends_at], attrs[:learning_plan].klass.time_zone) \
+        if attrs[:ends_at].class == String
+
+      assignment_plan = FactoryGirl.create(:assignment_plan, attrs)
+    end
+
+    run_block_if_given(assignment_plan,block)
+  end
+
+  def DbCofAssignmentPlanTopic(options={}, &block)
+    if assignment_plan_topic = find_on_stack(AssignmentPlanTopic)
+    else
+      attrs = FactoryGirl.attributes_for(:assignment_plan_topic)
+      attrs[:assignment_plan] = options[:assignment_plan] || DbCofAssignmentPlan(options[:for_assignment_plan])
+      attrs[:topic]           = options[:topic]           || DbCofTopic(options[:for_topic])
+      assignment_plan_topic = FactoryGirl.create(:assignment_plan_topic, attrs)
+    end
+
+    run_block_if_given(assignment_plan_topic,block)
+  end
+
   def DbCofClass(options={}, &block)
     options ||= { }
 
@@ -11,9 +53,17 @@ module DbDsl
     else
       attrs = FactoryGirl.attributes_for(:klass)
       attrs[:course]  = options[:course]  || DbCofCourse(options[:for_course])
+      attrs[:start_date] = options[:start_date] if options[:start_date]
+      attrs[:end_date]   = options[:end_date]   if options[:end_date]
       options[:for_instructor] ||= { }
       options[:for_instructor][:course] = attrs[:course]
       attrs[:creator] = options[:creator] || DbCofInstructor(options[:for_instructor]).user
+
+      attrs[:start_date] = TimeUtils.timestr_and_zonestr_to_utc_time(attrs[:start_date], attrs[:time_zone]) \
+        if attrs[:start_date].class == String
+      attrs[:end_date] = TimeUtils.timestr_and_zonestr_to_utc_time(attrs[:end_date], attrs[:time_zone]) \
+        if attrs[:end_date].class == String
+
       klass = FactoryGirl.create(:klass, attrs)
       klass.sections.first.name = "DELETE THIS SECTION"
       klass.sections.first.save!
