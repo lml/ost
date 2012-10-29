@@ -133,7 +133,7 @@ module DbDsl
 
   def DbCofConsentOptions(options={}, &block)
     options ||= { }
-    debugger
+
     if consent_options = find_on_stack(ConsentOptions)
     else
       attrs = FactoryGirl.attributes_for(:consent_option)
@@ -321,7 +321,7 @@ module DbDsl
 
       # Klasses automatically contruct a default Section; if the
       # user has specified a custom Section, remove the default.
-      attrs[:klass].sections(true).destroy if attrs[:klass].sections(true).first.name == "DELETE THIS SECTION"
+      attrs[:klass].sections(true).first.destroy if attrs[:klass].sections(true).first.name == "DELETE THIS SECTION"
     end
 
     run_block_if_given(section,block)
