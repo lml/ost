@@ -182,6 +182,7 @@ GEM
     rack-ssl-enforcer (0.2.4)
     rack-test (0.6.1)
       rack (>= 1.0)
+    railroady (1.1.0)
     rails (3.2.8)
       actionmailer (= 3.2.8)
       actionpack (= 3.2.8)
@@ -305,6 +306,7 @@ DEPENDENCIES
   quiet_assets (~> 1.0.1)
   rack-mini-profiler
   rack-ssl-enforcer (~> 0.2.4)
+  railroady
   rails (= 3.2.8)
   recaptcha (~> 0.3.4)
   rspec-rails

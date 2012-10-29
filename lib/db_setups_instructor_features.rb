@@ -3,46 +3,6 @@ include DbDsl
 
 module DbSetup
 
-  def instructor_class_learning_plan_view_setup
-    DbUniverse do
-
-      DbCofUser first_name: "Admin",      last_name: "Jones", username: "admin"
-      DbCofUser first_name: "Professor",  last_name: "X",     username: "profx"
-
-      DbCofExercise url: "http://exercises.com/1"
-      DbCofExercise url: "http://exercises.com/2"
-
-      DbCofOrganization name: "Get Smart" do
-
-        DbCofCourse name: "Intro 101: Only the Easy Stuff" do
-          DbCofInstructor for_user: { existing: "profx" } do
-            DbCofClass do
-            end
-          end
-        end
-
-        DbCofCourse name: "Course 102: Time to Rethink Your Major" do
-          DbCofInstructor for_user: { existing: "profx" } do
-            DbCofClass do
-              DbCofLearningPlan do
-                DbCofConcept name: "Concept One"
-                DbCofTopic name: "First Topic"
-                DbCofTopic name: "Second Topic" do
-                  DbCofResource name: "Resource One"
-                  DbCofResource url: "http://www.google.com"
-                  DbCofTopicExercise for_exercise: {existing: "http://exercises.com/1"}, for_concept: {existing: "Concept One"}
-                  DbCofTopicExercise for_exercise: {existing: "http://exercises.com/2"}, for_concept: {existing: "Concept One"}
-                end
-              end
-            end
-          end
-        end
-
-      end
-
-    end
-  end
-
   def instructor_dashboard_setup
     DbUniverse do
 
@@ -124,6 +84,70 @@ module DbSetup
           end
         end
       
+      end
+
+    end
+  end
+
+  def instructor_class_learning_plan_view_setup
+    DbUniverse do
+
+      DbCofUser first_name: "Admin",      last_name: "Jones", username: "admin"
+      DbCofUser first_name: "Professor",  last_name: "X",     username: "profx"
+      DbCofUser first_name: "Researcher", last_name: "Smith", username: "researcher" do
+        DbCofResearcher()
+      end
+
+      consent_form = DbCofConsentForm name: "Custom Consent Form"
+
+      ex1 = DbCofExercise url: "http://google.com/search?q=michael+jordan"
+      ex2 = DbCofExercise url: "http://google.com/search?q=spongebob+squarepants"
+
+      DbCofOrganization name: "Get Smart" do
+
+        DbCofCourse name: "Intro 101: Only the Easy Stuff" do
+          DbCofInstructor for_user: { existing: "profx" } do
+            DbCofClass do
+              DbCofConsentOptions consent_form: consent_form
+            end
+          end
+        end
+
+        DbCofCourse name: "Course 102: Time to Rethink Your Major" do
+          DbCofInstructor for_user: { existing: "profx" } do
+            DbCofClass start_date: "Sep 1, 2010 5:00am", end_date: "Dec 1, 2010 5:00pm" do
+              DbCofLearningPlan do
+                con1 = DbCofConcept name: "Concept One"
+
+                topic1 = DbCofTopic name: "First Topic"
+
+                topic2 = DbCofTopic name: "Second Topic" do
+                  DbCofResource name: "Resource One"
+                  DbCofResource url: "http://www.google.com"
+                  DbCofTopicExercise exercise: ex1, concept: con1
+                  DbCofTopicExercise exercise: ex2, concept: con1
+                end
+
+                DbCofAssignmentPlan starts_at: "Sep 1, 2010 6:00am", ends_at: "Sep 5, 2010 10:00pm" do
+                  DbCofAssignmentPlanTopic topic: topic1
+                end
+                DbCofAssignmentPlan starts_at: "Sep 3, 2010 6:00am", ends_at: "Sep 9, 2010 10:00pm" do
+                  DbCofAssignmentPlanTopic topic: topic1
+                  DbCofAssignmentPlanTopic topic: topic2
+                end
+              end
+
+              DbCofCohort name: "Cohort Ena"
+
+              DbCofSection name: "Section the First" do
+                DbCofCohort name: "Inner Cohort"
+              end
+
+            end
+
+          end
+        end
+
       end
 
     end

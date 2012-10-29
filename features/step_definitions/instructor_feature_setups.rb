@@ -10,7 +10,7 @@ And %r{instructor enrollment setup} do
   instructor_enrollment_setup
 end
 
-And %r{^instructor class learning plan setup$} do
+And %r{^instructor class learning plan view setup$} do
   instructor_class_learning_plan_view_setup
 end
 
