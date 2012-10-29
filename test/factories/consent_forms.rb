@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :consent_form do
-    html "MyText"
-    esignature_required false
-    sequence(:name)  {|n| "Consent Form #{n}"}
+    html                    "Autogen consent form text"
+    esignature_required     false
+    sequence(:name)         {|n| "AutoGen Consent Form #{n}"}
   end
 end

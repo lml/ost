@@ -35,7 +35,7 @@ Feature: Instructors can view the Learning Plans for Classes they are teaching.
             Student "Hubert" is dropped
 
     Background:
-        Given instructor class learning plan setup
+        Given instructor class learning plan view setup
 
     Scenario: Professor X views Learning Plan for Intro 101
         Given that I am logged in as "Professor X"

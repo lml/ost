@@ -3,5 +3,6 @@
 FactoryGirl.define do
   factory :cohort do
     klass
+    sequence(:name)  {|n| "AutoGen Cohort #{n}"}
   end
 end
