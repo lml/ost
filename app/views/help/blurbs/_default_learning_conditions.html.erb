@@ -1,15 +1,20 @@
 
-<p><em>Default schedule conditions</em>:</p>  
-  <ul>
-    <li>All students receive the same assignments, regardless of section.</li>
-    <li>If you add a topic to a <em>non-test</em> assignment, the assignment will contain <em>all</em> exercises in that topic, except those marked as a test.</li>
-    <li>OST attaches the label <em>standard practice</em> to each non-test exercise (and never to test exercises).</li>
-  </ul>
-<p><em>Default feedback conditions</em>:</p>   
+<p><em>Default schedule condition</em>:</p>  
+   
+      <%= image_tag("default_schedule.png", {:border => 1, :width => "60%", :height => "60%", :title=>"schedule"})%>
+<p>  
+    (1) One <em>cohort</em>: all students receive the same treatment.<br/>
+    (2) One <em>schedule</em>: the same percentage rule is applied to each non-test assignment.<br/>
+    (3) Percentage rule: every assignment draws <em>100%</em> of non-test exercises from listed topic(s).<br/>
+    (4) Labels: OST attaches the label <em>standard practice</em> to each assigned exercise.<br/>
+  
+<p><em>Default feedback condition</em>:</p>   
+   <%= image_tag("default_feedback.png", {:border => 1, :width => "60%", :height => "60%", :title=>"default feedback"})%>
   <ul>  
-    <li>Students receive feedback on all <em>non-test</em> exercises they complete (and never on test exercises).</li>
-    <li>Viewing feedback is not required to receive credit.</li>
-    <li>OST shows student feedback page automatically, i.e. student is not required to manually click on Feedback link.</li>
+    <li>This default condition applies <em>only</em> to exercises labeled <em>standard practice</em>.</li>
+    <li>Viewing feedback is <em>not</em> required to receive credit.</li>
+    <li>OST can show feedback page automatically, i.e. student is not required to manually click on Feedback link.</li>
     <li>OST shows feedback immediately after exercise is completed.</li>
     <li>Feedback never becomes unavailable.</li>
   </ul>
+  

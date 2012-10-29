@@ -1,12 +1,10 @@
-Fixes -- it'd be cool to expand/contract each of these sections so the page is not so long and overwhelming<br/>
-If not, ? <p>
+<%= pageHeading "Getting Started for Instructors" do %>
 
-Getting Started for Instructors
+    <% end %>
 
-<p>Welcome to <%= SITE_NAME %>! This page provides a general roadmap of the steps required to set up your class in <%= SITE_NAME %>. For more detail about any particular step, click the links to learn more.</p>
+<p>Welcome to <%= SITE_NAME %>! This page provides a general roadmap of the steps required to set up your class. For more detail about any particular step, click the links to learn more.</p>
 
-Screencasts -- 5 minute introduction to OST, adding course content, creating assignments, setting up learning and feedback conditions.
- 
+Screencast -- 5 minute introduction to OST and major stuff you can do.
  
  
 <ol>
@@ -20,22 +18,18 @@ Screencasts -- 5 minute introduction to OST, adding course content, creating ass
       <li>Consider partnering with <%= SITE_NAME %> researchers to run an educational study in your class. </li>
       <li>Plan course materials and ensure they are hosted on <%= link_to "Connexions", "http://www.cnx.org" %> and <%= link_to "Quadbase", "https://www.quadbase.org" %>.</li>
       <li>Organize and sequence related course materials into topics.</li>
-      <li>Plan your assignments and decide if you will set up any learning conditions for them.</li>
+      <li>Plan assignments: decide what topic(s) each homework and test will cover.</li>
     </ol>
   <p><li><strong>Set up your class.</strong></li></p>
     <ol>
-      <li><%= link_to "Enter basic class settings", help_class_settings_path %>. </li>
-      <li><%= link_to "Customize class Learning Conditions, if any", help_learning_conditions_path %>. </li>
+      <li><%= link_to "Adjust class settings", help_class_settings_path %>. </li>
       <li><%= link_to "Add links to course materials in the Topics section", help_topics_path %>. </li>
+      <li>If not working with the research team, <%= link_to "set learning conditions for your class", help_learning_conditions_path %>. </li>
       <li><%= link_to "Create homeworks and tests in the Assignments section", help_assignments_path %>.</li>
       <li><%= link_to "View and schedule assignments in Scheduling section", help_scheduling_path %>. </li>
+      
     </ol>
-  <p><li><strong>Manage class.</strong></li></p>
-  <ol>
-    <li>Manage student enrollment. </li>
-    <li>Manage assignments and students.
-    <li>Export reports. </li>
-  </ol>
+
     
     
     <p>
@@ -50,5 +44,5 @@ Screencasts -- 5 minute introduction to OST, adding course content, creating ass
 
     <%= render :partial => 'help/blurbs/set_up_class'%>
     
-    
+
 

@@ -1,24 +1,19 @@
-Introduction to Assignments
+Overview of Assignments
 
-You can build two (2) kinds of assignments in <%= SITE_NAME %>: 
+<%= render :partial => 'help/blurbs/plan_assignments' %>
 
-Non-test assignments: 
-
-Test assignments:
-
-<%= SITE_NAME%> will build the assignment according toadd the topic(s) you want each assignment to cover. 
 
 <p>
 <strong>To create a <em>non-test</em> assignment:</strong>
-<p>This tutorial assumes that you have already added course content to the Topics section.</p>
+<p>This tutorial assumes that you have already organized your content into topics, added it to the Learning Plan and  <%= link_to "marked test exercises as such", help_topics_path(:anchor => "mark_test") %>.</p>
 <ol>
   <li>Go to <strong>Dashboard > Class > Learning Plan > Assignments</strong> and click <strong>Add new assignment</strong>.</li>
   <p>
-  <li>Enter name, optional introduction and assignment start and end date.</li>
+  <li>Enter <strong>name</strong>, <strong>optional introduction</strong> and <strong>assignment start and end date</strong>.</li>
   <p>
-  <li>For a non-test assignment, do not check <em>This is a test</em>.</li>
+  <li>For this non-test assignment, leave <em>This is a test</em> unchecked.</li>
   <p>
-  <li>Mark if group work is allowed and/or if the assignment is open book.</li>
+  <li>Mark if <strong>group work</strong> is allowed and/or if the assignment is <strong>open book</strong>.</li>
   <p>
   <li>Leave "This is ready to be assigned" <em>unchecked</em> until you have finished editing the assignment.</li>
   <p>
@@ -28,7 +23,14 @@ Test assignments:
   <p>
   <li><em><strong>Double click</strong></em> the assignment you just created.</li>
   <p>
-  <li>Click <strong>Add</strong> and select the topic the assignment covers.</li>
+  <li>Click <strong>Add</strong> and select the <strong>topic(s) </strong>the assignment will cover.</li>
+  <p>
+  Note:</p> 
+  <ul>
+    <li>If your class is using the default schedule condition, OST will pull 100% of (non-test) exercises from listed topics into the assignment.</li>
+    <p>
+    <li>If you are using a custom schedule condition that automatically includes repetition practice from previous topics, you need only add the <em><strong>primary topic</strong></em> to the assignment.</li>
+  </ul>
   <p>
   <li>Click <strong>Add this topic</strong>.</li>
   <p>
@@ -36,7 +38,7 @@ Test assignments:
   <p>
   <li>Click <strong>Preview Assignments</strong> to verify the assignment looks correct.</li>
   <p>
-  <li>Mark "This is ready to be assigned" -- OST will send out the assignment on the specified start date/time.<p>
+  <li>When the assignment settings are correct, mark <strong>This is ready to be assigned</strong>; OST will send out the assignment on the specified start date/time.<p>
     <ul>
       <li>Hold mouse over topic.</li>
       <li>Click orange pencil icon to edit the assignment plan.</li>
