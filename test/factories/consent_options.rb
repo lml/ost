@@ -3,8 +3,8 @@
 FactoryGirl.define do
   factory :consent_option, :class => 'ConsentOptions' do
     consent_form
-    consent_optionable { Factory(:klass) }
-    opens_at {Time.now}
-    closes_at {Time.now+3.months}
+    association :consent_optionable, factory: :klass
+    opens_at       { Time.now }
+    closes_at      { Time.now + 3.months }
   end
 end
