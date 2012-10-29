@@ -1,6 +1,7 @@
+require 'ost_utilities'
+
 Ost::Application.configure do
   include Ost::Utilities
-
   # Settings specified here will take precedence over those in config/application.rb
 
   # The test environment is used exclusively to run your application's
@@ -9,11 +10,7 @@ Ost::Application.configure do
   # and recreated between test runs. Don't rely on the data there!
   config.cache_classes = true
 
-  # Configure static asset server for tests with Cache-Control for performance
-  config.serve_static_assets = true
-  config.static_cache_control = "public, max-age=3600"
-
-  # Log error messages when you accidentally call methods on nil
+  # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 
   # Show full error reports and disable caching
@@ -25,6 +22,20 @@ Ost::Application.configure do
 
   # Disable request forgery protection in test environment
   config.action_controller.allow_forgery_protection    = false
+
+  # Configure static asset server for tests with Cache-Control for performance
+  config.serve_static_assets = true
+  config.static_cache_control = "public, max-age=3600"
+
+  # Log the query plan for queries taking more than this (works
+  # with SQLite, MySQL, and PostgreSQL)
+  config.active_record.auto_explain_threshold_in_seconds = 0.5
+
+  # Do not compress assets
+  config.assets.compress = false
+
+  # Expands the lines which load the assets
+  config.assets.debug = true
 
   ########################################
   # CONFIGURE THE RAILS APPLICATION DOMAIN
@@ -61,4 +72,8 @@ Ost::Application.configure do
   config.enable_url_existence_validations = online?
   # config.enable_url_format_validations = false
 
+end
+
+Devise.setup do |config|
+  config.timeout_in = 200.years
 end
