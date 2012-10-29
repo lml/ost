@@ -67,9 +67,35 @@ module DbDsl
       klass = FactoryGirl.create(:klass, attrs)
       klass.sections.first.name = "DELETE THIS SECTION"
       klass.sections.first.save!
+
+      klass.cohorts.first.name = "DELETE THIS COHORT"
+      klass.cohorts.first.save!
     end
 
     run_block_if_given(klass,block)
+  end
+
+  def DbCofCohort(options={}, &block)
+    options ||= { }
+
+    if options[:existing]
+      cohort = Cohort.where{ name == options[:existing] }.first
+    elsif cohort = find_on_stack(Cohort)
+    else
+      attrs = FactoryGirl.attributes_for(:cohort)
+      attrs[:klass] = options[:class] || DbCofClass(attrs[:for_class])
+      attrs[:name]    = options[:name]    if options[:name]
+      attrs[:section] = options[:section] if options[:section]
+      attrs[:section] ||= DbCofSection(attrs[:for_section]) if attrs[:for_section]
+      attrs[:section] ||= find_on_stack(Section)
+      cohort = FactoryGirl.create(:cohort, attrs)
+
+      # Klasses automatically contruct a default Cohort; if the
+      # user has specified a custom Cohort, remove the default.
+      attrs[:klass].cohorts(true).shift.destroy if attrs[:klass].cohorts(true).first.name == "DELETE THIS COHORT"
+    end
+
+    run_block_if_given(cohort,block)
   end
 
   def DbCofConcept(options={}, &block)
@@ -86,6 +112,50 @@ module DbDsl
     end
 
     run_block_if_given(concept,block)
+  end
+
+  def DbCofConsentForm(options={}, &block)
+    options ||= { }
+
+    if options[:existing]
+      consent_form = ConsentForm.where{ name == options[:existing] }.first
+    elsif consent_form = find_on_stack(ConsentForm)
+    else
+      attrs = FactoryGirl.attributes_for(:consent_form)
+      attrs[:name]                = options[:name]                if options[:name]
+      attrs[:html]                = options[:html]                if options[:html]
+      attrs[:esignature_required] = options[:esignature_required] if options[:esignature_required]
+      consent_form = FactoryGirl.create(:consent_form, attrs)
+    end
+
+    run_block_if_given(consent_form,block)
+  end
+
+  def DbCofConsentOptions(options={}, &block)
+    options ||= { }
+    debugger
+    if consent_options = find_on_stack(ConsentOptions)
+    else
+      attrs = FactoryGirl.attributes_for(:consent_option)
+      attrs[:consent_form]        = options[:consent_form]        || DbCofConsentForm(options[:for_consent_form])
+      attrs[:consent_optionable]  = options[:consent_optionable]  || DbCofClass(options[:for_class])         
+
+      # Klasses automatically contruct default ConsentOptions; if the
+      # user has specified custom ConsentOptions, remove the default.
+      ConsentOptions.where{ consent_optionable_id == attrs[:consent_optionable].id }.first.destroy
+
+      attrs[:opens_at]            = options[:opens_at]   if options[:opens_at]
+      attrs[:closes_at]           = options[:closes_at]  if options[:closes_at]
+
+      attrs[:opens_at]  = TimeUtils.timestr_and_zonestr_to_utc_time(attrs[:opens_at],  attrs[:consent_optionable].time_zone) \
+        if attrs[:opens_at].class == String
+      attrs[:closes_at] = TimeUtils.timestr_and_zonestr_to_utc_time(attrs[:closes_at], attrs[:consent_optionable].time_zone) \
+        if attrs[:closes_at].class == String
+
+      consent_options = FactoryGirl.create(:consent_option, attrs)
+    end
+
+    run_block_if_given(consent_options,block)
   end
 
   def DbCofCourse(options={}, &block)
@@ -207,6 +277,19 @@ module DbDsl
     run_block_if_given(request,block)
   end
 
+  def DbCofResearcher(options={}, &block)
+    options ||= { }
+
+    if researcher = find_on_stack(Researcher)
+    else
+      attrs = FactoryGirl.attributes_for(:researcher)
+      attrs[:user] = options[:user] || DbCofUser(options[:for_user])
+      researcher = FactoryGirl.create(:researcher, attrs)
+    end
+
+    run_block_if_given(researcher,block)
+  end
+
   def DbCofResource(options={}, &block)
     options ||= { }
 
@@ -238,8 +321,7 @@ module DbDsl
 
       # Klasses automatically contruct a default Section; if the
       # user has specified a custom Section, remove the default.
-      bogus_section = attrs[:klass].sections.first
-      bogus_section.destroy if bogus_section.name == "DELETE THIS SECTION"
+      attrs[:klass].sections(true).destroy if attrs[:klass].sections(true).first.name == "DELETE THIS SECTION"
     end
 
     run_block_if_given(section,block)

@@ -94,6 +94,11 @@ module DbSetup
 
       DbCofUser first_name: "Admin",      last_name: "Jones", username: "admin"
       DbCofUser first_name: "Professor",  last_name: "X",     username: "profx"
+      DbCofUser first_name: "Researcher", last_name: "Smith", username: "researcher" do
+        DbCofResearcher()
+      end
+
+      consent_form = DbCofConsentForm name: "Custom Consent Form"
 
       ex1 = DbCofExercise url: "http://google.com/search?q=michael+jordan"
       ex2 = DbCofExercise url: "http://google.com/search?q=spongebob+squarepants"
@@ -102,7 +107,9 @@ module DbSetup
 
         DbCofCourse name: "Intro 101: Only the Easy Stuff" do
           DbCofInstructor for_user: { existing: "profx" } do
-            DbCofClass()
+            DbCofClass do
+              DbCofConsentOptions consent_form: consent_form
+            end
           end
         end
 
@@ -129,7 +136,15 @@ module DbSetup
                   DbCofAssignmentPlanTopic topic: topic2
                 end
               end
+
+              DbCofCohort name: "Cohort Ena"
+
+              DbCofSection name: "Section the First" do
+                DbCofCohort name: "Inner Cohort"
+              end
+
             end
+
           end
         end
 
