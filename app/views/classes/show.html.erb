@@ -1,13 +1,13 @@
+<% addTestMeta {{:page_type  => "show"}} %>
+<% addTestMeta {{:major_name => @klass.course.organization.name}} %>
+<% addTestMeta {{:minor_name => @klass.course.name}} %>
+
 <% 
   is_educator = @klass.is_educator?(present_user)
   student = @klass.student_for(present_user) 
   is_student = !student.nil?
   student_cohort = student.try(:cohort)
 %>
-
-
-
-
 
 <%= section "Class Information", {:classes => 'first no_bar' } do %>
 
@@ -56,6 +56,10 @@
   <% can_add_educator = present_user.can_create?(Educator.new(:klass => @klass)) %>
   
   <table class="left_heading">
+    <tr>
+      <th style="text-align:right">Course Name</th>
+      <td><%= @klass.course.name %></td>
+    </tr>
     <tr>
       <th style="text-align:right">Instructors</th>
       <td style="vertical-align:top">
@@ -141,18 +145,21 @@
     <% num_sections = @klass.sections.count %>
     <% @klass.sections.each_with_index do |section,ii| %>
     
-      <tr>
+      <tr class="test test_section">
         <th style="text-align:right"><%= "Enrollment" if ii == 0 %></th>
         <td>
           <%= link_to_if(present_user.can_read_children?(section, :students), 
                          "#{section.students.registered.active.count} Registered",
-                         klass_students_path(@klass)) %> |
+                         klass_students_path(@klass),
+                         :test => "registered") %> |
           <%= link_to_if(present_user.can_read_children?(section, :students), 
                          "#{section.students.auditing.active.count} Auditing",
-                         klass_students_path(@klass)) %>
+                         klass_students_path(@klass),
+                         :test => "auditing") %>
           <% if @klass.is_teaching_assistant?(present_user) %>
             | <%= link_to("#{section.registration_requests.count} Pending", 
-                        klass_registration_requests_path(@klass)) %>
+                          klass_registration_requests_path(@klass),
+                          :test => "pending") %>
           <% end %>
           <%= "&nbsp;(#{section.name})".html_safe if num_sections > 1 %>
         </td>
@@ -179,12 +186,15 @@
       <p>No assignments yet!</p>
     <% else %>
     
-      <table class="list" width="90%">
+      <table class="list <%= is_student ? 'student_assignment' : 'assignment' %>">
         <tr>
-          <th width="5%"></th>
-          <th width="55%">Name</th>
-          <th width="20%">Starts</th>
-          <th width="20%">Ends</th>
+          <th class="assignment_number"></th>
+          <th class="assignment_name">Name</th>
+          <th class="assignment_start">Starts</th>
+          <th class="assignment_end">Ends</th>
+		  <% if is_student %>
+          <th class="assignment_grade percentage">Grade (%)</th>
+		  <% end %>
         </tr>
     
       <% sees_all_cohort_assignments = is_educator || present_user.is_researcher? || present_user.is_administrator? %>
@@ -201,17 +211,24 @@
             
         <% next if !sees_all_cohort_assignments && assignments.where{cohort_id == student_cohort.id}.first.nil? %>        
         
+		<% assignment = is_student ? assignments.where{cohort_id == student_cohort.id}.first : nil %>
+		
         <tr>
-          <td><%= count += 1 %>.</td>
-          <td>
+          <td class="assignment_number"><%= count += 1 %>.</td>
+          <td class="assignment_name">
             <% if sees_all_cohort_assignments %>
               <%= plan.name %>
             <% else %>
-              <%= link_to(plan.name, assignments.where{cohort_id == student_cohort.id}.first) %>
+              <%= link_to(plan.name, assignment) %>
             <% end %>
           </td>
-          <td><%= standard_date(plan.starts_at) %></td>
-          <td><%= standard_date(plan.ends_at) %></td>
+          <td class="assignment_start"><%= standard_date(plan.starts_at) %></td>
+          <td class="assignment_end"><%= standard_date(plan.ends_at) %></td>
+		  <% if is_student %>
+		  	<% student_assignment = StudentAssignment.for_student(student).for_assignment(assignment).first %>
+			<% score = student_assignment.nil? ? 0.0 : student_assignment.score %>
+		  <td class="assignment_grade"><%= standard_percentage(score) %></td>
+		  <% end %>
         </tr>
         <% if sees_all_cohort_assignments %>
           <% assignments.each do |assignment| %>
@@ -234,6 +251,7 @@
 
 
 <%
+  @force_nav_bar = true;
   navitem(present_user.can_update?(@klass)) { link_to('Edit Class', edit_klass_path(@klass)) }
   navitem(:can_read?, @klass.learning_plan) { link_to("Learning Plan", @klass.learning_plan) }
   navitem(:can_read_children?, @klass, :sections) { link_to("Sections", klass_sections_path(@klass)) }
@@ -241,4 +259,5 @@
   navitem(:can_read_children?, @klass, :cohorts) { link_to("Cohorts", klass_cohorts_path(@klass)) }
   navitem(:can_read?, @klass.consent_options) { link_to("Consent Options", @klass.consent_options) }
   navitem(:can_read_children?, @klass, :report) { link_to("Report", report_klass_path(@klass, :format => :xls)) }
+  navitem(:can_read_children?, @klass, :class_grades) { link_to("Class Grades", class_grades_klass_path(@klass, :format => :xls)) }
 %>

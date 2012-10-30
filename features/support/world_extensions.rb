@@ -1,32 +1,14 @@
-
-CAPTURE_USER_FULL_NAME = Transform /"(.*)"/ do |full_name|
-  full_name
-end
-
-CAPTURE_ORGANIZATION_NAME = Transform /"(.*)"/ do |org_name|
-  org_name
-end
-
-CAPTURE_COURSE_NAME = Transform /"(.*)"/ do |course_name|
-  course_name
-end
-
-CAPTURE_LINK_TEXT = Transform /"(.*)"/ do |link_text|
-  link_text
-end
+require 'db_setups_instructor_features'
+World(DbSetup)
 
 module WorldExtensions
 
-  def wait_for_browser
-    page.find('div#footer')
-  end
-  
   ##
   ## User-related
   ## 
 
   def find_users_by_full_name(target_full_name)
-    target_first_name, target_last_name = fg_parse_full_name(target_full_name)
+    target_first_name, target_last_name = parse_full_name(target_full_name)
     User.where{ (first_name == target_first_name) & (last_name == target_last_name) }
   end
 
@@ -37,7 +19,7 @@ module WorldExtensions
   end
 
   def create_user_by_full_name(target_full_name)
-    target_first_name, target_last_name = fg_parse_full_name(target_full_name)
+    target_first_name, target_last_name = parse_full_name(target_full_name)
     FactoryGirl.create(:user, :first_name => target_first_name, :last_name => target_last_name)
     find_unique_user_by_full_name(target_full_name)
   end
@@ -46,6 +28,11 @@ module WorldExtensions
     find_unique_user_by_full_name(target_full_name)
   rescue Exception
     create_user_by_full_name(target_full_name)
+  end
+
+  def parse_full_name(full_name)
+    raise "Invalid user full name: '#{full_name}'" unless %r{(?<fname>\w+)\s+(?<lname>\w+)} =~ full_name
+    [fname, lname]
   end
 
   ##
@@ -72,6 +59,19 @@ module WorldExtensions
   rescue
     create_organization_by_name(target_name)
   end
+
+  def find_or_create_unique_organization_course_by_name(org, target_course_name)
+    courses = find_courses_by_name(target_course_name)
+    raise "there are #{courses.size} Courses with name '#{target_course_name}" if courses.size > 1
+    if courses.size == 0
+      FactoryGirl.create(:course, :name => target_course_name, :organization => org)
+    end
+
+    course = find_unique_course_by_name(target_course_name)
+    raise "there is a Course named '#{course.name}' under Organization '#{course.organization.name}'" \
+    if course.organization.name != org.name
+      course
+    end
 
   ##
   ## Course-related
@@ -126,6 +126,7 @@ module WorldExtensions
   ## Misc Utils
   ## 
   
+  # Example usage: save_screen('not_logged_in', URI.parse(current_url).path)
   def save_screen(prefix, path)
     new_path = path.clone
     new_path.gsub!(%r{/}, ":")
@@ -158,6 +159,105 @@ module WorldExtensions
     page.evaluate_script "window.confirm = window.original_confirm_function"
   end
   
+  def wait_for_browser
+    page.find('div#footer')
+  end
+  
+  def verify_test_meta(options)
+    msg = nil || options[:fail_message]
+    options.each do |key, val|
+      next if key == :fail_message
+      page.find(:xpath, "//meta[@property='test:#{key}' and @content='#{val}']").should be_true, msg
+    end
+  end
+  
+  def mouseover_elem(elem)
+    elem.should be_true
+    xpath = elem.path
+    css = xpath_to_css(xpath)
+    cmd = "$(\"#{css}\").trigger('mouseover');"
+    cmd = "$(\"#{css}\").trigger('mousemove');"
+    cmd = "$(\"#{css}\").trigger('mouseenter');"
+    page.execute_script(cmd)
+  end
+  
+  def xpath_to_css(xpath)
+    css = xpath.dup
+    css.sub!(%r{^/}, '')
+    css.gsub!(%r{/}, ' > ')
+    css.gsub!(%r{\[(?<val>\d+)\]}, ':nth-child(\k<val>)')
+    css.gsub!(%r{@}, '')
+  end
+
+  def find_innermost_matching_elem(elem, search_entry)
+
+    debug = false
+
+    %r{^(?<class_name>.+?)(\s+containing\s+(?<content>.+))?$} =~ search_entry
+
+    class_name = "test_section" if class_name == "row"
+    class_name = "test_section" if class_name == "section"
+
+    if class_name.match(/\s/)
+      content = class_name
+      class_name      = nil
+    end
+
+    if debug
+      puts "search entry   = ( #{search_entry} )"
+      puts "class_name     = ( #{class_name} )"
+      puts "content        = ( #{content} )"
+    end
+
+    # NOTE: It turns out the #has_css? modifies the element
+    #       when the query fails.  That's why the last matched
+    #       xpath is maintained instead of the actual element.
+    matched_xpath = nil
+    while true
+      match_found = false
+      if class_name && content
+        if elem.has_css?(".test.#{class_name}", :text => content)
+          elem = elem.find(".test.#{class_name}", :text => content)
+          match_found = true
+        end
+      elsif class_name
+        if elem.has_css?(".test.#{class_name}")
+          elem = elem.find(".test.#{class_name}")
+          match_found = true
+        elsif elem.has_css?(".test", :text => class_name)
+          elem = elem.find(".test", :text => class_name)
+          match_found = true
+        end
+      elsif content
+        if elem.has_css?(".test", :text => content)
+          elem = elem.find(".test", :text => content)
+          match_found = true
+        end
+      end
+
+      matched_xpath = elem.path if match_found
+
+      raise "could not find element for: #{search_entry} (#{class_name}) (#{content})" if matched_xpath.nil?
+      break if !match_found
+
+      puts elem_details(elem, "new match element details:", 10) if debug
+
+      if block_given?
+        break if !(yield elem)
+      end
+    end
+
+    matched_xpath  
+  end
+
+  def elem_details(elem, notice="element details:", num_indent=10)
+    indent = " "*num_indent
+    result = indent + notice + "\n"
+    result += indent + "   tag: (#{elem.tag_name})\n"
+    result += indent + "   id:  (#{elem[:id]})\n"
+    result += indent + "   path: (#{elem.path})\n"
+    result += indent + "   text: (#{elem.text})\n"
+  end
 end
 
 World(WorldExtensions)

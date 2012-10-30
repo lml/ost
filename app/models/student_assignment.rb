@@ -40,8 +40,11 @@ class StudentAssignment < ActiveRecord::Base
     assignment_coworkers.includes(:student).any?{|cw| cw.student.user_id == user.id}
   end
   
+  attr_accessor :sudo_enabled
+
   def destroyable?
-    raise NotYetImplemented
+    sudo_enabled || false
+    # raise NotYetImplemented
   end
   
   def mark_complete_if_indicated!
@@ -78,6 +81,11 @@ class StudentAssignment < ActiveRecord::Base
     LearningCondition.joins{cohort.students.student_assignments}
                      .where{cohort.students.student_assignments.id == my{id}}
                      .first
+  end
+  
+  def score
+    score = student_exercises.inject(0.0) { |score, se| score += se.score }
+    score /= student_exercises.size if student_exercises.size > 0
   end
   
   #############################################################################

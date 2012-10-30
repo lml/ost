@@ -13,6 +13,6 @@ Feature: Admins have admin and research toolboxes
     When  I visit the main page
     Then  I should see an "Admin Console" link
     And   I should see a "Research Console" link
-    When  I click the "DASHBOARD" tab
+    When  I click on "dashboard"
     Then  I should see an "Admin Console" link
     And   I should see a "Research Console" link

@@ -128,7 +128,28 @@ module ApplicationHelper
                 :border => 1 })
   end
   
-  def link_to_help(blurb, text="", options={})
+  def link_to(*args, &block)
+    # This logic is taken directly from GitHub source
+    if block_given?
+      options      = args.first || {}
+      html_options = args.second || {}
+      add_test_classes html_options, [:test, :clickable]
+      super(options, html_options, &block)
+    else
+      name         = args[0]
+      options      = args[1] || {}
+      html_options = args[2] || {}
+      add_test_classes html_options, [:test, :clickable]
+      super(name, options, html_options)
+    end
+  end
+
+  def button_to(name, options={}, html_options={})
+    add_test_classes html_options, [:test, :clickable]
+    super(name, options, html_options)
+  end
+
+  def link_to_help(blurb,_text="",_options={})
     @include_help_dialog = true
     @include_mathjax = true if options[:include_mathjax]
     
@@ -138,6 +159,11 @@ module ApplicationHelper
             blurb_help_path(blurb, :options => options), 
             :remote => true
   end
+  
+  def standard_percentage(value)
+    "%6.2f" % (100 * (value || 0))
+  end
+
   
   def standard_date(datetime)
     datetime.nil? ? "" : datetime.strftime(STANDARD_DATE_FORMAT)
@@ -160,7 +186,7 @@ module ApplicationHelper
   end
   
   def show_button(target)
-    link_to("", target, :class => "icon_only_button show_button")
+    link_to("", target, :class => "icon_only_button", :test => "show_button")
   end
   
   def edit_button(target, options={})
@@ -270,7 +296,7 @@ module ApplicationHelper
       
       entries.collect { |entry|
         content_tag :div, :id => "sortable_item_#{entry.id}", 
-                          :class => 'sortable_item_entry', 
+                          :class => 'test test_section sortable_item_entry', 
                           :style => "height:24px; display:table" do
 
           a = content_tag(:span, "", :class => "ui-icon #{bullet_class} handle",
@@ -292,11 +318,11 @@ module ApplicationHelper
                           link_target : 
                           [options[:namespace], link_target]
                           
-            link_to(link_text.blank? ? 'unnamed' : link_text, link_target)
+            link_to(link_text.blank? ? 'unnamed' : link_text, link_target, :test => "uberlist_link")
           end
           
           c = content_tag(:div, {:class => "sortable_item_buttons", 
-                             :style => 'padding-left: 8px; display:table-cell; visibility:hidden; vertical-align:top'},
+                             :style => 'padding-left: 8px; display:table-cell; visibility:hidden; vertical-align:top; width: 45px'},
                             :escape => false) do
             button_target = options[:namespace].nil? ? 
                             entry : 

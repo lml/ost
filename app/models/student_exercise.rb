@@ -88,7 +88,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def score
-    was_submitted_late || automated_credit.nil? ? 0 : feedback_credit_multiplier * automated_credit
+    (was_submitted_late || automated_credit.nil?) ? 0 : (feedback_credit_multiplier * automated_credit)
   end
   
   def learning_condition
@@ -141,7 +141,7 @@ class StudentExercise < ActiveRecord::Base
   def is_educator?(user)
     student_assignment.student.section.klass.is_educator?(user)
   end
-  
+
   def destroyable?
     raise NotYetImplemented
   end

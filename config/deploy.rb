@@ -3,10 +3,12 @@
 
 DEPLOY_SETTINGS = YAML::load_file(File.join(File.dirname(__FILE__), '/deploy_settings.yml'))
 
-$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
+# $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 
-set :rvm_ruby_string, 'ruby-1.9.3-p194@ost'        # Or whatever env you want it to run in.
+# set :rvm_ruby_string, 'ruby-1.9.3-p194@ost'        # Or whatever env you want it to run in.
+set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
+set :rvm_type, :system  # Copy the exact line. I really mean :system here
 
 set :normalize_asset_timestamps, false # get rid of public/[images, javascripts, ...] warnings
 

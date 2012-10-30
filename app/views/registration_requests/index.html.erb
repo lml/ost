@@ -1,3 +1,7 @@
+<% addTestMeta {{:page_type  => "index"}} %>
+<% addTestMeta {{:major_name => @klass.course.name}} %>
+<% addTestMeta {{:minor_name => "Registration Request"}} %>
+
 <%= pageHeading("#{@klass.course.name} Registration Requests")%>
 
 <% multiple_sections = @klass.sections.count > 1 %>

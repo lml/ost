@@ -1,5 +1,8 @@
 <%# Copyright (c) 2011 Rice University.  All rights reserved. %>
 
+<% addTestMeta {{:page_type  => "show"}} %>
+<% addTestMeta {{:major_name => @user.full_name}} %>
+
 <% if user_is_admin? %>
 <div id="upperCornerLinks"><%= link_to 'Edit', edit_user_path(@user) %> | <%= link_to 'List', users_path %></div>
 <% end %>
@@ -29,12 +32,13 @@
 <p>
 <% if user_is_admin? %>
   <%= button_to 'Sign-in as this user',
-      user_become_path(@user),
+        user_become_path(@user, :redirect_to_root => true),
         :method => :post,
-        :onclick => please_wait_js %>
+        :onclick => please_wait_js,
+ 		    :test => "sign_in_as" %>
   <% if !@user.confirmed? %>
     <%= button_to 'Confirm this user',
-        user_confirm_path(@user),
+          user_confirm_path(@user),
           :method => :put,
           :onclick => please_wait_js %>  
   <% end %>

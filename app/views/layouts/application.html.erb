@@ -1,3 +1,4 @@
+<% addTestMeta {{:current_user_id => @current_user.id}} if @current_user.present? %>
 <!DOCTYPE html>
 <html>
 
@@ -97,14 +98,14 @@
     
     <div id="toolbox" style="position:absolute; top:0; left:0">
       <% if present_user.is_administrator? %>
-        <%= link_to "Admin Console", admin_path %><br/>
+        <%= link_to "Admin Console", admin_path, :test => "admin_console" %><br/>
       <% end %>
       <% if present_user.is_researcher? || present_user.is_administrator? %>
-        <%= link_to "Research Console", research_path %><br/>
+        <%= link_to "Research Console", research_path, :test => "research_console" %><br/>
       <% end %>
       <% if Rails.env.development? %>
         Current user: <%= present_user.username %><br/>
-        <%= link_to "Dev Toolbox", dev_toolbox_path, :remote => true %>
+        <%= link_to "Dev Toolbox", dev_toolbox_path, :remote => true, :test => "dev_toolbox" %>
         <div id="dev_toolbox_dialog" style="display:none" title="Dev Toolbox"></div>
         <% content_for :javascript do %>
           <%= javascript_tag do %>
@@ -117,11 +118,15 @@
           <% end %>
         <% end %>
       <% end %>
-      
-      <% if (@clock_enabled && user_signed_in?) %>
+
+      <% clock_is_normally_enabled = @clock_enabled && user_signed_in? %>
+	  <% clock_is_enabled = clock_is_normally_enabled || !Rails.env.production? %>
+      <% if (clock_is_enabled) %>
       <br/>
-      <span id="clock">
-        <%= standard_time(Time.zone.now) %><br/>(on last refresh)
+      <span id="clock" <%= "style='color:#ff00ff;'".html_safe if !clock_is_normally_enabled %> >
+		<% time = Time.zone.now %>
+		<%= standard_date(time) %><br/>
+        <%= standard_time(time) %><br/>(on last refresh)
       </span>
       <% end %>
     </div>
@@ -134,7 +139,7 @@
       
       <div id="header" <%= classify(@header_class || "white") %>>
                  
-        <div id="nav_bar">
+        <div id="nav_bar" class="test test_section top_nav">
           <a href="/" class="logo"></a>
             <% nav_links = [
                 ["ABOUT", about_path, "", :about],
@@ -149,7 +154,7 @@
             <ul>
               <% nav_links.each do |nav_link| %>
                 <li>
-                  <%= link_to nav_link[1] do %>
+                  <%= link_to nav_link[1], :test => nav_link[0].html_safe.downcase.sub(/\s/, '_') do %>
                     <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %>" 
                           style="display:inline; position:relative"><%= nav_link[0].html_safe %><em></em></span>
                   <% end %>
@@ -191,11 +196,11 @@
               <span style="color: black">Welcome <%= current_user.first_name.capitalize %></span> &nbsp;&nbsp;
               <%= link_to "My Account", edit_user_registration_path %> 
               <%= vertical_bar(12) %>
-              <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :id => 'signout_link' %>
+              <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :id => 'signout_link', :test => "sign_out" %>
             <% else %>
               <%= link_to "Join now", new_user_registration_path %> 
               <%= vertical_bar(12) %>
-              <%= link_to "Sign in", new_user_session_path %>
+              <%= link_to "Sign in", new_user_session_path, :test => "sign_in" %>
             <% end %>
             <%= link_to nil, :style => 'margin-left: 16px' do %>
               <%= image_tag("fb_round_#{icon_color}.png") %>
@@ -211,6 +216,9 @@
         <% @navitems ||= [] %>
         
         <div class="top_level_container">
+	
+		  <% has_nav_content = content_for?(:right_column) || !@navitems.empty? || content_for?(:other_nav_content) %>
+	
           <% if content_for?(:main) %>
 
             <%= yield(:page_heading) %>
@@ -223,7 +231,7 @@
               <%= yield(:main) %>         
             </div>
             
-          <% elsif content_for?(:right_column) || !@navitems.empty? || content_for?(:other_nav_content) %>
+          <% elsif @force_nav_bar || has_nav_content %>
 
             <%= yield(:page_heading) %>                     
             
@@ -239,7 +247,7 @@
                 <%= yield %>
               </div>
             
-              <div id="right_column_2c" class="column bar_topped_block">
+              <div id="right_column_2c" class="column <%= 'bar_topped_block' if has_nav_content %> test test_section right_nav">
                 <%= yield(:right_column)%>
                   
                 <% @navitems.each do |navitem| %>

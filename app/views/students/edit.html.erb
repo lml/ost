@@ -2,9 +2,7 @@
 
 <% @errors = @student.errors %>
 
-<% form_for(@student) do |f| %>
-  <%# TODO The model needs to be updated to check that the student isn't a researcher if 
-      the toggle is making them a registered student %>
+<%= form_for(@student) do |f| %>
   <%= f.hidden_field :is_auditing, :value => !@student.is_auditing %>
   <center><%= f.submit "Toggle Auditing/Fully Registered", :disable_with => "Please Wait..." %></center>
 <% end %>

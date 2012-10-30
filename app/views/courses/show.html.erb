@@ -31,7 +31,7 @@
   </div>
 
   <% if present_user.can_create?(CourseInstructor.new(:course => @course)) %>
-    <%= link_to "Add an instructor...", new_course_course_instructor_path(@course), :remote => true %>
+    <%= link_to "Add an instructor...", new_course_course_instructor_path(@course), :remote => true, :test => "add_instructor" %>
   <% end %>
 
 <% end %>

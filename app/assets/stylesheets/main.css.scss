@@ -511,6 +511,59 @@ table.list tr {
 	border-bottom:1px solid #ddd;
 }
 
+table.list td.assignment_name {
+	padding-right: 10px;
+}
+
+table.list td.assignment_grade {
+	text-align: right
+}
+
+table.list.assignment {
+	width: 95%;
+
+	th.assignment_number {
+		width: 5%;
+	}
+	
+	th.assignment_name {
+		width: 55%;
+	}
+
+	th.assignment_start {
+		width: 20%;
+	}
+
+	th.assignment_end {
+		width: 20%;
+	}
+}
+
+table.list.student_assignment {
+	width: 95%;
+	
+	th.assignment_number {
+		width: 5%;
+	}
+	
+	th.assignment_name {
+		width: 40%;
+	}
+
+	th.assignment_start {
+		width: 20%;
+	}
+
+	th.assignment_end {
+		width: 20%;
+	}
+	
+	th.assignment_grade {
+		width: 15%;
+		text-align: right
+	}
+}
+
 table.left_heading {
 	font-size: 13px;
 	font-weight: normal;
@@ -676,6 +729,8 @@ span.antispam {display:none;}
   
   .lp_item_summary {
     padding-left: 15px;
+    padding-top: 3px;
+    display: block;
   }
   
   .lp_item_sub_section {
@@ -698,6 +753,24 @@ span.antispam {display:none;}
   .lp_item_body {
     display:none;
   }
+}
+
+.sortable_item_buttons .edit_button {
+  margin-right: 7px;
+}
+
+@if false
+{
+	.test {
+		outline: #ff00ff dotted thin;
+	}
+	
+	@if false {
+		.test.clickable {
+			outline: #00ff00 dotted thin;		
+		}
+	}
+	
 }
 
 ////////////////////////////////////////////////////////////////////////////////

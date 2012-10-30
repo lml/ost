@@ -5,11 +5,11 @@ Feature: Scenario utility functions work properly
     Given that there is a single user named "First User"
 
   Scenario: Querying an existing user by unique full name
-  	Given that there is a single user named "John Doe"
+    Given that there is a single user named "John Doe"
   	Then  there is a single user named "John Doe"
 
   Scenario: Querying an non-existent user by full name
-  	Given that there is no user named "John Doe"
+    Given that there is no user named "John Doe"
   	Then  there is no user named "John Doe"
     	  
 	Scenario: Querying an existing organziation by unique name
@@ -36,12 +36,6 @@ Feature: Scenario utility functions work properly
 	  Given that there is no class named "Intro 101"
 	  Then  there is no class named "Intro 101"
 
-  Scenario: Setting up a class with an instructor
-    Given that "Professor X" is teaching a class named "Intro 101"
-    Then  there is a single course named "Intro 101"
-    And   there is a single class named "Intro 101"
-    And   "Professor X" is teaching a class named "Intro 101"
-
   Scenario: Logging in as a user
     Given that I am logged in as "Aard Vark"
     Then  I am logged in as "Aard Vark"
@@ -55,3 +49,9 @@ Feature: Scenario utility functions work properly
     When  I log out
     Then  I am logged out
     
+  Scenario: Time travel
+    Given that I am logged in as "First User"
+    When  I time travel to "Dec 25, 2012" "UTC"
+    And   cron jobs are run
+    And   I refresh the page
+    Then  I see "Dec 25, 2012"

@@ -42,6 +42,25 @@ def utc_from_time_and_zone(time_string, time_zone_string)
   end
 end
 
+def add_test_classes(html_options, test_tokens)
+  return if Rails.env.production?
+
+  class_str    = html_options[:class] || ""
+  class_tokens = class_str.split
+
+  html_options[:test] ||= ""
+  html_options[:test].split.each do |elem| 
+    test_tokens << elem if !test_tokens.include?(elem)
+  end
+
+  test_tokens.each do |elem|
+    class_tokens << elem if !class_tokens.include?(elem)
+  end
+
+  html_options[:class] = class_tokens.join(' ') if class_tokens.size > 0
+  html_options.delete :test
+end
+
 module ActiveRecord
   class Base
     def better_becomes(klass)

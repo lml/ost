@@ -1,3 +1,6 @@
+<% addTestMeta {{:page_type  => "index"}} %>
+<% addTestMeta {{:major_name => "Course Catalog"}} %>
+
 <% @highlight = :catalog %>
 
 <%= pageHeading "Course Catalog" %>
@@ -6,17 +9,17 @@
 
 <% @courses.group_by{|c| c.organization}.sort.each do |organization, courses| %>
 
-  <div>
+  <div class="test test_section">
     
   <%= section organization.name do %>
     <%#= organization.name %>
 
     <div style="padding-left:0px">
       <% courses.each do |course| %>
-        <div style="padding: 5px 0 8px">
+        <div style="padding: 5px 0 8px" class="test test_section">
           <p><b><%= course.name %></b></p>
           <p><%= course.description %></p>
-          <p style="margin-bottom: 0px"><%= link_to "Teach this course", new_course_klass_path(course) %></p>
+          <p style="margin-bottom: 0px"><%= link_to "Teach this course", new_course_klass_path(course), :test => "teach" %></p>
           <%# TODO put in a "last offered: 2012" note %>
         </div>
       <% end %>
