@@ -149,7 +149,7 @@ module ApplicationHelper
     super(name, options, html_options)
   end
 
-  def link_to_help(blurb,_text="",_options={})
+  def link_to_help(blurb,text="",options={})
     @include_help_dialog = true
     @include_mathjax = true if options[:include_mathjax]
     
