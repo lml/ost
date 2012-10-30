@@ -1,0 +1,41 @@
+<%= pageHeading "Help | Class Settings" do %>
+<% end %>
+
+<p>This page describes how to manage class settings, enrollment and students. Select from the links below.</p>
+
+<%= link_to "Complete the Edit Class form", "#edit_class_form" %><br/>
+<%= link_to "Preapprove student registration requests", "#preapprove" %><br/>
+<%= link_to "Add class sections", "#sections" %><br/>
+<%= link_to "Add instructor / teaching assistant /grader", "#permissions" %><br/>
+Confirm student registration requests
+Change student to new section 
+Change student registration status
+How to view assignments
+Grades report
+
+
+
+<p>
+
+<div class="sectionHeading" id="edit_class_form"><strong>Complete the Edit Class form</strong></div>
+
+<p>This is where you'll set the class start and end date/time, time zone, global assignment labels and more.</p>
+
+<div class="sectionHeading" id="preapprove"><strong>Preapprove student registration requests</strong></div>
+
+<p><%= SITE_NAME %> enables you to preapprove student registration requests using the below methods.</p>
+
+<p>Go to <strong>Dashboard > Class</strong>, click <strong>Edit Class</strong>. On the Edit Class page, scroll down to the <strong>Approved Emails</strong> field.</p>
+  
+<%= render :partial => 'help/blurbs/preapproved_emails' %>
+
+<p>Go to <strong>Dashboard > Class > Edit Class</strong> and follow form instructions.</p>
+
+<div class ="sectionHeading" id="sections"><strong>Add class sections</strong></div>
+
+<%= render :partial => 'help/blurbs/sections' %>
+
+<div class="sectionHeading" id="permissions"><strong>Add instructor / teaching assistant / grader</strong></div>
+
+<%= render :partial => 'help/blurbs/add_instructor'%>
+

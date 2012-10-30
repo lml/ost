@@ -1,11 +1,10 @@
 <%= pageHeading "Concepts for #{@learning_plan.name}"%>
-
+Add link so concepts blurb pops up <p>
 <div id="concept_list">
   <%= render :partial => 'list', :locals => {:learning_plan => @learning_plan} %>
 </div>
 
 <%
-  navitem(:can_update?, @learning_plan) { link_to "New Concept", new_learning_plan_concept_path(@learning_plan), :remote => true }
+  navitem(:can_update?, @learning_plan) { link_to "New Concept", new_learning_plan_concept_path(@learning_plan), :remote => true } 
   navitem { link_to "Learning Plan", learning_plan_path(@learning_plan) }
 %>
-

@@ -1,0 +1,133 @@
+<%= pageHeading "Frequently Asked Questions (FAQ) | Help" %>
+Fixes: not sure how to answer "Can I add exercise to an assignment after it's been assigned" <br/>
+Would be nice to indent answers and make it less blocky.
+
+<%= section "Account FAQ" do %>
+<%= link_to "I created an account but never received a confirmation email. What should I do?", "#email_confirmation" %><br/>
+<%= link_to "How do I update my user settings, e.g. change my password / email address / time zone?", "#update_settings"%><br/>
+<% end %>
+
+<%= section "Student FAQs" do %>  
+<%= link_to "I registered for the wrong section. How do I change to a different section?", "#change_section"%><br/>
+<%= link_to "I saved my free-form response, so why won't the site show me the multiple choice answers?", "#multiple_choice"%><br/>
+<%= link_to "I finished my assignment late. Can I still get credit if I work the exercises after the due date?", "#late"%><br/>
+<%= link_to "I unintentionally saved and locked my free-form and/or multiple choice answers before I was finished! Can I go back and fix my work?", "#fix_work"%><br/>
+
+<% end %>
+
+<%= section "Instructor FAQs" do %> 
+<%= link_to "I want to add my exercises and resources to Topics, but I only see space to add links. Where do I add my course materials?", "#course_materials" %><br/>
+<%= link_to "When I create an assignment, there is no place to add exercises. How do I add exercises to an assignment?", "#assignment" %><br/>
+<%= link_to "I need to override the score OST assigned to a student. How can I do that?", "#override_grades" %><br/>
+<%= link_to "Can I add a resource to a topic after it has been assigned? Will students be able to access it?," "#add_resource" %><br/>
+<%= link_to "My student registered for the wrong section. How can I change her to the other section?", "#change_student_section" %><br/>
+<%= link_to "My student dropped the class, then changed his mind. How can I change his status from Dropped to Registered?", "#dropped" %>
+<%= link_to "I sent out an assignment and realized there was an error in one of the exercises. Can I fix it?", "#error_exercise" %><br/>
+<%= link_to "I sent out an assignment and realized I forgot to add an exercise. Can I add the exercise?", "#add_exercise" %><br/>
+<%= link_to "I set up a feedback condition but students aren't receiving the feedback I'm expecting. What's going on?", "#feedback_problem" %>
+
+<p>
+<% end %>
+
+
+
+<%= section "Accounts" do %>
+  
+<div class="sectionHeading" id="email_confirmation"><strong>I created an account but never received a registration confirmation email. What should I do?</strong></div>
+
+<%= render :partial => 'help/blurbs/request_conf_email'%>
+
+<div class ="sectionHeading" id="update_settings"><strong>How do I update my user settings, e.g. change my password / email address / time zone?</strong></div>
+<p>Sign in and click <strong>My Account</strong>, found at the top of every page.</p>
+<p>In My Account, you can update your password, email address and time zone. After you enter new information, enter your current password to confirm the changes.</p>
+
+<div class="sectionHeading" id="forgot_password"><strong>It's been awhile and I forgot my password. Can I reset it?</strong></div>
+
+<p>Sure. <%= link_to "Go here to reset your password.", new_user_password_path %></p>
+  
+<% end %>
+
+<%= section "Students" do %>
+  
+<div class ="SectionHeading" id="change_section"><strong>I registered for the wrong section. How do I change to a different section?</strong></div
+<p>
+<p>If the instructor hasn't approved your registration request, you can change it yourself:</p>
+  <ul>
+    <li>Go to <strong>Dashboard > Class name > Class Information</strong>.</li>
+    <li>If your request is still pending, you will see the option to <strong>Cancel my request to join this class</strong>. Click Cancel and confirm your choice.</li>
+    <li>On the same page, click <strong>Register</strong> to submit a new registration request for the correct section.</li>
+  </ul>
+    
+<p>If you do <strong><em>not</em></strong> see Cancel my request to join this class, email the instructor and ask him/her to switch you to a different section.</p> 
+
+<div class ="SectionHeading" id="multiple_choice"> <strong>I saved a free-form response, so why can't I view the multiple choice answers?</strong></div>
+
+<p>In order to view the multiple choice answers, you must save and <em><strong>lock</strong></em> your free form response. If you save but don't lock your free form answer, you can work on other exercises or return to the assignment later, but you won't be able to view the multiple choice answers until you save and lock.</p>
+
+<div class ="SectionHeading" id="late"><strong>I finished my assignment late. Can I still get credit if I work the exercises after the due date?</strong></div>
+
+<p><%= SITE_NAME %> will not give credit for answers entered after the due date. However, final decisions about grading are ultimately up to your instructor.</p>
+
+<div class="SectionHeading" id="fix_work"><strong>My hand slipped and I accidentally entered the wrong answer. Can I go back and fix my work?</strong></div>
+
+<p>It depends. If you were working on the free form portion, and you saved but did <em>not</em> lock your answer, you can go back and update your work.</p> 
+
+<p>If you <em>saved and locked</em> your answer, you cannot go back and change your answer. Similarly, if <em>you saved and locked</em> your multiple choice answer, you cannot go back and change your answer.</p>
+
+<p>Final decisions about grading are always up to your instructor.</p>
+
+<% end %> 
+
+<%= section "Instructors" do %>
+
+<div class="sectionHeading" id="course_materials"><strong>I want to add my exercises and resources to the Topics section, but I only see space to add links. Where do I add my course materials?</strong></div>
+
+<p>OpenStax Tutor does not host course materials. Instead you will add course materials to, or reuse content from, Connexions and Quadbase.  <%= link_to "Go here to read more about adding materials to Connexions and Quadbase.", help_topics_path(:anchor => "add_content")%>
+  
+<div class="sectionHeading" id="assignment"><strong>When I create an assignment, there is no place to add exercises. How do I add exercises to an assignment?</strong></div>
+
+<p>To add exercises to an Assignment, attach the topic(s) you want the assignment to cover. <%= SITE_NAME %> will pull exercises from the topic(s) you list, in accordance with any learning conditions set for your class.</p>
+
+<p><%= link_to "Learn more about creating assignments.", help_assignments_path %></p>
+
+<div class="sectionHeading" id="change_student_section"><strong>My student registered for the wrong section. How can I change my student to a different section?</strong></div>
+
+<p>If you are participating in a research study, check with the research team before moving a student to another section, as it may impact the student's assignments.</p>
+<p>
+
+  <%= render :partial => 'help/blurbs/change_student_section'%>
+
+<div class="sectionHeading" id="override_grades"><strong>I need to override the score OST assigned to a student. How can I do that?</strong></div>
+
+<p>To make a wrong answer correct: </p>
+
+<ul>
+  <li>Go to <strong>Dashboard > Class > Class Information.</strong></li>
+  <li>Scroll down to the list of assignments and click on the assignment in question.</li>
+  <li>Click on the student's name.</li>
+  <li>Under the exercise number, click on the student's score.</li>
+  <li>Click <strong>Make correct</strong>.</li>
+</ul>
+  
+<div class="sectionHeading" id="add_resource"><strong>Can I add a resource to a topic after it has been assigned? Will students be able to access it?</strong></div>
+  
+<p>Yes, you can add a resource to a topic after that topic has been assigned. Students will be able to access it.</p>
+  
+<div class="sectionHeading" id="error_exercise"><strong>I sent out an assignment and realized there was an error in one of the exercises. Can I fix it?</strong></div>
+
+<p>You may be able to edit the exercise in Quadbase and then click Refresh Exercises to update the exercise. There are some limitations to this feature, though. <%= link_to  "Click here to read more.", help_topics_path(:anchor => "refresh_exercises") %></p>
+
+<div class="sectionHeading" id="add_exercise"><strong>I sent out an assignment and realized it is missing an exercise. Can I add the exercise to the assignment?</strong></div>
+
+<p>It depends. If students haven't yet begun the assignment, it may be possible to delete the assignment and send out a new one. </p>
+
+<p>Tip: Before you send out an assignment, go to <strong>Dashboard > Class > Learning Plan</strong> and click <strong>Preview Assignments</strong>. You can preview an assignment and make sure everything looks good before scheduling the assignment.</p>
+
+<div class="sectionHeading" id = "feedback_problem"><strong>I set up a feedback condition but students aren't receiving the feedback I'm expecting. What's going on?</strong>
+
+<p>Troubleshoot feedback conditions:</p>
+
+<%= render :partial => 'help/blurbs/feedback_problems'%>
+
+
+<% end %>

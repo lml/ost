@@ -1,0 +1,31 @@
+Welcome to OpenStax Tutor! This help page will describe how to get started in <%= SITE_NAME %>. Check out our introductory screencast, or simply select from the links below.
+ 
+<p>Screencast -- Register for a class, access assignments, complete assignments, view feedback, view grades</p> 
+
+<%= link_to "Sign up for OpenStax Tutor", "#sign_up" %><br/>
+<%= link_to "Register for a class", "#register_for_class" %><br/>
+<%= link_to "How to access assignments", "#access_assignments" %><br/>
+<%= link_to "How to complete assignments", "#complete_assignments" %><br/>
+<%= link_to "Grades", "#grades" %><br/>
+
+<p>
+<div class ="sectionHeading" id="sign_up"><strong>Sign up for <%= SITE_NAME %></strong></div> 
+<p>
+  (((Would be good to add some notes -- can't change your user name / name later, use an email you often use, etc -- to the join now page)))
+<p>
+<%= render :partial => 'help/blurbs/sign_up'%>
+
+<div class ="sectionHeading" id="register_for_class"><strong>Register for a class</strong></div>
+ <%= render :partial => 'help/blurbs/register_for_a_class'%>
+  
+<div class ="sectionHeading" id="access_assignments"><strong>How to access assignments</strong></div>
+
+  <%= render :partial => 'help/blurbs/access_assignments'%>
+  
+<div class ="sectionHeading" id="complete_assignments"><strong>How to complete assignments</strong></div>
+
+  <%= render :partial => 'help/blurbs/complete_assignments'%>
+  
+<div class ="sectionHeading" id="grades"><strong>Grades</strong></div>
+
+  <%= render :partial => 'help/blurbs/grades'%>

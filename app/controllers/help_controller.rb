@@ -5,15 +5,15 @@ class HelpController < ApplicationController
   before_filter :highlight_help
 
   # This class variable maps topic names to partial names.  This is mostly
-  # useful when the topic name does not match the partial name.  If 
-  # your topic name is not in this hash, the site will use the topic name
+  # useful when the blurb name does not match the partial name.  If 
+  # your blurb name is not in this hash, the site will use the blurb name
   # as the partial name
-  @@topic_partial_names = {
-    # "some topic name here" => "corresponding partial name here",
+  @@blurb_partial_names = {
+    # "some blurb name here" => "corresponding partial name here",
   }
 
-  def topic
-    @partial_name = @@topic_partial_names[params[:topic_name]] || params[:topic_name]
+  def blurb
+    @partial_name = @@blurb_partial_names[params[:blurb_name]] || params[:blurb_name]
     @options = params[:options] || {}
 
     respond_to do |format|
