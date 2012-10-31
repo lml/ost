@@ -1,5 +1,3 @@
-# Copyright (c) 2011 Rice University.  All rights reserved.
-
 class DeveloperNotifier < SiteMailer
   
   def exception_email(exception, user = nil, msg = nil, full_trace = false)

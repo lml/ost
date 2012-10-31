@@ -1,5 +1,3 @@
-# Copyright (c) 2011 Rice University.  All rights reserved.
-
 module JqueryHelper
   def display_flash(scroll = true)
     # Override scroll in the case where there's nothing to see

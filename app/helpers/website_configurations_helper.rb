@@ -1,5 +1,3 @@
-# Copyright (c) 2011 Rice University.  All rights reserved.
-
 module WebsiteConfigurationsHelper
 
   def value_html_tag_for(configuration)

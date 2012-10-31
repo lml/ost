@@ -1,5 +1,3 @@
-# Copyright (c) 2011 Rice University.  All rights reserved.
-
 dev_settings = {}
 
 if Rails.env == "development" || Rails.env == "test"

@@ -1,5 +1,3 @@
-# Copyright (c) 2011 Rice University.  All rights reserved.
-
 require 'chronic'
 
 class SecurityTransgression < StandardError; end

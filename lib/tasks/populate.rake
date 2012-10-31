@@ -1,5 +1,3 @@
-# Copyright (c) 2011 Rice University.  All rights reserved.
-
 namespace :db do
   
   task :populate_users => :environment do
