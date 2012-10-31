@@ -47,9 +47,12 @@
 \.git					Noop
 \.png$					Noop
 script/license.txt$		Noop
-\.zip$					Noop
+\.zip$                  Noop
+\.svg$                  Noop
 
 \.rb$					Ruby
+Gemfile$                Ruby
+Capfile$                Ruby
 
 \.erb$                  Erb
 
@@ -62,3 +65,4 @@ script/license.txt$		Noop
 \.pl$					Script
 
 \.rake$					Rake
+Rakefile$               Rake

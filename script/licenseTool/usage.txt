@@ -20,4 +20,10 @@ The following command-line arguments can be given:
     -remove
         Remove the license from files in the codebase, if it is present.
 
+You might need to install the Moose perl module from CPAN.  Instructions can be found here:
+    http://www.cpan.org/modules/INSTALL.html
+or you can run the following commands as root:
+    cpan App::cpanminus
+    cpanm Moose
+
 
