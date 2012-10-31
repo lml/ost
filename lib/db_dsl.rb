@@ -3,6 +3,34 @@
 ##
 module DbDsl
 
+  def DbCofAssignment(options={}, &block)
+    options ||= { }
+
+    if assignment = find_on_stack(Assignment)
+    else
+      attrs = FactoryGirl.attributes_for(:assignment);
+      attrs[:assignment_plan] = options[:assignment_plan] || DbCofAssignmentPlan(options[:for_assignment_plan])
+      attrs[:cohort]          = options[:cohort]          || DbCofCohort(options[:for_cohort])
+      assignment = FactoryGirl.create(:assignment, attrs)
+    end
+
+    run_block_if_given(assignment,block)
+  end
+
+  def DbCofAssignmentExercise(options={}, &block)
+    options ||= { }
+
+    if assignment_exercise = find_on_stack(AssignmentExercise)
+    else
+      attrs = FactoryGirl.attributes_for(:assignment_exercise)
+      attrs[:assignment] = options[:assignment] || DbCofAssignment(options[:for_assignment])
+      attrs[:topic_exercise] = options[:topic_exercise] || DbCofTopicExercise(options[:for_topic_exercise])
+      assignment_exercise = FactoryGirl.create(:assignment_exercise, attrs)
+    end
+
+    run_block_if_given(assignment_exercise,block)
+  end
+
   def DbCofAssignmentPlan(options={}, &block)
     options ||= { }
 
@@ -42,6 +70,25 @@ module DbDsl
     end
 
     run_block_if_given(assignment_plan_topic,block)
+  end
+
+  def DbCofBasicFeedbackCondition(options={}, &block)
+    if feedback_condition = find_on_stack(BasicFeedbackCondition)
+    else
+      attrs = FactoryGirl.attributes_for(:basic_feedback_condition)
+      attrs[:label_regex]                     = options[:label_regex]                     if options[:label_regex]
+      attrs[:is_feedback_required_for_credit] = options[:is_feedback_required_for_credit] if options[:is_feedback_required_for_credit]
+      attrs[:can_automatically_show_feedback] = options[:can_automatically_show_feedback] if options[:can_automatically_show_feedback]
+      attrs[:availability_opens_option]       = options[:availability_opens_option]       if options[:availability_opens_option]
+      attrs[:availability_opens_delay_days]   = options[:availability_opens_delay_days]   if options[:availability_opens_delay_days]
+      attrs[:availability_closes_option]      = options[:availability_closes_option]      if options[:availability_closes_option]
+      attrs[:availability_closes_delay_days]  = options[:availability_closes_delay_days]  if options[:availability_closes_delay_days]
+      attrs[:availability_event]              = options[:availability_event]              if options[:availability_event]
+      attrs[:learning_condition]              = options[:learning_condition] || DbCofLearningCondition(options[:for_learning_condition])
+      feedback_condition = FactoryGirl.create(:basic_feedback_condition, attrs)
+    end
+
+    run_block_if_given(feedback_condition,block)
   end
 
   def DbCofClass(options={}, &block)
@@ -222,6 +269,26 @@ module DbDsl
     run_block_if_given(instructor,block)
   end
 
+  def DbCofLearningCondition(options={}, &block)
+    options ||= { }
+
+    if learning_condition = find_on_stack(LearningCondition)
+    else
+      attrs = FactoryGirl.attributes_for(:learning_condition)
+      attrs[:cohort] = options[:cohort] || DbCofCohort(options[:for_cohort])
+      learning_condition = FactoryGirl.create(:learning_condition, attrs)
+
+      # Cohorts create a default LearningCondition, so get rid
+      # of that one and replace it with the newly created
+      # LearningCondition
+      attrs[:cohort].learning_condition.destroy
+      attrs[:cohort].learning_condition = learning_condition
+      attrs[:cohort].save!
+    end
+
+    run_block_if_given(learning_condition,block)
+  end
+
   def DbCofLearningPlan(options={}, &block)
     options ||= { }
 
@@ -238,8 +305,7 @@ module DbDsl
       # Klasses create a default Learning Plan, so get rid
       # of that one and replace it with the newly created
       # Learning Plan. 
-      bogus_learning_plan = attrs[:klass].learning_plan
-      bogus_learning_plan.destroy
+      attrs[:klass].learning_plan.destroy
       attrs[:klass].learning_plan = learning_plan
       attrs[:klass].save!
     end
@@ -260,6 +326,27 @@ module DbDsl
     end
 
     run_block_if_given(organization,block)
+  end
+
+  def DbCofPercentScheduler(options={}, &block)
+    options ||= { }
+
+    if scheduler = find_on_stack(PercentScheduler)
+    else
+      attrs = FactoryGirl.attributes_for(:percent_scheduler)
+      attrs[:settings]           = options[:settings] if options[:settings]
+      attrs[:learning_condition] = options[:learning_condition] || DbCofLearningCondition(options[:for_learning_condition])
+      scheduler = FactoryGirl.create(:percent_scheduler, attrs)
+
+      # LearningConditions create a default Scheduler, so get rid
+      # of that one and replace it with the newly created
+      # PercentScheduler
+      attrs[:learning_condition].scheduler.destroy
+      attrs[:learning_condition].scheduler = scheduler
+      attrs[:learning_condition].save!
+    end
+
+    run_block_if_given(scheduler,block)
   end
 
   def DbCofRegistrationRequest(options={}, &block)
@@ -335,6 +422,7 @@ module DbDsl
       attrs = FactoryGirl.attributes_for(:student)
       attrs[:user]    = options[:user]    || DbCofUser(options[:for_user])
       attrs[:section] = options[:section] || DbCofSection(options[:for_section])
+      attrs[:cohort]  = options[:cohort]  || DbCofCohort(options[:for_cohort])
       student = FactoryGirl.create(:student, attrs)
 
       if options[:status]
@@ -346,6 +434,19 @@ module DbDsl
     end
 
     run_block_if_given(student,block)
+  end
+
+  def DbCofStudentAssignment(options={}, &block)
+    options ||= { }
+
+    if student_assignment = find_on_stack(StudentAssignment)
+    else
+      attrs = FactoryGirl.attributes_for(:student_assignment)
+      attrs[:student]    = options[:student]    || DbCofStudent(options[:for_student])
+      attrs[:assignment] = options[:assignment] || DbCofAssignment(options[:for_assignment])
+      student_assignment = FactoryGirl.create(:student_assignment, attrs)
+    end
+    run_block_if_given(student_assignment,block)
   end
 
   def DbCofTopic(options={}, &block)
@@ -389,7 +490,11 @@ module DbDsl
       attrs = FactoryGirl.attributes_for(:user)
       attrs[:first_name]        = options[:first_name]  if options[:first_name]
       attrs[:last_name]         = options[:last_name]   if options[:last_name]
-      attrs[:username]          = options[:username]    if options[:username]
+      if options[:username] 
+        attrs[:username] = options[:username]
+      elsif options[:first_name]
+        attrs[:username] = options[:first_name].downcase
+      end
       attrs[:is_administrator]  = options[:is_admin]    if options[:is_admin]
       user = FactoryGirl.create(:user, attrs)
     end
@@ -420,7 +525,7 @@ module DbDsl
   def run_block_if_given(object,block=nil)
     if block
       push_on_stack object.class, object
-      block.call
+      block.call(object)
       pop_from_stack object.class
     end
     object
