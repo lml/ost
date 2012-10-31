@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 module TimeUtils
 
   def self.timestr_and_zonestr_to_utc_time(origin_timestr, origin_zonestr)

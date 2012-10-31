@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 Feature: Instructors can handle pending Registration Requests for Classes they are teaching.
 
     Instructors can approve or reject pending Registration Requests for Classes

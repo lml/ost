@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 module JqueryHelper
   def display_flash(scroll = true)
     # Override scroll in the case where there's nothing to see

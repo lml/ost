@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 Ost::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 

@@ -51,8 +51,10 @@ script/license.txt$		Noop
 \.svg$                  Noop
 
 \.rb$					Ruby
+config.ru$              Ruby
 Gemfile$                Ruby
 Capfile$                Ruby
+\.feature$              Ruby
 
 \.erb$                  Erb
 
@@ -63,6 +65,10 @@ Capfile$                Ruby
 \.coffee$				Coffee
 
 \.pl$					Script
+script/patterns.txt$    Script
+\.pm$                   PerlModule
 
 \.rake$					Rake
 Rakefile$               Rake
+
+\.yml                   Yaml
