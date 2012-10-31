@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 Feature: Instructors can view the Learning Plans for Classes they are teaching.
 
     Instructors can view the Learning Plan for Classes they are

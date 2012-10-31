@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 class Klass < ActiveRecord::Base
   belongs_to :course
   has_one :consent_options, :as => :consent_optionable, :dependent => :destroy

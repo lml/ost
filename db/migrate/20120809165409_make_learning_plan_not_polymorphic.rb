@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 class MakeLearningPlanNotPolymorphic < ActiveRecord::Migration
   def up
     remove_index :learning_plans, :name => 'learning_plannable_index'

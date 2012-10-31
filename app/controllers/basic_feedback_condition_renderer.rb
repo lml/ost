@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 # http://amberbit.com/blog/render-views-partials-outside-controllers-rails-3
 # http://stackoverflow.com/a/6061215
 # http://stackoverflow.com/questions/4713571/view-helper-link-to-in-model-class
