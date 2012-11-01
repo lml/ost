@@ -1,6 +1,13 @@
-Welcome to OpenStax Tutor! This help page will describe how to get started in <%= SITE_NAME %>. Check out our introductory screencast, or simply select from the links below.
- 
-<p>Screencast -- Register for a class, access assignments, complete assignments, view feedback, view grades</p> 
+<%= pageHeading "Getting Started for Students" %>
+
+Coming soon!
+
+<% if false %>
+  
+… your not ready stuff here ...
+  
+
+<p>Welcome to <%= SITE_NAME %>! This help page will guide you through creating an account, registering for a class and completing assignments in OST.</p>
 
 <%= link_to "Sign up for OpenStax Tutor", "#sign_up" %><br/>
 <%= link_to "Register for a class", "#register_for_class" %><br/>
@@ -29,3 +36,6 @@ Welcome to OpenStax Tutor! This help page will describe how to get started in <%
 <div class ="sectionHeading" id="grades"><strong>Grades</strong></div>
 
   <%= render :partial => 'help/blurbs/grades'%>
+  
+  
+  <% end %>
