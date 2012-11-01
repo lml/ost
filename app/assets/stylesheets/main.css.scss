@@ -1,5 +1,8 @@
 @import "common";
 
+// Put bootstrap overrides up here
+
+@import "bootstrap";
 
 @mixin rounded($radius: 0.5em) {
   -webkit-border-radius: $radius;
@@ -810,4 +813,20 @@ span.antispam {display:none;}
   padding-left:30px;
   display:none;
   padding-bottom: 15px;
+}
+
+#main {
+  .accordion-heading {
+  background-color:$ost_light_beige;
+  font-weight: bold;
+  a.accordion-toggle {
+    color: $os_blue;
+    font-weight: bold;
+    &:link { color: $os_blue;}
+    &:hover { color: black; font-decoration: none;}
+    &:visited {}
+    &:active { color: #000;}
+  }
+     
+}
 }
