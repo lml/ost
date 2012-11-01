@@ -1,4 +1,7 @@
-#!/usr/bin/env perl -w
+#!/usr/bin/perl -w
+
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
 
 BEGIN
 {
@@ -8,12 +11,22 @@ BEGIN
 	$WORKING_DIR .= "/";
 
 	$SCRIPT_DIR = $WORKING_DIR;
+	if ($0 =~ m!^\.!) {
+		$SCRIPT_DIR = $WORKING_DIR . $0;
+	}
+	elsif ($0 =~ m!^/!) {
+		$SCRIPT_DIR = $0;
+	}
+
+	$SCRIPT_DIR =~ m!(^.*/)!;
+	$SCRIPT_DIR = $1;
+
 	$SCRIPT_NAME = $0;
 	if ($0 =~ m!^(.*/)(.+)$!) {
-		$SCRIPT_DIR = $1;
 		$SCRIPT_NAME = $2;
 	}
 	
+	# print STDOUT ("\$0         = $0\n");
 	# print STDOUT ("WORKING_DIR = $WORKING_DIR\n");
 	# print STDOUT ("SCRIPT_DIR  = $SCRIPT_DIR\n");
 	# print STDOUT ("SCRIPT_NAME = $SCRIPT_NAME\n");

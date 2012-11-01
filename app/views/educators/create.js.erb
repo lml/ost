@@ -1,3 +1,6 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
 $("#user_action_form_<%= @educator.user.id %>").html("Added");
 
 $("#klass_<%= @educator.type %>_list").append("<%= ej(render :partial => 'classes/educator_entry', :locals => {:educator => @educator}) %>")
