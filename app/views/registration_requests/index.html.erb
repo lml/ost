@@ -14,7 +14,7 @@
 <% if multiple_sections %>
 
   <% @klass.sections.each do |section| %>
-    <%= section section.name do %>
+    <%= section section.name, {:classes => 'first no_bar' } do %>
       <%= render :partial => 'list', :locals => {:section => section} %>
     <% end %>
   <% end %>
