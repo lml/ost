@@ -16,9 +16,9 @@
   
 %>
 
-<p><%= SITE_NAME %> melds new cyber and social infrastructures to put powerful learning tools in the hands of educators and learners.  <%= SITE_NAME %> is an ambitious effort that combines high-quality, public-ready software with advanced research pursuits.  We are still in beta and some of our features are still being developed.  The following points will give you a flavor of where <%= SITE_NAME %> is now and where it is heading.</p>
+<p><%= SITE_NAME %> melds new cyber and social infrastructures to put <%= link_to "powerful learning tools", :anchor => 'features' %> in the hands of educators and learners.  <%= SITE_NAME %> is an ambitious effort that combines high-quality, public-ready software with advanced research pursuits.  We are still in beta and some of our features are still being developed.</p>
 
-<%= section "The Big Questions", :classes => 'no_bar' do %>
+<%= section "The Big Questions", :classes => 'first no_bar' do %>
 
   <div class="item_box">
     <h3>What is it?</h3>
@@ -39,7 +39,8 @@
 
 <div style="clear:left"></div>
 
-<%= section "Cool Features", :classes => 'no_bar' do %>
+<%= section "Cool Features", :classes => 'first no_bar' do %>
+
 
 <div class="item_box">
   <h3>Better Learning</h3>
@@ -56,6 +57,100 @@
     <h3>Personalized Pathways</h3>
     <p><%= SITE_NAME %> studies how your students learn and then adjusts their experience to optimize their retention.</p>
   </div>
+
+  <%
+
+    @sections = []
+
+    @sections.push({
+      :name => 'Not your standard course management system',
+      :features => [
+        feature.new('Free for individuals; inexpensive for organizations', feature::READY, feature::READY),
+        feature.new('Simple, clean interface', feature::READY, feature::READY),
+        feature.new('Proven learning principles increase long-term understanding', feature::READY, feature::READY),
+        feature.new('Repeat concept practice throughout the class', feature::READY, feature::READY),
+        feature.new('Give immediate or delayed automatic feedback', feature::READY, feature::READY),
+        feature.new('Make viewing feedback required or optional', feature::READY, feature::READY),
+        feature.new('Use your own content or existing open content', feature::READY, feature::READY),
+        feature.new('Multiple choice grading is done for you', feature::READY, feature::READY),
+        feature.new('Export grades to Excel with a single click', feature::READY, feature::READY),
+        feature.new('View overall class performance at a glance', feature::READY, feature::READY),
+        feature.new('Support for students in multiple time zones', feature::READY, feature::READY),
+        feature.new('Students can easily upload any written work', feature::COMING_SOON, feature::COMING_SOON),
+        feature.new('Learner analytics tell instructors who knows what', feature::COMING_SOON, feature::COMING_SOON),        
+        
+      ]
+    })
+
+    # feature.new('', feature::READY, feature::READY),
+
+    @sections.push({
+      :name => 'Easy integration of the content your class depends on',
+      :features => [
+        feature.new('Multiple-choice questions', feature::READY, feature::READY),
+        feature.new('Open-ended questions', feature::COMING_SOON, feature::COMING_SOON),
+        feature.new('Matching questions', feature::COMING_SOON, feature::COMING_SOON),
+        feature.new('Multipart questions', feature::COMING_SOON, feature::COMING_SOON),
+        feature.new('Use any web URL as a study resource', feature::READY, feature::READY),
+        feature.new('Upload PDF study resources', feature::COMING_SOON, feature::COMING_SOON),
+        
+      ]
+    })
+
+    @sections.push({
+      :name => 'Powerful platform for running informed-consent learning experiments',
+      :features => [
+        feature.new('Students are part of an informed-consent research experiment ', feature::NA, feature::READY),
+        feature.new('Manage consent forms by class', feature::NA, feature::READY),
+        feature.new('Student consent collected electronically', feature::NA, feature::READY),
+        feature.new('Students have the ability to opt-out', feature::NA, feature::READY),
+        feature.new('Customize experimental conditions for different groups', feature::NA, feature::READY),
+        feature.new('Automate when and how conditions apply', feature::NA, feature::READY),
+        feature.new('Researchers never see personal information ', feature::NA, feature::READY),
+        feature.new('Instructors never see research information or consents', feature::NA, feature::READY),
+        feature.new('Monitor experiment via researcher interface', feature::NA, feature::READY),
+        feature.new('Export research data to Excel with a single click', feature::NA, feature::READY),
+        feature.new('Instructors listed as authors when their class data is published', feature::NA, feature::READY),
+        feature.new('Help advance progress in education', feature::NA, feature::READY),
+      ]
+    })
+    
+    @sections.push({
+      :name => 'Moving towards a goal of personalized education',
+      :features => [
+        feature.new('Learning pathways personalized for specific students', feature::COMING_SOON, feature::COMING_SOON),    
+        feature.new('Automated personalization for <i>any</i> class with online content', feature::COMING_SOON, feature::COMING_SOON),    
+        feature.new('Automated discovery of relationships between online materials', feature::COMING_SOON, feature::COMING_SOON),    
+      ]
+    })
+
+  %>
+
+  <a name="features"></a>
+  <table id="features">
+    <tr class='heading-row'>
+      <td class="text-column"></td>
+      <td class="status-column">Standard<br/>Version</td>
+      <td class="status-column enhanced-column">Enhanced<br/>Version</td>
+    </tr>
+    <% @sections.each do |section| %>
+      <tr>
+        <td colspan="3" class='section-row'><%= section[:name] %></td>
+      </tr>
+      <% section[:features].each do |feature| %>
+        <tr>
+          <td class='text-column'><%= feature.text.html_safe %></td>
+          <td class='status-column'><%= feature.standard_avail_icon %></td>
+          <td class="status-column enhanced-column"><%= feature.research_avail_icon %></td>
+        </tr>
+      <% end %>
+    <% end %>
+    <tr class='bottom-row'>
+      <td></td>
+      <td class='status-column'><%= link_to 'Start Teaching!', nil, {:class => 'link_button'} %></td>
+      <td class='status-column enhanced-column'><%= link_to 'Start Teaching!', nil, {:class => 'link_button'} %></td>
+    </tr>
+  </table>
 
 <% end %>
 
