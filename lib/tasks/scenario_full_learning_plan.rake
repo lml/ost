@@ -1,7 +1,7 @@
 namespace :db do
   namespace :scenario do
   
-    task :full_learning_plan, [:start_date, :add_students] => ["db:drop", "db:migrate", "db:populate", :environment] do |t, args|
+    task :full_learning_plan, [:start_date, :add_students] => ["db:drop", "db:migrate", "db:reset_column_information", "db:populate", :environment] do |t, args|
       args.with_defaults(:start_date => Time.now)
       args.with_defaults(:add_students => "true")
       

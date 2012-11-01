@@ -1,4 +1,59 @@
-<%= pageHeading "Frequently Asked Questions (FAQ) | Help" %>
+
+<%= pageHeading "Frequently Asked Questions" %>
+
+<%# ########### SET UP YOUR FAQ ENTRIES HERE %%%%%%%%%%%%%%%%% %>
+
+<% faq_entry :section => 'Account',
+             :question => "I created an account but never received a 
+                           confirmation email. What should I do?" do %>
+
+  <%= render :partial => 'help/blurbs/request_conf_email'%>
+
+<% end %>
+
+<% faq_entry :section => 'Account',
+             :question => "How do I update my user settings, e.g. change my 
+                           password / email address / time zone?" do %>
+
+  <p>Sign in and click <strong>My Account</strong>, found at the top of every page.</p>
+  <p>In My Account, you can update your password, email address and time zone. After you enter new information, enter your current password to confirm the changes.</p>
+
+<% end %>
+
+<%# ############ THIS CODE DISPLAYS THE FAQ ENTRIES ON THE PAGE ####### %>
+
+
+<a name='top'></a>
+<% @sections.each do |section_name, entries| %>
+  <i><%= section_name %></i>
+    <ul>
+    <% entries.each do |entry| %>
+      <li>
+        <%= link_to entry[:question], nil, {:class => 'faq_link'} %>
+        <div class='faq_detail_answer'><%= entry[:answer] %></div>
+      </li>
+    <% end %>
+    </ul>
+<% end %>
+
+<% content_for :javascript do %>
+  <%= javascript_tag do %>
+    $(document).ready(function() {
+      $('.faq_link').click(function(event) {
+        $(this).next().toggle();
+        event.preventDefault();
+      });
+    });
+  <% end %>
+<% end %>
+
+
+
+
+<div style="margin-top:30px; background-color:black; width: 100%; height:50px; color:white">Old stuff below; move it up to the style above</div>
+
+<% if false # this makes all the rest of the page not show up %>
+
 Fixes: not sure how to answer "Can I add exercise to an assignment after it's been assigned" <br/>
 Would be nice to indent answers and make it less blocky.
 
@@ -131,3 +186,7 @@ Would be nice to indent answers and make it less blocky.
 
 
 <% end %>
+
+<% end # ends the 'if false' statement %> 
+
+<% navitem { link_to "Back to Help", help_path } %>

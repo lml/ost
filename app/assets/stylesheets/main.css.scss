@@ -456,7 +456,7 @@ div.field label {
 
 #column_container_2c {
    width: 100%;
-   overflow:hidden;
+   // overflow:hidden;
 
 }
 
@@ -799,4 +799,15 @@ span.antispam {display:none;}
   background: image-url("student_full_home_haze.jpg");
   height: 544px;
   padding-bottom: 0px;
+}
+
+.faq_detail_question {
+  font-weight: bold;
+  padding-top: 8px;
+}
+
+.faq_detail_answer {
+  padding-left:30px;
+  display:none;
+  padding-bottom: 15px;
 }
