@@ -1,18 +1,25 @@
 <%= pageHeading "Help" %>
+
+<p style="width: 600px">Need some help learning to use <%= SITE_NAME %>? Check out the resources below.  If you still need some assistance, shoot us an email at <%= email_link "support", "support@openstaxtutor.org" %>.</p>
+
+<%= section "First Stop", {:classes => 'first no_bar'} do %>
+
+  <ul>
+    <li><%= link_to "Frequently Asked Questions", help_faq_path %></li>
+    <li><%= link_to "Getting Started as an Instructor", help_instructor_getting_started_path %></li>
+    <li><%= link_to "Getting Started as a Student", help_student_getting_started_path %></li>
+  </ul>
   
+<% end %>
 
-  <p> <%= link_to "Frequently Asked Questions", help_faq_path %> </p>
+<%= section "Digging Deeper", {:classes => 'first no_bar'} do %>
 
-<p>  <%= link_to "Getting Started as an Instructor", help_instructor_getting_started_path %></p>
+  <ul>
+    <li><%= link_to "Class settings", help_class_settings_path %></li>
+    <li><%= link_to "Topics", help_topics_path %></li>
+    <li><%= link_to "Learning Conditions", help_learning_conditions_path %></li>
+    <li><%= link_to "Assignments", help_assignments_path %></li>
+  </ul>
 
-<p>  <%= link_to "Getting Started as a Student", help_student_getting_started_path %><p>
-  
-  
-  <%= link_to "Class settings", help_class_settings_path %><br/>
-  <%= link_to "Topics", help_topics_path %><br/>
-  <%= link_to "Learning Conditions", help_learning_conditions_path %><br/>
-  <%= link_to "Assignments", help_assignments_path %>
-  <p>
-    <p>
-
+<% end %>
     
