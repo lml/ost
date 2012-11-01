@@ -4,6 +4,7 @@
 <%
    @height = @options[:height] ? @options[:height] : 300
    @width = @options[:width] ? @options[:width] : 400
+   @title = @options[:title] ? @options[:title] : "Quick Help"
 %>
 
 open_specified_dialog('help', true, <%= @height %>, <%= @width %>, "<%= @title %>", 

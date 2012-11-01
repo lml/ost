@@ -10,20 +10,16 @@ Screencast -- 5 minute introduction to OST and major stuff you can do.
     <ol>
       <li><%= link_to "Create an OpenStax Tutor account", new_user_registration_path %>, 
           if you haven't already.</li>
-      <li>Request an administrator add your class to the 
-          <%= link_to "Course Catalog", catalog_path  %> and give you instructor 
-          permissions.</li>
+      <li><%= link_to_help 'register_new_class', text="Request an administrator add your class to #{SITE_NAME}." %>.</li>
     </ol>
   <% end %>
 
   <%= accordion_entry :title => "2. Plan your class before adding any course materials to #{SITE_NAME}." do %>
     <ol>
-      <li>Consider partnering with <%= SITE_NAME %> researchers to run an 
-          educational study in your class. </li>
-      <li>Plan course materials and ensure they are hosted on 
-          <%= link_to "Connexions", "http://www.cnx.org" %> and 
-          <%= link_to "Quadbase", "https://www.quadbase.org" %>.</li>
-      <li>Organize and sequence related course materials into topics.</li>
+      <li><%= link_to_help 'research_study', text="Consider partnering with #{SITE_NAME} researchers to run an 
+          educational study in your class." %> </li>
+      <li><%= link_to_help 'plan_content', text="Ensure course content is hosted on Connexions and Quadbase." %>
+      <li><%= link_to_help 'organize_topics', text="Organize course content into topics." %></li>
       <li>Plan assignments: decide what topic(s) to assign for each homework and test.</li>
     </ol>
   <% end %>
@@ -39,8 +35,6 @@ Screencast -- 5 minute introduction to OST and major stuff you can do.
   <% end %>
 </div>
     
-    
-    <%= render :partial => 'help/blurbs/register_new_class'%>
 
     <%= render :partial => 'help/blurbs/plan_class' %>
 

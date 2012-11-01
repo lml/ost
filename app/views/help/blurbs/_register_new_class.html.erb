@@ -1,10 +1,9 @@
-<%= section "1. Register to teach a new class in OpenStax Tutor" do %> 
 
 <p>To register to teach a new class in <%= SITE_NAME %>:
   <ol>
         <li><%= link_to "Create an OpenStax Tutor account", new_user_registration_path %>, if you haven't already.</li>
         <p>
-        <li>Email <%= email_link "new OST course", "support@openstaxtutor.org" %> and provide the following information:</li>
+        <li>Email <%= email_link "info", "info@openstaxtutor.org" %> and provide the following information:</li>
          <p>
           <ul>
             <li>Name of your institution;</li>
@@ -14,7 +13,4 @@
             <li>When the class is typically offered, e.g. Fall or Spring. 
           </ul>
           <p>
-        <li>Once the administrator confirms your request, go to the <%= link_to "Course Catalog", catalog_path  %> and click <strong>Teach this course</strong>.</li>
-
-               <%= image_tag("teach_this_course.png", {:border => 1, :width => "80%", :height => "80%", :title=>"teach this course"})%>
-  <% end %>
+        <li>Once the administrator confirms your request, go to the <%= link_to "Course Catalog", catalog_path  %>. Under your class name, click <strong>Teach this course</strong>.</li>
