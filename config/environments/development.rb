@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 require 'ost_utilities'
 
 Ost::Application.configure do
@@ -50,6 +53,8 @@ Ost::Application.configure do
   config.enable_recaptcha = false
   
   config.enable_url_existence_validations = online?
+  # config.enable_url_format_validations = false
+
 end
 
 Devise.setup do |config|

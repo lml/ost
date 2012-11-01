@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 Feature: Instructors can view the Classes they are teaching on the Dashboard.
 
     In addition to the other information availble on the Dashboard, Instructors
@@ -14,7 +17,7 @@ Feature: Instructors can view the Classes they are teaching on the Dashboard.
     Classes for each of these Courses alreay exist.
 
     Background:
-        Given instructor dashboard scenario setup
+        Given instructor dashboard setup
         
     Scenario: Professor X visits the Dashboard
         Given that I am logged in as "Professor X"

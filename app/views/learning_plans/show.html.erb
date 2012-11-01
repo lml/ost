@@ -1,3 +1,10 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% addTestMeta {{:page_type  => "show"}} %>
+<% addTestMeta {{:major_name => @learning_plan.klass.course.name}} %>
+<% addTestMeta {{:minor_name => "Learning Plan"}} %>
+
 <%= pageHeading "Learning Plan: #{@learning_plan.name}"%>
 
 <% enable_best_in_place %>
@@ -10,7 +17,7 @@
 
 <%= section "Topics", {:help_topic => 'topic', :classes => 'first no_bar'} do %>
 
-  <div id="topics">
+  <div id="topics" class="test test_section topics">
     <% @learning_plan.topics.each do |topic| %>
       <%= render :partial => 'topics/show', :locals => {:topic => topic} %>
     <% end %>
@@ -25,7 +32,7 @@
 
 <%= section "Assignments" do %>
 
-  <div id="assignment_plans">
+  <div id="assignment_plans" class="test test_section assignments">
     <% @learning_plan.assignment_plans.each do |assignment_plan| %>
       <%= render :partial => 'assignment_plans/show', :locals => {:assignment_plan => assignment_plan} %>
     <% end %>

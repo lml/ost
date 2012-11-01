@@ -1,3 +1,6 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
 <% addTestMeta {{:page_type  => "index"}} %>
 <% addTestMeta {{:major_name => @klass.course.name}} %>
 <% addTestMeta {{:minor_name => "Student"}} %>
@@ -39,7 +42,7 @@
       <% end %>
       <% students.each do |student| %>
         <% num_students += 1 %>
-        <tr class="test section">
+        <tr class="test test_section">
           <% if num_sections > 1 %>
             <td></td>
           <% end %>

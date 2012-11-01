@@ -1,3 +1,6 @@
+// Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+// License version 3 or later.  See the COPYRIGHT file for details.
+
 window._isDirty = false;
 
 $('input, textarea, select').not('[type="submit"]').focus(function() {

@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 module ApplicationHelper
   include Ost::Utilities
   
@@ -296,7 +299,7 @@ module ApplicationHelper
       
       entries.collect { |entry|
         content_tag :div, :id => "sortable_item_#{entry.id}", 
-                          :class => 'test section sortable_item_entry', 
+                          :class => 'test test_section sortable_item_entry', 
                           :style => "height:24px; display:table" do
 
           a = content_tag(:span, "", :class => "ui-icon #{bullet_class} handle",

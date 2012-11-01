@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 class Assignment < ActiveRecord::Base
   belongs_to :assignment_plan
   belongs_to :cohort

@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 Feature: Instructors can view the Student enrollment for Classes they are teaching.
 
     Instructors can view the Student enrollment of Classes they are
@@ -9,7 +12,7 @@ Feature: Instructors can view the Student enrollment for Classes they are teachi
         "Intro 101: Only the Easy Stuff"
         "Course 102: Time to Rethink Your Major"
         "Nightmare 666: You Will Fail"
-    Classes for each of these Courses alreay exist.
+    Classes for each of these Courses already exist.
 
     "Professor X" is an Instructor for "Intro 101".
     "Professor Y" is an Instructor for "Course 102".
@@ -35,7 +38,7 @@ Feature: Instructors can view the Student enrollment for Classes they are teachi
             Student "Hubert" is dropped
 
     Background:
-        Given instructor enrollment scenario setup
+        Given instructor enrollment setup
         
     Scenario: Professor X views enrollment for Intro 101
         Given that I am logged in as "Professor X"

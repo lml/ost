@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 class CreateAssignmentExercises < ActiveRecord::Migration
   def change
     create_table :assignment_exercises do |t|

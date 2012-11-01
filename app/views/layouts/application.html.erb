@@ -1,3 +1,6 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
 <% addTestMeta {{:current_user_id => @current_user.id}} if @current_user.present? %>
 <!DOCTYPE html>
 <html>
@@ -139,7 +142,7 @@
       
       <div id="header" <%= classify(@header_class || "white") %>>
                  
-        <div id="nav_bar">
+        <div id="nav_bar" class="test test_section top_nav">
           <a href="/" class="logo"></a>
             <% nav_links = [
                 ["ABOUT", about_path, "", :about],
@@ -247,7 +250,7 @@
                 <%= yield %>
               </div>
             
-              <div id="right_column_2c" class="column <%= 'bar_topped_block' if has_nav_content %>">
+              <div id="right_column_2c" class="column <%= 'bar_topped_block' if has_nav_content %> test test_section right_nav">
                 <%= yield(:right_column)%>
                   
                 <% @navitems.each do |navitem| %>

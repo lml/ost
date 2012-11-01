@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 
 # Defines a new sequence
 FactoryGirl.define do
@@ -6,5 +9,8 @@ end
 
 
 def unique_username(first_name, last_name)
-  "#{first_name[0,3]}#{last_name[0,4]}" + "#{SecureRandom.hex(4)}"
+  username = "#{first_name}#{last_name}"
+  username = username[0,19] if username.length > 20
+  username = username + "#{SecureRandom.hex(4)}"
+  username.gsub(/[^A-Za-z\d_]/, '')
 end

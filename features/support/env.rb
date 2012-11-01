@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 require 'rubygems'
 require 'spork'
 #uncomment the following line to use spork with the debugger
@@ -98,23 +101,7 @@ Spork.prefork do
   ########################################
   # CONFIGURE THE RAILS APPLICATION DOMAIN
   ########################################
-  #
-  # When our rails application starts under the :development environment, it listens
-  # on http://127.0.0.1:3000 (a.k.a. http://localhost:3000).  In the :test environment under
-  # Capybara, it listens on http://127.0.0.1 but with a Capybara-assigned port number.
-  #
-  # According to the HTTP standard, browser redirection should be done with an absolute URL,
-  # not a relative path.  This means that if our rails applications thinks its domain is
-  # "my.domain.com", redirect URLs will be of the form "my.domain.com/relative/path".
-  #
-  # When running tests, we need to tell our rails application that its domain is
-  # "127.0.0.1" to prevent redirects from taking the Capybara test "browser" to an
-  # external URL.  This only affects @javascript-capaable browser drivers since
-  # :rack_test ignores the domain portion of the URL. 
-  Ost::Application.configure do
-    config.action_mailer.default_url_options     = { :host => '127.0.0.1' }
-    config.action_controller.default_url_options = { :host => '127.0.0.1' }
-  end
+  # This is done in config/environments/test.rb
   
   #####################################################
   # SET CAPYBARA DEFAULT AND JAVASCRIPT BROWSER OPTIONS
@@ -154,7 +141,7 @@ Spork.prefork do
 
   # This causes capybara #has_css? and #find selectors to return quickly
   # in the event of a failure
-  Capybara.default_wait_time = 0.1;
+  Capybara.default_wait_time = 0.01;
   
   # By default, any exception happening in your Rails application will bubble up
   # to Cucumber so that your scenario will fail. This is a different from how 

@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 Feature: Instructors can teach an existing Course
 
     A User who have been designated as an Instructor for a Course
@@ -10,7 +13,7 @@ Feature: Instructors can teach an existing Course
     User "John Doe" is a generic User.
 
     Background:
-        Given instructor teach course scenario setup
+        Given instructor teach course setup
 
     Scenario: An Instructor chooses to teach an existing Course
         Given that I am logged in as "Professor X"

@@ -1,3 +1,6 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
 <% addTestMeta {{:page_type  => "show"}} %>
 <% addTestMeta {{:major_name => @klass.course.organization.name}} %>
 <% addTestMeta {{:minor_name => @klass.course.name}} %>
@@ -56,6 +59,10 @@
   <% can_add_educator = present_user.can_create?(Educator.new(:klass => @klass)) %>
   
   <table class="left_heading">
+    <tr>
+      <th style="text-align:right">Course Name</th>
+      <td><%= @klass.course.name %></td>
+    </tr>
     <tr>
       <th style="text-align:right">Instructors</th>
       <td style="vertical-align:top">
@@ -141,7 +148,7 @@
     <% num_sections = @klass.sections.count %>
     <% @klass.sections.each_with_index do |section,ii| %>
     
-      <tr class="test section">
+      <tr class="test test_section">
         <th style="text-align:right"><%= "Enrollment" if ii == 0 %></th>
         <td>
           <%= link_to_if(present_user.can_read_children?(section, :students), 

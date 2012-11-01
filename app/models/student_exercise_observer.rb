@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 class StudentExerciseObserver < ActiveRecord::Observer
   
   def free_response_to_be_locked(student_exercise)

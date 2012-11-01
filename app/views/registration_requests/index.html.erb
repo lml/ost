@@ -1,3 +1,10 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% addTestMeta {{:page_type  => "index"}} %>
+<% addTestMeta {{:major_name => @klass.course.name}} %>
+<% addTestMeta {{:minor_name => "Registration Request"}} %>
+
 <%= pageHeading("#{@klass.course.name} Registration Requests")%>
 
 <% multiple_sections = @klass.sections.count > 1 %>

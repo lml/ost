@@ -1,10 +1,10 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 namespace :db do
   namespace :scenario do
   
     task :full_learning_plan, [:start_date, :add_students] => ["db:drop", "db:migrate", "db:populate", :environment] do |t, args|
-      # ensure that the non-cucumber FactoryGirl factories are loaded
-      Dir[Rails.root.join("test", "jp_factories", "*.rb")].each {|file| require file }
-
       args.with_defaults(:start_date => Time.now)
       args.with_defaults(:add_students => "true")
       

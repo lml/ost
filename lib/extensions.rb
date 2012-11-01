@@ -1,4 +1,5 @@
-# Copyright (c) 2011 Rice University.  All rights reserved.
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
 
 require 'chronic'
 
@@ -58,6 +59,7 @@ def add_test_classes(html_options, test_tokens)
   end
 
   html_options[:class] = class_tokens.join(' ') if class_tokens.size > 0
+  html_options.delete :test
 end
 
 module ActiveRecord

@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.8'
@@ -66,6 +69,10 @@ group :development, :test do
   gem 'launchy'
   gem 'database_cleaner'
   gem 'spork-rails'
+end
+
+group :development, :test do
+  gem 'railroady'
 end
 
 group :production do

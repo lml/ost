@@ -1,3 +1,6 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
 <% addTestMeta {{:page_type  => "index"}} %>
 <% addTestMeta {{:major_name => "Course Catalog"}} %>
 
@@ -9,14 +12,14 @@
 
 <% @courses.group_by{|c| c.organization}.sort.each do |organization, courses| %>
 
-  <div class="test section">
+  <div class="test test_section">
     
   <%= section organization.name do %>
     <%#= organization.name %>
 
     <div style="padding-left:0px">
       <% courses.each do |course| %>
-        <div style="padding: 5px 0 8px" class="test section">
+        <div style="padding: 5px 0 8px" class="test test_section">
           <p><b><%= course.name %></b></p>
           <p><%= course.description %></p>
           <p style="margin-bottom: 0px"><%= link_to "Teach this course", new_course_klass_path(course), :test => "teach" %></p>

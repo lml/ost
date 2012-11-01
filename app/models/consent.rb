@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 # A 'consentable' object must meet the following spec:
 #
 #   def is_consentable_for_user?(user) ... end
