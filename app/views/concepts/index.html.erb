@@ -1,5 +1,5 @@
 <%= pageHeading "Concepts for #{@learning_plan.name}"%>
-<p>Use concept tags to track how well students master the concepts you teach. <%= link_to_help 'concepts_page', text="Learn how.", {:title => 'Concept Tags'} %></p>
+<p>Use concept tags to track how well students master the concepts you teach. <%= link_to_help 'concepts_page', text="Learn how.", {:title => 'Concept Tags', :width => 700} %></p>
 <div id="concept_list">
   <%= render :partial => 'list', :locals => {:learning_plan => @learning_plan} %>
 </div>

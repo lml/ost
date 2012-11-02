@@ -7,30 +7,33 @@
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
   
-  <%= accordion_entry :title => "I created an account but never received a 
-               confirmation email. What should I do?" do %>
-    <%= render :partial => 'help/blurbs/request_conf_email'%>
- <% end %>
+  <%= section "Test Section", {:classes => 'first no_bar'} do %>
+    <%= accordion_entry :title => "I created an account but never received a 
+                 confirmation email. What should I do?" do %>
+      <%= render :partial => 'help/blurbs/request_conf_email'%>
+   <% end %>
 
- <%= accordion_entry :title => "How do I update my user settings, e.g. change my 
-                password / email address / time zone?" do %>    
-    <ol>
-      <li>Sign in and click <strong>My Account</strong>, found in the upper right of every page, next to the welcome message.</li>
-      <li>In My Account, update your password, email address and/or time zone.</li>
-      <li>Enter your current password to confirm changes.</li>
-    </ol>  
-  <% end %>
+   <%= accordion_entry :title => "How do I update my user settings, e.g. change my 
+                  password / email address / time zone?" do %>    
+      <ol>
+        <li>Sign in and click <strong>My Account</strong>, found in the upper right 
+            of every page, next to the welcome message.</li>
+        <li>In My Account, update your password, email address and/or time zone.</li>
+        <li>Enter your current password to confirm changes.</li>
+      </ol>  
+    <% end %>
 
-  <%= accordion_entry :title => "I registered for the wrong section of my class. How do I change to a different section?" do %>
-    <ol>
-      <li>Go to <strong>Dashboard > Class name > Class Information</strong>.</li>
-      <li>If you see <strong>Drop this class</strong>: don't drop the class. You need to email your instructor/TA to change your section.</li>
-      <%= image_tag("dropthisclass.png", {:border => 1, :width => "90%", :height => "90%", :title=>"drop this class"})%>  
-      <li>If you see <strong>Cancel my request to join this class</strong>, click <strong>Cancel</strong> and confirm your choice.</li>
-      <%= image_tag("cancelrequest.png", {:border => 1, :width => "90%", :height => "90%", :title=>"cancel request"})%>  
-      <p>
-      <li>Once you've canceled your registration request, click <strong>Register</strong> to submit a new registration request for the correct section.</li>
-    </ol>
+    <%= accordion_entry :title => "I registered for the wrong section of my class. How do I change to a different section?" do %>
+      <ol>
+        <li>Go to <strong>Dashboard > Class name > Class Information</strong>.</li>
+        <li>If you see <strong>Drop this class</strong>: don't drop the class. You need to email your instructor/TA to change your section.</li>
+        <%= image_tag("dropthisclass.png", {:border => 1, :width => "90%", :height => "90%", :title=>"drop this class"})%>  
+        <li>If you see <strong>Cancel my request to join this class</strong>, click <strong>Cancel</strong> and confirm your choice.</li>
+        <%= image_tag("cancelrequest.png", {:border => 1, :width => "90%", :height => "90%", :title=>"cancel request"})%>  
+        <p>
+        <li>Once you've canceled your registration request, click <strong>Register</strong> to submit a new registration request for the correct section.</li>
+      </ol>
+    <% end %>
   <% end %>
 
   <%= accordion_entry :title => "I saved my free-form response, so why can't I see the multiple choice answers?" do %>
