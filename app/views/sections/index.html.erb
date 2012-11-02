@@ -1,4 +1,5 @@
 <% pageHeading "Sections for #{@klass.course.name}"%>
+<p>If your class has multiple sections, set up the sections here. <%= link_to_help 'sections', text="Learn how.", {:title => 'Create Sections'} %></p>
 
 <%= uber_list @sections, :name %>
 
