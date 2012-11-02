@@ -2,40 +2,36 @@
 
 Coming soon!
 
-<% if false %>
-  
-… your not ready stuff here ...
-  
 
-<p>Welcome to <%= SITE_NAME %>! This help page will guide you through creating an account, registering for a class and completing assignments in OST.</p>
 
-<%= link_to "Sign up for OpenStax Tutor", "#sign_up" %><br/>
-<%= link_to "Register for a class", "#register_for_class" %><br/>
-<%= link_to "How to access assignments", "#access_assignments" %><br/>
-<%= link_to "How to complete assignments", "#complete_assignments" %><br/>
-<%= link_to "Grades", "#grades" %><br/>
+<p>Welcome to <%= SITE_NAME %>! This help page will guide you through creating an account, registering for a class and completing assignments in OST. Click on the below links to learn more about each help topic. </p>
 
-<p>
-<div class ="sectionHeading" id="sign_up"><strong>Sign up for <%= SITE_NAME %></strong></div> 
-<p>
-  (((Would be good to add some notes -- can't change your user name / name later, use an email you often use, etc -- to the join now page)))
-<p>
-<%= render :partial => 'help/blurbs/sign_up'%>
+<div class="accordion" id="accordion2" style="padding-top:20px;">
 
-<div class ="sectionHeading" id="register_for_class"><strong>Register for a class</strong></div>
- <%= render :partial => 'help/blurbs/register_for_a_class'%>
-  
-<div class ="sectionHeading" id="access_assignments"><strong>How to access assignments</strong></div>
-
-  <%= render :partial => 'help/blurbs/access_assignments'%>
-  
-<div class ="sectionHeading" id="complete_assignments"><strong>How to complete assignments</strong></div>
-
-  <%= render :partial => 'help/blurbs/complete_assignments'%>
-  
-<div class ="sectionHeading" id="grades"><strong>Grades</strong></div>
-
-  <%= render :partial => 'help/blurbs/grades'%>
-  
-  
+  <%= accordion_entry :title => "Sign up for #{SITE_NAME}" do %>    
+    <%= render :partial => 'help/blurbs/sign_up'%>
   <% end %>
+
+  <%= accordion_entry :title => "Register for a class" do %>
+    <%= render :partial => 'help/blurbs/register_for_a_class'%>
+  <% end %>
+
+  <%= accordion_entry :title => "How to access assignments" do %>
+    <%= render :partial => 'help/blurbs/access_assignments'%>
+  <% end %>
+  
+  <%= accordion_entry :title => "How to complete assignments" do %>
+    <%= render :partial => 'help/blurbs/complete_assignments'%>
+  <% end %>
+  
+  <%= accordion_entry :title => "How to view scores on assignments" do %>
+    <%= render :partial => 'help/blurbs/grades'%>
+  <% end %>
+
+</div>
+
+
+
+
+
+<% navitem { link_to "Back to Help", help_path } %> 
