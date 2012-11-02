@@ -79,10 +79,8 @@
   
   <%= section "Instructor FAQ", {:classes => ' no_bar'} do %>
     <%= accordion_entry :title => "How do I add exercises and resources to #{SITE_NAME}? It looks I can only add links." do %>
-      <p>OpenStax Tutor does not host course materials. Instead you will
-         add course materials to, or reuse content from, Connexions and Quadbase. 
-    <%= link_to "Go here to read more about adding materials to Connexions 
-    and Quadbase.", help_topics_path%> </p>
+      <p>OpenStax Tutor does not host course materials. Instead, the exercises you assign must be hosted on Quadbase, while the resources you  assign must be hosted on Connexions or other websites.</p>
+    <%= link_to "Go here to read more.", help_topics_path%> </p>
     <% end %>
 
     <%= accordion_entry :title => "How do I add exercises to an assignment? It looks like I can only add topics." do %>
