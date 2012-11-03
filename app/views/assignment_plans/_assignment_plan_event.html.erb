@@ -1,3 +1,6 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
 {
   title  : '<%= assignment_plan.name %>',
   start  : '<%= TimeUtils.time_and_zonestr_to_timestr_in_zone(assignment_plan.starts_at, assignment_plan.learning_plan.klass.time_zone, "%Y-%m-%d %H:%M") %>',

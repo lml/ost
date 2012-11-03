@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 require 'net/http'
 
 # Thanks Ilya! http://www.igvita.com/2006/09/07/validating-url-in-ruby-on-rails/

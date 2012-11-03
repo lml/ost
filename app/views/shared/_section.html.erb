@@ -1,10 +1,18 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
 <% collapsible ||= false %>
 <% collapsed ||= false %>
 <% help_topic ||= nil %>
 <% classes ||= "" %>
+<% anchor_name ||= nil %>
+
 
 <div class="section activity_zone <%= classes %> test test_section">
   <div class="section_heading">
+    <% if !anchor_name.blank? %>
+      <%= link_to "", {}, :name => anchor_name %>
+    <% end %>
     <%= title %>
     <% if !help_topic.nil? %>
       &nbsp;<%= link_to_help help_topic %>
