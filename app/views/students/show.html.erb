@@ -19,7 +19,9 @@
   <%= section "Assignments" do %>
     <ol>
     <% @student.student_assignments.each do |student_assignment| %>
+      <% if student_assignment.assignment && student_assignment.assignment.assignment_plan %>
       <li><%= link_to student_assignment.assignment.assignment_plan.name, student_assignment %></li>
+      <% end %>
     <% end %>
     </ol>
   <% end %>
