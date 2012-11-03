@@ -1,0 +1,16 @@
+
+<p>To register to teach a new class in <%= SITE_NAME %>:
+  <ol>
+        <li><%= link_to "Create an OpenStax Tutor account", new_user_registration_path %>, if you haven't already.</li>
+        <p>
+        <li>Email <%= email_link "info", "info@openstaxtutor.org" %> and provide the following information:</li>
+         <p>
+          <ul>
+            <li>Name of your institution;</li>
+            <li>Full course name (e.g. Math 101: Single-Variable Calculus);</li>
+            <li>Short course name (e.g. Math 101);</li>
+            <li>Description of the course for the Course Catalog;</li>
+            <li>When the class is typically offered, e.g. Fall or Spring. 
+          </ul>
+          <p>
+        <li>Once the administrator confirms your request, go to the <%= link_to "Course Catalog", catalog_path  %>. Under your class name, click <strong>Teach this course</strong>.</li>

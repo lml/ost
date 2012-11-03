@@ -1,0 +1,99 @@
+<%= pageHeading "Help | Assignments" do %>
+<% end %>
+
+Coming soon!
+
+<% if false %>
+
+<%= render :partial => 'help/blurbs/plan_assignments' %>
+
+
+<p>
+<strong>To create a <em>non-test</em> assignment:</strong>
+<p>This tutorial assumes that you have already organized your content into topics, added it to the Learning Plan and  <%= link_to "marked test exercises as such", help_topics_path(:anchor => "mark_test") %>.</p>
+<ol>
+  <li>Go to <strong>Dashboard > Class > Learning Plan > Assignments</strong> and click <strong>Add new assignment</strong>.</li>
+  <p>
+  <li>Enter <strong>name</strong>, <strong>optional introduction</strong> and <strong>assignment start and end date</strong>.</li>
+  <p>
+  <li>For this non-test assignment, leave <em>This is a test</em> unchecked.</li>
+  <p>
+  <li>Mark if <strong>group work</strong> is allowed and/or if the assignment is <strong>open book</strong>.</li>
+  <p>
+  <li>Leave "This is ready to be assigned" <em>unchecked</em> until you have finished editing the assignment.</li>
+  <p>
+  <li>Attach extra labels if necessary, e.g. to trigger a particular feedback condition.</li>
+  <p>
+  <li>Click <strong>Create Assignment</strong> plan.</li>
+  <p>
+  <li><em><strong>Double click</strong></em> the assignment you just created.</li>
+  <p>
+  <li>Click <strong>Add</strong> and select the <strong>topic(s) </strong>the assignment will cover.</li>
+  <p>
+  Note:</p> 
+  <ul>
+    <li>If your class is using the default schedule condition, OST will pull 100% of (non-test) exercises from listed topics into the assignment.</li>
+    <p>
+    <li>If you are using a custom schedule condition that automatically includes repetition practice from previous topics, you need only add the <em><strong>primary topic</strong></em> to the assignment.</li>
+  </ul>
+  <p>
+  <li>Click <strong>Add this topic</strong>.</li>
+  <p>
+  <li>Repeat previous two steps to add additional topics, if necessary.</li>
+  <p>
+  <li>Click <strong>Preview Assignments</strong> to verify the assignment looks correct.</li>
+  <p>
+  <li>When the assignment settings are correct, mark <strong>This is ready to be assigned</strong>; OST will send out the assignment on the specified start date/time.<p>
+    <ul>
+      <li>Hold mouse over topic.</li>
+      <li>Click orange pencil icon to edit the assignment plan.</li>
+      <li>Check "This is ready to be assigned."</li>
+    </ul>
+  </ol>
+  
+  <p><strong>To create a test</strong></p>
+<p>This tutorial assumes that you have added course materials to the Topics section and that you have marked test exercises as such. For help adding topics, go here. For help marking exercises as tests, go here.</p
+<ol>
+  <li>Go to <strong>Dashboard > Class > Learning Plan > Assignments</strong>. </li>
+  <p> 
+  <li>In Assignments, click <strong>Add new assignment</strong>.</li>
+  <p>
+  <li>Enter a name, e.g. HW 1, and optional introduction.</li>
+  <p>
+  <li>Set the assignment start and end date/time using the date/time picker.</li>
+  <p>
+  <li>Check <em>This is a test</em>.</li>
+  <p>
+  <li>Mark if group work is allowed and/or if the assignment is open book.</li>
+  <p>
+  <li>Leave "This is ready to be assigned" <em>unchecked</em> until you have finished editing the assignment.</li>
+  <p>
+  <li>Attach extra labels if necessary, e.g. to trigger a particular feedback condition.</li>
+  <p>
+  <li>Click <strong>Create Assignment</strong> plan.</li>
+  <p>
+  <li><em><strong>Double click</strong></em> the test you just created.</li>
+  <p>
+  <li>Click <strong>Add</strong> and select the topic you want to add to your test.</li>
+  <p>
+  <li>Click <strong>Add this topic</strong>.</li>
+  <p>
+  <li>Site will show you the test options:</li>
+  <p>
+     <%= image_tag("test1.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create test"})%>  
+  <p>
+  <li>Click on <strong>Using 0 / 1 exercises</strong> and choose how many test exercises to add from this topic.</li>
+  <p>
+  <li>Click on <strong>visible</strong> to make resources invisible, if desired.</li>
+  <p>
+  <li>Click <strong>Preview Assignments</strong> to verify the assignment looks correct.</li>
+  <p>
+  <li>Mark "This is ready to be assigned" -- OST will send out the assignment on the specified start date/time.<p>
+    <ul>
+      <li>Hold mouse over topic.</li>
+      <li>Click orange pencil icon to edit the assignment plan.</li>
+      <li>Check "This is ready to be assigned."</li>
+    </ul>
+</ol>
+
+<% end %>

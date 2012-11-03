@@ -17,6 +17,8 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require jquery.purr
+// Loads all Bootstrap javascripts
+//= require bootstrap
 //= require best_in_place
 //= require fullcalendar
 //= require codecogs_editor
