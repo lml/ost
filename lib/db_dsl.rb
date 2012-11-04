@@ -243,7 +243,6 @@ module DbDsl
 
   def DbCofExercise(options={}, &block)
     options ||= { }
-
     if options[:existing]
       exercise = Exercise.where{ url == options[:existing] }.first
     elsif exercise = find_on_stack(Exercise)
@@ -382,7 +381,7 @@ module DbDsl
 
   def DbCofResource(options={}, &block)
     options ||= { }
-
+    
     if options[:existing]
       topic = Resource.where{ name == options[:existing] }.first
     elsif resource = find_on_stack(Resource)

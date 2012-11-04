@@ -103,8 +103,7 @@ module DbSetup
 
       consent_form = DbCofConsentForm name: "Custom Consent Form"
 
-      ex1 = DbCofExercise url: "http://google.com/search?q=michael+jordan"
-      ex2 = DbCofExercise url: "http://google.com/search?q=spongebob+squarepants"
+      ex1 = DbCofExercise url: "http://quadbase.org/questions/q4668v1"
 
       DbCofOrganization name: "Get Smart" do
 
@@ -124,10 +123,11 @@ module DbSetup
                 DbCofCohort name: "First Inner Cohort 1" do
                   DbCofLearningCondition do |learning_condition|
                     DbCofPercentScheduler do |scheduler|
-                      scheduler.schedules = [ [ {percent:  80, tags: "new_material"},
-                                                {percent:  15, tags: "old_material"},
-                                                {percent:   5, tags: "ancient_stuff"} ],
-                                              [ {percent: 100, tags: "new_material"}  ] ]
+                      # scheduler.schedules = [ [ {percent:  80, tags: "new_material"},
+                      #                           {percent:  15, tags: "old_material"},
+                      #                           {percent:   5, tags: "ancient_stuff"} ],
+                      #                         [ {percent: 100, tags: "new_material"}  ] ]
+                      scheduler.schedules = [ [ {percent: 100, tags: "new_material"}  ] ]
                       scheduler.save!
                     end
 
@@ -155,32 +155,33 @@ module DbSetup
               assignment = nil
               DbCofLearningPlan do
                 con1 = DbCofConcept name: "Concept One"
+                con2 = DbCofConcept name: "Concept Two"
 
                 topic1 = DbCofTopic name: "First Topic"
                 te1 = nil
 
                 topic2 = DbCofTopic name: "Second Topic" do
-                  DbCofResource name: "Resource One"
-                  DbCofResource url: "http://www.google.com"
+                  DbCofResource name: "Resource One", url: "http://www.imdb.com"
+                  DbCofResource name: "Resource Two", url: "http://www.google.com"
                   te1 = DbCofTopicExercise exercise: ex1, concept: con1
-                  DbCofTopicExercise exercise: ex2, concept: con1
+                  DbCofTopicExercise exercise: ex1, concept: con2
                 end
 
-                DbCofAssignmentPlan starts_at: "Sep 1, 2010 6:00am", ends_at: "Sep 5, 2010 10:00pm" do
+                DbCofAssignmentPlan name: "Homework One", starts_at: "Sep 1, 2010 6:00am", ends_at: "Sep 5, 2010 10:00pm" do
                   DbCofAssignmentPlanTopic topic: topic1 do
-                    assignment = DbCofAssignment for_cohort: {existing: "First Inner Cohort 1"} do
-                      DbCofAssignmentExercise topic_exercise: te1
-                    end
+                    # assignment = DbCofAssignment for_cohort: {existing: "First Inner Cohort 1"} do
+                    #   DbCofAssignmentExercise topic_exercise: te1
+                    # end
                   end
                 end
 
-                DbCofAssignmentPlan starts_at: "Sep 3, 2010 6:00am", ends_at: "Sep 9, 2010 10:00pm" do
+                DbCofAssignmentPlan name: "Homework Two", starts_at: "Sep 3, 2010 6:00am", ends_at: "Sep 9, 2010 10:00pm" do
                   DbCofAssignmentPlanTopic topic: topic1
                   DbCofAssignmentPlanTopic topic: topic2
                 end
               end
 
-              DbCofStudentAssignment student: vito, assignment: assignment
+              # DbCofStudentAssignment student: vito, assignment: assignment
             end
 
           end

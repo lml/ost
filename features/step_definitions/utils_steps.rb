@@ -312,7 +312,7 @@ Then %r{^(?:in|under) (.*?) I (can\s|do\s|do not\s|cannot\s|can not\s|don't\s|)?
 
 end
 
-When %r{^I click on (.+)$} do |search_text|
+When %r{^I (double\s|double-)?click on (.+)$} do |double_click, search_text|
 
   orig_search_text = search_text.dup
   elem             = page
@@ -344,7 +344,7 @@ When %r{^I click on (.+)$} do |search_text|
   elem.visible?.should be true
 
   handle_js_confirm(accept) do
-    elem.click
+    double_click.nil? ? single_click_on(elem) : double_click_on(elem)
   end
   wait_for_browser
 end
@@ -385,6 +385,10 @@ end
 
 And %r{^screencapture "(.*?)"$} do |prefix|
   save_screen(prefix, URI.parse(current_url).path)
+end
+
+And %r{^debugger$} do
+  debugger
 end
 
 And %r{^dump paths$} do
