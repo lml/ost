@@ -33,7 +33,7 @@ class DevController < ApplicationController
 protected
 
   def check_dev_env
-    raise SecurityTransgression unless Rails.env.development?
+    raise SecurityTransgression if Rails.env.production?
   end
 
 end
