@@ -1,8 +1,11 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<%= pageHeading "Preview of Assignments" %>
+<% addTestMeta {{:page_type  => "preview assignments"}} %>
+<% addTestMeta {{:major_name => @klass.course.name}} %>
+<% addTestMeta {{:minor_name => "Learning Plan"}} %>
 
+<%= pageHeading "Preview of Assignments" %>
 
 <% @assignments.each_with_index do |assignment_array, ii| %>
   
@@ -13,21 +16,24 @@
     <% assignment_array.each do |assignment| %>
       <% cohort = assignment.cohort %>
     
-      <p><b>Cohort: <%= cohort.name %> <%= ", Section: #{cohort.section.name}" if !cohort.section_id.nil? %></b></p>
-      <ol>
-        <% assignment.assignment_exercises.each do |ae| %>
-          <% te = ae.topic_exercise %>
-          <% exercise = te.exercise %>
-          <li><%= link_to "#{exercise.quadbase_id}", exercise.url %> 
-              [<%= te.topic.name %> / 
-               <%= te.concept.try(:name) || 'no concept' %>
-               <% if present_user.is_researcher? || present_user.is_administrator? %> 
-                 / <%= ae.tag_list %>
-               <% end %>
-              ]
-          </li>
-        <% end %>
-      </ol>
+      <div class="test test_section cohort">
+        <p><b>Cohort: <%= cohort.name %> <%= ", Section: #{cohort.section.name}" if !cohort.section_id.nil? %></b></p>
+        <ol>
+          <% assignment.assignment_exercises.each do |ae| %>
+            <% te = ae.topic_exercise %>
+            <% exercise = te.exercise %>
+            <li class="test test_section"><%= link_to "#{exercise.quadbase_id}", exercise.url %> 
+                [<%= te.topic.name %> / 
+                 <%= te.concept.try(:name) || 'no concept' %>
+                 <% if present_user.is_researcher? || present_user.is_administrator? %> 
+                   / <%= ae.tag_list %>
+                 <% end %>
+                ]
+            </li>
+          <% end %>
+        </ol>
+      </div>
+
     <% end %>
   
   <% end %>
