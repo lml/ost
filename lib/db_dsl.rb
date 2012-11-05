@@ -381,7 +381,7 @@ module DbDsl
 
   def DbCofResource(options={}, &block)
     options ||= { }
-    
+
     if options[:existing]
       topic = Resource.where{ name == options[:existing] }.first
     elsif resource = find_on_stack(Resource)
@@ -470,9 +470,12 @@ module DbDsl
   def DbCofTopicExercise(options={}, &block)
     options ||= { }
 
-    if topic_exercise = find_on_stack(TopicExercise)
+    if options[:existing]
+      topic_exercise = TopicExercise.where{ name == options[:existing] }.first
+    elsif topic_exercise = find_on_stack(TopicExercise)
     else
       attrs = FactoryGirl.attributes_for(:topic_exercise)
+      attrs[:name]     = options[:name]     if options[:name]
       attrs[:topic]    = options[:topic]    || DbCofTopic(options[:for_topic])
       attrs[:exercise] = options[:exercise] || DbCofExercise(options[:for_exercise])
       attrs[:concept]  = options[:concept]  || DbCofConcept(options[:for_concept])

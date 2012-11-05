@@ -123,8 +123,8 @@ module DbSetup
                 topic2 = DbCofTopic name: "Second Topic" do
                   DbCofResource name: "Resource One", url: "http://www.imdb.com"
                   DbCofResource name: "Resource Two", url: "http://www.google.com"
-                  topic_exercise1 = DbCofTopicExercise exercise: exercise, concept: concept1
-                  DbCofTopicExercise exercise: exercise, concept: concept2
+                  topic_exercise1 = DbCofTopicExercise name: "Topic Exercise One", exercise: exercise, concept: concept1
+                  topic_exercise2 = DbCofTopicExercise name: "Topic Exercise Two", exercise: exercise, concept: concept2
                 end
 
                 DbCofAssignmentPlan name: "Homework One", starts_at: "Sep 1, 2012 6:00am", ends_at: "Sep 5, 2012 10:00pm" do

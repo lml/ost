@@ -5,6 +5,7 @@
 
 FactoryGirl.define do
   factory :topic_exercise do
+    sequence(:name) { |n| "AutoGen TopicExercise Name #{n}"}
     topic
     exercise
     concept 
