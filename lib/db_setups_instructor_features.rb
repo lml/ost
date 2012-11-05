@@ -97,91 +97,46 @@ module DbSetup
 
       DbCofUser first_name: "Admin",      last_name: "Jones", username: "admin"
       DbCofUser first_name: "Professor",  last_name: "X",     username: "profx"
-      DbCofUser first_name: "Researcher", last_name: "Smith", username: "researcher" do
-        DbCofResearcher()
-      end
 
-      consent_form = DbCofConsentForm name: "Custom Consent Form"
-
-      ex1 = DbCofExercise url: "http://quadbase.org/questions/q4668v1"
+      exercise = DbCofExercise url: "http://quadbase.org/questions/q4668v1"
 
       DbCofOrganization name: "Get Smart" do
 
         DbCofCourse name: "Intro 101: Only the Easy Stuff" do
           DbCofInstructor for_user: { existing: "profx" } do
-            DbCofClass do
-              DbCofConsentOptions consent_form: consent_form
-            end
+            DbCofClass()
           end
         end
 
         DbCofCourse name: "Course 102: Time to Rethink Your Major" do
           DbCofInstructor for_user: { existing: "profx" } do
-            DbCofClass start_date: "Sep 1, 2010 5:00am", end_date: "Dec 1, 2010 5:00pm" do
-
-              DbCofSection name: "Section the First" do
-                DbCofCohort name: "First Inner Cohort 1" do
-                  DbCofLearningCondition do |learning_condition|
-                    DbCofPercentScheduler do |scheduler|
-                      # scheduler.schedules = [ [ {percent:  80, tags: "new_material"},
-                      #                           {percent:  15, tags: "old_material"},
-                      #                           {percent:   5, tags: "ancient_stuff"} ],
-                      #                         [ {percent: 100, tags: "new_material"}  ] ]
-                      scheduler.schedules = [ [ {percent: 100, tags: "new_material"}  ] ]
-                      scheduler.save!
-                    end
-
-                    DbCofBasicFeedbackCondition is_feedback_required_for_credit: true do |feedback_condition|
-                      # Remove the default FeedbackCondition and replace it
-                      learning_condition.feedback_conditions.pop.destroy
-                      learning_condition.feedback_conditions.push(feedback_condition)
-                      learning_condition.save!
-                    end
-                  end
-                end
-                DbCofCohort name: "First Inner Cohort 2"
-              end
-
-              DbCofSection name: "Section the Second" do
-                DbCofCohort name: "Second Inner Cohort 1"
-                DbCofCohort name: "Second Inner Cohort 2"
-              end
-
-              vito = DbCofStudent   for_section: {existing: "Section the First"},
-                                    for_cohort:  {existing: "First Inner Cohort 1"},
-                                    for_user:    {first_name: "Vito"}, 
-                                    status: :registered
+            DbCofClass start_date: "Sep 1, 2012 5:00am", end_date: "Dec 1, 2012 5:00pm" do
 
               assignment = nil
               DbCofLearningPlan do
-                con1 = DbCofConcept name: "Concept One"
-                con2 = DbCofConcept name: "Concept Two"
+                concept1 = DbCofConcept name: "Concept One"
+                concept2 = DbCofConcept name: "Concept Two"
+
+                topic_exercise1 = nil
 
                 topic1 = DbCofTopic name: "First Topic"
-                te1 = nil
-
                 topic2 = DbCofTopic name: "Second Topic" do
                   DbCofResource name: "Resource One", url: "http://www.imdb.com"
                   DbCofResource name: "Resource Two", url: "http://www.google.com"
-                  te1 = DbCofTopicExercise exercise: ex1, concept: con1
-                  DbCofTopicExercise exercise: ex1, concept: con2
+                  topic_exercise1 = DbCofTopicExercise exercise: exercise, concept: concept1
+                  DbCofTopicExercise exercise: exercise, concept: concept2
                 end
 
-                DbCofAssignmentPlan name: "Homework One", starts_at: "Sep 1, 2010 6:00am", ends_at: "Sep 5, 2010 10:00pm" do
-                  DbCofAssignmentPlanTopic topic: topic1 do
-                    # assignment = DbCofAssignment for_cohort: {existing: "First Inner Cohort 1"} do
-                    #   DbCofAssignmentExercise topic_exercise: te1
-                    # end
-                  end
+                DbCofAssignmentPlan name: "Homework One", starts_at: "Sep 1, 2012 6:00am", ends_at: "Sep 5, 2012 10:00pm" do
+                  DbCofAssignmentPlanTopic topic: topic1
                 end
 
-                DbCofAssignmentPlan name: "Homework Two", starts_at: "Sep 3, 2010 6:00am", ends_at: "Sep 9, 2010 10:00pm" do
+                DbCofAssignmentPlan name: "Homework Two", starts_at: "Sep 3, 2012 6:00am", ends_at: "Sep 9, 2012 10:00pm" do
                   DbCofAssignmentPlanTopic topic: topic1
                   DbCofAssignmentPlanTopic topic: topic2
                 end
               end
 
-              # DbCofStudentAssignment student: vito, assignment: assignment
             end
 
           end

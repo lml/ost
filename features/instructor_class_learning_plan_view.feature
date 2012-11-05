@@ -10,32 +10,21 @@ Feature: Instructors can view the Learning Plans for Classes they are teaching.
     Instructors can also preview Assignment distribution to
     Class Cohorts.
 
-    The "Get Smart" Organization is offering three Courses:
+    The "Get Smart" Organization is offering two Courses:
         "Intro 101: Only the Easy Stuff"
         "Course 102: Time to Rethink Your Major"
-        "Nightmare 666: You Will Fail"
     Classes for each of these Courses already exist.
 
-    "Professor X" is an Instructor all three Classes.
+    "Professor X" is an Instructor both Classes.
 
-    "Intro 101" has two Sections ("Section Alpha" and "Section Beta")
-    but no Students.
+    "Intro 101: Only the Easy Stuff" has no Topics and no AssignmentPlans.
 
-    "Course 102" has one Section ("Section Alpha") with the following 
-    enrollment:
-        Student "Vito"     is fully registered
-        Student "Twila"    is auditing
-        Student "Melissa"  is dropped
-
-    "Nightmare 666" has two Sections ("Section Alpha" and "Section Beta") 
-    with the following enrollments:
-        "Section Alpha":
-            Student "Dameon" is fully registered
-            Student "Oda"    is fully registered
-        "Section Beta":
-            Student "Adrien" is auditing
-            Student "Phoebe" is auditing
-            Student "Hubert" is dropped
+    "Course 102: Time to Rethink Your Major" has two Topics:
+        "First Topic"   with no Resources and no Exercises
+        "Second Topic"  with two Resources and two Exercises
+    and two AssignmentPlans:
+        "Homework One"  covering "First Topic"
+        "Homework Two"  covering "First Topic" and "Second Topic"
 
     Background:
         Given instructor class learning plan view setup
