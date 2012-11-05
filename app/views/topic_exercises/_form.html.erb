@@ -10,6 +10,11 @@
     <%= text_field_tag :exercise_url, @topic_exercise.exercise.url, :style => "width: 90%" %>
   </div>
   <div class="field">
+    Name (optional)<br />
+    <%= f.text_field :name, :style => "width:90%" %><br/>
+    <span class="field_help">If provided, the link to this exercise will appear with this name instead of the last portion of the URL.</span>
+  </div>
+  <div class="field">
     <%= f.check_box :reserved_for_tests %> This exercise is reserved for use in tests.
   </div>
   <div class="field">
