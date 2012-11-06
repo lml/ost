@@ -12,7 +12,7 @@
   student_cohort = student.try(:cohort)
 %>
 
-<%= section "Class Information", {:classes => 'first no_bar' } do %>
+<%= section "Class Information", {:classes => 'first no_bar class_information' } do %>
 
 <div style="float:right; padding-right:30px">
   
@@ -175,7 +175,7 @@
 <% end %>
 
 
-<%= section "Assignments" do %>
+<%= section "Assignments", {:classes => "assignments"} do %>
 
   <% if !present_user.can_read_children?(@klass.cohorts.first, :assignments) %>
 

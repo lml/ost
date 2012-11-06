@@ -43,10 +43,10 @@ def utc_from_time_and_zone(time_string, time_zone_string)
   end
 end
 
-def add_test_classes(html_options, test_tokens)
+def add_test_classes(html_options, test_tokens, target_key=:class)
   return if Rails.env.production?
 
-  class_str    = html_options[:class] || ""
+  class_str    = html_options[target_key] || ""
   class_tokens = class_str.split
 
   html_options[:test] ||= ""
@@ -58,7 +58,7 @@ def add_test_classes(html_options, test_tokens)
     class_tokens << elem if !class_tokens.include?(elem)
   end
 
-  html_options[:class] = class_tokens.join(' ') if class_tokens.size > 0
+  html_options[target_key] = class_tokens.join(' ') if class_tokens.size > 0
   html_options.delete :test
 end
 
