@@ -151,6 +151,7 @@ Ost::Application.routes.draw do
   put 'dev/reset_time'
   post 'dev/freeze_time'
   post 'dev/time_travel'
+  put 'dev/run_cron_tasks'
   match 'dev/test_error/:number', :to => 'dev#test_error'
   
   resources :website_configurations, :only => [:index] do

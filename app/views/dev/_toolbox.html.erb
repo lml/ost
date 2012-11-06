@@ -47,3 +47,9 @@
   <% end %>
 <% end %>
 
+<%= section "Run Cron Tasks" do %>
+  <%= button_to 'Run Cron Tasks', 
+                dev_run_cron_tasks_path,
+                :method => :put,
+                :remote => true %>
+<% end %>
