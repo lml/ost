@@ -1,11 +1,27 @@
 <ol>
   <li>From the home page, click <%= link_to "Join Now", new_user_registration_path %>.</li>
-  <li>Enter your first name, last name and username. Note that these cannot be changed later.</li>
-  <li>Enter your email address and confirm it. Please enter an address you check often, as the site will send notifications about assignments to this email.</li>
-  <li>Enter your password and confirm it.</li>
+  <li>Enter your <strong>first name</strong>, <strong>last name</strong> and <strong>username</strong>.</li>
+    <p>
+    <ul>
+      </li><em>Important</em>: Your name will not be publicly available, but your instructor has access to your name and user name for grading purposes.</li>
+    </ul>
+    <p>
+  <li>Enter your <strong>email address</strong> and confirm it.</li>
+    <ul>
+      <p>
+      <p><em>Important</em>: Use an email address that you actively use and access. OST uses this address to send you important notifications.</p>
+      <p>
+    </ul>
+  <li>Enter your <strong>password</strong> and confirm it.</li>
   <li>Enter your time zone.</li>
+    <ul>
+      <p>
+      <p><em>Important</em>: OST uses this time zone to show assignment start and due dates.</p>
+      <p>
+    </ul>
   <li>Complete the Captcha.</li>
   <li>Read and agree to to the User Agreement.</li>
   <li>Click <strong>Sign up</strong>.</li>
 </ol>
-<p>The site will send a confirmation email with instructions to complete your registration. If you don't receive the email confirmation, check your spam filter. You can also  <%= link_to "click here", new_user_confirmation_path %> to request it be resent.</p>
+<p>The site will send a confirmation email with instructions to complete your registration. If you don't receive the email confirmation, check your spam filter. You can also <%= link_to "click here", new_user_confirmation_path %> to request it be resent.</p>
+

@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 class Topic < ActiveRecord::Base
   belongs_to :learning_plan
   has_many :topic_exercises, :dependent => :destroy, :order => :number, :include => :exercise

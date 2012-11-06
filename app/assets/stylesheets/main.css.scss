@@ -1,8 +1,15 @@
+// Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+// License version 3 or later.  See the COPYRIGHT file for details.
+
 @import "common";
 
 // Put bootstrap overrides up here
 
 @import "bootstrap";
+
+.accordion-group {
+  margin-bottom: 6px;
+}
 
 @mixin rounded($radius: 0.5em) {
   -webkit-border-radius: $radius;
@@ -459,7 +466,7 @@ div.field label {
 
 #column_container_2c {
    width: 100%;
-   // overflow:hidden;
+   overflow:hidden;
 
 }
 

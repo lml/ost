@@ -1,6 +1,2 @@
-This is my license text.
-It has several lines, as well as (\? ... some # unusual characters $1 !! \3).
-
-Some of the lines are blank.
-
-No Problem, tho!
+Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+License version 3 or later.  See the COPYRIGHT file for details.

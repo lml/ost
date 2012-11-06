@@ -1,3 +1,6 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
 
 <%= unless_errors_in(@assignment_plan_topic, 'message_dialog_errors') do %>
   $("#assignment_plan_<%= @assignment_plan.id %>").replaceWith("<%= ej(render :partial => 'assignment_plans/show', :locals => {:assignment_plan => @assignment_plan}) %>")

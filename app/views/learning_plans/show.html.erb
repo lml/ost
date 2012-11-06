@@ -1,3 +1,6 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
 <% addTestMeta {{:page_type  => "show"}} %>
 <% addTestMeta {{:major_name => @learning_plan.klass.course.name}} %>
 <% addTestMeta {{:minor_name => "Learning Plan"}} %>
@@ -125,5 +128,13 @@
 <%
   navitem { link_to "#{t(@learning_plan.klass.class)}", @learning_plan.klass }
   navitem { link_to "Concepts", learning_plan_concepts_path(@learning_plan) }
-  navitem { link_to "Refresh Exercises", learning_plan_refresh_exercises_path(@learning_plan), :method => :put, :remote => true }
+  navitem { 
+      x = link_to "Refresh Exercises", learning_plan_refresh_exercises_path(@learning_plan), :method => :put, :remote => true 
+      x << " " << (link_to_help 'refresh_exercises')
+  }
 %>
+
+<%= link_to_help 'concepts_page', text="Learn how.", {:title => 'Concept Tags', :width => 700} %></p>
+
+
+

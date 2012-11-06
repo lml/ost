@@ -1,8 +1,6 @@
 <%= pageHeading "Getting Started for Instructors" %>
 
 <p>Welcome to <%= SITE_NAME %>! This page provides a general roadmap of the steps required to set up your class. For more detail about any particular step, click the links to learn more.</p>
-
-Screencast -- 5 minute introduction to OST and major stuff you can do.
  
 <div class="accordion" id="accordion2" style="padding-top:20px;">
 
@@ -10,21 +8,17 @@ Screencast -- 5 minute introduction to OST and major stuff you can do.
     <ol>
       <li><%= link_to "Create an OpenStax Tutor account", new_user_registration_path %>, 
           if you haven't already.</li>
-      <li>Request an administrator add your class to the 
-          <%= link_to "Course Catalog", catalog_path  %> and give you instructor 
-          permissions.</li>
+      <li><%= link_to_help 'register_new_class', text="Request an administrator add your class to #{SITE_NAME}.", {:title => 'Register your class'} %>.</li>
     </ol>
   <% end %>
 
   <%= accordion_entry :title => "2. Plan your class before adding any course materials to #{SITE_NAME}." do %>
     <ol>
-      <li>Consider partnering with <%= SITE_NAME %> researchers to run an 
-          educational study in your class. </li>
-      <li>Plan course materials and ensure they are hosted on 
-          <%= link_to "Connexions", "http://www.cnx.org" %> and 
-          <%= link_to "Quadbase", "https://www.quadbase.org" %>.</li>
-      <li>Organize and sequence related course materials into topics.</li>
-      <li>Plan assignments: decide what topic(s) to assign for each homework and test.</li>
+      <li><%= link_to_help 'research_study', text="Consider partnering with #{SITE_NAME} researchers to run an 
+          educational study in your class.", {:title => 'Research study in OST'} %> </li>
+      <li><%= link_to_help 'plan_content', text="Ensure course content is hosted on Quadbase, Connexions, etc.", {:title => 'Where course content is hosted'} %>
+      <li><%= link_to_help 'organize_topics', text="Organize course content into topics.", {:title => 'Organizing topics'} %></li>
+      <li><%= link_to_help 'plan_assignments', text="Plan assignments: decide what topic(s) to assign for each homework and test.", {:title => 'Planning Assignments'} %></li>
     </ol>
   <% end %>
 
@@ -35,18 +29,9 @@ Screencast -- 5 minute introduction to OST and major stuff you can do.
       <li>If not working with the research team, <%= link_to "set learning conditions for your class", help_learning_conditions_path %>. </li>
       <li><%= link_to "Create homeworks and tests in the Assignments section", help_assignments_path %>.</li>
       <li><%= link_to "View and schedule assignments in Scheduling section", help_scheduling_path %>. </li>
+      <li>Manage student enrollment, grades and reports.</li>
     </ol>
   <% end %>
 </div>
-    
-    
-    <%= render :partial => 'help/blurbs/register_new_class'%>
-
-    <%= render :partial => 'help/blurbs/plan_class' %>
-
-    <%= render :partial => 'help/blurbs/set_up_class'%>
-    
-
 
 <% navitem { link_to "Back to Help", help_path } %>
-

@@ -1,9 +1,17 @@
-<p><%= SITE_NAME %> does not automatically synchronize changes made in Quadbase. Use <strong>Refresh Exercises</strong> to update your exercises to the latest version in Quadbase. </p>
+<p>When you add an exercise to a topic, <%=SITE_NAME %> saves a version in its cache. If you later update that exercise in Quadbase, <%= SITE_NAME %> will <em>not</em> automatically synchronize those changes.</p>
 
-<p>Note the following limitations to Refresh Exercises:</p> 
+<p>With some limitations, the <strong>Refresh Exercises</strong> feature enables you to update the exercises in OST to the latest version in Quadbase.</p>
+
+<ol>
+  <li>Go to <strong>Dashboard > Class > Learning Plan</strong>.</li>
+  <li>Click <strong>Refresh Exercises</strong>.</li>
+    <%= image_tag("refreshexercises.png", {:border => 1, :width => "800px", :title=>"refresh exercises"})%>
+</ol>
+<p><strong>Note the following <strong>limitations</strong> to Refresh Exercises</strong>:</p> 
   <ol>
-      <li>Versioned exercises, i.e. those ending in a version number, <em>cannot</em> be updated using Refresh Exercises. Changing a versioned exercise requires creating a new version in Quadbase.</li>
-      <p>
-      <li>If you refresh exercises that have been assigned, students who have already begun working the exercises will <em>not</em> see the updates.</li>
-      <p>
+    <li>Versioned exercises, i.e. those ending in a version number, <em>cannot</em> be updated using Refresh Exercises. This is because changing a versioned exercise requires creating a new version in Quadbase.</li>
+    <p>
+    <li>If you refresh exercises that have already been assigned, students who have begun the assignment will <em>not</em> see the updates.</li>
+    <p>
   </ol>
+  

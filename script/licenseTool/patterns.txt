@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 ###############################################################################
 # USAGE
 ###############################################################################
@@ -46,10 +49,15 @@
 /vendor                 Noop
 \.git					Noop
 \.png$					Noop
-script/license.txt$		Noop
-\.zip$					Noop
+license.txt$		    Noop
+\.zip$                  Noop
+\.svg$                  Noop
 
 \.rb$					Ruby
+config.ru$              Ruby
+Gemfile$                Ruby
+Capfile$                Ruby
+\.feature$              Ruby
 
 \.erb$                  Erb
 
@@ -60,5 +68,10 @@ script/license.txt$		Noop
 \.coffee$				Coffee
 
 \.pl$					Script
+patterns.txt$           PerlModule
+\.pm$                   PerlModule
 
 \.rake$					Rake
+Rakefile$               Rake
+
+\.yml                   Yaml

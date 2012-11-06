@@ -1,15 +1,10 @@
-<p>Welcome to OpenStax Tutor! This help page will describe how to get started 
-   in <%= SITE_NAME %>. Check out our introductory screencast, or simply select 
-   from the links below.</p>
- 
-<p>Screencast -- Register for a class, access assignments, complete assignments, 
-   view feedback, view grades</p> 
+<%= pageHeading "Getting Started for Students" %>
 
-<div class="accordion" style="padding-top:20px;">
-  <%= accordion_entry :title => "Sign up for OpenStax Tutor" do %>
-    <p>
-      (((Would be good to add some notes -- can't change your user name / name later, use an email you often use, etc -- to the join now page)))
-    <p>
+<p>Welcome to <%= SITE_NAME %>! This help page will guide you through creating an account, registering for a class and completing assignments in OST. Click on the below links to learn more about each help topic. </p>
+
+<div class="accordion" id="accordion2" style="padding-top:20px;">
+
+  <%= accordion_entry :title => "Sign up for #{SITE_NAME}" do %>    
     <%= render :partial => 'help/blurbs/sign_up'%>
   <% end %>
 
@@ -20,16 +15,19 @@
   <%= accordion_entry :title => "How to access assignments" do %>
     <%= render :partial => 'help/blurbs/access_assignments'%>
   <% end %>
-
+  
   <%= accordion_entry :title => "How to complete assignments" do %>
     <%= render :partial => 'help/blurbs/complete_assignments'%>
   <% end %>
-
-  <%= accordion_entry :title => "Grades" do %>
+  
+  <%= accordion_entry :title => "How to view scores on assignments" do %>
     <%= render :partial => 'help/blurbs/grades'%>
   <% end %>
+
 </div>
 
 
-<% navitem { link_to "Back to Help", help_path } %>
 
+
+
+<% navitem { link_to "Back to Help", help_path } %> 
