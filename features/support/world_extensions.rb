@@ -2,6 +2,7 @@
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 require 'db_setups_instructor_features'
+require 'db_setups_assignment_distribution_features'
 World(DbSetup)
 
 module WorldExtensions

@@ -105,6 +105,8 @@ module DbDsl
       attrs[:course]  = options[:course]  || DbCofCourse(options[:for_course])
       attrs[:start_date] = options[:start_date] if options[:start_date]
       attrs[:end_date]   = options[:end_date]   if options[:end_date]
+      attrs[:time_zone]  = options[:time_zone] || "UTC"
+
       options[:for_instructor] ||= { }
       options[:for_instructor][:course] = attrs[:course]
       attrs[:creator] = options[:creator] || DbCofInstructor(options[:for_instructor]).user
@@ -115,10 +117,10 @@ module DbDsl
         if attrs[:end_date].class == String
 
       klass = FactoryGirl.create(:klass, attrs)
-      klass.sections.first.name = "DELETE THIS SECTION"
+      klass.sections.first.name = "DEFAULT SECTION NAME"
       klass.sections.first.save!
 
-      klass.cohorts.first.name = "DELETE THIS COHORT"
+      klass.cohorts.first.name = "DEFAULT COHORT NAME"
       klass.cohorts.first.save!
     end
 
@@ -142,7 +144,7 @@ module DbDsl
 
       # Klasses automatically contruct a default Cohort; if the
       # user has specified a custom Cohort, remove the default.
-      attrs[:klass].cohorts(true).shift.destroy if attrs[:klass].cohorts(true).first.name == "DELETE THIS COHORT"
+      attrs[:klass].cohorts(true).shift.destroy if attrs[:klass].cohorts(true).first.name == "DEFAULT COHORT NAME"
     end
 
     run_block_if_given(cohort,block)
@@ -410,7 +412,7 @@ module DbDsl
 
       # Klasses automatically contruct a default Section; if the
       # user has specified a custom Section, remove the default.
-      attrs[:klass].sections(true).first.destroy if attrs[:klass].sections(true).first.name == "DELETE THIS SECTION"
+      attrs[:klass].sections(true).first.destroy if attrs[:klass].sections(true).first.name == "DEFAULT SECTION NAME"
     end
 
     run_block_if_given(section,block)
