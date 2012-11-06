@@ -7,6 +7,10 @@
 
 @import "bootstrap";
 
+.accordion-group {
+  margin-bottom: 6px;
+}
+
 @mixin rounded($radius: 0.5em) {
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
@@ -462,7 +466,7 @@ div.field label {
 
 #column_container_2c {
    width: 100%;
-   // overflow:hidden;
+   overflow:hidden;
 
 }
 
