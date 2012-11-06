@@ -27,7 +27,7 @@
     <%= f.radio_button :is_controlled_experiment, false %> No  
   </div>
   <div class="field">
-    Are students allowed to hide their name and just show you an ID number?<br/>
+    Are students allowed to hide their name and just show you an ID number? <br/>
     <%= f.radio_button :allow_student_specified_id, true %> Yes
     <%= f.radio_button :allow_student_specified_id, false %> No  
   </div>
@@ -45,7 +45,7 @@
     <span class="field_help">(Optional) Comma-separated tags listed here will be attached to all assigned non-test exercises.</span>
   </div>
   <div class="field">
-    <%= f.label :approved_emails %><br />
+    <%= f.label :approved_emails %> <%= link_to_help 'preapproved_emails', "", {:title => 'Preapproving Emails'} %> <br />
     <%= f.text_area :approved_emails %>
   </div>
   <div class="actions">

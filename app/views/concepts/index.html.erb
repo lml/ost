@@ -2,13 +2,12 @@
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <%= pageHeading "Concepts for #{@learning_plan.name}"%>
-
+<p>Use concept tags to track how well students master the concepts you teach. <%= link_to_help 'concepts_page', text="Learn how.", {:title => 'Concept Tags', :width => 700} %></p>
 <div id="concept_list">
   <%= render :partial => 'list', :locals => {:learning_plan => @learning_plan} %>
 </div>
 
 <%
-  navitem(:can_update?, @learning_plan) { link_to "New Concept", new_learning_plan_concept_path(@learning_plan), :remote => true }
+  navitem(:can_update?, @learning_plan) { link_to "New Concept", new_learning_plan_concept_path(@learning_plan), :remote => true } 
   navitem { link_to "Learning Plan", learning_plan_path(@learning_plan) }
 %>
-

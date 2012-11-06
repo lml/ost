@@ -3,6 +3,9 @@
 
 @import "common";
 
+// Put bootstrap overrides up here
+
+@import "bootstrap";
 
 @mixin rounded($radius: 0.5em) {
   -webkit-border-radius: $radius;
@@ -459,7 +462,7 @@ div.field label {
 
 #column_container_2c {
    width: 100%;
-   overflow:hidden;
+   // overflow:hidden;
 
 }
 
@@ -802,4 +805,31 @@ span.antispam {display:none;}
   background: image-url("student_full_home_haze.jpg");
   height: 544px;
   padding-bottom: 0px;
+}
+
+.faq_detail_question {
+  font-weight: bold;
+  padding-top: 8px;
+}
+
+.faq_detail_answer {
+  padding-left:30px;
+  display:none;
+  padding-bottom: 15px;
+}
+
+#main {
+  .accordion-heading {
+  background-color:$ost_light_beige;
+  font-weight: bold;
+  a.accordion-toggle {
+    color: $os_blue;
+    font-weight: bold;
+    &:link { color: $os_blue;}
+    &:hover { color: black; font-decoration: none;}
+    &:visited {}
+    &:active { color: #000;}
+  }
+     
+}
 }
