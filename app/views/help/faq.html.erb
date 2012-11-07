@@ -82,6 +82,11 @@
       <p>OpenStax Tutor does not host course materials. Instead, the exercises you assign must be hosted on Quadbase, while the resources you  assign must be hosted on Connexions or other websites.</p>
     <%= link_to "Go here to read more.", help_topics_path%> </p>
     <% end %>
+    
+    <%= section "Instructor FAQ", {:classes => ' no_bar'} do %>
+      <%= accordion_entry :title => "Which exercise URL do I copy from Quadbase? Some URLs end in a version number and others don't." do %>
+        <p><%= render :partial => 'help/blurbs/versions' %></p>
+      <% end %>
 
     <%= accordion_entry :title => "How do I add exercises to an assignment? It looks like I can only add topics." do %>
       <p>To add exercises to an Assignment, attach the topic, or topics, you 
