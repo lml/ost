@@ -1,8 +1,6 @@
-Topics 11/7/2012
-
 <%= pageHeading "Help | Topics"  %>
 
-<p>This help page describes, in order, the steps involved in populating your Topics section. Click the links below to learn more.</p>
+<p>This help page describes, in order, the steps involved in populating the Topics section. Click the links below to learn more.</p>
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
   
@@ -13,7 +11,7 @@ Topics 11/7/2012
       <li>A group of related exercises and resources. </li>  
       <li>A building block of an assignment.</li>
     </ul>        
-    <p>Ultimately, you will assign a topic, or multiple topics, as homework.</p>
+    <p><strong>Ultimately, you will assign a topic, or multiple topics, as homework</strong>.</p>
   <% end %>
 
   <%= accordion_entry :title => "Ensure course materials are hosted on Quadbase, Connexions, etc." do %>
@@ -37,6 +35,7 @@ Topics 11/7/2012
   <%= accordion_entry :title => "Rename or delete a topic" do %>
     <ol>
       <li>Move mouse over the topic you want to rename or delete.</li>
+      <p>
       <li>The above action reveals the edit and trash icons.</li>
         <%= image_tag("newtopic5arrow.png", {:border => 1, :width => "100%", :height => "100%", :title=>"rename delete"})%>
       <li>Click the <strong>trash icon</strong> to delete topic and all associated resources and exercises.</li>
@@ -49,13 +48,15 @@ Topics 11/7/2012
 
   <%= accordion_entry :title => "Add resources to a topic" do %>
     <ol>
-      <li>Create new topic as described above, or select existing topic.</li>
+      <li>If you haven't yet created a topic, do so. (See Create a New Topic, above.)</li>  
       <p>
-      <li><strong>Double click</strong> topic name you want to populate.</li>
+      <li><strong>Double click</strong> the topic name you want to populate.</li>
+      <p>
+      <li>If you haven't created a topic yet, see Create a New Topic (above) for help. </li>
         <%= image_tag("newtopic5.png", {:border => 1, :width => "100%", :height => "100%", :title=>"add resources"})%>
       <li>Click <strong>Add...</strong> resources;</li>
         <%= image_tag("add_resources.png", {:border => 1, :width => "100%", :height => "100%", :title=>"add resources"})%>
-      <li>Copy the full URL of the <%= link_to "Connexions", "http://www.cnx.org" %> module and paste into the URL box.</li>
+      <li>Copy the full URL of the resource, e.g. a Connexions module, and paste into URL box. </li>
       <p>
       <li>Enter optional resource description and notes, then click <strong>Create Resource</strong>.</li>
       <br/>
@@ -66,11 +67,13 @@ Topics 11/7/2012
   <% end %>
 
   <%= accordion_entry :title => "Add exercises to a topic" do %>
+    <p>This section explains how to add exercises from Quadbase to the Topics section.</p>
     <ol>
-      <li>Create new topic as described above, or select existing topic;</li>
+      <li>If you haven't created a topic yet, do so. (See Create a New Topic above.)</li>  
       <p>
-      <li><strong>Double click</strong> topic name you want to populate.</li>
-      <%= image_tag("newtopic5.png", {:border => 1, :width => "100%", :height => "100%", :title=>"add exercise"})%>  
+      <li><strong>Double click</strong> the topic you want to populate.</li>
+      <p>
+     <%= image_tag("newtopic5.png", {:border => 1, :width => "100%", :height => "100%", :title=>"add exercise"})%>  
       <li>Click <strong>Add...</strong> exercises.</li>
     	  <%= image_tag("add_exercises.png", {:border => 1, :width => "100%", :height => "100%", :title=>"add exercise"})%></li>
         <li>In the Add an Exercise box, copy and paste the exercise URL from Quadbase.</li>
