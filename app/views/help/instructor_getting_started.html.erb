@@ -8,7 +8,7 @@
     <ol>
       <li><%= link_to "Create an OpenStax Tutor account", new_user_registration_path %>, 
           if you haven't already.</li>
-      <li><%= link_to_help 'register_new_class', text="Request an administrator add your class to #{SITE_NAME}.", {:title => 'Register your class'} %>.</li>
+      <li><%= link_to_help 'register_new_class', text="Request an administrator add your class to #{SITE_NAME}", {:title => 'Register your class', :width => '700'} %>.</li>
     </ol>
   <% end %>
 
@@ -16,8 +16,8 @@
     <ol>
       <li><%= link_to_help 'research_study', text="Consider partnering with #{SITE_NAME} researchers to run an 
           educational study in your class.", {:title => 'Research study in OST'} %> </li>
-      <li><%= link_to_help 'plan_content', text="Ensure course content is hosted on Quadbase, Connexions, etc.", {:title => 'Where course content is hosted'} %>
-      <li><%= link_to_help 'organize_topics', text="Organize course content into topics.", {:title => 'Organizing topics'} %></li>
+      <li><%= link_to_help 'plan_content', text="Ensure course content is hosted on Quadbase, Connexions, etc.", {:title => 'Where course content is hosted', :width => '700'} %>
+      <li><%= link_to_help 'organize_topics', text="Organize course content into topics.", {:title => 'Organizing topics', :width => '700'} %></li>
       <li><%= link_to_help 'plan_assignments', text="Plan assignments: decide what topic(s) to assign for each homework and test.", {:title => 'Planning Assignments'} %></li>
     </ol>
   <% end %>
@@ -27,7 +27,7 @@
       <li><%= link_to "Adjust class settings", help_class_settings_path %>. </li>
       <li><%= link_to "Add links to course materials in the Topics section", help_topics_path %>. </li>
       <li>If not working with the research team, <%= link_to "set learning conditions for your class", help_learning_conditions_path %>. </li>
-      <li><%= link_to "Create homework and tests in the Assignments section", help_assignments_path %>.</li>
+      <li><%= link_to "Create homeworks and tests in the Assignments section", help_assignments_path %>.</li>
       <li><%= link_to "View and schedule assignments in Scheduling section", help_scheduling_path %>. </li>
       <li>Manage student enrollment, grades and reports.</li>
     </ol>
@@ -35,3 +35,5 @@
 </div>
 
 <% navitem { link_to "Back to Help", help_path } %>
+
+
