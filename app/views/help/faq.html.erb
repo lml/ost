@@ -1,7 +1,11 @@
-
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+    
 <%= pageHeading "Frequently Asked Questions" %>
 
-<p style="width: 600px">The most commonly asked questions we receive are answered below. If you have a question that isn't addressed below, email <%= email_link "support", "support@openstaxtutor.org" %>.</p>
+<p style="width: 600px">The most commonly asked questions we receive are 
+  answered below. If you have a question that isn't addressed below, email 
+  <%= email_link "support", "support@openstaxtutor.org" %>.</p>
 
 <%# ########### SET UP YOUR FAQ ENTRIES HERE %%%%%%%%%%%%%%%%% %>
 
@@ -78,12 +82,27 @@
   <% end %>
   
   <%= section "Instructor FAQ", {:classes => ' no_bar'} do %>
-    <%= accordion_entry :title => "How do I add exercises and resources to #{SITE_NAME}? It looks I can only add links." do %>
-      <p>OpenStax Tutor does not host course materials. Instead, the exercises you assign must be hosted on Quadbase, while the resources you  assign must be hosted on Connexions or other websites.</p>
-    <%= link_to "Go here to read more.", help_topics_path%> </p>
+  
+    
+    <%= accordion_entry :title => "What kinds of exercises can I assign in #{SITE_NAME}?" do %>
+        
+    <%= render :partial => 'help/blurbs/supported_exercises'%>
+     <% end %>
+  
+    <%= accordion_entry :title => "How do I add exercises and resources to 
+    #{SITE_NAME}? It looks I can only add links." do %>
+      <p>OpenStax Tutor does not host course materials. The exercises you 
+        assign must be hosted on <%= link_to "Quadbase", "http://www.quadbase.org" %> and 
+        the resources you assign must be hosted on a website, such as <%= link_to "Connexions",
+         "http:www.cnx.org" %>.</p>
+        <p> Once your materials are hosted on external sites, you can simply copy
+           and paste the URL in the Topics section.</p>
+    <%= link_to "Click here to learn more about Quadbase, Connexions and adding materials to 
+    the Topics section.", help_topics_path%> </p>
     <% end %>
 
-    <%= accordion_entry :title => "How do I add exercises to an assignment? It looks like I can only add topics." do %>
+    <%= accordion_entry :title => "How do I add exercises to an assignment? It looks like I can
+     only add topics." do %>
       <p>To add exercises to an Assignment, attach the topic, or topics, you 
         want the assignment to cover. <%= SITE_NAME %> will pull exercises from
          the topic(s) you list, in accordance with any learning conditions set for your class. </p>
@@ -121,47 +140,11 @@
         to this feature, though. <%= link_to_help 'refresh_exercises', text="Click here to
          learn more.", {:title => 'Refresh Exercises', :width => '700'} %></p> 
     <% end %>
+    
+    
+    
   <% end %>
 
 </div>
-
-
-
-<% if false %>
-
-I don't think this is needed anymore? Check with JP 
-<%# ############ THIS CODE DISPLAYS THE FAQ ENTRIES ON THE PAGE ####### %>
-
-
-<a name='top'></a>
-<% @sections.each do |section_name, entries| %>
-  <i><%= section_name %></i>
-    <ul>
-    <% entries.each do |entry| %>
-      <li>
-        <%= link_to entry[:question], nil, {:class => 'faq_link'} %>
-        <div class='faq_detail_answer'><%= entry[:answer] %></div>
-      </li>
-    <% end %>
-    </ul>
-<% end %>
-
-<% content_for :javascript do %>
-  <%= javascript_tag do %>
-    $(document).ready(function() {
-      $('.faq_link').click(function(event) {
-        $(this).next().toggle();
-        event.preventDefault();
-      });
-    });
-  <% end %>
-<% end %>
-
-
-<% end %>
-
-
-
-
 
 <% navitem { link_to "Back to Help", help_path } %>
