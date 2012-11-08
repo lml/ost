@@ -1,7 +1,9 @@
 
 <%= pageHeading "Frequently Asked Questions" %>
 
-<p style="width: 600px">The most commonly asked questions we receive are answered below. If you have a question that isn't addressed below, email <%= email_link "support", "support@openstaxtutor.org" %>.</p>
+<p style="width: 600px">The most commonly asked questions we receive are 
+  answered below. If you have a question that isn't addressed below, email 
+  <%= email_link "support", "support@openstaxtutor.org" %>.</p>
 
 <%# ########### SET UP YOUR FAQ ENTRIES HERE %%%%%%%%%%%%%%%%% %>
 
@@ -78,17 +80,54 @@
   <% end %>
   
   <%= section "Instructor FAQ", {:classes => ' no_bar'} do %>
-    <%= accordion_entry :title => "How do I add exercises and resources to #{SITE_NAME}? It looks I can only add links." do %>
-      <p>OpenStax Tutor does not host course materials. Instead, the exercises you assign must be hosted on Quadbase, while the resources you  assign must be hosted on Connexions or other websites.</p>
-    <%= link_to "Go here to read more.", help_topics_path%> </p>
+    <%= accordion_entry :title => "How do I add exercises and resources to 
+    #{SITE_NAME}? It looks I can only add links." do %>
+      <p>OpenStax Tutor does not host course materials. The exercises you 
+        assign must be hosted on <%= link_to "Quadbase", "http://www.quadbase.org" %> and 
+        the resources you assign must be hosted on a website, such as <%= link_to "Connexions",
+         "http:www.cnx.org" %>.</p>
+        <p> Once your materials are hosted on external sites, you can simply copy
+           and paste the URL in the Topics section.</p>
+    <%= link_to "Click here to learn more about Quadbase, Connexions and adding materials to 
+    the Topics section.", help_topics_path%> </p>
     <% end %>
     
-    <%= section "Instructor FAQ", {:classes => ' no_bar'} do %>
-      <%= accordion_entry :title => "Which exercise URL do I copy from Quadbase? Some URLs end in a version number and others don't." do %>
-        <p><%= render :partial => 'help/blurbs/versions' %></p>
-      <% end %>
+    <%= accordion_entry :title => "When I paste an exercise URL from Quadbase into #{SITE_NAME},
+     I can enter a question with a version number  or a question with no version number. What 
+     is the difference?" do %>
+        
+    <p>A question with a version number is always accessible at the same URL. <strong><em>A 
+      versioned question never changes</em></strong>, even if the author creates a new version.</p>
+    <ul>
+    <%= image_tag("versioned.png", {:border => 1, :width => "300px", :title => 
+      "versioned"})%>
+    </ul>
+    
+    <p>A question URL without a version number points to the <em><strong>latest version of the 
+      question</strong></em>. As the author adds new versions of the question to Quadbase, <em>
+        <strong>the question at this link will change</strong></em>.</p>
+    <ul>
+     <%= image_tag("unversioned.png", {:border => 1, :width => "300px", 
+        :title =>"unversioned"})%>
+    </ul>
+    <p>Good to know:</p>
+    <ul> 
+      <li>Enter a versioned URL to use a particular version of an exercise.</li>
+      <p>
+      <li>Enter an unversioned URL to use the latest version of an exercise.</li>
+      <p>
+      <li>OST does not automatically synchronize changes made in Quadbase. If you add a question 
+        to OST and later update that question in Quadbase, you must manually update the question 
+        in OST. To refresh an unversioned URL, click Refresh Exercises. To update a versioned 
+        exercise, paste in the new version URL.</li>
+      <p>
+      <li>Caution using an unversioned URL belonging to another author: they can create a new 
+        version at any time. However, if the exercise belongs to you in Quadbase, only you can 
+        create a new version.</li>
+     <% end %>
 
-    <%= accordion_entry :title => "How do I add exercises to an assignment? It looks like I can only add topics." do %>
+    <%= accordion_entry :title => "How do I add exercises to an assignment? It looks like I can
+     only add topics." do %>
       <p>To add exercises to an Assignment, attach the topic, or topics, you 
         want the assignment to cover. <%= SITE_NAME %> will pull exercises from
          the topic(s) you list, in accordance with any learning conditions set for your class. </p>
@@ -126,47 +165,11 @@
         to this feature, though. <%= link_to_help 'refresh_exercises', text="Click here to
          learn more.", {:title => 'Refresh Exercises', :width => '700'} %></p> 
     <% end %>
+    
+    
+    
   <% end %>
 
 </div>
-
-
-
-<% if false %>
-
-I don't think this is needed anymore? Check with JP 
-<%# ############ THIS CODE DISPLAYS THE FAQ ENTRIES ON THE PAGE ####### %>
-
-
-<a name='top'></a>
-<% @sections.each do |section_name, entries| %>
-  <i><%= section_name %></i>
-    <ul>
-    <% entries.each do |entry| %>
-      <li>
-        <%= link_to entry[:question], nil, {:class => 'faq_link'} %>
-        <div class='faq_detail_answer'><%= entry[:answer] %></div>
-      </li>
-    <% end %>
-    </ul>
-<% end %>
-
-<% content_for :javascript do %>
-  <%= javascript_tag do %>
-    $(document).ready(function() {
-      $('.faq_link').click(function(event) {
-        $(this).next().toggle();
-        event.preventDefault();
-      });
-    });
-  <% end %>
-<% end %>
-
-
-<% end %>
-
-
-
-
 
 <% navitem { link_to "Back to Help", help_path } %>
