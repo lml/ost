@@ -1,0 +1,30 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+    <ul>
+      <li>Enter the URL <em>without</em> a version number to point to
+         the <strong><em>latest version of the question</em></strong>:</li>
+        <p>
+        <%= image_tag("unversioned.png", {:border => 1, :width => "300px", 
+         :title =>"unversioned"})%>
+         <p>
+      <li><strong>Or</strong> enter a versioned URL to point to a 
+        <em><strong>specific</strong></em> version.</p>
+      <p>
+    <%= image_tag("versioned.png", {:border => 1, :width => "300px", :title => 
+      "versioned"})%>
+    </ul>
+    <p>Good to know:</p>
+    <ul> 
+      <li>A versioned URL will always point to the same 
+        version of a question.</li>
+      <p>
+      <li>An unversioned URL points to the latest version, meaning the URL could point
+        to different questions over time.</li>
+      <p>
+      <li>Unversioned questions can be updated using <strong>Refresh Exercises</strong>; versioned exercises cannot.</li>
+      <p>
+      <li>Caution using an unversioned URL belonging to another author: the author can create a new 
+        version at any time. However, if the exercise belongs to you in Quadbase, only you can 
+        create a new version.</li>
+     </ul>
