@@ -80,6 +80,8 @@ class Klass < ActiveRecord::Base
   end
   
   def is_preapproved?(user)
+    return true if is_educator?(user)
+
     approved_emails_array = (approved_emails || '').split("\n").collect{|ae| ae.strip}
 
     approved_emails_array.any? do |ae|

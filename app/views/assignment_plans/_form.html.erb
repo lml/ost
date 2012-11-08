@@ -53,7 +53,7 @@
     <span class="field_help">(Optional) Comma-separated labels here will be attached to each exercise in the assignment.</span>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "#{@assignment_plan.new_record? ? 'Create' : 'Update'} Assignment", :class => 'link_button' %>
   </div>
 
 <% end %>

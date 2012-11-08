@@ -38,7 +38,8 @@
         <%= button_to "Cancel my request to join this class", 
                        registration_request_path(rr),
                        :method => :delete,
-                       :confirm => "Are you sure you want to cancel your registration request?" %>
+                       :confirm => "Are you sure you want to cancel your registration request?",
+                       :class => 'link_button' %>
       </center>
     <% elsif user_signed_in? %>
       <%= link_to "Register", 

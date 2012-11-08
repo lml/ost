@@ -71,7 +71,7 @@ a, #message_dialog_body a, #help_dialog_body a {
    text-decoration: none;
    color: $ost_hot_blue;
    &:link {}
-   &:hover { color: black;}
+   &:hover { color: black; text-decoration:none;}
    &:visited {}
    &:active { color: #000;}
 }
@@ -136,7 +136,7 @@ $header_height: 52px;
   a {
     font-size: 11px;
     color: white;
-    &:hover { color: $ost_hot_blue; }
+    &:hover { color: $ost_hot_blue; text-decoration:none; }
   }
   
   .vertical_bar {
@@ -254,7 +254,7 @@ $nav_bar_height: $header_height;
 .link_button {
   background-color: $ost_hot_blue;
   color: white;
-  font-weight: bold;
+  // font-weight: bold;
   padding: 5px 13px 5px 14px;
   font-size: 11px;
   border:none;
@@ -263,7 +263,12 @@ $nav_bar_height: $header_height;
   &:hover {
    background-color: darken($ost_hot_blue, 10%);
    color: white;
+   text-decoration:none;
   }
+}
+
+input[disabled].link_button {
+  background-color: $ost_hot_blue;
 }
 
 #big_get_button {
@@ -388,7 +393,8 @@ div.field label {
 
 .field_help {
    font-size:11px;
-   font-color: #333;
+   color: #999;
+   margin-top:-7px;
 }
 
 .field_with_errors {
@@ -443,11 +449,13 @@ div.field label {
 .icon_only_button {
    width: 20px;
    height: 20px;
+   @include rounded(8px);
 }
 
 .icon_only_button_small {
    width: 16px;
    height: 16px;
+   @include rounded(8px);
 }
 
 
@@ -845,3 +853,6 @@ span.antispam {display:none;}
 }
 }
 
+input.ui-widget {
+  font-size: 11px;
+}
