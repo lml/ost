@@ -130,9 +130,8 @@
   navitem { link_to "Concepts", learning_plan_concepts_path(@learning_plan) }
   navitem { 
       x = link_to "Refresh Exercises", learning_plan_refresh_exercises_path(@learning_plan), :method => :put, :remote => true 
-      x << " " << (link_to_help 'refresh_exercises')
+      x << " " << (link_to_help 'refresh_exercises', "", {:width => 700})
   }
 %>
-
 
 

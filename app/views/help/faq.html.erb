@@ -82,6 +82,13 @@
   <% end %>
   
   <%= section "Instructor FAQ", {:classes => ' no_bar'} do %>
+  
+    
+    <%= accordion_entry :title => "What kinds of exercises can I assign in #{SITE_NAME}?" do %>
+        
+    <%= render :partial => 'help/blurbs/supported_exercises'%>
+     <% end %>
+  
     <%= accordion_entry :title => "How do I add exercises and resources to 
     #{SITE_NAME}? It looks I can only add links." do %>
       <p>OpenStax Tutor does not host course materials. The exercises you 
@@ -93,40 +100,6 @@
     <%= link_to "Click here to learn more about Quadbase, Connexions and adding materials to 
     the Topics section.", help_topics_path%> </p>
     <% end %>
-    
-    <%= accordion_entry :title => "When I paste an exercise URL from Quadbase into #{SITE_NAME},
-     I can enter a question with a version number  or a question with no version number. What 
-     is the difference?" do %>
-        
-    <p>A question with a version number is always accessible at the same URL. <strong><em>A 
-      versioned question never changes</em></strong>, even if the author creates a new version.</p>
-    <ul>
-    <%= image_tag("versioned.png", {:border => 1, :width => "300px", :title => 
-      "versioned"})%>
-    </ul>
-    
-    <p>A question URL without a version number points to the <em><strong>latest version of the 
-      question</strong></em>. As the author adds new versions of the question to Quadbase, <em>
-        <strong>the question at this link will change</strong></em>.</p>
-    <ul>
-     <%= image_tag("unversioned.png", {:border => 1, :width => "300px", 
-        :title =>"unversioned"})%>
-    </ul>
-    <p>Good to know:</p>
-    <ul> 
-      <li>Enter a versioned URL to use a particular version of an exercise.</li>
-      <p>
-      <li>Enter an unversioned URL to use the latest version of an exercise.</li>
-      <p>
-      <li>OST does not automatically synchronize changes made in Quadbase. If you add a question 
-        to OST and later update that question in Quadbase, you must manually update the question 
-        in OST. To refresh an unversioned URL, click Refresh Exercises. To update a versioned 
-        exercise, paste in the new version URL.</li>
-      <p>
-      <li>Caution using an unversioned URL belonging to another author: they can create a new 
-        version at any time. However, if the exercise belongs to you in Quadbase, only you can 
-        create a new version.</li>
-     <% end %>
 
     <%= accordion_entry :title => "How do I add exercises to an assignment? It looks like I can
      only add topics." do %>
