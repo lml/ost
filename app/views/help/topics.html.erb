@@ -3,7 +3,7 @@
 
 <%= pageHeading "Help | Topics"  %>
 
-<p>This help page describes, in order, the steps involved in populating the 
+<p>This help page describes the steps involved in populating the 
   Topics section. Click the links below to learn more.</p>
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
@@ -25,6 +25,10 @@
   <%= accordion_entry :title => "Ensure course materials are hosted on Quadbase, 
   Connexions, etc." do %>
     <%= render :partial => 'help/blurbs/plan_content' %>    
+  <% end %>
+
+  <%= accordion_entry :title => "Types of exercises you can assign" do %>
+  <%= render :partial => 'help/blurbs/supported_exercises' %>
   <% end %>
 
   <%= accordion_entry :title => "Organize course materials into topics" do %>
