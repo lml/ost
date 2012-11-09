@@ -1,0 +1,169 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%= pageHeading "Help | Topics"  %>
+
+<p>This help page describes, in order, the steps involved in populating the 
+  Topics section. Click the links below to learn more.</p>
+
+<div class="accordion" id="accordion2" style="padding-top:20px;">
+  
+  <%= accordion_entry :title => "Overview of topics" do %>
+    <p>The Topics section is where you will add links to course materials, 
+      organized into <em>topics</em>. <%= link_to_help 'example_topics_section',
+       text="Click here to see an example of a completed Topics section.", 
+       {:title => 'Example Topics Section', :width => '700'} %></p>
+    <p>A topic is both:</p> 
+    <ul>
+      <li>A group of related exercises and resources. </li>  
+      <li>A building block of an assignment.</li>
+    </ul>        
+    <p><strong>Ultimately, you will assign a topic, or multiple topics, as 
+      homework</strong>.</p>
+  <% end %>
+
+  <%= accordion_entry :title => "Ensure course materials are hosted on Quadbase, 
+  Connexions, etc." do %>
+    <%= render :partial => 'help/blurbs/plan_content' %>    
+  <% end %>
+
+  <%= accordion_entry :title => "Organize course materials into topics" do %>
+    <p>Before adding any content to the Topics section, take some time to plan 
+      how you will organize your materials.</p>
+    <%= render :partial =>'help/blurbs/organize_topics'%>
+  <% end %>
+
+  <%= accordion_entry :title => "Create a new topic" do %>
+    <ol>
+      <li>Go to <strong>Dashboard > Class > Learning Plan > Topics</strong>.</li>
+      <p>
+      <li>Click <strong>Add new topic</strong>.</li>
+        <%= image_tag("newtopic1.png", {:border => 1, :width => "100%", 
+          :height => "100%", :title=>"create new topic"})%>
+      </ol>
+  <% end %>
+
+  <%= accordion_entry :title => "Rename or delete a topic" do %>
+    <ol>
+      <li>Move mouse over the topic you want to rename or delete.</li>
+      <p>
+      <li>The above action reveals the edit and trash icons.</li>
+        <%= image_tag("newtopic5arrow.png", {:border => 1, :width => "100%",
+           :height => "100%", :title=>"rename delete"})%>
+      <li>Click the <strong>trash icon</strong> to delete topic and all associated 
+        resources and exercises.</li>
+      <p>
+      <li>Or click the <strong>pencil icon</strong> to rename the topic.</li>
+        <%= image_tag("edit_topic2.png", {:border => 1, :width => "100%", :height =>
+           "100%", :title=>"rename delete"})%>
+      <li>Enter new topic name and hit Return on your keyboard to save.</li>
+      </ol>
+  <% end %>
+
+  <%= accordion_entry :title => "Add resources to a topic" do %>
+    <ol>
+      <li>If you haven't yet created a topic, do so. (See Create a New Topic, above.)</li>  
+      <p>
+      <li><strong>Double click</strong> the topic name you want to populate.</li>
+      <p>
+      <li>If you haven't created a topic yet, see Create a New Topic (above) for help. </li>
+        <%= image_tag("newtopic5.png", {:border => 1, :width => "100%", 
+          :height => "100%", :title=>"add resources"})%>
+      <li>Click <strong>Add...</strong> resources;</li>
+        <%= image_tag("add_resources.png", {:border => 1, :width => "100%", 
+          :height => "100%", :title=>"add resources"})%>
+      <li>Copy the full URL of the resource, e.g. a Connexions module, and
+         paste into URL box. </li>
+      <p>
+      <li>Enter optional resource description and notes, then click <strong>Create
+         Resource</strong>.</li>
+      <br/>
+      <%= image_tag("newtopic4.png", {:border => 1, :width => "80%", :height => 
+        "80%", :title=>"create resource"})%>
+      <br/>
+      <li>Repeat steps above to add additional resources.</li>  
+    </ol>
+  <% end %>
+
+  <%= accordion_entry :title => "Add exercises to a topic" do %>
+    <p>This section explains how to add exercises from Quadbase to the Topics 
+      section.</p>
+    <ol>
+      <li>If you haven't created a topic yet, do so. (See Create a New Topic 
+        above.)</li>  
+      <p>
+      <li><strong>Double click</strong> the topic you want to populate.</li>
+      <p>
+     <%= image_tag("newtopic5.png", {:border => 1, :width => "100%", :height =>
+        "100%", :title=>"add exercise"})%>  
+      <li>Click <strong>Add...</strong> exercises.</li>
+    	  <%= image_tag("add_exercises.png", {:border => 1, :width => "100%", 
+    	    :height => "100%", :title=>"add exercise"})%></li>
+        <li>In the Add an Exercise box, copy and paste the exercise URL from Quadbase.</li>
+        <p>
+      	  <%= image_tag("add_exercise.png", {:border => 1, :width => "100%", 
+      	    :height => "100%", :title=>"add exercise"})%></li>
+        <p>
+        <li>Mark whether the exercise is reserved for a test, if applicable.</li>
+        <p>
+        <li>Optional but useful: <%= link_to_help 'concepts', text="Attach a 
+        concept tag.", {:title => 'Concept Tags', :width => '500'} %></p></li>
+        <p>
+        <li>Click <strong>Create Topic exercise</strong>.</li>
+    	  <p>
+        <li>Repeat steps above to add additional exercises.</li>	
+  </ol>
+  <% end %>
+  
+  <%= accordion_entry :title => "Edit exercise properties or delete exercise" do %>
+  <ol>
+    <li>Move your mouse over the relevant resource/exercise.</li>
+    <li>The above action reveals the edit and trash icons.</li>
+    <br/>
+      <%= image_tag("edit_topic3.png", {:border => 1, :width => "100%", :height => 
+        "100%", :title=>"create new topic"})%>
+    <br/>
+    <li>Click the <strong>pencil icon</strong> to open the Edit exercise dialog box,
+       allowing you to edit the exercise link, test settings or add a concept tag.</li>
+    <p> 
+    <li>OR click the <strong>trash icon</strong> to delete the item.</li>
+  </ol>
+  <% end %>
+  
+  <%= accordion_entry :title => "Mark exercise as a test question" do %>
+  <ol>
+    <li>Double click the topic containing the exercise you want to mark as a test.</li>
+    <p>
+    <li>Hover mouse over exercise to reveal edit/trash icons.</li>
+    <p>
+    <li>Click the <strong>orange pencil icon</strong> to edit exercise properties.</li>
+    <p>
+    <li>Mark <strong>This exercise is reserved for use in tests.</strong></li>
+    <%= image_tag("mark_test.png", {:border => 1, :width => "100%", :height => 
+      "100%", :title=>"mark test"})%>  
+    <p>
+    <li>Click <strong>Update</strong>.</li>
+  </ol>
+  <% end %>
+  
+  <%= accordion_entry :title => "Reorder exercises and resources" do %>
+    <p>By default, <%= SITE_NAME %> will pull exercises and resources into assignments 
+      <em>in the order they are listed</em>.</p>
+    <%= render :partial => 'help/blurbs/reorder' %>
+  <% end %>
+
+
+  <%= accordion_entry :title => "Attach concept tag to an exercise" do %>
+    <%= render :partial => 'help/blurbs/concepts_page'%>
+  <% end %>
+
+  <%= accordion_entry :title => "Refresh Exercises / synchronize changes from Quadbase" do %>
+    <%= render :partial => 'help/blurbs/refresh_exercises'%>
+    
+    <p>To refresh exercises, go to <strong>Dashboard > Class > Learning Plan</strong> and click <strong>Refresh Exercises</strong>.</li>
+    <%= image_tag("refreshexercises.png", {:border => 1, :width => "100%", :height=> "100%"})%>    
+        
+  <% end %>
+</div>
+
+<% navitem { link_to "Back to Help", help_path } %>

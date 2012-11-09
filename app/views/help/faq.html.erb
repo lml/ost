@@ -1,0 +1,150 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+    
+<%= pageHeading "Frequently Asked Questions" %>
+
+<p style="width: 600px">The most commonly asked questions we receive are 
+  answered below. If you have a question that isn't addressed below, email 
+  <%= email_link "support", "support@openstaxtutor.org" %>.</p>
+
+<%# ########### SET UP YOUR FAQ ENTRIES HERE %%%%%%%%%%%%%%%%% %>
+
+<div class="accordion" id="accordion2" style="padding-top:20px;">
+  
+  <%= section "Accounts FAQ", {:classes => 'first no_bar'} do %>
+    <%= accordion_entry :title => "I created an account but never received a 
+                 confirmation email. What should I do?" do %>
+      <%= render :partial => 'help/blurbs/request_conf_email'%>
+   <% end %>
+
+   <%= accordion_entry :title => "How do I update my user settings, e.g. change my 
+                  password / email address / time zone?" do %>    
+      <ol>
+        <li>Sign in and click <strong>My Account</strong>, found in the upper right 
+            of every page, next to the welcome message.</li>
+        <p>
+        <li>In My Account, update your password, email address and/or time zone.</li>
+        <p>
+        <li>Enter your current password to confirm changes.</li>
+      </ol>  
+    <% end %>
+  <% end %>
+
+  <%= section "Student FAQs", {:classes => 'no_bar'} do %>
+      <%= accordion_entry :title => "I registered for the wrong section
+       of my class. How do I change to a different section?" do %>
+        <ol>
+          <li>Go to <strong>Dashboard > Class name > Class Information</strong>.</li>
+          <li>If you see <strong>Drop this class</strong>: don't drop the class. You 
+            need to email your instructor/TA to change your section.</li>
+          <%= image_tag("dropthisclass.png", {:border => 1, :width => "100%", 
+            :height => "100%", :title=>"drop this class"})%>  
+          <li>If you see <strong>Cancel my request to join this class</strong>, click
+             <strong>Cancel</strong> and confirm your choice.</li>
+          <%= image_tag("cancelrequest.png", {:border => 1, :width => "100%",
+             :height => "100%", :title=>"cancel request"})%>  
+          <p>
+          <li>Once you've canceled your registration request, click <strong>Register</strong> 
+            to submit a new registration request for the correct section.</li>
+        </ol>
+      <% end %>
+
+    <%= accordion_entry :title => "I saved my free-form response, so why can't I 
+                                  see the multiple choice answers?" do %>
+      <p>To view the multiple choice answers, you must save and 
+        <em><strong>lock</strong></em> your free form response.</p>
+        
+      <p>If you save but
+         <em><strong>don't lock</strong></em> your free form answer, you can work
+          on other exercises, but you won't be able to view the multiple choice
+           answers until you save and lock.</p>
+    <% end %>
+
+    <%= accordion_entry :title => "Can I still get credit if I work exercises 
+    after the due date?" do %>
+      <p><%= SITE_NAME %> will not give credit for answers entered after the due 
+        date. However, final decisions about credit for late work are ultimately up 
+        to your instructor.</p>          
+    <% end %>
+
+    <%= accordion_entry :title => "I made a mistake in my assignment. Can I 
+    fix my work and get credit?" do %>
+      <p>It depends. If you saved but did <em>not</em> lock your answer, you can 
+        change your work anytime before the assignment due date.</p> 
+      <p>However, if you <em>saved and locked</em> your free form or multiple
+         choice answer, you cannot go back and change your answer.</p>
+      <p>If you unintentionally entered the wrong multiple choice answer, but 
+        your free form work reflects the correct multiple choice answer, 
+        you may want to check your instructor's syllabus about their policy. 
+        Final decisions about 
+        grades are always up to the instructor.</p>
+    <% end %>
+  <% end %>
+  
+  <%= section "Instructor FAQ", {:classes => ' no_bar'} do %>
+  
+    
+    <%= accordion_entry :title => "What kinds of exercises can I assign in #{SITE_NAME}?" do %>
+        
+    <%= render :partial => 'help/blurbs/supported_exercises'%>
+     <% end %>
+  
+    <%= accordion_entry :title => "How do I add exercises and resources to 
+    #{SITE_NAME}? It looks I can only add links." do %>
+      <p>OpenStax Tutor does not host course materials. The exercises you 
+        assign must be hosted on <%= link_to "Quadbase", "http://www.quadbase.org" %> and 
+        the resources you assign must be hosted on a website, such as <%= link_to "Connexions",
+         "http:www.cnx.org" %>.</p>
+        <p> Once your materials are hosted on external sites, you can simply copy
+           and paste the URL in the Topics section.</p>
+    <%= link_to "Click here to learn more about Quadbase, Connexions and adding materials to 
+    the Topics section.", help_topics_path%> </p>
+    <% end %>
+
+    <%= accordion_entry :title => "How do I add exercises to an assignment? It looks like I can
+     only add topics." do %>
+      <p>To add exercises to an Assignment, attach the topic, or topics, you 
+        want the assignment to cover. <%= SITE_NAME %> will pull exercises from
+         the topic(s) you list, in accordance with any learning conditions set for your class. </p>
+      <p><%#<%= link_to "Click here to learn more about creating assignments.",
+       help_assignments_path %></p>  
+    <% end %>
+  
+    <%= accordion_entry :title => "My student registered for the wrong section.
+     How can I change him to a different section?" do %>
+      <p>If you are participating in a research study, <em><strong>check with
+         the research team</strong></em> before moving a student to another 
+         section, as it may impact the student's assignments.</p>
+      <p>
+      <%= render :partial => 'help/blurbs/change_student_section'%>
+    <% end %>
+
+    <%= accordion_entry :title => "A student dropped my class, then changed her mind.
+     How do I reinstate a dropped student?" do %>
+      <%= render :partial => 'help/blurbs/toggle_reg_status'%>
+    <% end %>
+  
+    <%= accordion_entry :title => "I need to override the score OST assigned to a 
+    student on an exercise. How can I do that?" do %>
+      <p>At this time, there is not a way to override points taken away due to 
+        lateness or failure to view mandatory feedback. These features are coming soon.
+         However, you can make a wrong answer correct by following these steps:</p>
+      <%= render :partial => 'help/blurbs/make_correct'%>
+    <% end %>
+
+
+    <%= accordion_entry :title => "I sent out an assignment and realized later there
+     is an error in one of the exercises. How do I fix it?" do %>
+      <p>You may be able to edit the exercise in Quadbase and then use the <strong>Refresh 
+        Exercises</strong> feature to update the exercise. There are some limitations 
+        to this feature, though. <%= link_to_help 'refresh_exercises', text="Click here to
+         learn more.", {:title => 'Refresh Exercises', :width => '700'} %></p> 
+    <% end %>
+    
+    
+    
+  <% end %>
+
+</div>
+
+<% navitem { link_to "Back to Help", help_path } %>

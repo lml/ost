@@ -5,13 +5,13 @@
 
 <%= form_for(@educator) do |f| %>
 
-  <div class="field">
+  <div class="field" style="margin-left:5px">
     What kind of educator is <%= @educator.user.full_name %>?<br/>
     <%= f.radio_button :type, :instructor %> Instructor <br/>
     <%= f.radio_button :type, :teaching_assistant %> Teaching Assistant <br/>
     <%= f.radio_button :type, :grader %> Grader
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :class => 'link_button' %>
   </div>
 <% end %>

@@ -145,8 +145,17 @@ Ost::Application.routes.draw do
   get 'mytutor', :to => 'home#mytutor'
   get 'help', :to => 'help#index'
   
-  get 'help/topic/:topic_name', :to => 'help#topic', :as => 'topic_help'
-
+  get 'help/blurbs/:blurb_name', :to => 'help#blurb', :as => 'blurb_help'
+  match 'help/faq'
+  match 'help/student_getting_started'
+  match 'help/assignments'
+  match 'help/topics'
+  match 'help/scheduling'
+  match 'help/instructor_getting_started'
+  match 'help/learning_conditions'
+  match 'help/class_settings'
+  match 'help', :to => 'help#index'
+  
   get 'dev/toolbox', :as => 'dev_toolbox'
   put 'dev/reset_time'
   post 'dev/freeze_time'

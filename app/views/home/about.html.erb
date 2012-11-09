@@ -72,8 +72,10 @@
         feature.new('Simple, clean interface', feature::READY, feature::READY),
         feature.new('Proven learning principles increase long-term understanding', feature::READY, feature::READY),
         feature.new('Repeat concept practice throughout the class', feature::READY, feature::READY),
+        feature.new('Focus on knowledge retrieval over answer recognition', feature::READY, feature::READY),
         feature.new('Give immediate or delayed automatic feedback', feature::READY, feature::READY),
         feature.new('Make viewing feedback required or optional', feature::READY, feature::READY),
+        feature.new('Choose timing and type of feedback', feature::READY, feature::READY),
         feature.new('Use your own content or existing open content', feature::READY, feature::READY),
         feature.new('Multiple choice grading is done for you', feature::READY, feature::READY),
         feature.new('Export grades to Excel with a single click', feature::READY, feature::READY),
@@ -88,40 +90,53 @@
     # feature.new('', feature::READY, feature::READY),
 
     @sections.push({
-      :name => 'Easy integration of the content your class depends on',
+      :name => 'Ask students questions in a variety of formats',
       :features => [
-        feature.new('Multiple-choice questions', feature::READY, feature::READY),
-        feature.new('Open-ended questions', feature::COMING_SOON, feature::COMING_SOON),
-        feature.new('Matching questions', feature::COMING_SOON, feature::COMING_SOON),
-        feature.new('Multipart questions', feature::COMING_SOON, feature::COMING_SOON),
+        feature.new('Multiple-choice', feature::READY, feature::READY),
+        feature.new('Open-ended', feature::COMING_SOON, feature::COMING_SOON),
+        feature.new('Matching', feature::COMING_SOON, feature::COMING_SOON),
+        feature.new('Multipart', feature::COMING_SOON, feature::COMING_SOON),
+        feature.new('Essay', feature::COMING_SOON, feature::COMING_SOON),
+      ]
+    })
+
+
+    @sections.push({
+      :name => 'Post and get feedback on study materials',
+      :features => [
         feature.new('Use any web URL as a study resource', feature::READY, feature::READY),
         feature.new('Upload PDF study resources', feature::COMING_SOON, feature::COMING_SOON),
-        
+        feature.new('See which resources students are using', feature::READY, feature::READY),
+        feature.new('Set the stage for assignments with introductory text', feature::READY, feature::READY),
       ]
     })
 
     @sections.push({
-      :name => 'Powerful platform for running informed-consent learning experiments',
+      :name => 'Powerful platform for running experiments in the classroom or online',
       :features => [
-        feature.new('Students are part of an informed-consent research experiment ', feature::NA, feature::READY),
-        feature.new('Manage consent forms by class', feature::NA, feature::READY),
-        feature.new('Student consent collected electronically', feature::NA, feature::READY),
-        feature.new('Students have the ability to opt-out', feature::NA, feature::READY),
-        feature.new('Customize experimental conditions for different groups', feature::NA, feature::READY),
-        feature.new('Automate when and how conditions apply', feature::NA, feature::READY),
-        feature.new('Researchers never see personal information ', feature::NA, feature::READY),
-        feature.new('Instructors never see research information or consents', feature::NA, feature::READY),
+        feature.new('Students can opt in or out of a research study', feature::NA, feature::READY),
+        feature.new('Manage informed consent documents', feature::NA, feature::READY),
+        feature.new('Informed consent obtained electronically', feature::NA, feature::READY),
+        feature.new('Customize and automated experiments for different groups', feature::NA, feature::READY),
         feature.new('Monitor experiment via researcher interface', feature::NA, feature::READY),
         feature.new('Export research data to Excel with a single click', feature::NA, feature::READY),
-        feature.new('Instructors listed as authors when their class data is published', feature::NA, feature::READY),
+        feature.new('Instructors can be co-authors if their study data is publishable', feature::NA, feature::READY),
         feature.new('Help advance progress in education', feature::NA, feature::READY),
+      ]
+    })
+
+    @sections.push({
+      :name => 'Easily create a barrier between researchers and instructors',
+      :features => [
+        feature.new('Researchers never see personal information without consent', feature::NA, feature::READY),
+        feature.new('Instructors never see research or consent information', feature::NA, feature::READY),
       ]
     })
     
     @sections.push({
       :name => 'Moving towards a goal of personalized education',
       :features => [
-        feature.new('Learning pathways personalized for specific students', feature::COMING_SOON, feature::COMING_SOON),    
+        feature.new('Learning pathways personalized for individual students', feature::COMING_SOON, feature::COMING_SOON),    
         feature.new('Automated personalization for <i>any</i> class with online content', feature::COMING_SOON, feature::COMING_SOON),    
         feature.new('Automated discovery of relationships between online materials', feature::COMING_SOON, feature::COMING_SOON),    
       ]
@@ -150,8 +165,8 @@
     <% end %>
     <tr class='bottom-row'>
       <td></td>
-      <td class='status-column'><%= link_to 'Start Teaching!', nil, {:class => 'link_button'} %></td>
-      <td class='status-column enhanced-column'><%= link_to 'Start Teaching!', nil, {:class => 'link_button'} %></td>
+      <td class='status-column'><%= link_to_help 'start_teaching', 'Start Teaching!', {:title => 'Start Teaching', :class => 'link_button'} %></td>
+      <td class='status-column enhanced-column'><%= link_to_help 'start_teaching', 'Start Teaching!', {:title => 'Start Teaching', :class => 'link_button'} %></td>
     </tr>
   </table>
 

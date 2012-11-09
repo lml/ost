@@ -1,0 +1,20 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<ol>
+  <li>Go to <strong>Dashboard > Class > Learning Conditions > Feedback Conditions</strong> and verify the timing and properties of your feedback conditions are as expected.</li>
+  <p>
+  <li>Next, verify that the labels attached to the exercises match the applicable feedback condition label.</li>
+  <p>
+    <ul>
+      <li>Go to <strong>Dashboard > Class > Learning Plan > Assignments</strong> and click <strong>Preview Assignments</strong>.</li>
+      <p>
+      <li>Look at the labels attached to each exercise:</li>
+        <%= image_tag("exercise_labels.png", {:border => 1, :width => "70%", :height => "70%", :title=>"exercise labels"})%>
+      <li>Now go to <strong>Dashboard > Class > Learning Conditions > Feedback Conditions</strong> and look at the labels in the <strong>Match Labels Against</strong> field.</li>
+          <%= image_tag("feedback_label.png", {:border => 1, :width => "60%", :height => "60%", :title=>"feedback labels"})%>
+      <li>Verify that at least one of the exercise labels matches a feedback label. In this case, they do not match, so OST will not present any feedback for these exercises.</li>
+      <p>
+      <li>If your <em>do</em> labels match, check if there is another feedback condition that matches the exercise labels. OST will apply the first feedback condition that matches the exercise labels. </li>
+    </ul>
+</ul>

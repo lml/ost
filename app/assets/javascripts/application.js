@@ -21,6 +21,9 @@
 //= require fullcalendar
 //= require codecogs_editor
 //= require_tree .
+// Loads Bootstrap javascripts for accordions; note loading everything breaks other existing CSS/JS
+//= require bootstrap-transition
+//= require bootstrap-collapse
 
 
 function open_specified_dialog(name, is_modal, height, width, title, body) {

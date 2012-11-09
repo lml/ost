@@ -34,7 +34,7 @@
   </div>
   <% end %>
   
-  <%= section "Free-form Answer" do %>
+  <%= section "Free-form Answer", {:classes => ''} do %>
 
     <% if !@student_exercise.free_response_submitted? %>
     <br/>   
@@ -72,11 +72,12 @@
             </table>
           </div>
           <center>
-          <div class="actions">
+          <div class="actions" style="padding-top:10px">
             <%= f.submit "Save (but don't lock!)", 
-                    :name => "save" %>&nbsp;&nbsp;&nbsp;
+                    :name => "save", :class => 'link_button' %>&nbsp;&nbsp;&nbsp;
             <%= f.submit "Save (and lock!)", 
                     :name => "save_and_lock",
+                    :class => 'link_button',
                     :confirm => "After you lock your answer, you can no longer change it. " + 
                                 "Are you sure you want to lock your answer?" %>
           </div>
@@ -98,7 +99,7 @@
   <% end %>
   
   <% if @student_exercise.free_response_submitted? && !@student_exercise.selected_answer_submitted? %>
-    <%= section "Answer Verification" do %>
+    <%= section "Answer Verification", {:classes => 'no_bar'} do %>
       <p>Choose the multiple-choice answer below that corresponds to the answer you wrote above.</p>
       <% @errors = @student_exercise.errors %>
       <%= form_for(@student_exercise) do |f| %>
@@ -122,6 +123,7 @@
         <center>
           <div class="actions">
             <%= f.submit "Save and lock!", 
+                    :class => 'link_button',
                     :confirm => "After you lock your answer, you can no longer change it. " + 
                                 "Are you sure you want to lock your answer?" %>
           </div>

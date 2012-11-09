@@ -3,6 +3,19 @@
 
 @import "common";
 
+// Put bootstrap overrides up here
+
+
+@import "bootstrap";
+
+// bootstrap futzes with paragraph margins
+p {
+  margin:9px 0;
+}
+
+.accordion-group {
+  margin-bottom: 6px;
+}
 
 @mixin rounded($radius: 0.5em) {
   -webkit-border-radius: $radius;
@@ -58,7 +71,7 @@ a, #message_dialog_body a, #help_dialog_body a {
    text-decoration: none;
    color: $ost_hot_blue;
    &:link {}
-   &:hover { color: black;}
+   &:hover { color: black; text-decoration:none;}
    &:visited {}
    &:active { color: #000;}
 }
@@ -123,7 +136,7 @@ $header_height: 52px;
   a {
     font-size: 11px;
     color: white;
-    &:hover { color: $ost_hot_blue; }
+    &:hover { color: $ost_hot_blue; text-decoration:none; }
   }
   
   .vertical_bar {
@@ -241,15 +254,21 @@ $nav_bar_height: $header_height;
 .link_button {
   background-color: $ost_hot_blue;
   color: white;
-  font-weight: bold;
+  // font-weight: bold;
   padding: 5px 13px 5px 14px;
   font-size: 11px;
+  border:none;
   @include rounded(13px);
  
   &:hover {
    background-color: darken($ost_hot_blue, 10%);
    color: white;
+   text-decoration:none;
   }
+}
+
+input[disabled].link_button {
+  background-color: $ost_hot_blue;
 }
 
 #big_get_button {
@@ -374,7 +393,8 @@ div.field label {
 
 .field_help {
    font-size:11px;
-   font-color: #333;
+   color: #999;
+   margin-top:-7px;
 }
 
 .field_with_errors {
@@ -429,11 +449,13 @@ div.field label {
 .icon_only_button {
    width: 20px;
    height: 20px;
+   @include rounded(8px);
 }
 
 .icon_only_button_small {
    width: 16px;
    height: 16px;
+   @include rounded(8px);
 }
 
 
@@ -802,4 +824,35 @@ span.antispam {display:none;}
   background: image-url("student_full_home_haze.jpg");
   height: 544px;
   padding-bottom: 0px;
+}
+
+.faq_detail_question {
+  font-weight: bold;
+  padding-top: 8px;
+}
+
+.faq_detail_answer {
+  padding-left:30px;
+  display:none;
+  padding-bottom: 15px;
+}
+
+#main {
+  .accordion-heading {
+  background-color:$ost_light_beige;
+  font-weight: bold;
+  a.accordion-toggle {
+    color: $os_blue;
+    font-weight: bold;
+    &:link { color: $os_blue;}
+    &:hover { color: black; font-decoration: none;}
+    &:visited {}
+    &:active { color: #000;}
+  }
+     
+}
+}
+
+input.ui-widget {
+  font-size: 11px;
 }

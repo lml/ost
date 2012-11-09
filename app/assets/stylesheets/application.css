@@ -18,3 +18,7 @@
  *= require fullcalendar
  *= require_tree .
 */
+
+.ui-widget input.ui-widget {
+  font-size: 11px;
+}

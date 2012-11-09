@@ -8,7 +8,7 @@
 <% exercise_data = @student_exercise.assignment_exercise.topic_exercise.exercise.content %>
 <% solutions_data = @student_exercise.assignment_exercise.topic_exercise.exercise.solutions_content %>
 
-<%= section "The Answer", {:classes => 'first' } do %>
+<%= section "The Answer", {:classes => 'first no_bar' } do %>
 
   <% answer_choices = exercise_data["simple_question"]["answer_choices"] %>
   <% correct_answer_index = answer_choices.index{|choice| choice["credit"].to_i == 1} %>
@@ -37,21 +37,32 @@
 
 <%= section "Solutions" do %>
 
-  <% solutions_data["solutions"].each_with_index do |solution, ii| %>
-    <div>
-      <span style="float:left; padding-right:10px"><p><%= ii+1%>)</p></span>
-      <div style="float:left; width:600px"> 
-        <%= simple_format solution["explanation"] %>
-        <%= link_to_function "Show Details", 
-                             "$('#details_#{ii}').show(); $(this).hide(); reload_mathjax('details_#{ii}');", 
-                             :class => "activity_link",
-                             :'data-action' => "solution_details_#{ii}" %>
-        <div id="details_<%= ii %>" class="question" style="display:none">
-          <%= solution["details"]["html"].html_safe %>
+  <% solutions = solutions_data["solutions"] %>
+
+  <% if solutions.empty? %>
+
+    <p>There are no solutions available.</p>
+
+  <% else %>
+
+    <% solutions.each_with_index do |solution, ii| %>
+      <div>
+        <span style="float:left; padding-right:10px"><p><%= ii+1%>)</p></span>
+        <div style="float:left; width:600px"> 
+          <%= simple_format solution["explanation"] %>
+          <%= link_to_function "Show Details", 
+                               "$('#details_#{ii}').show(); $(this).hide(); reload_mathjax('details_#{ii}');", 
+                               :class => "activity_link",
+                               :'data-action' => "solution_details_#{ii}" %>
+          <div id="details_<%= ii %>" class="question" style="display:none">
+            <%= solution["details"]["html"].html_safe %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
+
   <% end %>
+
 
 <% end %>
 

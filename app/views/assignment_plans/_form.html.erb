@@ -34,7 +34,7 @@
     <%= f.check_box :is_group_work_allowed %> Group work is allowed
   </div>
   <div class="field" style="width:280px; float: left">
-    <%= f.check_box :is_ready %> This is ready to be assigned    
+    <%= f.check_box :is_ready %> This is ready to be assigned 
   </div>
   
   <div style="clear:both"></div>
@@ -53,7 +53,7 @@
     <span class="field_help">(Optional) Comma-separated labels here will be attached to each exercise in the assignment.</span>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "#{@assignment_plan.new_record? ? 'Create' : 'Update'} Assignment", :class => 'link_button' %>
   </div>
 
 <% end %>
