@@ -1,19 +1,18 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p><%= SITE_NAME %> does not host course materials.</em> Accordingly, before assigning 
-  resources and exercises via <%= SITE_NAME %>, your 
-  course materials must be hosted on external websites. </p>
-    <p>
-    You can assign two (2) kinds of material in <%= SITE_NAME %>: 
-       <ol>
-          <li> <em>Study Resources</em>, which must be hosted on an external website such as <%= link_to "Connexions", 
-          "http://www.cnx.org" %> or other website. Resources can include Connexions modules or other text, video, etc.</li>
-          <p>
-          <li> <em>Exercises</em>, which must be hosted on <%= link_to "Quadbase", "http://www.quadbase.org" 
-          %>. <strong>Currently OST supports simple multiple choice exercises</strong>. More question types 
-          will be supported soon.</li>
-       </ol>
+<p><%= SITE_NAME %> does not host course materials.</em> Your host materials must be hosted 
+  on external websites:</p>
+       <ul>
+         <li> <em>Exercises</em> must be hosted on <%= link_to "Quadbase", "http://www.quadbase.org"%>. 
+               Currently, OST supports <%= link_to "simple multiple choice questions", 
+               "https://quadbase.org/help/authoring#simple" %>; more question types are coming soon.</li>
+         <p>
+          <li><em>Study Resources</em> can be hosted on any external 
+            website, e.g. <%= link_to "Connexions", 
+          "http://www.cnx.org" %>. Resources can include Connexions 
+          modules or other text, video, etc.</li>
+       </ul>
        <p>
       Content in Connexions and Quadbase is open and free to use or reuse. Similarly, 
       content you add to Connexions and Quadbase is easily shared -- allowing others to use
@@ -21,10 +20,11 @@
     <p>
 <p>To get started:</p>
         <ul>
+    <li><%= link_to "Create new exercises in Quadbase", "https://quadbase.org/questions/get_started"%> 
+            or <%=link_to "search for reusable Quadbase exercises", "https://quadbase.org/questions"%>.</li>
+    <p>
     <li><%= link_to "Create new resources in Connexions", "http://cnx.org/help/authoring/createmodule" %> 
       or <%= link_to "search for reusable Connexions resources", "http://cnx.org/content/" %>.</li>
-    <p>
-    <li><%= link_to "Create new exercises in Quadbase", "https://quadbase.org/questions/get_started"%> 
-      or <%=link_to "search for reusable Quadbase exercises", "https://quadbase.org/questions"%>.</li>
   </ul>
   <p>
+       
