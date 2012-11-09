@@ -26,6 +26,10 @@
   <%= accordion_entry :title => "How to view scores on assignments" do %>
     <%= render :partial => 'help/blurbs/grades'%>
   <% end %>
+  
+  <%= accordion_entry :title => "How #{SITE_NAME} calculates scores" do %>
+    <%= render :partial => 'help/blurbs/calc_grade'%>
+  <% end %>
 
 </div>
 
