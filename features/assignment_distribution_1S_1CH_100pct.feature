@@ -4,7 +4,7 @@
 Feature: Assignments are properly distributed to Students and in Instructor Previews.
 
     Background:
-        Given assignment distribution 1 Cohort 1 Section 100% setup
+        Given assignment distribution 1 Section 1 Cohort 100% setup
 
     Scenario: Professor X previews assignment distribution for Course One.
         Given that I am logged in as "Professor X"
@@ -275,4 +275,3 @@ Feature: Assignments are properly distributed to Students and in Instructor Prev
         And   under "assignments" I do not see "Homework Two"
         And   under "assignments" I do not see "Homework Three"
         And   under "assignments" I do not see "Homework Four"
-               

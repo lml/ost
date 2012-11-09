@@ -29,5 +29,13 @@ namespace :db do
         task :assignment_distribution_1CH_1S_100pct => ["db:reset", :environment] do 
             assignment_distribution_1CH_1S_100pct_setup
         end
+
+        task :assignment_distribution_1S_1CH_100pct => ["db:reset", :environment] do 
+            assignment_distribution_1S_1CH_100pct_setup
+        end
+
+        task :assignment_distribution_1CH_2S_100pct => ["db:reset", :environment] do 
+            assignment_distribution_1CH_2S_100pct_setup
+        end
     end        
 end
