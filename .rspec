@@ -1,2 +1,4 @@
 --color
 --format d
+--format RSpec::Rerun::Formatters::FailuresFormatter
+--drb

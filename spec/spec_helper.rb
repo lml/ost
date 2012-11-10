@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'spork'
+require 'capybara/rspec'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 
@@ -66,6 +67,64 @@ Spork.prefork do
     end
   end
 
+  ####################################
+  # SET THE DATABASE ROLLBACK STRATEGY
+  ####################################
+  #
+  # As long as all threads share the same connection and use_transactional_fixtures
+  # is true, we can simply use DatabaseCleaner's :transaction strategy to rollback 
+  # changes made during scenarios.  Otherwise we must use :truncation.
+  #
+  # To ensure we start with a empty database before the first scenario, we use
+  # :truncation initially.
+  DatabaseCleaner.clean_with :truncation # clean once to ensure clean slate
+  DatabaseCleaner.strategy = :transaction
+  
+  ########################################
+  # CONFIGURE THE RAILS APPLICATION DOMAIN
+  ########################################
+  # This is done in config/environments/test.rb
+  
+  #####################################################
+  # SET CAPYBARA DEFAULT AND JAVASCRIPT BROWSER OPTIONS
+  #####################################################
+  #
+  # For scenarios tagged with @javascript, Capybara launches a Capybara.javascript_driver "browser",
+  # which must be one which supports the execution of javascript (:webkit, :poltergeist, or :selenium).
+  # Otherise, Capybara launches a Capybara.default_driver "broswer".
+  #
+  # The normal values are:
+  #   default_driver    = :rack_test
+  #   javascript_driver = :selenium
+  #
+  # Because of the precautions taken above w.r.t. connections, transactions and domains, we can freely mix and
+  # match default and javascript drivers.
+  # Capybara.javascript_driver = :webkit
+  # Capybara.default_driver    = :rack_test  ## NOTE: currently all scenarios assume @javascript, so :rack_test will cause problems
+  Capybara.javascript_driver = :webkit
+  Capybara.default_driver    = :webkit
+  # Capybara.javascript_driver = :selenium
+  # Capybara.default_driver    = :selenium
+  # Capybara.javascript_driver = :poltergeist
+  # Capybara.default_driver    = :poltergeist
+
+  #############################
+  # OTHER CONFIGURATION OPTIONS
+  #############################
+
+  # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
+  # order to ease the transition to Capybara we set the default here. If you'd
+  # prefer to use XPath just remove this line and adjust any selectors in your
+  # steps to use the XPath syntax.
+  Capybara.default_selector = :css
+  
+  # Turn off automatic screencapture when scenario fails
+  Capybara::Screenshot.autosave_on_failure = false
+
+  # This causes capybara #has_css? and #find selectors to return quickly
+  # in the event of a failure
+  Capybara.default_wait_time = 0.01;
+  
   RSpec.configure do |config|
     # ## Mock Framework
     #
