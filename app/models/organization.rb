@@ -5,8 +5,8 @@ class Organization < ActiveRecord::Base
   has_many :courses, :dependent => :destroy, :order => :number
   has_many :organization_managers, :dependent => :destroy
   
-  validate :name, :presence => true, :uniqueness => true
-  
+  validates :name, :presence => true, :uniqueness => true
+
   before_destroy :assert_no_courses
   
   attr_accessible :default_time_zone, :name
