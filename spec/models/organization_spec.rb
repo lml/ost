@@ -29,6 +29,21 @@ describe Organization do
         end
     end
 
+    context "destruction-related features" do
+        it "destroys associated Courses" do
+            @organization = nil
+            DbUniverse do
+                @organization = DbCofOrganization do
+                    DbCofCourse()
+                    DbCofCourse()
+                end
+            end
+            Course.all.size.should be > 0
+            @organization.destroy
+            Course.all.size.should eq 0
+        end
+    end
+
     context "permission-related methods" do
 
         before(:each) do

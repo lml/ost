@@ -5,9 +5,9 @@
 
 FactoryGirl.define do
   factory :course do
-    name "MATH 101: #{Faker::Lorem.words(2).join(' ')}"
-    description Faker::Lorem::paragraphs(1).join
-    typically_offered "Fall Semester"
+    sequence(:name)                 {|n| "AutoGen Course Name #{n}"}
+    description                     Faker::Lorem::paragraphs(1).join
+    sequence(:typically_offered)    {|n| "AutoGen Typically Offered #{n}"}
     organization
   end
 end
