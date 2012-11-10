@@ -9,6 +9,13 @@
   <div class="accordion" id="accordion2" style="padding-top:20px;">
     
   <%= accordion_entry :title => "Create class sections" do %>
+  <p>If your class has multiple sections, e.g. MW and TTh, follow the below steps to add 
+  additional sections:</p>
+  
+  <p>Go to <strong>Dashboard > Class</strong> and click on <strong>Sections</strong>.
+  <p>
+  <%= image_tag("sections.png", {:border => 1, :width => "100%", 
+    :height => "100%", :title=>"section"})%>
         <%= render :partial => 'help/blurbs/sections' %>
     <% end %>
     
@@ -22,22 +29,45 @@
     <% end %>
     
     <%= accordion_entry :title => "Preapprove student registration requests" do %>
-    <p>Go to <strong>Dashboard > Class</strong>, click <strong>Edit Class</strong>. 
-      On the Edit Class page, scroll down to the <strong>Approved Emails</strong> field.</p>
+    <ol>
+      <li>Go to <strong>Dashboard > Class</strong> and click <strong>Edit Class</strong>.</li>
+      <p> 
+      <li>On Edit Class, scroll to the <strong>Approved Emails</strong> field.</li>
+    </ol>
     <%= render :partial => 'help/blurbs/preapproved_emails' %>
     <% end %>
     
-    <%= accordion_entry :title => "Confirm student registration requests" do %>
-    
+    <%= accordion_entry :title => "Confirm pending registration requests" do %>
+    <p>By default, when a student requests to register for your class, <%= SITE_NAME %> will 
+    send you an email notification. Follow the <strong>email link</strong>, or access 
+    pending requests as follows:</p>
+
+    <ol>
+      <li>Go to <strong>Dashboard > Class</strong>. In the Enrollment section, click 
+        <strong>Pending</strong>.</li>
+      <%= image_tag("pending.png", {:border => 1, :width => "80%", 
+        :height => "80%", :title=>"pending"})%>
+      <p>
+      <li>Click <strong>Approve</strong> or <strong>Reject</strong> using the buttons
+         next to each request.</li>
+      <%= image_tag("approve_reg.png", {:border => 1, :width => "100%", 
+        :height => "100%", :title=>"pending"})%>
+      <p>
+        
     <% end %>
     
     <%= accordion_entry :title => "Change student section" do %>
 
+     <p>If you are participating in a research study, <em><strong>check with
+         the research team</strong></em> before moving a student to another 
+         section, as it may impact the student's assignments.</p>
+      <p>
+      <%= render :partial => 'help/blurbs/change_student_section'%>
   
     <% end %>
     
     <%= accordion_entry :title => "Reinstate dropped student" do %>
-    
+          <%= render :partial => 'help/blurbs/toggle_reg_status'%>
     <% end %>
     
     <%= accordion_entry :title => "View student work and results of assignments" do %>
@@ -45,7 +75,7 @@
     <% end %>
     
     <%= accordion_entry :title => "How OST assigns grades" do %>
-    
+    <%= render :partial => 'help/blurbs/calc_grade'%>
     <% end %>
     
     <%= accordion_entry :title => "Manually override exercise score" do %>
