@@ -18,12 +18,11 @@ describe Organization do
                 organization.save!
             }.to raise_error
         end
-
         it "cannot be created without a unique name" do
             expect {
                 DbUniverse do
-                    DbCofOrganization name: "Organization One", force_create: true
-                    DbCofOrganization name: "Organization One", force_create: true
+                    DbCofOrganization name: "Organization One"
+                    DbCofOrganization name: "Organization One"
                 end
             }.to raise_error
         end
