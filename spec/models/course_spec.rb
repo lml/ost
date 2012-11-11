@@ -126,7 +126,6 @@ describe Course do
             it "returns true if user is an admin" do
                 @course.can_be_created_by?(@admin).should be_true
             end
-
             it "returns false if user if not an admin" do
                 @course.can_be_created_by?(@user1).should be_false
                 @course.can_be_created_by?(@user2).should be_false
@@ -138,7 +137,6 @@ describe Course do
             it "returns true if user is an admin" do
                 @course.can_be_updated_by?(@admin).should be_true
             end
-
             it "returns false if user if not an admin" do
                 @course.can_be_updated_by?(@user1).should be_false
                 @course.can_be_updated_by?(@user2).should be_false
@@ -150,7 +148,6 @@ describe Course do
             it "returns true if user is an admin" do
                 @course.can_be_destroyed_by?(@admin).should be_true
             end
-
             it "returns false if user if not an admin" do
                 @course.can_be_destroyed_by?(@user1).should be_false
                 @course.can_be_destroyed_by?(@user2).should be_false
