@@ -25,13 +25,13 @@ class PercentScheduler < Scheduler
   
   # Adds a row to a specific schedule and returns the row along with 
   # the row number (1-indexed)
-  def add_schedule_row(number)
-    [self.schedules[number].push({:percent => 0, :tags => ""}).last, 
-     self.schedules[number].size]
+  def add_schedule_row(schedule_index)
+    [self.schedules[schedule_index].push({:percent => 0, :tags => ""}).last, 
+     self.schedules[schedule_index].size]
   end
   
-  def pop_schedule_row(schedule_number)
-    self.schedules[schedule_number].pop
+  def pop_schedule_row(schedule_index)
+    self.schedules[schedule_index].pop
   end
   
   # TODO instead of taking a cohort this could take a cohort or a study
