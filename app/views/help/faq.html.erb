@@ -89,13 +89,21 @@
     <%= render :partial => 'help/blurbs/supported_exercises'%>
      <% end %>
   
+    <%= accordion_entry :title => "Can I use #{SITE_NAME} to assign exercises that were published and copyrighted?" do %>
+    
+    We recommend you check out the legal and intellectual property FAQ sections at both
+     <%= link_to "Quadbase", "http://quadbase.org/help/legal" %>
+        and <%= link_to "Connexions", "http://cnx.org/help/ip" %>.
+    
+    <% end %>
+  
     <%= accordion_entry :title => "How do I add exercises and resources to 
     #{SITE_NAME}? It looks I can only add links." do %>
       <p>OpenStax Tutor does not host course materials. The exercises you 
         assign must be hosted on <%= link_to "Quadbase", "http://www.quadbase.org" %> and 
         the resources you assign must be hosted on a website, such as <%= link_to "Connexions",
          "http:www.cnx.org" %>.</p>
-        <p> Once your materials are hosted on external sites, you can simply copy
+        <p>Once your materials are hosted on external sites, you can simply copy
            and paste the URL in the Topics section.</p>
     <%= link_to "Click here to learn more about Quadbase, Connexions and adding materials to 
     the Topics section.", help_topics_path%> </p>
