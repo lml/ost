@@ -57,7 +57,7 @@ describe Organization do
             end
         end
 
-        describe "#can_be_created_by?" do
+        describe "#can_be_created_by?(user)" do
             it "returns true if user is an admin" do
                 @organization.can_be_created_by?(@admin).should be_true
             end
@@ -66,7 +66,7 @@ describe Organization do
             end
         end
 
-        describe "#can_be_updated_by?" do
+        describe "#can_be_updated_by?(user)" do
             it "returns true if user is an admin" do
                 @organization.can_be_updated_by?(@admin).should be_true
             end
@@ -76,7 +76,7 @@ describe Organization do
             end
         end
 
-        describe "#can_be_destroyed_by?" do
+        describe "#can_be_destroyed_by?(user)" do
             it "returns true if user is an admin" do
                 @organization.can_be_destroyed_by?(@admin).should be_true
             end
@@ -86,7 +86,7 @@ describe Organization do
             end
         end
 
-        describe "#children_can_be_read_by?" do
+        describe "#children_can_be_read_by?(user, children_symbol)" do
             context "children_symbol == :courses" do
                 it "returns true if user is an admin" do
                     @organization.children_can_be_read_by?(@admin, :courses).should be_true
