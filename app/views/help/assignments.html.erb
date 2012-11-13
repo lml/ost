@@ -10,20 +10,35 @@ and set schedule and feedback conditions. For more help, go here.</p>
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
   
-<%= accordion_entry :title => "Types of assignments" do %>
-  <%= render :partial => 'help/blurbs/plan_assignments' %>
+<%= accordion_entry :title => "Overview of assignments" do %>
+
+<p>You can give two (2) types of assignments: <strong>tests</strong> and <strong>homework</strong>.
   <%= link_to_help 'example_assignment',
      text="Click here to see an example assignment.", 
-     {:title => 'Example Assignment', :width => '700' , :height =>'700'} %></p> 
+     {:title => 'Example Assignment', :width => '700' , :height =>'700'} %></p>
+      
+<p>The basic process of creating assignments in <%= SITE_NAME %> is as follows:</p>
+
+<ol>
+  <li>Set assignment properties: name, due date, assignment rules, etc.</li>
+  <li>Add the <strong>topic(s)</strong> the assignment covers.</li> 
+  <li>Preview assignment.</li>
+  <li>Mark the assignment as <strong>ready to be assigned</strong>.</li>
+  <li>OST will make the assignment available on the selected time/date.</li>
+</ol>
+
 <% end %>
 
 <%= accordion_entry :title => "How OST builds assignments" do %>
 
-  OST builds assignments using: 
-  the topic(s) you add to an assignment
-  the assignment properties you set (e.g. start date, end date, labels, etc.)
-  for a test, the exercises you mark as a test 
-  the feedback and learning conditions you (or researchers) set 
+<p>You will create an assignment plan and then OST will build your assignments using:</p>
+
+  <ul>
+    <li>the topic(s) you add to an assignment</li>
+    <li>assignment properties (e.g. start/due date, labels, etc.)</li>
+    <li>for a test, the exercises you mark as a test</li>
+    <li>feedback and learning conditions.</li>
+  </ul>
 
 <% end %>
 
