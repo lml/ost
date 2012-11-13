@@ -102,7 +102,7 @@ describe Course do
             end
         end
 
-        describe "#is_instructor?" do
+        describe "#is_instructor?(user)" do
             it "returns true if user is an instructor for the course" do
                 @course.is_instructor?(@instructor).should be_true
             end
@@ -113,7 +113,7 @@ describe Course do
             end
         end
 
-        describe "#can_be_read_by?" do
+        describe "#can_be_read_by?(user)" do
             it "returns true for any user" do
                 @course.can_be_read_by?(@admin).should be_true
                 @course.can_be_read_by?(@user1).should be_true
@@ -122,7 +122,7 @@ describe Course do
             end
         end
 
-        describe "#can_be_created_by?" do
+        describe "#can_be_created_by?(user)" do
             it "returns true if user is an admin" do
                 @course.can_be_created_by?(@admin).should be_true
             end
@@ -133,7 +133,7 @@ describe Course do
             end
         end
 
-        describe "#can_be_updated_by?" do
+        describe "#can_be_updated_by?(user)" do
             it "returns true if user is an admin" do
                 @course.can_be_updated_by?(@admin).should be_true
             end
@@ -144,7 +144,7 @@ describe Course do
             end
         end
 
-        describe "#can_be_destroyed_by?" do
+        describe "#can_be_destroyed_by?(user)" do
             it "returns true if user is an admin" do
                 @course.can_be_destroyed_by?(@admin).should be_true
             end
