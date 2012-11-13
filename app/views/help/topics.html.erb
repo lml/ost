@@ -45,6 +45,8 @@
       <li>Click <strong>Add new topic</strong>.</li>
         <%= image_tag("newtopic1.png", {:border => 1, :width => "100%", 
           :height => "100%", :title=>"create new topic"})%>
+        <li>You have created an empty topic. <strong>Double click</strong> the topic to add
+           resources and exercises.</li>
       </ol>
   <% end %>
 
@@ -136,14 +138,18 @@
   <% end %>
   
   <%= accordion_entry :title => "Mark exercise as a test question" do %>
+    <p>To add a <em>new</em> test question, review the help topic <strong>Add Exercises to a Topic</strong> (above).</p>
+    
+    <p>To retroactively mark an exercise as a test:</p>
   <ol>
-    <li>Double click the topic containing the exercise you want to mark as a test.</li>
+    <li><strong>Double click</strong> the topic containing the exercise.</li>
     <p>
     <li>Hover mouse over exercise to reveal edit/trash icons.</li>
     <p>
-    <li>Click the <strong>orange pencil icon</strong> to edit exercise properties.</li>
+    <li>Click the <strong>pencil icon</strong> to edit exercise properties.</li>
     <p>
     <li>Mark <strong>This exercise is reserved for use in tests.</strong></li>
+    <p>
     <%= image_tag("mark_test.png", {:border => 1, :width => "100%", :height => 
       "100%", :title=>"mark test"})%>  
     <p>

@@ -4,73 +4,63 @@
 <%= pageHeading "Help | Assignments" do %>
 <% end %>
 
-<p>The below tutorials on creating assignments assume that you have 
-organized your content into topics, marked test exercises accordingly 
-and set schedule and feedback conditions. For more help, go here.</p>
+<p>This help page describes how to create homework and test assignments in <%= SITE_NAME %>. Click 
+  the links below to learn more.</p>
+
+<p><em>These tutorials assume you have organized your course materials into topics and have set learning conditions for your class.</em> </p>
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
   
 <%= accordion_entry :title => "Overview of assignments" do %>
 
-<p>You can give two (2) types of assignments: <strong>tests</strong> and <strong>homework</strong>.
-  <%= link_to_help 'example_assignment',
-     text="Click here to see an example assignment.", 
-     {:title => 'Example Assignment', :width => '700' , :height =>'700'} %></p>
-      
-<p>The basic process of creating assignments in <%= SITE_NAME %> is as follows:</p>
+<p>Once you have organized your topics and set learning conditions, you can create homeworks or tests by specifying the topic(s)
+ each assignment covers. For example, to assign the topic <em>Signal Basics</em> as homework, simply add the topic to an assignment:</p>
 
-<ol>
-  <li>Set assignment properties: name, due date, assignment rules, etc.</li>
-  <li>Add the <strong>topic(s)</strong> the assignment covers.</li> 
-  <li>Preview assignment.</li>
-  <li>Mark the assignment as <strong>ready to be assigned</strong>.</li>
-  <li>OST will make the assignment available on the selected time/date.</li>
-</ol>
-
+<p><%= image_tag("assignment1.png", {:border => 1, :width => "50%",
+   :title=>"add assignment"})%></p>
+  
+<p>OST will build the assignment by pulling exercises from the Signal Basics topic, <strong><em>in accordance with the learning 
+  conditions set for your class</em></strong>. <%= link_to_help 'example_assignment',
+   text="Click here to see an example assignment.", {:title => 'Example Assignment', :width => '700', :height => '700'} %></p>
+  
 <% end %>
 
-<%= accordion_entry :title => "How OST builds assignments" do %>
+<%= accordion_entry :title => "How OST uses learning conditions to build assignments" do %>
 
-<p>You will create an assignment plan and then OST will build your assignments using:</p>
+<p>Schedule conditions control how OST builds homework assignments, while feedback conditions control 
+  when and how OST presents feedback.</p>
 
-  <ul>
-    <li>the topic(s) you add to an assignment</li>
-    <li>assignment properties (e.g. start/due date, labels, etc.)</li>
-    <li>for a test, the exercises you mark as a test</li>
-    <li>feedback and learning conditions.</li>
-  </ul>
+<p>For example, under the <%= link_to_help 'default_learning_conditions', text="default learning conditions", 
+{:title => 'Default Learning Conditions', :width => '700', :height => '500'} %>: </p>
 
+<ul>
+  <li>OST builds <em>homework</em> assignments by pulling <em>100% of the 
+  non-test exercises from each assigned topic</em>. OST presents feedback on homework immediately after the exercise is completed.</li>
+  <p>
+  <li>OST builds <em>tests</em> by pulling <em>only</em> exercises marked as tests. OST never shows feedback on test exercises.</li>
+</ul>  
+    
+<p>Click here to learn more about the the <%= link_to_help 'default_learning_conditions', text="default learning conditions", 
+{:title => 'Default Learning Conditions', :width => '700', :height => '500'} %>.</p>
 <% end %>
 
 
-<%= accordion_entry :title => "Create a non-test (homework) assignment" do %>
+<%= accordion_entry :title => "Create a homework assignment" do %>
 <ol>
-  <li>Go to <strong>Dashboard > Class > Learning Plan > Assignments</strong> 
-    and click <strong>Add new assignment</strong>.</li>
-         <%= image_tag("add_assignment.png", {:border => 1, :width => "50%", :height => "50%",
+  <li>Go to <strong>Dashboard > Class</strong> and click on <strong>Learning Plan</strong>. </strong> 
+    <p><%= image_tag("click_LP.png", {:border => 1, :width => "90%"})%></p>
+  <li>On the Learning Plan page, scroll to the <strong>Assignments</strong> section.</li>
+  <p>
+  <li>Click <strong>Add new assignment</strong>.</li>
+         <%= image_tag("click_add_assign.png", {:border => 1, :width => "90%", 
             :title=>"add assignment"})%>  
   <p>
-  <li>The above process will reveal the Assignment dialog box: </li>
+  <li>Complete the Assignment dialog box and click <strong>Create Assignment</strong>. </li>
   <p>
   <%= image_tag("edit_assignment.png", {:border => 1, :width => "60%", :height => "60%", 
     :title=>"edit assignment"})%>  
-  <li>Enter <strong>name</strong>, <strong>optional introduction</strong> and
-     <strong>assignment start and end date</strong>.</li>
   <p>
-  <li>For a <strong>non-test</strong> assignment, leave <em>This is a test</em> <strong>unchecked</strong>.</li>
-  <p>
-  <li>Define assignment rules: mark if <strong>group work</strong> is allowed and/or if the assignment 
-    is <strong>open book</strong>.</li>
-  <p>
-  <li>Leave "This is ready to be assigned" <em>unchecked</em> until you have 
-    finished editing the assignment.</li>
-  <p>
-  <li>Optional: attach extra label(s) to trigger a specific feedback 
-    condition.</li>
-  <p>
-  <li>Click <strong>Create Assignment</strong>.</li>
-  <p>
-  <li>You have created an empty assignment. To attach topics to the assignment, <em><strong>double
+  <li>Next, <em><strong>double
      click</strong></em> the assignment you just created.</li>
   <p>  <%= image_tag("empty_assignment.png", {:border => 1, :width => "60%", :height => "60%", 
     :title=>"edit assignment"})%>  

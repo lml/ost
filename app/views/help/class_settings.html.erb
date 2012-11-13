@@ -8,6 +8,23 @@
 
   <div class="accordion" id="accordion2" style="padding-top:20px;">
 <%= section "General Class Settings", {:classes => 'first no_bar'} do %>  
+
+  <%= accordion_entry :title => "Register to teach a class" do %>
+  <%= render :partial => 'help/blurbs/register_new_class'%>
+  <%= image_tag("teach_this_couse.png", {:border => 1, :width => "100%", 
+    :height => "100%", :title=>"teach this class"})%>
+  <% end %>
+
+  <%= accordion_entry :title => "Access your class" do %>
+  <ol>
+    <li>Click the <strong>Dashboard</strong> link.
+      <%= image_tag("dashboard.png", {:border => 1, :width => "100%", 
+        :height => "100%", :title=>"dashboard"})%>
+    <li>Click <strong>class name</strong>.</li>
+    <p><%= image_tag("class_teaching.png", {:border => 1, :width => "50%", 
+     :title=>"class I'm teaching"})%></p>
+  
+  <% end %>
   <%= accordion_entry :title => "Create class sections" do %>
   <p>If your class has multiple sections, e.g. MW and TTh, follow the below steps to add 
   those sections to <%= SITE_NAME %>:</p>
