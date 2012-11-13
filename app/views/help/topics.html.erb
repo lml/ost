@@ -7,8 +7,9 @@
   Topics section. Click the links below to learn more.</p>
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
-  
-  <%= accordion_entry :title => "Overview of topics" do %>
+
+<%= section "General Topics Overview", {:classes => 'first no_bar'} do %>  
+  <%= accordion_entry :title => "What is a topic?" do %>
     <p>The Topics section is where you will add links to course materials, 
       organized into <em>topics</em>. <%= link_to_help 'example_topics_section',
        text="Click here to see an example of a completed Topics section.", 
@@ -34,7 +35,9 @@
   <%= accordion_entry :title => "Organize course materials into topics" do %>
     <%= render :partial =>'help/blurbs/organize_topics'%>
   <% end %>
+<% end %>
 
+<%= section "Populating the Topics section", {:classes => 'first no_bar'} do %>
   <%= accordion_entry :title => "Create a new topic" do %>
     <ol>
       <li>Go to <strong>Dashboard > Class > Learning Plan > Topics</strong>.</li>
@@ -42,23 +45,6 @@
       <li>Click <strong>Add new topic</strong>.</li>
         <%= image_tag("newtopic1.png", {:border => 1, :width => "100%", 
           :height => "100%", :title=>"create new topic"})%>
-      </ol>
-  <% end %>
-
-  <%= accordion_entry :title => "Rename or delete a topic" do %>
-    <ol>
-      <li>Move mouse over the topic you want to rename or delete.</li>
-      <p>
-      <li>The above action reveals the edit and trash icons.</li>
-        <%= image_tag("newtopic5arrow.png", {:border => 1, :width => "100%",
-           :height => "100%", :title=>"rename delete"})%>
-      <li>Click the <strong>trash icon</strong> to delete topic and all associated 
-        resources and exercises.</li>
-      <p>
-      <li>Or click the <strong>pencil icon</strong> to rename the topic.</li>
-        <%= image_tag("edit_topic2.png", {:border => 1, :width => "100%", :height =>
-           "100%", :title=>"rename delete"})%>
-      <li>Enter new topic name and hit Return on your keyboard to save.</li>
       </ol>
   <% end %>
 
@@ -117,6 +103,23 @@
   </ol>
   <% end %>
   
+  <%= accordion_entry :title => "Rename or delete a topic" do %>
+    <ol>
+      <li>Move mouse over the topic you want to rename or delete.</li>
+      <p>
+      <li>The above action reveals the edit and trash icons.</li>
+        <%= image_tag("newtopic5arrow.png", {:border => 1, :width => "100%",
+           :height => "100%", :title=>"rename delete"})%>
+      <li>Click the <strong>trash icon</strong> to delete topic and all associated 
+        resources and exercises.</li>
+      <p>
+      <li>Or click the <strong>pencil icon</strong> to rename the topic.</li>
+        <%= image_tag("edit_topic2.png", {:border => 1, :width => "100%", :height =>
+           "100%", :title=>"rename delete"})%>
+      <li>Enter new topic name and hit Return on your keyboard to save.</li>
+      </ol>
+  <% end %>
+  
   <%= accordion_entry :title => "Edit exercise properties or delete exercise" do %>
   <ol>
     <li>Move your mouse over the relevant resource/exercise.</li>
@@ -154,18 +157,21 @@
     <%= render :partial => 'help/blurbs/reorder' %>
   <% end %>
 
-
   <%= accordion_entry :title => "Attach concept tag to an exercise" do %>
     <%= render :partial => 'help/blurbs/concepts_page'%>
   <% end %>
+<% end %>
 
-  <%= accordion_entry :title => "Refresh Exercises / synchronize changes from Quadbase" do %>
+<%= section "Synchronize changes from Quadbase", {:classes => 'first no_bar'} do %>  
+
+  <%= accordion_entry :title => "Refresh Exercises" do %>
     <%= render :partial => 'help/blurbs/refresh_exercises'%>
     
     <p>To refresh exercises, go to <strong>Dashboard > Class > Learning Plan</strong> and click <strong>Refresh Exercises</strong>.</li>
     <%= image_tag("refreshexercises.png", {:border => 1, :width => "100%", :height=> "100%"})%>    
         
   <% end %>
+<% end %>
 </div>
 
 <% navitem { link_to "Back to Help", help_path } %>

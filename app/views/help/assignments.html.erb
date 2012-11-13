@@ -166,14 +166,32 @@ and set schedule and feedback conditions. For more help, go here.</p>
 
 <%= accordion_entry :title => "Edit assignment properties" do %>
 
-<p>For each assignment you create, you can set a number of properties in the Assignment settings 
-dialog box:</p>
- 
-<%= image_tag("edit_assignment.png", {:border => 1, :width => "60%", :height => "60%", 
-  :title=>"edit assignment"})%>
+<ol>
+  <li>Hold mouse over assignment to reveal edit/trash icons.</li>
+  <p>
+  <li>Click the pencil icon to open the Edit dialog box.</li>
+  <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "100%", 
+     :title=>"edit assignment"})%></p>
+  <li>In the Edit dialog box, edit assignment properties, e.g. start/end date, assignment rules, labels, etc.</li>
+  <p>  <%= image_tag("edit_assignment.png", {:border => 1, :width => "80%", 
+     :title=>"edit assignment"})%></p>
+  <li>Click <strong>Update Assignment</strong> to save.</li>
+</ol>
   <% end %>
   
 <%= accordion_entry :title => "Mark assignment as ready to be assigned" do %>
+<p><%=SITE_NAME %> will make assignments available <em><strong>only</strong></em> when they are marked 
+  <em>ready to be assigned.</em><p>
+  <ol>
+    <li>Hold mouse over assignment to reveal edit/trash icons.</li>
+    <p>
+    <li>Click the pencil icon to open the Edit dialog box.</li>
+    <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "100%", 
+       :title=>"edit assignment"})%></p>
+    <li>In the Edit dialog box, check <strong>This is ready to be assigned</strong> and <strong>Update Assignment</strong>.</li>
+    <p>  <%= image_tag("ready_assigned.png", {:border => 1, :width => "80%", 
+       :title=>"edit assignment"})%></p>
+</ol>
   <% end %>
 
 </div>
