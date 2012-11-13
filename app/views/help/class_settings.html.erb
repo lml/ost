@@ -7,7 +7,7 @@
     and students. Select from the links below.</p>
 
   <div class="accordion" id="accordion2" style="padding-top:20px;">
-    
+<%= section "General Class Settings", {:classes => 'first no_bar'} do %>  
   <%= accordion_entry :title => "Create class sections" do %>
   <p>If your class has multiple sections, e.g. MW and TTh, follow the below steps to add 
   those sections to <%= SITE_NAME %>:</p>
@@ -23,19 +23,22 @@
     
     <% end %>
     
-    <%= accordion_entry :title => "Manage co-instructors, teaching assistants and graders" do %>
+    <%= accordion_entry :title => "Add or change co-instructors, teaching assistants and graders" do %>
       
     <%= render :partial => 'help/blurbs/add_instructor'%>
     <% end %>
+<% end %>
     
+<%= section "Manage Student Enrollment", {:classes => 'first no_bar'} do %>  
     <%= accordion_entry :title => "Preapprove student registration requests" do %>
+    <p>Follow the instructions below to preapprove student registration requests. Or, if 
+      you prefer to manually approve all registration requests, do nothing.</p>
     <ol>
       <li>Go to <strong>Dashboard > Class</strong> and click <strong>Edit Class</strong>.</li>
-      <p> 
-      <li>On Edit Class, scroll to the <strong>Approved Emails</strong> field.</li>
+      <p><%= image_tag("edit_class.png", {:border => 1, :width => "90%", 
+       :title=>"edit class"})%>
+      <li>On the Edit Class page, scroll to the <strong>Approved Emails</strong> field.</li>
     </ol>
-    <p>Follow the instructions below to preapprove student registration requests. If you 
-      do not set up preapprovals, you can manually approve requests.</p>
     <%= render :partial => 'help/blurbs/preapproved_emails' %>
     <% end %>
     
@@ -55,45 +58,47 @@
       <%= image_tag("approve_reg.png", {:border => 1, :width => "100%", 
         :height => "100%", :title=>"pending"})%>
       <p>
-        
     <% end %>
     
     <%= accordion_entry :title => "Change student section" do %>
-
      <p>If you are participating in a research study, <em><strong>check with
          the research team</strong></em> before moving a student to another 
-         section, as it may impact the student's assignments.</p>
+         section, as this may impact the student's assignments.</p>
       <p>
       <%= render :partial => 'help/blurbs/change_student_section'%>
-  
     <% end %>
     
     <%= accordion_entry :title => "Reinstate dropped student" do %>
           <%= render :partial => 'help/blurbs/toggle_reg_status'%>
     <% end %>
-    
-    <%= accordion_entry :title => "View student work and results of assignments" do %>
-    
+<% end %>
+
+<%= section "Student work", {:classes => 'first no_bar'} do %>  
+
+    <%= accordion_entry :title => "View student work" do %>
     <% end %>
     
-    <%= accordion_entry :title => "Grades" do %>
-  
+    <%= accordion_entry :title => "Export student work spreadsheet" do %>
+    <% end %>
+    
+<% end %>
+
+<%= section "Grades ", {:classes => 'first no_bar'} do %>   
+   
+    <%= accordion_entry :title => "How OST calculates grades" do %>  
     <%= render :partial => 'help/blurbs/calc_grade'%>
-  
+    <% end %>
+    
+    <%= accordion_entry :title => "Export grades spreadsheet" do %>
     <p>To export grades to Excel, go to <strong>Dashboard > Class</strong> and click
        <strong>Class Grades</strong>.</p>
-    
     <% end %>
     
     <%= accordion_entry :title => "Manually override exercise score" do %>
-
   <%= render :partial => 'help/blurbs/make_correct'%>
     <% end %>
     
-    <%= accordion_entry :title => "asfsd" do %>
-
-    
-    <% end %>
+<% end %>
   
 </div>      
 
