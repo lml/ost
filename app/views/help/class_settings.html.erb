@@ -26,8 +26,6 @@
   
   <% end %>
   <%= accordion_entry :title => "Create class sections" do %>
-  <p>If your class has multiple sections, e.g. MW and TTh, follow the below steps to add 
-  those sections to <%= SITE_NAME %>:</p>
   
   <p>Go to <strong>Dashboard > Class</strong> and click on <strong>Sections</strong>.
   <p>
@@ -86,17 +84,11 @@
     <% end %>
 <% end %>
 
-<%= section "Student work", {:classes => 'first no_bar'} do %>  
+<%= section "Student work and Grades", {:classes => 'first no_bar'} do %>  
 
     <%= accordion_entry :title => "View student work" do %>
+    Coming soon.
     <% end %>
-    
-    <%= accordion_entry :title => "Export student work spreadsheet" do %>
-    <% end %>
-    
-<% end %>
-
-<%= section "Grades ", {:classes => 'first no_bar'} do %>   
    
     <%= accordion_entry :title => "How OST calculates grades" do %>  
     <%= render :partial => 'help/blurbs/calc_grade'%>

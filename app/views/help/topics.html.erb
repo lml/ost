@@ -94,9 +94,9 @@
       	  <%= image_tag("add_exercise.png", {:border => 1, :width => "100%", 
       	    :height => "100%", :title=>"add exercise"})%></li>
         <p>
-        <li>Mark whether the exercise is reserved for a test, if applicable.</li>
+        <li>Mark if the exercise is reserved for a test, if applicable.</li>
         <p>
-        <li>Optional but useful: <%= link_to_help 'concepts', text="Attach a 
+        <li>Optional: <%= link_to_help 'concepts', text="Attach a 
         concept tag.", {:title => 'Concept Tags', :width => '500'} %></p></li>
         <p>
         <li>Click <strong>Create Topic exercise</strong>.</li>
@@ -164,7 +164,7 @@
   <% end %>
 
   <%= accordion_entry :title => "Attach concept tag to an exercise" do %>
-    <%= render :partial => 'help/blurbs/concepts_page'%>
+    <%= render :partial => 'help/blurbs/concepts'%>
   <% end %>
 <% end %>
 

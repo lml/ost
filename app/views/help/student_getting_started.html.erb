@@ -18,10 +18,15 @@
   <%= accordion_entry :title => "How to access assignments" do %>
     <%= render :partial => 'help/blurbs/access_assignments'%>
   <% end %>
-  
+<% if false %>
   <%= accordion_entry :title => "How to complete assignments" do %>
     <%= render :partial => 'help/blurbs/complete_assignments'%>
   <% end %>
+  
+  <%= accordion_entry :title => "How to complete multiple choice exercises" do %>
+  <% render :partial => 'help/blurbs/complete_exercise'%>
+  <% end %>
+<% end %>
   
   <%= accordion_entry :title => "How to view scores on assignments" do %>
     <%= render :partial => 'help/blurbs/grades'%>

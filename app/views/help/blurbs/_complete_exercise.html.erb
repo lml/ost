@@ -1,16 +1,26 @@
-<p>When your students work an exercise in OST, they will do the following:</p>
-
-<p>First, students see the question stem only. OST prompts them to enter a 
-  <strong>free-form response</strong> and <strong>confidence assessment</strong>.</p>
-  
-  <%#<%= image_tag("qstem.png")%>
-  
-<p>Next, after locking in free-form work, students are shown <strong>multiple choice answers</strong>.</p>
-
-       <%#<%= image_tag("mc.png")%>
-
-<p>Finally, after saving multiple choice, students view <strong>feedback</strong>. Instructors control when 
-  feedback becomes available, unless participating in a learning experiment.</p>
-
-<%#<%= image_tag("qstem.png", {:border => 1, :width => "100%", 
-   :height => "100%", :title=>"add exercise"})%>
+<ol>
+  <li>Click the <strong>assignment link</strong> to access the main assignment page.</li>
+  <%= image_tag("assignment_link.png", {:border => 1, :width => "100%", 
+    :height => "100%", :title=>"assignment link"})%>
+  <p>
+   <li>Click on an exercise and enter your free-form answer and confidence rating: 
+      <%= image_tag("free_form.png", {:border => 1, :width => "100%", :title=>"free form"})%>
+     <%= image_tag("save_and_lock2.png", {:border => 1, :width => "100%", :title=>"save and lock"})%>
+   <p>
+   <li>Once you've entered free form work and a confidence rating, save your work:</li>
+   <p>
+    <ul>
+      <li>Click <strong>Save (but don't lock!)</strong> to save work and return later.</li>
+      <p>
+      <li>Click <strong>Save (and lock!)</strong> to lock in work. You will <em>not</em> be able to 
+        make changes once you save and lock.</li>
+      <p>
+    </ul>  
+   <p>
+   <li>After you have <strong>saved and locked</strong> free form work, OST will present 
+     multiple choice answer choices.</li>
+   <p>
+   <li>Select the multiple choice answer that corresponds to your free form work and click <strong>Save and lock</strong>.</li> 
+        <%= image_tag("mc.png", {:border => 1, :width => "100%", :title=>"multiple choice"})%>
+    <li>Continue working all exercises in an assignment until you've saved and locked both free-form and multiple choice answers.</li>
+  </ol>

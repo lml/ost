@@ -1,29 +1,18 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-Screencast
+<p>Click on the assignment link to view the 
+<%= link_to_help 'example_assignment', text="main assignment page", 
+{:height => "800", :width => "700", :title => "Example Assignment Main Page"} %>, 
+which lists assignment rules, relevant resources and exercises.</p>
 
-Completing 
-
-
-Completing an exercise requires several steps: 
-
+<p>For each exercise in an assignment, do the following: </p>
 <ol>
-  <li>Click <strong>assignment link</strong>.</li>
-  <p>
-  <li>
-    <p>Completing an exercise 
-      
-      , OST shows students the question stem and prompts them to enter 
-      a <strong>free-form response</strong> and <strong>confidence assessment</strong>:</p>
+  <li>Save and lock free form answer and confidence rating.</li>
+  <li>Save and lock multiple choice answer.</li>
+  <li>View feedback when it becomes available. If your instructor set feedback as mandatory, 
+    failure to view feedback will detract from your grade.</li>
+</ol>
 
-       <%= image_tag("qstem.png", {:border => 1, :width => "100%", :height => "100%"})%>
 
-    <p>After locking in free-form work, students are then shown <strong>multiple choice answers</strong>:</p>
-
-           <%= image_tag("mc.png")%>
-
-    <p>Instructor can view both free form work and answer choice.</p>
     
-    <%= image_tag("assignment_link.png", {:border => 1, :width => "100%", 
-      :height => "100%", :title=>"create new topic"})%>
