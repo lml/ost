@@ -7,28 +7,36 @@
 <p>This help page describes how to create homework and test assignments in <%= SITE_NAME %>. Click 
   the links below to learn more.</p>
 
-<p><em>These tutorials assume you have organized your course materials into topics and have set learning conditions for your class.</em> </p>
+<p><em>These tutorials assume you have organized your course materials into topics and have set 
+  learning conditions for your class.</em> </p>
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
   
 <%= accordion_entry :title => "Overview of assignments" do %>
 
-<p>Once you have organized your topics and set learning conditions, you can create homeworks or tests by specifying the topic(s)
- each assignment covers. For example, to assign the topic <em>Signal Basics</em> as homework, simply add the topic to an assignment:</p>
-
-<p><%= image_tag("assignment1.png", {:border => 1, :width => "50%",
-   :title=>"add assignment"})%></p>
+<p>As explained in the Topics help section, topics represent the building blocks of assignments. To create assignments
+  in OST, you will follow this general process: 
+<ol>
   
-<p>OST will build the assignment by pulling exercises from the Signal Basics topic, <strong><em>in accordance with the learning 
-  conditions set for your class</em></strong>. <%= link_to_help 'example_assignment',
-   text="Click here to see an example assignment.", {:title => 'Example Assignment', :width => '700', :height => '700'} %></p>
+  <li>Decide which assignments cover which topics</li>
+  
+<p><%= link_to_help 'example_assignment',
+   text="This example assignment", {:title => 'Example Assignment', :width => '700', :height => '700'} %> includes 
+   exercises from the topic Signal Basics:</p>
+  
+  <%= image_tag("assignment1.png", {:border => 1, :width => "50%"})%>
+  
+<p>OST builds assignments by pulling exercises from the listed topic, <strong><em>in accordance with the learning 
+  conditions set for your class</em></strong>.</p>
+  
+<p>The next help topic explains how OST uses learning conditions to 
+  build assignments.</p>
   
 <% end %>
 
-<%= accordion_entry :title => "How OST uses learning conditions to build assignments" do %>
+<%= accordion_entry :title => "How OST builds assignments" do %>
 
-<p>Schedule conditions control how OST builds homework assignments, while feedback conditions control 
-  when and how OST presents feedback.</p>
+<p>Learning conditions control how OST builds assignments.</p>
 
 <p>For example, under the <%= link_to_help 'default_learning_conditions', text="default learning conditions", 
 {:title => 'Default Learning Conditions', :width => '700', :height => '500'} %>: </p>
@@ -42,6 +50,11 @@
     
 <p>Click here to learn more about the the <%= link_to_help 'default_learning_conditions', text="default learning conditions", 
 {:title => 'Default Learning Conditions', :width => '700', :height => '500'} %>.</p>
+
+If you are using a custom schedule condition that schedules repetition
+   practice from previous topics, you need only add the <em><strong>primary topic</strong></em>
+    to the assignment. OST will automatically pull spaced practice problems according to the 
+    scheduler.
 <% end %>
 
 
@@ -62,22 +75,17 @@
   <p>
   <li>Next, <em><strong>double
      click</strong></em> the assignment you just created.</li>
-  <p>  <%= image_tag("empty_assignment.png", {:border => 1, :width => "60%", :height => "60%", 
+  <p>  <%= image_tag("empty_assignment.png", {:border => 1, :width => "80%", 
     :title=>"edit assignment"})%>  
   <li>Click <strong>Add</strong>.</li>
-  <p>  <%= image_tag("add_topic_to_a.png", {:border => 1, :width => "60%", :height => "60%", 
+  <p>  <%= image_tag("add_topic_to_a.png", {:border => 1, :width => "80%", 
     :title=>"edit assignment"})%></p>
   
   <li>Select the topic(s) the assignment will cover, but <em><strong>note</strong></em>:</li>  
   <p>
   <ul>
-    <li>Under the <em>default</em> schedule condition, OST will pull 100% of 
-      (non-test) exercises from topics you add to the assignment.</li>
     <p>
-    <li>If you are using a custom schedule condition that schedules repetition
-       practice from previous topics, you need only add the <em><strong>primary topic</strong></em>
-        to the assignment. OST will automatically pull spaced practice problems according to the 
-        scheduler.</li>
+
   </ul>
      <p>  <%= image_tag("add_topic_to_a_2.png", {:border => 1, :width => "50%", :height => "50%",
         :title=>"edit assignment"})%></p>

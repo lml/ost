@@ -1,23 +1,26 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
-    
-<p>By default, the below learning conditions are applied to each class. To view or change learning 
-  conditions, go to <strong>Dashboard > Class > Learning Conditions</strong>.</p>  
    
 <p><strong><em>Default schedule condition</em></strong>:</p>   
    
-      <%= image_tag("default_schedule.png", {:border => 1, :width => "70%", :title=>"schedule"})%>
-<p>  
-    (1) One <em>cohort</em>: all students receive the same assignment schedule.<br/>
-    (2) One <em>schedule</em>: the same percentage rule is applied to each <strong>non-test</strong>
-     assignment.<br/>
-    (3) Percentage rule: every assignment draws <em>100%</em> of <strong>non-test</strong> exercises 
-    from listed topic(s).<br/>
-    (4) Labels: OST attaches the label <em>standard practice</em> to each <strong>non-test</strong> 
-    exercise.<br/>
+    <p><%= image_tag("default_schedule.png", {:border => 1, :width => "80%", :title=>"schedule"})%></p>
+
+      <ol>
+        <li>One <em>cohort</em>: all students receive the same assignment schedule.</li>
+        <li>One <em>schedule</em>: the same percentage rule is applied to each <strong>non-test</strong>
+         assignment.</li>
+        <li><em>Percentage rule</em>: every assignment includes <em>100%</em> of <strong>non-test</strong> exercises 
+        from listed topic(s).</li>
+        <li><em>Labels</em>: OST attaches the label <em>standard practice</em> to each <strong>non-test</strong> 
+        exercise.</li>
+      </ol>
   
 <p><em><strong>Default feedback condition</strong></em>:</p>   
-   <%= image_tag("default_feedback.png", {:border => 1, :width => "70%", :title=>"default feedback"})%>
-  <p>  
-    
+   <%= image_tag("default_feedback.png", {:border => 1, :width => "80%", :title=>"default feedback"})%>
+    <ol>
+      <li>This feedback condition matches against exercises labeled <em>standard practice</em>.</li>
+      <li>Students are not required to view feedback to receive credit.</li>
+      <li>OST requires students to manually click the feedback link to view feedback.</li>
+      <li>Feedback becomes available immediately after student completes exercise.</li>
+    </ol>
   

@@ -4,26 +4,93 @@
 <%= pageHeading "Help | Learning Conditions" do %>
 <% end %>
 
-Coming soon!
-
-<% if false %>
-
-Section 1: How learning conditions work<br/>
-Section 2: How to create learning conditions<br/>
-
-Overview of learning conditions<br/>
-Default learning conditions<br/>
-Overview of schedule conditions<br/>
-<%= link_to "Use labels to control when OpenStax Tutor applies feedback conditions", "#labels" %> <br/>
-<%= link_to "", "#" %><br/>
-
-
-<%= link_to "Create/Edit feedback condition", "#create_edit" %><br/>
-<%= link_to "Assign labels to exercises", "#assign_labels_to_exercises" %><br/>
-
-  <p>Learning conditions are customizable rules that control how <%= SITE_NAME %> builds assignments and presents feedback.</p>
+<p>This help page explains learning conditions. Click the links below to learn more.</p>
   
-  <p>You have the option to use the default learning conditions, or customize your own learning conditions. This page will describe the default conditions and explain what you need to know to create custom learning conditions.</p>
+   <div class="accordion" id="accordion2" style="padding-top:20px;">
+
+<%= section "Learning Conditions", {:classes => 'no_bar'} do %>
+
+   <%= accordion_entry :title => "Overview of learning conditions" do %>
+   <p>Learning conditions are customizable rules that control how <%= SITE_NAME %> builds 
+   assignments and presents feedback.</p> 
+  <ol>
+      <li><strong>Schedule conditions</strong> control how OST builds and schedules assignments.</li>
+      <p>
+      <li><strong>Feedback conditions</strong> control how and when OST presents feedback.</li>
+    </ol>
+  <p>Note: if you partner with the research team, they will set up  
+    learning conditions in most cases.</p>  
+   <% end %>
+   
+   <%= accordion_entry :title => "How learning conditions impact assignments" do %>
+   
+   <p>When you plan assignments, decide which homeworks cover which topics and which 
+     tests cover which exercises. OST will build assignments using the topics you list, <em><strong>in accordance 
+     with the learning conditions set for your class</strong></em>.</p> 
+             
+   <% end %>
+   
+   <%= accordion_entry :title => "Default learning conditions" do %>
+   
+   <p>Unless you create your own custom schedule and feedback conditions, OST will build your assignments according 
+     to the below default conditions.</p>
+ <%= render :partial => 'help/blurbs/default_learning_conditions'%>
+   <% end %>
+   
+
+
+<% end %>
+
+
+<%= section "Cohorts", {:classes => 'no_bar'} do %>
+
+   <%= accordion_entry :title => "Overview of cohorts" do %>
+   
+   <p>A cohort is a group of student that receives the same learning conditions. By default, a class comprises one (1) cohort.</p> 
+   
+   <p>The ability to create multiple cohorts is primarily intended for researchers running learning experiments. By creating 
+   multiple cohorts, you can apply experimental conditions to different cohorts.</p>
+   
+   <% end %>
+   
+   <%= accordion_entry :title => "Create cohorts" do %>
+   <% end %>
+
+<% end %>
+
+
+
+<%= section "Schedule Conditions", {:classes => 'no_bar'} do %>
+
+   <%= accordion_entry :title => "Overview of schedule conditions" do %>
+   <% end %>
+   
+   <%= accordion_entry :title => "Percentage scheduler" do %>
+   <% end %>
+   
+   <%= accordion_entry :title => "Create custom schedule conditions" do %>
+   <% end %>
+
+<% end %>
+
+
+<%= section "Feedback Conditions", {:classes => 'no_bar'} do %>
+
+   <%= accordion_entry :title => "Overview of feedback conditions" do %>
+   <% end %>
+   
+   <%= accordion_entry :title => "Create custom feedback conditions" do %>
+   <% end %>
+   
+   <%= accordion_entry :title => "Use labels to control feedback conditions" do %>
+   <% end %>
+
+<% end %>
+
+
+
+
+
   
   <p><strong><em>Note that if you partner with the research team, they will set up learning conditions</em></strong>.</p>
       
@@ -39,7 +106,6 @@ Overview of schedule conditions<br/>
 
 <p><%= SITE_NAME %> sets the following conditions by default:</p>
 
-  <%= render :partial => 'help/blurbs/default_learning_conditions' %>
 
 
 <div class ="sectionHeading" id="labels"><strong>Use labels to control when the site applies feedback conditions</strong></div>
@@ -96,8 +162,8 @@ Overview of schedule conditions<br/>
   
 <%= render :partial => 'help/blurbs/attach_feedback_label_to_exercises' %>
 
+</div>
+
+<% navitem { link_to "Back to Help", help_path } %>
 
 
-<% end %>
-
-<% navitem { link_to "Back to Help", help_path } %> 
