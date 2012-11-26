@@ -2,6 +2,7 @@
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 require 'db_setups_instructor_features'
+require 'db_setups_assignment_distribution_features'
 World(DbSetup)
 
 module WorldExtensions
@@ -179,11 +180,25 @@ module WorldExtensions
     xpath = elem.path
     css = xpath_to_css(xpath)
     cmd = "$(\"#{css}\").trigger('mouseover');"
+    page.execute_script(cmd)
     cmd = "$(\"#{css}\").trigger('mousemove');"
+    page.execute_script(cmd)
     cmd = "$(\"#{css}\").trigger('mouseenter');"
     page.execute_script(cmd)
   end
   
+  def single_click_on(elem)
+    elem.click
+  end
+
+  def double_click_on(elem)
+    elem.should be_true
+    xpath = elem.path
+    css = xpath_to_css(xpath)
+    cmd = "$(\"#{css}\").trigger('dblclick');"
+    page.execute_script(cmd)
+  end
+
   def xpath_to_css(xpath)
     css = xpath.dup
     css.sub!(%r{^/}, '')

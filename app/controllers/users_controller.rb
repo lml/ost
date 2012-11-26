@@ -38,7 +38,7 @@ class UsersController < ApplicationController
   end
   
   def become
-    raise SecurityTransgression unless Rails.env.development? || current_user.is_administrator?
+    raise SecurityTransgression unless !Rails.env.production? || current_user.is_administrator?
     
     sign_in(:user, User.find(params[:user_id]))
 

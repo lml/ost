@@ -2,7 +2,7 @@
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 
-<div id="topic_<%= topic.id %>" class="lp_item_info test test_section">
+<div id="topic_<%= topic.id %>" class="lp_item_info test test_section clickable">
   
   <span class="lp_item_buttons">
     <%= edit_button nil, {:small => true, :remote => true, :id => "edit_topic_#{topic.id}"} if present_user.can_update?(topic) %>    

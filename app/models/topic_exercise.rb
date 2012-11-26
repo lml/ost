@@ -17,7 +17,7 @@ class TopicExercise < ActiveRecord::Base
         
   acts_as_numberable :container => :topic
   
-  attr_accessible :exercise_id, :topic_id, :exercise, :topic, :reserved_for_tests
+  attr_accessible :exercise_id, :exercise, :topic_id, :topic, :name, :reserved_for_tests
   
   scope :for_tests, where{reserved_for_tests == true}
   
@@ -78,6 +78,9 @@ class TopicExercise < ActiveRecord::Base
     exercise.clear_content_cache!
   end
   
+  def display_name
+    name.blank? ? exercise.quadbase_id : name
+  end
   
   #############################################################################
   # Access control methods
