@@ -2,6 +2,7 @@
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 require 'db_setups_instructor_features'
+require 'db_setups_assignment_distribution_features'
 include DbSetup
 
 namespace :db do
@@ -23,6 +24,18 @@ namespace :db do
 
         task :instructor_teach_course => ["db:reset", :environment] do 
             instructor_teach_course_setup
+        end
+
+        task :assignment_distribution_1CH_1S_100pct => ["db:reset", :environment] do 
+            assignment_distribution_1CH_1S_100pct_setup
+        end
+
+        task :assignment_distribution_1S_1CH_100pct => ["db:reset", :environment] do 
+            assignment_distribution_1S_1CH_100pct_setup
+        end
+
+        task :assignment_distribution_1CH_2S_100pct => ["db:reset", :environment] do 
+            assignment_distribution_1CH_2S_100pct_setup
         end
     end        
 end

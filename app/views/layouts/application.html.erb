@@ -106,7 +106,7 @@
       <% if present_user.is_researcher? || present_user.is_administrator? %>
         <%= link_to "Research Console", research_path, :test => "research_console" %><br/>
       <% end %>
-      <% if Rails.env.development? %>
+      <% if !Rails.env.production? %>
         Current user: <%= present_user.username %><br/>
         <%= link_to "Dev Toolbox", dev_toolbox_path, :remote => true, :test => "dev_toolbox" %>
         <div id="dev_toolbox_dialog" style="display:none" title="Dev Toolbox"></div>

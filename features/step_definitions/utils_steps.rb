@@ -312,7 +312,7 @@ Then %r{^(?:in|under) (.*?) I (can\s|do\s|do not\s|cannot\s|can not\s|don't\s|)?
 
 end
 
-When %r{^I click on (.+)$} do |search_text|
+When %r{^I (double\s|double-)?click on (.+)$} do |double_click, search_text|
 
   orig_search_text = search_text.dup
   elem             = page
@@ -344,7 +344,7 @@ When %r{^I click on (.+)$} do |search_text|
   elem.visible?.should be true
 
   handle_js_confirm(accept) do
-    elem.click
+    double_click.nil? ? single_click_on(elem) : double_click_on(elem)
   end
   wait_for_browser
 end
@@ -387,9 +387,31 @@ And %r{^screencapture "(.*?)"$} do |prefix|
   save_screen(prefix, URI.parse(current_url).path)
 end
 
+And %r{^debugger$} do
+  debugger
+end
+
 And %r{^dump paths$} do
   puts current_path
   puts current_url
   puts URI.parse(current_url).path
 end
 
+And %r{^that there are no emails$} do
+  ActionMailer::Base.deliveries = []
+  ActionMailer::Base.deliveries.size.should == 0
+end
+
+And %r{^there are (no\s)?emails for "([^"]+?)"$} do |do_not, target_user_full_name|
+  user = find_unique_user_by_full_name(target_user_full_name)
+  num_matches = 0
+  ActionMailer::Base.deliveries.each do |msg|
+    num_matches += 1 if msg.to.any? {|m| m =~ /#{user.email}/}
+  end
+
+  if do_not
+    num_matches.should == 0
+  else
+    num_matches.should_not == 0
+  end
+end

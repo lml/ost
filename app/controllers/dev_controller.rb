@@ -2,6 +2,7 @@
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 require 'chronic'
+include Ost::Cron
 
 class DevController < ApplicationController
   skip_before_filter :authenticate_user!
@@ -26,6 +27,10 @@ class DevController < ApplicationController
     Timecop.freeze(params[:offset_days].to_i.days.since(Time.now))
   end
   
+  def run_cron_tasks
+    Ost::execute_cron_jobs
+  end
+
   def test_error
     render :template => "errors/#{params[:number]}"
   end
@@ -33,7 +38,7 @@ class DevController < ApplicationController
 protected
 
   def check_dev_env
-    raise SecurityTransgression unless Rails.env.development?
+    raise SecurityTransgression if Rails.env.production?
   end
 
 end

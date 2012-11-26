@@ -1,6 +1,10 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
+<% addTestMeta {{:page_type  => "show"}} %>
+<% addTestMeta {{:major_name => @assignment.cohort.klass.course.name}} %>
+<% addTestMeta {{:minor_name => @assignment.assignment_plan.name}} %>
+
 <%
   assignment_plan = @assignment.assignment_plan
   klass = @assignment.cohort.klass
@@ -22,13 +26,13 @@
 
 <%= important(important_message.html_safe) %>
 
-<%= section "Introduction", {:classes => 'first no_bar' } do %>
+<%= section "Introduction", {:classes => 'first no_bar introduction' } do %>
 
   <%= simple_format assignment_plan.introduction %>
 
 <% end %>
 
-<%= section "Study Resources", {:classes => 'no_bar'} do %>
+<%= section "Study Resources", {:classes => 'no_bar resources'} do %>
 
   <% no_resources = true %>
 
@@ -59,7 +63,7 @@
 <%#= @activity_zones[0] %>
 
 <% if !@student_assignment.blank? %>
-  <%= section "Coworkers", {:classes => 'no_bar'} do %>
+  <%= section "Coworkers", {:classes => 'no_bar coworkers'} do %>
     <% if !assignment_plan.is_group_work_allowed %>
       You may not work in groups on these exercises.
     <% else %>
@@ -78,7 +82,7 @@
   <% end %>
 <% end %>
 
-<%= section "Exercises", {:classes => 'no_bar'} do %>
+<%= section "Exercises", {:classes => 'no_bar exercises'} do %>
 
   <% if @student_assignment.blank? %>
     <p>This assignment has <%= pluralize(@assignment.assignment_exercises.count, "exercise") %>.</p>

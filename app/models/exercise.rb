@@ -40,10 +40,7 @@ class Exercise < ActiveRecord::Base
   def content
     if json_cache.nil?
       if self.content_cache.nil?
-        cache = get_boolean_config(:fake_json_content) ? 
-                '{"simple_question":{"answer_choices":{}}}' :
-                open(url+".json").read
-        self.update_attribute(:content_cache, cache) 
+        self.update_attribute(:content_cache, open(url+".json").read) 
       end
       self.json_cache = JSON.parse(content_cache)
     end
@@ -94,7 +91,6 @@ protected
   end
 
   def can_get_content?
-    return true if Rails.env.test?
     begin
       content
     rescue Exception
