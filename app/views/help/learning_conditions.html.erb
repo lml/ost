@@ -32,6 +32,8 @@
 
       <p>Unless you create custom schedule and feedback conditions, OST will build your assignments 
         according to the below default conditions.</p>
+        
+        
     <%= render :partial => 'help/blurbs/default_learning_conditions'%>
       <% end %>
       
@@ -87,14 +89,28 @@
 
 <%= section "Schedule Conditions", {:classes => 'no_bar'} do %>
 
+  <%= accordion_entry :title => "Create custom schedule conditions" do %>
+  
+  <% end %>
+
    <%= accordion_entry :title => "Overview of schedule conditions" do %>
+   
+   Set schedule conditions to control how OST builds and schedules
+  <em><strong>non-test</strong></em> assignments.  
+  
+  
+     
+  
+  
+   
+   
+   
    <% end %>
    
    <%= accordion_entry :title => "Percentage scheduler" do %>
    <% end %>
    
-   <%= accordion_entry :title => "Create custom schedule conditions" do %>
-   <% end %>
+
 
 <% end %>
 
