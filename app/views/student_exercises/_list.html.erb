@@ -18,5 +18,6 @@
       <% if se.is_feedback_available? %>
         (<%= link_to_unless_current "Feedback", student_exercise_feedback_path(se) %>)
       <% end %>
+      <%= "(#{se.assignment_exercise.topic_exercise.name})" if (!Rails.env.production? && se.assignment_exercise.topic_exercise.name) %>
 <% end %>
 </ol>

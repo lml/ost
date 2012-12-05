@@ -69,8 +69,7 @@ protected
   end
 
   def protect_beta
-    env = Rails.env
-    return if (env == "development" || env == "test")
+    return if !Rails.env.production?
 
     authenticate_or_request_with_http_basic do |username, password|
       username == "ost" && password == "ost"

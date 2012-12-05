@@ -12,3 +12,4 @@ db/data.yml
 .vagrant
 brakeman.html
 cucumber_rerun.txt
+rspec.failures
