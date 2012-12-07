@@ -7,33 +7,69 @@
 <p>This help page describes how to create homework and test assignments in <%= SITE_NAME %>. Click 
   the links below to learn more.</p>
 
-<p><em>These tutorials assume you have organized your course materials into topics and have set 
-  learning conditions for your class.</em> </p>
+<p>The assignment tutorials assume you have already:</p>
+<ul>
+  <li>Organized your course materials into topics and marked any test exercises as such.</li>
+  <li>Set custom learning conditions, or are using the default conditions.</li>
+  <li>Understand how those learning conditions impact your assignments.</li>
+</ul> 
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
   
 <%= accordion_entry :title => "Overview of assignments" do %>
 
-<p>As explained in the Topics help section, topics represent the building blocks of assignments. To create assignments
-  in OST, you will follow this general process: 
+<p>Once you have organized your material into topics and set learning conditions for your class, creating assignments is simple.</p>
+
+<p>To plan homework assignments, decide the topic(s) each assignment covers.<p>
+
+<p>To plan tests, decide which specific exercises each test includes.</p> 
+
+<p>OST will build each assignment according to your learning conditions and then deliver those assignments to students via the assignment interface.</p>
+
+<% if false %>
+<p>In addition, OST assignments integrate three proven principles from cognitive science:</p>
+  <ul>
+    <li>Retrieval practice</li>
+    <li>Feedback</li>
+    <li>Spaced practice</li>
+  </ul>
+
+<p>Relative to more convention methods of applying, learning and reinforcing concepts, these learning principles have been shown to 
+  produce superior long-term retention and transfer of knowledge.</p>   
+  
 <ol>
+  <li>Define <strong>assignment rules</strong>, e.g. start date/end date.</li>
+  <p>
+  <li>To create homework, define what <strong>topic(s)</strong> the assignment covers.</li>
+    <%= image_tag("hw_topic.png", {:border => 1, :width => "90%"})%>
+  <p>
+  <li>To create a test, define what <strong>topic(s)</strong> the test covers, then mark how many test exercises to include.</li>
+  <p>  <%= image_tag("test_topics.png", {:border => 1, :width => "90%"})%></p>
+  <li>OST will build homework assignments using class <strong>schedule conditions</strong> and present feedback according to <strong>feedback conditions</strong>.</li>
+  </ol>    
+
+<p>Check out the help tutorials below to create homework and tests, or go here to learn more about learning conditions.</p>
+
+        Set assignment rules (start date/due date, open or closed book, homework or test, etc.)
+  <p>
+  <li>For homework, decide what topics each homework covers:</li>
   
-  <li>Decide which assignments cover which topics</li>
-  
-<p><%= link_to_help 'example_assignment',
-   text="This example assignment", {:title => 'Example Assignment', :width => '700', :height => '700'} %> includes 
-   exercises from the topic Signal Basics:</p>
-  
-  <%= image_tag("assignment1.png", {:border => 1, :width => "50%"})%>
-  
-<p>OST builds assignments by pulling exercises from the listed topic, <strong><em>in accordance with the learning 
-  conditions set for your class</em></strong>.</p>
-  
-<p>The next help topic explains how OST uses learning conditions to 
-  build assignments.</p>
-  
+  <%= image_tag("hw_topic.png", {:border => 1, :width => "90%"})%>
+  <p>
+  <li>For tests, decide what topics each test covers, then select the number of test questions you want to include:
+  <p>  
+  <%= image_tag("test_topics.png", {:border => 1, :width => "90%"})%>
+  <p>
+  <li>Mark assignment <strong>as ready to be assigned</strong>.</li>
+  <p>
+  <li>Click <strong>Preview Exercises</strong> to verify assignment contents are correct.</li>
+  <p>
+  <li>On the designated start date and time, OST will notify your students the assignment is available.</li>
+</ol>  
+<% end %>
 <% end %>
 
+<% if false %>
 <%= accordion_entry :title => "How OST builds assignments" do %>
 
 <p>Learning conditions control how OST builds assignments.</p>
@@ -56,15 +92,15 @@ If you are using a custom schedule condition that schedules repetition
     to the assignment. OST will automatically pull spaced practice problems according to the 
     scheduler.
 <% end %>
-
+<% end %>
 
 <%= accordion_entry :title => "Create a homework assignment" do %>
+
 <ol>
   <li>Go to <strong>Dashboard > Class</strong> and click on <strong>Learning Plan</strong>. </strong> 
     <p><%= image_tag("click_LP.png", {:border => 1, :width => "90%"})%></p>
-  <li>On the Learning Plan page, scroll to the <strong>Assignments</strong> section.</li>
+  <li>On the Learning Plan page, scroll to the <strong>Assignments</strong> section and click <strong>Add new assignment</strong>.</li>
   <p>
-  <li>Click <strong>Add new assignment</strong>.</li>
          <%= image_tag("click_add_assign.png", {:border => 1, :width => "90%", 
             :title=>"add assignment"})%>  
   <p>
@@ -81,83 +117,67 @@ If you are using a custom schedule condition that schedules repetition
   <p>  <%= image_tag("add_topic_to_a.png", {:border => 1, :width => "80%", 
     :title=>"edit assignment"})%></p>
   
-  <li>Select the topic(s) the assignment will cover, but <em><strong>note</strong></em>:</li>  
-  <p>
-  <ul>
-    <p>
-
-  </ul>
+  <li>Select the topic the assignment will cover and click <strong>Add this topic</strong>.</li>  
      <p>  <%= image_tag("add_topic_to_a_2.png", {:border => 1, :width => "50%", :height => "50%",
         :title=>"edit assignment"})%></p>
-  <p>
-  <li>Click <strong>Add this topic</strong>.</li>
-  <p>
-  <li>Add additional topics, if desired.</li>
-  <p>
-  <li>Click <strong>Preview Assignments</strong> to verify the assignment includes the correct exercises.</li>
-  <p>
+  <li>Click <strong>Preview Assignments</strong> to verify the assignment includes all intended exercises.</li>
+  <p>  <%= image_tag("preview_assignments.png", {:border => 1, :width => "80%", 
+     :title=>"edit assignment"})%></p>
   <li>When the assignment settings are correct, mark <strong>This is ready to be assigned</strong>.</li>
     <p>
     <ul>
-      <li>Hold mouse over topic to reveal edit/trash icons.</li>
-      <li>Click the pencil icon.</li>
-      <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "50%", :height => "50%",
+      <li>Hold mouse over topic to reveal edit/trash icons and click the pencil icon.</li>
+      <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "80%", 
          :title=>"edit assignment"})%></p>
       <li>Check <strong>This is ready to be assigned</strong> and <strong>Update Assignment</strong>.</li>
-      <p>  <%= image_tag("ready_assigned.png", {:border => 1, :width => "50%", :height => "50%",
+      <p>  <%= image_tag("ready_assigned.png", {:border => 1, :width => "80%", 
          :title=>"edit assignment"})%></p>
     </ul>
   </ol>
 <% end %>
 
      <%= accordion_entry :title => "Create a test" do %>
-    <p><strong>To create a test</strong></p>
-  <p>This tutorial assumes that you have added course materials to the Topics section and 
-    that you have marked test exercises as such. For help adding topics, go here. For help 
-    marking exercises as tests, go here.</p
+
+  <p>This tutorial assumes that you have already marked the exercises you want to reserve for tests. For help 
+    marking exercises as tests, go here.</p>
   <ol>
     <li>Go to <strong>Dashboard > Class > Learning Plan > Assignments</strong>. </li>
-    <p> 
-    <li>In Assignments, click <strong>Add new assignment</strong>.</li>
+    <p><%= image_tag("click_LP.png", {:border => 1, :width => "90%"})%></p>
+    <li>On the Learning Plan page, scroll to the <strong>Assignments</strong> section and click <strong>Add new assignment</strong>.</li>
     <p>
-    <li>Enter a name, e.g. HW 1, and optional introduction.</li>
+       <%= image_tag("click_add_assign.png", {:border => 1, :width => "90%", 
+        :title=>"add assignment"})%>  
+    <li>Complete the Assignment dialog box, being sure to check <strong>This is a test</strong>, and click <strong>Create Assignment</strong>. </li>
+      <p>
+        <%= image_tag("edit_assignment1.png", {:border => 1, :width => "60%", :height => "60%", 
+        :title=>"edit assignment"})%>  
+      <p>
+        <li>Next, <em><strong>double click</strong></em> the assignment you just created.</li>
+      <p>  <%= image_tag("double_click.png", {:border => 1, :width => "80%", 
+        :title=>"edit assignment"})%>  
+      <li>Click <strong>Add</strong>.</li>
+      <p>  <%= image_tag("empty_assignment1.png", {:border => 1, :width => "80%", 
+        :title=>"edit assignment"})%></p>
+
+      <li>Select the topic the assignment will cover and click <strong>Add this topic</strong>.</li>  
+         <p>  <%= image_tag("add_topic_to_a_test.png", {:border => 1, :width => "50%", :height => "50%",
+            :title=>"edit assignment"})%></p>
+    <li>When prompted select how many test exercises to add by clicking on the <strong>0</strong>:</li>
     <p>
-    <li>Set the assignment start and end date/time using the date/time picker.</li>
-    <p>
-    <li>Check <em>This is a test</em>.</li>
-    <p>
-    <li>Mark if group work is allowed and/or if the assignment is open book.</li>
-    <p>
-    <li>Leave "This is ready to be assigned" <em>unchecked</em> until you have finished 
-      editing the assignment.</li>
-    <p>
-    <li>Attach extra labels if necessary, e.g. to trigger a particular feedback condition.</li>
-    <p>
-    <li>Click <strong>Create Assignment</strong> plan.</li>
-    <p>
-    <li><em><strong>Double click</strong></em> the test you just created.</li>
-    <p>
-    <li>Click <strong>Add</strong> and select the topic you want to add to your test.</li>
-    <p>
-    <li>Click <strong>Add this topic</strong>.</li>
-    <p>
-    <li>Site will show you the test options:</li>
-    <p>
-       <%= image_tag("test1.png", {:border => 1, :width => "60%", :height => "60%", :title=>"create test"})%>  
-    <p>
-    <li>Click on <strong>Using 0 / 1 exercises</strong> and choose how many test exercises 
-      to add from this topic.</li>
-    <p>
-    <li>Click on <strong>visible</strong> to make resources invisible, if desired.</li>
+       <%= image_tag("test1.png", {:border => 1, :width => "80%", :title=>"create test"})%>  
     <p>
     <li>Click <strong>Preview Assignments</strong> to verify the assignment looks correct.</li>
-    <p>
-    <li>Mark "This is ready to be assigned" -- OST will send out the assignment on the 
-      specified start date/time.<p>
-      <ul>
-        <li>Hold mouse over topic.</li>
-        <li>Click orange pencil icon to edit the assignment plan.</li>
-        <li>Check "This is ready to be assigned."</li>
+      <p>  <%= image_tag("preview_assignments.png", {:border => 1, :width => "80%", 
+         :title=>"edit assignment"})%></p>
+      <li>When the assignment settings are correct, mark <strong>This is ready to be assigned</strong>.</li>
+        <p>
+        <ul>
+          <li>Hold mouse over topic to reveal edit/trash icons and click the pencil icon.</li>
+          <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "80%", 
+             :title=>"edit assignment"})%></p>
+          <li>Check <strong>This is ready to be assigned</strong> and <strong>Update Assignment</strong>.</li>
+          <p>  <%= image_tag("ready_assigned.png", {:border => 1, :width => "80%", 
+             :title=>"edit assignment"})%></p>
       </ul>
   </ol>
 <% end %>
@@ -170,7 +190,7 @@ If you are using a custom schedule condition that schedules repetition
   <li>Click the pencil icon to open the Edit dialog box.</li>
   <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "100%", 
      :title=>"edit assignment"})%></p>
-  <li>In the Edit dialog box, edit assignment properties, e.g. start/end date, assignment rules, labels, etc.</li>
+  <li>In the Edit dialog box, edit assignment properties.</li>
   <p>  <%= image_tag("edit_assignment.png", {:border => 1, :width => "80%", 
      :title=>"edit assignment"})%></p>
   <li>Click <strong>Update Assignment</strong> to save.</li>

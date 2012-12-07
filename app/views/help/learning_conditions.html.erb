@@ -4,108 +4,116 @@
 <%= pageHeading "Help | Learning Conditions" do %>
 <% end %>
 
-<p>Click the links below to learn more about learning conditions and how to 
-  set them for your class.</p>
+<p><strong>Learning conditions</strong> are rules that define how <%= SITE_NAME %> builds assignments. You have the option to use the default learning conditions, <em><strong>or</strong></em> you 
+  can create custom conditions.</p>
+  <p>Whether you use default or custom conditions, we strongly recommend browsing this tutorial to learn how learning conditions impact your assignments.</p>
   
 <div class="accordion" id="accordion2" style="padding-top:20px;">
 
 <%= section "Learning Conditions", {:classes => 'no_bar'} do %>
 
    <%= accordion_entry :title => "Overview of learning conditions" do %>
-   <p>Learning conditions are customizable rules that control how <%= SITE_NAME %> builds 
-   assignments and presents feedback. </p> 
+   <p>Learning conditions are customizable rules that control how OST builds assignments. There are two (2) kinds of learning conditions:</p> 
   <ol>
       <li><strong>Schedule conditions</strong> control how OST builds and schedules
-         <em>non-test</em> assignments.</li>
+         homework (<em>not</em> test) assignments.</li>
       <p>
-      <li><strong>Feedback conditions</strong> control how and when OST presents
-         <%= link_to_help 'example_feedback', text="feedback", {:title => 'Example Feedback',
-         :width => '500', :height => '400'} %> to students.</li>
+      <li><strong>Feedback conditions</strong> control how and when OST presents feedback after students work homework and tests exercises.</li>
     </ol>
     
-    <p>If you partner with the research team, they will set up  
-    learning conditions for your class. Otherwise, decide whether to use 
-    the default learning conditions or set up custom conditions.</p>  
+  <p>You have the option to simply use the default learning conditions (described in more detail below), or you can create custom conditions to exert more 
+    control over your students' experiences in OST.</p> 
+    
    <% end %>
-   
-     <%= accordion_entry :title => "Default learning conditions" do %>
 
-      <p>Unless you create custom schedule and feedback conditions, OST will build your assignments 
-        according to the below default conditions.</p>
-        
+    <% if false %>
+    <%= accordion_entry :title => "The default learning conditions" do %>
+
+      <p>OST automatically creates default learning conditions for each class. <em>Unless you change these conditions or create new conditions, 
+        OST will build your assignments according to the default conditions below</em>.</p>
         
     <%= render :partial => 'help/blurbs/default_learning_conditions'%>
       <% end %>
+
+     <%= accordion_entry :title => "Creating multiple cohorts (advanced setting)" do %>
+      <p>By default, a class comprises one (1) <strong>cohort</strong>. <em>A cohort is a group of students whose assignments are built using the same learning conditions</em>. 
+        The default setting should meet most instructors' needs.</p>
       
-      <%= accordion_entry :title => "Use the default learning conditions, or 
-      create custom conditions?" do %>
-
-      <p>Consider the following questions to help you decide:</p>
-      <ol>
-        <li><em>Massed practice or spaced practice</em>?</li>
-        <p>The default condition enacts <strong>massed practice</strong>, which exposes students to each topic once.</p>
-        <p>Create a custom condition to distribute homework exercises from each topic across multiple assignments.</p>
-        <li>On what kinds of exercises or assignments should students receive feedback?</li>
-       <p>Only on homework exercises? <strong>This is the default</strong>.</p> 
-       <p>On homeworks <em>and</em> tests? Only some homeworks? Only some tests? <strong>These are custom
-          conditions</strong>.</li>
-        <p>
-        <li>When should feedback become available?</li>
-       <p>Immediately after a student completes the exercise? <strong>This is the default.</strong></p>
-       <p>After a set interval of time? <strong>This is a custom condition</strong>.
-        <p>     
-       </ol> 
-
-      <% end %>
-
-<% end %>
-
-
-<%= section "Cohorts", {:classes => 'no_bar'} do %>
-
-   <%= accordion_entry :title => "Overview of cohorts" do %>
-   
-   <% render :partial => 'help/blurbs/cohorts'%>
-   
-   <p>A cohort is a student group that receives the same learning conditions. By default, a class 
-     comprises one (1) cohort. Unless you are designing a learning experiment, changing the default cohort 
-     setting is <em><strong>not</strong></em> advised.</p>
-
-    <p>Create multiple cohorts in order to apply different learning conditions to different cohorts, such as to 
-      create experimental and control groups.</p>
+      <p>Should you want to apply different learning conditions to different cohorts, e.g. to create control and experimental groups, go here to learn more.</p>
     
-   <% end %>
-   
-   <%= accordion_entry :title => "Create cohorts" do %>
-   Coming soon.
-   <% end %>
-
-
-
-
-<% end %>
+    
+      assignments. <%= link_to_help 'spaced_practice', text="Spaced practice", {:title => 'Spaced practice', 
+          :width => '500', :height => '500'} %> is an example schedule condition
+          
+          <%= link_to_help 'example_feedback', text="feedback", {:title => 'Example Feedback',
+          :width => '500', :height => '400'} %> to students
+    
+      <% end %>
+ <% end %>
+      
+  <% end %>
 
 
 
 <%= section "Schedule Conditions", {:classes => 'no_bar'} do %>
 
-  <%= accordion_entry :title => "Create custom schedule conditions" do %>
+  <%= accordion_entry :title => "Overview of schedule conditions" do %>
+  
+  <p>Schedule conditions define the following aspects of homework assignments (<em>not</em> tests):</p>
+  
+    <ol>
+      <li>Given that you create homework assignments by listing a topic or topics, <em>how many</em> <em>exercises</em> from each topic will be in each homework?</li>
+      <p>
+      <li>Will homework include exercises from <em>previous topics</em> to give students <%= link_to_help 'spaced_practice', text="spaced practice", {:title => 'Spaced practice', 
+            :width => '500', :height => '500'} %> ?</li>
+      <p>
+      <li>Are the above rules consistently applied to every assignment, or do they vary from homework to homework?</li>
+      <p>  
+      <li>What, if any, labels should OST attach to each homework exercise?</li> 
+      <p>
+    </ol>
+          
+    <% end %>
+    <%= accordion_entry :title => "Default schedule condition" do %>
+    
+ <p><strong>By default, OST will build homework assignments using the default schedule condition described below</strong>. If you don't want to use the default, consult the below tutorials 
+   to create a custom condition.</p>
+
+<p><strong>Default schedule condition</strong>:</p>
+       <p><%= image_tag("default_schedule.png", {:border => 1, :width => "100%", :title=>"schedule"})%></p>
+
+         <ol>
+           <li>Class has <em>one cohort</em>: All students in the class will receive the same assignment schedule.</li>
+           <p>
+           <li>Class has one <em>schedule</em>: Each homework assignment is built using the same percentage rule.</li>
+           <p>
+           <li><em>Percentage rule</em>: OST will pull <em>100%</em> of <strong>non-test</strong> exercises from each 
+             topic added to an assignment.</li>
+           <p>
+           <li><em>Labels</em>: OST attaches the label <em>standard practice</em> to each <strong>non-test</strong> 
+           exercise.</li>
+         </ol>
+  <% end %>
+  
+  <%= accordion_entry :title => "How to create a spaced practice schedule condition " do%>
+  <p>For example, you can create a schedule condition to automatically space topic practice across multiple assignments.</p>
+     
+    you can define  how many exercises each assignment includes rules define whether OST should pull 
+    all the exercises from a topic into an assignment, or some pre-set percentage.  
+    custom <em><strong>schedule conditions</strong></em> that define how OST will build and schedule your homework assignments.</p>
+  
+  <p> 
   
   <% end %>
 
-   <%= accordion_entry :title => "Overview of schedule conditions" do %>
-   
-   Set schedule conditions to control how OST builds and schedules
-  <em><strong>non-test</strong></em> assignments.  
-  
+  <%- accordion_entry :title => "Create a spaced practice schedule condition" do%>
   
      
+  <% end %>
   
-  
    
    
-   
-   <% end %>
+
    
    <%= accordion_entry :title => "Percentage scheduler" do %>
    <% end %>
@@ -122,8 +130,6 @@
    
    <%= accordion_entry :title => "Create custom feedback conditions" do %>
    
-   <p>You can create any number of feedback conditions for your class. If you have created multiple 
-     experimental cohorts, you must create separate feedback conditions for each cohort.</p>
    <em><p>Step 1: Create new feedback condition.</p></em>
    <ol>
      <li>Go to <strong>Dashboard > Class > Learning Conditions</strong>.</li>
@@ -192,6 +198,7 @@
      matching labels to the exercises each feedback condition will be applied to.</p> 
    <%= render :partial => 'help/blurbs/attach_feedback_label_to_exercises' %>
    <% end %>
+   
 <% end %>
 
 </div>
