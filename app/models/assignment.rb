@@ -51,6 +51,19 @@ class Assignment < ActiveRecord::Base
     assignment_plan.active?
   end
 
+  def self.create_missing_student_assignments
+    Assignment.all.each do |assignment|
+      assignment.cohort.students.each do |student|
+        student_assignment = StudentAssignment.for_student(student).for_assignment(assignment).first
+        if student_assignment.nil?
+          student_assignment = StudentAssignment.new(:student_id    => student.id, 
+                                                     :assignment_id => assignment.id)
+          student_assignment.save!
+        end
+      end
+    end
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################
