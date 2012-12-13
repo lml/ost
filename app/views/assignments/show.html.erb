@@ -86,7 +86,7 @@
 
   <% if @student_assignment.blank? %>
     <p>This assignment has <%= pluralize(@assignment.assignment_exercises.count, "exercise") %>.</p>
-    <p>You cannot see or work the exercises because you are not a student in this class.</p>
+    <p>You cannot see or work the exercises because they were not assigned to you.</p>
   <% else %>    
     <%= render :partial => 'student_exercises/list', 
                :locals => {:student_assignment => @student_assignment} %>  
