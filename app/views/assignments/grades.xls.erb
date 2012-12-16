@@ -72,7 +72,7 @@
                              :text => 'Answer: ' + (se.selected_answer.nil? ? 'not given' : choice_letter(se.selected_answer))
                            }
                          }) { 
-                  se.score 
+                  "#{se.score}"
                 } %>
           <% end %>
 
