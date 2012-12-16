@@ -189,5 +189,6 @@
 
 <%
   navitem { link_to "Class", klass_path(klass) }
+  navitem(:can_read_children?, @assignment, :grades) { link_to "Grades", grades_assignment_path(@assignment, :format => :xls) }
 %>
 

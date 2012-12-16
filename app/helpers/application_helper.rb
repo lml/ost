@@ -519,5 +519,21 @@ module ApplicationHelper
   def vertical_bar(height, width=1)
     content_tag :span, nil, :class => 'vertical_bar', :style => "width: #{width}px; height: #{height}px"
   end
+
+  def xls_workbook(options={}, &block)
+    block_to_partial('shared/xls_workbook', options, &block)
+  end
+
+  def xls_worksheet(title, options={}, &block)
+    block_to_partial('shared/xls_worksheet', options.merge(:title => title), &block)
+  end
+
+  def xls_row(options={}, &block)
+    block_to_partial('shared/xls_row', options, &block)
+  end
+
+  def xls_cell(type, options={}, &block)
+    block_to_partial('shared/xls_cell', options.merge(:type => type), &block)
+  end
   
 end

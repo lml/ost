@@ -76,4 +76,11 @@ class Assignment < ActiveRecord::Base
     cohort.klass.is_educator?(user)
   end
 
+  def children_can_be_read_by?(user, children_symbol)
+    case children_symbol
+    when :grades
+      cohort.klass.is_educator?(user) || user.is_researcher? || user.is_administrator?
+    end
+  end
+
 end
