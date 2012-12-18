@@ -92,7 +92,9 @@ Ost::Application.routes.draw do
     resources :assignment_plan_topics, :shallow => true, :only => [:new, :create, :destroy, :update]
   end
   
-  resources :assignments, :only => [:show]
+  resources :assignments, :only => [:show] do
+    get 'grades', :on => :member
+  end
   
   resources :topics, :only => [] do
     resources :resources, :shallow => true, :except => [:index, :show] do

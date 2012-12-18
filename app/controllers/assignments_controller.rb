@@ -34,4 +34,12 @@ class AssignmentsController < ApplicationController
     end    
   end
 
+  def grades
+    @assignment = Assignment.find(params[:id])
+    raise SecurityTransgression unless present_user.can_read_children?(@assignment, :grades)
+    respond_to do |format|
+      format.xls
+    end
+  end
+
 end
