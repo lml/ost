@@ -17,20 +17,7 @@ class AssignmentsController < ApplicationController
     turn_on_consenting(student)
 
     if !student.nil?
-      @student_assignment = StudentAssignment.for_student(student).for_assignment(@assignment)
-
-      if @student_assignment.blank?
-        @student_assignment = StudentAssignment.new(:student_id => student.id, 
-                                                    :assignment_id => @assignment.id)
-
-        raise SecurityTransgression unless present_user.can_create?(@student_assignment)
-
-        # Normally, one wouldn't want to change the database in a GET call, but
-        # this is just lazy-instantiation so it is OK.
-        @student_assignment.save!
-      else
-        @student_assignment = @student_assignment.first
-      end
+      @student_assignment = StudentAssignment.for_student(student).for_assignment(@assignment).first
     end    
   end
 

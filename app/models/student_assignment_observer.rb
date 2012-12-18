@@ -3,6 +3,13 @@
 
 class StudentAssignmentObserver < ActiveRecord::Observer
   
+  def after_create(student_assignment)
+    assignment = student_assignment.assignment
+    assignment.cohort.students.active.each do |student|
+      AssignmentMailer.student_created(student, assignment).deliver
+    end
+  end
+
   def due(student_assignment)
     student_assignment.learning_condition
                       .notify_student_assignment_event(student_assignment, 
@@ -14,5 +21,5 @@ class StudentAssignmentObserver < ActiveRecord::Observer
                       .notify_student_assignment_event(student_assignment, 
                                                        StudentAssignment::Event::COMPLETE)
   end
-  
+
 end
