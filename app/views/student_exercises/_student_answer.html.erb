@@ -1,0 +1,7 @@
+<%= section "Your Answer", {:classes => 'first no_bar' } do %>
+
+  <%= render :partial => "an_answer", :locals => { :exercise     => student_exercise.exercise,
+                                                   :phrase       => "You chose answer",
+                                                   :answer_index => student_exercise.selected_answer } %>
+
+<% end %>
