@@ -86,11 +86,19 @@ class StudentAssignment < ActiveRecord::Base
                      .first
   end
   
+  def feedback_conditions
+    learning_condition.feedback_conditions.first
+  end
+
   def score
     score = student_exercises.inject(0.0) { |score, se| score += se.score }
     score /= student_exercises.size if student_exercises.size > 0
   end
   
+  def show_correctness_feedback?
+    learning_condition.show_correctness_feedback?(self)
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################

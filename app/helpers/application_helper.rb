@@ -167,6 +167,10 @@ module ApplicationHelper
     "%6.2f" % (100 * (value || 0))
   end
 
+  def display_score_for(student, assignment)
+    student_assignment = StudentAssignment.for_student(student).for_assignment(assignment).first
+    standard_percentage(student_assignment.score)
+  end
   
   def standard_date(datetime)
     datetime.nil? ? "" : datetime.strftime(STANDARD_DATE_FORMAT)

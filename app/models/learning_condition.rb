@@ -49,6 +49,28 @@ class LearningCondition < ActiveRecord::Base
     get_feedback_condition(student_exercise).can_automatically_show_feedback?(student_exercise)
   end
   
+  def show_correctness_feedback?(thing)
+    if thing.is_a?(StudentAssignment)
+      show_student_assignment_correctness_feedback?(thing)
+    elsif thing.is_a?(StudentExercise)
+      show_student_exercise_correctness_feedback?(thing)
+    else
+      raise "Invalid argument: #{thing}"
+    end
+  end
+
+  def show_correct_answer_feedback?(student_exercise)
+    show_student_exercise_correct_answer_feedback?(student_exercise)
+  end
+
+  def show_high_level_feedback?(student_exercise)
+    show_student_exercise_high_level_feedback?(student_exercise)
+  end
+
+  def show_detailed_feedback?(student_exercise)
+    show_student_exercise_detailed_feedback?(student_exercise)
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################
@@ -82,10 +104,29 @@ class LearningCondition < ActiveRecord::Base
 protected
 
   def get_feedback_condition(student_exercise)
-    feedback_conditions.detect{|fc| fc.applies_to?(student_exercise)} ||
-    DummyFeedbackCondition.new
+    feedback_conditions.detect{|fc| fc.applies_to?(student_exercise)} || DummyFeedbackCondition.new
+  end
+
+  def show_student_assignment_correctness_feedback?(student_assignment)
+    student_assignment.student_exercises.inject(true) { |result, se| result && show_student_exercise_correctness_feedback?(se) }
+  end
+
+  def show_student_exercise_correctness_feedback?(student_exercise)
+    get_feedback_condition(student_exercise).show_correctness_feedback
   end
   
+  def show_student_exercise_correct_answer_feedback?(student_exercise)
+    get_feedback_condition(student_exercise).show_correct_answer_feedback
+  end
+
+  def show_student_exercise_high_level_feedback?(student_exercise)
+    get_feedback_condition(student_exercise).show_high_level_feedback
+  end
+
+  def show_student_exercise_detailed_feedback?(student_exercise)
+    get_feedback_condition(student_exercise).show_detailed_feedback
+  end
+
   def set_defaults
     self.scheduler = PercentScheduler.standard_practice_scheduler
     self.feedback_conditions << BasicFeedbackCondition.immediate_feedback_condition

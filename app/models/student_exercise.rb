@@ -57,10 +57,22 @@ class StudentExercise < ActiveRecord::Base
     due_at < Time.now
   end
 
+  def exercise
+    assignment_exercise.topic_exercise.exercise
+  end
+
+  def correct_choice_index
+    exercise.correct_choice_index
+  end
+
+  def solutions_content
+    exercise.solutions_content
+  end
+
   def assignment
     assignment_exercise.assignment
   end  
-  
+
   def student
     student_assignment.student
   end
@@ -113,6 +125,10 @@ class StudentExercise < ActiveRecord::Base
   
   def can_automatically_show_feedback?
     learning_condition.can_automatically_show_feedback?(self)
+  end
+
+  def show_correctness_feedback?
+    learning_condition.show_correctness_feedback?(self)
   end
 
   #############################################################################
