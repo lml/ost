@@ -175,83 +175,23 @@
 
 <% end %>
 
+<% sees_all_cohort_assignments = is_educator || present_user.is_researcher? || present_user.is_administrator? %>
 
-<%= section "Assignments", {:classes => "assignments"} do %>
-
-  <% if !present_user.can_read_children?(@klass.cohorts.first, :assignments) %>
-
+<% if !present_user.can_read_children?(@klass.cohorts.first, :assignments) %>
+  <%= section "Assignments", {:classes => "assignments"} do %>
     <p>Assignments are only visible to this section's students and educators.</p>
-
-  <% else %>
-
-    <% assignment_plans = @klass.learning_plan.assignment_plans.select{|ap| ap.assigned?} %>
-  
-    <% if assignment_plans.none? %>
-      <p>No assignments yet!</p>
-    <% else %>
-    
-      <table class="list <%= is_student ? 'student_assignment' : 'assignment' %>">
-        <tr>
-          <th class="assignment_number"></th>
-          <th class="assignment_name">Name</th>
-          <th class="assignment_start">Starts</th>
-          <th class="assignment_end">Ends</th>
-		  <% if is_student %>
-          <th class="assignment_grade percentage">Grade (%)</th>
-		  <% end %>
-        </tr>
-    
-      <% sees_all_cohort_assignments = is_educator || present_user.is_researcher? || present_user.is_administrator? %>
-    
-      <% count = 0 %>
-
-      <% assignment_plans.each do |plan| %>
-
-        <% assignments = plan.assignments %>
-        
-        <%# If this is a regular student looking at the page, and he doesn't 
-            have this assignment, go to next.  This can happen when one assignment
-            is only for certain sections %>
-            
-        <% next if !sees_all_cohort_assignments && assignments.where{cohort_id == student_cohort.id}.first.nil? %>        
-        
-		<% assignment = is_student ? assignments.where{cohort_id == student_cohort.id}.first : nil %>
-		
-        <tr>
-          <td class="assignment_number"><%= count += 1 %>.</td>
-          <td class="assignment_name">
-            <% if sees_all_cohort_assignments %>
-              <%= plan.name %>
-            <% else %>
-              <%= link_to(plan.name, assignment) %>
-            <% end %>
-          </td>
-          <td class="assignment_start"><%= standard_date(plan.starts_at) %></td>
-          <td class="assignment_end"><%= standard_date(plan.ends_at) %></td>
-    		  <% if is_student %>
-            <% score = display_score_for(student, assignment) %>
-      		  <td class="assignment_grade"><%= score %></td>
-    		  <% end %>
-            </tr>
-        <% if sees_all_cohort_assignments %>
-          <% assignments.each do |assignment| %>
-            <tr>
-              <td></td>
-              <td colspan="3">
-                &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to assignment.cohort.name, assignment %><%= '  (me)' if assignment.cohort == student_cohort %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-      <% end %>
-      </table>
-    
-    <% end %>
-    
   <% end %>
-
+<% else %>
+  <% if is_student %>
+      <%= render :partial => 'student_assignments', :locals => { :student => student,
+                                                                 :klass   => @klass, 
+                                                                 :collapsible_section => sees_all_cohort_assignments} %>
+  <% end %>
+  
+  <% if sees_all_cohort_assignments %>
+    <%= render :partial => 'nonstudent_assignments', :locals => {:present_user => present_user, :klass => @klass} %>
+  <% end %>
 <% end %>
-
 
 <%
   @force_nav_bar = true;
