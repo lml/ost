@@ -13,11 +13,17 @@ class BasicFeedbackCondition < FeedbackCondition
   store_typed_accessor :settings, :integer, :availability_closes_option
   store_typed_accessor :settings, :integer, :availability_closes_delay_days
   store_typed_accessor :settings, :integer, :availability_event
-    
+  store_typed_accessor :settings, :boolean, :show_correctness_feedback
+  store_typed_accessor :settings, :boolean, :show_correct_answer_feedback
+  store_typed_accessor :settings, :boolean, :show_high_level_feedback
+  store_typed_accessor :settings, :boolean, :show_detailed_feedback
+
   attr_accessible :label_regex, :is_feedback_required_for_credit, 
                   :availability_opens_option, :availability_opens_delay_days, 
                   :availability_closes_option, :availability_closes_delay_days,
-                  :availability_event, :can_automatically_show_feedback
+                  :availability_event, :can_automatically_show_feedback,
+                  :show_correctness_feedback, :show_correct_answer_feedback,
+                  :show_high_level_feedback, :show_detailed_feedback
                   
   before_validation :init, :on => :create
   before_validation :strip_and_downcase_regex

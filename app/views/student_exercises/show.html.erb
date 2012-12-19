@@ -136,9 +136,9 @@
     <%= section "Answer Verification" do %>
     
     
-    <%= render :partial => 'an_answer', :locals => {:phrase => "You chose answer",
-                                                    :answer_choices => exercise_data["simple_question"]["answer_choices"],
-                                                    :index => @student_exercise.selected_answer} %>
+    <%= render :partial => 'an_answer', :locals => { :exercise     => @student_exercise.exercise,
+                                                     :phrase       => "You chose answer",
+                                                     :answer_index => @student_exercise.selected_answer } %>
     
     <% end %>
     

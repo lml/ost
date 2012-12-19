@@ -13,6 +13,10 @@ FactoryGirl.define do
     availability_closes_option          BasicFeedbackCondition::AvailabilityClosesOption::NEVER
     availability_closes_delay_days      nil
     availability_event                  BasicFeedbackCondition::AvailabilityEvent::EXERCISE_COMPLETE
+    show_correctness_feedback           false
+    show_correct_answer_feedback        false
+    show_high_level_feedback            false
+    show_detailed_feedback              false
     learning_condition
   end
 end
