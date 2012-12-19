@@ -22,6 +22,9 @@
                               .where{assignment_plan_id == my{@assignment}.assignment_plan_id}
                               .first %>
 
+    <%# Could be that this cohort doesn't have this assignment, if so, move on %>
+    <% next if assignment.nil? %>
+
     <% num_exercises = assignment.assignment_exercises.count %>
   
     <%= xls_worksheet(cohort.name) do %>
