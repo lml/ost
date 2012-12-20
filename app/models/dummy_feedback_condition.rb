@@ -6,5 +6,21 @@ class DummyFeedbackCondition
     false
   end
   
+  def show_correctness_feedback
+    false
+  end
+
+  def show_correct_answer_feedback
+    false
+  end
+
+  def show_high_level_feedback
+    false
+  end
+
+  def show_detailed_feedback
+    false
+  end
+
   def notify_student_exercise_event(student_exercise, event); end
 end

@@ -27,6 +27,28 @@
     The assignment event to use when determining feedback availability:
     <%= f.select :availability_event, events %>
   </div>
+
+  <div class="field">
+    Present the following feedback types (if present)...
+
+    <div style="padding-left:15px">
+      <%= f.check_box :show_correctness_feedback %>
+      Show correct/incorrect (also allows student to see assignment grades)
+    </div>
+    <div style="padding-left:15px">
+      <%= f.check_box :show_correct_answer_feedback %>
+      Show correct answer
+    </div>
+    <div style="padding-left:15px">
+      <%= f.check_box :show_high_level_feedback %>
+      Show high-level explanation
+    </div>
+    <div style="padding-left:15px">
+      <%= f.check_box :show_detailed_feedback %>
+      Show detailed explanation
+    </div>
+  </div>
+
   <div class="field">
     Feedback becomes available...</br>
   

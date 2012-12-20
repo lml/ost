@@ -4,77 +4,26 @@
 <%= pageHeading("Feedback on #{@student_exercise.assignment.assignment_plan.name}, " + 
                 "Exercise #{@student_exercise.assignment_exercise.number}", 
                 {:sub_heading_text => @student_exercise.student_assignment.student.section.klass.name})%>
+<% learning_condition = @student_exercise.learning_condition %>
 
-<% exercise_data = @student_exercise.assignment_exercise.topic_exercise.exercise.content %>
-<% solutions_data = @student_exercise.assignment_exercise.topic_exercise.exercise.solutions_content %>
-
-<%= section "The Answer", {:classes => 'first no_bar' } do %>
-
-  <% answer_choices = exercise_data["simple_question"]["answer_choices"] %>
-  <% correct_answer_index = answer_choices.index{|choice| choice["credit"].to_i == 1} %>
-  <% chosen_index = @student_exercise.selected_answer %>
-
-  <%= render :partial => 'an_answer', :locals => {:phrase => "You chose answer",
-                                                  :answer_choices => answer_choices,
-                                                  :index => chosen_index} %>
-
-  <% if chosen_index == correct_answer_index %>
-    <span style="color:green"><p><b>Good job! That is the right answer!</b></p></span>
-    
-    <p>Check out the solutions below for other approaches to solving 
-      this problem.</p>
-  <% else %>
-    <span style="color:#b22222"><b>Unfortunately, that is not the right answer.</b></span>
-
-    <%= render :partial => 'an_answer', :locals => {:phrase => "The correct answer is",
-                                                    :answer_choices => answer_choices,
-                                                    :index => correct_answer_index} %>
-    
-    <p>Study the solutions below to see how to solve this problem.</p>
-  <% end %>
-  
+<% if true %>
+  <%= render :partial => "student_answer", :locals => { :student_exercise => @student_exercise } %> 
 <% end %>
 
-<%= section "Solutions" do %>
-
-  <% solutions = solutions_data["solutions"] %>
-
-  <% if solutions.empty? %>
-
-    <p>There are no solutions available.</p>
-
-  <% else %>
-
-    <% solutions.each_with_index do |solution, ii| %>
-      <div>
-        <span style="float:left; padding-right:10px"><p><%= ii+1%>)</p></span>
-        <div style="float:left; width:600px"> 
-          <%= simple_format solution["explanation"] %>
-          <%= link_to_function "Show Details", 
-                               "$('#details_#{ii}').show(); $(this).hide(); reload_mathjax('details_#{ii}');", 
-                               :class => "activity_link",
-                               :'data-action' => "solution_details_#{ii}" %>
-          <div id="details_<%= ii %>" class="question" style="display:none">
-            <%= solution["details"]["html"].html_safe %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-
-  <% end %>
-
-
+<% if learning_condition.show_correctness_feedback?(@student_exercise) %>
+  <%= render :partial => "correctness_feedback", :locals => { :student_exercise => @student_exercise } %> 
 <% end %>
 
-<%= render :partial => 'shared/response_times',
-           :locals => {:response_timeable => @student_exercise,
-                       :page => "feedback"} %>
-                       
+<% if learning_condition.show_correct_answer_feedback?(@student_exercise) %>
+  <%= render :partial => "correct_answer_feedback", :locals => { :student_exercise => @student_exercise } %> 
+<% end %>
+
+<% if true %>
+  <%= render :partial => "solution_feedback", :locals => { :student_exercise => @student_exercise } %> 
+<% end %>
+
 <% navitem{ link_to 'Show Assignment', assignment_path(@student_exercise.student_assignment.assignment) }%>
-
 <% content_for :other_nav_content do %>
   Exercises
-  <%= render :partial => 'student_exercises/list', 
-             :locals => {:student_exercise => @student_exercise} %>
+  <%= render :partial => 'student_exercises/list', :locals => {:student_exercise => @student_exercise} %>
 <% end %>
-

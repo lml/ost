@@ -91,6 +91,10 @@ class StudentAssignment < ActiveRecord::Base
     score /= student_exercises.size if student_exercises.size > 0
   end
   
+  def show_correctness_feedback?
+    learning_condition.show_correctness_feedback?(self)
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################

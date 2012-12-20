@@ -87,6 +87,10 @@ module DbDsl
       attrs[:availability_closes_option]      = options[:availability_closes_option]      if options.key?(:availability_closes_option)
       attrs[:availability_closes_delay_days]  = options[:availability_closes_delay_days]  if options.key?(:availability_closes_delay_days)
       attrs[:availability_event]              = options[:availability_event]              if options.key?(:availability_event)
+      attrs[:show_correctness_feedback]       = options[:show_correctness_feedback]       if options.key?(:show_correctness_feedback)
+      attrs[:show_correct_answer_feedback]    = options[:show_correct_answer_feedback]    if options.key?(:show_correct_answer_feedback)
+      attrs[:show_high_level_feedback]        = options[:show_high_level_feedback]        if options.key?(:show_high_level_feedback)
+      attrs[:show_detailed_feedback]          = options[:show_detailed_feedback]          if options.key?(:show_detailed_feedback)
       attrs[:learning_condition]              = options.key?(:learning_condition) ? options[:learning_condition] :  DbCofLearningCondition(options[:for_learning_condition])
       feedback_condition = FactoryGirl.create(:basic_feedback_condition, attrs)
     end

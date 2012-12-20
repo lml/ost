@@ -1,0 +1,45 @@
+<% show_high_level_feedback = student_exercise.learning_condition.show_high_level_feedback?(student_exercise)
+   show_detailed_feedback   = student_exercise.learning_condition.show_detailed_feedback?(student_exercise)
+   render_solution_section  = show_high_level_feedback || show_detailed_feedback %>
+
+<% solutions_content   = student_exercise.solutions_content %>
+<% number_of_solutions = solutions_content["solutions"].try(:size) || 0 %>
+
+<% if render_solution_section %>
+  <%= section "Solution".pluralize(number_of_solutions), {:classes => 'first no_bar' } do %>
+
+    <% if 0 == number_of_solutions %>
+      <p>There are no availble solutions to this exercise.</p>
+    <% else %>
+
+      <% solutions_content["solutions"].each_with_index do |solution, index| %>
+        <div>
+          <% if number_of_solutions > 1 %>
+            <span style="float:left; padding-right:10px"><p>Solution <%= 1+index%>:</p></span>
+          <% end %>
+
+          <div style="float:left; width:600px"> 
+            
+            <% if show_high_level_feedback && !solution["explanation"].blank? %>
+              <%= simple_format solution["explanation"] %>
+            <% end %>
+
+            <% if show_detailed_feedback && !solution["details"].blank? %>
+              <%= link_to_function "Show Details", 
+                                   "$('#details_#{index}').show(); $(this).hide(); reload_mathjax('details_#{index}');", 
+                                   :class => "activity_link",
+                                   :'data-action' => "solution_details_#{index}" %>
+              <div id="details_<%= index %>" class="question" style="display:none">
+                <%= solution["details"]["html"].html_safe %>
+              </div>
+            <% end %>
+
+          </div>
+        </div>
+
+      <% end %>
+
+    <% end %>
+
+  <% end %>
+<% end %>
