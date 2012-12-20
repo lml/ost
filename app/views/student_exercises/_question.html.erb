@@ -1,0 +1,25 @@
+<%
+  assignment_exercise = student_exercise.assignment_exercise
+  assignment          = assignment_exercise.assignment
+  assignment_plan     = assignment.assignment_plan
+  exercise_data       = assignment_exercise.topic_exercise.exercise.content  
+%>
+
+<div id="exercise_response_show"> 
+
+  <%= section "The Question", {:classes => 'first no_bar' } do %>
+
+    <div id="question_text" 
+         style="visibility: visible; overflow: hidden; position: relative; z-index: 2; border: 1px solid gray; padding: 15px; width:570px"
+         class="question">
+
+      <% if !exercise_data["simple_question"]["introduction"].nil? %>
+        <%= exercise_data["simple_question"]["introduction"]["html"].html_safe %>  
+      <% end %>
+
+      <%= exercise_data["simple_question"]["content"]["html"].html_safe %>
+    </div>
+
+  <% end %>
+
+</div>

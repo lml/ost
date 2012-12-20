@@ -1,0 +1,11 @@
+<div id="exercise_response_show"> 
+  
+  <%= render :partial => 'an_answer', :locals => { :exercise     => student_exercise.exercise,
+                                                   :phrase       => "You chose answer",
+                                                   :answer_index => student_exercise.selected_answer } %>
+  
+  <center>
+    <p>Navigate to any remaining incomplete questions<br/> using the links on the right side of the page.</p>
+  </center>
+
+</div>

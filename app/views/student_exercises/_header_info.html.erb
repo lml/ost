@@ -1,0 +1,13 @@
+<%
+  assignment_exercise = student_exercise.assignment_exercise
+  assignment          = assignment_exercise.assignment
+  assignment_plan     = assignment.assignment_plan
+%>
+
+<%= pageHeading("Assignment: #{assignment_plan.name}, Exercise #{assignment_exercise.number}", 
+                {:sub_heading_text => full_class_name(@student_exercise)}) %>
+
+
+<% if !assignment_plan.active? %>
+  <%= important("This assignment's due date has passed!", {:classes => "red" }) %>
+<% end %>

@@ -78,11 +78,15 @@ class StudentExercise < ActiveRecord::Base
   end
   
   def status
-    return "NOT YET ANSWERED" if !free_response_submitted?
-    return "COMPLETED" if selected_answer_submitted?
+    return "NOT YET ANSWERED" if requires_free_response? && !free_response_submitted?
+    return "COMPLETED"        if selected_answer_submitted?
     return "NOT COMPLETE"
   end
-        
+  
+  def requires_free_response?
+    true
+  end
+
   def free_response_submitted?
     !free_response_submitted_at.nil?
   end

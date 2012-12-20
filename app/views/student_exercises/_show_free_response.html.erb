@@ -1,0 +1,14 @@
+<div id="exercise_response_show"> 
+
+  <table class="">
+    <tr>
+      <th style="text-align:right">Answer Text:&nbsp</th>
+      <td><%= simple_format student_exercise.free_response %></td>
+    </tr>
+    <tr>
+      <th style="text-align:right">Confidence:&nbsp</th>
+      <td><%= confidence_labels[student_exercise.free_response_confidence].sub("-"," ") %></td>
+    </tr>
+  </table>
+
+</div>
