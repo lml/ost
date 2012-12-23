@@ -83,7 +83,23 @@ class StudentExercise < ActiveRecord::Base
     return "NOT COMPLETE"
   end
   
+  def present_free_response_and_selected_answer?
+    requires_free_response? && requires_selected_answer?
+  end
+
+  def present_free_response_only?
+    !present_free_response_and_selected_answer? && requires_free_response?
+  end
+
+  def present_selected_answer_only?
+    !present_free_response_and_selected_answer? && requires_selected_answer?
+  end
+
   def requires_free_response?
+    true
+  end
+
+  def requires_selected_answer?
     true
   end
 

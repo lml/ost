@@ -5,7 +5,7 @@
 
 <%= render :partial => "question", :locals => { :student_exercise => @student_exercise } %>
 
-<% if @student_exercise.requires_free_response? %>
+<% if @student_exercise.present_free_response_and_selected_answer? %>
 
   <%= section "Free Response", {:classes => ''} do %>
     <% if @student_exercise.free_response_submitted? %>
@@ -25,7 +25,7 @@
     <% end %>
   <% end %>
 
-<% else %>
+<% elsif @student_exercise.present_selected_answer_only? %>
 
   <%= section "Multiple Choice", {:classes => ''} do %>
     <% if @student_exercise.selected_answer_submitted? %>
@@ -35,6 +35,8 @@
     <% end %>  
   <% end %>
 
+<% else %>
+  <% raise IllegalState, "The current StudentExercise presentation settings are not supported by this view" %>
 <% end %>
 
 <%= render :partial => 'shared/response_times', :locals => { :response_timeable => @student_exercise,
