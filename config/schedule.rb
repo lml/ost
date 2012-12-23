@@ -24,6 +24,10 @@
 
 set :output, "log/whenever_cron.log"
 
+##
+## NOTE: Changes here should also be reflected in lib/cron_jobs.rb
+##
+
 every 5.minutes do
   runner "AssignmentPlan.build_and_distribute_assignments"
   runner "Assignment.create_missing_student_assignments"
