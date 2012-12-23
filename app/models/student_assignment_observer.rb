@@ -5,8 +5,10 @@ class StudentAssignmentObserver < ActiveRecord::Observer
   
   def after_create(student_assignment)
     assignment = student_assignment.assignment
-    assignment.cohort.students.active.each do |student|
-      AssignmentMailer.student_created(student, assignment).deliver
+    if assignment.active?
+      assignment.cohort.students.active.each do |student|
+        AssignmentMailer.student_created(student, assignment).deliver
+      end
     end
   end
 
