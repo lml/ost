@@ -4,9 +4,10 @@
 class LearningCondition < ActiveRecord::Base
   belongs_to :cohort
   
-  has_one :scheduler
-  has_many :feedback_conditions, :order => :number
-  
+  has_one  :scheduler
+  has_many :presentation_conditions, :order => :number
+  has_many :feedback_conditions,     :order => :number
+
   before_create :set_defaults
   
   attr_accessible
@@ -41,6 +42,14 @@ class LearningCondition < ActiveRecord::Base
     end
   end
   
+  def requires_free_response?(student_exercise)
+    get_presentation_condition(student_exercise).requires_free_response?
+  end
+
+  def requires_selected_answer?(student_exercise)
+    get_presentation_condition(student_exercise).requires_selected_answer?
+  end
+
   def is_feedback_available?(student_exercise)
     get_feedback_condition(student_exercise).is_feedback_available?(student_exercise)
   end
@@ -103,8 +112,12 @@ class LearningCondition < ActiveRecord::Base
   
 protected
 
+  def get_presentation_condition(student_exercise)
+    presentation_conditions.detect{ |pc| pc.applies_to?(student_exercise) } || PresentationCondition.default_presentation_condition
+  end
+
   def get_feedback_condition(student_exercise)
-    feedback_conditions.detect{|fc| fc.applies_to?(student_exercise)} || BasicFeedbackCondition.default_feedback_condition
+    feedback_conditions.detect{ |fc| fc.applies_to?(student_exercise) } || BasicFeedbackCondition.default_feedback_condition
   end
 
   def show_student_assignment_correctness_feedback?(student_assignment)
@@ -129,7 +142,8 @@ protected
 
   def set_defaults
     self.scheduler = PercentScheduler.standard_practice_scheduler
-    self.feedback_conditions << BasicFeedbackCondition.standard_practice_feedback_condition
+    self.presentation_conditions << PresentationCondition.standard_practice_presentation_condition
+    self.feedback_conditions     << BasicFeedbackCondition.standard_practice_feedback_condition
   end
 
 end

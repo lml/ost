@@ -96,11 +96,11 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def requires_free_response?
-    true
+    learning_condition.requires_free_response?(self)
   end
 
   def requires_selected_answer?
-    true
+    learning_condition.requires_selected_answer?(self)
   end
 
   def free_response_submitted?
