@@ -6,6 +6,11 @@ module Ost
   module Cron
 
   def execute_cron_jobs
+
+    ##
+    ## NOTE: Changes here should also be reflected in config/schedule.rb
+    ##
+
     AssignmentPlan.build_and_distribute_assignments
     Assignment.create_missing_student_assignments
     StudentAssignment.note_if_due!
