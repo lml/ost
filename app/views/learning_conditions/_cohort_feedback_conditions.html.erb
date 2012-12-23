@@ -45,7 +45,6 @@
 
 </div>
 
-<%= link_to "Add a New Feedback Condition", 
-            new_learning_condition_feedback_condition_path(learning_condition), 
-            :remote => true %>
-
+<%= link_to "Add a New Feedback Condition",
+            learning_condition_feedback_conditions_path(learning_condition),
+            :method => :post %>

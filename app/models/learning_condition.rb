@@ -104,7 +104,7 @@ class LearningCondition < ActiveRecord::Base
 protected
 
   def get_feedback_condition(student_exercise)
-    feedback_conditions.detect{|fc| fc.applies_to?(student_exercise)} || DummyFeedbackCondition.new
+    feedback_conditions.detect{|fc| fc.applies_to?(student_exercise)} || BasicFeedbackCondition.default_feedback_condition
   end
 
   def show_student_assignment_correctness_feedback?(student_assignment)
@@ -129,7 +129,7 @@ protected
 
   def set_defaults
     self.scheduler = PercentScheduler.standard_practice_scheduler
-    self.feedback_conditions << BasicFeedbackCondition.immediate_feedback_condition
+    self.feedback_conditions << BasicFeedbackCondition.standard_practice_feedback_condition
   end
 
 end
