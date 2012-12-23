@@ -1,0 +1,17 @@
+<%= section "Cohort: #{cohort.name}" do %>
+      
+  <% learning_condition = cohort.learning_condition %>
+
+  <%= sub_section "Scheduler" do %>
+    <%= render :partial => "cohort_scheduler", :locals => { :learning_condition => learning_condition } %>
+  <% end %>
+  
+  <%= sub_section "Presentation Conditions" do %>
+    <%= render :partial => "cohort_presentation_conditions", :locals => { :learning_condition => learning_condition } %>
+  <% end %>
+
+  <%= sub_section "Feedback Conditions" do %>
+    <%= render :partial => "cohort_feedback_conditions", :locals => { :learning_condition => learning_condition } %>
+  <% end %>
+  
+<% end %>
