@@ -26,6 +26,7 @@ set :output, "log/whenever_cron.log"
 
 every 5.minutes do
   runner "AssignmentPlan.build_and_distribute_assignments"
+  runner "Assignment.create_missing_student_assignments"
 end
 
 every 30.minutes do
