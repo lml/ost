@@ -28,6 +28,10 @@ every 5.minutes do
   runner "AssignmentPlan.build_and_distribute_assignments"
 end
 
+every 5.minutes do
+  runner "Assignment.create_missing_student_assignments"
+end
+
 every 30.minutes do
   runner "StudentAssignment.note_if_due!"
 end
