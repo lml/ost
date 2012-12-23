@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 class PresentationConditionsController < ApplicationController
 
   before_filter :get_learning_condition, :only => [:new, :create, :sort]
