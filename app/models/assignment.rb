@@ -52,14 +52,18 @@ class Assignment < ActiveRecord::Base
   end
 
   def self.create_missing_student_assignments
-    Assignment.all.each do |assignment|
-      assignment.cohort.students.each do |student|
-        student_assignment = StudentAssignment.for_student(student).for_assignment(assignment).first
-        if student_assignment.nil?
-          student_assignment = StudentAssignment.new(:student_id    => student.id, 
-                                                     :assignment_id => assignment.id)
-          student_assignment.save!
-        end
+    Assignment.find_each do |assignment|
+      assignment.create_missing_student_assignments
+    end
+  end
+
+  def create_missing_student_assignments
+    cohort.students.active.find_each do |student|
+      student_assignment = StudentAssignment.for_student(student).for_assignment(self).first
+      if student_assignment.nil?
+        student_assignment = StudentAssignment.new(:student_id    => student.id, 
+                                                   :assignment_id => self.id)
+        student_assignment.save!
       end
     end
   end
