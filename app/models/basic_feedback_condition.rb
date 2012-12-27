@@ -162,7 +162,7 @@ protected
   
     feedback_opens_at, feedback_closes_at = get_feedback_availability_window(student_exercise)
   
-    return if feedback_opens_at.nil? || feedback_closes_at.nil? || true
+    return if feedback_opens_at.nil? || feedback_closes_at.nil?
                                              
     course = student_exercise.course
     message = BasicFeedbackConditionRenderer.new.feedback_availability_message(self, student_exercise, feedback_closes_at)
