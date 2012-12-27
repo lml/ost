@@ -1,0 +1,20 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%= section "Cohort: #{cohort.name}" do %>
+      
+  <% learning_condition = cohort.learning_condition %>
+
+  <%= sub_section "Scheduler" do %>
+    <%= render :partial => "cohort_scheduler", :locals => { :learning_condition => learning_condition } %>
+  <% end %>
+  
+  <%= sub_section "Presentation Conditions" do %>
+    <%= render :partial => "cohort_presentation_conditions", :locals => { :learning_condition => learning_condition } %>
+  <% end %>
+
+  <%= sub_section "Feedback Conditions" do %>
+    <%= render :partial => "cohort_feedback_conditions", :locals => { :learning_condition => learning_condition } %>
+  <% end %>
+  
+<% end %>

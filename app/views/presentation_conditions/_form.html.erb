@@ -1,0 +1,27 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% @errors = presentation_condition.errors %>
+
+<%= form_for presentation_condition do |f| %>
+
+  <p>Use this form to control when and how <%= SITE_NAME %> presents exercise questions to students.</p>
+
+  <div class="field">
+    Match Labels Against: <%#>%= link_to_help 'labels' %>
+    <%= f.text_field :label_regex %>
+  </div>
+
+  <div class="field">
+    Require the following from the student:
+    <div style="padding-left:15px">
+      <%= f.check_box :requires_free_response %>
+      Free-response answer
+    </div>
+  </div>
+  
+  <br/>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

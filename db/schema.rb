@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121219075349) do
+ActiveRecord::Schema.define(:version => 20121223124423) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -238,6 +238,14 @@ ActiveRecord::Schema.define(:version => 20121219075349) do
     t.string   "default_time_zone"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+  end
+
+  create_table "presentation_conditions", :force => true do |t|
+    t.integer  "learning_condition_id", :null => false
+    t.text     "settings"
+    t.integer  "number"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
   end
 
   create_table "registration_requests", :force => true do |t|

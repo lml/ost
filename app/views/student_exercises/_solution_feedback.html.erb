@@ -1,3 +1,6 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
 <% show_high_level_feedback = student_exercise.learning_condition.show_high_level_feedback?(student_exercise)
    show_detailed_feedback   = student_exercise.learning_condition.show_detailed_feedback?(student_exercise)
    render_solution_section  = show_high_level_feedback || show_detailed_feedback %>
