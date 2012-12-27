@@ -25,19 +25,20 @@
 set :output, "log/whenever_cron.log"
 
 ##
-## NOTE: Changes here should also be reflected in lib/cron_jobs.rb
+## NOTE: Changes here should also be reflected in:
+##  lib/cron_jobs.rb
+##  app/controllers/dev_controller.rb (and related views)
 ##
 
 every 5.minutes do
-  runner "AssignmentPlan.build_and_distribute_assignments"
-  runner "Assignment.create_missing_student_assignments"
+  runner "Ost::Cron.execute_5min_cron_jobs"
 end
 
 every 30.minutes do
-  runner "StudentAssignment.note_if_due!"
+  runner "Ost::Cron.execute_30min_cron_jobs"
 end
 
 every 1.hour, :at => [10, 40] do
-  runner "ScheduledNotificationMailer.send!"
+  runner "Ost::Cron.execute_60min_cron_jobs"
 end
 
