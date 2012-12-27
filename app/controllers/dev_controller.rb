@@ -4,6 +4,12 @@
 require 'chronic'
 include Ost::Cron
 
+##
+## NOTE: Changes here should also be reflected in:
+##  lib/cron_jobs.rb
+##  config/schedule.rb
+##
+
 class DevController < ApplicationController
   skip_before_filter :authenticate_user!
   before_filter :check_dev_env
@@ -28,7 +34,9 @@ class DevController < ApplicationController
   end
   
   def run_cron_tasks
-    Ost::execute_cron_jobs
+    Ost::execute_5min_cron_jobs  if params[:execute_5min_cron_jobs]
+    Ost::execute_30min_cron_jobs if params[:execute_30min_cron_jobs]
+    Ost::execute_60min_cron_jobs if params[:execute_60min_cron_jobs]
   end
 
   def test_error
