@@ -1,0 +1,20 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% scheduler = learning_condition.scheduler %>
+
+<div id="scheduler" class="lp_item_info" style="margin-top:15px">
+  <% if scheduler.nil? %>
+    <p>No scheduler selected</p>
+  <% else %>
+    <%= render :partial => "#{view_dir(scheduler)}/show", :locals => { :scheduler => scheduler } %>
+  <% end %>
+</div>
+
+<%= link_to "Choose #{scheduler.nil? ? 'New' : 'Different'} Scheduler", 
+            new_learning_condition_scheduler_path(scheduler.learning_condition),
+            :remote => true %>
+
+<% if !scheduler.nil? %>
+  | <%= link_to 'Edit', edit_scheduler_path(scheduler) %>
+<% end %>

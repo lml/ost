@@ -6,20 +6,13 @@ class FeedbackConditionsController < ApplicationController
   before_filter :get_learning_condition, :only => [:new, :create, :sort]
 
   def new
-    raise SecurityTransgression unless present_user.can_update?(@learning_condition)
+    raise SecurityTransgression unless present_user.can_update?(@learning_condition)    
   end
 
   def create
     raise SecurityTransgression unless present_user.can_update?(@learning_condition)
 
-    FeedbackCondition.transaction do
-      case params[:type]
-      when 'basic'
-        BasicFeedbackCondition.create(:learning_condition => @learning_condition)
-      else
-        raise IllegalArgument
-      end
-    end
+    BasicFeedbackCondition.create(:learning_condition => @learning_condition)
     
     redirect_to klass_learning_conditions_path(@learning_condition.cohort.klass) 
   end

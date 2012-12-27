@@ -7,96 +7,12 @@
    of changes here, as the settings below strongly impact the experience that your
    students will have on <%= SITE_NAME %>.</p>
 
-
-
 <% if @klass.cohorts.none? %>
   <p>To see and set learning conditions, please first make one or more cohorts for this class!</p>
-<% end %>
+<% else %>
 
-<% @klass.cohorts.each do |cohort| %>
-  
-  <%= section "Cohort: #{cohort.name}" do %>
-        
-    <% learning_condition = cohort.learning_condition %>
-        
-    <%= sub_section "Scheduler" do %>
-    
-      <% scheduler = learning_condition.scheduler %>
-      
-      <div id="scheduler" class="lp_item_info" style="margin-top:15px">
-        <% if scheduler.nil? %>
-          <p>No scheduler selected</p>
-        <% else %>
-          <%= render :partial => "#{view_dir(scheduler)}/show", :locals => {:scheduler => scheduler} %>
-        <% end %>
-      </div>
-      
-      <%= link_to "Choose #{scheduler.nil? ? 'New' : 'Different'} Scheduler", 
-                  new_learning_condition_scheduler_path(learning_condition),
-                  :remote => true %>
-      <% if !scheduler.nil? %>
-        | <%= link_to 'Edit', edit_scheduler_path(scheduler) %>
-      <% end %>
-
-
-    <% end %>
-    
-    <%= sub_section "Feedback Conditions" do %>
-    
-      <% feedback_conditions = learning_condition.feedback_conditions %>
-      
-      <% feedback_conditions_id = "feedback_conditions_#{learning_condition.id}"%>
-      
-      <div id="<%= feedback_conditions_id %>">
-        
-        
-        
-        <% if feedback_conditions.empty? %>
-          <p>No feedback conditions yet</p>
-        <% else %>
-                  
-          <% feedback_conditions.each do |feedback_condition| %>
-            <div id="feedback_condition_<%= feedback_condition.id %>" class="sortable_item_entry lp_item_info" style="margin-top: 15px">
-              <%= render :partial => "#{view_dir(feedback_condition)}/show", 
-                         :locals => {:feedback_condition => feedback_condition} %>
-              <%= link_to "Edit", edit_feedback_condition_path(feedback_condition) %> |
-              <%= link_to "Delete", feedback_condition_path(feedback_condition), 
-                                    :method => :delete, :remote => true,
-                                    :confirm => "Are you sure?" %> &nbsp;&nbsp;
-              <%= content_tag(:span, "", :class => "ui-icon ui-icon-arrow-4 handle",
-                                         :style => 'display:inline-block; height: 14px') %>
-            </div>
-          <% end %>
-          
-           <% content_for :javascript do %>
-              <%= javascript_tag do %>
-                $('#<%= feedback_conditions_id %>').sortable({
-                   dropOnEmpty: false,
-                   handle: '.handle',
-                   items: 'div.sortable_item_entry',
-                   opacity: 0.7,
-                   scroll: true,
-                   update: function(){
-                      $.ajax({
-                         type: 'post',
-                         data: $('#<%= feedback_conditions_id %>').sortable('serialize'),
-                         dataType: 'script',
-                         url: '<%= sort_learning_condition_feedback_conditions_path(learning_condition) %>'
-                      });
-                   }
-                }).disableSelection();
-              <% end %>
-            <% end %>
-          
-        <% end %>
-      </div>
-      
-      <%= link_to "Add a New Feedback Condition", 
-                  new_learning_condition_feedback_condition_path(learning_condition), 
-                  :remote => true %>
-    
-    <% end %>
-    
+  <% @klass.cohorts.each do |cohort| %>
+    <%= render :partial => 'cohort_learning_condition', :locals => { :cohort => cohort } %>
   <% end %>
 
 <% end %>

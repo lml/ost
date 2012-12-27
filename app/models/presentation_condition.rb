@@ -1,0 +1,88 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
+class PresentationCondition < ActiveRecord::Base
+  belongs_to :learning_condition
+
+  store                :settings
+  store_accessor       :settings, :label_regex
+  store_typed_accessor :settings, :boolean, :requires_free_response
+  store_typed_accessor :settings, :boolean, :requires_selected_answer
+
+  acts_as_numberable :container => :learning_condition
+
+  after_initialize  :supply_missing_values
+
+  attr_accessible :learning_condition,
+                  :label_regex,
+                  :requires_free_response, :requires_selected_answer
+
+  def self.standard_practice_presentation_condition
+    PresentationCondition.new(:label_regex              => 'standard practice', 
+                              :requires_free_response   => true,
+                              :requires_selected_answer => true)
+  end
+
+  def self.default_presentation_condition
+    PresentationCondition.new(:label_regex              => '.*', 
+                              :requires_free_response   => true,
+                              :requires_selected_answer => true)
+  end
+
+  def applies_to?(student_exercise)
+    label_regex_array = label_regex.split(",").collect{|lr| lr.strip}
+    labels = student_exercise.assignment_exercise.tag_list
+
+    label_regex_array.any? do |regex|
+      labels.any? do |label|
+        label == regex || label.match(regex)
+      end
+    end    
+  end
+
+  def requires_free_response?
+    requires_free_response
+  end
+
+  def requires_selected_answer?
+    requires_selected_answer
+  end
+
+  #############################################################################
+  # Access control methods
+  #############################################################################
+
+  def can_be_read_by?(user)
+    can_anything?(user)
+  end
+
+  def can_be_created_by?(user)
+    can_anything?(user)
+  end
+
+  def can_be_updated_by?(user)
+    can_anything?(user)
+  end
+
+  def can_be_destroyed_by?(user)
+    can_anything?(user)
+  end
+  
+  def can_be_sorted_by?(user)
+    can_anything?(user)
+  end
+  
+  def can_anything?(user)
+    learning_condition.can_anything?(user)
+  end
+
+protected
+
+  def supply_missing_values
+    self.label_regex              = '.*' if label_regex.nil?
+    self.requires_free_response   = true if requires_free_response.nil?
+    self.requires_selected_answer = true if requires_selected_answer.nil?
+    true
+  end
+
+end
