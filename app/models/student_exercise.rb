@@ -162,7 +162,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def destroyable?
-    raise NotYetImplemented
+    #raise NotYetImplemented
   end
   
   def note_feedback_viewed!
