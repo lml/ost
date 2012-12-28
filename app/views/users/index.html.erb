@@ -12,8 +12,9 @@
     <th width="20%">Last Name</th>
     <th width="15%">Username</th>
     <th width="25%">Email</th>
-    <th width="10%">Admin?</th>
-    <th width="10%">Disabled?</th>
+    <th width="10%">Adm?</th>
+    <th width="10%">Dis?</th>
+    <th width="10%">Ntc?</th>
   </tr>
 
 <% @users.each do |user| %>
@@ -24,6 +25,7 @@
     <td><%= admin_only(user.email) %></td>
     <td><%= tf_to_yn(user.is_administrator?) %></td>
     <td><%= tf_to_yn(user.is_disabled?) %></td>
+    <td><%= tf_to_yn(user.receives_error_notices?) %></td>
     <td><%= show_button(user) %></td>
     <td><%= edit_button(user) %></td>
   </tr>

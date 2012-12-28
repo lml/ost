@@ -51,6 +51,7 @@ ses.find_each do |se|
     <Table>
       <Row>
         <Cell><Data ss:Type="String">Name/ID</Data></Cell>
+        <Cell><Data ss:Type="String">Status</Data></Cell>
         <Cell><Data ss:Type="String">Section</Data></Cell>
         <Cell><Data ss:Type="String">Cohort</Data></Cell>
         <Cell><Data ss:Type="String">Assignment #</Data></Cell>
@@ -71,6 +72,7 @@ ses.find_each do |se|
         <% section_name = section.name %>
         <% section.students.visible(present_user).each do |student| %>
           <% student_full_name = student.full_name(present_user) %>
+          <% student_status    = student_status_string(student) %>
           <% cohort_name       = student.cohort.name %>
           <% StudentAssignment.for_student(student).each do |sa| %>
             <% assignment_plan_name = sa.assignment.assignment_plan.name %>
@@ -78,6 +80,7 @@ ses.find_each do |se|
               <% ae = se.assignment_exercise %>
       <Row>
         <Cell><Data ss:Type="String"><%= student_full_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= student_status %></Data></Cell>
         <Cell><Data ss:Type="String"><%= section_name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= cohort_name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= assignment_plan_name %></Data></Cell>
