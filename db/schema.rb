@@ -1,3 +1,6 @@
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# License version 3 or later.  See the COPYRIGHT file for details.
+
 # encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
@@ -11,7 +14,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121105055214) do
+ActiveRecord::Schema.define(:version => 20121223124423) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -238,6 +241,14 @@ ActiveRecord::Schema.define(:version => 20121105055214) do
     t.string   "default_time_zone"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+  end
+
+  create_table "presentation_conditions", :force => true do |t|
+    t.integer  "learning_condition_id", :null => false
+    t.text     "settings"
+    t.integer  "number"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
   end
 
   create_table "registration_requests", :force => true do |t|

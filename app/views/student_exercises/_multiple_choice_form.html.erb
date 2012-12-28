@@ -1,0 +1,37 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%
+  assignment_exercise = student_exercise.assignment_exercise
+  assignment          = assignment_exercise.assignment
+  assignment_plan     = assignment.assignment_plan
+  exercise_data       = assignment_exercise.topic_exercise.exercise.content  
+%>
+
+<%= form_for(@student_exercise) do |f| %>
+  <table width="100%">
+
+  <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>
+     <tr>
+        <td class="question" width="5%">
+          <%= f.radio_button :selected_answer, ii %>
+        </td>
+        <td class="question" width="5%">
+           <p><%= choice_letter(ii) %>)</p>
+        </td>
+        <td class="question" width="90%">
+           <%= answer_choice["html"].html_safe %>
+        </td>
+     </tr>
+  <% end %>
+
+  </table>
+  <center>
+    <div class="actions">
+      <%= f.submit "Save and lock!", 
+            :class   => 'link_button',
+            :confirm => "After you lock your answer, you can no longer change it. " + 
+                        "Are you sure you want to lock your answer?" %>
+    </div>
+  </center>
+<% end %>

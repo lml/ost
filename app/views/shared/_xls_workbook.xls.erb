@@ -1,0 +1,28 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%
+  @xls_settings = {
+    :comments => {
+      :color => '#000000',
+      :size => 9
+    },
+    :author => author || nil
+  }
+%>
+
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Styles>
+    <Style ss:ID="s20" ss:Name="Percent">
+      <NumberFormat ss:Format="0%"/>
+    </Style>
+  </Styles>
+
+  <%= body %>
+
+</Workbook>

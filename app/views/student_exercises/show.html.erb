@@ -1,159 +1,46 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<%
-  assignment_exercise = @student_exercise.assignment_exercise
-  assignment = assignment_exercise.assignment
-  assignment_plan = assignment.assignment_plan
-%>
+<%= render :partial => "header_info", :locals => { :student_exercise => @student_exercise } %>
 
-<%= pageHeading("Assignment: #{assignment_plan.name}, Exercise #{assignment_exercise.number}", 
-                {:sub_heading_text => full_class_name(@student_exercise)}) %>
+<%= render :partial => "question", :locals => { :student_exercise => @student_exercise } %>
 
+<% if @student_exercise.present_free_response_and_selected_answer? %>
 
-<% if !assignment_plan.active? %>
-  <%= important("This assignment's due date has passed!", {:classes => "red" }) %>
+  <%= section "Free Response", {:classes => ''} do %>
+    <% if @student_exercise.free_response_submitted? %>
+      <%= render :partial => "show_free_response", :locals => { :student_exercise => @student_exercise } %>
+    <% else %>
+      <%= render :partial => "input_free_response", :locals => { :student_exercise => @student_exercise } %>
+    <% end %>
+  <% end %>
+
+  <% if @student_exercise.free_response_submitted? %>
+    <%= section "Answer Verification", {:classes => 'no_bar'} do %>
+      <% if @student_exercise.selected_answer_submitted? %>
+        <%= render :partial => "show_selected_answer", :locals => { :student_exercise => @student_exercise } %>
+      <% else %>
+        <%= render :partial => "verify_free_response", :locals => { :student_exercise => @student_exercise } %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+<% elsif @student_exercise.present_selected_answer_only? %>
+
+  <%= section "Multiple Choice", {:classes => ''} do %>
+    <% if @student_exercise.selected_answer_submitted? %>
+      <%= render :partial => "show_selected_answer", :locals => { :student_exercise => @student_exercise } %>
+    <% else %>
+      <%= render :partial => "input_selected_answer", :locals => { :student_exercise => @student_exercise } %>
+    <% end %>  
+  <% end %>
+
+<% else %>
+  <% raise IllegalState, "The current StudentExercise presentation settings are not supported by this view" %>
 <% end %>
 
-<div id="exercise_response_show"> 
-
-  <% exercise_data = assignment_exercise.topic_exercise.exercise.content %>  
-  
-  <%= section "The Question", {:classes => 'first no_bar' } do %>
-  <br/>
-  <div id="question_text" 
-       style="visibility: visible; overflow: hidden; position: relative; z-index: 2; border: 1px solid gray; padding: 15px; width:570px">
-    <div class="question">
-
-      <% if !exercise_data["simple_question"]["introduction"].nil? %>
-        <%= exercise_data["simple_question"]["introduction"]["html"].html_safe %>  
-      <% end %>
-
-      <%= exercise_data["simple_question"]["content"]["html"].html_safe %>
-    </div>
-  </div>
-  <% end %>
-  
-  <%= section "Free-form Answer", {:classes => ''} do %>
-
-    <% if !@student_exercise.free_response_submitted? %>
-    <br/>   
-        <% @errors = @student_exercise.errors %>
-        <%= form_for(@student_exercise) do |f| %>
-          <div class="field">
-            Enter your free-form answer below.
-            <%= f.text_area :free_response, :rows => 5, :style => "width:100%", :id => 'free_response' %>
-            <span class="field_help" style="display:block">
-              <ul class="field_help">
-                <li>You can write math here in latex surrounded by dollar signs, e.g. \$x^2+1\$.</li>
-                <li>Click <%= link_to_function "preview", "preview_response();", :class => "field_help" %>
-              to test it.</li>
-                <li>Or <%= link_to_function "open a popup to generate the latex for you", "OpenLatexEditor('free_response','latex','en-us',true,'','full')", :class => "field_help" %>. Click the "Copy to Document" button when you've finished writing the equation in the popup.</li>
-                <li><i>Tip</i>: for less-than and greater-than, make sure to put spaces
-              around the "&lt;" and "&gt;" signs so the browser doesn't think you're writing
-              HTML.  Alternatively, use the "\lt" and "\gt" latex symbols.)</li>
-              </ul>
-            </span>
-          </div>
-          <div class="field">
-            <p>How confident are you in this answer?</p>
-            <p>This answer is...</p>
-            <table width="100%">
-              <tr>
-                <% confidence_labels.each_with_index do |cl, ii| %>
-                  <td width="16.67%">
-                    <center>
-                      <%= f.radio_button :free_response_confidence, ii %></br/>
-                      <%= cl.sub("-","<br/>").html_safe %>
-                    </center>
-                  </td>        
-                <% end %>        
-              </tr>
-            </table>
-          </div>
-          <center>
-          <div class="actions" style="padding-top:10px">
-            <%= f.submit "Save (but don't lock!)", 
-                    :name => "save", :class => 'link_button' %>&nbsp;&nbsp;&nbsp;
-            <%= f.submit "Save (and lock!)", 
-                    :name => "save_and_lock",
-                    :class => 'link_button',
-                    :confirm => "After you lock your answer, you can no longer change it. " + 
-                                "Are you sure you want to lock your answer?" %>
-          </div>
-          </center>
-        <% end %>
-
-    <% else %>
-      <table class="">
-        <tr>
-          <th style="text-align:right">Answer Text:</th>
-          <td><%= simple_format @student_exercise.free_response %></td>
-        </tr>
-        <tr>
-          <th style="text-align:right">Confidence:</th>
-          <td><%= confidence_labels[@student_exercise.free_response_confidence].sub("-"," ") %></td>
-        </tr>
-      </table>
-    <% end %>
-  <% end %>
-  
-  <% if @student_exercise.free_response_submitted? && !@student_exercise.selected_answer_submitted? %>
-    <%= section "Answer Verification", {:classes => 'no_bar'} do %>
-      <p>Choose the multiple-choice answer below that corresponds to the answer you wrote above.</p>
-      <% @errors = @student_exercise.errors %>
-      <%= form_for(@student_exercise) do |f| %>
-        <table width="100%">
-
-        <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>
-             <tr>
-                <td class="question" width="5%">
-                  <%= f.radio_button :selected_answer, ii %>
-                </td>
-                <td class="question" width="5%">
-                   <p><%= choice_letter(ii) %>)</p>
-                </td>
-                <td class="question" width="90%">
-                   <%= answer_choice["html"].html_safe %>
-                </td>
-             </tr>
-        <% end %>
-
-        </table>
-        <center>
-          <div class="actions">
-            <%= f.submit "Save and lock!", 
-                    :class => 'link_button',
-                    :confirm => "After you lock your answer, you can no longer change it. " + 
-                                "Are you sure you want to lock your answer?" %>
-          </div>
-        </center>
-      <% end %>
-    <% end %>
-  <% end %>
-  
-  <% if @student_exercise.selected_answer_submitted? %>
-    <%= section "Answer Verification" do %>
-    
-    
-    <%= render :partial => 'an_answer', :locals => {:phrase => "You chose answer",
-                                                    :answer_choices => exercise_data["simple_question"]["answer_choices"],
-                                                    :index => @student_exercise.selected_answer} %>
-    
-    <% end %>
-    
-    <center>
-      <p>Navigate to any remaining incomplete questions<br/> using the links on the right side of the page.</p>
-    </center>
-  <% end %>
-  
-  
-</div>
-
-
-<%= render :partial => 'shared/response_times',
-           :locals => {:response_timeable => @student_exercise,
-                       :page => "work"}%>
+<%= render :partial => 'shared/response_times', :locals => { :response_timeable => @student_exercise,
+                                                             :page              => "work" } %>
 
 <% content_for :javascript do %>
   <%= javascript_tag do %>
@@ -166,10 +53,9 @@
 
 <%= protect_form %>
 
-<% navitem{ link_to 'Show Assignment', assignment_path(assignment) }%>
+<% navitem{ link_to 'Show Assignment', assignment_path(@student_exercise.assignment_exercise.assignment) }%>
 
 <% content_for :other_nav_content do %>
   Exercises
-  <%= render :partial => 'student_exercises/list', 
-             :locals => {:student_exercise => @student_exercise} %>
+  <%= render :partial => 'student_exercises/list', :locals => { :student_exercise => @student_exercise } %>
 <% end %>

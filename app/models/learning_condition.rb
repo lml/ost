@@ -4,9 +4,10 @@
 class LearningCondition < ActiveRecord::Base
   belongs_to :cohort
   
-  has_one :scheduler
-  has_many :feedback_conditions, :order => :number
-  
+  has_one  :scheduler
+  has_many :presentation_conditions, :order => :number
+  has_many :feedback_conditions,     :order => :number
+
   before_create :set_defaults
   
   attr_accessible
@@ -41,6 +42,14 @@ class LearningCondition < ActiveRecord::Base
     end
   end
   
+  def requires_free_response?(student_exercise)
+    get_presentation_condition(student_exercise).requires_free_response?
+  end
+
+  def requires_selected_answer?(student_exercise)
+    get_presentation_condition(student_exercise).requires_selected_answer?
+  end
+
   def is_feedback_available?(student_exercise)
     get_feedback_condition(student_exercise).is_feedback_available?(student_exercise)
   end
@@ -49,6 +58,28 @@ class LearningCondition < ActiveRecord::Base
     get_feedback_condition(student_exercise).can_automatically_show_feedback?(student_exercise)
   end
   
+  def show_correctness_feedback?(thing)
+    if thing.is_a?(StudentAssignment)
+      show_student_assignment_correctness_feedback?(thing)
+    elsif thing.is_a?(StudentExercise)
+      show_student_exercise_correctness_feedback?(thing)
+    else
+      raise "Invalid argument: #{thing}"
+    end
+  end
+
+  def show_correct_answer_feedback?(student_exercise)
+    show_student_exercise_correct_answer_feedback?(student_exercise)
+  end
+
+  def show_high_level_feedback?(student_exercise)
+    show_student_exercise_high_level_feedback?(student_exercise)
+  end
+
+  def show_detailed_feedback?(student_exercise)
+    show_student_exercise_detailed_feedback?(student_exercise)
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################
@@ -81,14 +112,38 @@ class LearningCondition < ActiveRecord::Base
   
 protected
 
+  def get_presentation_condition(student_exercise)
+    presentation_conditions.detect{ |pc| pc.applies_to?(student_exercise) } || PresentationCondition.default_presentation_condition
+  end
+
   def get_feedback_condition(student_exercise)
-    feedback_conditions.detect{|fc| fc.applies_to?(student_exercise)} ||
-    DummyFeedbackCondition.new
+    feedback_conditions.detect{ |fc| fc.applies_to?(student_exercise) } || BasicFeedbackCondition.default_feedback_condition
+  end
+
+  def show_student_assignment_correctness_feedback?(student_assignment)
+    student_assignment.student_exercises.inject(true) { |result, se| result && show_student_exercise_correctness_feedback?(se) }
+  end
+
+  def show_student_exercise_correctness_feedback?(student_exercise)
+    get_feedback_condition(student_exercise).show_correctness_feedback
   end
   
+  def show_student_exercise_correct_answer_feedback?(student_exercise)
+    get_feedback_condition(student_exercise).show_correct_answer_feedback
+  end
+
+  def show_student_exercise_high_level_feedback?(student_exercise)
+    get_feedback_condition(student_exercise).show_high_level_feedback
+  end
+
+  def show_student_exercise_detailed_feedback?(student_exercise)
+    get_feedback_condition(student_exercise).show_detailed_feedback
+  end
+
   def set_defaults
     self.scheduler = PercentScheduler.standard_practice_scheduler
-    self.feedback_conditions << BasicFeedbackCondition.immediate_feedback_condition
+    self.presentation_conditions << PresentationCondition.standard_practice_presentation_condition
+    self.feedback_conditions     << BasicFeedbackCondition.standard_practice_feedback_condition
   end
 
 end

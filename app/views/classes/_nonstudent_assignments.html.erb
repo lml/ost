@@ -1,0 +1,48 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%= section "Issued Assignments (not visible to students)", {:classes => "issued_assignments", :collapsible => true, :collapsed => false} do %>
+
+  <% student        = klass.student_for(present_user) %>
+  <% student_cohort = student.try(:cohort) %>
+
+  <% assignment_plans = klass.learning_plan.assignment_plans.select{|ap| ap.assigned?}.sort_by{|ap| ap.number} %>
+    
+  <% if assignment_plans.none? %>
+    <p>No assignments yet!</p>
+  <% else %>
+
+    <table class="list assignment">
+      <tr>
+        <th class="assignment_number"></th>
+        <th class="assignment_name">Name</th>
+        <th class="assignment_start">Starts</th>
+        <th class="assignment_end">Ends</th>
+      </tr>
+
+      <% assignment_plans.each do |plan| %>
+
+        <tr>
+          <td class="assignment_number"><%= 1+plan.number %>.</td>
+          <td class="assignment_name"><%= plan.name %></td>
+          <td class="assignment_start"><%= standard_date(plan.starts_at) %></td>
+          <td class="assignment_end"><%= standard_date(plan.ends_at) %></td>
+        </tr>
+
+        <% assignments = plan.assignments.sort_by{|assignment| assignment.cohort.number} %>
+        <% assignments.each do |assignment| %>
+          <tr>
+            <td></td>
+            <td colspan="3">
+              &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to assignment.cohort.name, assignment %><%= '  (me)' if assignment.cohort == student_cohort %>
+            </td>
+          </tr>
+        <% end %>
+
+      <% end %>
+
+    </table>
+
+  <% end %>
+
+<% end %>

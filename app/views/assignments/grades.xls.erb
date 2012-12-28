@@ -1,0 +1,100 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% 
+  klass = @assignment.cohort.klass
+  cohorts = klass.cohorts
+%>
+
+<%= xls_workbook({:author => "OpenStax Tutor"}) do %>
+
+  <%= xls_worksheet('Info') do %>
+    <%= xls_row { xls_cell(:string) {} } %>
+    <%= xls_row { xls_cell(:string) { klass.name } } %>
+    <%= xls_row { xls_cell(:string) { "#{standard_datetime_zone(klass.start_date, klass.time_zone)} to #{standard_datetime_zone(klass.end_date, klass.time_zone)}"} } %>
+    <%= xls_row { xls_cell(:string) { @assignment.assignment_plan.name } } %>
+    <%= xls_row { xls_cell(:string) { "Generated at: #{standard_datetime_zone(Time.now, klass.time_zone)}" } } %>
+  <% end %>
+
+  <% cohorts.each do |cohort| %>
+    <% Rails.logger.debug(@assignment.inspect) %>
+    <% assignment = Assignment.where{cohort_id == cohort.id}
+                              .where{assignment_plan_id == my{@assignment}.assignment_plan_id}
+                              .first %>
+
+    <%# Could be that this cohort doesn't have this assignment, if so, move on %>
+    <% next if assignment.nil? %>
+
+    <% num_exercises = assignment.assignment_exercises.count %>
+  
+    <%= xls_worksheet(cohort.name) do %>
+
+      <%# Header row %>
+
+      <%= xls_row do %>
+        <%= xls_cell(:string) { "Name/ID" } %>
+        <%= xls_cell(:string) { "Section" } %>
+        <%= xls_cell(:string) { "Q #:" } %>
+
+        <% assignment.assignment_exercises.each_with_index do |ae,ii| %>
+          <%= xls_cell(:string, {:comment => {:text => ae.topic_exercise.exercise.quadbase_id}}) do %>
+            #<%= ii+1 %>
+          <% end %>
+        <% end %>
+
+        <%= xls_cell(:string) { "Score" } %>
+      <% end %>
+
+      <%= xls_row do %>
+        <%= xls_cell(:string) { "" } %>
+        <%= xls_cell(:string) { "" } %>
+        <%= xls_cell(:string) { "Points:" } %>
+
+        <% num_exercises.times do  %>
+          <%= xls_cell(:number) { "1" } %>
+        <% end %>
+      <% end %>    
+
+      <%# Student Data %>
+
+      <% students = cohort.students.visible(present_user).active.std_sort(present_user) %>
+
+      <% students.each do |student| %>
+        <%= xls_row do %>
+          <%= xls_cell(:string) { student.full_name(present_user) } %>
+          <%= xls_cell(:string) { student.section.name } %>
+          <%= xls_cell(:string) { "" } %>
+
+          <% sa = StudentAssignment.where{ (assignment_id == assignment.id) & (student_id == student.id) }.first %>
+          <% next if sa.nil? %>
+
+          <% sa.student_exercises.each do |se| %>
+            <%= xls_cell(:number, 
+                         {
+                           :comment => {
+                             :text => 'Answer: ' + (se.selected_answer.nil? ? 'not given' : choice_letter(se.selected_answer))
+                           }
+                         }) { 
+                  "#{se.score}"
+                } %>
+          <% end %>
+
+          <%
+            exercise_score_range = "RC[-#{num_exercises}]:RC[-1]"
+            points_range = "R2C4:R2C#{4+num_exercises-1}"
+          %>
+
+          <%# Absolute cell position syntax %>
+          <%= xls_cell(:number, {:style => 's20', :formula => "=SUMPRODUCT(#{exercise_score_range},#{points_range})/SUM(#{points_range})" }) { "" } %>
+
+        <% end %>
+
+      <% end %>
+
+
+
+    <% end %>
+
+  <% end %>
+
+<% end %>

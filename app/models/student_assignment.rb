@@ -77,7 +77,13 @@ class StudentAssignment < ActiveRecord::Base
     # an activerecord readonly error                              
     due_sas = StudentAssignment.find(due_sa_ids)
                                
-    due_sas.each{ |due_sa| due_sa.mark_observed_due!(observation_time) }
+    due_sas.each do |due_sa| 
+      begin
+        due_sa.mark_observed_due!(observation_time)
+      rescue Exception => e
+        DeveloperNotifier.exception_email(e, nil, "An error occurred in StudentAssignment#mark_observed_due! on SA id=#{due_sa.id}")
+      end
+    end
   end
   
   def learning_condition
@@ -91,6 +97,10 @@ class StudentAssignment < ActiveRecord::Base
     score /= student_exercises.size if student_exercises.size > 0
   end
   
+  def show_correctness_feedback?
+    learning_condition.show_correctness_feedback?(self)
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################

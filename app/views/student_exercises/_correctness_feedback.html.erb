@@ -1,0 +1,12 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%= section "Correctness", {:classes => 'first no_bar' } do %>
+  
+  <% if student_exercise.selected_answer == student_exercise.correct_choice_index %>
+    <span id="student_exercise_correct_message" style="color:green"><p><b>Your answer is correct</b></p></span>
+  <% else %>
+    <span id="student_exercise_incorrect_message" style="color:red"><p><b>Your answer is incorrect.</b></p></span>
+  <% end %>
+
+<% end %>

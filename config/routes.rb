@@ -7,7 +7,8 @@ Ost::Application.routes.draw do
 
   resources :site_licenses
 
-  resources :feedback_conditions, :except => [:index, :show]
+  resources :presentation_conditions, :except => [:index, :show]
+  resources :feedback_conditions,     :except => [:index, :show]
 
   resources :consent_forms
   resources :consent_options, :only => [:show, :edit, :update]
@@ -59,6 +60,9 @@ Ost::Application.routes.draw do
   
   resources :learning_conditions, :only => [] do
     resources :schedulers, :shallow => true, :except => [:index, :show, :destroy]
+    resources :presentation_conditions, :shallow => true, :except => [:index, :show] do
+      post 'sort', :on => :collection
+    end
     resources :feedback_conditions, :shallow => true, :except => [:index, :show] do
       post 'sort', :on => :collection
     end
@@ -92,7 +96,9 @@ Ost::Application.routes.draw do
     resources :assignment_plan_topics, :shallow => true, :only => [:new, :create, :destroy, :update]
   end
   
-  resources :assignments, :only => [:show]
+  resources :assignments, :only => [:show] do
+    get 'grades', :on => :member
+  end
   
   resources :topics, :only => [] do
     resources :resources, :shallow => true, :except => [:index, :show] do
@@ -160,7 +166,7 @@ Ost::Application.routes.draw do
   put 'dev/reset_time'
   post 'dev/freeze_time'
   post 'dev/time_travel'
-  put 'dev/run_cron_tasks'
+  post 'dev/run_cron_tasks'
   match 'dev/test_error/:number', :to => 'dev#test_error'
   
   resources :website_configurations, :only => [:index] do

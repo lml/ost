@@ -57,20 +57,52 @@ class StudentExercise < ActiveRecord::Base
     due_at < Time.now
   end
 
+  def exercise
+    assignment_exercise.topic_exercise.exercise
+  end
+
+  def correct_choice_index
+    exercise.correct_choice_index
+  end
+
+  def solutions_content
+    exercise.solutions_content
+  end
+
   def assignment
     assignment_exercise.assignment
   end  
-  
+
   def student
     student_assignment.student
   end
   
   def status
-    return "NOT YET ANSWERED" if !free_response_submitted?
-    return "COMPLETED" if selected_answer_submitted?
+    return "NOT YET ANSWERED" if requires_free_response? && !free_response_submitted?
+    return "COMPLETED"        if selected_answer_submitted?
     return "NOT COMPLETE"
   end
-        
+  
+  def present_free_response_and_selected_answer?
+    requires_free_response? && requires_selected_answer?
+  end
+
+  def present_free_response_only?
+    !present_free_response_and_selected_answer? && requires_free_response?
+  end
+
+  def present_selected_answer_only?
+    !present_free_response_and_selected_answer? && requires_selected_answer?
+  end
+
+  def requires_free_response?
+    learning_condition.requires_free_response?(self)
+  end
+
+  def requires_selected_answer?
+    learning_condition.requires_selected_answer?(self)
+  end
+
   def free_response_submitted?
     !free_response_submitted_at.nil?
   end
@@ -115,6 +147,10 @@ class StudentExercise < ActiveRecord::Base
     learning_condition.can_automatically_show_feedback?(self)
   end
 
+  def show_correctness_feedback?
+    learning_condition.show_correctness_feedback?(self)
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################
@@ -146,7 +182,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def destroyable?
-    raise NotYetImplemented
+    #raise NotYetImplemented
   end
   
   def note_feedback_viewed!

@@ -1,0 +1,10 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%= section "The Correct Answer", {:classes => 'first no_bar' } do %>
+
+  <%= render :partial => "an_answer", :locals => { :exercise     => student_exercise.exercise,
+                                                   :phrase       => "The correct answer is",
+                                                   :answer_index => student_exercise.correct_choice_index } %>
+
+<% end %>

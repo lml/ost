@@ -51,6 +51,23 @@ class Assignment < ActiveRecord::Base
     assignment_plan.active?
   end
 
+  def self.create_missing_student_assignments
+    Assignment.find_each do |assignment|
+      assignment.create_missing_student_assignments
+    end
+  end
+
+  def create_missing_student_assignments
+    cohort.students.active.find_each do |student|
+      student_assignment = StudentAssignment.for_student(student).for_assignment(self).first
+      if student_assignment.nil?
+        student_assignment = StudentAssignment.new(:student_id    => student.id, 
+                                                   :assignment_id => self.id)
+        student_assignment.save!
+      end
+    end
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################
@@ -61,6 +78,13 @@ class Assignment < ActiveRecord::Base
 
   def can_be_updated_by?(user)
     cohort.klass.is_educator?(user)
+  end
+
+  def children_can_be_read_by?(user, children_symbol)
+    case children_symbol
+    when :grades
+      cohort.klass.is_educator?(user) || user.is_researcher? || user.is_administrator?
+    end
   end
 
 end

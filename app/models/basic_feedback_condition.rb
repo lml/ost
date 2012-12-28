@@ -13,13 +13,19 @@ class BasicFeedbackCondition < FeedbackCondition
   store_typed_accessor :settings, :integer, :availability_closes_option
   store_typed_accessor :settings, :integer, :availability_closes_delay_days
   store_typed_accessor :settings, :integer, :availability_event
-    
+  store_typed_accessor :settings, :boolean, :show_correctness_feedback
+  store_typed_accessor :settings, :boolean, :show_correct_answer_feedback
+  store_typed_accessor :settings, :boolean, :show_high_level_feedback
+  store_typed_accessor :settings, :boolean, :show_detailed_feedback
+
   attr_accessible :label_regex, :is_feedback_required_for_credit, 
                   :availability_opens_option, :availability_opens_delay_days, 
                   :availability_closes_option, :availability_closes_delay_days,
-                  :availability_event, :can_automatically_show_feedback
-                  
-  before_validation :init, :on => :create
+                  :availability_event, :can_automatically_show_feedback,
+                  :show_correctness_feedback, :show_correct_answer_feedback,
+                  :show_high_level_feedback, :show_detailed_feedback
+
+  after_initialize  :supply_missing_values
   before_validation :strip_and_downcase_regex
   before_validation :nil_out_blank_regex
 
@@ -56,14 +62,30 @@ class BasicFeedbackCondition < FeedbackCondition
     ASSIGNMENT_COMPLETE = 3
   end
   
-  def self.immediate_feedback_condition
-    BasicFeedbackCondition.new(:label_regex => 'standard practice', 
+  def self.standard_practice_feedback_condition
+    BasicFeedbackCondition.new(:label_regex                     => 'standard practice', 
                                :is_feedback_required_for_credit => false.to_s,
-                               :availability_opens_option => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
-                               :availability_closes_option => AvailabilityClosesOption::NEVER.to_s, 
-                               :availability_event => AvailabilityEvent::EXERCISE_COMPLETE.to_s)
+                               :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
+                               :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
+                               :availability_event              => AvailabilityEvent::EXERCISE_COMPLETE.to_s,
+                               :show_correctness_feedback       => true,
+                               :show_correct_answer_feedback    => true,
+                               :show_high_level_feedback        => true,
+                               :show_detailed_feedback          => true)
   end
   
+  def self.default_feedback_condition
+    BasicFeedbackCondition.new(:label_regex                     => '.*', 
+                               :is_feedback_required_for_credit => false.to_s,
+                               :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
+                               :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
+                               :availability_event              => AvailabilityEvent::EXERCISE_COMPLETE.to_s,
+                               :show_correctness_feedback       => false,
+                               :show_correct_answer_feedback    => false,
+                               :show_high_level_feedback        => false,
+                               :show_detailed_feedback          => false)
+  end
+
   def applies_to?(student_exercise)
     label_regex_array = label_regex.split(",").collect{|lr| lr.strip}
     labels = student_exercise.assignment_exercise.tag_list
@@ -130,11 +152,16 @@ class BasicFeedbackCondition < FeedbackCondition
   
 protected
 
-  def init
+  def supply_missing_values
+    self.label_regex                     ||= '.*'
     self.is_feedback_required_for_credit ||= false
-    self.availability_opens_option ||= AvailabilityOpensOption::NEVER
-    self.availability_closes_option ||= AvailabilityClosesOption::NEVER
-    self.availability_event ||= AvailabilityEvent::NOT_APPLICABLE
+    self.availability_opens_option       ||= AvailabilityOpensOption::NEVER
+    self.availability_closes_option      ||= AvailabilityClosesOption::NEVER
+    self.availability_event              ||= AvailabilityEvent::NOT_APPLICABLE
+    self.show_correctness_feedback       ||= false 
+    self.show_correct_answer_feedback    ||= false
+    self.show_high_level_feedback        ||= false
+    self.show_detailed_feedback          ||= false
     true
   end
   
