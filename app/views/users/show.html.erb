@@ -28,6 +28,10 @@
       <th>Account Disabled?</th>
       <td><%= tf_to_yn(@user.is_disabled?) %></td>
    </tr>
+   <tr>
+      <th>Receives Error Notices?</th>
+      <td><%= tf_to_yn(@user.receives_error_notices?) %></td>
+   </tr>
    <% end %>
 </table>
 <p>

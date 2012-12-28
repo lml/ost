@@ -1,6 +1,3 @@
-# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
-# License version 3 or later.  See the COPYRIGHT file for details.
-
 # encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
@@ -14,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121223124423) do
+ActiveRecord::Schema.define(:version => 20121228163110) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -251,6 +248,8 @@ ActiveRecord::Schema.define(:version => 20121223124423) do
     t.datetime "updated_at",            :null => false
   end
 
+  add_index "presentation_conditions", ["learning_condition_id"], :name => "index_presentation_conditions_on_learning_condition_id"
+
   create_table "registration_requests", :force => true do |t|
     t.integer  "user_id",                            :null => false
     t.integer  "section_id",                         :null => false
@@ -450,6 +449,7 @@ ActiveRecord::Schema.define(:version => 20121223124423) do
     t.datetime "created_at",                                                                     :null => false
     t.datetime "updated_at",                                                                     :null => false
     t.string   "time_zone",              :limit => 40, :default => "Central Time (US & Canada)", :null => false
+    t.boolean  "receives_error_notices"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
