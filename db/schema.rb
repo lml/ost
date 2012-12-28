@@ -1,6 +1,3 @@
-# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
-# License version 3 or later.  See the COPYRIGHT file for details.
-
 # encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
