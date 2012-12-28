@@ -27,7 +27,9 @@ class UsersController < ApplicationController
     else
       @user.disable!
     end
-    
+    @user.receives_error_notices = params[:user][:receives_error_notices]    
+    @user.save!
+
     respond_with(@user)
   end
   

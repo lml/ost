@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121227173212) do
+ActiveRecord::Schema.define(:version => 20121228163110) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -449,6 +449,7 @@ ActiveRecord::Schema.define(:version => 20121227173212) do
     t.datetime "created_at",                                                                     :null => false
     t.datetime "updated_at",                                                                     :null => false
     t.string   "time_zone",              :limit => 40, :default => "Central Time (US & Canada)", :null => false
+    t.boolean  "receives_error_notices"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

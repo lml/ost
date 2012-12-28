@@ -13,7 +13,7 @@ class DeveloperNotifier < SiteMailer
     
     subject = user.nil? ? "An exception occurred" : user.username + " encountered an exception"
 
-    mail(:to => User.active_administrators.collect { |a| a.email },
+    mail(:to => User.error_notice_recipients.collect { |a| a.email },
          :subject => subject).deliver(:safe_delivery_disabled => true)
   end
 
