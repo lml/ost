@@ -182,7 +182,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def destroyable?
-    #raise NotYetImplemented
+    WebsiteConfiguration.get_value(:sudo_enabled)
   end
   
   def note_feedback_viewed!
