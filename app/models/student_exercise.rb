@@ -182,7 +182,9 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def destroyable?
-    #raise NotYetImplemented
+    return true if WebsiteConfiguration.get_value(:sudo_enabled)
+    errors.add(:base, "This StudentExercise cannot be destroyed unless sudo_enabled is true")
+    errors.none?
   end
   
   def note_feedback_viewed!
