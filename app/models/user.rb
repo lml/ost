@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   scope :active_users, where(:disabled_at => nil)
   scope :administrators, where(:is_administrator => true)
   scope :active_administrators, administrators.merge(active_users)
+  scope :error_notice_recipients, active_administrators.where(:receives_error_notices => true)
 
   def full_name
     first_name + " " + last_name  
@@ -43,6 +44,10 @@ class User < ActiveRecord::Base
 
   def is_disabled?
     !disabled_at.nil?
+  end
+
+  def receives_error_notices?
+    receives_error_notices
   end
 
   def is_researcher?

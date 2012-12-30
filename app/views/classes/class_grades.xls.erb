@@ -24,6 +24,7 @@ klass_aps = @klass.learning_plan.assignment_plans
     <Table>
       <Row>
         <Cell><Data ss:Type="String">Name/ID</Data></Cell>
+        <Cell><Data ss:Type="String">Status</Data></Cell>
         <Cell><Data ss:Type="String">Section</Data></Cell>
         <Cell><Data ss:Type="String">Cohort</Data></Cell>
     <% hw_count = 0 %>
@@ -38,6 +39,7 @@ klass_aps = @klass.learning_plan.assignment_plans
     <% visible_students.each do |vs| %>
       <Row>
         <Cell><Data ss:Type="String"><%= vs.full_name(present_user) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= student_status_string(vs) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= vs.section.name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= vs.cohort.name %></Data></Cell>
 		<% klass_aps.each do |ap| %>
