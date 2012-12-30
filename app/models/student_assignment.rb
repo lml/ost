@@ -43,11 +43,10 @@ class StudentAssignment < ActiveRecord::Base
     assignment_coworkers.includes(:student).any?{|cw| cw.student.user_id == user.id}
   end
   
-  attr_accessor :sudo_enabled
-
   def destroyable?
-    sudo_enabled || false
-    # raise NotYetImplemented
+    return true if sudo_enabled?
+    errors.add(:base, "This student assignment cannot be destroyed unless sudo_enabled is set")
+    errors.none?
   end
   
   def mark_complete_if_indicated!
