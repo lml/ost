@@ -23,7 +23,7 @@ class TopicExercise < ActiveRecord::Base
   
   def destroyable?
     return true if sudo_enabled?
-    errors.add(:base, "This exercise cannot be deleted because it has already been assigned (unless sudo_enabled is set).") if assigned?
+    errors.add(:base, "This exercise cannot be deleted because it has already been assigned (except by admin override).") if assigned?
     errors.none?
   end
   

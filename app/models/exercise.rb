@@ -85,7 +85,7 @@ protected
 
   def destroyable?
     return true if sudo_enabled?
-    errors.add(:base, "This exercise cannot be deleted because it has been assigned (unless sudo_enabled is set).") \
+    errors.add(:base, "This exercise cannot be deleted because it has been assigned (except by admin override).") \
       if topic_exercises.any?{|te| te.assigned?}
     errors.empty?
   end

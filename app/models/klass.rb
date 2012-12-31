@@ -167,7 +167,7 @@ protected
 
   def destroyable?
     return true if sudo_enabled?
-    errors.add(:base, "This class cannot be deleted because it has sections (unless sudo_enabled is set).") if sections.any?
+    errors.add(:base, "This class cannot be deleted because it has sections (except by admin override).") if sections.any?
     errors.none?
   end
 

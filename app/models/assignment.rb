@@ -38,7 +38,7 @@ class Assignment < ActiveRecord::Base
   
   def destroyable?
     return true if sudo_enabled?
-    errors.add(:base, "This assignment cannot be deleted because it has been given out to students (unless sudo_enabled is set)") \
+    errors.add(:base, "This assignment cannot be deleted because it has been given out to students (except by admin override)") \
       if assigned?
     errors.none?
   end

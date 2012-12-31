@@ -22,7 +22,7 @@ class AssignmentExercise < ActiveRecord::Base
 
   def destroyable?
     return true if sudo_enabled?
-    errors.add(:base, "This assignment exercise cannot be deleted because it has already been distributed to students (unless sudo_enabled is set)") \
+    errors.add(:base, "This assignment exercise cannot be deleted because it has already been distributed to students (except by admin override)") \
       if student_exercises.any?
     errors.none?
   end
