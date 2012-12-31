@@ -84,8 +84,8 @@ protected
   end
 
   def destroyable?
-    return true if WebsiteConfiguration.get_value(:sudo_enabled)
-    errors.add(:base, "Cannot delete an exercise that has been assigned.") \
+    return true if sudo_enabled?
+    errors.add(:base, "This exercise cannot be deleted because it has been assigned (except by admin override).") \
       if topic_exercises.any?{|te| te.assigned?}
     errors.empty?
   end

@@ -182,8 +182,8 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def destroyable?
-    return true if WebsiteConfiguration.get_value(:sudo_enabled)
-    errors.add(:base, "This StudentExercise cannot be destroyed unless sudo_enabled is true")
+    return true if sudo_enabled?
+    errors.add(:base, "This student exercise cannot be destroyed (except by admin override)")
     errors.none?
   end
   

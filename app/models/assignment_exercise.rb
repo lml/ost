@@ -21,8 +21,8 @@ class AssignmentExercise < ActiveRecord::Base
   attr_accessible :assignment, :topic_exercise, :assignment_id
 
   def destroyable?
-    return true if WebsiteConfiguration.get_value(:sudo_enabled)
-    errors.add(:base, "This assignment exercise cannot be deleted because it has already been distributed to students") \
+    return true if sudo_enabled?
+    errors.add(:base, "This assignment exercise cannot be deleted because it has already been distributed to students (except by admin override)") \
       if student_exercises.any?
     errors.none?
   end
