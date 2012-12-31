@@ -22,8 +22,8 @@ class TopicExercise < ActiveRecord::Base
   scope :for_tests, where{reserved_for_tests == true}
   
   def destroyable?
-    return true if WebsiteConfiguration.get_value(:sudo_enabled)
-    errors.add(:base, "This exercise cannot be deleted because it has already been assigned.") if assigned?
+    return true if sudo_enabled?
+    errors.add(:base, "This exercise cannot be deleted because it has already been assigned (unless sudo_enabled is set).") if assigned?
     errors.none?
   end
   

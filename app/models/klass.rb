@@ -166,9 +166,9 @@ class Klass < ActiveRecord::Base
 protected
 
   def destroyable?
-    return true if sections.empty? || sudo_enabled?
-    errors.add(:base, "This class cannot be deleted because it has sections.")
-    false
+    return true if sudo_enabled?
+    errors.add(:base, "This class cannot be deleted because it has sections (unless sudo_enabled is set).") if sections.any?
+    errors.none?
   end
 
   def set_first_instructor
