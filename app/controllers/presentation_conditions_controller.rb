@@ -43,7 +43,7 @@ class PresentationConditionsController < ApplicationController
   end
   
   def sort
-    super('feedback_condition', PresentationCondition, @learning_condition, :learning_condition)
+    super('presentation_condition', PresentationCondition, @learning_condition, :learning_condition)
   end
 
 protected
