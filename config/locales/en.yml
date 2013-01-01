@@ -7,8 +7,10 @@
 en:
   hello: "Hello world"
   time_zone: "Time Zone"
+  open_date_time: "Open Date & Time"
   start_date_time: "Start Date & Time"
   end_date_time: "End Date & Time"
+  close_date_time: "Close Date & Time"
   activerecord:
     models:
       klass: class

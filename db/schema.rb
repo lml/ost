@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121229181810) do
+ActiveRecord::Schema.define(:version => 20121231193519) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -201,6 +201,8 @@ ActiveRecord::Schema.define(:version => 20121229181810) do
     t.boolean  "allow_student_specified_id", :default => false, :null => false
     t.string   "test_exercise_tags"
     t.string   "nontest_exercise_tags"
+    t.datetime "open_date"
+    t.datetime "close_date"
   end
 
   add_index "klasses", ["course_id"], :name => "index_klasses_on_course_id"

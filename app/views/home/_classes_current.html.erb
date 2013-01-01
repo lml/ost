@@ -1,0 +1,24 @@
+<%
+  user_current_classes_active_students  = present_user.students.active.select{ |student| student.section.klass.current? }
+  user_current_classes_dropped_students = present_user.students.dropped.select{ |student| student.section.klass.current? }
+  user_current_classes_educators        = present_user.educators.select{ |educator| educator.klass.current? }
+
+  user_current_classes_taking   = user_current_classes_active_students.collect{ |student| student.section.klass }
+  user_current_classes_dropped  = user_current_classes_dropped_students.collect{ |student| student.section.klass }
+  user_current_classes_teaching = user_current_classes_educators.collect{ |educator| educator.klass }
+
+  user_has_current_activity = user_current_classes_taking.any?  ||
+                              user_current_classes_dropped.any? ||
+                              user_current_classes_teaching.any?
+%>
+
+<% if user_has_current_activity %>
+  <%= section "Current Activity", {:classes => 'first no_bar', :collapsible => true, :collapsed => false} do %>
+    <%= render :partial => "class_links", :locals => { :klasses      => user_current_classes_taking,
+                                                       :section_name => "Classes I'm Taking" } %>
+    <%= render :partial => "class_links", :locals => { :klasses      => user_current_classes_dropped,
+                                                       :section_name => "Classes I've Dropped" } %>
+    <%= render :partial => "class_links", :locals => { :klasses      => user_current_classes_teaching,
+                                                       :section_name => "Classes I'm Teaching" } %>
+  <% end %>
+<% end %>

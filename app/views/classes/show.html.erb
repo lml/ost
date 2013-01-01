@@ -115,12 +115,20 @@
     <% end %>
 
     <tr>
+      <th style="text-align:right">Open Date</th>
+      <td><%= standard_datetime(@klass.open_date) %></td>
+    </tr>
+    <tr>
       <th style="text-align:right">Start Date</th>
       <td><%= standard_datetime(@klass.start_date) %></td>
     </tr>
     <tr>
       <th style="text-align:right">End Date</th>
       <td><%= standard_datetime(@klass.end_date) %></td>
+    </tr>
+    <tr>
+      <th style="text-align:right">Close Date</th>
+      <td><%= standard_datetime(@klass.close_date) %></td>
     </tr>
     
     <% if @klass.is_teaching_assistant?(present_user) %>

@@ -8,42 +8,6 @@
 
 <%= pageHeading "Dashboard" %>
 
-
-<% if (students = present_user.students).active.any? %>
-  <%= section "Classes I'm Taking", {:classes => 'first no_bar'} do %>
-    
-    <ul>
-    <% students.active.each do |student| %>
-      <% klass = student.section.klass %>
-      <li><%= link_to klass.course.name, klass %></li>    
-    <% end %>
-    </ul>
-  
-  <% end %>
-<% end %>
-
-<% if (students = present_user.students).dropped.any? %>
-  <%= section "Classes I've Dropped" do %>
-    
-    <ul>
-    <% students.dropped.each do |student| %>
-      <% klass = student.section.klass %>
-      <li><%= link_to klass.course.name, klass %></li>    
-    <% end %>
-    </ul>
-  
-  <% end %>
-<% end %>
-
-<% if (educators = present_user.educators).any? %>
-  <%= section "Classes I'm Teaching" do %>
-    
-    <ul>
-    <% educators.each do |educator| %>
-      <% klass = educator.klass %>
-      <li><%= link_to klass.course.name, klass, :test => "teach" %></li>    
-    <% end %>
-    </ul>
-  
-  <% end %>
-<% end %>
+<%= render :partial => "classes_current", :locals => { :present_user => present_user } %>
+<%= render :partial => "classes_future",  :locals => { :present_user => present_user } %>
+<%= render :partial => "classes_past",    :locals => { :present_user => present_user } %>
