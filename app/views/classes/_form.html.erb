@@ -14,12 +14,20 @@
                             :default => time_zone) %>
   </div>
   <div class="field">
+    <%= f.label :open_date, t(:open_date_time) %><br />
+    <%= f.datetime_text_field :open_date, {:time_zone => time_zone, :number_of_months => 2} %>
+  </div>
+  <div class="field">
     <%= f.label :start_date, t(:start_date_time) %><br />
     <%= f.datetime_text_field :start_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
     <%= f.label :end_date, t(:end_date_time) %><br />
     <%= f.datetime_text_field :end_date, {:time_zone => time_zone, :number_of_months => 2} %>
+  </div>
+  <div class="field">
+    <%= f.label :close_date, t(:close_date_time) %><br />
+    <%= f.datetime_text_field :close_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
     Is this class part of a formal study controlled by <%= SITE_NAME %> researchers?<br/>

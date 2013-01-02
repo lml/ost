@@ -19,7 +19,10 @@ module DbSetup
 
                 DbCofCourse name: "Course One" do
                     DbCofInstructor for_user: { existing: "profx" } do
-                        DbCofClass start_date: "Sep 1, 2012 5:00am", end_date: "Dec 1, 2012 5:00pm" do
+                        DbCofClass  open_date:  "Sep 1, 2012 4:00am", 
+                                    start_date: "Sep 1, 2012 5:00am", 
+                                    end_date:   "Dec 1, 2012 5:00pm",
+                                    close_date: "Dec 1, 2012 6:00pm" do
                             cohort = DbCofCohort name: "Cohort One" do
                                 DbCofLearningCondition do
                                     DbCofPercentScheduler do |scheduler|
@@ -74,7 +77,10 @@ module DbSetup
 
                 DbCofCourse name: "Course One" do
                     DbCofInstructor for_user: { existing: "profx" } do
-                        DbCofClass start_date: "Sep 1, 2012 5:00am", end_date: "Dec 1, 2012 5:00pm" do
+                        DbCofClass  open_date:  "Sep 1, 2012 4:00am", 
+                                    start_date: "Sep 1, 2012 5:00am", 
+                                    end_date:   "Dec 1, 2012 5:00pm",
+                                    close_date: "Dec 1, 2012 6:00pm" do
                             DbCofSection name: "Section One" do
                                 DbCofCohort name: "Cohort One" do
                                     DbCofLearningCondition do
@@ -128,7 +134,11 @@ module DbSetup
 
                 DbCofCourse name: "Course One" do
                     DbCofInstructor for_user: { existing: "profx" } do
-                        DbCofClass start_date: "Sep 1, 2012 5:00am", end_date: "Dec 1, 2012 5:00pm" do
+                        DbCofClass  open_date:  "Sep 1, 2012 4:00am", 
+                                    start_date: "Sep 1, 2012 5:00am", 
+                                    end_date:   "Dec 1, 2012 5:00pm",
+                                    close_date: "Dec 1, 2012 6:00pm" do
+
                             cohort = DbCofCohort name: "Cohort One" do
                                 DbCofLearningCondition do
                                     DbCofPercentScheduler do |scheduler|
