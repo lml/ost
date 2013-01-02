@@ -8,6 +8,7 @@ Feature: Assignments are properly distributed to Students and in Instructor Prev
 
     Scenario: Professor X previews assignment distribution for Course One.
         Given that I am logged in as "Professor X"
+        And   I time travel to "Sep 1, 2012 5:50am" "UTC"
         When  I visit the main page
         When  I click on "dashboard"
         Then  I am taken to the "index" page for "Dashboard"
