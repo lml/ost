@@ -22,8 +22,10 @@ Feature: Instructors can teach an existing Course
         Then  I am taken to the "index" page for "Course Catalog"
         When  I click on the "section containing Get Smart" "section containing Intro 101" "teach"
         Then  I am taken to the "new" page for "Class" under "Intro 101: Only the Easy Stuff"
+        When  I enter "July 1, 2000" in the "klass_open_date" field
         When  I enter "August 1, 2000" in the "klass_start_date" field
         And   I enter "September 1, 2000" in the "klass_end_date" field
+        And   I enter "October 1, 2000" in the "klass_close_date" field
         When  I click on "submit"
         Then  I am taken to the "show" page for "Intro 101: Only the Easy Stuff" under "Get Smart"
 

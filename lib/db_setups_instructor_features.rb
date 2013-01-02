@@ -104,13 +104,19 @@ module DbSetup
 
         DbCofCourse name: "Intro 101: Only the Easy Stuff" do
           DbCofInstructor for_user: { existing: "profx" } do
-            DbCofClass()
+            DbCofClass  open_date:    "Sep 1, 2012 4:00am", 
+                        start_date:   "Sep 1, 2012 5:00am", 
+                        end_date:     "Dec 1, 2012 5:00pm",
+                        close_date:   "Dec 1, 2012 6:00pm"
           end
         end
 
         DbCofCourse name: "Course 102: Time to Rethink Your Major" do
           DbCofInstructor for_user: { existing: "profx" } do
-            DbCofClass start_date: "Sep 1, 2012 5:00am", end_date: "Dec 1, 2012 5:00pm" do
+            DbCofClass  open_date:    "Sep 1, 2012 4:00am", 
+                        start_date:   "Sep 1, 2012 5:00am", 
+                        end_date:     "Dec 1, 2012 5:00pm",
+                        close_date:   "Dec 1, 2012 6:00pm" do
 
               assignment = nil
               DbCofLearningPlan do
@@ -127,11 +133,15 @@ module DbSetup
                   topic_exercise2 = DbCofTopicExercise name: "Topic Exercise Two", exercise: exercise, concept: concept2
                 end
 
-                DbCofAssignmentPlan name: "Homework One", starts_at: "Sep 1, 2012 6:00am", ends_at: "Sep 5, 2012 10:00pm" do
+                DbCofAssignmentPlan name:       "Homework One", 
+                                    starts_at:  "Sep 1, 2012 6:00am", 
+                                    ends_at:    "Sep 5, 2012 10:00pm" do
                   DbCofAssignmentPlanTopic topic: topic1
                 end
 
-                DbCofAssignmentPlan name: "Homework Two", starts_at: "Sep 3, 2012 6:00am", ends_at: "Sep 9, 2012 10:00pm" do
+                DbCofAssignmentPlan name:       "Homework Two", 
+                                    starts_at:  "Sep 3, 2012 6:00am", 
+                                    ends_at:    "Sep 9, 2012 10:00pm" do
                   DbCofAssignmentPlanTopic topic: topic1
                   DbCofAssignmentPlanTopic topic: topic2
                 end

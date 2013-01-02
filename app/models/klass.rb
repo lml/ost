@@ -5,12 +5,15 @@ class Klass < ActiveRecord::Base
   belongs_to :course
   has_one :consent_options, :as => :consent_optionable, :dependent => :destroy
   has_one :learning_plan, :dependent => :destroy
-  has_many :sections, :dependent => :destroy
-  has_many :cohorts, :dependent => :destroy, :order => :number
-  has_many :educators, :dependent => :destroy
+  has_many :sections,   :dependent => :destroy
+  has_many :cohorts,    :dependent => :destroy, :order => :number
+  has_many :educators,  :dependent => :destroy
 
-  validates :start_date, :presence => true
-  validates :end_date, :presence => true, :date => {:after => :start_date}
+  validates :open_date,   :presence => true
+  validates :start_date,  :presence => true, :date => {:after => :open_date}
+  validates :end_date,    :presence => true, :date => {:after => :start_date}
+  validates :close_date,  :presence => true, :date => {:after => :end_date}
+
   validates :course_id, :presence => true
   validates :time_zone, :presence => true
   validate :is_controlled_experiment_change_ok?, :on => :update
@@ -26,14 +29,39 @@ class Klass < ActiveRecord::Base
 
   attr_accessor :source_learning_plan_id, :creator, :enable_admin_controls
 
-  attr_accessible :start_date, :end_date, :approved_emails, :time_zone, 
+  attr_accessible :open_date, :close_date, :start_date, :end_date, 
+                  :approved_emails, :time_zone, 
                   :source_learning_plan_id, :is_controlled_experiment,
                   :allow_student_specified_id, :test_exercise_tags, 
                   :nontest_exercise_tags
   
-  def self.started;  where{start_date.lt Time.now}; end 
-  def self.not_finished; where{end_date.gt Time.now}; end
-  def self.in_progress; started.not_finished; end
+  def self.opened;  where{open_date.lte  Time.now}; end 
+  def self.started; where{start_date.lte Time.now}; end 
+  def self.ended;   where{end_date.lte   Time.now}; end
+  def self.closed;  where{close_date.lte Time.now}; end
+
+  def self.not_opened;  where{open_date.gt  Time.now}; end 
+  def self.not_started; where{start_date.gt Time.now}; end 
+  def self.not_ended;   where{end_date.gt   Time.now}; end
+  def self.not_closed;  where{close_date.gt Time.now}; end
+
+  def self.current;     opened.not_closed; end
+  def self.not_current; where{ (open_date.gt Time.now) | (close_date.lte Time.now) }; end
+
+  def self.in_progress;     started.not_ended; end
+  def self.not_in_progress; where{ (start_date.gt Time.now) | (end_date.lte Time.now) }; end
+
+  def open_date=(timeOrTimestr)
+    time = nil
+    if timeOrTimestr.present?
+      time = Chronic.parse(timeOrTimestr.to_s)
+      time = time.change(:min => time.min - (time.min % 1))
+      if learning_plan.present?
+        time = TimeUtils.time_and_zone_to_utc_time(time, TimeUtils.zonestr_to_zone(time_zone))
+      end
+    end
+    write_attribute(:open_date, time)
+  end
 
   def start_date=(timeOrTimestr)
     time = nil
@@ -59,14 +87,30 @@ class Klass < ActiveRecord::Base
     write_attribute(:end_date, time)
   end
   
+  def close_date=(timeOrTimestr)
+    time = nil
+    if timeOrTimestr.present?
+      time = Chronic.parse(timeOrTimestr.to_s)
+      time = time.change(:min => time.min - (time.min % 1))
+      if learning_plan.present?
+        time = TimeUtils.time_and_zone_to_utc_time(time, TimeUtils.zonestr_to_zone(time_zone))
+      end
+    end
+    write_attribute(:close_date, time)
+  end
+
   def name
     course.name
   end
   
-  def in_progress?
-    started? && !ended?
+  def opened?
+    Time.now >= open_date
   end
-  
+
+  def not_opened?
+    !opened?
+  end
+
   def started?
     Time.now >= start_date
   end
@@ -75,6 +119,18 @@ class Klass < ActiveRecord::Base
     Time.now > end_date
   end
   
+  def closed?
+    Time.now > close_date
+  end
+
+  def current?
+    opened? && !closed?
+  end  
+
+  def in_progress?
+    started? && !ended?
+  end  
+
   def registration_requests
     RegistrationRequest.joins{section.klass}.where{section.klass.id == my{id}}
   end
@@ -166,9 +222,9 @@ class Klass < ActiveRecord::Base
 protected
 
   def destroyable?
-    return true if sections.empty? || sudo_enabled?
-    errors.add(:base, "This class cannot be deleted because it has sections.")
-    false
+    return true if sudo_enabled?
+    errors.add(:base, "This class cannot be deleted because it has sections (except by admin override).") if sections.any?
+    errors.none?
   end
 
   def set_first_instructor

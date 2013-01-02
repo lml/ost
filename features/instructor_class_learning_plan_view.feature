@@ -31,6 +31,7 @@ Feature: Instructors can view the Learning Plans for Classes they are teaching.
 
     Scenario: Professor X views Learning Plan for Intro 101
         Given that I am logged in as "Professor X"
+        And   I time travel to "Oct 1, 2012 6:00am" "UTC"
         When  I visit the main page
         When  I click on "dashboard"
         Then  I am taken to the "index" page for "Dashboard"
@@ -45,6 +46,7 @@ Feature: Instructors can view the Learning Plans for Classes they are teaching.
         
     Scenario: Professor X views Learning Plan for Course 102
         Given that I am logged in as "Professor X"
+        And   I time travel to "Oct 1, 2012 6:00am" "UTC"
         When  I visit the main page
         When  I click on "dashboard"
         Then  I am taken to the "index" page for "Dashboard"
