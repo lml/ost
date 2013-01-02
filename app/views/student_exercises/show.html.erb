@@ -5,6 +5,8 @@
 
 <%= render :partial => "question", :locals => { :student_exercise => @student_exercise } %>
 
+<% @errors = @student_exercise.errors %>
+
 <% if @student_exercise.present_free_response_and_selected_answer? %>
 
   <%= section "Free Response", {:classes => ''} do %>
