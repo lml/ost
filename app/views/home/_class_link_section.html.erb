@@ -1,0 +1,36 @@
+<!-- 
+  The following locals need to be defined to use this partial:
+    present_user         
+    section_name         
+    screen_method        
+    taking_section_name  
+    dropped_section_name 
+    teaching_section_name
+    collapsible          
+    collapsed            
+ -->
+
+<%
+  user_classes_active_students  = present_user.students.active.select{ |student| student.section.klass.send(screen_method) }
+  user_classes_dropped_students = present_user.students.dropped.select{ |student| student.section.klass.send(screen_method) }
+  user_classes_educators        = present_user.educators.select{ |educator| educator.klass.send(screen_method) }
+
+  user_classes_taking   = user_classes_active_students.collect{ |student| student.section.klass }
+  user_classes_dropped  = user_classes_dropped_students.collect{ |student| student.section.klass }
+  user_classes_teaching = user_classes_educators.collect{ |educator| educator.klass }
+
+  user_has_activity = user_classes_taking.any?  ||
+                      user_classes_dropped.any? ||
+                      user_classes_teaching.any?
+%>
+
+<% if user_has_activity %>
+  <%= section section_name, {:classes => 'first no_bar', :collapsible => collapsible, :collapsed => collapsed} do %>
+    <%= render :partial => "class_links", :locals => { :klasses      => user_classes_taking,
+                                                       :section_name => taking_section_name } %>
+    <%= render :partial => "class_links", :locals => { :klasses      => user_classes_dropped,
+                                                       :section_name => dropped_section_name } %>
+    <%= render :partial => "class_links", :locals => { :klasses      => user_classes_teaching,
+                                                       :section_name => teaching_section_name } %>
+  <% end %>
+<% end %>

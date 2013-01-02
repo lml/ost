@@ -107,6 +107,10 @@ class Klass < ActiveRecord::Base
     Time.now >= open_date
   end
 
+  def not_opened?
+    !opened?
+  end
+
   def started?
     Time.now >= start_date
   end

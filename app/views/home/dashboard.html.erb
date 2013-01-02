@@ -8,6 +8,29 @@
 
 <%= pageHeading "Dashboard" %>
 
-<%= render :partial => "classes_current", :locals => { :present_user => present_user } %>
-<%= render :partial => "classes_future",  :locals => { :present_user => present_user } %>
-<%= render :partial => "classes_past",    :locals => { :present_user => present_user } %>
+<%= render :partial => "class_link_section", :locals => { :present_user          => present_user,
+                                                          :section_name          => "Current Activity",
+                                                          :screen_method         => :current?,
+                                                          :taking_section_name   => "Classes I'm Taking",
+                                                          :dropped_section_name  => "Classes I've Dropped",
+                                                          :teaching_section_name => "Classes I'm Teaching",
+                                                          :collapsible           => true,
+                                                          :collapsed             => false } %>
+
+<%= render :partial => "class_link_section", :locals => { :present_user          => present_user,
+                                                          :section_name          => "Future Activity",
+                                                          :screen_method         => :not_opened?,
+                                                          :taking_section_name   => "Classes I'll be Taking",
+                                                          :dropped_section_name  => "Classes I've Dropped",
+                                                          :teaching_section_name => "Classes I'll be Teaching",
+                                                          :collapsible           => true,
+                                                          :collapsed             => true } %>
+
+<%= render :partial => "class_link_section", :locals => { :present_user          => present_user,
+                                                          :section_name          => "Past Activity",
+                                                          :screen_method         => :closed?,
+                                                          :taking_section_name   => "Classes I've Taken",
+                                                          :dropped_section_name  => "Classes I've Dropped",
+                                                          :teaching_section_name => "Classes I've Taught",
+                                                          :collapsible           => true,
+                                                          :collapsed             => true } %>
