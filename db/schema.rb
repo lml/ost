@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121231193519) do
+ActiveRecord::Schema.define(:version => 20130103015239) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -199,8 +199,6 @@ ActiveRecord::Schema.define(:version => 20121231193519) do
     t.datetime "updated_at",                                    :null => false
     t.boolean  "is_controlled_experiment",   :default => false, :null => false
     t.boolean  "allow_student_specified_id", :default => false, :null => false
-    t.string   "test_exercise_tags"
-    t.string   "nontest_exercise_tags"
     t.datetime "open_date"
     t.datetime "close_date"
   end
@@ -216,11 +214,13 @@ ActiveRecord::Schema.define(:version => 20121231193519) do
   add_index "learning_conditions", ["cohort_id"], :name => "index_learning_conditions_on_cohort_id"
 
   create_table "learning_plans", :force => true do |t|
-    t.integer  "klass_id",    :null => false
+    t.integer  "klass_id",                              :null => false
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.string   "test_exercise_tags",    :default => ""
+    t.string   "nontest_exercise_tags", :default => ""
   end
 
   add_index "learning_plans", ["klass_id"], :name => "index_learning_plans_on_klass_id"

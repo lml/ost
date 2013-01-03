@@ -10,9 +10,13 @@ class LearningPlan < ActiveRecord::Base
   validates :klass_id, :presence => true
   validates :name, :presence => true
   
+  validates :test_exercise_tags,    :tag_list_format => true
+  validates :nontest_exercise_tags, :tag_list_format => true
+
   before_destroy :destroyable?
   
-  attr_accessible :description, :name
+  attr_accessible :description, :name,
+                  :test_exercise_tags, :nontest_exercise_tags
   
   def destroyable?
     true # depends on children freaking out if they shouldn't be destroyed
