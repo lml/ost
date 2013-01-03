@@ -52,7 +52,7 @@ class PercentScheduler < Scheduler
 
     current_assignment_plan = assignment_plan
     
-    klass_tags = assignment_plan.learning_plan.klass.nontest_exercise_tags
+    klass_tags = assignment_plan.learning_plan.nontest_exercise_tags
 
     schedule.each do |rule|    
       topics = current_assignment_plan.topics      

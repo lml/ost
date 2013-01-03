@@ -83,7 +83,7 @@ Ost::Application.routes.draw do
     put 'reject', :as => "reject", :on => :member
   end
       
-  resources :learning_plans, :only => [:show] do
+  resources :learning_plans, :only => [:show, :edit, :update] do
     resources :topics, :shallow => true, :except => [:new, :index, :show]
     resources :assignment_plans, :shallow => true
     resources :concepts, :shallow => true do
