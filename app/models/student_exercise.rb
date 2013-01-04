@@ -163,9 +163,9 @@ class StudentExercise < ActiveRecord::Base
 
   def can_be_read_by?(user)
     return false          if user.is_anonymous?
-    return true           if user.is_administrator?
-    return true           if is_educator?(user)
     return !klass.closed? if belongs_to_active_student_user?(user)
+    return true           if is_educator?(user)
+    return true           if user.is_administrator?
     return false
   end
 
@@ -177,8 +177,8 @@ class StudentExercise < ActiveRecord::Base
 
   def can_be_changed_by?(user)
     return false if user.is_anonymous?
-    return true  if user.is_administrator?
     return true  if is_educator?(user)
+    return true  if user.is_administrator?
     return false
   end
   
