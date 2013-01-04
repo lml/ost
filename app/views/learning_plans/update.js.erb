@@ -1,0 +1,6 @@
+<%= unless_errors_in(@learning_plan, 'message_dialog_errors') do %>
+  $("#global_labels").replaceWith("<%= ej(render :partial => 'learning_plans/global_labels', :locals => { :learning_plan => @learning_plan })%>")
+
+  refresh_buttons();
+  $("#message_dialog").dialog('close');
+<% end %> 
