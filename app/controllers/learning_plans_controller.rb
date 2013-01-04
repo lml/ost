@@ -17,14 +17,7 @@ class LearningPlansController < ApplicationController
   def update
     @learning_plan = LearningPlan.find(params[:id])
     raise SecurityTransgression unless present_user.can_update?(@learning_plan)
-
-    respond_to do |format|
-      if @learning_plan.update_attributes(params[:learning_plan])
-        format.html { redirect_to @learning_plan, notice: 'Learning Plan was successfully updated.' }
-      else
-        format.html { render action: "edit" }
-      end
-    end
+    @learning_plan.update_attributes(params[:learning_plan])
   end
 
   def refresh_exercises

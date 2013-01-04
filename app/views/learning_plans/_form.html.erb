@@ -1,6 +1,6 @@
 <% @errors = @learning_plan.errors %>
 
-<%= form_for @learning_plan do |f| %>
+<%= form_for @learning_plan, :remote => true do |f| %>
   <div class="field">
     Labels to apply to all tests<br/>
     <%= f.text_field :test_exercise_tags %><br/>
