@@ -4,20 +4,18 @@
 <span style="float:right; font-size:10px"><%= standard_datetime(Time.zone.now) %></span>
 
 <%= section "Login as:" do %>
-  <table>
-    <%= render  :partial  => 'login_as_user_rows', 
-                :locals   => {  :users      => User.administrators.sort_by{|user| user.last_name}, 
-                                :group_name => "Admins" } %>
-    <%= render  :partial  => 'login_as_user_rows',
-                :locals   => {  :users      => User.non_administrators.educators.sort_by{|user| user.last_name}, 
-                                :group_name => "Educators" } %>
-    <%= render  :partial  => 'login_as_user_rows', 
-                :locals   => {  :users      => User.non_administrators.non_educators.researchers.sort_by{|user| user.last_name}, 
-                                :group_name => "Researchers" } %>
-    <%= render  :partial  => 'login_as_user_rows', 
-                :locals   => {  :users      => User.non_administrators.non_educators.non_researchers.sort_by{|user| user.last_name}, 
-                                :group_name => "Everyone Else" } %>
-  </table>
+  <%= render  :partial  => 'login_as_users', 
+              :locals   => {  :users      => User.administrators.sort_by{|user| user.last_name}, 
+                              :group_name => "Admins" } %>
+  <%= render  :partial  => 'login_as_users',
+              :locals   => {  :users      => User.non_administrators.educators.sort_by{|user| user.last_name}, 
+                              :group_name => "Educators" } %>
+  <%= render  :partial  => 'login_as_users', 
+              :locals   => {  :users      => User.non_administrators.non_educators.researchers.sort_by{|user| user.last_name}, 
+                              :group_name => "Researchers" } %>
+  <%= render  :partial  => 'login_as_users', 
+              :locals   => {  :users      => User.non_administrators.non_educators.non_researchers.sort_by{|user| user.last_name}, 
+                              :group_name => "Everyone Else" } %>
 <% end %>
 
 <%= section "Reset Time" do %>
