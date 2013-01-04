@@ -77,9 +77,10 @@ class Assignment < ActiveRecord::Base
   #############################################################################
 
   def can_be_read_by?(user)
-    return true           if user.is_administrator?
-    return true           if user.is_researcher?
     return !klass.closed? if cohort.is_active_member?(user)
+    return true           if user.is_researcher?
+    return true           if user.is_administrator?
+    return false
   end
 
   def can_be_updated_by?(user)
