@@ -1,7 +1,11 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p><%= SITE_NAME %> is built to capitalize on the large universe of freely available open educational resources (OER) but does not itself host educational content. Add your own course materials to external websites, or search OER repositories for reusable content to use or adapt: </p>
+<p><%= SITE_NAME %> is built to capitalize on the large universe of freely available open educational resources (OER) but does not itself host educational content.</p>
+
+<p>To assign exercises in OST, you must add your course materials to external OER repositories, or search for reusable OER content to use or adapt. For example, you can embed resources from <%= link_to "Connexions", 
+  "http://www.cnx.org" %> and exercises from our OST-compatible OER repository. Please email <%= email_link "support", "support@openstaxtutor.org" %> for more information about the repository for exercises and assessments.</p>
+    <% if false %>  
        <ul>
          <li><em>Exercises</em> you use must be hosted on <%= link_to "Quadbase", "http://www.quadbase.org"%>, the open-access question and answer repository. 
                <strong>Currently, OST supports simple multiple choice questions only</strong>; more question types are coming soon.</li>
@@ -10,13 +14,16 @@
             websites, including <%= link_to "Connexions", 
           "http://www.cnx.org" %>, one of the world's largest open educational resources. </li>
        </ul>
+      
       <p>Note that content you add to Quadbase and Connexions must be legally publishable under 
         the Creative Commons Attribution license, meaning that anything you use directly in your content must 
         be legally publishable under those licenses.</p>
-    
+        <% end %> 
+    <% if false %>    
 <p>Helpful resources: </p>
   <ul>
-    <li>Frequently asked legal and intellectual property questions for <%= link_to "Quadbase", "http://quadbase.org/help/legal" %>
+
+    <li>Frequently asked legal and intellectual property questions <%= link_to "Quadbase", "http://quadbase.org/help/legal" %>
         and <%= link_to "Connexions", "http://cnx.org/help/ip" %>.</p>
     
     <li><%= link_to "Create new exercises in Quadbase", "https://quadbase.org/questions/get_started"%> 
@@ -26,3 +33,4 @@
       or <%= link_to "search for reusable Connexions resources", "http://cnx.org/content/" %>.</li>
   </ul>
   <p>
+    <% end %>

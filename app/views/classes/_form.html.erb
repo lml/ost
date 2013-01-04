@@ -14,19 +14,19 @@
                             :default => time_zone) %>
   </div>
   <div class="field">
-    <%= f.label :open_date, t(:open_date_time) %><br />
+    <%= f.label :open_date, t(:open_date_time) %> <%= link_to_help 'open_date', "", {:title => 'Open Date', :width => '500', :height => '300'} %> <br />
     <%= f.datetime_text_field :open_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
-    <%= f.label :start_date, t(:start_date_time) %><br />
+    <%= f.label :start_date, t(:start_date_time) %> <%= link_to_help 'start_date', "", {:title => 'Open Date', :width => '500', :height => '300'} %> <br />
     <%= f.datetime_text_field :start_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
-    <%= f.label :end_date, t(:end_date_time) %><br />
+    <%= f.label :end_date, t(:end_date_time) %> <%= link_to_help 'end_date', "", {:title => 'Open Date', :width => '500', :height => '300'} %> <br />
     <%= f.datetime_text_field :end_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
-    <%= f.label :close_date, t(:close_date_time) %><br />
+    <%= f.label :close_date, t(:close_date_time) %> <%= link_to_help 'close_date', "", {:title => 'Open Date', :width => '500', :height => '300'} %> <br />
     <%= f.datetime_text_field :close_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">

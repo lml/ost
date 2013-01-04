@@ -49,6 +49,7 @@
         </ol>
       <% end %>
 
+<% if false %>
     <%= accordion_entry :title => "I saved my free-form response, so why can't I 
                                   see the multiple choice answers?" do %>
       <p>To view the multiple choice answers, you must save and 
@@ -62,6 +63,7 @@
            answers until you save and lock.</p>
     <% end %>
 
+<% end %>
     <%= accordion_entry :title => "Can I still get credit if I work exercises 
     after the due date?" do %>
       <p><%= SITE_NAME %> will not give credit for answers entered after the due 
@@ -89,26 +91,29 @@
     <%= accordion_entry :title => "What kinds of exercises can I assign in #{SITE_NAME}?" do %>
         
     <%= render :partial => 'help/blurbs/supported_exercises'%>
+    
+    <p>Note: Exercises you assign in OST must be hosted in the OST-compatible repository for assessments. You can add your own exercises or search for and adapt existing materials. Email <%= email_link "support", "support@openstaxtutor.org" %> for more information.</p> 
      <% end %>
   
+  <% if false %>
     <%= accordion_entry :title => "Can I use #{SITE_NAME} to assign exercises that were published and copyrighted?" do %>
     
-    We recommend you check out the legal and intellectual property FAQ sections at both
-     <%= link_to "Quadbase", "http://quadbase.org/help/legal" %>
-        and <%= link_to "Connexions", "http://cnx.org/help/ip" %>.
+    We recommend you check out the legal and intellectual property FAQ section for Connexions 
+     <%= link_to "here", "http://quadbase.org/help/legal" %>
+        and <%= link_to "here", "http://cnx.org/help/ip" %>.
     
+    <% end %>
     <% end %>
   
     <%= accordion_entry :title => "How do I add exercises and resources to 
     #{SITE_NAME}? It looks I can only add links." do %>
-    <p><%= SITE_NAME %> is built to capitalize on the large universe of freely available open educational resources 
+    <p><%= SITE_NAME %> is built to capitalize on the large universe of open educational resources 
       (OER) but does not itself host educational content. You can add your own course materials to external websites, or 
-      search OER repositories for reusable content to use, adapt, or remix.</p>
+      search particular OER repositories for reusable content to use, adapt, or remix.</p>
 
-        <p>Once your materials are hosted on external sites, you can simply copy
+        <p>Once your materials are hosted on external sites, you can copy
            and paste the URL in the Topics section.</p>
-    <%= link_to "Click here to learn more about Quadbase, Connexions and adding materials to 
-    the Topics section.", help_topics_path%> </p>
+    <%= link_to "Click here to learn more.", help_topics_path%> </p>
     <% end %>
 
     <%= accordion_entry :title => "How do I add exercises to an assignment? It looks like I can
