@@ -3,42 +3,48 @@
 
 <%= section "Your Assignments", {:classes => "assignments", :collapsible => collapsible_section, :collapsed => collapsible_section} do %>
 
-  <% assignment_plans = klass.learning_plan.assignment_plans.select{|ap| ap.assigned?} %>
-  <% student_assignments = StudentAssignment.for_student(student).sort_by{|sa| sa.assignment.assignment_plan.number} %>
-
-  <% show_grades = student_assignments.inject(true) { |result, sa| result && sa.learning_condition.show_correctness_feedback?(sa) } %>
-
-  <% if student.has_dropped? %>
-    <p>You have dropped this class.</p>
-  <% elsif student_assignments.none? %>
-    <p>No assignments yet!</p>
+  <% if klass.closed? %>
+    <p>Your assignments are no longer accessible because this class is closed.</p>
   <% else %>
 
-    <table class="list student_assignment">
-      <tr>
-        <th class="assignment_number"></th>
-        <th class="assignment_name">Name</th>
-        <th class="assignment_start">Starts</th>
-        <th class="assignment_end">Ends</th>
-        <% if show_grades %>
-          <th class="assignment_grade percentage">Grade (%)</th>
-        <% end %>
-      </tr>
+    <% assignment_plans = klass.learning_plan.assignment_plans.select{|ap| ap.assigned?} %>
+    <% student_assignments = StudentAssignment.for_student(student).sort_by{|sa| sa.assignment.assignment_plan.number} %>
 
-      <% student_assignments.each do |student_assignment| %>        
-        <% assignment_plan = student_assignment.assignment.assignment_plan %>
+    <% show_grades = student_assignments.inject(true) { |result, sa| result && sa.learning_condition.show_correctness_feedback?(sa) } %>
+
+    <% if student.has_dropped? %>
+      <p>You have dropped this class.</p>
+    <% elsif student_assignments.none? %>
+      <p>No assignments yet!</p>
+    <% else %>
+
+      <table class="list student_assignment">
         <tr>
-          <td class="assignment_number"><%= 1+assignment_plan.number %>.</td>
-          <td class="assignment_name"><%= link_to(assignment_plan.name, student_assignment.assignment) %></td>
-          <td class="assignment_start"><%= standard_date(assignment_plan.starts_at) %></td>
-          <td class="assignment_end"><%= standard_date(assignment_plan.ends_at) %></td>
+          <th class="assignment_number"></th>
+          <th class="assignment_name">Name</th>
+          <th class="assignment_start">Starts</th>
+          <th class="assignment_end">Ends</th>
           <% if show_grades %>
-            <td class="assignment_grade"><%= standard_percentage(student_assignment.score) %></td>
+            <th class="assignment_grade percentage">Grade (%)</th>
           <% end %>
         </tr>
-      <% end %>
 
-    </table>
+        <% student_assignments.each do |student_assignment| %>        
+          <% assignment_plan = student_assignment.assignment.assignment_plan %>
+          <tr>
+            <td class="assignment_number"><%= 1+assignment_plan.number %>.</td>
+            <td class="assignment_name"><%= link_to(assignment_plan.name, student_assignment.assignment) %></td>
+            <td class="assignment_start"><%= standard_date(assignment_plan.starts_at) %></td>
+            <td class="assignment_end"><%= standard_date(assignment_plan.ends_at) %></td>
+            <% if show_grades %>
+              <td class="assignment_grade"><%= standard_percentage(student_assignment.score) %></td>
+            <% end %>
+          </tr>
+        <% end %>
+
+      </table>
+
+    <% end %>
 
   <% end %>
 
