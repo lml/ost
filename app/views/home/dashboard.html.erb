@@ -19,7 +19,7 @@
 
 <%= render :partial => "class_link_section", :locals => { :present_user          => present_user,
                                                           :section_name          => "Future Activity",
-                                                          :screen_method         => :not_opened?,
+                                                          :screen_method         => :future?,
                                                           :taking_section_name   => "Classes I'll be Taking",
                                                           :dropped_section_name  => "Classes I've Dropped",
                                                           :teaching_section_name => "Classes I'll be Teaching",
@@ -28,7 +28,7 @@
 
 <%= render :partial => "class_link_section", :locals => { :present_user          => present_user,
                                                           :section_name          => "Past Activity",
-                                                          :screen_method         => :closed?,
+                                                          :screen_method         => :past?,
                                                           :taking_section_name   => "Classes I've Taken",
                                                           :dropped_section_name  => "Classes I've Dropped",
                                                           :teaching_section_name => "Classes I've Taught",
