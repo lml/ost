@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(:version => 20130105042222) do
   end
 
   add_index "assignment_coworkers", ["student_assignment_id"], :name => "index_assignment_coworkers_on_student_assignment_id"
-  add_index "assignment_coworkers", ["student_id"], :name => "index_assignment_coworkers_on_student_id"
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -75,7 +74,7 @@ ActiveRecord::Schema.define(:version => 20130105042222) do
   end
 
   add_index "assignments", ["assignment_plan_id"], :name => "index_assignments_on_assignment_plan_id"
-  add_index "assignments", ["cohort_id", "assignment_plan_id"], :name => "index_assignments_on_cohort_id_and_assignment_plan_id", :unique => true
+  add_index "assignments", ["cohort_id", "assignment_plan_id"], :name => "index_assignments_on_cohort_id_scoped", :unique => true
 
   create_table "cohorts", :force => true do |t|
     t.integer  "section_id"
