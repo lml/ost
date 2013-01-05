@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20130105071211) do
 
   add_index "assignment_exercises", ["assignment_id"], :name => "index_assignment_exercises_on_assignment_id"
   add_index "assignment_exercises", ["topic_exercise_id", "assignment_id"], :name => "index_assignment_exercises_on_topic_exercise_id_scoped", :unique => true
+  add_index "assignment_exercises", ["topic_exercise_id"], :name => "index_assignment_exercises_on_topic_exercise_id"
 
   create_table "assignment_plan_topics", :force => true do |t|
     t.integer  "assignment_plan_id",                      :null => false
@@ -77,6 +78,7 @@ ActiveRecord::Schema.define(:version => 20130105071211) do
 
   add_index "assignments", ["assignment_plan_id"], :name => "index_assignments_on_assignment_plan_id"
   add_index "assignments", ["cohort_id", "assignment_plan_id"], :name => "index_assignments_on_cohort_id_scoped", :unique => true
+  add_index "assignments", ["cohort_id"], :name => "index_assignments_on_cohort_id"
 
   create_table "cohorts", :force => true do |t|
     t.integer  "section_id"
