@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130105075831) do
+ActiveRecord::Schema.define(:version => 20130105080150) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -378,6 +378,7 @@ ActiveRecord::Schema.define(:version => 20130105075831) do
     t.float    "feedback_credit_multiplier",   :default => 1.0
   end
 
+  add_index "student_exercises", ["assignment_exercise_id", "student_assignment_id"], :name => "index_student_exercises_on_assignment_exercise_scoped", :unique => true
   add_index "student_exercises", ["assignment_exercise_id"], :name => "index_student_exercises_on_assignment_exercise_id"
   add_index "student_exercises", ["student_assignment_id"], :name => "index_student_exercises_on_student_assignment_id"
 
