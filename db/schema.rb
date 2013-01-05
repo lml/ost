@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130105051734) do
+ActiveRecord::Schema.define(:version => 20130105052640) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -134,7 +134,7 @@ ActiveRecord::Schema.define(:version => 20130105051734) do
   end
 
   add_index "consents", ["consent_options_id"], :name => "index_consents_on_consent_options_id"
-  add_index "consents", ["consentable_id", "consentable_type"], :name => "consentable_index"
+  add_index "consents", ["consentable_id", "consentable_type"], :name => "index_consents_on_consentable_id_scoped", :unique => true
 
   create_table "course_instructors", :force => true do |t|
     t.integer  "course_id",  :null => false
