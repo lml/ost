@@ -95,9 +95,8 @@
     <%= render :partial => 'help/blurbs/calc_grade'%>
     <% end %>
     
-    <%= accordion_entry :title => "Export grades spreadsheet" do %>
-    <p>To export grades to Excel, go to <strong>Dashboard > Class</strong> and click
-       <strong>Class Grades</strong>.</p>
+    <%= accordion_entry :title => "Export grades" do %>
+    <% render :partial => 'help/blurbs/grades_reports'%>
     <% end %>
     
     <%= accordion_entry :title => "Manually override exercise score" do %>

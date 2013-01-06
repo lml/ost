@@ -47,7 +47,7 @@
               preview_assignments_klass_path(@learning_plan.klass) %>
 <% end %>
 
-<%= render :partial => "global_labels", :locals => { :learning_plan => @learning_plan } %>
+<%= render :partial => "global_labels", :locals => { :learning_plan => @learning_plan } %> <% link_to_help 'global_labels', "", :width => 400 %>
 
 <%= section "Scheduling" do %>
 
