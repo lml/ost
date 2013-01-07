@@ -1,7 +1,24 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>Use the Scheduler Editing form to prescribe the <em>schedule</em>, or general format, of non-test assignments. OST will build assignments for your class in accordance with the Fschedule(s) listed here. </p>
+<p>Use this form to create rules to define (a) which exercises are used in which assignments and (b) what labels are attached to each exercise. The examples below illustrate how schedules work.</p>
+
+<p><strong>Example 1</strong>: This schedule will yield assignments that include exercises from both (i) the current topic and (ii) topics covered <em>two assignments ago</em> (a form of <%= link_to_help 'spaced_practice', text="spaced practice", {:title => 'Spaced Practice', :width => '900', :height => '700'} %>).</p>
+<p>
+<p><center><%= image_tag("schedule1.png", {:border => 1, :width => "95%", 
+   :title=>"schedule"})%></center></p> 
+<p>
+<p><strong>Example 2</strong>: The schedule below is the <em><strong>default schedule setting</strong></em>, i.e., OST will build your assignments using this rule unless you change it.</p>
+<p><center><%= image_tag("default_schedule copy.png", {:border => 1, :width => "95%", 
+   :title=>"schedule"})%></center></p>
+   
+  
+<p><strong>Example 3</strong>: You can also create <em><strong>multiple schedules</strong></em>. Given multiple schedules, OST will cycle through the schedules in order. </p> 
+<p>
+<p><center><%= image_tag("schedule2.png", {:border => 1, :width => "95%", 
+   :title=>"schedule"})%></center></p>
+
+<% if false %>
 
 <strong>Edit Schedule 1</strong>
 
@@ -22,3 +39,18 @@
     <p>
   <li>Continue adding new rows as necessary.</li>
 </ol>
+
+For row <strong>assignment n=0</strong>, designate what percentage of exercises OST should draw from each topic attached to the current assignment. 
+
+  For example: if Assignment 1 includes Topic A, and Topic A has 4 exercises, a 50% rule will pull 2 exercises from Topic A into the current assignment. 
+  
+Click Add a new row to create an additional percentage rule. 
+
+  For example: If Assignment 2 includes Topic B, a 50% rule for Assignment n = 1 will pull 2 exercises from Topic A (covered in Assignment n =1 ) and 2 exer f Assignment n = 1 is set to draw 50%  rule where all non-test assignments automatically draw exercises from <em>previously assigned topics</em>. 
+
+Give Assignment n = 0 draws 50% of the exercises from topics attached to the current HW assignment; and 
+Given Assignment n = 1 draws 50% of the exercises from topics attached to the <em>previous</em> HW assignment; and 
+Given Topic A has 2 unused exercises, and Topic B has 4 unused exercises; 
+
+<% end %>               
+               
