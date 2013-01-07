@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20130106054703) do
 
   add_index "assignment_coworkers", ["student_assignment_id"], :name => "index_assignment_coworkers_on_student_assignment_id"
   add_index "assignment_coworkers", ["student_id", "student_assignment_id"], :name => "index_assignment_coworkers_on_student_id_scoped", :unique => true
+  add_index "assignment_coworkers", ["student_id"], :name => "index_assignment_coworkers_on_student_id"
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -139,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20130106054703) do
   end
 
   add_index "consents", ["consent_options_id"], :name => "index_consents_on_consent_options_id"
+  add_index "consents", ["consentable_id", "consentable_type"], :name => "consentable_index"
   add_index "consents", ["consentable_id", "consentable_type"], :name => "index_consents_on_consentable_id_scoped", :unique => true
 
   create_table "course_instructors", :force => true do |t|
