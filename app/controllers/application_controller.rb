@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
                 :user_is_admin?,
                 :present_user,
                 :view_dir,
+                :view_dir_from_string,
                 :enable_clock
 
   unless Ost::Application.config.consider_all_requests_local
@@ -151,7 +152,8 @@ protected
   end
 
   def enable_timeout
-    @enable_timeout = true
+    # disable in development
+    @enable_timeout = !Rails.env.development?
   end
 
   def is_id?(value)
@@ -187,7 +189,11 @@ protected
   end
   
   def view_dir(object)
-    object.type.underscore.pluralize
+    view_dir_from_string(object.type)
+  end
+
+  def view_dir_from_string(string) 
+    string.underscore.pluralize
   end
   
   def enable_clock

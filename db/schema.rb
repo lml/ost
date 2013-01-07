@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130103015239) do
+ActiveRecord::Schema.define(:version => 20130104234701) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -188,6 +188,16 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "feedback_conditions", ["learning_condition_id"], :name => "index_feedback_conditions_on_learning_condition_id"
+
+  create_table "free_responses", :force => true do |t|
+    t.integer  "student_exercise_id"
+    t.string   "attachment"
+    t.text     "content"
+    t.string   "content_type"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.string   "type"
+  end
 
   create_table "klasses", :force => true do |t|
     t.integer  "course_id"

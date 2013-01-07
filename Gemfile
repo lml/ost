@@ -49,6 +49,10 @@ gem 'sqlite3', '~> 1.3.6'
 
 gem 'rack-mini-profiler'
 
+gem 'mini_magick'
+gem 'carrierwave'
+gem "fog", "~> 1.3.1"
+
 group :development, :test do
   gem 'debugger', '~> 1.1.4'
   gem 'faker', '~> 1.0.1'

@@ -9,11 +9,64 @@
 
 <% if @student_exercise.present_free_response_and_selected_answer? %>
 
-  <%= section "Free Response", {:classes => ''} do %>
+        <% if false %>
+  <%= section "Old Free Response", {:classes => 'no_bar', :collapsed => true, :collapsible => true} do %>
     <% if @student_exercise.free_response_submitted? %>
       <%= render :partial => "show_free_response", :locals => { :student_exercise => @student_exercise } %>
     <% else %>
       <%= render :partial => "input_free_response", :locals => { :student_exercise => @student_exercise } %>
+    <% end %>
+  <% end %>
+        <% end %>
+
+  <%= section "Your Answer", {:classes => 'no_bar'} do %>
+    <div id="free_responses">
+      <% @student_exercise.free_responses.each do |free_response| %>
+        <%= render :partial => 'a_free_response', :locals => { :free_response => free_response, 
+                                                               :editable => true } %>
+      <% end %>
+    </div>
+
+    <div style="padding:10px">
+      <center>
+      <%= link_to "Add Text Answer", 
+                  new_student_exercise_free_response_path(@student_exercise, {:type => 'TextFreeResponse'}), 
+                  :remote => true %> | 
+      <%= link_to "Upload photo(s)", nil, :remote => true %>
+      </center>
+    </div>
+
+    <%= form_for(@student_exercise) do |f| %>
+    <div class="field">
+      <p>How confident are you in this answer?</p>
+      <p>This answer is...</p>
+      <table width="100%">
+        <tr>
+          <% confidence_labels.each_with_index do |cl, ii| %>
+            <td width="16.67%">
+              <center>
+                <%= f.radio_button :free_response_confidence, ii %></br/>
+                <%= cl.sub("-","<br/>").html_safe %>
+              </center>
+            </td>        
+          <% end %>        
+        </tr>
+      </table>
+    </div>
+
+    <center>
+      
+      <div class="actions" style="padding-top:10px">
+        <%= f.submit "Save (but don't lock!)", 
+                :name => "save", :class => 'link_button' %>&nbsp;&nbsp;&nbsp;
+        <%= f.submit "Save (and lock!)", 
+                :name => "save_and_lock",
+                :class => 'link_button',
+                :confirm => "After you lock your answer, you can no longer change it. " + 
+                            "Are you sure you want to lock your answer?" %>
+      </div>
+
+    </center>
     <% end %>
   <% end %>
 

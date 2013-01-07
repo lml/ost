@@ -1,0 +1,6 @@
+
+class TextFreeResponse < FreeResponse
+
+
+
+end

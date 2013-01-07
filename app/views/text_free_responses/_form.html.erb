@@ -1,0 +1,16 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% free_response ||= @free_response %>
+
+<%= form_for([@student_exercise, free_response], :remote => true) do |f| %>
+  <div class="field">
+    <div style="padding-bottom:4px">
+      Enter your free-form answer below. <%= link_to_help 'text_free_response', "", {:title => 'Text Answers'} %>
+      <span style="float:right"><%= link_to_function "Preview", "preview_response();" %> | <%= link_to_function "LaTeX Editor", "OpenLatexEditor('free_response','latex','en-us',true,'','full')" %> </span>
+    </div>
+    <%= f.text_area :content, :rows => 5, :style => "width:98.5%", :id => 'free_response' %>
+      
+ </div>
+
+<% end %>

@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Student exercise:</b>
+  <%= @free_response.student_exercise_id %>
+</p>
+
+<p>
+  <b>Attachment:</b>
+  <%= @free_response.attachment %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%= @free_response.content %>
+</p>
+
+<p>
+  <b>Content type:</b>
+  <%= @free_response.content_type %>
+</p>
+
+
+<%= link_to 'Edit', edit_free_response_path(@free_response) %> |
+<%= link_to 'Back', free_responses_path %>

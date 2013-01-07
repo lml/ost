@@ -5,6 +5,8 @@ Ost::Application.routes.draw do
 
 
 
+  resources :free_responses
+
   resources :site_licenses
 
   resources :presentation_conditions, :except => [:index, :show]
@@ -129,6 +131,7 @@ Ost::Application.routes.draw do
     get 'feedback'
     put 'make_correct'
     get 'score_detail'
+    resources :free_responses, :shallow => true, :except => [:index, :show]
   end
   
   # For users, we mix devise with our own users controller.  We have overriden

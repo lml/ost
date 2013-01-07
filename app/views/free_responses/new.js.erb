@@ -1,0 +1,4 @@
+var form = jQuery("<%= ej(render "#{view_dir(@free_response)}/form") %>");
+form.hide();
+$('#free_responses').append(form);
+form.slideDown(200);
