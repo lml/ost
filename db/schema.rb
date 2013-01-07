@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130103015239) do
+ActiveRecord::Schema.define(:version => 20130106054703) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "assignment_coworkers", ["student_assignment_id"], :name => "index_assignment_coworkers_on_student_assignment_id"
-  add_index "assignment_coworkers", ["student_id"], :name => "index_assignment_coworkers_on_student_id"
+  add_index "assignment_coworkers", ["student_id", "student_assignment_id"], :name => "index_assignment_coworkers_on_student_id_scoped", :unique => true
 
   create_table "assignment_exercises", :force => true do |t|
     t.integer  "assignment_id",     :null => false
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "assignment_exercises", ["assignment_id"], :name => "index_assignment_exercises_on_assignment_id"
+  add_index "assignment_exercises", ["number", "assignment_id"], :name => "index_assignment_exercises_on_number_scoped", :unique => true
+  add_index "assignment_exercises", ["topic_exercise_id", "assignment_id"], :name => "index_assignment_exercises_on_topic_exercise_id_scoped", :unique => true
   add_index "assignment_exercises", ["topic_exercise_id"], :name => "index_assignment_exercises_on_topic_exercise_id"
 
   create_table "assignment_plan_topics", :force => true do |t|
@@ -65,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "assignment_plans", ["learning_plan_id"], :name => "index_assignments_on_learning_plan_id"
+  add_index "assignment_plans", ["name", "learning_plan_id"], :name => "index_assignment_plan_on_name_scoped", :unique => true
   add_index "assignment_plans", ["section_id"], :name => "index_assignment_plans_on_section_id"
 
   create_table "assignments", :force => true do |t|
@@ -75,6 +78,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "assignments", ["assignment_plan_id"], :name => "index_assignments_on_assignment_plan_id"
+  add_index "assignments", ["cohort_id", "assignment_plan_id"], :name => "index_assignments_on_cohort_id_scoped", :unique => true
   add_index "assignments", ["cohort_id"], :name => "index_assignments_on_cohort_id"
 
   create_table "cohorts", :force => true do |t|
@@ -87,6 +91,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "cohorts", ["klass_id"], :name => "index_cohorts_on_klass_id"
+  add_index "cohorts", ["number", "klass_id"], :name => "index_cohorts_on_number_scoped", :unique => true
   add_index "cohorts", ["section_id"], :name => "index_cohorts_on_section_id"
 
   create_table "concepts", :force => true do |t|
@@ -98,6 +103,8 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "concepts", ["learning_plan_id"], :name => "index_concepts_on_learning_plan_id"
+  add_index "concepts", ["name", "learning_plan_id"], :name => "index_concepts_on_name_scoped", :unique => true
+  add_index "concepts", ["number", "learning_plan_id"], :name => "index_concepts_on_number_scoped", :unique => true
 
   create_table "consent_forms", :force => true do |t|
     t.text     "html"
@@ -132,7 +139,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "consents", ["consent_options_id"], :name => "index_consents_on_consent_options_id"
-  add_index "consents", ["consentable_id", "consentable_type"], :name => "consentable_index"
+  add_index "consents", ["consentable_id", "consentable_type"], :name => "index_consents_on_consentable_id_scoped", :unique => true
 
   create_table "course_instructors", :force => true do |t|
     t.integer  "course_id",  :null => false
@@ -142,6 +149,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "course_instructors", ["course_id"], :name => "index_course_instructors_on_course_id"
+  add_index "course_instructors", ["user_id", "course_id"], :name => "index_course_instructor_on_user_id_scoped", :unique => true
   add_index "course_instructors", ["user_id"], :name => "index_course_instructors_on_user_id"
 
   create_table "courses", :force => true do |t|
@@ -155,6 +163,8 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
     t.string   "short_name"
   end
 
+  add_index "courses", ["name", "organization_id"], :name => "index_courses_on_name_scoped", :unique => true
+  add_index "courses", ["number", "organization_id"], :name => "index_courses_on_number_scoped", :unique => true
   add_index "courses", ["organization_id"], :name => "index_courses_on_organization_id"
 
   create_table "educators", :force => true do |t|
@@ -168,6 +178,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "educators", ["klass_id"], :name => "index_educators_on_klass_id"
+  add_index "educators", ["user_id", "klass_id"], :name => "index_educators_on_user_id_scoped", :unique => true
   add_index "educators", ["user_id"], :name => "index_educators_on_user_id"
 
   create_table "exercises", :force => true do |t|
@@ -177,6 +188,8 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
+
+  add_index "exercises", ["url"], :name => "index_exercises_on_url", :unique => true
 
   create_table "feedback_conditions", :force => true do |t|
     t.integer  "learning_condition_id", :null => false
@@ -188,6 +201,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "feedback_conditions", ["learning_condition_id"], :name => "index_feedback_conditions_on_learning_condition_id"
+  add_index "feedback_conditions", ["number", "learning_condition_id"], :name => "index_feedback_conditions_on_number_scoped", :unique => true
 
   create_table "klasses", :force => true do |t|
     t.integer  "course_id"
@@ -233,6 +247,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "organization_managers", ["organization_id"], :name => "index_organization_managers_on_organization_id"
+  add_index "organization_managers", ["user_id", "organization_id"], :name => "index_organization_managers_on_user_id_scoped", :unique => true
   add_index "organization_managers", ["user_id"], :name => "index_organization_managers_on_user_id"
 
   create_table "organizations", :force => true do |t|
@@ -241,6 +256,8 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end
+
+  add_index "organizations", ["name"], :name => "index_organizations_on_name", :unique => true
 
   create_table "presentation_conditions", :force => true do |t|
     t.integer  "learning_condition_id", :null => false
@@ -251,6 +268,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "presentation_conditions", ["learning_condition_id"], :name => "index_presentation_conditions_on_learning_condition_id"
+  add_index "presentation_conditions", ["number", "learning_condition_id"], :name => "index_presentation_condition_on_number_scoped", :unique => true
 
   create_table "registration_requests", :force => true do |t|
     t.integer  "user_id",                            :null => false
@@ -261,6 +279,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
     t.string   "student_specified_id", :limit => 30
   end
 
+  add_index "registration_requests", ["section_id", "user_id"], :name => "index_registration_requests_on_section_id_scoped", :unique => true
   add_index "registration_requests", ["section_id"], :name => "index_registration_requests_on_section_id"
   add_index "registration_requests", ["user_id"], :name => "index_registration_requests_on_user_id"
 
@@ -282,7 +301,9 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "resources", ["number", "topic_id"], :name => "index_resources_on_number_scoped", :unique => true
   add_index "resources", ["topic_id"], :name => "index_resources_on_topic_id"
+  add_index "resources", ["url", "topic_id"], :name => "index_resources_on_url_scoped", :unique => true
 
   create_table "response_times", :force => true do |t|
     t.integer  "response_timeable_id",                 :null => false
@@ -325,6 +346,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "sections", ["klass_id"], :name => "index_sections_on_klass_id"
+  add_index "sections", ["name", "klass_id"], :name => "index_sections_on_name_scoped", :unique => true
 
   create_table "site_licenses", :force => true do |t|
     t.text     "title"
@@ -343,6 +365,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "student_assignments", ["assignment_id"], :name => "index_student_assignments_on_assignment_id"
+  add_index "student_assignments", ["student_id", "assignment_id"], :name => "index_student_assignments_on_student_id_scoped", :unique => true
   add_index "student_assignments", ["student_id"], :name => "index_student_assignments_on_student_id"
 
   create_table "student_exercises", :force => true do |t|
@@ -362,6 +385,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
     t.float    "feedback_credit_multiplier",   :default => 1.0
   end
 
+  add_index "student_exercises", ["assignment_exercise_id", "student_assignment_id"], :name => "index_student_exercises_on_assignment_exercise_scoped", :unique => true
   add_index "student_exercises", ["assignment_exercise_id"], :name => "index_student_exercises_on_assignment_exercise_id"
   add_index "student_exercises", ["student_assignment_id"], :name => "index_student_exercises_on_student_assignment_id"
 
@@ -378,6 +402,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
 
   add_index "students", ["cohort_id"], :name => "index_students_on_cohort_id"
   add_index "students", ["section_id"], :name => "index_students_on_section_id"
+  add_index "students", ["user_id", "cohort_id"], :name => "index_students_on_user_id_scoped", :unique => true
   add_index "students", ["user_id"], :name => "index_students_on_user_id"
 
   create_table "taggings", :force => true do |t|
@@ -410,6 +435,7 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
 
   add_index "topic_exercises", ["concept_id"], :name => "index_topic_exercises_on_concept_id"
   add_index "topic_exercises", ["exercise_id"], :name => "index_topic_exercises_on_exercise_id"
+  add_index "topic_exercises", ["number", "topic_id"], :name => "index_topic_exercises_on_number_scoped", :unique => true
   add_index "topic_exercises", ["topic_id"], :name => "index_topic_exercises_on_topic_id"
 
   create_table "topics", :force => true do |t|
@@ -421,6 +447,8 @@ ActiveRecord::Schema.define(:version => 20130103015239) do
   end
 
   add_index "topics", ["learning_plan_id"], :name => "index_topics_on_learning_plan_id"
+  add_index "topics", ["name", "learning_plan_id"], :name => "index_topics_on_name_scoped", :unique => true
+  add_index "topics", ["number", "learning_plan_id"], :name => "index_topics_on_number_scoped", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                                                                          :null => false
