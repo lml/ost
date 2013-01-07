@@ -15,6 +15,7 @@
     <%= accordion_entry :title => "I created an account but never received a 
                  confirmation email. What should I do?" do %>
       <%= render :partial => 'help/blurbs/request_conf_email'%>
+
    <% end %>
 
    <%= accordion_entry :title => "How do I update my user settings, e.g. change my 
@@ -31,6 +32,15 @@
   <% end %>
 
   <%= section "Student FAQs", {:classes => 'no_bar'} do %>
+      <%= accordion_entry :title => "How do I register for a class?" do %>
+        <p>Check out our registration screencast, which will walk you through the registration process: </p>
+
+<%#<% render :partial => 'help/blurbs/student_register_screencast'%>
+
+      <iframe width="560" height="315" src="http://www.youtube-nocookie.com/embed/Vq-LSWL2eIY?rel=0;vq=hd720;modestbranding=1&controls=0" frameborder="0" allowfullscreen></iframe>
+
+  <% end %>
+  
       <%= accordion_entry :title => "I registered for the wrong section
        of my class. How do I change to a different section?" do %>
         <ol>
@@ -49,7 +59,16 @@
         </ol>
       <% end %>
 
-<% if false %>
+       <%= accordion_entry :title => "How do I access and work assignments?" do %>
+          <p>Check out our assignments screencast, which will walk you through the accessing and working assignments in OST: </p>
+          
+          <%#<% render :partial => 'help/blurbs/student_assignment_screencast'%>
+          
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/jJfQ0RjWSpQ?rel=0;vq=hd720;modestbranding=1&controls=0" frameborder="0" allowfullscreen></iframe>
+          
+        <% end %>
+
+
     <%= accordion_entry :title => "I saved my free-form response, so why can't I 
                                   see the multiple choice answers?" do %>
       <p>To view the multiple choice answers, you must save and 
@@ -57,13 +76,9 @@
         <%= image_tag("free_form.png", {:border => 1, :width => "100%", :title=>"free form"})%>
        <%= image_tag("save_and_lock.png", {:border => 1, :width => "100%", :title=>"save and lock"})%>
         
-      <p>If you save but
-         <em><strong>don't lock</strong></em> your free form answer, you can work
-          on other exercises, but you won't be able to view the multiple choice
-           answers until you save and lock.</p>
     <% end %>
 
-<% end %>
+
     <%= accordion_entry :title => "Can I still get credit if I work exercises 
     after the due date?" do %>
       <p><%= SITE_NAME %> will not give credit for answers entered after the due 
