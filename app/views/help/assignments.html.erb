@@ -1,7 +1,7 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<%= pageHeading "Help | Assignments" do %>
+<%= pageHeading "Help | Creating Assignments" do %>
 <% end %>
 
 <p>This help page describes how to create homework and test assignments in <%= SITE_NAME %>. Click 
@@ -14,203 +14,172 @@
   <li>Understand how those learning conditions impact your assignments.</li>
 </ul> 
 
-<div class="accordion" id="accordion2" style="padding-top:20px;">
+   <div class="accordion" id="accordion2" style="padding-top:20px;">
   
-<%= accordion_entry :title => "Overview of assignments" do %>
+      <%= accordion_entry :title => "Overview of assignments" do %>
+      <p>Once you have organized your material into topics and set learning conditions for your 
+        class, creating assignments is simple.</p>
+          <ul>
+            <li>To plan homework assignments, decide the topic(s) each assignment covers.</li>
+            <p>
+            <li>To plan tests, decide which specific exercises each test covers.</li>
+          </ul>
+      <p>OST will build each assignment according to your learning conditions and then deliver
+         those assignments to students via the assignment interface.</p>
 
-<p>Once you have organized your material into topics and set learning conditions for your class, creating assignments is simple.</p>
+              <% if false %>
+              <p>In addition, OST assignments integrate three proven principles from cognitive science:</p>
+                <ul>
+                  <li>Retrieval practice</li>
+                  <li>Feedback</li>
+                  <li>Spaced practice</li>
+                </ul>
 
-<p>To plan homework assignments, decide the topic(s) each assignment covers.<p>
+              <p>Relative to more convention methods of applying, learning and reinforcing concepts, 
+                these learning principles have been shown to 
+                produce superior long-term retention and transfer of knowledge.</p>    
 
-<p>To plan tests, decide which specific exercises each test includes.</p> 
+              <p>Check out the help tutorials below to create homework and tests, or go here 
+                to learn more about learning conditions.</p>
 
-<p>OST will build each assignment according to your learning conditions and then deliver those assignments to students via the assignment interface.</p>
-
-<% if false %>
-<p>In addition, OST assignments integrate three proven principles from cognitive science:</p>
-  <ul>
-    <li>Retrieval practice</li>
-    <li>Feedback</li>
-    <li>Spaced practice</li>
-  </ul>
-
-<p>Relative to more convention methods of applying, learning and reinforcing concepts, these learning principles have been shown to 
-  produce superior long-term retention and transfer of knowledge.</p>   
+                      Set assignment rules (start date/due date, open or closed book, homework 
+                      or test, etc.)
+                <p>
+                <li>For homework, decide what topics each homework covers:</li>
   
-<ol>
-  <li>Define <strong>assignment rules</strong>, e.g. start date/end date.</li>
-  <p>
-  <li>To create homework, define what <strong>topic(s)</strong> the assignment covers.</li>
-    <%= image_tag("hw_topic.png", {:border => 1, :width => "90%"})%>
-  <p>
-  <li>To create a test, define what <strong>topic(s)</strong> the test covers, then mark how many test exercises to include.</li>
-  <p>  <%= image_tag("test_topics.png", {:border => 1, :width => "90%"})%></p>
-  <li>OST will build homework assignments using class <strong>schedule conditions</strong> and present feedback according to <strong>feedback conditions</strong>.</li>
-  </ol>    
+                <%= image_tag("hw_topic.png", {:border => 1, :width => "90%"})%>
+                <p>
+                <li>For tests, decide what topics each test covers, then select the number of test 
+                  questions you want to include:
+                <p>  
+                <%= image_tag("test_topics.png", {:border => 1, :width => "90%"})%>
+                <p>
+                <li>Mark assignment <strong>as ready to be assigned</strong>.</li>
+                <p>
+                <li>Click <strong>Preview Exercises</strong> to verify assignment contents are correct.</li>
+                <p>
+                <li>On the designated start date and time, OST will notify your students the assignment is available.</li>
+              </ol>  
+              <% end %>
+        <% end %>
 
-<p>Check out the help tutorials below to create homework and tests, or go here to learn more about learning conditions.</p>
 
-        Set assignment rules (start date/due date, open or closed book, homework or test, etc.)
-  <p>
-  <li>For homework, decide what topics each homework covers:</li>
+        <%= accordion_entry :title => "Create a homework assignment" do %>
+              <ol>
+                <li>Go to <strong>Dashboard > Class</strong> and click on <strong>Learning Plan</strong>. </strong> 
+                  <p><%= image_tag("click_LP.png", {:border => 1, :width => "90%"})%></p>
+                <li>On the Learning Plan page, scroll to the <strong>Assignments</strong> section and click 
+                  <strong>Add new assignment</strong>.</li>
+                <p>
+                       <%= image_tag("click_add_assign.png", {:border => 1, :width => "90%", 
+                          :title=>"add assignment"})%>  
+                <p>
+                <li>Complete the Assignment dialog box and click <strong>Create Assignment</strong>. </li>
+                <p>
+                <%= image_tag("edit_assignment.png", {:border => 1, :width => "60%", :height => "60%", 
+                  :title=>"edit assignment"})%>  
+                <p>
+                <li>Next, <em><strong>double
+                   click</strong></em> the assignment you just created.</li>
+                <p>  <%= image_tag("empty_assignment.png", {:border => 1, :width => "80%", 
+                  :title=>"edit assignment"})%>  
+                <li>Click <strong>Add</strong>.</li>
+                <p>  <%= image_tag("add_topic_to_a.png", {:border => 1, :width => "80%", 
+                  :title=>"edit assignment"})%></p>
   
-  <%= image_tag("hw_topic.png", {:border => 1, :width => "90%"})%>
-  <p>
-  <li>For tests, decide what topics each test covers, then select the number of test questions you want to include:
-  <p>  
-  <%= image_tag("test_topics.png", {:border => 1, :width => "90%"})%>
-  <p>
-  <li>Mark assignment <strong>as ready to be assigned</strong>.</li>
-  <p>
-  <li>Click <strong>Preview Exercises</strong> to verify assignment contents are correct.</li>
-  <p>
-  <li>On the designated start date and time, OST will notify your students the assignment is available.</li>
-</ol>  
-<% end %>
-<% end %>
-
-<% if false %>
-<%= accordion_entry :title => "How OST builds assignments" do %>
-
-<p>Learning conditions control how OST builds assignments.</p>
-
-<p>For example, under the <%= link_to_help 'default_learning_conditions', text="default learning conditions", 
-{:title => 'Default Learning Conditions', :width => '700', :height => '500'} %>: </p>
-
-<ul>
-  <li>OST builds <em>homework</em> assignments by pulling <em>100% of the 
-  non-test exercises from each assigned topic</em>. OST presents feedback on homework immediately after the exercise is completed.</li>
-  <p>
-  <li>OST builds <em>tests</em> by pulling <em>only</em> exercises marked as tests. OST never shows feedback on test exercises.</li>
-</ul>  
-    
-<p>Click here to learn more about the the <%= link_to_help 'default_learning_conditions', text="default learning conditions", 
-{:title => 'Default Learning Conditions', :width => '700', :height => '500'} %>.</p>
-
-If you are using a custom schedule condition that schedules repetition
-   practice from previous topics, you need only add the <em><strong>primary topic</strong></em>
-    to the assignment. OST will automatically pull spaced practice problems according to the 
-    scheduler.
-<% end %>
-<% end %>
-
-<%= accordion_entry :title => "Create a homework assignment" do %>
-
-<ol>
-  <li>Go to <strong>Dashboard > Class</strong> and click on <strong>Learning Plan</strong>. </strong> 
-    <p><%= image_tag("click_LP.png", {:border => 1, :width => "90%"})%></p>
-  <li>On the Learning Plan page, scroll to the <strong>Assignments</strong> section and click <strong>Add new assignment</strong>.</li>
-  <p>
-         <%= image_tag("click_add_assign.png", {:border => 1, :width => "90%", 
-            :title=>"add assignment"})%>  
-  <p>
-  <li>Complete the Assignment dialog box and click <strong>Create Assignment</strong>. </li>
-  <p>
-  <%= image_tag("edit_assignment.png", {:border => 1, :width => "60%", :height => "60%", 
-    :title=>"edit assignment"})%>  
-  <p>
-  <li>Next, <em><strong>double
-     click</strong></em> the assignment you just created.</li>
-  <p>  <%= image_tag("empty_assignment.png", {:border => 1, :width => "80%", 
-    :title=>"edit assignment"})%>  
-  <li>Click <strong>Add</strong>.</li>
-  <p>  <%= image_tag("add_topic_to_a.png", {:border => 1, :width => "80%", 
-    :title=>"edit assignment"})%></p>
-  
-  <li>Select the topic the assignment will cover and click <strong>Add this topic</strong>.</li>  
-     <p>  <%= image_tag("add_topic_to_a_2.png", {:border => 1, :width => "50%", :height => "50%",
-        :title=>"edit assignment"})%></p>
-  <li>Click <strong>Preview Assignments</strong> to verify the assignment includes all intended exercises.</li>
-  <p>  <%= image_tag("preview_assignments.png", {:border => 1, :width => "80%", 
-     :title=>"edit assignment"})%></p>
-  <li>When the assignment settings are correct, mark <strong>This is ready to be assigned</strong>.</li>
-    <p>
-    <ul>
-      <li>Hold mouse over topic to reveal edit/trash icons and click the pencil icon.</li>
-      <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "80%", 
-         :title=>"edit assignment"})%></p>
-      <li>Check <strong>This is ready to be assigned</strong> and <strong>Update Assignment</strong>.</li>
-      <p>  <%= image_tag("ready_assigned.png", {:border => 1, :width => "80%", 
-         :title=>"edit assignment"})%></p>
-    </ul>
-  </ol>
-<% end %>
+                <li>Select the topic the assignment will cover and click <strong>Add this topic</strong>.</li>  
+                   <p>  <%= image_tag("add_topic_to_a_2.png", {:border => 1, :width => "50%", :height => "50%",
+                      :title=>"edit assignment"})%></p>
+                <li>Click <strong>Preview Assignments</strong> to verify the assignment includes all intended exercises.</li>
+                <p>  <%= image_tag("preview_assignments.png", {:border => 1, :width => "80%", 
+                   :title=>"edit assignment"})%></p>
+                <li>When the assignment settings are correct, mark <strong>This is ready to be assigned</strong>.</li>
+                  <p>
+                  <ul>
+                    <li>Hold mouse over topic to reveal edit/trash icons and click the pencil icon.</li>
+                    <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "80%", 
+                       :title=>"edit assignment"})%></p>
+                    <li>Check <strong>This is ready to be assigned</strong> and <strong>Update Assignment</strong>.</li>
+                    <p>  <%= image_tag("ready_assigned.png", {:border => 1, :width => "80%", 
+                       :title=>"edit assignment"})%></p>
+                  </ul>
+                </ol>
+        <% end %>
 
      <%= accordion_entry :title => "Create a test" do %>
+          <p>This tutorial assumes that you have already marked the exercises you want to reserve for tests.</p>
+          <ol>
+            <li>Go to <strong>Dashboard > Class > Learning Plan > Assignments</strong>. </li>
+            <p><%= image_tag("click_LP.png", {:border => 1, :width => "90%"})%></p>
+            <li>On the Learning Plan page, scroll to the <strong>Assignments</strong> section and click <strong>Add new assignment</strong>.</li>
+            <p>
+               <%= image_tag("click_add_assign.png", {:border => 1, :width => "90%", 
+                :title=>"add assignment"})%>  
+            <li>Complete the Assignment dialog box, being sure to check <strong>This is a test</strong>, and click <strong>Create Assignment</strong>. </li>
+              <p>
+                <%= image_tag("edit_assignment1.png", {:border => 1, :width => "60%", :height => "60%", 
+                :title=>"edit assignment"})%>  
+              <p>
+                <li>Next, <em><strong>double click</strong></em> the assignment you just created.</li>
+              <p>  <%= image_tag("double_click.png", {:border => 1, :width => "80%", 
+                :title=>"edit assignment"})%>  
+              <li>Click <strong>Add</strong>.</li>
+              <p>  <%= image_tag("empty_assignment1.png", {:border => 1, :width => "80%", 
+                :title=>"edit assignment"})%></p>
 
-  <p>This tutorial assumes that you have already marked the exercises you want to reserve for tests. For help 
-    marking exercises as tests, go here.</p>
-  <ol>
-    <li>Go to <strong>Dashboard > Class > Learning Plan > Assignments</strong>. </li>
-    <p><%= image_tag("click_LP.png", {:border => 1, :width => "90%"})%></p>
-    <li>On the Learning Plan page, scroll to the <strong>Assignments</strong> section and click <strong>Add new assignment</strong>.</li>
-    <p>
-       <%= image_tag("click_add_assign.png", {:border => 1, :width => "90%", 
-        :title=>"add assignment"})%>  
-    <li>Complete the Assignment dialog box, being sure to check <strong>This is a test</strong>, and click <strong>Create Assignment</strong>. </li>
-      <p>
-        <%= image_tag("edit_assignment1.png", {:border => 1, :width => "60%", :height => "60%", 
-        :title=>"edit assignment"})%>  
-      <p>
-        <li>Next, <em><strong>double click</strong></em> the assignment you just created.</li>
-      <p>  <%= image_tag("double_click.png", {:border => 1, :width => "80%", 
-        :title=>"edit assignment"})%>  
-      <li>Click <strong>Add</strong>.</li>
-      <p>  <%= image_tag("empty_assignment1.png", {:border => 1, :width => "80%", 
-        :title=>"edit assignment"})%></p>
+              <li>Select the topic the assignment will cover and click <strong>Add this topic</strong>.</li>  
+                 <p>  <%= image_tag("add_topic_to_a_test.png", {:border => 1, :width => "50%", :height => "50%",
+                    :title=>"edit assignment"})%></p>
+            <li>When prompted select how many test exercises to add by clicking on the <strong>0</strong>:</li>
+            <p>
+               <%= image_tag("test1.png", {:border => 1, :width => "80%", :title=>"create test"})%>  
+            <p>
+            <li>Click <strong>Preview Assignments</strong> to verify the assignment looks correct.</li>
+              <p>  <%= image_tag("preview_assignments.png", {:border => 1, :width => "80%", 
+                 :title=>"edit assignment"})%></p>
+              <li>When the assignment settings are correct, mark <strong>This is ready to be assigned</strong>.</li>
+                <p>
+                <ul>
+                  <li>Hold mouse over topic to reveal edit/trash icons and click the pencil icon.</li>
+                  <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "80%", 
+                     :title=>"edit assignment"})%></p>
+                  <li>Check <strong>This is ready to be assigned</strong> and <strong>Update Assignment</strong>.</li>
+                  <p>  <%= image_tag("ready_assigned.png", {:border => 1, :width => "80%", 
+                     :title=>"edit assignment"})%></p>
+              </ul>
+          </ol>
+      <% end %>
 
-      <li>Select the topic the assignment will cover and click <strong>Add this topic</strong>.</li>  
-         <p>  <%= image_tag("add_topic_to_a_test.png", {:border => 1, :width => "50%", :height => "50%",
-            :title=>"edit assignment"})%></p>
-    <li>When prompted select how many test exercises to add by clicking on the <strong>0</strong>:</li>
-    <p>
-       <%= image_tag("test1.png", {:border => 1, :width => "80%", :title=>"create test"})%>  
-    <p>
-    <li>Click <strong>Preview Assignments</strong> to verify the assignment looks correct.</li>
-      <p>  <%= image_tag("preview_assignments.png", {:border => 1, :width => "80%", 
-         :title=>"edit assignment"})%></p>
-      <li>When the assignment settings are correct, mark <strong>This is ready to be assigned</strong>.</li>
-        <p>
-        <ul>
-          <li>Hold mouse over topic to reveal edit/trash icons and click the pencil icon.</li>
-          <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "80%", 
+    <%= accordion_entry :title => "Edit assignment properties" do %>
+
+        <ol>
+          <li>Hold mouse over assignment to reveal edit/trash icons.</li>
+          <p>
+          <li>Click the pencil icon to open the Edit dialog box.</li>
+          <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "100%", 
              :title=>"edit assignment"})%></p>
-          <li>Check <strong>This is ready to be assigned</strong> and <strong>Update Assignment</strong>.</li>
-          <p>  <%= image_tag("ready_assigned.png", {:border => 1, :width => "80%", 
+          <li>In the Edit dialog box, edit assignment properties.</li>
+          <p>  <%= image_tag("edit_assignment.png", {:border => 1, :width => "80%", 
              :title=>"edit assignment"})%></p>
-      </ul>
-  </ol>
-<% end %>
-
-<%= accordion_entry :title => "Edit assignment properties" do %>
-
-<ol>
-  <li>Hold mouse over assignment to reveal edit/trash icons.</li>
-  <p>
-  <li>Click the pencil icon to open the Edit dialog box.</li>
-  <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "100%", 
-     :title=>"edit assignment"})%></p>
-  <li>In the Edit dialog box, edit assignment properties.</li>
-  <p>  <%= image_tag("edit_assignment.png", {:border => 1, :width => "80%", 
-     :title=>"edit assignment"})%></p>
-  <li>Click <strong>Update Assignment</strong> to save.</li>
-</ol>
+          <li>Click <strong>Update Assignment</strong> to save.</li>
+        </ol>
   <% end %>
   
-<%= accordion_entry :title => "Mark assignment as ready to be assigned" do %>
-<p><%=SITE_NAME %> will make assignments available <em><strong>only</strong></em> when they are marked 
-  <em>ready to be assigned.</em><p>
-  <ol>
-    <li>Hold mouse over assignment to reveal edit/trash icons.</li>
-    <p>
-    <li>Click the pencil icon to open the Edit dialog box.</li>
-    <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "100%", 
-       :title=>"edit assignment"})%></p>
-    <li>In the Edit dialog box, check <strong>This is ready to be assigned</strong> and <strong>Update Assignment</strong>.</li>
-    <p>  <%= image_tag("ready_assigned.png", {:border => 1, :width => "80%", 
-       :title=>"edit assignment"})%></p>
-</ol>
-  <% end %>
+    <%= accordion_entry :title => "Mark assignment as ready to be assigned" do %>
+          <p><%=SITE_NAME %> will make assignments available <em><strong>only</strong></em> when they are marked 
+            <em>ready to be assigned.</em><p>
+            <ol>
+              <li>Hold mouse over assignment to reveal edit/trash icons.</li>
+              <p>
+              <li>Click the pencil icon to open the Edit dialog box.</li>
+              <p>  <%= image_tag("edit_assignment_2.png", {:border => 1, :width => "100%", 
+                 :title=>"edit assignment"})%></p>
+              <li>In the Edit dialog box, check <strong>This is ready to be assigned</strong> and 
+                <strong>Update Assignment</strong>.</li>
+              <p>  <%= image_tag("ready_assigned.png", {:border => 1, :width => "80%", 
+                 :title=>"edit assignment"})%></p>
+          </ol>
+      <% end %>
 
 </div>
 
