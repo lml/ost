@@ -3,30 +3,31 @@
 
 <%= pageHeading "Getting Started for Students" %>
 
-<p>Welcome to <%= SITE_NAME %>! This help page will guide you through creating an account, registering for a class and completing assignments in OST. Click on the below links to learn more about each help topic. </p>
+<p>Welcome to <%= SITE_NAME %>! This help page will guide you through creating an account, registering for a class and completing assignments in OST. Click on the below links to learn more about each help topic. Also, be sure to check out our <%= link_to "video tutorials", help_student_tutorials_path %>.</p>
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
 
-  <%= accordion_entry :title => "Sign up for #{SITE_NAME}" do %>    
+  <%= accordion_entry :title => "Sign up for #{SITE_NAME}" do %>   
+    <p>Read the instructions below or <%= link_to_help 'student_register_screencast',
+     text="click here to check out a 2 minute video tutorial", 
+     {:title => 'Video Tutorial', :width => '600', :height => '425'} %>.</p> 
     <%= render :partial => 'help/blurbs/sign_up'%>
   <% end %>
 
   <%= accordion_entry :title => "Register for a class" do %>
+  <p>Read the instructions below or <%= link_to_help 'student_register_screencast',
+   text="click here to check out a 2 minute video tutorial", 
+   {:title => 'Video Tutorial', :width => '600', :height => '425'} %>.</p>
     <%= render :partial => 'help/blurbs/register_for_a_class'%>
   <% end %>
 
-  <%= accordion_entry :title => "How to access assignments" do %>
+  <%= accordion_entry :title => "How to access and complete assignments" do %>
+  <p>Read the instructions below or <%= link_to_help 'student_assignments_screencast',
+   text="click here to check out a 2 minute video tutorial", 
+   {:title => 'Video Tutorial', :width => '600', :height => '425'} %>.</p>
+  
     <%= render :partial => 'help/blurbs/access_assignments'%>
   <% end %>
-<% if false %>
-  <%= accordion_entry :title => "How to complete assignments" do %>
-    <%= render :partial => 'help/blurbs/complete_assignments'%>
-  <% end %>
-  
-  <%= accordion_entry :title => "How to complete multiple choice exercises" do %>
-  <% render :partial => 'help/blurbs/complete_exercise'%>
-  <% end %>
-<% end %>
   
   <%= accordion_entry :title => "How to view scores on assignments" do %>
     <%= render :partial => 'help/blurbs/grades'%>

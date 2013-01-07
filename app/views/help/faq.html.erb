@@ -33,12 +33,10 @@
 
   <%= section "Student FAQs", {:classes => 'no_bar'} do %>
       <%= accordion_entry :title => "How do I register for a class?" do %>
-        <p>Check out our registration screencast, which will walk you through the registration process: </p>
+        <p>Check out our registration screencast, which will walk you through the registration process in 2 minutes: </p>
 
-<%#<% render :partial => 'help/blurbs/student_register_screencast'%>
-
-      <iframe width="560" height="315" src="http://www.youtube-nocookie.com/embed/Vq-LSWL2eIY?rel=0;vq=hd720;modestbranding=1&controls=0" frameborder="0" allowfullscreen></iframe>
-
+        <%= render :partial => 'help/blurbs/student_register_screencast' %>
+  
   <% end %>
   
       <%= accordion_entry :title => "I registered for the wrong section
@@ -60,11 +58,9 @@
       <% end %>
 
        <%= accordion_entry :title => "How do I access and work assignments?" do %>
-          <p>Check out our assignments screencast, which will walk you through the accessing and working assignments in OST: </p>
+          <p>Check out our assignments screencast, which will walk you through accessing and working assignments in 3 minutes: </p>
           
-          <%#<% render :partial => 'help/blurbs/student_assignment_screencast'%>
-          
-          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/jJfQ0RjWSpQ?rel=0;vq=hd720;modestbranding=1&controls=0" frameborder="0" allowfullscreen></iframe>
+          <%= render :partial => 'help/blurbs/student_assignments_screencast'%>
           
         <% end %>
 
