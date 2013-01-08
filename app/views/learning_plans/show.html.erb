@@ -38,6 +38,7 @@
     <% end %>
   </div>
   
+
   <br/>
   <%= link_to "Add new assignment ...", 
               new_learning_plan_assignment_plan_path(@learning_plan), 
@@ -45,6 +46,8 @@
   <%= link_to "Preview assignments",
               preview_assignments_klass_path(@learning_plan.klass) %>
 <% end %>
+
+<%= render :partial => "global_labels", :locals => { :learning_plan => @learning_plan } %>
 
 <%= section "Scheduling" do %>
 

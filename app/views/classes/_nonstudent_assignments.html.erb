@@ -1,7 +1,7 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<%= section "Issued Assignments (not visible to students)", {:classes => "issued_assignments", :collapsible => true, :collapsed => false} do %>
+<%= section "Educator Assignment Overview", {:classes => "issued_assignments", :collapsible => true, :collapsed => false} do %>
 
   <% student        = klass.student_for(present_user) %>
   <% student_cohort = student.try(:cohort) %>

@@ -107,18 +107,24 @@ module DbDsl
     else
       attrs = FactoryGirl.attributes_for(:klass)
       attrs[:course]  = options.key?(:course) ? options[:course] : DbCofCourse(options[:for_course])
+      attrs[:open_date]  = options[:open_date]  if options.key?(:open_date)
       attrs[:start_date] = options[:start_date] if options.key?(:start_date)
       attrs[:end_date]   = options[:end_date]   if options.key?(:end_date)
+      attrs[:close_date] = options[:close_date] if options.key?(:close_date)
       attrs[:time_zone]  = options.key?(:time_zone) ? options[:time_zone] : "UTC"
 
       options[:for_instructor] ||= { }
       options[:for_instructor][:course] = attrs[:course]
       attrs[:creator] = options.key?(:creator) ? options[:creator] : DbCofInstructor(options[:for_instructor]).user
 
+      attrs[:open_date] = TimeUtils.timestr_and_zonestr_to_utc_time(attrs[:open_date], attrs[:time_zone]) \
+        if attrs[:open_date].class == String
       attrs[:start_date] = TimeUtils.timestr_and_zonestr_to_utc_time(attrs[:start_date], attrs[:time_zone]) \
         if attrs[:start_date].class == String
       attrs[:end_date] = TimeUtils.timestr_and_zonestr_to_utc_time(attrs[:end_date], attrs[:time_zone]) \
         if attrs[:end_date].class == String
+      attrs[:close_date] = TimeUtils.timestr_and_zonestr_to_utc_time(attrs[:close_date], attrs[:time_zone]) \
+        if attrs[:close_date].class == String
 
       klass = FactoryGirl.create(:klass, attrs)
       klass.sections.first.name = "DEFAULT SECTION NAME"

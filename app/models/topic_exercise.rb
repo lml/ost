@@ -5,7 +5,7 @@ class TopicExercise < ActiveRecord::Base
   include BelongsToExercise
   belongs_to :concept
   belongs_to :topic
-  has_many :assignment_exercises
+  has_many :assignment_exercises, :dependent => :destroy
   
   before_destroy :destroyable?
   
@@ -22,7 +22,8 @@ class TopicExercise < ActiveRecord::Base
   scope :for_tests, where{reserved_for_tests == true}
   
   def destroyable?
-    errors.add(:base, "This exercise cannot be deleted because it has already been assigned.") if assigned?
+    return true if sudo_enabled?
+    errors.add(:base, "This exercise cannot be deleted because it has already been assigned (except by admin override).") if assigned?
     errors.none?
   end
   

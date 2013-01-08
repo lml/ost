@@ -52,11 +52,11 @@ class Exercise < ActiveRecord::Base
   end
   
   def get_credit(choice_index)
-    content["simple_question"]["answer_choices"][choice_index]["credit"]
+    content["simple_question"]["answer_choices"][choice_index]["credit"].to_f
   end
   
   def correct_choice_index
-    content["simple_question"]["answer_choices"].index{|ac| ac["credit"] == 1}
+    content["simple_question"]["answer_choices"].index{|ac| ac["credit"].to_f == 1}
   end
   
   def num_choices
@@ -84,8 +84,8 @@ protected
   end
 
   def destroyable?
-    return true if WebsiteConfiguration.get_value(:sudo_enabled)
-    errors.add(:base, "Cannot delete an exercise that has been assigned.") \
+    return true if sudo_enabled?
+    errors.add(:base, "This exercise cannot be deleted because it has been assigned (except by admin override).") \
       if topic_exercises.any?{|te| te.assigned?}
     errors.empty?
   end

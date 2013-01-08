@@ -4,7 +4,7 @@
 class AssignmentExercise < ActiveRecord::Base
   belongs_to :assignment
   belongs_to :topic_exercise
-  has_many :student_exercises
+  has_many :student_exercises, :dependent => :destroy
   
   acts_as_taggable
   
@@ -19,9 +19,10 @@ class AssignmentExercise < ActiveRecord::Base
   acts_as_numberable :container => :assignment
   
   attr_accessible :assignment, :topic_exercise, :assignment_id
-    
+
   def destroyable?
-    errors.add(:base, "This assignment exercise cannot be deleted because it has already been distributed to students") \
+    return true if sudo_enabled?
+    errors.add(:base, "This assignment exercise cannot be deleted because it has already been distributed to students (except by admin override)") \
       if student_exercises.any?
     errors.none?
   end

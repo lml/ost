@@ -9,6 +9,17 @@ class LearningPlansController < ApplicationController
     raise SecurityTransgression unless present_user.can_read?(@learning_plan)
   end
   
+  def edit
+    @learning_plan = LearningPlan.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@learning_plan)
+  end
+
+  def update
+    @learning_plan = LearningPlan.find(params[:id])
+    raise SecurityTransgression unless present_user.can_update?(@learning_plan)
+    @learning_plan.update_attributes(params[:learning_plan])
+  end
+
   def refresh_exercises
     @learning_plan = LearningPlan.find(params[:learning_plan_id])
     raise SecurityTransgression unless present_user.can_update?(@learning_plan)

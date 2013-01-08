@@ -14,12 +14,20 @@
                             :default => time_zone) %>
   </div>
   <div class="field">
+    <%= f.label :open_date, t(:open_date_time) %><br />
+    <%= f.datetime_text_field :open_date, {:time_zone => time_zone, :number_of_months => 2} %>
+  </div>
+  <div class="field">
     <%= f.label :start_date, t(:start_date_time) %><br />
     <%= f.datetime_text_field :start_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
     <%= f.label :end_date, t(:end_date_time) %><br />
     <%= f.datetime_text_field :end_date, {:time_zone => time_zone, :number_of_months => 2} %>
+  </div>
+  <div class="field">
+    <%= f.label :close_date, t(:close_date_time) %><br />
+    <%= f.datetime_text_field :close_date, {:time_zone => time_zone, :number_of_months => 2} %>
   </div>
   <div class="field">
     Is this class part of a formal study controlled by <%= SITE_NAME %> researchers?<br/>
@@ -33,16 +41,6 @@
   </div>
   <div class="field">
     Learning Plan: A new learning plan will be created for you
-  </div>
-  <div class="field">
-    Labels to apply to all tests<br/>
-    <%= f.text_field :test_exercise_tags %><br/>
-    <span class="field_help">(Optional) Comma-separated tags listed here will be attached to all assigned test exercises.</span>
-  </div>
-  <div class="field">
-    Labels to apply to all non-test assignments<br/>
-    <%= f.text_field :nontest_exercise_tags %><br/>
-    <span class="field_help">(Optional) Comma-separated tags listed here will be attached to all assigned non-test exercises.</span>
   </div>
   <div class="field">
     <%= f.label :approved_emails %> <%= link_to_help 'preapproved_emails', "", {:title => 'Preapproving Emails'} %> <br />

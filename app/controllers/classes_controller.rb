@@ -9,7 +9,7 @@ class ClassesController < ApplicationController
   before_filter :enable_clock
 
   def index
-    @klasses = Klass.where{end_date > Time.zone.now}
+    @klasses = Klass.current.where{end_date > Time.zone.now}
   end
 
   def show

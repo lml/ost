@@ -1,0 +1,9 @@
+<% if klasses.any? %>
+  <%= section section_name, {:classes => 'first no_bar'} do %>
+    <ul>
+    <% klasses.each do |klass| %>
+      <li><%= link_to klass.course.name, klass %></li>    
+    <% end %>
+    </ul>
+  <% end %>
+<% end %>
