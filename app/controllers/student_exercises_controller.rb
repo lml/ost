@@ -45,15 +45,6 @@ class StudentExercisesController < ApplicationController
     end
   end
   
-  def preview_free_response
-    @text = params[:student_exercise][:free_response]    
-    @student_exercise = StudentExercise.find(params[:student_exercise_id])
-    ResponseTime.create(:response_timeable => @student_exercise,
-                        :event => "ACTIVITY",
-                        :note => "preview",
-                        :page => "work")
-  end
-  
   def feedback
     @student_exercise = StudentExercise.find(params[:student_exercise_id])
     raise SecurityTransgression unless present_user.can_read?(@student_exercise) && 

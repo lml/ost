@@ -18,8 +18,8 @@
         Enter a free-form answer: <%= link_to_help 'text_free_response', "", {:title => 'Text Answers'} %>
       </div>
       <span style="float:right">
-        <%= link_to_function "Preview", "preview_response();" %> | 
-        <%= link_to_function "LaTeX Editor", "OpenLatexEditor('free_response','latex','en-us',true,'','full')" %> |
+        <%= link_to_function "Preview", "preview_text_free_response('#{free_response_form_id}');" %> | 
+        <%= link_to_function "LaTeX Editor", "OpenLatexEditor('free_response_content_#{free_response.id}','latex','en-us',true,'','full')" %> |
         <%= link_to_function "Cancel", "if (confirm('Are you sure you want to discard your changes?')) cancel_free_response_edit('#{free_response_id }');" %>
         &nbsp;&nbsp;&nbsp;
         <%= f.submit "Save", :class => 'link_button' %>
@@ -27,7 +27,7 @@
     </div>
     <%= hidden_field_tag :type, free_response.type %>
     <%= hidden_field_tag :free_response_form_id, free_response_form_id %>
-    <%= f.text_area :content, :rows => 5, :style => "width:98.5%", :id => 'free_response' %>
+    <%= f.text_area :content, :rows => 5, :style => "width:98.5%", :id => "free_response_content_#{free_response.id}" %>
       
  </div>
 

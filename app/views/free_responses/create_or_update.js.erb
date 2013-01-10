@@ -2,6 +2,7 @@
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <%= unless_errors_in(@free_response, "#{@free_response_form_id}_errors") do %>
+  var old_content = $('#free_response_<%= @free_response.id %>').remove();
   var show_content = jQuery('<%= ej(render :partial => "student_exercises/a_free_response", :locals => {:free_response => @free_response}) %>');
   show_content.hide();
   var the_form = $('#<%= @free_response_form_id %>');
@@ -9,4 +10,5 @@
   the_form.remove();
   show_content.show();
   refresh_buttons();
+  <%= reload_mathjax("#free_response_#{@free_response.id}") %>
 <% end %> 

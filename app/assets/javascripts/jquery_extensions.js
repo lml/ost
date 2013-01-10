@@ -53,3 +53,10 @@ jQuery.fn.pageTimeout = function(options) {
        $(document).bind('click', resetTimeouts);
     });
  }
+
+jQuery.fn.closeOnClickOutside = function(){
+  var dialogx = this;
+  $('.ui-widget-overlay').live("click",function(){
+    dialogx.dialog("close");
+  });
+}
