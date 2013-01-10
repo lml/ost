@@ -1,3 +1,18 @@
-<div id="exercise_response_show">
+<div class="free_response box" id="free_response_<%= free_response.id %>">
   <%= render :partial => "#{view_dir(free_response)}/show", :locals => {:free_response => free_response} %>
+  <span class="option_buttons" style="float:right; visibility:hidden">
+    <%= edit_button free_response.becomes(FreeResponse), {:small => true, :remote => true} %>
+    <%= trash_button free_response.becomes(FreeResponse), {:small => true, :remote => true} %>
+  </span>
 </div>
+
+<% do_once('free_response_js') do %>
+  <% content_for :javascript do %>
+    <%= javascript_tag do %>
+      $('.free_response').live('mouseenter mouseleave', function(event) {
+        $(this).children('.option_buttons:first')
+               .css('visibility', event.type == 'mouseenter' ? 'visible' : 'hidden');
+      });
+    <% end %>
+  <% end %>
+<% end %>

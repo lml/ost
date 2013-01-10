@@ -12,6 +12,9 @@ en:
   end_date_time: "End Date & Time"
   close_date_time: "Close Date & Time"
   activerecord:
+    attributes:
+      text_free_response:
+        content: "Answer text"
     models:
       klass: class
   Klass: Class

@@ -198,6 +198,10 @@ class StudentExercise < ActiveRecord::Base
     self.skip_update_callbacks = false
   end
 
+  def free_responses_can_be_updated?
+    return !free_response_submitted?
+  end
+
 protected
 
   def lock_response_text_if_directed

@@ -1,6 +1,23 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
+<style type='text/css'>
+  .box {
+    visibility: visible; 
+    overflow: hidden; 
+    position: relative; 
+    z-index: 2; 
+    border: 1px solid #ccc; 
+    padding: 15px; 
+    width:560px;
+    margin-top:10px;
+  }
+
+  .free_response {
+    margin-bottom:14px;
+  }
+</style>
+
 <%= render :partial => "header_info", :locals => { :student_exercise => @student_exercise } %>
 
 <%= render :partial => "question", :locals => { :student_exercise => @student_exercise } %>
@@ -23,7 +40,7 @@
     <div id="free_responses">
       <% @student_exercise.free_responses.each do |free_response| %>
         <%= render :partial => 'a_free_response', :locals => { :free_response => free_response, 
-                                                               :editable => true } %>
+                                                               :editable => @student_exercise.free_responses_can_be_updated? } %>
       <% end %>
     </div>
 
@@ -102,6 +119,11 @@
     function preview_response() {
       $.get('<%= student_exercise_preview_free_response_path(@student_exercise) %>', 
             $('form.edit_student_exercise').serializeArray());
+    }
+
+    function cancel_free_response_edit(id) {
+      $('#free_response_form_' + id).remove();
+      $('#free_response_' + id).show();
     }
   <% end %>
 <% end %>
