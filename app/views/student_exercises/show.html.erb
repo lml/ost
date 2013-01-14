@@ -122,8 +122,10 @@
     }
 
     function cancel_free_response_edit(id) {
-      $('#free_response_form_' + id).remove();
-      $('#free_response_' + id).show();
+      if (confirm('Are you sure you want to discard your changes?')) {
+        $('#free_response_form_' + id).remove();
+        $('#free_response_' + id).show();
+      }
     }
   <% end %>
 <% end %>

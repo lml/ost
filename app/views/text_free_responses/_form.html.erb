@@ -1,34 +1,25 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<% free_response ||= @free_response %>
+<%
+  html_ids[:text_box] = "free_response_content_#{free_response.non_nil_id}"
+%>
 
-<% free_response_id = free_response.new_record? ? SecureRandom.hex : free_response.id %>
-<% free_response_form_id = "free_response_form_#{free_response_id}" %>
+<div class="field">
 
-<%= form_for([@student_exercise, free_response], 
-             :as => :free_response, 
-             :url => free_response.new_record? ? student_exercise_free_responses_path() : free_response_path(free_response),
-             :html => {:id => free_response_form_id},
-             :remote => true) do |f| %>
-  <div id="<%= free_response_form_id %>_errors"></div>
-  <div class="field">
-    <div style="margin-bottom:12px" class="actions">
-      <div style="display:inline-block; padding-top:5px">
-        Enter a free-form answer: <%= link_to_help 'text_free_response', "", {:title => 'Text Answers'} %>
-      </div>
-      <span style="float:right">
-        <%= link_to_function "Preview", "preview_text_free_response('#{free_response_form_id}');" %> | 
-        <%= link_to_function "LaTeX Editor", "OpenLatexEditor('free_response_content_#{free_response.id}','latex','en-us',true,'','full')" %> |
-        <%= link_to_function "Cancel", "if (confirm('Are you sure you want to discard your changes?')) cancel_free_response_edit('#{free_response_id }');" %>
-        &nbsp;&nbsp;&nbsp;
-        <%= f.submit "Save", :class => 'link_button' %>
-      </span>
+  <div style="margin-bottom:12px" class="actions">
+    <div style="display:inline-block; padding-top:5px">
+      Enter a free-form answer: <%= link_to_help 'text_free_response', "", {:title => 'Text Answers'} %>
     </div>
-    <%= hidden_field_tag :type, free_response.type %>
-    <%= hidden_field_tag :free_response_form_id, free_response_form_id %>
-    <%= f.text_area :content, :rows => 5, :style => "width:98.5%", :id => "free_response_content_#{free_response.id}" %>
-      
- </div>
+    <span style="float:right">
+      <%= link_to_function "Preview", "preview_text_free_response('#{html_ids[:form]}');" %> | 
+      <%= link_to_function "LaTeX Editor", "OpenLatexEditor('#{html_ids[:text_box]}','latex','en-us',true,'','full')" %> |
+      <%= link_to_function "Cancel", "cancel_free_response_edit('#{free_response.non_nil_id}');" %>
+      &nbsp;&nbsp;&nbsp;
+      <%= f.submit "Save", :class => 'link_button' %>
+    </span>
+  </div>
 
-<% end %>
+  <%= f.text_area :content, :rows => 5, :style => "width:98.5%", :id => html_ids[:text_box] %>
+
+ </div>
