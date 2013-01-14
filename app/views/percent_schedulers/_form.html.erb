@@ -5,7 +5,10 @@
 
 <%= form_for(scheduler.becomes(Scheduler)) do |f| %>
 
-  <p>TBD explanation of what to do on this form</p>
+  <p>Use this form to edit the default Schedule, which prescribes how homework assignments are built. You may opt to use the default schedule or create a custom schedule, but your class <em><strong>must</strong></em> have a valid schedule. Without a schedule, your assignments will not build properly. </p>
+  
+  <p> <%= link_to_help 'schedule', text="Click here to
+   learn how the Scheduler builds assignments.", {:title => 'Scheduler', :width => '900', :height => '800'} %></p> 
   
   <%= hidden_field_tag :type, 'PercentScheduler' %>
   

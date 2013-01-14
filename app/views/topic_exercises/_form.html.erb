@@ -6,7 +6,7 @@
 <%= form_for([@topic, @topic_exercise], :remote => true) do |f| %>
 
   <div class="field">
-    Exercise URL <%= link_to_help 'versioned_exercises', "", {:width => 700} %><br />
+    Exercise URL <%= link_to_help 'versioned_exercises', "", {:width => 600, :height => 500} %><br />
     <%= text_field_tag :exercise_url, @topic_exercise.exercise.url, :style => "width: 90%" %>
   </div>
   <div class="field">
@@ -18,7 +18,7 @@
     <%= f.check_box :reserved_for_tests %> This exercise is reserved for use in tests.
   </div>
   <div class="field">
-    Concept <%= link_to_help 'concepts_page', "", {:width => 700} %> <br/>
+    Concept <%= link_to_help 'concepts', "", {:width => 600 } %> <br/>
     <%= f.select(:concept_id, 
                      options_from_collection_for_select(topic.learning_plan.concepts, :id, :name, 
                                                         @topic_exercise.concept.nil? ? nil : @topic_exercise.concept.id),  
