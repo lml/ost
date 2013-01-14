@@ -1,0 +1,24 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+    
+
+draft -- not using yet
+   
+<p>Learning conditions define how OST builds and schedules exercises for assignments. You have the option to use the default conditions 
+  (set automatically for each class), or to create custom learning conditions. Even if you opt to use the default conditions, it is 
+  recommended that you become familiar with the default settings and understand how they impact assignments.</p>
+
+To create a set of learning conditions, follow these general steps:
+
+<p>Edit the Scheduler form to define homework schedules: how many exercises to draw from each topic attached to an assignment? how many exercises 
+  from previously covered topics?</p> 
+  
+<p>Create presentation conditions to turn off the free-form portion of assigned exercises.</p>
+  
+<p>Create any number of feedback conditions to control the nature and timing of feedback presented to students.</p>
+
+<p>Give each feedback and presentation condition a unique label (e.g., <em>graded HW</em> or <em>practice problems</em>.</p>
+
+<p><em>Attach those labels to the exercises you want to receive those conditions.</em></p>
+
+<p>As students complete each exercise, <%= SITE_NAME %> will search for matching exercise and feedback labels and will activate the first matching feedback condition found.</p>

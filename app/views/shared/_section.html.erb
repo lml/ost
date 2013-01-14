@@ -15,7 +15,7 @@
     <% end %>
     <%= title %>
     <% if !help_topic.nil? %>
-      &nbsp;<%= link_to_help help_topic %>
+      &nbsp;<%= link_to_help 'topic', text="", {:title => 'Topics', :width => '700'} %>
     <% end %>
     <% if collapsible %>
     <span style="font-size:11px; display:inline">&nbsp;&nbsp;[

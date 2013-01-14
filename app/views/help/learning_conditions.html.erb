@@ -4,55 +4,58 @@
 <%= pageHeading "Help | Learning Conditions" do %>
 <% end %>
 
-<p><strong>Learning conditions</strong> are rules that define how <%= SITE_NAME %> builds assignments. You have the option to use the default learning conditions, <em><strong>or</strong></em> you 
-  can create custom conditions.</p>
-  <p>Whether you use default or custom conditions, we strongly recommend browsing this tutorial to learn how learning conditions impact your assignments.</p>
+  <p>Learning conditions define how OST builds and schedules assignments and feedback.
+     This section is intended to give an overview of each type of learning condition. 
+     To create these conditions, or to simply use the default conditions, use the in-line help found on the Class 
+     Learning Conditions pages.</p>
   
 <div class="accordion" id="accordion2" style="padding-top:20px;">
 
 <%= section "Learning Conditions", {:classes => 'no_bar'} do %>
 
    <%= accordion_entry :title => "Overview of learning conditions" do %>
-   <p>Learning conditions are customizable rules that control how OST builds assignments. There are two (2) kinds of learning conditions:</p> 
-  <ol>
-      <li><strong>Schedule conditions</strong> control how OST builds and schedules
-         homework (<em>not</em> test) assignments.</li>
-      <p>
-      <li><strong>Feedback conditions</strong> control how and when OST presents feedback after students work homework and tests exercises.</li>
-    </ol>
-    
-  <p>You have the option to simply use the default learning conditions (described in more detail below), or you can create custom conditions to exert more 
-    control over your students' experiences in OST.</p> 
-    
-   <% end %>
-
-    <% if false %>
-    <%= accordion_entry :title => "The default learning conditions" do %>
-
-      <p>OST automatically creates default learning conditions for each class. <em>Unless you change these conditions or create new conditions, 
-        OST will build your assignments according to the default conditions below</em>.</p>
+         <p>Learning conditions are customizable rules that control how OST builds assignments. There 
+           are three (3) kinds of learning conditions:</p> 
+        <ol>
+            <li><strong>Schedule conditions</strong> control how OST builds and schedules
+               homework (<em>not</em> test) assignments.</li>
+            <p>
+            <li><strong>Feedback conditions</strong> control how and when OST presents feedback after 
+              students work homework and tests exercises.</li>
+            <p>
+            <li><strong>Presentation conditions</strong> control exercise format: multiple choice only,      
+               or free form and multiple choice.</li>
+          </ol>
+        <p>Using OST, you can create any combination of learning conditions. In addition, human subjects researchers 
+          can create complex experimental conditions, i.e., apply one set of learning conditions to one set of students and another set to the rest.</p>  
         
-    <%= render :partial => 'help/blurbs/default_learning_conditions'%>
-      <% end %>
-
-     <%= accordion_entry :title => "Creating multiple cohorts (advanced setting)" do %>
-      <p>By default, a class comprises one (1) <strong>cohort</strong>. <em>A cohort is a group of students whose assignments are built using the same learning conditions</em>. 
-        The default setting should meet most instructors' needs.</p>
-      
-      <p>Should you want to apply different learning conditions to different cohorts, e.g. to create control and experimental groups, go here to learn more.</p>
-    
-    
-      assignments. <%= link_to_help 'spaced_practice', text="Spaced practice", {:title => 'Spaced practice', 
-          :width => '500', :height => '500'} %> is an example schedule condition
+        <p>You have the option to simply use the default learning conditions, or you can create more complex, custom 
+          conditions to control over your students' experiences in OST. If you are an instructor who partners with the research team, 
+          they will set learning conditions.</p>
           
-          <%= link_to_help 'example_feedback', text="feedback", {:title => 'Example Feedback',
-          :width => '500', :height => '400'} %> to students
-    
+    <% end %>    
+      <% if false %>
+          <%= accordion_entry :title => "The default learning conditions" do %>
+          <p>OST automatically creates default learning conditions for each class. <em>Unless you change 
+            these conditions or create new conditions, 
+          OST will schedule your assignments according to the default conditions below</em>.</p>       
+          <%= render :partial => 'help/blurbs/default_learning_conditions'%>
+        <% end %>
+        
+       <%= accordion_entry :title => "Creating multiple cohorts (advanced setting)" do %>
+          <p>By default, a class comprises one (1) <strong>cohort</strong>. <em>A cohort is a group of students 
+            whose assignments are built using the same learning conditions</em>. 
+            The default setting should meet most instructors' needs.</p>    
+          <p>Should you want to apply different learning conditions to different cohorts, e.g. to create
+             control and experimental groups, go here to learn more.</p> 
+          assignments. <%= link_to_help 'spaced_practice', text="Spaced practice", {:title => 'Spaced practice', 
+              :width => '500', :height => '500'} %> is an example schedule condition       
+              <%= link_to_help 'example_feedback', text="feedback", {:title => 'Example Feedback',
+              :width => '500', :height => '400'} %> to students   
       <% end %>
- <% end %>
-      
-  <% end %>
+    <% end %>
 
+<% end %>
 
 
 <%= section "Schedule Conditions", {:classes => 'no_bar'} do %>
@@ -60,145 +63,154 @@
   <%= accordion_entry :title => "Overview of schedule conditions" do %>
   
   <p>Schedule conditions define the following aspects of homework assignments (<em>not</em> tests):</p>
-  
     <ol>
-      <li>Given that you create homework assignments by listing a topic or topics, <em>how many</em> <em>exercises</em> from each topic will be in each homework?</li>
+      <li>Given that you create homework assignments by listing a topic or topics, <em>how many</em>
+         <em>exercises</em> from each topic will be in each homework?</li>
       <p>
-      <li>Will homework include exercises from <em>previous topics</em> to give students <%= link_to_help 'spaced_practice', text="spaced practice", {:title => 'Spaced practice', 
-            :width => '500', :height => '500'} %> ?</li>
+      <li>Will homework include exercises from <em>previous topics</em> to give students <%= link_to_help 'spaced_practice', 
+      text="spaced practice", {:title => 'Spaced practice', :width => '500', :height => '500'} %> ? If so, over what interval?</li>
       <p>
-      <li>Are the above rules consistently applied to every assignment, or do they vary from homework to homework?</li>
+      <li>Are the above rules consistently applied to every assignment, or do they vary from homework to 
+        homework? For example: Week 1 assignments can follow one schedule, while week 2 follow another. </li>
       <p>  
-      <li>What, if any, labels should OST attach to each homework exercise?</li> 
+      <li>What, if any, labels should OST attach to each homework exercise (i.e., to trigger a particular feedback or 
+        presentation condition)?</li> 
       <p>
-    </ol>
-          
-    <% end %>
-    <%= accordion_entry :title => "Default schedule condition" do %>
+      <li>Will each group of students receive the same set of assignments, or will different groups receive 
+        different types of assignments?</li>
+    </ol>       
     
- <p><strong>By default, OST will build homework assignments using the default schedule condition described below</strong>. If you don't want to use the default, consult the below tutorials 
-   to create a custom condition.</p>
-
-<p><strong>Default schedule condition</strong>:</p>
-       <p><%= image_tag("default_schedule.png", {:border => 1, :width => "100%", :title=>"schedule"})%></p>
-         <ol>
-           <li>Class has <em>one cohort</em>: All students in the class will receive the same assignment schedule.</li>
-           <p>
-           <li>Class has one <em>schedule</em>: Each homework assignment is built using the same percentage rule.</li>
-           <p>
-           <li><em>Percentage rule</em>: OST will pull <em>100%</em> of <strong>non-test</strong> exercises from each 
-             topic added to an assignment.</li>
-           <p>
-           <li><em>Labels</em>: OST attaches the label <em>standard practice</em> to each <strong>non-test</strong> 
-           exercise.</li>
-         </ol>
-  <% end %>
-  
-  <%= accordion_entry :title => "How to create a spaced practice schedule condition " do%>
-  <p>For example, you can create a schedule condition to automatically space topic practice across multiple assignments.</p>
-     
-    you can define  how many exercises each assignment includes rules define whether OST should pull 
-    all the exercises from a topic into an assignment, or some pre-set percentage.  
-    custom <em><strong>schedule conditions</strong></em> that define how OST will build and schedule your homework assignments.</p>
-  
-  <p> 
-  
   <% end %>
 
-  <%- accordion_entry :title => "Create a spaced practice schedule condition" do%>
-  
-     
+  <% if false %>
+        <%= accordion_entry :title => "Default schedule condition" do %> 
+           <p><strong>By default, OST will build homework assignments according to the following schedule:</p></strong>
+           <p>Given that you assign one or more topics -- each containing a number of exercises -- as homework, 
+             the default schedule simply draws 100% of non-test exercises from those topics into the assignment</strong>.</p>
+           <p>For example: if you add Topic A and Topic B to an assignment, each containing 10 questions, your 
+             assignment will contain all 20 questions from those topics.</p>
+           <p>If you don't want to use the default schedule, consult the Edit Scheduler Form to understand how to
+              build a more complex, custom schedule.</p>
+      <% end %>
   <% end %>
   
-   
-   
-
-   
-   <%= accordion_entry :title => "Percentage scheduler" do %>
-   <% end %>
-   
-
-
+  <% if false %>
+        <%= accordion_entry :title => "How to create a spaced practice schedule condition " do %>
+        <p>Coming soon!</p>
+        <% end %> 
+  <% end %>
+  
 <% end %>
+
 
 
 <%= section "Feedback Conditions", {:classes => 'no_bar'} do %>
 
-   <%= accordion_entry :title => "Overview of feedback conditions" do %>
-   <% end %>
-   
-   <%= accordion_entry :title => "Create custom feedback conditions" do %>
-   
-   <em><p>Step 1: Create new feedback condition.</p></em>
-   <ol>
-     <li>Go to <strong>Dashboard > Class > Learning Conditions</strong>.</li>
-     <li>In the Feedback Conditions section, click <strong>Add New Feedback Condition</strong>.</li>
-     <li>In the pop up dialog box, select <strong>Basic</strong> feedback condition and 
-       click <strong>Choose</strong>.</li>
-     <li>You have just created an empty feedback condition.</li>
-   </ol>
+       <%= accordion_entry :title => "Overview of feedback conditions" do %>
+      <p> Feedback conditions allow you to set what kind of feedback students receive as they work assignments 
+        in OST. Create feedback conditions to define the following:</p> 
+      <ol>
+        <li>When will feedback become available?</li>
+        <p>
+        <li>Is viewing required to receive full credit for the exercise?</li> 
+        <p>
+        <li>What level -- no feedback, just the answer, a high-level explanation? -- of feedback will students see?</li>
+        <p>
+        <li>Does every student group receive the same type of feedback, at the same time, or do different 
+          students receive different feedback?</li>
+      </ol>
+      <p>Using <%= SITE_NAME %>, you can create multiple feedback conditions and apply them to different 
+        exercises: for example, create different feedback conditions for homework exercises than for test exercises.</p> 
+<% end %>
 
-   <p><em>Step 2: Edit feedback condition.</em></p>
-     <ol>
-     <li>Find the feedback condition you want to edit and click <strong>Edit</strong>.</li> 
-       <%= image_tag("feedback7.png", {:border => 1, :width => "70%", :height => "70%",
-          :title=>"new feedback condition"})%>
-     <li>Complete the <strong>Feedback Condition Editing</strong> form:</li>
-       <p>
-       <ul>
-         <li><strong>Match Labels Against field</strong>: The label you enter here must 
-           match the label of the exercise(s) you want to receive this feedback condition. 
-           (<%= link_to "Read more about labels.", help_learning_conditions_path(:anchor => "labels") %>) </li>
-         <p>
-         <li><strong>Feedback credit field</strong>: check this box to make viewing feedback
-            <em>mandatory</em> for credit.</li>
-         <p>
-         <li><strong>Feedback presentation field</strong>: check this feedback presentation 
-           box to show students feedback automatically, or leave it unchecked to make students 
-           manually click on feedback page to view.</li>
-         <p>  
-         <li><strong>Set timing options</strong> by answering the prompts.</li>
-         <p>
-       </ul>
-     <li>Click <strong>Update</strong> to save.</li>
-     <li>Create as many feedback conditions as you need.</li>
-   <% end %>
-   
-   <%= accordion_entry :title => "Use labels to control feedback conditions" do %>
-   
-   Use labels to control when the site applies feedback conditions
-   <p> must specify which feedback conditions apply to what exercises.
-     <ol>
-       <li>Create a feedback condition and assign it some arbitrary label.</li>
-       <li>Attach that same feedback label to <em>all exercises you want to receive that
-          feedback condition</em><br/></li>
-      <li>Each additional feedback condition you create should have a different label.</li> 
-     </ol>
+       <% if false %>   
+           <%= accordion_entry :title => "Create custom feedback conditions" do %>
+ 
+           <em><p>Step 1: Create new feedback condition.</p></em>
+           <ol>
+             <li>Go to <strong>Dashboard > Class > Learning Conditions</strong>.</li>
+             <li>In the Feedback Conditions section, click <strong>Add New Feedback Condition</strong>.</li>
+             <li>In the pop up dialog box, select <strong>Basic</strong> feedback condition and 
+               click <strong>Choose</strong>.</li>
+             <li>You have just created an empty feedback condition.</li>
+           </ol>
 
-   <p>When a student completes an exercise, <%= SITE_NAME %> looks at the exercise labels 
-     and searches for a matching feedback condition label. When a matching feedback condition
-      is found, its rules are used to determine how feedback is given. </p>
+           <p><em>Step 2: Edit feedback condition.</em></p>
+             <ol>
+             <li>Find the feedback condition you want to edit and click <strong>Edit</strong>.</li> 
+               <%= image_tag("feedback7.png", {:border => 1, :width => "70%", :height => "70%",
+                  :title=>"new feedback condition"})%>
+             <li>Complete the <strong>Feedback Condition Editing</strong> form:</li>
+               <p>
+               <ul>
+                 <li><strong>Match Labels Against field</strong>: The label you enter here must 
+                   match the label of the exercise(s) you want to receive this feedback condition. 
+                   (<%= link_to "Read more about labels.", help_learning_conditions_path(:anchor => "labels") %>) </li>
+                 <p>
+                 <li><strong>Feedback credit field</strong>: check this box to make viewing feedback
+                    <em>mandatory</em> for credit.</li>
+                 <p>
+                 <li><strong>Feedback presentation field</strong>: check this feedback presentation 
+                   box to show students feedback automatically, or leave it unchecked to make students 
+                   manually click on feedback page to view.</li>
+                 <p>  
+                 <li><strong>Set timing options</strong> by answering the prompts.</li>
+                 <p>
+               </ul>
+             <li>Click <strong>Update</strong> to save.</li>
+             <li>Create as many feedback conditions as you need.</li>
+             <% end %>
+            <% end %>
 
-   <ul>
-   </li><strong>Example 1</strong>: if a student completes an exercise labeled 
-   <em>Homework</em>, and there is a feedback condition labeled <em>Homework</em>, 
-   <%= SITE_NAME %> will apply the <em>Homework</em> feedback condition to that exercise.</li>
-   <p>
-   </li><strong>Example 2</strong>: if a student completes an exercise labeled 
-   <em>Test</em>, and there is no feedback condition matching that exercise label,
-    <%= SITE_NAME %> cannot apply a feedback condition. The student will <em><strong>not</strong></em>
-     receive feedback for that exercise.</li>
-   <p>
-   </ul>
-   <% end %>
+
+      <% if false %> 
+             <%= accordion_entry :title => "Use labels to control feedback conditions" do %>
+             Use labels to control when the site applies feedback conditions
+             <p> must specify which feedback conditions apply to what exercises.
+               <ol>
+                 <li>Create a feedback condition and assign it a unique label.</li>
+                 <li>Attach that same feedback label to <em>all exercises you want to receive that
+                    feedback condition</em><br/></li>
+                <li>Each additional feedback condition you create should have a different label.</li> 
+               </ol>
+
+             <p>When a student completes an exercise, <%= SITE_NAME %> looks at the exercise labels 
+               and searches for a matching feedback condition label. When a matching feedback condition
+                is found, its rules are used to determine how feedback is given. </p>
+
+             <ul>
+             </li><strong>Example 1</strong>: if a student completes an exercise labeled 
+             <em>Homework</em>, and there is a feedback condition labeled <em>Homework</em>, 
+             <%= SITE_NAME %> will apply the <em>Homework</em> feedback condition to that exercise.</li>
+             <p>
+             </li><strong>Example 2</strong>: if a student completes an exercise labeled 
+             <em>Test</em>, and there is no feedback condition matching that exercise label,
+              <%= SITE_NAME %> cannot apply a feedback condition. The student will <em><strong>not</strong></em>
+               receive feedback for that exercise.</li>
+             <p>
+             </ul>
+             <% end %>
+       <% end %>
    
-   <%= accordion_entry :title => "Attach feedback labels to exercises or assignments" do %>
-   <p>Once you have set the feedback conditions for your class, make sure that you attach 
-     matching labels to the exercises each feedback condition will be applied to.</p> 
-   <%= render :partial => 'help/blurbs/attach_feedback_label_to_exercises' %>
-   <% end %>
+   <% if false %>
+       <%= accordion_entry :title => "Attach feedback labels to exercises or assignments" do %>
+             <p>Once you have defined a feedback condition, attach the feedback label to all exercises 
+               you want to receive this feedback condition.</p>
+             <p>As students complete each exercise, <%= SITE_NAME %> will search for matching exercise and
+                feedback labels. When a matching feedback condition is found, its rules are used to determine 
+              how feedback is presented.</p>
+             <%= render :partial => 'help/blurbs/attach_feedback_label_to_exercises' %>
+       <% end %>
+  <% end %>
    
 <% end %>
+
+  <%= section "Presentation Conditions", {:classes => 'no_bar'} do %>
+         <%= accordion_entry :title => "Overview of presentation conditions" do %>
+         <%= render :partial => 'help/blurbs/presentation_conditions' %>
+         <% end %>
+  <% end %>
+
 
 </div>
 
