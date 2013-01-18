@@ -8,29 +8,38 @@
 
 <%= pageHeading "Dashboard" %>
 
-<%= render :partial => "class_link_section", :locals => { :present_user          => present_user,
-                                                          :section_name          => "Current Activity",
-                                                          :screen_method         => :current?,
-                                                          :taking_section_name   => "Classes I'm Taking",
-                                                          :dropped_section_name  => "Classes I've Dropped",
-                                                          :teaching_section_name => "Classes I'm Teaching",
-                                                          :collapsible           => true,
-                                                          :collapsed             => false } %>
+<%= render  :partial => "class_link_section", 
+            :locals  => { :present_user                 => present_user,
+                          :section_name                 => "Current Activity",
+                          :screen_method                => :current?,
+                          :taking_section_name          => "Classes I'm Taking",
+                          :dropped_section_name         => "Classes I've Dropped",
+                          :teaching_section_name        => "Classes I'm Teaching",
+                          :researching_section_name     => "Classes I'm Researching",
+                          :administrating_section_name  => "Classes I'm Administrating",
+                          :collapsible                  => true,
+                          :collapsed                    => false } %>
 
-<%= render :partial => "class_link_section", :locals => { :present_user          => present_user,
-                                                          :section_name          => "Future Activity",
-                                                          :screen_method         => :future?,
-                                                          :taking_section_name   => "Classes I'll be Taking",
-                                                          :dropped_section_name  => "Classes I've Dropped",
-                                                          :teaching_section_name => "Classes I'll be Teaching",
-                                                          :collapsible           => true,
-                                                          :collapsed             => true } %>
+<%= render  :partial => "class_link_section", 
+            :locals  => { :present_user                 => present_user,
+                          :section_name                 => "Future Activity",
+                          :screen_method                => :future?,
+                          :taking_section_name          => "Classes I'll be Taking",
+                          :dropped_section_name         => "Classes I've Dropped",
+                          :teaching_section_name        => "Classes I'll be Teaching",
+                          :researching_section_name     => "Classes I'll be Researching",
+                          :administrating_section_name  => "Classes I'll be Administrating",
+                          :collapsible                  => true,
+                          :collapsed                    => true } %>
 
-<%= render :partial => "class_link_section", :locals => { :present_user          => present_user,
-                                                          :section_name          => "Past Activity",
-                                                          :screen_method         => :past?,
-                                                          :taking_section_name   => "Classes I've Taken",
-                                                          :dropped_section_name  => "Classes I've Dropped",
-                                                          :teaching_section_name => "Classes I've Taught",
-                                                          :collapsible           => true,
-                                                          :collapsed             => true } %>
+<%= render  :partial => "class_link_section", 
+            :locals  => { :present_user                 => present_user,
+                          :section_name                 => "Past Activity",
+                          :screen_method                => :past?,
+                          :taking_section_name          => "Classes I've Taken",
+                          :dropped_section_name         => "Classes I've Dropped",
+                          :teaching_section_name        => "Classes I've Taught",
+                          :researching_section_name     => "Classes I've Researched",
+                          :administrating_section_name  => "Classes I've Adminstrated",
+                          :collapsible                  => true,
+                          :collapsed                    => true } %>
