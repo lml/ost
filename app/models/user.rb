@@ -13,8 +13,12 @@ class User < ActiveRecord::Base
 
   attr_accessor :email_confirmation
   
-  attr_accessible :username, :email, :email_confirmation, :password, :password_confirmation, :remember_me,
-                  :first_name, :last_name, :nickname, :time_zone
+  attr_accessible :username, 
+                  :email, :email_confirmation, 
+                  :password, :password_confirmation, 
+                  :remember_me,
+                  :first_name, :last_name, :nickname, 
+                  :time_zone
     
   validates_presence_of :first_name, :last_name, :username
   validates_uniqueness_of :username, :case_sensitive => false
@@ -31,7 +35,7 @@ class User < ActiveRecord::Base
 
   def self.active_users; where{disabled_at == nil}; end
 
-  def self.administrators;      where{is_administrator == true}; end
+  def self.administrators; where{is_administrator == true}; end
   def self.non_administrators
     ids = administrators.collect{|u| u.id}
     where{id.not_in ids} 
