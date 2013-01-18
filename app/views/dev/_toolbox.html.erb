@@ -5,16 +5,16 @@
 
 <%= section "Login as:" do %>
   <%= render  :partial  => 'login_as_users', 
-              :locals   => {  :users      => User.administrators.sort_by{|user| user.last_name}, 
+              :locals   => {  :users      => User.administrators_for_display, 
                               :group_name => "Admins" } %>
   <%= render  :partial  => 'login_as_users',
-              :locals   => {  :users      => User.non_administrators.educators.sort_by{|user| user.last_name}, 
+              :locals   => {  :users      => User.non_administrator_educators_for_display, 
                               :group_name => "Educators" } %>
   <%= render  :partial  => 'login_as_users', 
-              :locals   => {  :users      => User.non_administrators.non_educators.researchers.sort_by{|user| user.last_name}, 
+              :locals   => {  :users      => User.non_administrator_non_educator_researchers_for_display, 
                               :group_name => "Researchers" } %>
   <%= render  :partial  => 'login_as_users', 
-              :locals   => {  :users      => User.non_administrators.non_educators.non_researchers.sort_by{|user| user.last_name}, 
+              :locals   => {  :users      => User.non_administrator_non_educator_non_researchers_for_display, 
                               :group_name => "Everyone Else" } %>
 <% end %>
 

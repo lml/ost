@@ -1,0 +1,27 @@
+<p style="font-size:1.25em"><%= group_name %></p>
+<table class="list">
+  <tr style="font-weight:bold">
+    <th width="18%">First Name</th>
+    <th width="20%">Last Name</th>
+    <th width="15%">Username</th>
+    <th width="25%">Email</th>
+    <th width="07%">Id</th>
+    <th width="07%">Adm?</th>
+    <th width="07%">Dis?</th>
+    <th width="07%">Ntc?</th>
+  </tr>
+  <% users.each do |user| %>
+    <tr>
+      <td><%= admin_only(user.first_name) %></td>
+      <td><%= admin_only(user.last_name) %></td>
+      <td><%= link_to admin_only(user.username), user_become_path(user), :method => :post %></td>
+      <td><%= admin_only(user.email) %></td>
+      <td><%= user.id %></td>
+      <td><%= tf_to_yn(user.is_administrator?) %></td>
+      <td><%= tf_to_yn(user.is_disabled?) %></td>
+      <td><%= tf_to_yn(user.receives_error_notices?) %></td>
+      <td><%= show_button(user) %></td>
+      <td><%= edit_button(user) %></td>
+    </tr>
+  <% end %>
+</table>
