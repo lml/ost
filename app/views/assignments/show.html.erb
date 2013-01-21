@@ -135,7 +135,7 @@
               <% student_exercises = sa.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
               <% student_exercises.each_with_index do |se, ee| %>
                 <td style="text-align:center">
-                  <% if !se.free_response_submitted? && se.requires_free_response? %>
+                  <% if !se.free_response_submitted? && !se.selected_answer_submitted? %>
                     <%= image_tag 'empty_circle_v2.png' %>              
                   <% elsif !se.selected_answer_submitted? %>
                     <%= image_tag 'half_filled_circle_v2.png' %>              
