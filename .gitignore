@@ -6,7 +6,6 @@ tmp/**/*
 config/developer_settings.yml
 config/secret_settings.yml
 config/deploy_settings.yml
-config/newrelic.yml
 public/system/**
 db/data.yml
 *~
