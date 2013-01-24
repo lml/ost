@@ -48,6 +48,7 @@ gem 'acts-as-taggable-on', '~> 2.3.1'
 gem 'sqlite3', '~> 1.3.6'
 
 gem 'rack-mini-profiler'
+gem 'newrelic_rpm'
 
 group :development, :test do
   gem 'debugger', '~> 1.1.4'
