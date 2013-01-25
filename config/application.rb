@@ -62,6 +62,8 @@ module Ost
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.assets.logger = false
     
     # Overr
     config.paths['app/views'] << "app/views/devise"

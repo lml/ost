@@ -49,6 +49,7 @@ gem 'sqlite3', '~> 1.3.6'
 
 gem 'rack-mini-profiler'
 gem 'newrelic_rpm'
+gem 'logglier'
 
 group :development, :test do
   gem 'debugger', '~> 1.1.4'

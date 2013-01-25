@@ -4,6 +4,7 @@
 # Load the rails application
 require File.expand_path('../application', __FILE__)
 
+require 'logglier'
 require 'extensions'
 require 'url_validations'
 require 'tag_list_format_validator'
