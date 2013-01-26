@@ -220,6 +220,7 @@ GEM
     rdoc (3.12)
       json (~> 1.4)
     recaptcha (0.3.4)
+    remotipart (1.0.2)
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
       rspec-expectations (~> 2.11.0)
@@ -335,6 +336,7 @@ DEPENDENCIES
   railroady
   rails (= 3.2.8)
   recaptcha (~> 0.3.4)
+  remotipart (~> 1.0)
   rspec-rails
   rspec-rerun
   rvm-capistrano

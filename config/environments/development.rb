@@ -55,6 +55,8 @@ Ost::Application.configure do
   config.enable_url_existence_validations = online?
   # config.enable_url_format_validations = false
 
+  config.enable_response_times = false
+
 end
 
 Devise.setup do |config|

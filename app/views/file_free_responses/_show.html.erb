@@ -1,0 +1,8 @@
+<%= 
+  case free_response.attachment_content_type
+  when /^image/
+    image_tag free_response.attachment.thumbnail 
+  else
+    free_response.attachment.url 
+  end   
+%>      

@@ -43,6 +43,8 @@ protected
       case type
       when 'TextFreeResponse' 
         TextFreeResponse.new(params[:free_response])
+      when 'FileFreeResponse'
+        FileFreeResponse.new(params[:free_response])
       else
         raise AbstractController::ActionNotFound
       end

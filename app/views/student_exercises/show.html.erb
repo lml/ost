@@ -49,7 +49,9 @@
       <%= link_to "Add Text Answer", 
                   new_student_exercise_free_response_path(@student_exercise, {:type => 'TextFreeResponse'}), 
                   :remote => true %> | 
-      <%= link_to "Upload photo(s)", nil, :remote => true %>
+      <%= link_to "Upload photo(s)", 
+                  new_student_exercise_free_response_path(@student_exercise, {:type => 'FileFreeResponse'}), 
+                  :remote => true %>
       </center>
     </div>
 
@@ -118,11 +120,14 @@
   <%= javascript_tag do %>
     function preview_text_free_response(form_id) {
       $.get('<%= preview_text_free_responses_path %>', $('#' + form_id).serializeArray());
-      mark_time('ACTIVITY','preview');
+
+      <% if Ost::Application.config.enable_response_times %>    
+        mark_time('ACTIVITY','preview');
+      <% end %>
     }
 
-    function cancel_free_response_edit(id) {
-      if (confirm('Are you sure you want to discard your changes?')) {
+    function cancel_free_response_edit(id, skip_confirm) {
+      if (skip_confirm || confirm('Are you sure you want to discard your changes?')) {
         $('#free_response_form_' + id).remove();
         $('#free_response_' + id).show();
       }

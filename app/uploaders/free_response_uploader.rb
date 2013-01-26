@@ -1,10 +1,15 @@
 # encoding: utf-8
 
+require 'carrierwave/processing/mime_types'
+
 class FreeResponseUploader < CarrierWave::Uploader::Base
+
+  include CarrierWave::MimeTypes
+  process :set_content_type
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+  include CarrierWave::MiniMagick
 
   # Include the Sprockets helpers for Rails 3.1+ asset pipeline compatibility:
   # include Sprockets::Helpers::RailsHelper
@@ -18,6 +23,11 @@ class FreeResponseUploader < CarrierWave::Uploader::Base
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+  end
+
+# https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Do-conditional-processing  
+  version :thumbnail, :if => :image? do
+    process :resize_to_fit => [100, 100]
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -51,5 +61,9 @@ class FreeResponseUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+
+  def image?(new_file)
+    new_file.content_type.include? 'image'
+  end
 
 end

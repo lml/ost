@@ -9,17 +9,18 @@
 
   <div style="margin-bottom:12px" class="actions">
     <div style="display:inline-block; padding-top:5px">
+
       Enter a free-form answer: <%= link_to_help 'text_free_response', "", {:title => 'Text Answers'} %>
     </div>
     <span style="float:right">
-      <%= link_to_function "Preview", "preview_text_free_response('#{html_ids[:form]}');" %> | 
-      <%= link_to_function "LaTeX Editor", "OpenLatexEditor('#{html_ids[:text_box]}','latex','en-us',true,'','full')" %> |
-      <%= link_to_function "Cancel", "cancel_free_response_edit('#{free_response.non_nil_id}', false);" %>
+      <%= link_to_function "Cancel", "cancel_free_response_edit('#{free_response.non_nil_id}', true);" %>
       &nbsp;&nbsp;&nbsp;
       <%= f.submit "Save", :class => 'link_button' %>
     </span>
   </div>
 
-  <%= f.text_area :content, :rows => 5, :style => "width:98.5%", :id => html_ids[:text_box] %>
+  <%= f.file_field :attachment %> 
+
+  <%#= f.text_area :content, :rows => 5, :style => "width:98.5%", :id => html_ids[:text_box] %>
 
  </div>
