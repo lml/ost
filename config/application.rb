@@ -69,5 +69,7 @@ module Ost
     config.enable_recaptcha = false
 
     config.enable_response_times = true
+
+    config.carrierwave_storage = :file
   end
 end
