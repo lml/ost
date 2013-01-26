@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130126001834) do
+ActiveRecord::Schema.define(:version => 20130126060719) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -198,7 +198,10 @@ ActiveRecord::Schema.define(:version => 20130126001834) do
     t.datetime "updated_at",              :null => false
     t.string   "type"
     t.string   "attachment_content_type"
+    t.integer  "number"
   end
+
+  add_index "free_responses", ["number", "student_exercise_id"], :name => "index_free_responses_on_number_scoped", :unique => true
 
   create_table "klasses", :force => true do |t|
     t.integer  "course_id"

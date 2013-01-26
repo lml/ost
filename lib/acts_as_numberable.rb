@@ -9,6 +9,14 @@ module ActsAsNumberable
    
     container_column = nil
     container_column_symbol = nil
+
+    # When calling assign_number below, you normally want to run a query against
+    # self.class to figure out what the next available number is; however, if the 
+    # class acting as numberable is using STI, self.class will return the child class
+    # which is likely not what we want.  In these cases, we can specify the base
+    # class here (the class that has the same name as the DB table) so that it is used
+    # instead.
+    table_class = configuration[:table_class]
     
     if !configuration[:container].nil?
       container_column = configuration[:container].to_s + "_id"
@@ -57,6 +65,10 @@ module ActsAsNumberable
         end
         items
       end
+
+      def table_class
+        #{table_class}
+      end
     EOV
    
    
@@ -80,6 +92,10 @@ module ActsAsNumberable
         def container
           '#{configuration[:container]}'
         end
+
+        def table_class
+          #{table_class}
+        end
       
       EOV
       
@@ -91,7 +107,7 @@ module ActsAsNumberable
     protected
 
     def assign_number
-      self.number ||= self.class.count + 1
+      self.number ||= (table_class || self.class).count + 1
     end
      
     def mark_as_destroyed
@@ -143,7 +159,7 @@ module ActsAsNumberable
     protected
     
     def assign_number
-      self.number ||= self.class
+      self.number ||= (table_class || self.class)
                       .where(container_column => self.send(container_column))
                       .count + 1
     end

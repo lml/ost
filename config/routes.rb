@@ -127,7 +127,9 @@ Ost::Application.routes.draw do
     get 'feedback'
     put 'make_correct'
     get 'score_detail'
-    resources :free_responses, :shallow => true, :except => [:index, :show]
+    resources :free_responses, :shallow => true, :except => [:index, :show] do
+      post 'sort', :on => :collection
+    end
   end
 
   resources :text_free_responses, :only => [] do

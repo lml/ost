@@ -1,6 +1,6 @@
 class FreeResponsesController < ApplicationController
 
-  before_filter :get_student_exercise, :only => [:new, :create]
+  before_filter :get_student_exercise, :only => [:new, :create, :sort]
   before_filter :make_free_response, :only => [:new, :create]
   before_filter :grab_view_helper_variables, :only => [:create, :update]
 
@@ -29,6 +29,10 @@ class FreeResponsesController < ApplicationController
     @free_response = FreeResponse.find(params[:id])
     raise SecurityTransgression unless present_user.can_destroy?(@free_response)
     @free_response.destroy
+  end
+
+  def sort
+    super('free_response', FreeResponse, @student_exercise, :student_exercise)
   end
 
 protected

@@ -246,6 +246,35 @@ module ApplicationHelper
     end
   end
   
+  def sortable_javascript(list_id, sort_path, options={})
+    options[:sortable_item_class] ||= 'sortable_item_entry'
+
+    content_for :javascript do
+      javascript_tag do
+        "$('##{list_id}').sortable({
+           dropOnEmpty: false,
+           handle: '.handle',
+           items: 'div.#{options[:sortable_item_class]}',
+           opacity: 0.7,
+           scroll: true,
+           update: function(){
+              $.ajax({
+                 type: 'post',
+                 data: $('##{list_id}').sortable('serialize'),
+                 dataType: 'script',
+                 url: '#{sort_path}'
+              });
+           }
+        }).disableSelection();".html_safe
+      end
+    end
+  end
+
+  def sort_icon(options={})
+    content_tag(:span, "", :class => "ui-icon ui-icon-arrow-4 handle",
+                           :style => 'display:inline-block; height: 14px')
+  end
+
   def uber_list(entries, entry_text_method=nil, options={}, &entry_text_block)
     
     options[:hide_edit] ||= false

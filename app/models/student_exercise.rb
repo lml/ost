@@ -8,7 +8,7 @@ class StudentExercise < ActiveRecord::Base
   belongs_to :student_assignment
   belongs_to :assignment_exercise
   has_many :response_times, :as => :response_timeable, :dependent => :destroy
-  has_many :free_responses, :dependent => :destroy
+  has_many :free_responses, :dependent => :destroy, :order => :number
   
   before_destroy :destroyable?
   

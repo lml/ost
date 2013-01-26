@@ -1,6 +1,6 @@
 <% can_be_updated = free_response.updatable? && present_user.can_update?(free_response) %>
 
-<div id="free_response_<%= free_response.id %>">
+<div id="free_response_<%= free_response.id %>" class="sortable_item_entry">
   <div id="free_response_<%= free_response.id %>_errors"></div>
 
   <div class="free_response box">
@@ -13,6 +13,7 @@
     <% if can_be_updated %>
       <% upcasted_free_response = free_response.becomes(FreeResponse) %>
       <span class="option_buttons" style="right:10px; visibility:hidden; z-index:10; position:absolute">
+        <%= sort_icon %>
         <%= edit_button upcasted_free_response, {:small => true, :remote => true} %>
         <%= trash_button upcasted_free_response, {:small => true, :remote => true} %>
       </span>
@@ -24,8 +25,12 @@
 </div>
 
 <% if can_be_updated %>
+
+  
   
   <% do_once('free_response_js') do %>
+    <%= sortable_javascript("free_responses", sort_student_exercise_free_responses_path(@student_exercise)) %>
+
     <% content_for :javascript do %>
       <%= javascript_tag do %>
         $('.free_response').live('mouseenter mouseleave', function(event) {
