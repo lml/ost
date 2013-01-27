@@ -10,17 +10,19 @@
   <div style="margin-bottom:12px" class="actions">
     <div style="display:inline-block; padding-top:5px">
 
-      Enter a free-form answer: <%= link_to_help 'text_free_response', "", {:title => 'Text Answers'} %>
+      Upload a photo of your work:
     </div>
     <span style="float:right">
       <%= link_to_function "Cancel", "cancel_free_response_edit('#{free_response.non_nil_id}', true);" %>
       &nbsp;&nbsp;&nbsp;
-      <%= f.submit "Save", :class => 'link_button' %>
+      <%= f.submit "Upload", :class => 'link_button' %>
     </span>
   </div>
 
-  <%= f.file_field :attachment %> 
+  <%= f.file_field :attachment, :style => 'width:98.5%%' %> 
 
-  <%#= f.text_area :content, :rows => 5, :style => "width:98.5%", :id => html_ids[:text_box] %>
+  <p>Caption (optional):</p>
+
+  <%= f.text_area :content, :rows => 2, :style => "width:98.5%", :id => html_ids[:text_box] %>
 
  </div>

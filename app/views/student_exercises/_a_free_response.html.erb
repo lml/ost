@@ -13,7 +13,7 @@
     <% if can_be_updated %>
       <% upcasted_free_response = free_response.becomes(FreeResponse) %>
       <span class="option_buttons" style="right:10px; visibility:hidden; z-index:10; position:absolute">
-        <%= sort_icon %>
+        <%= sort_icon ({:style => 'height:18px;'}) %>
         <%= edit_button upcasted_free_response, {:small => true, :remote => true} %>
         <%= trash_button upcasted_free_response, {:small => true, :remote => true} %>
       </span>
@@ -24,9 +24,7 @@
 
 </div>
 
-<% if can_be_updated %>
-
-  
+<% if can_be_updated && false %>
   
   <% do_once('free_response_js') do %>
     <%= sortable_javascript("free_responses", sort_student_exercise_free_responses_path(@student_exercise)) %>

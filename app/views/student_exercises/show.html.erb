@@ -44,6 +44,19 @@
       <% end %>
     </div>
 
+    <% if @student_exercise.free_responses_can_be_updated? %>
+      <%= sortable_javascript("free_responses", sort_student_exercise_free_responses_path(@student_exercise)) %>
+
+      <% content_for :javascript do %>
+        <%= javascript_tag do %>
+          $('.free_response').live('mouseenter mouseleave', function(event) {
+            $(this).children('.option_buttons:first')
+                   .css('visibility', event.type == 'mouseenter' ? 'visible' : 'hidden');
+          });
+        <% end %>
+      <% end %>
+    <% end %>
+
     <div style="padding:10px">
       <center>
       <%= link_to "Add Text Answer", 

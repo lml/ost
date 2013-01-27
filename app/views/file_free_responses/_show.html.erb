@@ -1,8 +1,15 @@
+<div style="float:left; margin-right: 20px">
 <%= 
   case free_response.attachment_content_type
   when /^image/
     image_tag free_response.attachment.thumbnail 
   else
-    free_response.attachment.url 
+    free_response.attachment.url ## TODO change me!
   end   
 %>      
+</div>
+
+<%# The caption %>
+<div>
+  <%= free_response.content %>
+</div>

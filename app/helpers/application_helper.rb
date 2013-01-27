@@ -248,6 +248,7 @@ module ApplicationHelper
   
   def sortable_javascript(list_id, sort_path, options={})
     options[:sortable_item_class] ||= 'sortable_item_entry'
+    options[:disable_selection] ||= false
 
     content_for :javascript do
       javascript_tag do
@@ -265,14 +266,14 @@ module ApplicationHelper
                  url: '#{sort_path}'
               });
            }
-        }).disableSelection();".html_safe
+        })#{'.disableSelection();' if options[:disable_selection]}".html_safe
       end
     end
   end
 
   def sort_icon(options={})
     content_tag(:span, "", :class => "ui-icon ui-icon-arrow-4 handle",
-                           :style => 'display:inline-block; height: 14px')
+                           :style => "display:inline-block; height: 14px; #{options[:style]}")
   end
 
   def uber_list(entries, entry_text_method=nil, options={}, &entry_text_block)
