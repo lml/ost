@@ -1,11 +1,13 @@
 <div style="float:left; margin-right: 20px">
 <%= 
-  case free_response.attachment_content_type
-  when /^image/
-    image_tag free_response.attachment.thumbnail 
-  else
-    free_response.attachment.url ## TODO change me!
-  end   
+  link_to view_file_free_response_path(free_response), :remote => true do
+    case free_response.attachment_content_type
+    when /^image/
+      image_tag free_response.attachment.thumbnail 
+    else
+      free_response.read_attribute(:attachment) ## TODO change me!
+    end 
+  end  
 %>      
 </div>
 

@@ -136,6 +136,10 @@ Ost::Application.routes.draw do
     get 'preview', :on => :collection
   end
 
+  resources :file_free_responses, :only => [] do
+    get 'view', :on => :member
+  end
+
   
   # For users, we mix devise with our own users controller.  We have overriden
   # some devise controller methods, so point that out here.

@@ -5,6 +5,10 @@ class FileFreeResponse < FreeResponse
 
   before_create :set_attachment_content_type
 
+  def is_image?
+    attachment_content_type.starts_with?("image")
+  end
+
 protected
 
   def set_attachment_content_type
