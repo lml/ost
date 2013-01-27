@@ -5,7 +5,7 @@
   var old_content = $('#free_response_<%= @free_response.id %>').remove();
   var show_content = jQuery('<%= ej(render :partial => "student_exercises/a_free_response", :locals => {:free_response => @free_response}) %>');
   show_content.hide();
-  var the_form = $('#<%= @free_response_form_id %>');
+  var the_form = $('#<%= @free_response_form_id %>').parent();
   the_form.after(show_content);
   the_form.remove();
   show_content.show();

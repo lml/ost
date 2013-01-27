@@ -14,19 +14,24 @@
   }
 %>
 
-<%= form_for([@student_exercise, free_response], 
-             :as => :free_response, 
-             :url => free_response.new_record? ? 
-                       student_exercise_free_responses_path(extra_params) : 
-                       free_response_path(free_response, extra_params),
-             :html => {:id => html_ids[:form]},
-             :remote => true) do |f| %>
+<div class="free_response box free_response_form">
+  <%= form_for([@student_exercise, free_response], 
+               :as => :free_response, 
+               :url => free_response.new_record? ? 
+                         student_exercise_free_responses_path(extra_params) : 
+                         free_response_path(free_response, extra_params),
+               :html => {:id => html_ids[:form],
+                         :style => 'margin-bottom: 0px'},
+               :remote => true) do |f| %>
 
-  <div id="<%= html_ids[:form] %>_errors"></div>
+    <div id="<%= html_ids[:form] %>_errors"></div>
 
-  <%= render :partial => "#{view_dir(free_response)}/form", 
-             :locals => {:f => f,
-                         :free_response => free_response,
-                         :html_ids => html_ids} %>
+    <div class="field" style="margin-bottom:0px">
+      <%= render :partial => "#{view_dir(free_response)}/form", 
+                 :locals => {:f => f,
+                             :free_response => free_response,
+                             :html_ids => html_ids} %>
+    </div>
 
-<% end %>
+  <% end %>
+</div>
