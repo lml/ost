@@ -15,7 +15,8 @@ en:
     attributes:
       text_free_response:
         content: "Answer text"
+      student_exercise:
+        free_response_confidence: "Answer confidence"
     models:
       klass: class
   Klass: Class
-

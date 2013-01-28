@@ -14,7 +14,9 @@ class FreeResponse < ActiveRecord::Base
   validate :updatable?
 
   def updatable?
-    student_exercise.free_responses_can_be_updated?
+    errors.add(:base, "Cannot add free responses to a locked exercise") \
+      if !student_exercise.free_responses_can_be_updated?
+    errors.none?
   end
 
   #############################################################################

@@ -228,4 +228,9 @@ protected
     # render :template => 'shared/sort'
   end
 
+  def read_errors(object)
+    @errors = object.errors
+    @errors_object = object
+  end
+
 end

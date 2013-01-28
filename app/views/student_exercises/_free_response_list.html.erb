@@ -1,0 +1,6 @@
+<div id="free_responses">
+  <% student_exercise.free_responses.each do |free_response| %>
+    <%= render :partial => 'free_responses/show', 
+               :locals => { :free_response => free_response } %>
+  <% end %>
+</div>

@@ -4,6 +4,11 @@
 module ApplicationHelper
   include Ost::Utilities
   
+  def read_errors(object)
+    @errors = object.errors
+    @errors_object = object
+  end
+
   def alert_tag(messages)
     attention_tag(messages, :alert)
   end
