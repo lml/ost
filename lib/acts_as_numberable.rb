@@ -106,8 +106,12 @@ module ActsAsNumberable
   module BasicInstanceMethods
     protected
 
+    def my_class
+      table_class || self.class
+    end
+
     def assign_number
-      self.number ||= (table_class || self.class).count + 1
+      self.number ||= my_class.count + 1
     end
      
     def mark_as_destroyed
@@ -131,10 +135,10 @@ module ActsAsNumberable
     end
 
     def remove_from_container!
-      logger.debug("In remove_from_container: " + self.class.name + " " + self.id.to_s)
+      logger.debug("In remove_from_container: " + my_class.name + " " + self.id.to_s)
       
-      later_items = self.class.where(container_column => self.send(container_column))
-                              .where{number.gt my{number}}
+      later_items = my_class.where(container_column => self.send(container_column))
+                            .where{number.gt my{number}}
 
       logger.debug("later_items:" + later_items.inspect)
       logger.debug("is destroyed?: " + self.destroyed.inspect)
@@ -156,10 +160,14 @@ module ActsAsNumberable
       end
     end
     
+    def my_class
+      table_class || self.class
+    end
+
     protected
     
     def assign_number
-      self.number ||= (table_class || self.class)
+      self.number ||= my_class
                       .where(container_column => self.send(container_column))
                       .count + 1
     end
