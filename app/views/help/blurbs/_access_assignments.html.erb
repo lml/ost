@@ -1,9 +1,24 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>There are two ways you can access assignments:</p>
-<ul>
-  <li>Method 1: Sign in. Go to <strong>Dashboard > Class > Assignments section</strong> and click on the <strong>current assignment link</strong>.</link>
+<p>Once you have signed up for <%= SITE_NAME %> and registered for a class, the next step is 
+  accessing class assignments.</p>
+  <p>There are two ways to access assignments:</p>
+
+<ul>  
+  <em>Method 1</em>: When an assignment becomes available, <%= SITE_NAME %> will send 
+    the link by email.</li>
+  <p>  
+  <em>Method 2</em>: Access the assignment via the Dashboard.</li>
   <p>
-  <li>Method 2: When an assignment becomes available, <%= SITE_NAME %> will send you the link by email.</li>
+    <ol>
+      <li>Click the <strong>Dashboard</strong> link.
+        <%= image_tag("dashboard.png", {:border => 1, :width => "100%", 
+          :height => "100%", :title=>"dashboard"})%>  
+      <li>Click <strong>Class name</strong> you are taking.</li>
+      <%= image_tag("classname.png", {:border => 1, :width => "100%", 
+        :height => "100%", :title=>"class name"})%>
+      <li>On the Class Information page, click the <strong>assignment link</strong>.</li>
+      <%= image_tag("assignment_link.png", {:border => 1, :width => "100%", 
+        :height => "100%", :title=>"create new topic"})%>
 </ul>

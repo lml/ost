@@ -132,14 +132,16 @@ class BasicFeedbackCondition < FeedbackCondition
         event_occurred_at + availability_opens_delay_days.days
       end
 
-    feedback_closes_at =
-      case availability_closes_option
-      when AvailabilityClosesOption::NEVER
-        event_occurred_at + 100.years
-      when AvailabilityClosesOption::DELAY_AFTER_OPEN
-        event_occurred_at + availability_closes_delay_days.days
-      end
-      
+    if feedback_opens_at
+      feedback_closes_at =
+        case availability_closes_option
+        when AvailabilityClosesOption::NEVER
+          feedback_opens_at + 100.years
+        when AvailabilityClosesOption::DELAY_AFTER_OPEN
+          feedback_opens_at + availability_closes_delay_days.days
+        end
+    end
+
     return [feedback_opens_at, feedback_closes_at]
   end
   

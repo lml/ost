@@ -13,8 +13,12 @@ class User < ActiveRecord::Base
 
   attr_accessor :email_confirmation
   
-  attr_accessible :username, :email, :email_confirmation, :password, :password_confirmation, :remember_me,
-                  :first_name, :last_name, :nickname, :time_zone
+  attr_accessible :username, 
+                  :email, :email_confirmation, 
+                  :password, :password_confirmation, 
+                  :remember_me,
+                  :first_name, :last_name, :nickname, 
+                  :time_zone
     
   validates_presence_of :first_name, :last_name, :username
   validates_uniqueness_of :username, :case_sensitive => false
@@ -29,10 +33,44 @@ class User < ActiveRecord::Base
   before_create :make_first_user_an_admin
   before_update :validate_at_least_one_admin
 
-  scope :active_users, where(:disabled_at => nil)
-  scope :administrators, where(:is_administrator => true)
-  scope :active_administrators, administrators.merge(active_users)
-  scope :error_notice_recipients, active_administrators.where(:receives_error_notices => true)
+  def self.active_users; where{disabled_at == nil}; end
+
+  def self.administrators; where{is_administrator == true}; end
+  def self.non_administrators
+    ids = administrators.collect{|u| u.id}
+    where{id.not_in ids} 
+  end
+
+  def self.educators; joins{educators.user}; end
+  def self.non_educators
+    ids = educators.collect{|u| u.id}
+    where{id.not_in ids} 
+  end
+
+  def self.researchers; joins{researcher.user}; end
+  def self.non_researchers
+    ids = researchers.collect{|u| u.id}
+    where{id.not_in ids} 
+  end
+
+  def self.active_administrators; administrators.active_users; end
+  def self.error_notice_recipients; active_administrators.where{receives_error_notices == true}; end
+
+  def self.administrators_for_display
+    User.administrators.uniq.sort_by{ |user| user.last_name }
+  end
+
+  def self.non_administrator_educators_for_display
+    User.non_administrators.educators.uniq.sort_by{ |user| user.last_name }
+  end
+
+  def self.non_administrator_non_educator_researchers_for_display
+    User.non_administrators.non_educators.researchers.uniq.sort_by{ |user| user.last_name }
+  end
+
+  def self.non_administrator_non_educator_non_researchers_for_display
+    User.non_administrators.non_educators.non_researchers.uniq.sort_by{ |user| user.last_name }
+  end
 
   def full_name
     first_name + " " + last_name  

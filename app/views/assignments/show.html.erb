@@ -135,7 +135,7 @@
               <% student_exercises = sa.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
               <% student_exercises.each_with_index do |se, ee| %>
                 <td style="text-align:center">
-                  <% if !se.free_response_submitted? %>
+                  <% if !se.free_response_submitted? && !se.selected_answer_submitted? %>
                     <%= image_tag 'empty_circle_v2.png' %>              
                   <% elsif !se.selected_answer_submitted? %>
                     <%= image_tag 'half_filled_circle_v2.png' %>              
@@ -177,7 +177,7 @@
   
   <center>
     <%= image_tag 'empty_circle_v2.png', :style => "vertical-align:middle" %> = Not started, 
-    <%= image_tag 'half_filled_circle_v2.png', :style => "vertical-align:middle" %> = Free-form locked, 
+    <%= image_tag 'half_filled_circle_v2.png', :style => "vertical-align:middle" %> = Free-form locked or N/A, 
     <%= image_tag 'red_x_v2.png', :style => "vertical-align:middle" %> = Wrong<br/>
     <%= image_tag 'green_check_v2.png', :style => "vertical-align:middle" %> = Right,
     <%= image_tag 'inverted_green_check_v2.png', :style => "vertical-align:middle" %> = Right, but missing feedback credit,

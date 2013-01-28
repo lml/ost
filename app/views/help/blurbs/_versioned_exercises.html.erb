@@ -1,5 +1,8 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>Enter exercise URL from <%= link_to "Quadbase", "http://quadbase.org" %> in this field. Note: </p> 
+<p>Enter exercise URL for <%= link_to_help 'supported_exercises', text="supported exercise types",
+  {:title => 'Supported Exercise Types', :width => '500'} %> from <%= link_to "Quadbase", "http://quadbase.org" %> 
+  in this field. Note: </p> 
       <%= render :partial => 'help/blurbs/versions'%>
+      

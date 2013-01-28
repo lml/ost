@@ -6,6 +6,8 @@
     taking_section_name  
     dropped_section_name 
     teaching_section_name
+    researching_section_name
+    admin_for_section_name
     collapsible          
     collapsed            
  -->
@@ -15,13 +17,17 @@
   user_classes_dropped_students = present_user.students.dropped.select{ |student| student.section.klass.send(screen_method) }
   user_classes_educators        = present_user.educators.select{ |educator| educator.klass.send(screen_method) }
 
-  user_classes_taking   = user_classes_active_students.collect{ |student| student.section.klass }
-  user_classes_dropped  = user_classes_dropped_students.collect{ |student| student.section.klass }
-  user_classes_teaching = user_classes_educators.collect{ |educator| educator.klass }
+  user_classes_taking         = user_classes_active_students.collect{ |student| student.section.klass }
+  user_classes_dropped        = user_classes_dropped_students.collect{ |student| student.section.klass }
+  user_classes_teaching       = user_classes_educators.collect{ |educator| educator.klass }
+  user_classes_researching    = present_user.is_researcher?    ? Klass.all.select{ |klass| klass.send(screen_method) } : []
+  user_classes_administrating = present_user.is_administrator? ? Klass.all.select{ |klass| klass.send(screen_method) } : []
 
-  user_has_activity = user_classes_taking.any?  ||
-                      user_classes_dropped.any? ||
-                      user_classes_teaching.any?
+  user_has_activity = user_classes_taking.any?      ||
+                      user_classes_dropped.any?     ||
+                      user_classes_teaching.any?    ||
+                      user_classes_researching.any? ||
+                      user_classes_administrating.any?
 %>
 
 <% if user_has_activity %>
@@ -32,5 +38,9 @@
                                                        :section_name => dropped_section_name } %>
     <%= render :partial => "class_links", :locals => { :klasses      => user_classes_teaching,
                                                        :section_name => teaching_section_name } %>
+    <%= render :partial => "class_links", :locals => { :klasses      => user_classes_researching,
+                                                       :section_name => researching_section_name } %>
+    <%= render :partial => "class_links", :locals => { :klasses      => user_classes_administrating,
+                                                       :section_name => administrating_section_name } %>
   <% end %>
 <% end %>

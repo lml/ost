@@ -65,6 +65,7 @@ namespace :custom do
   task :finishing_touches, :roles => :app do
     run "ln -sFf #{deploy_to}/to_copy/database.yml #{current_path}/config/database.yml"
     run "ln -sFf #{deploy_to}/to_copy/secret_settings.yml #{current_path}/config/secret_settings.yml"
+    run "ln -sFf #{deploy_to}/to_copy/newrelic.yml #{current_path}/config/newrelic.yml"
   end
 end
 

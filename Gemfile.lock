@@ -177,6 +177,7 @@ GEM
     net-ssh (2.5.2)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
+    newrelic_rpm (3.5.6.46)
     nokogiri (1.5.5)
     orm_adapter (0.4.0)
     poltergeist (0.7.0)
@@ -329,6 +330,7 @@ DEPENDENCIES
   mime-types
   mini_magick
   mysql2 (~> 0.3.11)
+  newrelic_rpm
   poltergeist
   quiet_assets (~> 1.0.1)
   rack-mini-profiler

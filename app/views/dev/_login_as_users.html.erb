@@ -1,0 +1,17 @@
+<p style="font-size:1.25em"><%= group_name %></p>
+<table class="list">
+  <tr style="font-weight:bold">
+    <td width="30%">Username</td>
+    <td width="30%">First Name</td>
+    <td width="30%">Last Name</td>
+    <td width="10%">User Id</td>
+  </tr>
+  <% users.each do |user| %>
+    <tr>
+      <td><%= link_to user.username, user_become_path(user), :method => :post %></td>
+      <td><%= user.first_name %></td>
+      <td><%= user.last_name %></td>
+      <td><%= user.id %></td>
+    </tr>
+  <% end %>
+</table>

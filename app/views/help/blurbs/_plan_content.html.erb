@@ -1,30 +1,36 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p><%= SITE_NAME %> does not host course materials.</em> Accordingly, before assigning 
-  resources and exercises via <%= SITE_NAME %>, your 
-  course materials must be hosted on external websites. </p>
+<p><%= SITE_NAME %> is built to capitalize on the large universe of freely available open educational resources (OER) but does not itself host educational content.</p>
+
+<p>To assign exercises in OST, you must add your course materials to external OER repositories, or search for reusable OER content to use or adapt. For example, you can embed resources from <%= link_to "Connexions", 
+  "http://www.cnx.org" %> and exercises from our OST-compatible OER repository. Please email <%= email_link "support", "support@openstaxtutor.org" %> for more information about the repository for exercises and assessments.</p>
+    <% if false %>  
+       <ul>
+         <li><em>Exercises</em> you use must be hosted on <%= link_to "Quadbase", "http://www.quadbase.org"%>, the open-access question and answer repository. 
+               <strong>Currently, OST supports simple multiple choice questions only</strong>; more question types are coming soon.</li>
+         <p>
+          <li><em>Study Resources</em> can be hosted on various external 
+            websites, including <%= link_to "Connexions", 
+          "http://www.cnx.org" %>, one of the world's largest open educational resources. </li>
+       </ul>
+      
+      <p>Note that content you add to Quadbase and Connexions must be legally publishable under 
+        the Creative Commons Attribution license, meaning that anything you use directly in your content must 
+        be legally publishable under those licenses.</p>
+        <% end %> 
+    <% if false %>    
+<p>Helpful resources: </p>
+  <ul>
+
+    <li>Frequently asked legal and intellectual property questions <%= link_to "Quadbase", "http://quadbase.org/help/legal" %>
+        and <%= link_to "Connexions", "http://cnx.org/help/ip" %>.</p>
+    
+    <li><%= link_to "Create new exercises in Quadbase", "https://quadbase.org/questions/get_started"%> 
+            or <%=link_to "search for reusable Quadbase exercises", "https://quadbase.org/questions"%>.</li>
     <p>
-    You can assign two (2) kinds of material in <%= SITE_NAME %>: 
-       <ol>
-          <li> <em>Study Resources</em>, which must be hosted on an external website such as <%= link_to "Connexions", 
-          "http://www.cnx.org" %> or other website. Resources can include Connexions modules or other text, video, etc.</li>
-          <p>
-          <li> <em>Exercises</em>, which must be hosted on <%= link_to "Quadbase", "http://www.quadbase.org" 
-          %>. Currently OST supports simple multiple choice exercises. More question types 
-          will be supported soon.</li>
-       </ol>
-       <p>
-      Content in Connexions and Quadbase is open and free to use or reuse. Similarly, 
-      content you add to Connexions and Quadbase is easily shared -- allowing others to use
-       and reuse it legally -- while still giving you recognition and attribution for your work.</li>
-    <p>
-<p>To get started:</p>
-        <ul>
     <li><%= link_to "Create new resources in Connexions", "http://cnx.org/help/authoring/createmodule" %> 
       or <%= link_to "search for reusable Connexions resources", "http://cnx.org/content/" %>.</li>
-    <p>
-    <li><%= link_to "Create new exercises in Quadbase", "https://quadbase.org/questions/get_started"%> 
-      or <%=link_to "search for reusable Quadbase exercises", "https://quadbase.org/questions"%>.</li>
   </ul>
   <p>
+    <% end %>

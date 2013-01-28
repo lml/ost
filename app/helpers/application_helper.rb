@@ -569,5 +569,21 @@ module ApplicationHelper
   def xls_cell(type, options={}, &block)
     block_to_partial('shared/xls_cell', options.merge(:type => type), &block)
   end
+  
+  def youtube_video(options={})
+    raise ArgumentError "must provide width" if !options.has_key?(:width)
+    raise ArgumentError "must provide height"if !options.has_key?(:height)
+    raise ArgumentError "must provide embed code" if !options.has_key?(:code)
+    options[:controls] ||= 0
+    options[:quality] ||= "hd720"
+    options[:show_info] ||= 0
+    options[:secure] = true if !options.has_key?(:secure)
 
+    content_tag :iframe, {:width => options[:width],
+                          :height => options[:height],
+                          :src => "http#{'s' if options[:secure]}://www.youtube-nocookie.com/embed/#{options[:code]}?rel=0;vq=#{options[:quality]};showinfo=#{options[:show_info]};controls=#{options[:controls]}",
+                          :frameborder => 0,
+                          :allowfullscreen => true} {}
+  end
+  
 end

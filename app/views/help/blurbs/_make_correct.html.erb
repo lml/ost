@@ -1,20 +1,26 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>To make a wrong answer correct: </p>
-
-<ul>
-  <li>Go to <strong>Dashboard > Class > Class Information.</strong></li>
-  <p>
-  <li>Scroll down to Assignments and click on the <strong>assignment</strong> containing the student's work.</li>
-  <p>
-  <li>Click on the <strong>student's name</strong>.</li>
-  <p>
-  <li>Under the exercise number, click the <strong>student's score</strong> to be updated (must be 0).</li>
-     <p>
-          <%= image_tag("makecorrect.png", {:border => 1, :width => "100%", :height => "100%", :title=>"make correct"})%>
-     <p>      
-  <li>Click <strong>Make correct</strong>.</li>
-  <p>
-          <%= image_tag("makecorrect2.png", {:border => 1, :width => "60%", :height => "60%", :title=>"make correct"})%>
-</ul>
+    <p>OST automatically assigns grades based on student's multiple choice answers. If a student submits a wrong multiple choice answer, but you later deem that answer to be correct, you can give back points by following the steps below.</p> 
+      <strong>Note</strong>: currently, there is not a way to give back points if points were lost because the student failed to submit the exercise on time, or failed to view required feedback.</p>
+    <ol>
+      <li>Go to <strong>Dashboard > Class > Class Information.</strong></li>
+      <p>
+      <li>Scroll down to Assignments and click on the <strong>assignment
+        </strong> containing the exercise in question.</li>
+      <p>
+      <li>Click on the <strong>student's name</strong>.</li>
+      <p>
+      <li>Under the exercise number, click the <strong>student's score
+        </strong> to be updated.</li>
+         <p>
+              <%= image_tag("makecorrect.png", {:border => 1, :width => "100%", :height => "100%", 
+                :title=>"make correct"})%>
+         <p>      
+      <li><em>If Correctness Credit is 0.0</em>, click <strong>Make correct</strong> to override
+        correctness credit. Note: if student submitted the exercise late or didn't view required feedback, 
+        overall score will still be 0.</li>
+      <p>
+              <%= image_tag("makecorrect2.png", {:border => 1, :width => "60%", :height => "60%", 
+                :title=>"make correct"})%>
+    </ol>

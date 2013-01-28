@@ -2,7 +2,8 @@
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <%= pageHeading "Concepts for #{@learning_plan.name}"%>
-<p>Use concept tags to mark which questions reinforce which topics. <%= link_to_help 'concepts_page', text="Learn how.", {:title => 'Concept Tags', :width => 700} %></p>
+<p>Use concept tags to mark which questions reinforce which topics. 
+<%= link_to_help 'concepts_page', text="Learn how.", {:title => 'Concept Tags', :width => 700, :height => 650} %></p>
 <div id="concept_list">
   <%= render :partial => 'list', :locals => {:learning_plan => @learning_plan} %>
 </div>

@@ -22,6 +22,10 @@ class Assignment < ActiveRecord::Base
   
   attr_accessor :dry_run
   
+  def klass
+    cohort.klass
+  end
+
   def add_topic_exercise(topic_exercise, tags)
     assignment_exercise = AssignmentExercise.new(:topic_exercise => topic_exercise)
     assignment_exercise.add_tags(tags)
@@ -73,7 +77,10 @@ class Assignment < ActiveRecord::Base
   #############################################################################
 
   def can_be_read_by?(user)
-    cohort.is_active_member?(user) || Researcher.is_one?(user) || user.is_administrator?
+    return !klass.closed? if cohort.is_active_member?(user)
+    return true           if user.is_researcher?
+    return true           if user.is_administrator?
+    return false
   end
 
   def can_be_updated_by?(user)

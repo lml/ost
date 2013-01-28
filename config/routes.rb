@@ -170,6 +170,7 @@ Ost::Application.routes.draw do
   match 'help/instructor_getting_started'
   match 'help/learning_conditions'
   match 'help/class_settings'
+  match 'help/student_tutorials'
   match 'help', :to => 'help#index'
   
   get 'dev/toolbox', :as => 'dev_toolbox'

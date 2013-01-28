@@ -1,0 +1,23 @@
+<div id="global_labels">
+
+  <%= section "Global Labels" do %>
+
+    <table width="90%" class="left_heading">
+      <tr>
+        <td width="45%" style="text-align:left">Labels to apply to all tests:</td>
+        <td><%= @learning_plan.test_exercise_tags %></td>
+      </tr>
+      <tr>
+        <td width="45%" style="text-align:left">Labels to apply to all non-tests:</td>
+        <td><%= @learning_plan.nontest_exercise_tags %></td>
+      </tr>
+    </table>
+
+    <br/>
+    <%= link_to "Edit...", 
+                edit_learning_plan_path(@learning_plan),
+                :remote => true %>
+
+  <% end %>
+
+</div>

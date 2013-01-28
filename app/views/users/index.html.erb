@@ -6,33 +6,17 @@
 
 <%= pageHeading("User List") %>
 
-<table class="list" width="100%">
-  <tr>
-    <th width="20%">First Name</th>
-    <th width="20%">Last Name</th>
-    <th width="15%">Username</th>
-    <th width="25%">Email</th>
-    <th width="10%">Adm?</th>
-    <th width="10%">Dis?</th>
-    <th width="10%">Ntc?</th>
-  </tr>
-
-<% @users.each do |user| %>
-  <tr class="test test_section">
-    <td><%= admin_only(user.first_name) %></td>
-    <td><%= admin_only(user.last_name) %></td>
-    <td><%= admin_only(user.username) %></td>
-    <td><%= admin_only(user.email) %></td>
-    <td><%= tf_to_yn(user.is_administrator?) %></td>
-    <td><%= tf_to_yn(user.is_disabled?) %></td>
-    <td><%= tf_to_yn(user.receives_error_notices?) %></td>
-    <td><%= show_button(user) %></td>
-    <td><%= edit_button(user) %></td>
-  </tr>
-<% end %>
-</table>
-
-
-<br />
+<%= render  :partial  => 'index_table', 
+            :locals   => {  :users      => User.administrators_for_display, 
+                            :group_name => "Admins" } %>
+<%= render  :partial  => 'index_table',
+            :locals   => {  :users      => User.non_administrator_educators_for_display, 
+                            :group_name => "Educators" } %>
+<%= render  :partial  => 'index_table', 
+            :locals   => {  :users      => User.non_administrator_non_educator_researchers_for_display, 
+                            :group_name => "Researchers" } %>
+<%= render  :partial  => 'index_table', 
+            :locals   => {  :users      => User.non_administrator_non_educator_non_researchers_for_display, 
+                            :group_name => "Everyone Else" } %>
 
 

@@ -1,11 +1,10 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>The label you enter here must match the label of the exercise(s) you want to receive this feedback condition.</p>
+<p>In this field, enter a unique label describing this feedback condition, e.g., <em>delayed feedback</em>.</p>
 
-<p><%= SITE_NAME %> will activate a feedback condition for an exercise <em>if and only if</em> the following conditions are met:</p> 
-<ul>
-<li>Student has completed the exercise.</li>
-<li>Exercise has a <em><strong>label</strong></em> attached.</li>
-<li>There is one (1) feedback condition <em><strong>matching that same label</strong></em>.</li>
-</ul>
+<p>Next, attach this label to all exercises you want to receive this feedback condition.</p>
+
+<p>As students complete each exercise, <%= SITE_NAME %> will search for matching exercise and feedback labels and will activate the first matching feedback condition found.</p>
+  
+<p><%= link_to_help 'attach_feedback_label_to_exercises', text="Learn more about attaching labels to exercises and assignments.", {:title => 'Activate feedback by attaching labels', :width => '600', :height => '600'} %></p>
