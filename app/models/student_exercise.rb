@@ -29,6 +29,7 @@ class StudentExercise < ActiveRecord::Base
   # validate :not_past_due, :on => :update 
   
   validate :changes_match_state, :on => :update
+  validate :has_at_least_one_free_response, :on => :update
   
   before_save :lock_choice_if_indicated, :on => :update
 
@@ -255,6 +256,11 @@ protected
   
   def notify_if_answer_selected
     notify_observers(:answer_selected) if selected_answer_changed? && !skip_update_callbacks
+  end
+
+  def has_at_least_one_free_response
+    errors.add(:base, "At least one answer is required before you can turn this exercise in.") \
+      if lock_response_text_on_next_save && free_responses.none?
   end
                   
 end

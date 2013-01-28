@@ -9,6 +9,7 @@
   the_form.after(show_content);
   the_form.remove();
   show_content.show();
+  $('#turn_in_free_response').show();
   refresh_buttons();
   <%= reload_mathjax("#free_response_#{@free_response.id}") %>
 <% end %> 
