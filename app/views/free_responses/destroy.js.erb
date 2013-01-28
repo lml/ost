@@ -1,3 +1,6 @@
 <%= unless_errors_in(@free_response, "free_response_#{@free_response.id}_errors") do %>
   $('#free_response_<%= @free_response.id %>').remove();
+  <% if @free_response.student_exercise.free_responses.none? %>
+    $('#turn_in_free_response').hide();
+  <% end %>
 <% end %>
