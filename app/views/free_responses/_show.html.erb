@@ -1,11 +1,11 @@
 <% can_be_updated = free_response.updatable? && present_user.can_update?(free_response) %>
 
-<div id="free_response_<%= free_response.id %>" class="sortable_item_entry">
+<div id="free_response_<%= free_response.id %>" <%= 'class="sortable_item_entry"' if can_be_updated %>>
   <div id="free_response_<%= free_response.id %>_errors"></div>
 
   <div class="free_response box">
 
-    <%# Storing this ahead of time b/c of evil behavior of .becomes 
+    <%# Storing show_partial ahead of time b/c of evil behavior of .becomes 
         https://github.com/rails/rails/pull/3023 %>
 
     <% show_partial = "#{view_dir(free_response)}/show" %>
@@ -23,20 +23,3 @@
   </div>
 
 </div>
-
-<% if can_be_updated && false %>
-  
-  <% do_once('free_response_js') do %>
-    <%= sortable_javascript("free_responses", sort_student_exercise_free_responses_path(@student_exercise)) %>
-
-    <% content_for :javascript do %>
-      <%= javascript_tag do %>
-        $('.free_response').live('mouseenter mouseleave', function(event) {
-          $(this).children('.option_buttons:first')
-                 .css('visibility', event.type == 'mouseenter' ? 'visible' : 'hidden');
-        });
-      <% end %>
-    <% end %>
-  <% end %>
-
-<% end %>

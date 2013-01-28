@@ -40,7 +40,7 @@ class StudentExercise < ActiveRecord::Base
   
   after_save :notify_if_answer_selected, :on => :update
   
-  attr_accessible :free_response, :free_response_confidence, :selected_answer, :feedback_credit_multiplier
+  attr_accessible :free_response_confidence, :selected_answer, :feedback_credit_multiplier
 
   # Realized a little late in the game that it is bad when these numbers are the same as
   # the Event enum numbers in student assignment, so made them different

@@ -569,5 +569,5 @@ module ApplicationHelper
   def xls_cell(type, options={}, &block)
     block_to_partial('shared/xls_cell', options.merge(:type => type), &block)
   end
-  
+
 end

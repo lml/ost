@@ -856,3 +856,18 @@ span.antispam {display:none;}
 input.ui-widget {
   font-size: 11px;
 }
+
+///////// FREE RESPONSES ///////////
+
+.free_response {
+  margin-bottom:14px;
+  clear:both;
+}
+
+.free_response_form {
+  background-color: #eee;
+}
+
+.free_response_form input[type="file"],textarea {
+  background-color: #fff;
+}
