@@ -11,10 +11,12 @@ class FreeResponse < ActiveRecord::Base
 
   validates :student_exercise_id, :presence => true
   validates :type, :presence => true
-  validate :updatable?
+  validate :updatable?, :unless => :ignore_updatable_validation
+
+  attr_accessor :ignore_updatable_validation
 
   def updatable?
-    errors.add(:base, "Cannot add free responses to a locked exercise") \
+    errors.add(:base, "Cannot add or edit free responses for a turned-in exercise") \
       if !student_exercise.free_responses_can_be_updated?
     errors.none?
   end

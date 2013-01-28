@@ -12,6 +12,7 @@ class MoveFreeResponsesIntoNewForm < ActiveRecord::Migration
                                  :content => se.free_response)
       tfr.created_at = se.created_at
       tfr.updated_at = se.created_at
+      tfr.ignore_updatable_validation = true
       tfr.save!
     end
 
