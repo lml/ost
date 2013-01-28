@@ -7,7 +7,7 @@ class MoveFreeResponsesIntoNewForm < ActiveRecord::Migration
     ActiveRecord::Base.record_timestamps = false
 
     StudentExercise.find_each do |se|
-      next if se.free_response.nil?
+      next if se.free_response.blank?
       tfr = TextFreeResponse.new(:student_exercise_id => se.id,
                                  :content => se.free_response)
       tfr.created_at = se.created_at
