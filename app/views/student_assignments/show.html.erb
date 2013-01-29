@@ -9,15 +9,7 @@
              :locals => {:response_times => @student_assignment.response_times} %>
 <% end %>
 
-<style type="text/css">
-  .outlined_cell {
-    border-left: 1px solid #ddd; 
-    border-right:1px solid #ddd; 
-    padding: 8px;
-  }
-</style>
-
-<%= section "Exercise Responses" do %>
+<%= section "Exercise Responses", :classes => 'section-exercise-responses' do %>
   <table class="list" width="90%">
     <tr>
       <th width="3%">#</th>

@@ -4,19 +4,21 @@
 
 class MoveFreeResponsesIntoNewForm < ActiveRecord::Migration
   def up
-    ActiveRecord::Base.record_timestamps = false
+    begin
+      ActiveRecord::Base.record_timestamps = false
 
-    StudentExercise.find_each do |se|
-      next if se.free_response.blank?
-      tfr = TextFreeResponse.new(:student_exercise_id => se.id,
-                                 :content => se.free_response)
-      tfr.created_at = se.created_at
-      tfr.updated_at = se.created_at
-      tfr.ignore_updatable_validation = true
-      tfr.save!
+      StudentExercise.find_each do |se|
+        next if se.free_response.blank?
+        tfr = TextFreeResponse.new(:student_exercise_id => se.id,
+                                   :content => se.free_response)
+        tfr.created_at = se.created_at
+        tfr.updated_at = se.created_at
+        tfr.ignore_updatable_validation = true
+        tfr.save!
+      end     
+    ensure
+      ActiveRecord::Base.record_timestamps = true
     end
-
-    ActiveRecord::Base.record_timestamps = true
   end
 
   def down

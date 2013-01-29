@@ -544,6 +544,12 @@ table.list td.assignment_grade {
 	text-align: right
 }
 
+table.list td.outlined_cell {
+  border-left: 1px solid #ddd; 
+  border-right:1px solid #ddd; 
+  padding: 8px;
+}
+
 table.list.assignment {
 	width: 95%;
 
@@ -870,4 +876,29 @@ input.ui-widget {
 
 .free_response_form input[type="file"],textarea {
   background-color: #fff;
+}
+
+@mixin content-box {
+  visibility: visible; 
+  overflow: hidden; 
+  position: relative; 
+  z-index: 2; 
+  border: 1px solid #ccc; 
+  padding: 15px; 
+  width: 560px;
+  margin-top:10px;
+}
+
+.question-box {
+  @include content-box;
+}
+
+.free-response-box {
+  @include content-box;
+}
+
+.section-exercise-responses {
+  .free-response-box {
+    width: 420px;
+  }
 }

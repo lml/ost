@@ -1,19 +1,6 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<style type="text/css">
-  .box {
-    visibility: visible; 
-    overflow: hidden; 
-    position: relative; 
-    z-index: 2; 
-    border: 1px solid #ccc; 
-    padding: 15px; 
-    width:560px;
-    margin-top:10px;
-  }
-</style>
-
 <% read_errors(@student_exercise) %>
 
 <%= render "header_info", student_exercise: @student_exercise %>
