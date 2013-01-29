@@ -42,7 +42,7 @@ protected
   end
 
   def make_free_response
-    type = params[:type] #|| params[:free_response].delete(:type)
+    type = params[:type]
     @free_response = 
       case type
       when 'TextFreeResponse' 

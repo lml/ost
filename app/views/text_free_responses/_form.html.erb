@@ -14,7 +14,7 @@
     <%= link_to_function "LaTeX Editor", "OpenLatexEditor('#{html_ids[:text_box]}','latex','en-us',true,'','full')" %> |
     <%= link_to_function "Cancel", "cancel_free_response_edit('#{free_response.non_nil_id}', false);" %>
     &nbsp;&nbsp;&nbsp;
-    <%= f.submit "Save", :class => 'link_button' %>
+    <%= f.submit "Attach", :class => 'link_button', :title => 'You can continue working on this exercise after saving' %>
   </span>
 </div>
 

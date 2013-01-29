@@ -152,8 +152,8 @@ protected
   end
 
   def enable_timeout
-    # disable in development
-    @enable_timeout = !Rails.env.development?
+    # only enable in production
+    @enable_timeout = Rails.env.production?
   end
 
   def is_id?(value)
