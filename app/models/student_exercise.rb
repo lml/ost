@@ -8,6 +8,7 @@ class StudentExercise < ActiveRecord::Base
   belongs_to :student_assignment
   belongs_to :assignment_exercise
   has_many :response_times, :as => :response_timeable, :dependent => :destroy
+  has_many :free_responses, :dependent => :destroy, :order => :number
   
   before_destroy :destroyable?
   
@@ -28,6 +29,7 @@ class StudentExercise < ActiveRecord::Base
   # validate :not_past_due, :on => :update 
   
   validate :changes_match_state, :on => :update
+  validate :has_at_least_one_free_response, :on => :update
   
   before_save :lock_choice_if_indicated, :on => :update
 
@@ -39,7 +41,7 @@ class StudentExercise < ActiveRecord::Base
   
   after_save :notify_if_answer_selected, :on => :update
   
-  attr_accessible :free_response, :free_response_confidence, :selected_answer, :feedback_credit_multiplier
+  attr_accessible :free_response_confidence, :selected_answer, :feedback_credit_multiplier
 
   # Realized a little late in the game that it is bad when these numbers are the same as
   # the Event enum numbers in student assignment, so made them different
@@ -212,6 +214,10 @@ class StudentExercise < ActiveRecord::Base
     self.skip_update_callbacks = false
   end
 
+  def free_responses_can_be_updated?
+    return !free_response_submitted?
+  end
+
 protected
 
   def lock_response_text_if_directed
@@ -250,6 +256,11 @@ protected
   
   def notify_if_answer_selected
     notify_observers(:answer_selected) if selected_answer_changed? && !skip_update_callbacks
+  end
+
+  def has_at_least_one_free_response
+    errors.add(:base, "At least one answer is required before you can turn this exercise in.") \
+      if lock_response_text_on_next_save && free_responses.none?
   end
                   
 end

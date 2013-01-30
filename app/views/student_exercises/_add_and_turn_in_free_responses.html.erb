@@ -1,0 +1,62 @@
+
+
+<%= sortable_javascript("free_responses", sort_student_exercise_free_responses_path(student_exercise)) %>
+
+<% content_for :javascript do %>
+  <%= javascript_tag do %>
+    $('.free_response').live('mouseenter mouseleave', function(event) {
+      $(this).children('.option_buttons:first')
+             .css('visibility', event.type == 'mouseenter' ? 'visible' : 'hidden');
+    });
+  <% end %>
+<% end %>
+
+<div style="padding:10px">
+  <center>
+  <%= link_to "Add Text Answer", 
+              new_student_exercise_free_response_path(student_exercise, {:type => 'TextFreeResponse'}), 
+              :remote => true %> | 
+  Upload Photo(s) from 
+  <%= link_to "PC", 
+              new_student_exercise_free_response_path(student_exercise, {:type => 'FileFreeResponse'}), 
+              :remote => true %>
+  or
+  <%= link_to_function "Camera Phone", 
+              "alert('Coming very soon')" %>
+  </center>
+</div>
+
+<div id="turn_in_free_response" style="<%= 'display:none' if student_exercise.free_responses.none? %>">
+
+  <%= form_for(student_exercise) do |f| %>
+    <div class="field">
+      <p>How confident are you in this answer?</p>
+      <p>This answer is...</p>
+      <table width="100%">
+        <tr>
+          <% confidence_labels.each_with_index do |cl, ii| %>
+            <td width="16.67%">
+              <center>
+                <%= f.radio_button :free_response_confidence, ii %></br/>
+                <%= cl.sub("-","<br/>").html_safe %>
+              </center>
+            </td>        
+          <% end %>        
+        </tr>
+      </table>
+    </div>
+
+    <center>
+      
+      <div class="actions" style="padding-top:10px">
+        <%= f.submit "Turn in my answer", 
+                :name => "save_and_lock",
+                :class => 'link_button',
+                :confirm => "After you turn in your answer, you can no longer change it. " + 
+                            "Are you sure you want to turn in your answer?" %>
+      </div>
+
+    </center>
+  <% end %>
+
+</div>

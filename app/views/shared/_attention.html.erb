@@ -12,13 +12,19 @@
     <% alert_messages.push(msg) %>
   <% end %>  
   
+  <%# In the future, this code should use locales exclusively, none of this
+      custom 'human_field_name' stuff; the 'human_attribute_name' call below
+      uses locales %>
+
   <% @errors.each do |attr,msg| %>
     <% if :base != attr && %> 
       <% field_name =  attr.to_s.ends_with?(".base") ? 
                          "" :
                          !@human_field_names[attr].nil? ? 
-                           @human_field_names[attr] + " ": 
-                           attr.to_s.titleize + " " %>
+                             @human_field_names[attr] + " " : 
+                             @errors_object.nil? ?
+                                attr.to_s.titleize + " " :
+                                @errors_object.class.human_attribute_name(attr.to_s) + " " %>
       
       <% alert_messages.push(field_name + msg)%>
     <% end %>

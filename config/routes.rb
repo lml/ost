@@ -4,7 +4,6 @@
 Ost::Application.routes.draw do
 
 
-
   resources :site_licenses
 
   resources :presentation_conditions, :except => [:index, :show]
@@ -125,11 +124,22 @@ Ost::Application.routes.draw do
   end
 
   resources :student_exercises, :only => [:show, :update] do
-    get 'preview_free_response'
     get 'feedback'
     put 'make_correct'
     get 'score_detail'
+    resources :free_responses, :shallow => true, :except => [:index, :show] do
+      post 'sort', :on => :collection
+    end
   end
+
+  resources :text_free_responses, :only => [] do
+    get 'preview', :on => :collection
+  end
+
+  resources :file_free_responses, :only => [] do
+    get 'view', :on => :member
+  end
+
   
   # For users, we mix devise with our own users controller.  We have overriden
   # some devise controller methods, so point that out here.

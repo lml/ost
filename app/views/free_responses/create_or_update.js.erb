@@ -1,0 +1,15 @@
+<%# Copyright 2011-2013 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%= unless_errors_in(@free_response, "#{@free_response_form_id}_errors") do %>
+  var old_content = $('#free_response_<%= @free_response.id %>').remove();
+  var show_content = jQuery('<%= ej(render :partial => "free_responses/show", :locals => {:free_response => @free_response}) %>');
+  show_content.hide();
+  var the_form = $('#<%= @free_response_form_id %>').parent();
+  the_form.after(show_content);
+  the_form.remove();
+  show_content.show();
+  $('#turn_in_free_response').show();
+  refresh_buttons();
+  <%= reload_mathjax("#free_response_#{@free_response.id}") %>
+<% end %> 

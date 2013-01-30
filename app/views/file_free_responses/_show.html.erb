@@ -1,0 +1,17 @@
+<div style="float:left; margin-right: 20px">
+<%= 
+  link_to view_file_free_response_path(free_response), :remote => true do
+    case free_response.attachment_content_type
+    when /^image/
+      image_tag free_response.attachment.thumbnail 
+    else
+      free_response.read_attribute(:attachment)
+    end 
+  end  
+%>      
+</div>
+
+<%# The caption %>
+<div>
+  <%= free_response.content %>
+</div>

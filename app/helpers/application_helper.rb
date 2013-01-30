@@ -4,6 +4,11 @@
 module ApplicationHelper
   include Ost::Utilities
   
+  def read_errors(object)
+    @errors = object.errors
+    @errors_object = object
+  end
+
   def alert_tag(messages)
     attention_tag(messages, :alert)
   end
@@ -246,6 +251,36 @@ module ApplicationHelper
     end
   end
   
+  def sortable_javascript(list_id, sort_path, options={})
+    options[:sortable_item_class] ||= 'sortable_item_entry'
+    options[:disable_selection] ||= false
+
+    content_for :javascript do
+      javascript_tag do
+        "$('##{list_id}').sortable({
+           dropOnEmpty: false,
+           handle: '.handle',
+           items: 'div.#{options[:sortable_item_class]}',
+           opacity: 0.7,
+           scroll: true,
+           update: function(){
+              $.ajax({
+                 type: 'post',
+                 data: $('##{list_id}').sortable('serialize'),
+                 dataType: 'script',
+                 url: '#{sort_path}'
+              });
+           }
+        })#{'.disableSelection();' if options[:disable_selection]}".html_safe
+      end
+    end
+  end
+
+  def sort_icon(options={})
+    content_tag(:span, "", :class => "ui-icon ui-icon-arrow-4 handle",
+                           :style => "display:inline-block; height: 14px; #{options[:style]}")
+  end
+
   def uber_list(entries, entry_text_method=nil, options={}, &entry_text_block)
     
     options[:hide_edit] ||= false
@@ -544,20 +579,16 @@ module ApplicationHelper
     raise ArgumentError "must provide width" if !options.has_key?(:width)
     raise ArgumentError "must provide height"if !options.has_key?(:height)
     raise ArgumentError "must provide embed code" if !options.has_key?(:code)
-    options[:controls] ||= 0
+    options[:controls] ||= 1
     options[:quality] ||= "hd720"
     options[:show_info] ||= 0
     options[:secure] = true if !options.has_key?(:secure)
 
     content_tag :iframe, {:width => options[:width],
                           :height => options[:height],
-                          :src => "http#{'s' if options[:secure]}://www.youtube-nocookie.com/embed/#{options[:code]}?rel=0;vq=#{options[:quality]};showinfo=#{options[:show_info]};controls=#{options[:controls]}",
+                          :src => "http#{'s' if options[:secure]}://www.youtube-nocookie.com/embed/#{options[:code]}?rel=0;vq=#{options[:quality]};showinfo=#{options[:show_info]};controls=#{options[:controls]};modestbranding=1",
                           :frameborder => 0,
                           :allowfullscreen => true} {}
-
-    # "<iframe width=\"#{options[:width]}\" height=\"#{options[:height]}\"" +
-    # " src=\"https://www.youtube-nocookie.com/embed/#{options[:code]}?rel=0;vq=hd720;showinfo=0\" frameborder=\"0\"" + 
-    # " allowfullscreen></iframe>".html_safe
   end
   
 end

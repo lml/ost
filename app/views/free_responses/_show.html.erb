@@ -1,0 +1,25 @@
+<% can_be_updated = free_response.updatable? && present_user.can_update?(free_response) %>
+
+<div id="free_response_<%= free_response.id %>" class="<%= 'sortable_item_entry' if can_be_updated %>">
+  <div id="free_response_<%= free_response.id %>_errors"></div>
+
+  <div class="free_response free-response-box">
+
+    <%# Storing show_partial ahead of time b/c of evil behavior of .becomes 
+        https://github.com/rails/rails/pull/3023 %>
+
+    <% show_partial = "#{view_dir(free_response)}/show" %>
+
+    <% if can_be_updated %>
+      <% upcasted_free_response = free_response.becomes(FreeResponse) %>
+      <span class="option_buttons" style="right:10px; visibility:hidden; z-index:10; position:absolute">
+        <%= sort_icon ({:style => 'height:18px;'}) %>
+        <%= edit_button upcasted_free_response, {:small => true, :remote => true} %>
+        <%= trash_button upcasted_free_response, {:small => true, :remote => true} %>
+      </span>
+    <% end %>
+
+    <%= render :partial => show_partial, :locals => {:free_response => free_response} %>
+  </div>
+
+</div>

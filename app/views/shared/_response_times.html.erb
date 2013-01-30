@@ -29,45 +29,42 @@
       data.push({name: "response_time[note]", value: note});
       return $.post($("#new_response_time").attr('action'), data);      
     }
+
+    <% if Ost::Application.config.enable_response_times %>    
     
-    setInterval( "heartbeat()", <%= 1.minutes.to_i * 1000 %> );
+      setInterval( "heartbeat()", <%= 1.minutes.to_i * 1000 %> );
+      
+      $(document).ready(function() {
+        mark_time("STARTED","READY");
+      })
+      
+      $(window).bind('beforeunload', function(){
+        mark_time("STOPPED","UNLOAD");
+      });
+      
+      var last_activity_zone_time = null;
+      
+      $(".activity_zone").live('mouseenter', function() {
+        current_time = (new Date()).getTime();
+        if (null == last_activity_zone_time || current_time - last_activity_zone_time > 30000) {
+          mark_time("ACTIVITY", "zone");        
+          last_activity_zone_time = current_time;
+        }
+      });
+      
+      $(".activity_link").live('mousedown', function() {
+        note = $(this).attr('data-action');
+        if (undefined == note) {
+          note = $(this).attr('href');
+        }
+        mark_time("LINKCLICK", note);
+      });
+      
+      $(document).bind('beforeTimeout', function(){
+        mark_time("TIMEOUT","");
+      });
     
-    $(document).ready(function() {
-      mark_time("STARTED","READY");
-    })
-    
-    $(window).bind('beforeunload', function(){
-      mark_time("STOPPED","UNLOAD");
-    });
-    
-    var last_activity_zone_time = null;
-    
-    $(".activity_zone").live('mouseenter', function() {
-      current_time = (new Date()).getTime();
-      if (null == last_activity_zone_time || current_time - last_activity_zone_time > 30000) {
-        mark_time("ACTIVITY", "zone");        
-        last_activity_zone_time = current_time;
-      }
-    });
-    
-    $(".activity_link").live('mousedown', function() {
-      note = $(this).attr('data-action');
-      if (undefined == note) {
-        note = $(this).attr('href');
-      }
-      mark_time("LINKCLICK", note);
-    });
-    
-    $(document).bind('beforeTimeout', function(){
-      mark_time("TIMEOUT","");
-    });
+    <% end %>
         
-    //$(document).ready(function(){
-    //   $([window, document]).focusin(function(){
-    //     mark_time("ACTIVITY", "focus_in");
-    //   }).focusout(function(){
-    //     mark_time("ACTIVITY", "focus_out");
-    //   });
-    //});
   <% end %>
 <% end %>
