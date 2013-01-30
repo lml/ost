@@ -20,9 +20,10 @@ module JqueryHelper
 
   def unless_errors_in(object=nil, error_html_id='attention', &block)
     @errors = object.nil? ? [] : object.errors
+    @errors_object = object
     
     if !@errors.empty? || !alert.blank?
-      "$('##{error_html_id}').html(\"#{ ej(render :partial => 'shared/attention') } \");".html_safe
+      "$('##{error_html_id}').html(\"#{ ej(render :partial => 'shared/attention') } \").trigger('added_errors');".html_safe
     else
       ("$('##{error_html_id}').html('');" + capture(&block)).html_safe
     end

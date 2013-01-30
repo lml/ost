@@ -8,7 +8,7 @@
 <% anchor_name ||= nil %>
 
 
-<div class="section activity_zone <%= classes %> test test_section">
+<div class="section activity_zone <%= [classes].flatten.join(" ") %> test test_section">
   <div class="section_heading">
     <% if !anchor_name.blank? %>
       <%= link_to "", {}, :name => anchor_name %>

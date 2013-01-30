@@ -88,7 +88,7 @@ ses.find_each do |se|
         <Cell><Data ss:Type="String"><%= ae_info[ae][:quadbase_id] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:concept] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:tag_list] %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= se.free_response %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.free_responses.collect{|fr| fr.as_text}.join('; ') %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.free_response_confidence %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.selected_answer %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.automated_credit %></Data></Cell>

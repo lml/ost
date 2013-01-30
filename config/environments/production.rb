@@ -76,4 +76,6 @@ Ost::Application.configure do
   config.action_controller.default_url_options = {:host => "openstaxtutor.org"}
   
   config.middleware.use Rack::SslEnforcer
+
+  config.carrierwave_storage = :fog
 end

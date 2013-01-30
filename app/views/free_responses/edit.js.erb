@@ -1,0 +1,2 @@
+var form = jQuery("<%= ej(render 'free_responses/form') %>");
+$('#free_response_<%= @free_response.id %>').hide().after(form);

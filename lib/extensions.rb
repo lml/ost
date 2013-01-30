@@ -93,6 +93,13 @@ module ActiveRecord
     def sudo_enabled?
       WebsiteConfiguration.get_value(:sudo_enabled)
     end
+
+    # Sometimes you need an AR to have a non-nil ID (e.g. for use as part of 
+    # DOM element ID names, etc).  When the records are new, the ID nil, so
+    # we give back a persistent random hex string
+    def non_nil_id
+      @non_nil_id ||= self.id || SecureRandom.hex
+    end
   end
 end
 

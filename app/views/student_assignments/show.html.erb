@@ -4,12 +4,12 @@
 <%= pageHeading("Assignment for #{@student_assignment.student.full_name(present_user)}",
                 {:sub_heading_text => @student_assignment.student.section.klass.name})%>
 
-<%= section "Assignment Times", {:collapsible => true, :collapsed => true, :classes => 'first' } do %>
+<%= section "Assignment Times", {:collapsible => true, :collapsed => true, :classes => 'first no_bar' } do %>
   <%= render :partial => 'response_times/list', 
              :locals => {:response_times => @student_assignment.response_times} %>
 <% end %>
 
-<%= section "Exercise Responses" do %>
+<%= section "Exercise Responses", :classes => 'section-exercise-responses' do %>
   <table class="list" width="90%">
     <tr>
       <th width="3%">#</th>
@@ -24,7 +24,13 @@
     <% student_exercises.each_with_index do |se,ii| %>
       <tr>
         <td><%= ii+1%>.</td>
-        <td><%= se.free_response.blank? ? "(blank)" : simple_format(se.free_response) %></td>
+        <td class='outlined_cell'>
+          <%= '(blank)' if se.free_responses.none? %>
+          <% se.free_responses.each do |free_response| %>
+            <%= render :partial => 'free_responses/show', 
+                       :locals => { :free_response => free_response } %>
+          <% end %>
+        </td>
         <td><%= se.free_response_confidence.nil? ? "--" : se.free_response_confidence %></td>
         <td><%= se.selected_answer.nil? ? "--" : "(#{choice_letter(se.selected_answer)})" %></td>
         <td><%= link_to se.score, student_exercise_score_detail_path(se), :remote => true %></td>

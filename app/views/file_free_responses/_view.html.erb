@@ -1,0 +1,5 @@
+<% if @free_response.is_image? %>
+  <%= image_tag @free_response.attachment %>
+<% else %>
+  <%= link_to "Click here to view the attachment", @free_response.attachment.url %>
+<% end %>

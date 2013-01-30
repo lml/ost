@@ -1,0 +1,73 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% 
+  free_response ||= @free_response
+
+  html_ids = {
+    :form => "free_response_form_#{free_response.non_nil_id}",
+    :overlay => "free_response_overlay_#{free_response.non_nil_id}"
+  }
+
+  extra_params = {
+    :type => free_response.type,
+    :free_response_form_id => html_ids[:form]
+  }
+%>
+
+<div class="free_response free-response-box free_response_form">
+  <%= form_for([@student_exercise, free_response], 
+               :as => :free_response, 
+               :url => free_response.new_record? ? 
+                         student_exercise_free_responses_path(extra_params) : 
+                         free_response_path(free_response, extra_params),
+               :html => {:id => html_ids[:form],
+                         :style => 'margin-bottom: 0px'},
+               :remote => true) do |f| %>
+
+    <div id="<%= html_ids[:form] %>_errors"></div>
+
+    <div class="field" style="margin-bottom:0px">
+      <%= render :partial => "#{view_dir(free_response)}/form", 
+                 :locals => {:f => f,
+                             :free_response => free_response,
+                             :html_ids => html_ids} %>
+    </div>
+
+  <% end %>
+
+  <div id="<%= html_ids[:overlay] %>" style="display:none;"><center><%= image_tag 'ajax-loader.gif' %></center></div>
+</div>
+
+
+<%= javascript_tag do %>
+
+  <%# Adds an disabling overlay to the form on submit %>
+
+  $('#<%= html_ids[:form] %>').submit(function(){
+    $(this).attr('disabled', 'disabled');
+    var fr = $(this).parents('.free_response');
+    var overlay = $("#<%= html_ids[:overlay] %>");
+    var outerWidth = fr.outerWidth();
+    var outerHeight = fr.outerHeight();
+    var padding = Math.floor((outerHeight-32)/2); // 32 is height of image
+    overlay.css({ 
+      'position': "absolute", 
+      'left': 0, 
+      'top': 0, 
+      'width': outerWidth, 
+      'height': outerHeight, 
+      'background-color':'#ffffff', 
+      'opacity': 0.75,
+      'padding-top':padding,
+      'padding-bottom': padding 
+    });
+    overlay.show();
+  });
+
+  <%# The following code removes the overlay when there were errors with the submission %>
+
+  $('#<%= html_ids[:form] %>_errors').on('added_errors', function() {
+    $("#<%= html_ids[:overlay] %>").hide();
+  });
+<% end %>

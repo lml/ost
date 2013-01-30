@@ -67,5 +67,9 @@ module Ost
     config.paths['app/views'] << "app/views/devise"
     
     config.enable_recaptcha = false
+
+    config.enable_response_times = true
+
+    config.carrierwave_storage = :file
   end
 end

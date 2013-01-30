@@ -1,0 +1,25 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%
+  html_ids[:text_box] = "free_response_content_#{free_response.non_nil_id}"
+%>
+
+<div style="margin-bottom:12px" class="actions">
+  <div style="display:inline-block; padding-top:5px">
+    Upload a photo of your work:
+  </div>
+  <span style="float:right">
+    <%= link_to_function "Cancel", "cancel_free_response_edit('#{free_response.non_nil_id}', true);" %>
+    &nbsp;&nbsp;&nbsp;
+    <%= f.submit "Attach", 
+                 :class => 'link_button', 
+                 :title => 'You can continue working on this exercise after saving' %>
+  </span>
+</div>
+
+<%= f.file_field :attachment, :style => 'width:97.5%' %> 
+
+<p>Caption (optional):</p>
+
+<%= f.text_area :content, :rows => 2, :style => "width:97.5%", :id => html_ids[:text_box] %>
