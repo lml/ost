@@ -159,6 +159,10 @@ class StudentExercise < ActiveRecord::Base
     learning_condition.show_correctness_feedback?(self)
   end
 
+  def process_hooked_mail(mail)
+    FreeResponseFactory.create_from_mail(mail, self)
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################

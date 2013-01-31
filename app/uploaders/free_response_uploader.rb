@@ -13,4 +13,12 @@ class FreeResponseUploader < UploaderBase
     %w(jpg jpeg gif png pdf)
   end
 
+  WHITE_LISTED_CONTENT_TYPES = [
+    'image/jpg',
+    'image/jpeg',
+    'image/gif',
+    'image/png',
+    'application/pdf'
+  ]
+
 end

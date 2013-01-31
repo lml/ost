@@ -3,6 +3,9 @@
 
 Ost::Application.routes.draw do
 
+  resources :mail_hooks, :only => [] do
+    post 'catch', :on => :collection
+  end
 
   resources :site_licenses
 
