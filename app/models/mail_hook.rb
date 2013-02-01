@@ -1,30 +1,17 @@
 
-class MailFactory
-
-  def self.from_cloudmailin_json(json)
-    debugger
-    mail = Mail.new do
-      to      json[:headers][:To]
-      subject json[:headers][:Subject]
-      text_part do
-        body json[:plain]
-      end
-    end
-
-    json[:attachments].each do |attachment|
-      mail.add_file({:filename => attachment[:file_name], :content => attachment[:content]})
-      mail.parts.last.content_transfer_encoding = 'base64'
-    end
-
-    mail
-  end
-
-end
-
+# Any class that has a mail_hook should only retrieve it via MailHook.get_for(...).
+# Such a class must also supply a static create_mail_hook method that creates a new
+# hook in a manner appropriate for the holding class.  In general, a class should
+# only have one mail hook, but if it happens at times (due to concurrency issues, etc)
+# that there are multiple hooks per owner, that's ok, it'll probably just be that 
+# only one of them will ever be returned, then they'll all expire anyway.
+#
 class MailHook < ActiveRecord::Base
   belongs_to :mail_hookable, :polymorphic => true
 
-  attr_accessible :subject, :to_email, :expires_at, :mail_hookable, :mail_hookable_id, :mail_hookable_type, :current_num_uses
+  attr_accessible :subject, :to_email, :expires_at, 
+                  :mail_hookable, :mail_hookable_id, :mail_hookable_type, 
+                  :current_num_uses
 
   before_validation :downcase_conditions
   validates :to_email, :presence => true
@@ -32,9 +19,27 @@ class MailHook < ActiveRecord::Base
 
   after_save :destroy_if_overused
 
+  def self.nonexpired
+    where{(expires_at == nil) | (expires_at > Time.now)}
+  end
+
+  def self.get_for(hookable)
+    debugger
+    hook = MailHook.where{mail_hookable_type == hookable.class.name}
+                   .where{mail_hookable_id == hookable.id}
+                   .nonexpired
+                   .first
+
+    if hook.nil?
+      hook = hookable.create_mail_hook
+    end
+
+    hook
+  end
+
   def self.create_with_random_subject(hookable, options={})
     options[:to_email] ||= 'uploads@openstaxtutor.org'
-    options[:expires_at] ||= Time.now + 30.minutes
+    options[:expires_at] ||= standard_expiration_time
 
     # Find a unique random subject / email combination
     begin
@@ -43,21 +48,26 @@ class MailHook < ActiveRecord::Base
 
     MailHook.create(:mail_hookable => hookable,
                     :to_email => options[:to_email],
-                    :subject => random_subject)
+                    :subject => random_subject,
+                    :expires_at => options[:expires_at])
   end
 
+  # A match doesn't take into account expiration
   def self.matches_for(mail)
-    where{to_email >> my{mail}.to}.where{subject == my{mail}.subject}
+    mail_addresses = mail.to.collect{|to| to.downcase}
+    where{to_email >> mail_addresses}.where{subject == my{mail}.subject.downcase}
   end
 
+  # A match doesn't take into account expiration
   def matches?(mail)
-    mail.subject == subject && mail.to.include?(to_email)
+    mail_addresses = mail.to.collect{|to| to.downcase}
+    mail.subject.downcase == subject && mail_addresses.include?(to_email)
   end
 
   def self.process(mail, match_expected=true)
     Rails.logger.debug("hooked mail: #{mail.inspect}")
     Rails.logger.debug("hooked mail info: #{mail.to_s}")
-    hooks = matches_for(mail).all
+    hooks = matches_for(mail).nonexpired.all
 
     raise MailHookNoMatch, "Unmatched email: #{mail.inspect}" if hooks.empty? && match_expected
 
@@ -74,6 +84,24 @@ class MailHook < ActiveRecord::Base
     rescue Exception => e
       raise MailHookHookableError.new("An error occurred when a hookable was processing #{mail.inspect}", e)
     end    
+  end
+
+  def expired?
+    !expires_at.nil? && Time.now > expires_at
+  end
+
+  def extend_expiration!
+    self.update_attributes({:expires_at => MailHook.standard_expiration_time}) if !expires_at.nil?
+  end
+
+  def self.standard_expiration_time
+    Time.now + 30.minutes
+  end
+
+  def self.destroy_all_expired!
+    MailHook.where{expires_at < Time.now}.find_each do |hook|
+      hook.destroy
+    end
   end
 
 protected

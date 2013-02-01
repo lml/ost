@@ -161,7 +161,11 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def get_mail_hook
-    self.mail_hook || MailHook.create_with_random_subject(self)
+    MailHook.get_for(self)
+  end
+
+  def create_mail_hook
+    MailHook.create_with_random_subject(self)
   end
 
   def process_hooked_mail(mail)

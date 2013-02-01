@@ -37,6 +37,7 @@ class FreeResponsesController < ApplicationController
 
   def email_instructions
     @mail_hook = @student_exercise.get_mail_hook
+    @mail_hook.extend_expiration!
   end
 
 protected

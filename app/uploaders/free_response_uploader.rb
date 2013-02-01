@@ -2,6 +2,10 @@
 
 class FreeResponseUploader < UploaderBase
   
+  def filename
+    model.filename_override || super
+  end
+
   # https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Do-conditional-processing  
   version :thumbnail, :if => :image? do
     process :resize_to_fit => [100, 100]
