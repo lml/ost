@@ -1,18 +1,30 @@
-class MailHookNoMatches < StandardError; end
 
-# http://stackoverflow.com/questions/8383576/ruby-re-raise-exception-with-sub-exception
-class MailHookHookableError < StandardError
-  attr_reader :original
-  def initialize(msg, original=nil);
-    super(msg);
-    @original = original;
+class MailFactory
+
+  def self.from_cloudmailin_json(json)
+    debugger
+    mail = Mail.new do
+      to      json[:headers][:To]
+      subject json[:headers][:Subject]
+      text_part do
+        body json[:plain]
+      end
+    end
+
+    json[:attachments].each do |attachment|
+      mail.add_file({:filename => attachment[:file_name], :content => attachment[:content]})
+      mail.parts.last.content_transfer_encoding = 'base64'
+    end
+
+    mail
   end
+
 end
 
 class MailHook < ActiveRecord::Base
   belongs_to :mail_hookable, :polymorphic => true
 
-  attr_accessible :subject, :to_email, :expires_at, :mail_hookable_id, :mail_hookable_type, :current_num_uses
+  attr_accessible :subject, :to_email, :expires_at, :mail_hookable, :mail_hookable_id, :mail_hookable_type, :current_num_uses
 
   before_validation :downcase_conditions
   validates :to_email, :presence => true
@@ -20,26 +32,34 @@ class MailHook < ActiveRecord::Base
 
   after_save :destroy_if_overused
 
-  # require 'enum'
-  
-  # class Outcome < Enum
-  #   SUCCESS = 1
-  #   NO_MATCHES = 2
-  #   ERROR = 3 
-  # end
+  def self.create_with_random_subject(hookable, options={})
+    options[:to_email] ||= 'uploads@openstaxtutor.org'
+    options[:expires_at] ||= Time.now + 30.minutes
+
+    # Find a unique random subject / email combination
+    begin
+      random_subject = Babbler.babble
+    end while MailHook.where{subject == random_subject}.where{to_email == options[:to_email]}.any?
+
+    MailHook.create(:mail_hookable => hookable,
+                    :to_email => options[:to_email],
+                    :subject => random_subject)
+  end
 
   def self.matches_for(mail)
-    where{to == my{mail}.to}.where{subject == my{mail}.subject}
+    where{to_email >> my{mail}.to}.where{subject == my{mail}.subject}
   end
 
   def matches?(mail)
-    mail.subject == subject && mail.to == to_email
+    mail.subject == subject && mail.to.include?(to_email)
   end
 
   def self.process(mail, match_expected=true)
+    Rails.logger.debug("hooked mail: #{mail.inspect}")
+    Rails.logger.debug("hooked mail info: #{mail.to_s}")
     hooks = matches_for(mail).all
 
-    raise MailHookNoMatches "Unmatched email: #{mail.inspect}" if hooks.empty? && match_expected
+    raise MailHookNoMatch, "Unmatched email: #{mail.inspect}" if hooks.empty? && match_expected
 
     hooks.each do |hook|
       outcome = hook.process(mail)
@@ -47,7 +67,7 @@ class MailHook < ActiveRecord::Base
   end
 
   def process(mail)
-    return if !matches?(mail) 
+    raise MailHookNoMatch if !matches?(mail) 
     begin
       mail_hookable.process_hooked_mail(mail)
       self.increment!(:current_num_uses)

@@ -1,6 +1,6 @@
 class FreeResponsesController < ApplicationController
 
-  before_filter :get_student_exercise, :only => [:new, :create, :sort]
+  before_filter :get_student_exercise, :only => [:new, :create, :sort, :email_instructions]
   before_filter :make_free_response, :only => [:new, :create]
   before_filter :grab_view_helper_variables, :only => [:create, :update]
 
@@ -33,6 +33,10 @@ class FreeResponsesController < ApplicationController
 
   def sort
     super('free_response', FreeResponse, @student_exercise, :student_exercise)
+  end
+
+  def email_instructions
+    @mail_hook = @student_exercise.get_mail_hook
   end
 
 protected

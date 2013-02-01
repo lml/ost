@@ -6,15 +6,16 @@ class MailHooksController < ApplicationController
   skip_before_filter :authenticate_user!
 
   def catch
-    mail = Mail.new(params[:message])
+    mail = MailFactory.from_cloudmailin_json(params)
 
     begin
       outcome = MailHook.process(mail)
-    rescue MailHookNoMatches => e
+    rescue MailHookNoMatch => e
       Rails.logger.info("MailHook: #{e.inspect}")
       render status: 404, text: 'incoming email subject and addressee were not expected'
     rescue MailHookHookableError => e
       Rails.logger.info("MailHook: #{e.inspect}")
+      Rails.logger.info("inside error: #{e.original.inspect}")
       render status: 422, text: 'an unknown error occurred when processing the inbound email'
     else
       render status: 200, text: 'success'

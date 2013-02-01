@@ -132,6 +132,7 @@ Ost::Application.routes.draw do
     get 'score_detail'
     resources :free_responses, :shallow => true, :except => [:index, :show] do
       post 'sort', :on => :collection
+      get 'email_instructions', :on => :collection
     end
   end
 

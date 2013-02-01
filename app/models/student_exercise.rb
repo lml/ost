@@ -9,6 +9,7 @@ class StudentExercise < ActiveRecord::Base
   belongs_to :assignment_exercise
   has_many :response_times, :as => :response_timeable, :dependent => :destroy
   has_many :free_responses, :dependent => :destroy, :order => :number
+  has_one :mail_hook, :as => :mail_hookable
   
   before_destroy :destroyable?
   
@@ -157,6 +158,10 @@ class StudentExercise < ActiveRecord::Base
 
   def show_correctness_feedback?
     learning_condition.show_correctness_feedback?(self)
+  end
+
+  def get_mail_hook
+    self.mail_hook || MailHook.create_with_random_subject(self)
   end
 
   def process_hooked_mail(mail)

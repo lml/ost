@@ -21,8 +21,9 @@
               new_student_exercise_free_response_path(student_exercise, {:type => 'FileFreeResponse'}), 
               :remote => true %>
   or
-  <%= link_to_function "Camera Phone", 
-              "alert('Coming very soon')" %>
+  <%= link_to "Camera Phone", 
+              email_instructions_student_exercise_free_responses_path(student_exercise),
+              :remote => true %>
   </center>
 </div>
 
