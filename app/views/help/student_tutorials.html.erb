@@ -8,28 +8,36 @@
       <%= section "Tutorials", {:classes => 'first no_bar'} do %>
         <%= accordion_entry :title => "Getting Started: How to register for a class" do %>
           <%= render :partial => 'help/blurbs/student_register_screencast'%>
-        <% if false %>  
-          <br>This tutorial will guide you through registering for OST and registering for a class:<br/> 
-          <br>(0:09) How to create an account<br/> 
-          <br>(0:30) Good to know when creating an account<br/>
-          <br>(1:00) What to do if you don't receive a confirmation email<br/>
-          <br>(1:12) How to register for a class<br/>
-          <br>(2:16) How to access the class page via the Dashboard<br/>
-       <% end %>
+          <p>This tutorial will guide you through registering for OST and registering for a class.<p/> 
+          <br>(0:09) How to create an account
+          <br>(0:30) Good to know when creating an account
+          <br>(1:00) What to do if you don't receive a confirmation email
+          <br>(1:12) How to register for a class
+          <br>(2:16) How to access the class page via the Dashboard
+
       <% end %>
 
-        <%= accordion_entry :title => "Getting Started: How to access and work assignments" do %>
+        <%= accordion_entry :title => "Getting Started: How to access assignments" do %>
           <%= render :partial => 'help/blurbs/student_assignments_screencast'%>
-          <% if false %>
-          <br>This screencast will guide you through accessing and completing assignments in OpenStax Tutor.<br/> 
 
-          <br>Accessing assignments via email notifications (0:08)<br/>
-          <br>Accessing assignments manually via OST website (0:26)<br/>
-          <br>Overview of main assignment page (0:40)<br/>
-          <br>Completing exercises (0:58)<br/>
-          <br>About feedback (2:01)<br/>
-          <br>Accessing feedback (2:27)<br/>
-       <% end %>
+          <p>This tutorial will show you how to access assignments in OST. </p> 
+
+          <br>Accessing assignments via email notifications (0:01
+          <br>Accessing assignments manually via OST website (0:20)
+          <br>Overview of main assignment page (0:33)
       <% end %>
+      
+      
+        <%= accordion_entry :title => "Getting Started: How to show your work on free-response questions" do %>
+          <%= render :partial => 'help/blurbs/student_ff_screencast'%>
+
+          <p>This tutorial will guide you through showing your work on free-response questions.</p> 
+
+          <br>(0:06) Enter a draft answer in text or LaTeX math notation 
+          <Br>(0:31) Attach an image (gif, jpg, jpeg, png or pdf) 
+          <br>(0:45) Edit, delete, or reorder your answers 
+          <br>(1:15) Turn in your free-form work
+      <% end %>
+
        
 <% end %>        
