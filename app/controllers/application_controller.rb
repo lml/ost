@@ -46,6 +46,9 @@ protected
          ActionController::UnknownAction
       error_page = 404
       send_email = false
+    when ActionView::MissingTemplate
+      error_page = 400
+      send_email = false
     when NotYetImplemented
       error_page = "nyi"
       send_email = false
