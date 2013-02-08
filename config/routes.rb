@@ -52,6 +52,7 @@ Ost::Application.routes.draw do
     resources :registration_requests, :shallow => true, :only => [:new, :index]
     resources :learning_conditions, :shallow => true, :only => [:index]
     resources :cohorts, :shallow => true
+    resources :analytics, :only => [:index]
     get 'preview_assignments', :on => :member
     get 'report', :on => :member
     get 'class_grades', :on => :member

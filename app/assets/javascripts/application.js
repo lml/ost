@@ -21,6 +21,7 @@
 //= require best_in_place
 //= require fullcalendar
 //= require codecogs_editor
+//= require raphael-min
 //= require_tree .
 // Loads Bootstrap javascripts for accordions; note loading everything breaks other existing CSS/JS
 //= require bootstrap-transition

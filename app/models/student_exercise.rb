@@ -84,6 +84,10 @@ class StudentExercise < ActiveRecord::Base
     return "COMPLETED"        if selected_answer_submitted?
     return "NOT COMPLETE"
   end
+
+  def not_complete?
+    "NOT COMPLETE" == status
+  end
   
   def present_free_response_and_selected_answer?
     requires_free_response? && requires_selected_answer?
