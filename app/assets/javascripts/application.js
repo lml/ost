@@ -55,3 +55,11 @@ function open_message_dialog(is_modal, height, width, title, body) {
 function get_os_color(color) {
   return $('#os_' + color).css('background-color');
 }
+
+function sum(array) {
+  var sum = 0;
+  for (var ii = 0; ii < array.length; ii++) {
+    sum += array[ii];
+  }
+  return sum;
+}

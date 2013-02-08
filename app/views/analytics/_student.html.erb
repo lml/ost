@@ -8,6 +8,7 @@
   }
   .analytics-topic-details {
     padding-left: 30px;
+    padding-top:8px;
   }
 </style>
 
@@ -35,7 +36,7 @@
     </div>
     <div class="analytics-topic-details">
       <div class="analytics-topic-data" id="topic_<%= topic.id %>">
-        <%= "(#{right_sum}, #{num_wrong}, #{num_incomplete})/(#{num_exercises})" %> 
+        <%#= "(#{right_sum}, #{num_wrong}, #{num_incomplete})/(#{num_exercises})" %> 
 
         <script type="text/javascript">
           $(function () {
@@ -46,9 +47,16 @@
                     stroke: {
                       width: 1,
                       color: '#233066'
+                    },
+                    font: {
+                      color: '#000000',
+                      size: 14
+                    },
+                    labels: {
+                      'show-percent': true
                     }
-                  };
-              Raphael("topic_<%= topic.id%>", 200, 200).pieChart(100, 100, 30, values, labels, colors, options);
+                  }; // 220, 60
+              Raphael("topic_<%= topic.id%>", 230, 70).standaloneBar(18, 18, 180, 30, values, labels, colors, options);
           });
         </script>
 

@@ -46,6 +46,6 @@ Raphael.fn.pieChart = function (cx, cy, r, values, labels, colors, options) {
   for (i = 0; i < ii; i++) {
     process(i);
   }
-  
-  return chart;
+
+  return this;
 };
