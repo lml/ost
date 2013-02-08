@@ -1,17 +1,4 @@
 
-<style type='text/css'>
-  .analytics-topic {
-    padding-bottom: 10px;
-  }
-  .analytics-topic-name {
-    font-style: italic;
-  }
-  .analytics-topic-details {
-    padding-left: 30px;
-    padding-top:8px;
-  }
-</style>
-
 <%
   student = @klass.student_for(present_user) 
   student_exercises = StudentExercise.joins{student_assignment.student}
@@ -36,17 +23,16 @@
     </div>
     <div class="analytics-topic-details">
       <div class="analytics-topic-data" id="topic_<%= topic.id %>">
-        <%#= "(#{right_sum}, #{num_wrong}, #{num_incomplete})/(#{num_exercises})" %> 
 
         <script type="text/javascript">
           $(function () {
               var values = [<%= right_sum %>, <%= num_wrong %>, <%= num_incomplete %>],
                   labels = ['Correct', 'Wrong', 'Incomplete'],
-                  colors = [Raphael.rgb(118, 177, 67), '#F47641', '#5F6163'],
+                  colors = [get_os_color('green'), get_os_color('orange'), get_os_color('gray')],
                   options = {
                     stroke: {
                       width: 1,
-                      color: '#233066'
+                      color: get_os_color('blue')
                     },
                     font: {
                       color: '#000000',
@@ -55,11 +41,10 @@
                     labels: {
                       'show-percent': true
                     }
-                  }; // 220, 60
+                  }; 
               Raphael("topic_<%= topic.id%>", 230, 70).standaloneBar(18, 18, 180, 30, values, labels, colors, options);
           });
         </script>
-
 
       </div>
       <div class="analytics-topic-study">

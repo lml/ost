@@ -1,5 +1,5 @@
 <%= pageHeading "Analytics", {:sub_heading_text => @klass.name} %>
 
-
 <%= render :partial => 'student', :locals => {:klass => @klass} %>
 
+<% navitem {link_to "Class", klass_path(@klass)} %>
