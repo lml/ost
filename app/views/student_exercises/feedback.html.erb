@@ -22,6 +22,10 @@
   <%= render :partial => "solution_feedback", :locals => { :student_exercise => @student_exercise } %> 
 <% end %>
 
+<%= render :partial => 'shared/response_times',
+           :locals => {:response_timeable => @student_exercise,
+                       :page => "feedback"} %>
+
 <% navitem{ link_to 'Show Assignment', assignment_path(@student_exercise.student_assignment.assignment) }%>
 <% content_for :other_nav_content do %>
   Exercises
