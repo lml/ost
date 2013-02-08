@@ -5,12 +5,16 @@
   Clients must provide either:
        student_assignment
        student_exercise 
+       student_exercises (if this is set, it is used)
 %>
 
-<% student_exercise   ||= nil %>
-<% student_assignment ||= student_exercise.student_assignment %>
-
-<% student_exercises = student_assignment.student_exercises.joins{assignment_exercise}.order{assignment_exercise.number.asc} %>
+<% 
+  if !local_assigns.has_key?(:student_exercises)
+    student_exercise   ||= nil 
+    student_assignment ||= student_exercise.student_assignment 
+    student_exercises = student_assignment.student_exercises.joins{assignment_exercise}.order{assignment_exercise.number.asc}
+  end
+%>
 
 <ol>
 <% student_exercises.each do |se| %>

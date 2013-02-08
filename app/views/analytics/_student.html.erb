@@ -42,14 +42,16 @@
                       'show-percent': true
                     }
                   }; 
-              Raphael("topic_<%= topic.id%>", 230, 70).standaloneBar(18, 18, 180, 30, values, labels, colors, options);
+              Raphael("topic_<%= topic.id%>", 230, 70).standaloneBar(18, 8, 180, 30, values, labels, colors, options);
           });
         </script>
 
       </div>
       <div class="analytics-topic-study">
+        <%= link_to_function "Study"," alert('Coming Fall 2013')", :class => 'link_button' %>
       </div>
       <div class="analytics-topic-review">
+        <%= link_to_function "Review Work"," alert('Coming Fall 2013')", :class => 'link_button' %>
       </div>
     </div>
   </div>

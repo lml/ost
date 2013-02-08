@@ -30,7 +30,7 @@ Raphael.fn.standaloneBar = function (start_x, start_y, width, height, values, la
                           "font-size": options['font']['size']});
 
     box.mouseover(function () {
-      box.toFront().stop().animate({transform: "s1.1 1.1 " + cx + " " + cy}, ms, "elastic");
+      box.toFront().stop().animate({transform: "s1.03 1.2 " + cx + " " + cy}, ms, "elastic");
       txt.stop().animate({opacity: 1}, ms/3, "elastic");
     }).mouseout(function () {
       box.stop().animate({transform: ""}, ms, "elastic");
