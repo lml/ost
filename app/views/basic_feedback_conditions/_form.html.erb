@@ -65,6 +65,21 @@
       of <%= f.text_field :availability_opens_delay_days, :size => 4 %> days</p>
     </div>
   </div>
+
+  <div class="field">
+    Feedback stops being available for credit...</br>
+  
+    <div style="padding-left:15px">
+      <p>
+      <%= enum_radio_button f, :credit_closes_option, 
+                            BasicFeedbackCondition::CreditClosesOption, :WHEN_FEEDBACK_BECOMES_UNAVAILABLE %></p>
+      <p>
+      <%= enum_radio_button f, :credit_closes_option, 
+                            BasicFeedbackCondition::CreditClosesOption, :DELAY_AFTER_OPEN %>
+      of <%= f.text_field :credit_closes_delay_days, :size => 4 %> days</p>
+    </div>
+  </div>
+
   <div class="field">
     Feedback becomes unavailable...</br>
   
