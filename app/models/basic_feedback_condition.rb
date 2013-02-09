@@ -167,6 +167,16 @@ class BasicFeedbackCondition < FeedbackCondition
     adjust_credit(student_exercise, event)
   end  
   
+  def credit_window_close_time(student_exercise)
+    if (CreditClosesOption::DELAY_AFTER_OPEN == credit_closes_option) && !credit_closes_delay_days.nil?
+      feedback_opens_at, feedback_closes_at = get_feedback_availability_window(student_exercise)
+      return nil if feedback_opens_at.nil?
+      return feedback_opens_at + credit_closes_delay_days.days
+    else
+      nil
+    end
+  end
+
 protected
 
   def supply_missing_values
@@ -218,22 +228,16 @@ protected
     end
     
     if StudentExercise::Event::FEEDBACK_VIEWED == event
-      if is_feedback_required_for_credit && within_feedback_credit_window(student_exercise) && student_exercise.feedback_credit_multiplier != 1
+      if is_feedback_required_for_credit && within_feedback_credit_window?(student_exercise) && student_exercise.feedback_credit_multiplier != 1
         student_exercise.update_feedback_credit_multiplier!(1)
       end
     end
   end
   
-  def within_feedback_credit_window(student_exercise)
-    if (CreditClosesOption::DELAY_AFTER_OPEN == credit_closes_option) && !credit_closes_delay_days.nil?
-      feedback_opens_at, feedback_closes_at = get_feedback_availability_window(student_exercise)
-      return false if feedback_opens_at.nil?
-
-      time = Time.now
-      (time >= feedback_opens_at) && (time <= feedback_opens_at + credit_closes_delay_days.days)      
-    else
-      true
-    end
+  def within_feedback_credit_window?(student_exercise)
+    close_time = credit_window_close_time(student_exercise)
+    return Time.now <= close_time if close_time
+    return true
   end
 
   def strip_and_downcase_regex
