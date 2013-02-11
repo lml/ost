@@ -17,9 +17,9 @@
 
   <% 
     num_exercises = student_exercises.count
-    student_exercises = student_exercises.select{|se| se.automated_credit != nil}
-    num_incomplete = num_exercises - student_exercises.count
-    num_right = student_exercises.sum{|se| se.automated_credit}
+    completed_student_exercises = student_exercises.select{|se| se.complete?}
+    num_incomplete = num_exercises - completed_student_exercises.count
+    num_right = completed_student_exercises.sum{|se| se.automated_credit}
     num_wrong = num_exercises - num_incomplete - num_right
   %>
 
