@@ -46,6 +46,7 @@ class BasicFeedbackCondition < FeedbackCondition
                                                        greater_than: 0 }
 
   validate :delay_days_specified_if_delay_chosen
+  validate :credit_window_within_availability_window
   validate :not_applicable_event_only_for_never
   validate :feedback_cannot_close_if_never_opened
   validate :feedback_must_open_if_needed_for_credit
@@ -263,6 +264,13 @@ protected
          availability_closes_delay_days.nil?
   end
   
+  def credit_window_within_availability_window
+    errors.add(:credit_closes_delay_days, "must fall within availability window") \
+      if AvailabilityClosesOption::DELAY_AFTER_OPEN == availability_closes_option &&
+         CreditClosesOption::DELAY_AFTER_OPEN       == credit_closes_option &&
+         credit_closes_delay_days > availability_closes_delay_days
+  end
+
   def not_applicable_event_only_for_never
     errors.add(:availability_event, "cannot be NOT APPLICABLE") \
       if AvailabilityEvent::NOT_APPLICABLE == availability_event &&

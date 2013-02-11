@@ -6,29 +6,38 @@
   <li>Matches labels against: <%= feedback_condition.label_regex || "[Not set]" %></li>
   <li>Feedback viewing is required?: <%= tf_to_yn(feedback_condition.is_feedback_required_for_credit) %></li>
   <li>Can automatically show feedback?: <%= tf_to_yn(feedback_condition.can_automatically_show_feedback) %></li>
-  <li>Feedback   
-  <%= 
-    case feedback_condition.availability_opens_option 
-    when BasicFeedbackCondition::AvailabilityOpensOption::NEVER 
-      "never becomes available" 
-    when BasicFeedbackCondition::AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT
-      "becomes available immediately after #{assignment_event}"
-    when BasicFeedbackCondition::AvailabilityOpensOption::DELAY_AFTER_EVENT  
-      "becomes available #{feedback_condition.availability_opens_delay_days} days after #{assignment_event}"
-    end
-  %><%=
-    case feedback_condition.credit_closes_option
-    when BasicFeedbackCondition::CreditClosesOption::DELAY_AFTER_OPEN
-      " and stops being available for credit #{feedback_condition.credit_closes_delay_days} days after becoming available"
-    end
-  %><%= 
-    case feedback_condition.availability_closes_option
-    when BasicFeedbackCondition::AvailabilityClosesOption::NEVER
-      "."
-    when BasicFeedbackCondition::AvailabilityClosesOption::DELAY_AFTER_OPEN
-      " and becomes unavailable #{feedback_condition.availability_closes_delay_days} days after becoming available."
-    end
-  %></li>
+  <li>Feedback becomes available: 
+    <%= 
+      case feedback_condition.availability_opens_option 
+      when BasicFeedbackCondition::AvailabilityOpensOption::NEVER 
+        "Never" 
+      when BasicFeedbackCondition::AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT
+        "Immediately after #{assignment_event}"
+      when BasicFeedbackCondition::AvailabilityOpensOption::DELAY_AFTER_EVENT  
+        "#{feedback_condition.availability_opens_delay_days} days after #{assignment_event}"
+      end
+    %>
+  </li>
+  <li>Feedback stops being available for credit: 
+    <%=
+      case feedback_condition.credit_closes_option
+      when BasicFeedbackCondition::CreditClosesOption::DELAY_AFTER_OPEN
+        "#{feedback_condition.credit_closes_delay_days} days after becoming available"
+      else
+        "When feedback stops being accessible"
+      end
+    %>
+  </li>
+  <li>Feedback stops being accessible: 
+    <%= 
+      case feedback_condition.availability_closes_option
+      when BasicFeedbackCondition::AvailabilityClosesOption::NEVER
+        "Never"
+      when BasicFeedbackCondition::AvailabilityClosesOption::DELAY_AFTER_OPEN
+        "#{feedback_condition.availability_closes_delay_days} days after becoming available"
+      end
+    %>
+  </li>
   <li>Show answer correctness?: <%= tf_to_yn(feedback_condition.show_correctness_feedback) %></li>
   <li>Show correct answer?: <%= tf_to_yn(feedback_condition.show_correct_answer_feedback) %></li>
   <li>Show high-level explanation?: <%= tf_to_yn(feedback_condition.show_high_level_feedback) %></li>
