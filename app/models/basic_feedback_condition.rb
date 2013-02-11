@@ -236,8 +236,10 @@ protected
   end
   
   def within_feedback_credit_window?(student_exercise)
-    close_time = credit_window_close_time(student_exercise)
-    return Time.now <= close_time if close_time
+    feedback_opens_at, feedback_closes_at = get_feedback_availability_window(student_exercise)
+    credit_closes_at = credit_window_close_time(student_exercise)
+    current_time = Time.now
+    return (current_time >= feedback_opens_at) && (current_time <= credit_closes_at) if (feedback_opens_at && credit_closes_at)
     return true
   end
 
