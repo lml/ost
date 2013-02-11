@@ -12,13 +12,18 @@
 
 <% student_exercises_by_topic.each do |topic, student_exercises| %>
 
-  <% num_exercises = student_exercises.count
-     student_exercises = student_exercises.select{|se| se.automated_credit != nil}
-     num_incomplete = num_exercises - student_exercises.count
-     num_wrong = student_exercises.count{|se| se.automated_credit == 0}
-     right_sum = student_exercises.sum{|se| se.automated_credit} %>
+  <%# Note that the below counts partial credit as a partially wrong and partially
+      right exercise. %>
 
-     <%#= "#{right_sum}, #{num_wrong}, #{num_incomplete}, #{num_exercises}" %>
+  <% 
+    num_exercises = student_exercises.count
+    student_exercises = student_exercises.select{|se| se.automated_credit != nil}
+    num_incomplete = num_exercises - student_exercises.count
+    num_right = student_exercises.sum{|se| se.automated_credit}
+    num_wrong = num_exercises - num_incomplete - num_right
+  %>
+
+  <%#= "#{num_right}, #{num_wrong}, #{num_incomplete}, #{num_exercises}" %>
 
   <div class="analytics-topic">
     <div class="analytics-topic-name">
@@ -29,7 +34,7 @@
 
         <script type="text/javascript">
           $(function () {
-              var values = [<%= right_sum %>, <%= num_wrong %>, <%= num_incomplete %>],
+              var values = [<%= num_right %>, <%= num_wrong %>, <%= num_incomplete %>],
                   labels = ['Correct', 'Wrong', 'Incomplete'],
                   colors = [get_os_color('green'), get_os_color('orange'), get_os_color('gray')],
                   options = {
