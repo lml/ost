@@ -23,7 +23,7 @@ Raphael.fn.standaloneBar = function (start_x, start_y, width, height, values, la
     if (options['labels']['show-percent']) {
       label = (fraction*100).toFixed(1) + "% " + label;
     }
-    var txt = paper.text(cx, last_y + height + options['font']['size'], label)
+    var txt = paper.text(start_x + width/2, last_y + height + options['font']['size'], label)
                    .attr({fill: options['font']['color'], 
                           stroke: "none", 
                           opacity: 0, 

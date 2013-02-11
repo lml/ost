@@ -178,6 +178,10 @@ class Klass < ActiveRecord::Base
   def student_for(user)
     query_student_for(user).first
   end
+
+  def students
+    Student.joins{section.klass}.where{section.klass.id == my{id}}
+  end
   
   # The returned student scope can include dropped students
   def query_student_for(a_user)
