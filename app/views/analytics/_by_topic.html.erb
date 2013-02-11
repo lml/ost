@@ -1,10 +1,21 @@
 
 <%
-  enable_student_functionality ||= false
+  for_one_student ||= false
+  for_educator = !for_one_student
 
-  student_exercises = StudentExercise.joins{student_assignment}.
-                                      where{student_assignment.student_id.in(student_ids)}.
-                                      includes{assignment_exercise.topic_exercise.topic}                                     
+  student_exercises = StudentExercise.joins{student_assignment.student}.
+                                      where{student_assignment.student_id.in(student_ids)}
+
+  if for_educator
+    student_exercises = student_exercises.where{student_assignment.student.has_dropped == false}
+  end
+
+  if for_one_student
+    student_exercises = student_exercises.where{student_assignment.observed_due_at != nil}
+  end                                    
+  
+  # Pull topics down in this one query
+  student_exercises = student_exercises.includes{assignment_exercise.topic_exercise.topic}                                     
 
   student_exercises_by_topic =
       student_exercises.group_by{|se| se.assignment_exercise.topic_exercise.topic}
@@ -53,7 +64,7 @@
         </script>
 
       </div>
-      <% if enable_student_functionality %>
+      <% if for_one_student %>
         <div class="analytics-topic-study">
           <%= link_to_function "Study"," alert('Coming Fall 2013')", :class => 'link_button' %>
         </div>

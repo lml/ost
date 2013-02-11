@@ -23,7 +23,10 @@
      other problems in these topics throughout the semester.</p>
 
   <% student_ids = [student.id] %>
-  <%= render :partial => 'by_topic', :locals => {:klass => @klass, :student_ids => student_ids, :enable_student_functionality => true} %>
+  <%= render :partial => 'by_topic', 
+             :locals => {:klass => @klass, 
+                         :student_ids => student_ids, 
+                         :for_one_student => true} %>
 
 <% else %>
 
