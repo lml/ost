@@ -902,3 +902,31 @@ input.ui-widget {
     width: 420px;
   }
 }
+
+.analytics-topic {
+  padding-bottom: 10px;
+  clear:both;
+}
+.analytics-topic-name {
+  font-style: italic;
+}
+.analytics-topic-details {
+  padding-left: 30px;
+  padding-top:8px;
+}
+
+.analytics-topic-data {
+  float:left;
+}
+
+.analytics-topic-study {
+  float:left;
+  padding-top:12px;
+  padding-left:30px;
+}
+
+.analytics-topic-review {
+  float: left;
+  padding-top:12px;
+  padding-left: 45px;
+}
