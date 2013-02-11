@@ -1,0 +1,37 @@
+<% pageHeading "Analytics", {:sub_heading_text => @klass.name} %>
+
+<style type="text/css">
+  .intro-paragraph {
+    padding-bottom:20px;
+  }
+</style>
+
+<%# If the user is a student, show the analytics for that student, otherwise if the user
+    is an educator, don't limit the analytics by a student record %>
+
+<% if @klass.is_educator?(present_user) %>
+
+  <p class='intro-paragraph'>The graphs below show you how your students are performing on the topics in your class.</p>
+  
+  <% student_ids = @klass.students.collect{|s| s.id} %>
+  <%= render :partial => 'by_topic', :locals => {:klass => @klass, :student_ids => student_ids} %>
+
+<% elsif !(student = @klass.student_for(present_user)).nil? %>
+
+  <p class='intro-paragraph'>The graphs below show you how you are doing on each topic that you've 
+     encountered so far in this class.  The graphs will change as you work
+     other problems in these topics throughout the semester.</p>
+
+  <% student_ids = [student.id] %>
+  <%= render :partial => 'by_topic', 
+             :locals => {:klass => @klass, 
+                         :student_ids => student_ids, 
+                         :for_one_student => true} %>
+
+<% else %>
+
+  <p>Since you are neither a student nor an educator, there are no analytics for you to view.</p>
+
+<% end %>
+
+<% navitem {link_to "Class", klass_path(@klass)} %>
