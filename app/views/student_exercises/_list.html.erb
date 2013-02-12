@@ -29,9 +29,9 @@
       <% if se.complete? && show_feedback_status %>
         <% if se.learning_condition.feedback_required_for_credit?(se) %>
           <% if se.feedback_has_been_viewed_for_credit? %>
-            (Feedback credit given)
+            (Feedback viewed within credit window)
           <% elsif se.feedback_has_been_viewed? %>
-            (Feedback credit not given)
+            (Feedback viewed late)
           <% else %>
             (Feedback not viewed)
           <% end %>
