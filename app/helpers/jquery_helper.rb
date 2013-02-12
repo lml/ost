@@ -49,10 +49,10 @@ module JqueryHelper
   end
   
   def specified_dialog(name=nil, title=nil, options={}, &block)
+    @body = capture(&block)
     @name ||= name
     @title ||= title
     @options = options
-    @body = capture(&block)
     render :template => 'shared/specified_dialog'
   end
 end

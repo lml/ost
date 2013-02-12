@@ -1,8 +1,8 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<% dialog_height_px = @klass.allow_student_specified_id ? 270 : 150 %>
+<% dialog_height = @klass.allow_student_specified_id ? 375 : 225 %>
 
-<%= message_dialog "Submit a Registration Request", {:width => 400, :height => dialog_height_px} do %>
+<%= message_dialog "Submit a Registration Request", {:width => 400, :height => dialog_height} do %>
   <%= render :partial => 'new' %>
 <% end %>
