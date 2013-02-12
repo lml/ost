@@ -39,7 +39,10 @@ function open_specified_dialog(name, is_modal, height, width, title, body) {
     height: height, 
     width: width,
     title: title,
-    position: 'center'
+    position: 'center',
+    open: function () {
+      $(document).trigger('after_dialog_open');
+    }
   });
 
   refresh_buttons();
