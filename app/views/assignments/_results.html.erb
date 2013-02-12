@@ -1,0 +1,21 @@
+<%= section "Results" do %>
+  <%= link_to_function "Click here if the results are clipped in your browser", 
+                       "$('#outer').css('width','2000px');", 
+                       :style => "font-size:9px; float:right;"%><br/>
+
+  <% assignments = Assignment.where{assignment_plan_id == assignment_plan.id} %>
+  
+  <% assignments.each do |assignment| %>
+    <%= render 'assignment_results', :assignment => assignment %>
+  <% end %>
+
+  <center>
+    <%= image_tag 'empty_circle_v2.png', :style => "vertical-align:middle" %> = Not started, 
+    <%= image_tag 'half_filled_circle_v2.png', :style => "vertical-align:middle" %> = Free-form locked or N/A, 
+    <%= image_tag 'red_x_v2.png', :style => "vertical-align:middle" %> = Wrong<br/>
+    <%= image_tag 'green_check_v2.png', :style => "vertical-align:middle" %> = Right,
+    <%= image_tag 'inverted_green_check_v2.png', :style => "vertical-align:middle" %> = Right, but missing feedback credit,
+    <%= image_tag 'red_check_v2.png', :style => "vertical-align:middle" %> = Right but late
+  </center>        
+
+<% end %>
