@@ -6,6 +6,8 @@
        student_assignment
        student_exercise 
        student_exercises (if this is set, it is used)
+  and can optionally provide:
+       show_feedback_status (false by default)
 %>
 
 <% 
@@ -14,6 +16,8 @@
     student_assignment ||= student_exercise.student_assignment 
     student_exercises = student_assignment.student_exercises.joins{assignment_exercise}.order{assignment_exercise.number.asc}
   end
+
+  show_feedback_status = false if !local_assigns.has_key?(:show_feedback_status)
 %>
 
 <ol>
@@ -21,6 +25,17 @@
   <li><%= link_to_unless_current se.status, se %> 
       <% if se.is_feedback_available? %>
         (<%= link_to_unless_current "Feedback", student_exercise_feedback_path(se) %>)
+      <% end %>
+      <% if se.complete? && show_feedback_status %>
+        <% if se.learning_condition.feedback_required_for_credit?(se) %>
+          <% if se.feedback_has_been_viewed_for_credit? %>
+            (Feedback viewed within credit window)
+          <% elsif se.feedback_has_been_viewed? %>
+            (Feedback viewed late)
+          <% else %>
+            (Feedback not viewed)
+          <% end %>
+        <% end %>
       <% end %>
       <%= "(#{se.assignment_exercise.topic_exercise.name})" if (!Rails.env.production? && !se.assignment_exercise.topic_exercise.name.blank?) %>
 <% end %>

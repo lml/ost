@@ -163,6 +163,14 @@ class StudentExercise < ActiveRecord::Base
     learning_condition.show_correctness_feedback?(self)
   end
 
+  def feedback_has_been_viewed?
+    complete? && (feedback_has_been_viewed_for_credit? || ResponseTime.where{response_timeable_id == my{id}}.where{page == "feedback"}.any?)
+  end
+
+  def feedback_has_been_viewed_for_credit?
+    complete? && (feedback_credit_multiplier > 0.0)
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################

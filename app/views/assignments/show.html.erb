@@ -89,7 +89,8 @@
     <p>You cannot see or work the exercises because they were not assigned to you.</p>
   <% else %>    
     <%= render :partial => 'student_exercises/list', 
-               :locals => {:student_assignment => @student_assignment} %>  
+               :locals => { :student_assignment   => @student_assignment,
+                            :show_feedback_status => true } %>  
   <% end %>
 
 <% end %>
