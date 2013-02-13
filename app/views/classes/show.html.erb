@@ -15,8 +15,7 @@
 <%= section "Class Information", {:classes => 'first no_bar class_information' } do %>
 
 <div style="float:right; padding-right:30px">
-  
-  
+    
   <% if is_student %>
 
     <% if student.active? %>
@@ -25,8 +24,6 @@
                   :class => "link_button",
                   :method => :put,
                   :confirm => "Are you sure you want to drop this class?\n\nThis can only be undone by an instructor!" %>
-    <% else %>
-      You dropped this class.
     <% end %>
 
   <% else %>
@@ -185,7 +182,20 @@
 
 <% sees_all_cohort_assignments = is_educator || present_user.is_researcher? || present_user.is_administrator? %>
 
-<% if !present_user.can_read_children?(@klass.cohorts.first, :assignments) %>
+<%= section "Registration Status", {:classes => "registration_status"} do %>
+  <% if student.has_dropped? %>
+    <p>You have dropped this class.</p>
+  <% else %>
+    <% if student.registered? %>
+      <p>You are fully registered for this class.</p>
+    <% elsif student.auditing? %>
+      <p>You are auditing this class.</p>
+    <% end %>
+    <p>You are in section <%= student.section.name %>.</p>
+  <% end %>
+<% end %>
+
+<% if student.has_dropped? || !present_user.can_read_children?(@klass.cohorts.first, :assignments) %>
   <%= section "Assignments", {:classes => "assignments"} do %>
     <p>Assignments are only visible to this section's students and educators.</p>
   <% end %>
@@ -195,10 +205,10 @@
                                                                  :klass   => @klass, 
                                                                  :collapsible_section => sees_all_cohort_assignments} %>
   <% end %>
-  
-  <% if sees_all_cohort_assignments %>
-    <%= render :partial => 'nonstudent_assignments', :locals => {:present_user => present_user, :klass => @klass} %>
-  <% end %>
+<% end %>
+
+<% if sees_all_cohort_assignments %>
+  <%= render :partial => 'nonstudent_assignments', :locals => {:present_user => present_user, :klass => @klass} %>
 <% end %>
 
 <%
