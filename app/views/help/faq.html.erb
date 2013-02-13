@@ -18,6 +18,12 @@
       <%= render :partial => 'help/blurbs/request_conf_email'%>
     <% end %>
 
+    <%= accordion_entry :title => "I am experiencing problems with the display, e.g. I can't access or view 
+    content." do %>
+       <%= render :partial => 'help/blurbs/browser_reqs'%>
+    <% end %>
+
+    
     <%= accordion_entry :title => "I need to update my password, email address or time zone." do %>    
       <ol>
         <li>Sign in and click <strong>My Account</strong>, found in the upper right 
@@ -27,11 +33,6 @@
         <p>
         <li>Enter your current password to confirm changes.</li>
       </ol>  
-    <% end %>
-
-    <%= accordion_entry :title => "I am experiencing problems with the display, e.g. I can't access or view 
-    content." do %>
-       <%= render :partial => 'help/blurbs/browser_reqs'%>
     <% end %>
 
 <% end %>

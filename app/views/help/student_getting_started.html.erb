@@ -25,12 +25,17 @@
     <%= render :partial => 'help/blurbs/register_for_a_class'%>
   <% end %>
 
-  <%= accordion_entry :title => "How to access and complete assignments" do %>
+  <%= accordion_entry :title => "How to access assignments" do %>
   <p>Read the instructions below or <%= link_to_help 'student_assignments_screencast',
-   text="click here to check out a 2 minute video tutorial", 
+   text="click here to check out a quick tutorial", 
    {:title => 'Video Tutorial', :width => '600', :height => '425'} %>.</p>
   
     <%= render :partial => 'help/blurbs/access_assignments'%>
+  <% end %>
+
+  <%= accordion_entry :title => "How to show work on free-response questions" do %>
+    <p><%= link_to_help 'student_ff_screencast', text="Click here to check out a quick tutorial.", 
+    {:title => 'Video Tutorial', :width => '600', :height => '425'} %></p>
   <% end %>
   
   <%= accordion_entry :title => "How to view scores on assignments" do %>
