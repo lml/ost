@@ -12,14 +12,13 @@
 <div class="accordion" id="accordion2" style="padding-top:20px;">
   
   <%= section "Accounts FAQ", {:classes => 'first no_bar'} do %>
+  
     <%= accordion_entry :title => "I created an account but never received a 
-                 confirmation email. What should I do?" do %>
+                 confirmation email." do %>
       <%= render :partial => 'help/blurbs/request_conf_email'%>
+    <% end %>
 
-   <% end %>
-
-   <%= accordion_entry :title => "How do I update my user settings, e.g. change my 
-                  password / email address / time zone?" do %>    
+    <%= accordion_entry :title => "I need to update my password, email address or time zone." do %>    
       <ol>
         <li>Sign in and click <strong>My Account</strong>, found in the upper right 
             of every page, next to the welcome message.</li>
@@ -29,11 +28,19 @@
         <li>Enter your current password to confirm changes.</li>
       </ol>  
     <% end %>
-  <% end %>
+
+    <%= accordion_entry :title => "I am experiencing problems with the display, e.g. I can't access or view 
+    content." do %>
+       <%= render :partial => 'help/blurbs/browser_reqs'%>
+    <% end %>
+
+<% end %>
 
   <%= section "Student FAQs", {:classes => 'no_bar'} do %>
+      
       <%= accordion_entry :title => "How do I register for a class?" do %>
-        <p>Check out our registration screencast, which will walk you through the registration process in 2 minutes: </p>
+        <p>Check out our registration screencast, which will walk you through the registration process
+         in 2 minutes: </p>
 
         <%= render :partial => 'help/blurbs/student_register_screencast' %>
   
@@ -41,37 +48,39 @@
   
       <%= accordion_entry :title => "I registered for the wrong section
        of my class. How do I change to a different section?" do %>
-        <ol>
-          <li>Go to <strong>Dashboard > Class name > Class Information</strong>.</li>
-          <p>
-          <li>If you see the <strong>drop this class</strong> button: don't drop the class. 
-            Email your instructor/TA to change your section</em>.</li>
-            <p>
-          <li>If you see <strong>Cancel my request to join this class</strong>, click
-             <strong>Cancel</strong> and confirm your choice.</li>
+        <p>If your instructor has already approved your registration request, please email your instructor 
+          and request they change your section.</p>
+
+        <p>If your registration request is still pending, i.e. you see <strong>Cancel my request to join
+         this class</strong>, click <strong>Cancel</strong> and confirm your choice.</li>
           <%= image_tag("cancelrequest.png", {:border => 1, :width => "100%",
              :height => "100%", :title=>"cancel request"})%>  
           <p>
-          <li>Once you've canceled your registration request, click <strong>Register</strong> 
-            to submit a new registration request for the correct section.</li>
-        </ol>
+          <p>Once you've canceled your registration request, click <strong>Register</strong> 
+            to submit a new registration request for the correct section.
       <% end %>
 
        <%= accordion_entry :title => "How do I access and work assignments?" do %>
-          <p>Check out our assignments screencast, which will walk you through accessing and working assignments in 3 minutes: </p>
-          
+          <p>Check out our assignment screencasts.</p> 
+
+          <p><b>Accessing assignments</b>:</p> 
+
           <%= render :partial => 'help/blurbs/student_assignments_screencast'%>
-          
+          <p>
+          <p><b>Showing your work on free-response questions</b>:</p>  
+          <%= render :partial => 'help/blurbs/student_ff_screencast'%>
         <% end %>
 
 
-    <%= accordion_entry :title => "I saved my free-form response, so why can't I 
-                                  see the multiple choice answers?" do %>
-      <p>To view the multiple choice answers, you must save and 
-        <em><strong>lock</strong></em> your free form response.</p>
-        <%= image_tag("free_form.png", {:border => 1, :width => "100%", :title=>"free form"})%>
-       <%= image_tag("save_and_lock.png", {:border => 1, :width => "100%", :title=>"save and lock"})%>
-        
+    <%= accordion_entry :title => "I'm working a question with both free-response and multiple choice components. When can I see 
+    the multiple-choice options?" do %>
+      <p>Working a hybrid free response and multiple choice question is a multi-step process.</p>
+        <ol>
+          <li>Review the question stem, work the problem, and turn in your free-form work.</li>
+          <p><i>Once you've turned in your free-form work, you cannot make changes to it.</i><p>
+          <li>After you have turned in your free-form work, OST will show the multiple choice options. Choose the answer 
+            that best corresponds to your free-form work. Submit.</li> 
+        </ol>
     <% end %>
 
 
@@ -82,12 +91,13 @@
         to your instructor.</p>          
     <% end %>
     
-    <%= accordion_entry :title => "I made a mistake in my assignment. Can I 
+    <%= accordion_entry :title => "I made a mistake in an exercise. Can I 
     fix my work and get credit?" do %>
-      <p>It depends. If you saved but did <em>not</em> lock your answer, you can 
-        change your work anytime before the assignment due date.</p> 
-      <p>However, if you <em>saved and locked</em> your free form or multiple
-         choice answer, you cannot go back and change your answer.</p>
+      <p>It depends.</P>
+      <p>If you have saved free-form work, but haven't yet turned in your work, you can edit your answers anytime before 
+      the assignment due date.</p> 
+      <p>However, once you have turned in your free-form work or submitted your final multiple choice answer, you cannot 
+      go back and change your answers. 
       <p>If you unintentionally entered the wrong multiple choice answer, but 
         your free form work reflects the correct multiple choice answer, 
         you may want to check your instructor's syllabus about their policy. 

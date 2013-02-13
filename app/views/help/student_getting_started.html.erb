@@ -7,6 +7,10 @@
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
 
+  <%= accordion_entry :title => "Browser requirements" do %>
+    <%= render :partial => 'help/blurbs/browser_reqs'%>
+  <% end %>
+
   <%= accordion_entry :title => "Sign up for #{SITE_NAME}" do %>   
     <p>Read the instructions below or <%= link_to_help 'student_register_screencast',
      text="click here to check out a 2 minute video tutorial", 
