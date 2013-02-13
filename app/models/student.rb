@@ -42,10 +42,8 @@ class Student < ActiveRecord::Base
   scope :std_sort, lambda { |user_arg| 
     if user_arg.is_researcher? || user_arg.is_visitor?
       joins{user}.order{user.research_id.asc}
-      # order(:user => :research_id.asc).joins(:user)
     else
-      joins{user}.order{user.last_name.asc}
-      # order(:user => :last_name.asc).joins(:user)
+      joins{user}.order{lower(user.last_name).asc}
     end
   }
 
