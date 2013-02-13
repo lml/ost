@@ -50,9 +50,7 @@ class BasicFeedbackCondition < FeedbackCondition
   validate :not_applicable_event_only_for_never
   validate :feedback_cannot_close_if_never_opened
   validate :feedback_must_open_if_needed_for_credit
-  
-  before_save :nil_out_days_if_those_options_not_set
-  
+    
   class AvailabilityOpensOption < Enum
     NEVER = 0
     IMMEDIATELY_AFTER_EVENT = 1 
@@ -288,13 +286,7 @@ protected
       if AvailabilityOpensOption::NEVER == availability_opens_option &&
          AvailabilityClosesOption::NEVER != availability_closes_option
   end
-  
-  def nil_out_days_if_those_options_not_set
-    self.availability_opens_delay_days = nil if AvailabilityOpensOption::DELAY_AFTER_EVENT != availability_opens_option
-    self.availability_closes_delay_days = nil if AvailabilityClosesOption::DELAY_AFTER_OPEN != availability_closes_option
-    true
-  end
-  
+    
   def feedback_must_open_if_needed_for_credit
     errors.add(:availabiility_opens_option, "cannot be 'Never' because students must view feedback to get credit") \
       if AvailabilityOpensOption::NEVER == availability_opens_option && is_feedback_required_for_credit

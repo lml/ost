@@ -57,19 +57,19 @@ class User < ActiveRecord::Base
   def self.error_notice_recipients; active_administrators.where{receives_error_notices == true}; end
 
   def self.administrators_for_display
-    User.administrators.uniq.sort_by{ |user| user.last_name }
+    User.administrators.uniq.sort_by{ |user| user.last_name.downcase }
   end
 
   def self.non_administrator_educators_for_display
-    User.non_administrators.educators.uniq.sort_by{ |user| user.last_name }
+    User.non_administrators.educators.uniq.sort_by{ |user| user.last_name.downcase }
   end
 
   def self.non_administrator_non_educator_researchers_for_display
-    User.non_administrators.non_educators.researchers.uniq.sort_by{ |user| user.last_name }
+    User.non_administrators.non_educators.researchers.uniq.sort_by{ |user| user.last_name.downcase }
   end
 
   def self.non_administrator_non_educator_non_researchers_for_display
-    User.non_administrators.non_educators.non_researchers.uniq.sort_by{ |user| user.last_name }
+    User.non_administrators.non_educators.non_researchers.uniq.sort_by{ |user| user.last_name.downcase }
   end
 
   def full_name
