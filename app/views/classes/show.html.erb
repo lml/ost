@@ -183,19 +183,23 @@
 <% sees_all_cohort_assignments = is_educator || present_user.is_researcher? || present_user.is_administrator? %>
 
 <%= section "Registration Status", {:classes => "registration_status"} do %>
-  <% if student.has_dropped? %>
-    <p>You have dropped this class.</p>
-  <% else %>
-    <% if student.registered? %>
-      <p>You are fully registered for this class.</p>
-    <% elsif student.auditing? %>
-      <p>You are auditing this class.</p>
+  <% if is_student %>
+    <% if student.has_dropped? %>
+      <p>You have dropped this class.</p>
+    <% else %>
+      <% if student.registered? %>
+        <p>You are fully registered for this class.</p>
+      <% elsif student.auditing? %>
+        <p>You are auditing this class.</p>
+      <% end %>
+      <p>You are in section <%= student.section.name %>.</p>
     <% end %>
-    <p>You are in section <%= student.section.name %>.</p>
+  <% else %>
+    <p>You have not signed up for this class.</p>
   <% end %>
 <% end %>
 
-<% if student.has_dropped? || !present_user.can_read_children?(@klass.cohorts.first, :assignments) %>
+<% if !is_student || student.has_dropped? || !present_user.can_read_children?(@klass.cohorts.first, :assignments) %>
   <%= section "Assignments", {:classes => "assignments"} do %>
     <p>Assignments are only visible to this section's students and educators.</p>
   <% end %>
