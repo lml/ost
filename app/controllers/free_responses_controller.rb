@@ -49,6 +49,8 @@ protected
         TextFreeResponse.new(params[:free_response])
       when 'FileFreeResponse'
         FileFreeResponse.new(params[:free_response])
+      when 'DrawingFreeResponse'
+        DrawingFreeResponse.new(params[:free_response])
       else
         raise AbstractController::ActionNotFound
       end
