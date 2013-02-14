@@ -265,10 +265,12 @@ protected
   end
   
   def credit_window_within_availability_window
-    errors.add(:credit_closes_delay_days, "must fall within availability window") \
-      if AvailabilityClosesOption::DELAY_AFTER_OPEN == availability_closes_option &&
-         CreditClosesOption::DELAY_AFTER_OPEN       == credit_closes_option &&
-         credit_closes_delay_days > availability_closes_delay_days
+    if credit_closes_delay_days && availability_closes_delay_days
+      errors.add(:credit_closes_delay_days, "must fall within availability window") \
+        if AvailabilityClosesOption::DELAY_AFTER_OPEN == availability_closes_option &&
+           CreditClosesOption::DELAY_AFTER_OPEN       == credit_closes_option &&
+           credit_closes_delay_days > availability_closes_delay_days
+    end
   end
 
   def not_applicable_event_only_for_never
