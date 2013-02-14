@@ -16,6 +16,9 @@
   <%= link_to "Add Text Answer", 
               new_student_exercise_free_response_path(student_exercise, {:type => 'TextFreeResponse'}), 
               :remote => true %> | 
+  <%= link_to "Draw an Answer", 
+              new_student_exercise_free_response_path(student_exercise, {:type => 'DrawingFreeResponse'}),
+              :remote => true %> |
   Upload Photo(s) from 
   <%= link_to "PC", 
               new_student_exercise_free_response_path(student_exercise, {:type => 'FileFreeResponse'}), 
