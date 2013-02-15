@@ -291,32 +291,30 @@ module ApplicationHelper
     @uber_list_count = (@uber_list_count ||= 0) + 1
     uber_list_id_num = options[:list_number] || @uber_list_count
     @uber_list_id = "uber_list_#{uber_list_id_num}"
-    
+
+    sorting_js = ''
+
     if !options[:sort_path].nil?
-      content_for :javascript do
-        javascript_tag do
-          "$('##{@uber_list_id}').sortable({
-             dropOnEmpty: false,
-             handle: '.handle',
-             items: 'div.sortable_item_entry',
-             opacity: 0.7,
-             scroll: true,
-             update: function(){
-                $.ajax({
-                   type: 'post',
-                   data: $('##{@uber_list_id}').sortable('serialize'),
-                   dataType: 'script',
-                   url: '#{options[:sort_path]}'
-                });
-             }
-          }).disableSelection();".html_safe
-        end
+      sorting_js = javascript_tag do
+        "$('##{@uber_list_id}').sortable({
+           dropOnEmpty: false,
+           handle: '.handle',
+           items: 'div.sortable_item_entry',
+           opacity: 0.7,
+           scroll: true,
+           update: function(){
+              $.ajax({
+                 type: 'post',
+                 data: $('##{@uber_list_id}').sortable('serialize'),
+                 dataType: 'script',
+                 url: '#{options[:sort_path]}'
+              });
+           }
+        }).disableSelection();".html_safe
       end
     end
-    
-    
+        
     do_once :uberlist_js_sort_buttons do
-    
       content_for :javascript do
         javascript_tag do
             "$('.sortable_item_entry').live('mouseenter mouseleave', function(event) {
@@ -325,7 +323,6 @@ module ApplicationHelper
             });".html_safe      
         end
       end
-    
     end
 
 
@@ -393,7 +390,7 @@ module ApplicationHelper
 
           a+b+c
         end
-      }.join("").html_safe   
+      }.join("").html_safe.concat(sorting_js)
     end  
   end
 
