@@ -17,14 +17,14 @@ module ApplicationHelper
     attention_tag(messages, :notice)
   end
   
-  def attention_tag(messages, type)
+  def attention_tag(messages, type, classes='')
     return if messages.blank? || messages.empty?
     messages = Array.new(messages).flatten
     
     div_class = type == :alert ? "ui-state-error" : "ui-state-highlight"
     icon_class = type == :alert ? "ui-icon-alert" : "ui-icon-info"
     
-    content_tag :div, :class => "ui-widget" do
+    content_tag :div, :class => "ui-widget #{classes}" do
       content_tag :div, :class => "#{div_class} ui-corner-all", 
                         :style => "margin: 10px 0px; padding: 0 .7em;" do
         content_tag :p do
