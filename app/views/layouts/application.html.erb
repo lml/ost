@@ -174,9 +174,15 @@
           
       </div>
 
+      <%= attention_tag(["Please enable JavaScript in your browser! Many #{SITE_NAME} pages will not work properly without it."], :alert, "remove_by_js") %>
+
+      <script type="text/javascript">
+        $('.remove_by_js').ready(function() {
+          $('.remove_by_js').replaceWith('');
+        });
+      </script>
+
       <%# #########################   MAIN   ############################## #%>
-     
-      
      
       <div id="main" <%= "class=#{@main_div_background_image}" if @main_div_background_image %>>
         
