@@ -315,13 +315,6 @@ module ApplicationHelper
     end
         
     do_once :uberlist_js_sort_buttons do
-      javascript_tag do
-        "$('.sortable_item_entry').live('mouseenter mouseleave', function(event) {
-            $(this).children('.sortable_item_buttons:first')
-                   .css('visibility', event.type == 'mouseenter' ? 'visible' : 'hidden');
-        });".html_safe      
-      end
-
       content_for :javascript do
         javascript_tag do
             "$('.sortable_item_entry').live('mouseenter mouseleave', function(event) {
