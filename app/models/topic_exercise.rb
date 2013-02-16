@@ -63,6 +63,7 @@ class TopicExercise < ActiveRecord::Base
   end
   
   def not_already_assigned_when_reserved_for_test
+    return true if !reserved_for_tests_changed?
     return true if !reserved_for_tests
     return true if assignment_exercises.none?
     self.errors.add(:base, "This exercise cannot be reserved to tests because it has already been assigned")
