@@ -66,3 +66,17 @@ function sum(array) {
   }
   return sum;
 }
+
+// Open all non-local links in a new tab/window
+//  http://stackoverflow.com/questions/4086988/how-do-i-make-link-to-open-external-urls-in-a-new-window
+$(document).ready(function() {
+  $("a").click(function() {
+    link_host = this.href.split("/")[2];
+    document_host = document.location.href.split("/")[2];
+
+    if (link_host != document_host) {
+      window.open(this.href);
+      return false;
+    }
+  });
+});
