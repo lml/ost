@@ -361,7 +361,7 @@ module ApplicationHelper
           end
           
           c = content_tag(:div, {:class => "sortable_item_buttons", 
-                             :style => 'padding-left: 8px; display:table-cell; visibility:hidden; vertical-align:top; width: 45px'},
+                             :style => 'padding-left: 8px; display:table-cell; visibility:hidden; vertical-align:top; width: 46px'},
                             :escape => false) do
             button_target = options[:namespace].nil? ? 
                             entry : 
