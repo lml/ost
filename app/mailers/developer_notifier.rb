@@ -3,13 +3,17 @@
 
 class DeveloperNotifier < SiteMailer
   
-  def exception_email(exception, user = nil, msg = nil, full_trace = false)
+  def exception_email(exception, user = nil, msg = nil, full_trace = false, request = nil, error_id = nil, email_sent = nil)
     @user = user
     @exception = exception
     @backtrace = full_trace ?
                  exception.backtrace :
                  Rails.backtrace_cleaner.clean(exception.backtrace)
     @msg = msg
+    
+    @request = request
+    @error_id = error_id
+    @email_sent = email_sent
     
     subject = user.nil? ? "An exception occurred" : user.username + " encountered an exception"
 

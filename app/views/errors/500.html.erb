@@ -1,8 +1,8 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<%= pageHeading("An unknown error has occurred") %>
+<% content_for :error_message do %>
+  <%= pageHeading("An unknown error has occurred") %>
 
-<p>Yikes! Something bad happened here!</p>
-
-<p>An automated message has been sent to the <%= SITE_NAME %> development team.  If you have a moment, it'd be very helpful if you could also  <%= email_link "support", "send us an email" %> describing how you came to be on this error page.</p>
+  <p>Yikes! Something bad happened here!</p>
+<% end %>

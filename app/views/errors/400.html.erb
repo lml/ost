@@ -1,6 +1,8 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>Hmmm... you've asked for something that we're not able to provide.  One common cause for this is not having JavaScript enabled in your browser.  JavaScript is required for many parts of <%= SITE_NAME %>.  Please enable it, go back, and try again.</p>
+<% content_for :error_message do %>
+  <p>Hmmm... you've asked for something that we're not able to provide.</p>
 
-<p>If you do this and still get this message but think you shouldn't, drop us a line at <%= email_link "support", "support@openstaxtutor.org" %>.  Include your username, operating system, browser with version, and the time the error was seen.</p>
+  <p>One common cause for this is not having JavaScript enabled in your browser.  JavaScript is required for many parts of <%= SITE_NAME %>.  Please enable it, go back, and try again.</p>
+<% end %>
