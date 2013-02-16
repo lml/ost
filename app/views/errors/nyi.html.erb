@@ -1,9 +1,10 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>Ummm.  This is embarassing.  We actually haven't implemented this yet.  Sorry.  Either that, or we've disabled this page because it needs some work.</p>
+<% content_for :error_message do %>
+  <p>Ummm.  This is embarassing.  We actually haven't implemented this yet.  Sorry.  Either that, or we've disabled this page because it needs some work.</p>
 
-<p>Feel free to talk to the site administrators if you really need to do this.</p>
+  <p>Feel free to talk to the site administrators if you really need to do this.</p>
 
-<% @show_back_link = true %>
-
+  <% @show_back_link = true %>
+<% end %>

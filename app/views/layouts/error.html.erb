@@ -1,0 +1,20 @@
+<% content_for :main do %>
+  <%= yield :error_message %>
+
+  <% if @email_sent %>
+    <p>An automated message was sent to the development team about this error.</p>
+  <% end %>
+
+  <p>
+    If you'd like to <%= email_link "support", "send us an email" %> about this error, please include the following information in your message:
+    <ul>
+      <li>your username</li>
+      <li>your operating system</li>
+      <li>your browser (with version)</li>
+      <li>the following error id: <%= @error_id %></li>
+      <li>any other information you think will help us diagnose this issue</li>
+    </ul>
+  </p>
+<% end %>
+
+<%= render :template => 'layouts/application' %>

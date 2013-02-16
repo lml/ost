@@ -54,8 +54,11 @@ protected
       send_email = false
     end
 
+    @error_id = "%06d" % SecureRandom.random_number(10**6)
+    @email_sent = send_email
+
     render_error_page(error_page)
-    DeveloperNotifier.exception_email(exception, present_user) if send_email
+    DeveloperNotifier.exception_email(exception, present_user, nil, false, request, @error_id, @email_sent) if send_email
   end
 
   def render_error_page(status)
@@ -67,7 +70,7 @@ protected
     end
 
     respond_to do |type| 
-      type.html { render :template => "errors/#{status}", :layout => 'application', :status => status } 
+      type.html { render :template => "errors/#{status}", :layout => 'error', :status => status } 
       type.all  { render :nothing => true, :status => status } 
     end    
   end
