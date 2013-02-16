@@ -14,7 +14,8 @@ class TopicExercise < ActiveRecord::Base
   validate :changing_topic_not_assigned, :on => :update  
   validate :url_unchanged_when_assigned, :on => :update
   validate :order_unchanged_when_assigned, :on => :update
-        
+  validate :not_already_assigned_when_reserved_for_test, :on => :update
+
   acts_as_numberable :container => :topic
   
   attr_accessible :exercise_id, :exercise, :topic_id, :topic, :name, :reserved_for_tests
@@ -61,6 +62,13 @@ class TopicExercise < ActiveRecord::Base
     false
   end
   
+  def not_already_assigned_when_reserved_for_test
+    return true if !reserved_for_tests
+    return true if assignment_exercises.none?
+    self.errors.add(:base, "This exercise cannot be reserved to tests because it has already been assigned")
+    false
+  end
+
   def update_url!(url)
     url = 'http://' + url if !url[/^https?:\/\//]
     
