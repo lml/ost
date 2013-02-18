@@ -52,6 +52,15 @@ input, textarea {
   padding: 6px;
 }
 
+input[type='checkbox'] {
+  margin-left: 2px;
+}
+
+input[type='radio'] {
+  margin-left:  3px;
+  margin-right: 2px;
+}
+
 pre {
   background-color: #eee;
   padding: 10px;
