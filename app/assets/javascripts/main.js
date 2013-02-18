@@ -12,6 +12,7 @@ function refresh_buttons() {
    $(".trash_button").button({icons: {primary: "ui-icon-trash"}, text: false });
    $(".calendar_button").button({icons: {primary: "ui-icon-calendar"}, text: false });
    refresh_datetime_pickers();
+   open_external_links_elsewhere();
 }
 
 function remove_fields(link) {
