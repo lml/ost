@@ -174,13 +174,9 @@
           
       </div>
 
-      <%= attention_tag(["Please enable JavaScript in your browser! Many #{SITE_NAME} pages will not work properly without it."], :alert, "js_not_enabled_alert remove_by_js") %>
-
-      <script type="text/javascript">
-        $(document).ready(function() {
-          $('.remove_by_js').replaceWith('');
-        });
-      </script>
+      <noscript>
+        <%= attention_tag(["Please enable JavaScript in your browser! Many #{SITE_NAME} pages will not work properly without it."], :alert, "js_not_enabled_alert remove_by_js") %>
+      </noscript>
 
       <%# #########################   MAIN   ############################## #%>
      
