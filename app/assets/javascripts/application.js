@@ -46,6 +46,7 @@ function open_specified_dialog(name, is_modal, height, width, title, body) {
   });
 
   refresh_buttons();
+
   $("#" + name + "_dialog").dialog('open');
   $("#" + name + "_dialog").scrollTop(0);   
   $("#" + name + "_dialog").dialog('open').closeOnClickOutside();
@@ -69,7 +70,7 @@ function sum(array) {
 
 // Open all non-local links in a new tab/window
 //  http://stackoverflow.com/questions/4086988/how-do-i-make-link-to-open-external-urls-in-a-new-window
-$(document).ready(function() {
+function open_external_links_elsewhere () {
   $("a").click(function() {
     link_host = this.href.split("/")[2];
     document_host = document.location.href.split("/")[2];
@@ -79,4 +80,7 @@ $(document).ready(function() {
       return false;
     }
   });
+}
+$(document).ready(function() {
+  open_external_links_elsewhere();
 });
