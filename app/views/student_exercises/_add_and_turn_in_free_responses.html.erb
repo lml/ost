@@ -11,28 +11,33 @@
   <% end %>
 <% end %>
 
+<style>
+  .shift_left {
+    margin-left: -4px;
+  }
+</style>
+
 <div style="padding:10px">
   <center>
-  <%= link_to "Add Text Answer", 
+  <%= link_to "Write Text", 
               new_student_exercise_free_response_path(student_exercise, {:type => 'TextFreeResponse'}), 
-              :remote => true %> | 
-  Upload Photo(s) from 
-  <%= link_to "PC", 
+              :class => 'link_button_left',
+              :remote => true %> 
+  <%= link_to "PC Upload", 
               new_student_exercise_free_response_path(student_exercise, {:type => 'FileFreeResponse'}), 
+              :class => 'link_button_straight shift_left',
               :remote => true %>
-  or
-  <%= link_to "Camera Phone", 
+  <%= link_to "Camera Phone Upload", 
               email_instructions_student_exercise_free_responses_path(student_exercise),
-              :remote => true %> |
-  <%= link_to "Check for Uploaded Photos", 
+              :class => 'link_button_straight shift_left',
+              :remote => true %>
+  <%= link_to "Refresh", 
               refresh_student_exercise_free_responses_path(student_exercise), 
+              :class => 'link_button_right shift_left',
               :id => 'check_link' %>
               
   </center>
 </div>
-
-
-
 
 <div id="turn_in_free_response" style="<%= 'display:none' if student_exercise.free_responses.none? %>">
 
@@ -80,21 +85,44 @@
       return ids;
     }
 
+    var refresh_disabled = false;
+    var original_background_color;
+    var original_color;
+
+    function disable_refresh() {
+      refresh_disabled = true;
+      $('#check_link').css('background-color', '#dddddd').css('color','#777777');
+    }
+
+    function enable_refresh() {
+      refresh_disabled = false;
+      $('#check_link').css('background-color', original_background_color).css('color',original_color);
+    }
+
     function check_for_new_free_responses() {
-      $('#check_link').attr('disabled', 'disabled').html('Checking...');
+      $('#check_link').attr('disabled', 'disabled'); //.html('Checking...');
       $.get('<%= refresh_student_exercise_free_responses_path(student_exercise) %>',
         {idsOnPage: get_saved_free_response_ids()}
       );
     }
 
     $(document).ready(function() {
+      original_background_color = $('#check_link').css('background-color');
+      original_color = $('#check_link').css('color');
+
       $('#check_link')
         .click(function(e) {
+          if (refresh_disabled) {
+            e.preventDefault();
+            return false;
+          }
+          disable_refresh();
           check_for_new_free_responses();
           return false;
         })
         .on('finished_checking', function() {
-          $(this).removeAttr('disabled').html("Check");
+          setTimeout(function() { enable_refresh(); }, 1000);
+          $(this).removeAttr('disabled'); //.html("Check");
         });
     });
 

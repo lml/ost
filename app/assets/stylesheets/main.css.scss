@@ -23,6 +23,12 @@ p {
   border-radius: $radius;
 }
 
+@mixin rounded-side($left_radius: 0.5em, $right_radius: 0.5em) {
+  -webkit-border-radius: $left_radius $right_radius $right_radius $left_radius;
+  -moz-border-radius: $left_radius $right_radius $right_radius $left_radius;
+  border-radius: $left_radius $right_radius $right_radius $left_radius;
+}
+
 @mixin top-level {
    width: $master_width;
    margin-left: auto;
@@ -265,6 +271,21 @@ $nav_bar_height: $header_height;
    color: white;
    text-decoration:none;
   }
+}
+
+.link_button_left {
+  @extend .link_button;
+  @include rounded-side(13px, 0px);
+}
+
+.link_button_right {
+  @extend .link_button;
+  @include rounded-side(0px, 13px);
+}
+
+.link_button_straight {
+  @extend .link_button;
+  @include rounded-side(0px, 0px);
 }
 
 input[disabled].link_button {
