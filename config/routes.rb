@@ -133,6 +133,7 @@ Ost::Application.routes.draw do
     resources :free_responses, :shallow => true, :except => [:index, :show] do
       post 'sort', :on => :collection
       get 'email_instructions', :on => :collection
+      get 'refresh', :on => :collection
     end
   end
 

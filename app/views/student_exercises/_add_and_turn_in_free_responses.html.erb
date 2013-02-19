@@ -23,7 +23,12 @@
   or
   <%= link_to "Camera Phone", 
               email_instructions_student_exercise_free_responses_path(student_exercise),
-              :remote => true %>
+              :remote => true %> |
+  <%= link_to "Check", 
+              refresh_student_exercise_free_responses_path(student_exercise), 
+              :id => 'check_link', 
+              :data => {:'last-load' => seconds_since_epoch} %>
+              
   </center>
 </div>
 
@@ -61,3 +66,36 @@
   <% end %>
 
 </div>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+      // poll server to see if there are any more free responses
+      // could send how many this page thinks it has and server could respond
+      // with rendering a new partial (or multiple partials) if it has more
+
+      $('#check_link').click(function(e) {
+        check_for_new_free_responses();
+        return false;
+      });
+
+      $('#check_link').on('finished_checking', function(event, params) {
+        $('#check_link').removeAttr('disabled');
+        $('#check_link').html("Check");
+        $('#check_link').attr('data-last-load', params.lastLoad);
+      });
+
+      function check_for_new_free_responses() {
+        var check_link = $('#check_link');
+        check_link.attr('disabled', 'disabled');
+        check_link.html('Checking...');
+        var lastLoadTime = check_link.attr('data-last-load');
+        $.get('<%= refresh_student_exercise_free_responses_path(student_exercise) %>',
+          {lastLoad: lastLoadTime}
+        );
+      }
+
+    });
+  </script>
+<% end %>

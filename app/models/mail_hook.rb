@@ -24,7 +24,6 @@ class MailHook < ActiveRecord::Base
   end
 
   def self.get_for(hookable)
-    debugger
     hook = MailHook.where{mail_hookable_type == hookable.class.name}
                    .where{mail_hookable_id == hookable.id}
                    .nonexpired
@@ -54,19 +53,19 @@ class MailHook < ActiveRecord::Base
 
   # A match doesn't take into account expiration
   def self.matches_for(mail)
-    mail_addresses = mail.to.collect{|to| to.downcase}
-    where{to_email >> mail_addresses}.where{subject == my{mail}.subject.downcase}
+    mail_to_addresses, mail_subject = get_mail_fields(mail)
+    where{to_email >> mail_to_addresses}.where{subject == mail_subject}
   end
 
   # A match doesn't take into account expiration
   def matches?(mail)
-    mail_addresses = mail.to.collect{|to| to.downcase}
-    mail.subject.downcase == subject && mail_addresses.include?(to_email)
+    mail_to_addresses, mail_subject = get_mail_fields(mail)
+    mail_subject == subject && mail_to_addresses.include?(to_email)
   end
 
   def self.process(mail, match_expected=true)
-    Rails.logger.debug("hooked mail: #{mail.inspect}")
-    Rails.logger.debug("hooked mail info: #{mail.to_s}")
+    Rails.logger.debug{"hooked mail: #{mail.inspect}"}
+    Rails.logger.debug{"hooked mail info: #{mail.to_s}"}
     hooks = matches_for(mail).nonexpired.all
 
     raise MailHookNoMatch, "Unmatched email: #{mail.inspect}" if hooks.empty? && match_expected
@@ -105,6 +104,13 @@ class MailHook < ActiveRecord::Base
   end
 
 protected
+
+  def get_mail_fields(mail)
+    to_addresses = mail.to.collect{|to| to.downcase}
+    # Get rid of non word characters and strip whitespace
+    subject = mail.subject.downcase.gsub(/[^a-z\s^A-Z\s]/,"").strip
+    [to_addresses, subject]
+  end
 
   def downcase_conditions
     self.subject.downcase!

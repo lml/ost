@@ -1,0 +1,10 @@
+<% @new_free_responses.each do |free_response| %>
+  var show_content = jQuery('<%= ej(render :partial => "free_responses/show", :locals => {:free_response => free_response}) %>');
+  $('#free_responses').append(show_content);
+  show_content.effect("bounce", {times: 3}, 300);
+  <%= reload_mathjax("#free_response_#{free_response.id}") %>
+<% end %>
+
+refresh_buttons();
+
+$('#check_link').trigger('finished_checking', {lastLoad: '<%= seconds_since_epoch %>'});
