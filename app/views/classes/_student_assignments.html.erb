@@ -10,7 +10,7 @@
     <% assignment_plans = klass.learning_plan.assignment_plans.select{|ap| ap.assigned?} %>
     <% student_assignments = StudentAssignment.for_student(student).sort_by{|sa| sa.assignment.assignment_plan.number} %>
 
-    <% show_grades = student_assignments.inject(true) { |result, sa| result && sa.learning_condition.show_correctness_feedback?(sa) } %>
+    <% show_grades = student_assignments.inject(false) { |result, sa| result || sa.learning_condition.show_correctness_feedback?(sa) } %>
 
     <% if !student.has_dropped? %>
       <% if student_assignments.none? %>
@@ -36,7 +36,11 @@
               <td class="assignment_start"><%= standard_date(assignment_plan.starts_at) %></td>
               <td class="assignment_end"><%= standard_date(assignment_plan.ends_at) %></td>
               <% if show_grades %>
-                <td class="assignment_grade"><%= standard_percentage(student_assignment.score) %></td>
+                <% if student_assignment.learning_condition.show_correctness_feedback?(student_assignment) %>
+                  <td class="assignment_grade"><%= standard_percentage(student_assignment.score) %></td>
+                <% else %>
+                  <td class="assignment_grade">N/A</td>
+                <% end %>
               <% end %>
             </tr>
           <% end %>
