@@ -1,6 +1,9 @@
 <% can_be_updated = free_response.updatable? && present_user.can_update?(free_response) %>
 
-<div id="free_response_<%= free_response.id %>" class="<%= 'sortable_item_entry' if can_be_updated %>">
+<div id="free_response_<%= free_response.id %>" 
+     class="shown_free_response <%= 'sortable_item_entry' if can_be_updated %>" 
+     data-free-response-id="<%= free_response.id %>">
+     
   <div id="free_response_<%= free_response.id %>_errors"></div>
 
   <div class="free_response box">

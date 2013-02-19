@@ -24,13 +24,15 @@
   <%= link_to "Camera Phone", 
               email_instructions_student_exercise_free_responses_path(student_exercise),
               :remote => true %> |
-  <%= link_to "Check", 
+  <%= link_to "Check for Uploaded Photos", 
               refresh_student_exercise_free_responses_path(student_exercise), 
-              :id => 'check_link', 
-              :data => {:'last-load' => seconds_since_epoch} %>
+              :id => 'check_link' %>
               
   </center>
 </div>
+
+
+
 
 <div id="turn_in_free_response" style="<%= 'display:none' if student_exercise.free_responses.none? %>">
 
@@ -70,32 +72,31 @@
 <% content_for :javascript do %>
   <script type="text/javascript">
 
+    function get_saved_free_response_ids() {
+      var ids = [];
+      $('.shown_free_response').each(function(index, element) {
+        ids.push($(element).attr('data-free-response-id'));
+      });
+      return ids;
+    }
+
+    function check_for_new_free_responses() {
+      $('#check_link').attr('disabled', 'disabled').html('Checking...');
+      $.get('<%= refresh_student_exercise_free_responses_path(student_exercise) %>',
+        {idsOnPage: get_saved_free_response_ids()}
+      );
+    }
+
     $(document).ready(function() {
-      // poll server to see if there are any more free responses
-      // could send how many this page thinks it has and server could respond
-      // with rendering a new partial (or multiple partials) if it has more
-
-      $('#check_link').click(function(e) {
-        check_for_new_free_responses();
-        return false;
-      });
-
-      $('#check_link').on('finished_checking', function(event, params) {
-        $('#check_link').removeAttr('disabled');
-        $('#check_link').html("Check");
-        $('#check_link').attr('data-last-load', params.lastLoad);
-      });
-
-      function check_for_new_free_responses() {
-        var check_link = $('#check_link');
-        check_link.attr('disabled', 'disabled');
-        check_link.html('Checking...');
-        var lastLoadTime = check_link.attr('data-last-load');
-        $.get('<%= refresh_student_exercise_free_responses_path(student_exercise) %>',
-          {lastLoad: lastLoadTime}
-        );
-      }
-
+      $('#check_link')
+        .click(function(e) {
+          check_for_new_free_responses();
+          return false;
+        })
+        .on('finished_checking', function() {
+          $(this).removeAttr('disabled').html("Check");
+        });
     });
+
   </script>
 <% end %>
