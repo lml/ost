@@ -3,6 +3,7 @@
 
 <%
   html_ids[:drawing] = "free_response_content_#{free_response.non_nil_id}"
+  html_ids[:submit_button] = "drawing_#{free_response.non_nil_id}_submit"
 %>
 
 <div style="margin-bottom:12px" class="actions">
@@ -12,7 +13,7 @@
   <span style="float:right">
     <%= link_to_function "Cancel", "cancel_free_response_edit('#{free_response.non_nil_id}', false);" %>
     &nbsp;&nbsp;&nbsp;
-    <%= f.submit "Save Draft", :class => 'link_button', :title => 'You can continue working on this exercise after saving' %>
+    <%= f.submit "Save Draft", :class => 'link_button', :title => 'You can continue working on this exercise after saving', :id => html_ids[:submit_button] %>
   </span>
 </div>
 
@@ -21,5 +22,6 @@
                 :hide_image_tool => false,
                 :width => 560, :height => 450, 
                 :canvas_expansion => 0, 
-                :canvas_width => 490, :canvas_height => 310 %>
-
+                :canvas_width => 490, :canvas_height => 310,
+                :submit_action => {:type => :click,
+                                   :button_id => html_ids[:submit_button]} %>
