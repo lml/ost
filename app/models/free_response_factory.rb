@@ -21,7 +21,6 @@ class FreeResponseFactory
       extension = File.extname(attachment.filename)
       begin
         Tempfile.open(['free_response',extension]) do |file|
-          debugger
           file.binmode
           file.write Base64.decode64(attachment.body.decoded)
           
