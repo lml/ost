@@ -13,6 +13,8 @@ class BasicFeedbackCondition < FeedbackCondition
   store_typed_accessor :settings, :integer, :availability_closes_option
   store_typed_accessor :settings, :integer, :availability_closes_delay_days
   store_typed_accessor :settings, :integer, :availability_event
+  store_typed_accessor :settings, :integer, :credit_closes_option
+  store_typed_accessor :settings, :integer, :credit_closes_delay_days
   store_typed_accessor :settings, :boolean, :show_correctness_feedback
   store_typed_accessor :settings, :boolean, :show_correct_answer_feedback
   store_typed_accessor :settings, :boolean, :show_high_level_feedback
@@ -21,7 +23,9 @@ class BasicFeedbackCondition < FeedbackCondition
   attr_accessible :label_regex, :is_feedback_required_for_credit, 
                   :availability_opens_option, :availability_opens_delay_days, 
                   :availability_closes_option, :availability_closes_delay_days,
-                  :availability_event, :can_automatically_show_feedback,
+                  :availability_event, 
+                  :credit_closes_option, :credit_closes_delay_days,
+                  :can_automatically_show_feedback,
                   :show_correctness_feedback, :show_correct_answer_feedback,
                   :show_high_level_feedback, :show_detailed_feedback
 
@@ -37,13 +41,16 @@ class BasicFeedbackCondition < FeedbackCondition
                                              numericality: { only_integer: true,
                                                              greater_than: 0 }
 
+  validates :credit_closes_delay_days, allow_nil: true,
+                                       numericality: { only_integer: true,
+                                                       greater_than: 0 }
+
   validate :delay_days_specified_if_delay_chosen
+  validate :credit_window_within_availability_window
   validate :not_applicable_event_only_for_never
   validate :feedback_cannot_close_if_never_opened
   validate :feedback_must_open_if_needed_for_credit
-  
-  before_save :nil_out_days_if_those_options_not_set
-  
+    
   class AvailabilityOpensOption < Enum
     NEVER = 0
     IMMEDIATELY_AFTER_EVENT = 1 
@@ -62,12 +69,18 @@ class BasicFeedbackCondition < FeedbackCondition
     ASSIGNMENT_COMPLETE = 3
   end
   
+  class CreditClosesOption < Enum
+    WHEN_FEEDBACK_BECOMES_UNAVAILABLE = 0
+    DELAY_AFTER_OPEN = 1
+  end
+
   def self.standard_practice_feedback_condition
     BasicFeedbackCondition.new(:label_regex                     => 'standard practice', 
                                :is_feedback_required_for_credit => false.to_s,
                                :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
                                :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
                                :availability_event              => AvailabilityEvent::EXERCISE_COMPLETE.to_s,
+                               :credit_closes_option            => CreditClosesOption::WHEN_FEEDBACK_BECOMES_UNAVAILABLE.to_s,
                                :show_correctness_feedback       => true,
                                :show_correct_answer_feedback    => true,
                                :show_high_level_feedback        => true,
@@ -80,6 +93,7 @@ class BasicFeedbackCondition < FeedbackCondition
                                :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
                                :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
                                :availability_event              => AvailabilityEvent::EXERCISE_COMPLETE.to_s,
+                               :credit_closes_option            => CreditClosesOption::WHEN_FEEDBACK_BECOMES_UNAVAILABLE.to_s,
                                :show_correctness_feedback       => false,
                                :show_correct_answer_feedback    => false,
                                :show_high_level_feedback        => false,
@@ -152,6 +166,16 @@ class BasicFeedbackCondition < FeedbackCondition
     adjust_credit(student_exercise, event)
   end  
   
+  def credit_window_close_time(student_exercise)
+    if (CreditClosesOption::DELAY_AFTER_OPEN == credit_closes_option) && !credit_closes_delay_days.nil?
+      feedback_opens_at, feedback_closes_at = get_feedback_availability_window(student_exercise)
+      return nil if feedback_opens_at.nil?
+      return feedback_opens_at + credit_closes_delay_days.days
+    else
+      nil
+    end
+  end
+
 protected
 
   def supply_missing_values
@@ -160,6 +184,7 @@ protected
     self.availability_opens_option       ||= AvailabilityOpensOption::NEVER
     self.availability_closes_option      ||= AvailabilityClosesOption::NEVER
     self.availability_event              ||= AvailabilityEvent::NOT_APPLICABLE
+    self.credit_closes_option            ||= CreditClosesOption::WHEN_FEEDBACK_BECOMES_UNAVAILABLE
     self.show_correctness_feedback       ||= false 
     self.show_correct_answer_feedback    ||= false
     self.show_high_level_feedback        ||= false
@@ -202,12 +227,20 @@ protected
     end
     
     if StudentExercise::Event::FEEDBACK_VIEWED == event
-      if is_feedback_required_for_credit && student_exercise.feedback_credit_multiplier != 1
+      if is_feedback_required_for_credit && within_feedback_credit_window?(student_exercise) && student_exercise.feedback_credit_multiplier != 1
         student_exercise.update_feedback_credit_multiplier!(1)
       end
     end
   end
   
+  def within_feedback_credit_window?(student_exercise)
+    feedback_opens_at, feedback_closes_at = get_feedback_availability_window(student_exercise)
+    credit_closes_at = credit_window_close_time(student_exercise)
+    current_time = Time.now
+    return (current_time >= feedback_opens_at) && (current_time <= credit_closes_at) if (feedback_opens_at && credit_closes_at)
+    return true
+  end
+
   def strip_and_downcase_regex
     self.label_regex = label_regex.strip.downcase if !self.label_regex.nil?
   end
@@ -222,11 +255,24 @@ protected
       if AvailabilityOpensOption::DELAY_AFTER_EVENT == availability_opens_option &&
          availability_opens_delay_days.nil?
          
+    errors.add(:credit_closes_delay_days, "must be specified") \
+      if CreditClosesOption::DELAY_AFTER_OPEN == credit_closes_option &&
+         credit_closes_delay_days.nil?
+
     errors.add(:availability_closes_delay_days, "must be specified") \
       if AvailabilityClosesOption::DELAY_AFTER_OPEN == availability_closes_option &&
          availability_closes_delay_days.nil?
   end
   
+  def credit_window_within_availability_window
+    if credit_closes_delay_days && availability_closes_delay_days
+      errors.add(:credit_closes_delay_days, "must fall within availability window") \
+        if AvailabilityClosesOption::DELAY_AFTER_OPEN == availability_closes_option &&
+           CreditClosesOption::DELAY_AFTER_OPEN       == credit_closes_option &&
+           credit_closes_delay_days > availability_closes_delay_days
+    end
+  end
+
   def not_applicable_event_only_for_never
     errors.add(:availability_event, "cannot be NOT APPLICABLE") \
       if AvailabilityEvent::NOT_APPLICABLE == availability_event &&
@@ -234,17 +280,15 @@ protected
   end
   
   def feedback_cannot_close_if_never_opened
+    errors.add(:credit_closes_option, "must be 'when feedback becomes unavailable' since feedback never opens") \
+      if AvailabilityOpensOption::NEVER == availability_opens_option &&
+         CreditClosesOption::WHEN_FEEDBACK_BECOMES_UNAVAILABLE != credit_closes_option
+
     errors.add(:availability_closes_option, "must be 'Never' since feedback never opens") \
       if AvailabilityOpensOption::NEVER == availability_opens_option &&
          AvailabilityClosesOption::NEVER != availability_closes_option
   end
-  
-  def nil_out_days_if_those_options_not_set
-    self.availability_opens_delay_days = nil if AvailabilityOpensOption::DELAY_AFTER_EVENT != availability_opens_option
-    self.availability_closes_delay_days = nil if AvailabilityClosesOption::DELAY_AFTER_OPEN != availability_closes_option
-    true
-  end
-  
+    
   def feedback_must_open_if_needed_for_credit
     errors.add(:availabiility_opens_option, "cannot be 'Never' because students must view feedback to get credit") \
       if AvailabilityOpensOption::NEVER == availability_opens_option && is_feedback_required_for_credit

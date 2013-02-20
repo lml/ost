@@ -8,7 +8,7 @@
     <%= f.hidden_field :section_id, :value => @klass.sections.first.id %>
   <% else %>
     <div class="field">
-      Choose the section for which you are registering:<br/>
+      Choose the section for which you are registering:<br/><br/>
       <%= f.select :section_id, options_from_collection_for_select(@klass.sections, :id, :name)%>
     </div>
   <% end %>

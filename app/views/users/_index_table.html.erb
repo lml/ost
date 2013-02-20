@@ -11,7 +11,7 @@
     <th width="07%">Ntc?</th>
   </tr>
   <% users.each do |user| %>
-    <tr>
+    <tr class="test test_section">
       <td><%= admin_only(user.first_name) %></td>
       <td><%= admin_only(user.last_name) %></td>
       <td><%= link_to admin_only(user.username), user_become_path(user), :method => :post %></td>

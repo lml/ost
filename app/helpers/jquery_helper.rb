@@ -23,7 +23,7 @@ module JqueryHelper
     @errors_object = object
     
     if !@errors.empty? || !alert.blank?
-      "$('##{error_html_id}').html(\"#{ ej(render :partial => 'shared/attention') } \");".html_safe
+      "$('##{error_html_id}').html(\"#{ ej(render :partial => 'shared/attention') } \").trigger('added_errors');".html_safe
     else
       ("$('##{error_html_id}').html('');" + capture(&block)).html_safe
     end
@@ -49,10 +49,10 @@ module JqueryHelper
   end
   
   def specified_dialog(name=nil, title=nil, options={}, &block)
+    @body = capture(&block)
     @name ||= name
     @title ||= title
     @options = options
-    @body = capture(&block)
     render :template => 'shared/specified_dialog'
   end
 end

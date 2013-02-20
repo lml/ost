@@ -46,13 +46,23 @@ protected
          ActionController::UnknownAction
       error_page = 404
       send_email = false
+    when ActionView::MissingTemplate
+      error_page = 400
+      send_email = false
     when NotYetImplemented
       error_page = "nyi"
       send_email = false
     end
 
+    @error_id = "%06d" % SecureRandom.random_number(10**6)
+    @email_sent = send_email
+
+    logger.info "Exception: #{@error_id} #{present_user.username if present_user} #{request.path if request}"
+
     render_error_page(error_page)
-    DeveloperNotifier.exception_email(exception, present_user) if send_email
+    mail_msg = DeveloperNotifier.exception_email(exception, present_user, nil, false, request, @error_id, @email_sent) if send_email
+
+    logger.info mail_msg if @email_sent
   end
 
   def render_error_page(status)
@@ -64,7 +74,7 @@ protected
     end
 
     respond_to do |type| 
-      type.html { render :template => "errors/#{status}", :layout => 'application', :status => status } 
+      type.html { render :template => "errors/#{status}", :layout => 'error', :status => status } 
       type.all  { render :nothing => true, :status => status } 
     end    
   end
@@ -152,8 +162,8 @@ protected
   end
 
   def enable_timeout
-    # disable in development
-    @enable_timeout = !Rails.env.development?
+    # only enable in production
+    @enable_timeout = Rails.env.production?
   end
 
   def is_id?(value)

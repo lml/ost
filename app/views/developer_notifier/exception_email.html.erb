@@ -7,20 +7,25 @@
 
 <h2>Exception Encountered</h2>
 
-<% if !@user.nil? %>
-  <p>User ID: <%= @user.id.to_s %><br/>
-    Username: <%= @user.username %></p>
-<% end %>
+<p>Error ID: <%= @error_id.nil? ? "N/A" : @error_id %></p>
 
-<% if !@msg.nil? %>
-  <p>Message: <%= @msg %></p>
-<% end %>
+<p>
+  User ID: <%= @user.nil? ? "N/A" : @user.id.to_s %><br/>
+  Username: <%= @user.nil? ? "N/A" : @user.username %>
+</p>
+
+<p>URL: <%= @request.nil? ? "N/A" : @request.url %></p>
+
+<p>Message: <%= @msg.nil? ? "N/A" : @msg %></p>
 
 <p>Exception: <%= @exception.inspect %></p>
 
 <p>Backtrace:<br/>
-<br/>
-<%= @backtrace.join("<br/>\n").html_safe %></p>
+  <br/>
+  <%= @backtrace.join("<br/>\n").html_safe %>
+</p>
+
+<p>Parameters: <%= @request.nil? ? "N/A" : @request.params %></p>
 
 </body>
 </html>

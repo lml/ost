@@ -21,6 +21,7 @@
 //= require best_in_place
 //= require fullcalendar
 //= require codecogs_editor
+//= require raphael-min
 //= require_tree .
 // Loads Bootstrap javascripts for accordions; note loading everything breaks other existing CSS/JS
 //= require bootstrap-transition
@@ -29,7 +30,7 @@
 
 function open_specified_dialog(name, is_modal, height, width, title, body) {
   $('#' + name + '_dialog_errors').html('');
-  
+
   $("#" + name + "_dialog_body").html(body);
   
   $("#" + name + "_dialog").dialog({ 
@@ -38,13 +39,16 @@ function open_specified_dialog(name, is_modal, height, width, title, body) {
     height: height, 
     width: width,
     title: title,
-    position: 'center'
+    position: 'center',
+    open: function () {
+      $(document).trigger('after_dialog_open');
+    }
   });
-
+  
   refresh_buttons();
-  $("#" + name + "_dialog").dialog('open');
-  $("#" + name + "_dialog").scrollTop(0);   
+
   $("#" + name + "_dialog").dialog('open').closeOnClickOutside();
+  $("#" + name + "_dialog").scrollTop(0);   
 }
 
 function open_message_dialog(is_modal, height, width, title, body) {
@@ -54,3 +58,28 @@ function open_message_dialog(is_modal, height, width, title, body) {
 function get_os_color(color) {
   return $('#os_' + color).css('background-color');
 }
+
+function sum(array) {
+  var sum = 0;
+  for (var ii = 0; ii < array.length; ii++) {
+    sum += array[ii];
+  }
+  return sum;
+}
+
+// Open all non-local links in a new tab/window
+//  http://stackoverflow.com/questions/4086988/how-do-i-make-link-to-open-external-urls-in-a-new-window
+function open_external_links_elsewhere () {
+  $("a").click(function() {
+    link_host = this.href.split("/")[2];
+    document_host = document.location.href.split("/")[2];
+
+    if (link_host != document_host) {
+      window.open(this.href);
+      return false;
+    }
+  });
+}
+$(document).ready(function() {
+  open_external_links_elsewhere();
+});

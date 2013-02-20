@@ -1,0 +1,25 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%
+  html_ids[:drawing] = "free_response_content_#{free_response.non_nil_id}"
+  html_ids[:submit_button] = "drawing_#{free_response.non_nil_id}_submit"
+%>
+
+<div style="margin-bottom:12px" class="actions">
+  <div style="display:inline-block; padding-top:5px">
+    Sketch your answer: <%= link_to_help 'drawing_free_response', "", {:title => 'Drawing Answers'} %>
+  </div>
+  <span style="float:right">
+    <%= link_to_function "Cancel", "cancel_free_response_edit('#{free_response.non_nil_id}', false);" %>
+    &nbsp;&nbsp;&nbsp;
+    <%= f.submit "Save Draft", :class => 'link_button', :title => 'You can continue working on this exercise after saving', :id => html_ids[:submit_button] %>
+  </span>
+</div>
+
+<%= f.sketchily :content, 
+                :hide_menu => true, 
+                :hide_image_tool => false,
+                :width => 560, :height => 450, 
+                :canvas_expansion => 0, 
+                :canvas_width => 490, :canvas_height => 310 %>

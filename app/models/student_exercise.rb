@@ -81,8 +81,12 @@ class StudentExercise < ActiveRecord::Base
   
   def status
     return "NOT YET ANSWERED" if requires_free_response? && !free_response_submitted?
-    return "COMPLETED"        if selected_answer_submitted?
+    return "COMPLETED"        if complete?
     return "NOT COMPLETE"
+  end
+
+  def complete?
+    selected_answer_submitted?
   end
   
   def present_free_response_and_selected_answer?
@@ -157,6 +161,14 @@ class StudentExercise < ActiveRecord::Base
 
   def show_correctness_feedback?
     learning_condition.show_correctness_feedback?(self)
+  end
+
+  def feedback_has_been_viewed?
+    complete? && (feedback_has_been_viewed_for_credit? || ResponseTime.where{response_timeable_id == my{id}}.where{page == "feedback"}.any?)
+  end
+
+  def feedback_has_been_viewed_for_credit?
+    complete? && (feedback_credit_multiplier > 0.0)
   end
 
   def get_mail_hook

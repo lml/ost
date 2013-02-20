@@ -22,6 +22,14 @@ Ost::Application.routes.draw do
 
   get "admin", :to => 'admin#index'
   put "admin/cron", :to => 'admin#cron', :as => "cron"
+  get "admin/raise_security_transgression", :to => 'admin#raise_security_transgression'
+  get "admin/raise_record_not_found",       :to => 'admin#raise_record_not_found'
+  get "admin/raise_routing_error",          :to => 'admin#raise_routing_error'
+  get "admin/raise_unknown_controller",     :to => 'admin#raise_unknown_controller'
+  get "admin/raise_unknown_action",         :to => 'admin#raise_unknown_action'
+  get "admin/raise_missing_template",       :to => 'admin#raise_missing_template'
+  get "admin/raise_not_yet_implemented",    :to => 'admin#raise_not_yet_implemented'
+  get "admin/raise_illegal_argument",       :to => 'admin#raise_illegal_argument'
 
   get "research", :to => 'research#index'
 
@@ -55,6 +63,7 @@ Ost::Application.routes.draw do
     resources :registration_requests, :shallow => true, :only => [:new, :index]
     resources :learning_conditions, :shallow => true, :only => [:index]
     resources :cohorts, :shallow => true
+    resources :analytics, :only => [:index]
     get 'preview_assignments', :on => :member
     get 'report', :on => :member
     get 'class_grades', :on => :member

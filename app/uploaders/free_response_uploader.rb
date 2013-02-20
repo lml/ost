@@ -2,13 +2,15 @@
 
 class FreeResponseUploader < UploaderBase
   
-  def filename
-    model.filename_override || super
-  end
+  process :resize_to_fit => [1000, 1000]
 
   # https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Do-conditional-processing  
   version :thumbnail, :if => :image? do
     process :resize_to_fit => [100, 100]
+  end
+
+  def filename
+    model.filename_override || super
   end
 
   # Add a white list of extensions which are allowed to be uploaded.

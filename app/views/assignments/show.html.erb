@@ -89,102 +89,14 @@
     <p>You cannot see or work the exercises because they were not assigned to you.</p>
   <% else %>    
     <%= render :partial => 'student_exercises/list', 
-               :locals => {:student_assignment => @student_assignment} %>  
+               :locals => { :student_assignment   => @student_assignment,
+                            :show_feedback_status => true } %>  
   <% end %>
 
 <% end %>
 
 <% if klass.is_educator?(present_user) || Researcher.is_one?(present_user) || present_user.is_administrator? %>
-
-  <%= section "Results" do %>
-    <%= link_to_function "Click here if the results are clipped in your browser", 
-                         "$('#outer').css('width','2000px');", 
-                         :style => "font-size:9px; float:right;"%><br/>
-  
-    <% assignments = Assignment.where{assignment_plan_id == assignment_plan.id} %>
-    
-    <% assignments.each do |assignment| %>
-    
-      <%= sub_section "Cohort: #{assignment.cohort.name}" do %>
-  
-        <% num_exercises = assignment.assignment_exercises.count %>
-    
-        <% exercise_registered_right_counts = num_exercises.times.collect{0} %>
-        <% exercise_registered_taken_counts = num_exercises.times.collect{0} %>
-    
-        <table class="list" width="100%" style="margin-top:10px">
-          <tr>
-            <th>Name</th>
-            <% [*1..num_exercises].each do |ii| %>
-            <th style="text-align:center"><%= ii.to_s %></th>
-            <% end %>
-          </tr>
-      
-          <% students = assignment.cohort.students.visible(present_user).std_sort(present_user) %>
-      
-          <% students.each do |student| %>
-          <tr>
-            <% sa = StudentAssignment.for_assignment(assignment).for_student(student).first %>
-            <td>
-              <%= link_to student.full_name(present_user), sa %> 
-              <%= "(C)" if present_user.is_administrator? && student.consent.try(:did_consent) %>
-            </td>
-            <% if sa.nil? %>
-              <td colspan="<%= num_exercises %>"><center>Not Started</center></td>
-            <% else %>
-              <% student_exercises = sa.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
-              <% student_exercises.each_with_index do |se, ee| %>
-                <td style="text-align:center">
-                  <% if !se.free_response_submitted? && !se.selected_answer_submitted? %>
-                    <%= image_tag 'empty_circle_v2.png' %>              
-                  <% elsif !se.selected_answer_submitted? %>
-                    <%= image_tag 'half_filled_circle_v2.png' %>              
-                  <% else %>
-                    <% if se.is_correct? %>
-                      <% if se.was_submitted_late %>
-                        <%= image_tag 'red_check_v2.png' %>
-                      <% elsif se.feedback_credit_multiplier == 0 %>
-                        <%= image_tag 'inverted_green_check_v2.png'%>
-                      <% else %>
-                        <%= image_tag 'green_check_v2.png' %>
-                      <% end %>
-                      <% exercise_registered_right_counts[ee] += 1 if student.registered? %>
-                    <% else %>
-                      <%= image_tag 'red_x_v2.png' %>
-                    <% end %>
-                    <% exercise_registered_taken_counts[ee] += 1 if student.registered? %>
-                  <% end %>
-                </td>
-              <% end %>
-            <% end %>
-          </tr>
-          <% end %>
-          <tr>
-            <td>Correct % (Registered Students)</td>
-            <% [*0..num_exercises-1].each do |ee| %>
-              <% pct = exercise_registered_taken_counts[ee] == 0 ? 
-                       "--" : 
-                       exercise_registered_right_counts[ee] * 100 / exercise_registered_taken_counts[ee] %>
-              <td style="text-align:center"><%= pct %></td>
-            <% end %>
-          </tr>
-        </table>
-        
-      <% end # sub_section %>
-      
-    <% end # assignments.each %> 
-  <% end # results section %>
-  
-  <center>
-    <%= image_tag 'empty_circle_v2.png', :style => "vertical-align:middle" %> = Not started, 
-    <%= image_tag 'half_filled_circle_v2.png', :style => "vertical-align:middle" %> = Free-form locked or N/A, 
-    <%= image_tag 'red_x_v2.png', :style => "vertical-align:middle" %> = Wrong<br/>
-    <%= image_tag 'green_check_v2.png', :style => "vertical-align:middle" %> = Right,
-    <%= image_tag 'inverted_green_check_v2.png', :style => "vertical-align:middle" %> = Right, but missing feedback credit,
-    <%= image_tag 'red_check_v2.png', :style => "vertical-align:middle" %> = Right but late
-  </center>        
-  
-
+  <%= render 'results', :assignment_plan => assignment_plan %>
 <% end %>
 
 <%

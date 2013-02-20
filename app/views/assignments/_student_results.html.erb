@@ -1,0 +1,67 @@
+<% num_exercises = assignment.assignment_exercises.count %>
+    
+<% exercise_right_counts = num_exercises.times.collect{0} %>
+<% exercise_taken_counts = num_exercises.times.collect{0} %>
+
+<table class="list" width="100%" style="margin-top:10px">
+  <tr>
+    <th colspan="<%= 1+num_exercises %>" style="text-align:center"><%= title %></th>
+  </tr>
+
+  <tr>
+    <th>Name</th>
+    <% (1..num_exercises).each do |ii| %>
+      <th style="text-align:center"><%= ii.to_s %></th>
+    <% end %>
+  </tr>
+      
+  <% students.each do |student| %>
+    <tr>
+      <% sa = StudentAssignment.for_assignment(assignment).for_student(student).first %>
+
+      <td>
+        <%= link_to student.full_name(present_user), sa %> 
+        <%= "(C)" if present_user.is_administrator? && student.consent.try(:did_consent) %>
+      </td>
+
+      <% if sa.nil? %>
+        <td colspan="<%= num_exercises %>"><center>Not Started</center></td>
+      <% else %>
+        <% student_exercises = sa.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
+        <% student_exercises.each_with_index do |se, ee| %>
+          <td style="text-align:center">
+            <% if !se.free_response_submitted? && !se.selected_answer_submitted? %>
+              <%= image_tag 'empty_circle_v2.png' %>              
+            <% elsif !se.selected_answer_submitted? %>
+              <%= image_tag 'half_filled_circle_v2.png' %>              
+            <% else %>
+              <% if se.is_correct? %>
+                <% if se.was_submitted_late %>
+                  <%= image_tag 'red_check_v2.png' %>
+                <% elsif se.feedback_credit_multiplier == 0 %>
+                  <%= image_tag 'inverted_green_check_v2.png'%>
+                <% else %>
+                  <%= image_tag 'green_check_v2.png' %>
+                <% end %>
+                <% exercise_right_counts[ee] += 1 %>
+              <% else %>
+                <%= image_tag 'red_x_v2.png' %>
+              <% end %>
+              <% exercise_taken_counts[ee] += 1 %>
+            <% end %>
+          </td>
+        <% end %>
+      <% end %>
+    </tr>
+  <% end %>
+
+  <tr>
+    <td>Correct %</td>
+    <% (0..num_exercises-1).each do |ee| %>
+      <% pct = exercise_taken_counts[ee] == 0 ? 
+               "--" : 
+               exercise_right_counts[ee] * 100 / exercise_taken_counts[ee] %>
+      <td style="text-align:center"><%= pct %></td>
+    <% end %>
+  </tr>
+</table>

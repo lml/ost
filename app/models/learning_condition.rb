@@ -57,7 +57,11 @@ class LearningCondition < ActiveRecord::Base
   def can_automatically_show_feedback?(student_exercise)
     get_feedback_condition(student_exercise).can_automatically_show_feedback?(student_exercise)
   end
-  
+
+  def feedback_required_for_credit?(student_exercise)
+    get_feedback_condition(student_exercise).is_feedback_required_for_credit
+  end
+
   def show_correctness_feedback?(thing)
     if thing.is_a?(StudentAssignment)
       show_student_assignment_correctness_feedback?(thing)

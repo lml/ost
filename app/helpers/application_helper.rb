@@ -17,14 +17,14 @@ module ApplicationHelper
     attention_tag(messages, :notice)
   end
   
-  def attention_tag(messages, type)
+  def attention_tag(messages, type, classes='')
     return if messages.blank? || messages.empty?
     messages = Array.new(messages).flatten
     
     div_class = type == :alert ? "ui-state-error" : "ui-state-highlight"
     icon_class = type == :alert ? "ui-icon-alert" : "ui-icon-info"
     
-    content_tag :div, :class => "ui-widget" do
+    content_tag :div, :class => "ui-widget #{classes}" do
       content_tag :div, :class => "#{div_class} ui-corner-all", 
                         :style => "margin: 10px 0px; padding: 0 .7em;" do
         content_tag :p do
@@ -161,11 +161,9 @@ module ApplicationHelper
     @include_help_dialog = true
     @include_mathjax = true if options[:include_mathjax]
     
-    @options = options
-    
     link_to (text.blank? ? image_tag('help_icon_v3.png') : text), 
             blurb_help_path(blurb, :options => options), 
-            :remote => true, :class => @options[:class]
+            :remote => true, :class => options[:class]
   end
   
   def standard_percentage(value)
@@ -291,32 +289,30 @@ module ApplicationHelper
     @uber_list_count = (@uber_list_count ||= 0) + 1
     uber_list_id_num = options[:list_number] || @uber_list_count
     @uber_list_id = "uber_list_#{uber_list_id_num}"
-    
+
+    sorting_js = ''
+
     if !options[:sort_path].nil?
-      content_for :javascript do
-        javascript_tag do
-          "$('##{@uber_list_id}').sortable({
-             dropOnEmpty: false,
-             handle: '.handle',
-             items: 'div.sortable_item_entry',
-             opacity: 0.7,
-             scroll: true,
-             update: function(){
-                $.ajax({
-                   type: 'post',
-                   data: $('##{@uber_list_id}').sortable('serialize'),
-                   dataType: 'script',
-                   url: '#{options[:sort_path]}'
-                });
-             }
-          }).disableSelection();".html_safe
-        end
+      sorting_js = javascript_tag do
+        "$('##{@uber_list_id}').sortable({
+           dropOnEmpty: false,
+           handle: '.handle',
+           items: 'div.sortable_item_entry',
+           opacity: 0.7,
+           scroll: true,
+           update: function(){
+              $.ajax({
+                 type: 'post',
+                 data: $('##{@uber_list_id}').sortable('serialize'),
+                 dataType: 'script',
+                 url: '#{options[:sort_path]}'
+              });
+           }
+        }).disableSelection();".html_safe
       end
     end
-    
-    
+        
     do_once :uberlist_js_sort_buttons do
-    
       content_for :javascript do
         javascript_tag do
             "$('.sortable_item_entry').live('mouseenter mouseleave', function(event) {
@@ -325,7 +321,6 @@ module ApplicationHelper
             });".html_safe      
         end
       end
-    
     end
 
 
@@ -364,7 +359,7 @@ module ApplicationHelper
           end
           
           c = content_tag(:div, {:class => "sortable_item_buttons", 
-                             :style => 'padding-left: 8px; display:table-cell; visibility:hidden; vertical-align:top; width: 45px'},
+                             :style => 'padding-left: 8px; display:table-cell; visibility:hidden; vertical-align:top; width: 46px'},
                             :escape => false) do
             button_target = options[:namespace].nil? ? 
                             entry : 
@@ -393,7 +388,7 @@ module ApplicationHelper
 
           a+b+c
         end
-      }.join("").html_safe   
+      }.join("").html_safe.concat(sorting_js)
     end  
   end
 
@@ -579,14 +574,14 @@ module ApplicationHelper
     raise ArgumentError "must provide width" if !options.has_key?(:width)
     raise ArgumentError "must provide height"if !options.has_key?(:height)
     raise ArgumentError "must provide embed code" if !options.has_key?(:code)
-    options[:controls] ||= 0
+    options[:controls] ||= 1
     options[:quality] ||= "hd720"
     options[:show_info] ||= 0
     options[:secure] = true if !options.has_key?(:secure)
 
     content_tag :iframe, {:width => options[:width],
                           :height => options[:height],
-                          :src => "http#{'s' if options[:secure]}://www.youtube-nocookie.com/embed/#{options[:code]}?rel=0;vq=#{options[:quality]};showinfo=#{options[:show_info]};controls=#{options[:controls]}",
+                          :src => "http#{'s' if options[:secure]}://www.youtube-nocookie.com/embed/#{options[:code]}?rel=0;vq=#{options[:quality]};showinfo=#{options[:show_info]};controls=#{options[:controls]};modestbranding=1",
                           :frameborder => 0,
                           :allowfullscreen => true} {}
   end

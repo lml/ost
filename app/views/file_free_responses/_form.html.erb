@@ -12,11 +12,13 @@
   <span style="float:right">
     <%= link_to_function "Cancel", "cancel_free_response_edit('#{free_response.non_nil_id}', true);" %>
     &nbsp;&nbsp;&nbsp;
-    <%= f.submit "Upload", :class => 'link_button' %>
+    <%= f.submit "Attach", 
+                 :class => 'link_button', 
+                 :title => 'You can continue working on this exercise after saving' %>
   </span>
 </div>
 
-<%= f.file_field :attachment, :style => 'width:97.5%%' %> 
+<%= f.file_field :attachment, :style => 'width:97.5%' %> 
 
 <p>Caption (optional):</p>
 

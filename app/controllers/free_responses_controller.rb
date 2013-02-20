@@ -54,13 +54,15 @@ protected
   end
 
   def make_free_response
-    type = params[:type] #|| params[:free_response].delete(:type)
+    type = params[:type]
     @free_response = 
       case type
       when 'TextFreeResponse' 
         TextFreeResponse.new(params[:free_response])
       when 'FileFreeResponse'
         FileFreeResponse.new(params[:free_response])
+      when 'DrawingFreeResponse'
+        DrawingFreeResponse.new(params[:free_response])
       else
         raise AbstractController::ActionNotFound
       end
