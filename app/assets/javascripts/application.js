@@ -30,7 +30,7 @@
 
 function open_specified_dialog(name, is_modal, height, width, title, body) {
   $('#' + name + '_dialog_errors').html('');
-  
+
   $("#" + name + "_dialog_body").html(body);
   
   $("#" + name + "_dialog").dialog({ 
@@ -44,12 +44,11 @@ function open_specified_dialog(name, is_modal, height, width, title, body) {
       $(document).trigger('after_dialog_open');
     }
   });
-
+  
   refresh_buttons();
 
-  $("#" + name + "_dialog").dialog('open');
-  $("#" + name + "_dialog").scrollTop(0);   
   $("#" + name + "_dialog").dialog('open').closeOnClickOutside();
+  $("#" + name + "_dialog").scrollTop(0);   
 }
 
 function open_message_dialog(is_modal, height, width, title, body) {
