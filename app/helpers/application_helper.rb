@@ -161,11 +161,9 @@ module ApplicationHelper
     @include_help_dialog = true
     @include_mathjax = true if options[:include_mathjax]
     
-    @options = options
-    
     link_to (text.blank? ? image_tag('help_icon_v3.png') : text), 
             blurb_help_path(blurb, :options => options), 
-            :remote => true, :class => @options[:class]
+            :remote => true, :class => options[:class]
   end
   
   def standard_percentage(value)
