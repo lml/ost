@@ -7,8 +7,7 @@
 # only one of them will ever be returned, then they'll all expire anyway.
 #
 class MailHook < ActiveRecord::Base
-  belongs_to :mail_hookable # specifically not polymorphic so that 
-                            # callers have to access through MailHook::get_mail_hook
+  belongs_to :mail_hookable, :polymorphic => true
 
   attr_accessible :subject, :to_email, :expires_at, 
                   :mail_hookable, :mail_hookable_id, :mail_hookable_type, 
@@ -65,8 +64,6 @@ class MailHook < ActiveRecord::Base
   end
 
   def self.process(mail, match_expected=true)
-    Rails.logger.debug{"hooked mail: #{mail.inspect}"}
-    Rails.logger.debug{"hooked mail info: #{mail.to_s}"}
     hooks = matches_for(mail).nonexpired.all
 
     raise MailHookNoMatch, "Unmatched email: #{mail.inspect}" if hooks.empty? && match_expected
