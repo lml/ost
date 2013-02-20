@@ -88,6 +88,7 @@
     var refresh_disabled = false;
     var original_background_color;
     var original_color;
+    var already_polling = false;
 
     function disable_refresh() {
       refresh_disabled = true;
@@ -100,10 +101,18 @@
     }
 
     function check_for_new_free_responses() {
-      $('#check_link').attr('disabled', 'disabled'); //.html('Checking...');
+      disable_refresh();
       $.get('<%= refresh_student_exercise_free_responses_path(student_exercise) %>',
         {idsOnPage: get_saved_free_response_ids()}
       );
+    }
+
+    function poll_for_new_free_responses() {
+      if (already_polling) {
+        return;
+      }
+      repeat(30000, function() { check_for_new_free_responses(); });
+      already_polling = true;
     }
 
     $(document).ready(function() {
@@ -116,13 +125,11 @@
             e.preventDefault();
             return false;
           }
-          disable_refresh();
           check_for_new_free_responses();
           return false;
         })
         .on('finished_checking', function() {
           setTimeout(function() { enable_refresh(); }, 1000);
-          $(this).removeAttr('disabled'); //.html("Check");
         });
     });
 

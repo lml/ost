@@ -43,7 +43,7 @@ class FreeResponseFactory
   end
 
   def self.create_text_free_response_from_mail(mail, student_exercise)
-    response = TextFreeResponse.new(:student_exercise => student_exercise,
+    response = TextFreeResponse.new(:student_exercise_id => student_exercise.id,
                                     :content => mail.text_part.body.decoded)
     response.save!
   end

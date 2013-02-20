@@ -7,7 +7,8 @@
 # only one of them will ever be returned, then they'll all expire anyway.
 #
 class MailHook < ActiveRecord::Base
-  belongs_to :mail_hookable, :polymorphic => true
+  belongs_to :mail_hookable # specifically not polymorphic so that 
+                            # callers have to access through MailHook::get_mail_hook
 
   attr_accessible :subject, :to_email, :expires_at, 
                   :mail_hookable, :mail_hookable_id, :mail_hookable_type, 
@@ -27,7 +28,7 @@ class MailHook < ActiveRecord::Base
     hook = MailHook.where{mail_hookable_type == hookable.class.name}
                    .where{mail_hookable_id == hookable.id}
                    .nonexpired
-                   .first
+                   .last
 
     if hook.nil?
       hook = hookable.create_mail_hook
@@ -59,7 +60,7 @@ class MailHook < ActiveRecord::Base
 
   # A match doesn't take into account expiration
   def matches?(mail)
-    mail_to_addresses, mail_subject = get_mail_fields(mail)
+    mail_to_addresses, mail_subject = MailHook.get_mail_fields(mail)
     mail_subject == subject && mail_to_addresses.include?(to_email)
   end
 
@@ -105,8 +106,8 @@ class MailHook < ActiveRecord::Base
 
 protected
 
-  def get_mail_fields(mail)
-    to_addresses = mail.to.collect{|to| to.downcase}
+  def self.get_mail_fields(mail)
+    to_addresses = [mail.to].flatten.collect{|to| to.downcase}
     # Get rid of non word characters and strip whitespace
     subject = mail.subject.downcase.gsub(/[^a-z\s^A-Z\s]/,"").strip
     [to_addresses, subject]
