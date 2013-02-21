@@ -29,7 +29,7 @@ function Set_Cookie(name,value,expires) {
 
 function OpenLatexEditor(target,mode,language,inline,latex, design) 
 {
-	var url='http://latex.codecogs.com/editor_json.php?target='+target+'&type='+mode;
+	var url='https://latex.codecogs.com/editor_json.php?target='+target+'&type='+mode;
   if(language!='') url+='&lang='+language;
 	if(inline==true) url+='&inline';
 	if(design!=undefined && design!='') url+='&design='+design;
