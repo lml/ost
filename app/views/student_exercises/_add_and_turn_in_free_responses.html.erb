@@ -24,21 +24,25 @@
               :class => 'link_button_left',
               :remote => true %> 
 
-  <% if present_user.is_administrator? %>
+  <% if present_user.is_administrator? || !Rails.env.production? %>
     <%= link_to "Draw", 
                 new_student_exercise_free_response_path(student_exercise, {:type => 'DrawingFreeResponse'}),
                 :class => 'link_button_straight shift_left',
                 :remote => true %>
-    <%= link_to "PC Upload", 
-                new_student_exercise_free_response_path(student_exercise, {:type => 'FileFreeResponse'}), 
+  <% end %>
+
+  <%= link_to "PC Upload", 
+              new_student_exercise_free_response_path(student_exercise, {:type => 'FileFreeResponse'}), 
+              :class => 'link_button_straight shift_left',
+              :remote => true %>
+
+  <% if present_user.is_administrator? || !Rails.env.production? %>
+    <%= link_to "Camera Phone Upload", 
+                email_instructions_student_exercise_free_responses_path(student_exercise),
                 :class => 'link_button_straight shift_left',
                 :remote => true %>
   <% end %>
-
-  <%= link_to "Camera Phone Upload", 
-              email_instructions_student_exercise_free_responses_path(student_exercise),
-              :class => 'link_button_straight shift_left',
-              :remote => true %>
+  
   <%= link_to "Refresh", 
               refresh_student_exercise_free_responses_path(student_exercise), 
               :class => 'link_button_right shift_left',
@@ -86,7 +90,7 @@
   <script type="text/javascript">
 
     function get_saved_free_response_ids() {
-      var ids = [];
+      var ids = [-1]; // b/c jquery won't send empty array
       $('.shown_free_response').each(function(index, element) {
         ids.push($(element).attr('data-free-response-id'));
       });
