@@ -32,7 +32,7 @@ class FreeResponseFactory
           
           free_response.save!
         end
-      rescue Exception => e
+      rescue StandardError => e
         msg = "An unknown error occurred when #{SITE_NAME} tried to " + 
               "read the email attachment named '#{attachment.filename}'.  Exception: #{e.inspect}"
         Rails.logger.error(msg)
