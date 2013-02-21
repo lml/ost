@@ -42,7 +42,6 @@ class FreeResponsesController < ApplicationController
 
   def refresh
     raise SecurityTransgression unless present_user.can_read?(@student_exercise)
-    @newLastLoad = seconds_since_epoch
     @new_free_responses = FreeResponse.where{student_exercise_id == my{@student_exercise}.id}.
                                        where{id << my{params[:idsOnPage]}}.all
   end
