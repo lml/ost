@@ -78,7 +78,7 @@ class MailHook < ActiveRecord::Base
     begin
       mail_hookable.process_hooked_mail(mail)
       self.increment!(:current_num_uses)
-    rescue Exception => e
+    rescue StandardError => e
       raise MailHookHookableError.new("An error occurred when a hookable was processing #{mail.inspect}", e)
     end    
   end
