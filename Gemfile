@@ -68,6 +68,7 @@ group :development, :test do
   gem 'cheat'
   gem 'brakeman'
   gem 'rvm-capistrano'
+  gem 'localtunnel'
 end
 
 group :development, :test do

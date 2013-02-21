@@ -15,7 +15,17 @@ class FreeResponseFactory
     raise IllegalArgument, "Attachments of type #{bad_attachment_types.join(', ')} are not allowed" \
       if bad_attachment_types.any?
 
-    body = mail.text_part.body.decoded
+    # Would have said something like 'mail.text_part.body.decoded' but ran into 
+    # case when the attachment is inline in the mail, it is included in the body
+    # as a text/plain part and I don't know how to smartly avoid it.  So, assuming 
+    # that no image is going to be less than 500 bytes and most captions won't be
+    # more, we just skip those parts that are of greater length.
+
+    body = mail.body.parts.collect{ |p| 
+      p.content_type == 'text/plain' && p.body.raw_source.length < 500 ? 
+        p.body.raw_source : 
+        ''
+    }.join
     
     mail.attachments.each do |attachment|
       extension = File.extname(attachment.filename)
