@@ -9,10 +9,22 @@ class FreeResponseUploader < UploaderBase
     process :resize_to_fit => [100, 100]
   end
 
+  def filename
+    model.filename_override || super
+  end
+
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
     %w(jpg jpeg gif png pdf)
   end
+
+  WHITE_LISTED_CONTENT_TYPES = [
+    'image/jpg',
+    'image/jpeg',
+    'image/gif',
+    'image/png',
+    'application/pdf'
+  ]
 
 end

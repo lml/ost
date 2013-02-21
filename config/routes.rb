@@ -3,6 +3,9 @@
 
 Ost::Application.routes.draw do
 
+  resources :mail_hooks, :only => [] do
+    post 'catch', :on => :collection
+  end
 
   resources :site_licenses
 
@@ -138,6 +141,8 @@ Ost::Application.routes.draw do
     get 'score_detail'
     resources :free_responses, :shallow => true, :except => [:index, :show] do
       post 'sort', :on => :collection
+      get 'email_instructions', :on => :collection
+      get 'refresh', :on => :collection
     end
   end
 

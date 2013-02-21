@@ -1,0 +1,31 @@
+<style type="text/css">
+  .highlight-me {
+    padding: 8px 0px;
+    font-size: 16px;
+  }
+</style>
+
+<p>Take a picture of your work with your smartphone, then email it to:</p>
+
+<center class="highlight-me"><b>
+  <%= @mail_hook.to_email %>
+</b></center>
+
+<p>with the case-insensitive subject:</p>
+
+
+<center class="highlight-me"><b>
+  <%= @mail_hook.subject %>
+</b></center>
+
+<p>Note:
+<ul>
+<% if !@mail_hook.expires_at.nil? %>
+<li>This subject is unique to this exercise and to you.</li>
+<li>The subject expires at <i><%= standard_datetime(@mail_hook.expires_at) %></i>.</li>
+<% end %>
+<li>Any text in the email body will become the photo's caption.</li>
+<li>Multiple photos per email become separate attachments.</li>
+</ul>
+</p>
+
