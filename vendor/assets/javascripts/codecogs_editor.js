@@ -61,7 +61,11 @@ function OpenLatexEditor(target,mode,language,inline,latex, design)
 		if (!editorwindow.opener) editorwindow.opener = self;
 		editorwindow.document.open();
 	  editorwindow.document.write('<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><script src="'+url+'" type="text/javascript"></script><body></body></html>');
-		editorwindow.document.close();
+    editorwindow.document.close();
+    var stylesheetLink = $(editorwindow.document).find('link');
+    var existingStylesheet = stylesheetLink.attr('href');
+    var sslStylesheet = "https" + (/:.*/).exec(existingStylesheet);
+    stylesheetLink.attr('href', sslStylesheet);
 	}
 	else
   	if (window.focus) editorwindow.focus();
