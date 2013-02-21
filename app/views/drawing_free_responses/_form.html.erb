@@ -3,7 +3,7 @@
 
 <%
   html_ids[:drawing] = "free_response_content_#{free_response.non_nil_id}"
-  html_ids[:submit_button] = "drawing_#{free_response.non_nil_id}_submit"
+  html_ids[:sketchily] = "drawing_#{free_response.non_nil_id}"
 %>
 
 <div style="margin-bottom:12px" class="actions">
@@ -13,11 +13,12 @@
   <span style="float:right">
     <%= link_to_function "Cancel", "cancel_free_response_edit('#{free_response.non_nil_id}', false);" %>
     &nbsp;&nbsp;&nbsp;
-    <%= f.submit "Save Draft", :class => 'link_button', :title => 'You can continue working on this exercise after saving', :id => html_ids[:submit_button] %>
+    <%= f.submit "Save Draft", :class => 'link_button', :title => 'You can continue working on this exercise after saving' %>
   </span>
 </div>
 
 <%= f.sketchily :content, 
+                :id => html_ids[:sketchily],
                 :hide_menu => true, 
                 :hide_image_tool => false,
                 :width => 560, :height => 450, 

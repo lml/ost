@@ -29,7 +29,7 @@ function Set_Cookie(name,value,expires) {
 
 function OpenLatexEditor(target,mode,language,inline,latex, design) 
 {
-	var url='http://latex.codecogs.com/editor_json.php?target='+target+'&type='+mode;
+	var url='https://latex.codecogs.com/editor_json.php?target='+target+'&type='+mode;
   if(language!='') url+='&lang='+language;
 	if(inline==true) url+='&inline';
 	if(design!=undefined && design!='') url+='&design='+design;
@@ -60,8 +60,19 @@ function OpenLatexEditor(target,mode,language,inline,latex, design)
 		editorwindow=window.open('','LaTexEditor','width=700,height=450,status=1,scrollbars=yes,resizable=1');
 		if (!editorwindow.opener) editorwindow.opener = self;
 		editorwindow.document.open();
+
+    // Change http to https in stylesheet link
+    $(editorwindow.document).bind('DOMNodeInserted', function(event) {
+      if (event.target.nodeName == 'LINK') {
+        var link = $(event.target);
+        var stylesheet = link.attr('href');
+        var sslStylesheet = "https" + (/:.*/).exec(stylesheet);
+        link.attr('href', sslStylesheet);
+      }
+    });
+
 	  editorwindow.document.write('<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><script src="'+url+'" type="text/javascript"></script><body></body></html>');
-		editorwindow.document.close();
+    editorwindow.document.close();
 	}
 	else
   	if (window.focus) editorwindow.focus();
