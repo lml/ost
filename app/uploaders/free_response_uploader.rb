@@ -3,6 +3,7 @@
 class FreeResponseUploader < UploaderBase
   
   process :resize_to_fit => [1000, 1000]
+  process :auto_orient
 
   # https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Do-conditional-processing  
   version :thumbnail, :if => :image? do
@@ -11,6 +12,16 @@ class FreeResponseUploader < UploaderBase
 
   def filename
     model.filename_override || super
+  end
+
+  def auto_orient
+    return if !image?(self.file)
+    manipulate! do |img|
+      img.auto_orient
+      # minimagick operates in place, and manipulate assumes return val is image
+      # so must return it here
+      img 
+    end
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
