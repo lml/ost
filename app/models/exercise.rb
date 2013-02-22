@@ -9,7 +9,7 @@ class Exercise < ActiveRecord::Base
   
   has_many :topic_exercises, :dependent => :destroy
   
-  before_validation :cleanup_url
+  before_validation :store_cleaned_up_url
   
   validates :url, :presence => true,
                   :uniqueness => true,
@@ -24,6 +24,7 @@ class Exercise < ActiveRecord::Base
   attr_accessible :content_cache, :is_dynamic, :url
   
   def self.new_or_existing(url)
+    url = cleanup_url(url)
     existing = Exercise.find_by_url(url)
     existing.nil? ? Exercise.new(:url => url) : existing
   end
@@ -79,8 +80,12 @@ protected
 
   attr_accessor :json_cache
 
-  def cleanup_url
-    self.url = url.sub(/(\/)+$/,'').sub(/^https/,'http')
+  def cleanup_url(url)
+    url.sub(/(\/)+$/,'').sub(/^https/,'http')
+  end
+
+  def store_cleaned_up_url
+    self.url = cleanup_url(url)
   end
 
   def destroyable?

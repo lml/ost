@@ -11,23 +11,43 @@
   <% end %>
 <% end %>
 
+<style>
+  .shift_left {
+    margin-left: -4px;
+  }
+</style>
+
 <div style="padding:10px">
   <center>
-  <%= link_to "Add Text Answer", 
+  <%= link_to "Write Text", 
               new_student_exercise_free_response_path(student_exercise, {:type => 'TextFreeResponse'}), 
-              :remote => true %> | 
-  <% if present_user.is_administrator? %>
-  <%= link_to "Draw an Answer", 
-              new_student_exercise_free_response_path(student_exercise, {:type => 'DrawingFreeResponse'}),
-              :remote => true %> |
+              :class => 'link_button_left',
+              :remote => true %> 
+
+  <% if present_user.is_administrator? || !Rails.env.production? %>
+    <%= link_to "Draw", 
+                new_student_exercise_free_response_path(student_exercise, {:type => 'DrawingFreeResponse'}),
+                :class => 'link_button_straight shift_left',
+                :remote => true %>
   <% end %>
-  Upload Photo(s) from 
-  <%= link_to "PC", 
+
+  <%= link_to "PC Upload", 
               new_student_exercise_free_response_path(student_exercise, {:type => 'FileFreeResponse'}), 
+              :class => 'link_button_straight shift_left',
               :remote => true %>
-  or
-  <%= link_to_function "Camera Phone", 
-              "alert('Coming very soon')" %>
+
+  <% if present_user.is_administrator? || !Rails.env.production? %>
+    <%= link_to "Camera Phone Upload", 
+                email_instructions_student_exercise_free_responses_path(student_exercise),
+                :class => 'link_button_straight shift_left',
+                :remote => true %>
+  <% end %>
+  
+  <%= link_to "Refresh", 
+              refresh_student_exercise_free_responses_path(student_exercise), 
+              :class => 'link_button_right shift_left',
+              :id => 'check_link' %>
+              
   </center>
 </div>
 
@@ -65,3 +85,65 @@
   <% end %>
 
 </div>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+
+    function get_saved_free_response_ids() {
+      var ids = [-1]; // b/c jquery won't send empty array
+      $('.shown_free_response').each(function(index, element) {
+        ids.push($(element).attr('data-free-response-id'));
+      });
+      return ids;
+    }
+
+    var refresh_disabled = false;
+    var original_background_color;
+    var original_color;
+    var already_polling = false;
+
+    function disable_refresh() {
+      refresh_disabled = true;
+      $('#check_link').css('background-color', '#dddddd').css('color','#777777');
+    }
+
+    function enable_refresh() {
+      refresh_disabled = false;
+      $('#check_link').css('background-color', original_background_color).css('color',original_color);
+    }
+
+    function check_for_new_free_responses() {
+      disable_refresh();
+      $.get('<%= refresh_student_exercise_free_responses_path(student_exercise) %>',
+        {idsOnPage: get_saved_free_response_ids()}
+      );
+    }
+
+    function poll_for_new_free_responses() {
+      if (already_polling) {
+        return;
+      }
+      repeat(30000, function() { check_for_new_free_responses(); });
+      already_polling = true;
+    }
+
+    $(document).ready(function() {
+      original_background_color = $('#check_link').css('background-color');
+      original_color = $('#check_link').css('color');
+
+      $('#check_link')
+        .click(function(e) {
+          if (refresh_disabled) {
+            e.preventDefault();
+            return false;
+          }
+          check_for_new_free_responses();
+          return false;
+        })
+        .on('finished_checking', function() {
+          setTimeout(function() { enable_refresh(); }, 1000);
+        });
+    });
+
+  </script>
+<% end %>

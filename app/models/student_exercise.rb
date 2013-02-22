@@ -171,6 +171,18 @@ class StudentExercise < ActiveRecord::Base
     complete? && (feedback_credit_multiplier > 0.0)
   end
 
+  def get_mail_hook
+    MailHook.get_for(self)
+  end
+
+  def create_mail_hook
+    MailHook.create_with_random_subject(self)
+  end
+
+  def process_hooked_mail(mail)
+    FreeResponseFactory.create_from_mail(mail, self)
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################

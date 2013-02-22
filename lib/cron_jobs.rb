@@ -24,6 +24,7 @@ module Ost
 
     def execute_30min_cron_jobs
       StudentAssignment.note_if_due!
+      MailHook.destroy_all_expired!
     end
 
     def execute_60min_cron_jobs

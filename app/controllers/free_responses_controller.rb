@@ -1,6 +1,6 @@
 class FreeResponsesController < ApplicationController
 
-  before_filter :get_student_exercise, :only => [:new, :create, :sort]
+  before_filter :get_student_exercise, :only => [:new, :create, :sort, :email_instructions, :refresh]
   before_filter :make_free_response, :only => [:new, :create]
   before_filter :grab_view_helper_variables, :only => [:create, :update]
 
@@ -33,6 +33,17 @@ class FreeResponsesController < ApplicationController
 
   def sort
     super('free_response', FreeResponse, @student_exercise, :student_exercise)
+  end
+
+  def email_instructions
+    @mail_hook = @student_exercise.get_mail_hook
+    @mail_hook.extend_expiration!
+  end
+
+  def refresh
+    raise SecurityTransgression unless present_user.can_read?(@student_exercise)
+    @new_free_responses = FreeResponse.where{student_exercise_id == my{@student_exercise}.id}.
+                                       where{id << my{params[:idsOnPage]}}.all
   end
 
 protected
