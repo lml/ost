@@ -80,12 +80,12 @@ protected
 
   attr_accessor :json_cache
 
-  def cleanup_url(url)
+  def self.cleanup_url(url)
     url.sub(/(\/)+$/,'').sub(/^https/,'http')
   end
 
   def store_cleaned_up_url
-    self.url = cleanup_url(url)
+    self.url = self.cleanup_url(url)
   end
 
   def destroyable?
