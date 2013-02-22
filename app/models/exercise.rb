@@ -24,7 +24,7 @@ class Exercise < ActiveRecord::Base
   attr_accessible :content_cache, :is_dynamic, :url
   
   def self.new_or_existing(url)
-    url = cleanup_url(url)
+    url = Exercise.cleanup_url(url)
     existing = Exercise.find_by_url(url)
     existing.nil? ? Exercise.new(:url => url) : existing
   end
@@ -85,7 +85,7 @@ protected
   end
 
   def store_cleaned_up_url
-    self.url = self.cleanup_url(url)
+    self.url = Exercise.cleanup_url(url)
   end
 
   def destroyable?
