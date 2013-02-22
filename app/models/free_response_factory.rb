@@ -44,7 +44,7 @@ class FreeResponseFactory
         end
       rescue StandardError => e
         msg = "An unknown error occurred when #{SITE_NAME} tried to " + 
-              "read the email attachment named '#{attachment.filename}'.  Exception: #{e.inspect}"
+              "read the email attachment named '#{attachment.filename}'.  Exception: #{e.inspect}\n\n#{e.backtrace.join("\n     ")}"
         Rails.logger.error(msg)
         raise
       end      
