@@ -2,8 +2,6 @@ class FreeResponse < ActiveRecord::Base
 
   belongs_to :student_exercise
 
-  mount_uploader :attachment, FreeResponseUploader
-
   acts_as_numberable :container => :student_exercise,
                      :table_class => FreeResponse
 

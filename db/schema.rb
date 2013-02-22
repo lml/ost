@@ -254,6 +254,21 @@ ActiveRecord::Schema.define(:version => 20130208161249) do
 
   add_index "learning_plans", ["klass_id"], :name => "index_learning_plans_on_klass_id"
 
+  create_table "mail_hooks", :force => true do |t|
+    t.string   "mail_hookable_type"
+    t.integer  "mail_hookable_id"
+    t.integer  "max_num_uses"
+    t.integer  "current_num_uses"
+    t.string   "subject"
+    t.string   "to_email"
+    t.datetime "expires_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "mail_hooks", ["mail_hookable_id", "mail_hookable_type"], :name => "mail_hookable_index"
+  add_index "mail_hooks", ["subject", "to_email"], :name => "index_mail_hooks_on_subject_scoped"
+
   create_table "organization_managers", :force => true do |t|
     t.integer  "organization_id", :null => false
     t.integer  "user_id",         :null => false

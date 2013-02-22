@@ -43,6 +43,10 @@ def utc_from_time_and_zone(time_string, time_zone_string)
   end
 end
 
+def seconds_since_epoch(time = Time.now)
+  time.to_time.to_f
+end
+
 def add_test_classes(html_options, test_tokens, target_key=:class)
   return if Rails.env.production?
 

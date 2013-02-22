@@ -56,6 +56,7 @@ gem "fog", "~> 1.3.1"
 
 gem 'remotipart', '~> 1.0'
 
+gem 'babbler', '~> 1.0.0'
 gem 'sketchily', '~> 1.1.0'
 
 group :development, :test do
@@ -67,6 +68,7 @@ group :development, :test do
   gem 'cheat'
   gem 'brakeman'
   gem 'rvm-capistrano'
+  gem 'localtunnel'
 end
 
 group :development, :test do
