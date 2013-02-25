@@ -396,7 +396,7 @@ module ApplicationHelper
     root_url({:protocol => 'http'}).chop
   end
   
-  def email_link(addressee, text)
+  def email_link(addressee, text, options={})
     domain = ""
     if text =~ /([A-Z_\-0-9]+)@openstaxtutor\.org/i
       text = ($1+content_tag(:span, "_nospam_", :class => 'antispam')).html_safe
@@ -404,7 +404,17 @@ module ApplicationHelper
     end
     
     @iframe_counter = (@iframe_counter || 0) + 1
-    (link_to((text+domain).html_safe, write_path(:to => addressee), {:target => "rm#{@iframe_counter}", :method => :post})  + 
+
+    link_to_options = {
+      :target => "rm#{@iframe_counter}", 
+      :method => :post,
+      :class => 'email_link',
+      :style => 'outline:none'
+    }
+
+    link_to_options[:id] = options[:id] if options[:id]
+
+    (link_to((text+domain).html_safe, write_path(:to => addressee), link_to_options)  + 
     "<iframe name=rm#{@iframe_counter} width=1 height=1 frameborder=0 scrolling=no style=\"visibility:hidden;\"></iframe>".html_safe)
   end
   
