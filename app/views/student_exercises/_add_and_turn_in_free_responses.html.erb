@@ -36,12 +36,10 @@
               :class => 'link_button_straight shift_left',
               :remote => true %>
 
-  <% if present_user.is_administrator? || !Rails.env.production? %>
-    <%= link_to "Camera Phone Upload", 
-                email_instructions_student_exercise_free_responses_path(student_exercise),
-                :class => 'link_button_straight shift_left',
-                :remote => true %>
-  <% end %>
+  <%= link_to "Camera Phone Upload", 
+              email_instructions_student_exercise_free_responses_path(student_exercise),
+              :class => 'link_button_straight shift_left',
+              :remote => true %>
   
   <%= link_to "Refresh", 
               refresh_student_exercise_free_responses_path(student_exercise), 

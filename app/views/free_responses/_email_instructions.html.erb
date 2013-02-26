@@ -20,12 +20,13 @@
 
 <p>Note:
 <ul>
+<li>This feature is in <span style='color:#b22222; font-weight:bold'>beta</span>.  If you encounter issues, please let us know at <%= email_link "support", "support@openstaxtutor.org" %>.</li>
 <% if !@mail_hook.expires_at.nil? %>
 <li>This subject is unique to this exercise and to you.</li>
 <li>The subject expires at <i><%= standard_datetime(@mail_hook.expires_at) %></i>.</li>
 <% end %>
 <li>Any text in the email body will become the photo's caption.</li>
-<li>Multiple photos per email become separate attachments.</li>
+<li>Multiple photos per email become separate answers.</li>
 </ul>
 </p>
 
