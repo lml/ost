@@ -134,6 +134,24 @@
       <% end %>
     </div>
 
+    <% if @current_user.present? && @current_user.is_administrator? %>
+      <% session[:was_ever_logged_in_as_admin] = true %>
+    <% end %>
+
+    <% if session[:was_ever_logged_in_as_admin] %>
+      <div id="live_site_warning" style="position:fixed; top:150px">
+        <% if Rails.env.production? %>
+          <%= attention_tag(["This is the LIVE SITE!"], :alert, "live_site_alert") %>
+        <% elsif Rails.env.development? %>
+          <%= attention_tag(["This is DEV."], :notice, "development_site_alert") %>
+        <% elsif Rails.env.test? %>
+          <%= attention_tag(["This is TEST."], :notice, "test_site_alert") %>
+        <% else %>
+          <%= attention_tag(["I have NO IDEA where you are!"], :alert, "unknown_site_alert") %>
+        <% end %>        
+      </div>
+    <% end %>
+
     <%= render :partial => 'consent_forms/consent_form_machinery' if @ask_for_consent %>
 
     <div id="outer">
