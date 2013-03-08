@@ -24,12 +24,10 @@
               :class => 'link_button_left',
               :remote => true %> 
 
-  <% if present_user.is_administrator? || !Rails.env.production? %>
-    <%= link_to "Draw", 
-                new_student_exercise_free_response_path(student_exercise, {:type => 'DrawingFreeResponse'}),
-                :class => 'link_button_straight shift_left',
-                :remote => true %>
-  <% end %>
+  <%= link_to "Draw", 
+              new_student_exercise_free_response_path(student_exercise, {:type => 'DrawingFreeResponse'}),
+              :class => 'link_button_straight shift_left',
+              :remote => true %>
 
   <%= link_to "PC Upload", 
               new_student_exercise_free_response_path(student_exercise, {:type => 'FileFreeResponse'}), 
