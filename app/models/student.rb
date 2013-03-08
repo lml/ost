@@ -52,11 +52,11 @@ class Student < ActiveRecord::Base
       if student_specified_id.blank?
         user.full_name
       else
-        if requesting_user.is_administrator?
-          "#{user.full_name} (#{student_specified_id})"
-        else
+        # if requesting_user.is_administrator?
+        #   "#{user.full_name} (#{student_specified_id})"
+        # else
           student_specified_id
-        end
+        # end
       end
     else
       user.research_id
