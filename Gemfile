@@ -57,7 +57,7 @@ gem "fog", "~> 1.3.1"
 gem 'remotipart', '~> 1.0'
 
 gem 'babbler', '~> 1.0.0'
-gem 'sketchily', '~> 1.4.1'
+gem 'sketchily', '~> 1.5.0'
 
 group :development, :test do
   gem 'debugger', '~> 1.1.4'
