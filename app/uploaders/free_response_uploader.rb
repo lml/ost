@@ -2,7 +2,7 @@
 
 class FreeResponseUploader < UploaderBase
   
-  process :resize_to_fit => [1000, 1000]
+  process :resize_to_fit => [1000, 1000], :if => :image?
   process :auto_orient
 
   # https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Do-conditional-processing  
