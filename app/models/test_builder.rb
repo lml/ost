@@ -14,7 +14,7 @@ class TestBuilder
     raise IllegalOperation if !assignment_plan.is_test
     
     klass_tags = assignment_plan.learning_plan.test_exercise_tags
-    tags = TestBuilder.new.merge_delimited_strings(",", assignment_plan.exercise_tags, klass_tags)
+    tags = TestBuilder.new.merge_delimited_strings(",", assignment_plan.tag_list.join(","), klass_tags)
     
     assignment = Assignment.new(:cohort => cohort, :assignment_plan => assignment_plan)
     
