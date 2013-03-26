@@ -50,7 +50,7 @@
   <% if @assignment_plan.assignments.any? %>
     <div class="field">
       Currently applied labels<br />
-      <%= f.text_field :exercise_tags, :style => "width:90%", :readonly => true %><br/>
+      <%= f.text_field :tag_list, :style => "width:90%", :readonly => true %><br/>
     </div>
     <div class="field">
       Extra labels to apply<br />
@@ -60,7 +60,7 @@
   <% else %>
     <div class="field">
       Extra labels to apply<br />
-      <%= f.text_field :exercise_tags, :style => "width:90%"%><br/>
+      <%= f.text_field :tag_list, :style => "width:90%"%><br/>
       <span class="field_help">(Optional) Comma-separated labels here will be attached to each exercise in the assignment.</span>
     </div>
   <% end %>

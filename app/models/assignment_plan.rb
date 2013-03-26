@@ -17,10 +17,7 @@ class AssignmentPlan < ActiveRecord::Base
   
   attr_accessible :introduction, :is_group_work_allowed, :is_open_book, 
                   :is_ready, :is_test, :learning_plan_id, :name, :learning_plan,
-                  :starts_at, :ends_at, :section_id, :exercise_tags
-
-  attr_accessor   :new_exercise_tags
-  attr_accessible :new_exercise_tags
+                  :starts_at, :ends_at, :section_id, :tag_list
 
   ##
   ## Start and end times
@@ -163,14 +160,6 @@ class AssignmentPlan < ActiveRecord::Base
   # This method assumes the argument is a klass cohort
   def applies_to_klass_cohort?(cohort)
     section_id.nil? || section.cohorts.where{id == cohort.id}.any?
-  end
-
-  def exercise_tags
-    tag_list.to_s;
-  end
-
-  def exercise_tags=(value)
-    self.tag_list = value
   end
 
   def add_new_exercise_tags
