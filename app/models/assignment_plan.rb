@@ -19,6 +19,9 @@ class AssignmentPlan < ActiveRecord::Base
                   :is_ready, :is_test, :learning_plan_id, :name, :learning_plan,
                   :starts_at, :ends_at, :section_id, :tag_list
 
+  attr_accessor   :new_exercise_tags
+  attr_accessible :new_exercise_tags
+
   ##
   ## Start and end times
   ##
