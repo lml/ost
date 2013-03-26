@@ -7,13 +7,20 @@ class AssignmentPlan < ActiveRecord::Base
   has_many :assignment_plan_topics, :dependent => :destroy
   has_many :topics, :through => :assignment_plan_topics
   belongs_to :section
-  
+
+  acts_as_taggable
+
+  before_save :add_new_exercise_tags
+
   before_destroy :destroyable?
 
   
   attr_accessible :introduction, :is_group_work_allowed, :is_open_book, 
                   :is_ready, :is_test, :learning_plan_id, :name, :learning_plan,
-                  :exercise_tags, :starts_at, :ends_at, :section_id
+                  :starts_at, :ends_at, :section_id, :tag_list
+
+  attr_accessor   :new_exercise_tags
+  attr_accessible :new_exercise_tags
 
   ##
   ## Start and end times
@@ -86,7 +93,6 @@ class AssignmentPlan < ActiveRecord::Base
   
   validates :name, :presence => true, :uniqueness => {:scope => :learning_plan_id}
   validates :max_num_exercises, :allow_nil => true, :numericality => { :greater_than_or_equal_to => 0 }
-  validates :exercise_tags, :tag_list_format => true
   
   scope :non_tests, where(:is_test => false)
   scope :tests, where(:is_test => true)
@@ -158,7 +164,21 @@ class AssignmentPlan < ActiveRecord::Base
   def applies_to_klass_cohort?(cohort)
     section_id.nil? || section.cohorts.where{id == cohort.id}.any?
   end
-      
+
+  def add_new_exercise_tags
+    return if new_exercise_tags.blank?
+
+    assignments.find_each do |a|
+      a.assignment_exercises.find_each do |ae|
+        ae.tag_list.add new_exercise_tags, :parse => true
+        ae.save!
+      end
+    end
+
+    self.tag_list.add new_exercise_tags, :parse => true
+    self.new_exercise_tags = ""
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################
