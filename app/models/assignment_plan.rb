@@ -166,7 +166,7 @@ class AssignmentPlan < ActiveRecord::Base
   end
 
   def exercise_tags
-    tag_list.join(", ");
+    tag_list.to_s;
   end
 
   def exercise_tags=(value)
@@ -178,12 +178,12 @@ class AssignmentPlan < ActiveRecord::Base
 
     assignments.find_each do |a|
       a.assignment_exercises.find_each do |ae|
-        ae.tag_list.add new_exercise_tags
+        ae.tag_list.add new_exercise_tags, :parse => true
         ae.save!
       end
     end
 
-    self.tag_list.add new_exercise_tags
+    self.tag_list.add new_exercise_tags, :parse => true
     self.new_exercise_tags = ""
   end
 
