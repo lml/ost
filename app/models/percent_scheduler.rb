@@ -72,7 +72,7 @@ class PercentScheduler < Scheduler
           topic_exercises = topic_exercises.take( num_topic_exercises_to_use )
 
           tags = merge_delimited_strings(",", rule[:tags], 
-                                              current_assignment_plan.exercise_tags, 
+                                              current_assignment_plan.tag_list.join(","), 
                                               klass_tags)
 
           topic_exercises.each_with_index do |topic_exercise, tt|

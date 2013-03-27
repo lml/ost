@@ -46,12 +46,25 @@
                                 options_from_collection_for_select(klass.sections, :id, :name, f.object.section_id)%>
     </div>
   <% end %>
-  
-  <div class="field">
-    Extra labels to apply<br />
-    <%= f.text_field :exercise_tags, :style => "width:90%"%><br/>
-    <span class="field_help">(Optional) Comma-separated labels here will be attached to each exercise in the assignment.</span>
-  </div>
+
+  <% if @assignment_plan.assignments.any? %>
+    <div class="field">
+      Currently applied labels<br />
+      <%= f.text_field :tag_list, :style => "width:90%", :readonly => true %><br/>
+    </div>
+    <div class="field">
+      Extra labels to apply<br />
+      <%= f.text_field :new_exercise_tags, :style => "width:90%"%><br/>
+      <span class="field_help">(Optional) Comma-separated labels here will be attached to each exercise in the assignment.</span>
+    </div>
+  <% else %>
+    <div class="field">
+      Extra labels to apply<br />
+      <%= f.text_field :tag_list, :style => "width:90%"%><br/>
+      <span class="field_help">(Optional) Comma-separated labels here will be attached to each exercise in the assignment.</span>
+    </div>
+  <% end %>
+
   <div class="actions">
     <%= f.submit "#{@assignment_plan.new_record? ? 'Create' : 'Update'} Assignment", :class => 'link_button' %>
   </div>
