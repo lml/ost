@@ -143,9 +143,9 @@
         <% if Rails.env.production? %>
           <%= attention_tag(["This is the LIVE SITE!"], :alert, "live_site_alert") %>
         <% elsif Rails.env.development? %>
-          <%= attention_tag(["This is DEV."], :notice, "development_site_alert") %>
+          <%= attention_tag(["This is DEV.", "#{Rails.root}"], :notice, "development_site_alert") %>
         <% elsif Rails.env.test? %>
-          <%= attention_tag(["This is TEST."], :notice, "test_site_alert") %>
+          <%= attention_tag(["This is TEST.", "#{Rails.root}"], :notice, "test_site_alert") %>
         <% else %>
           <%= attention_tag(["I have NO IDEA where you are!"], :alert, "unknown_site_alert") %>
         <% end %>        
