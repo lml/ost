@@ -8,12 +8,18 @@
 <%= pageHeading "Student Roster, #{@klass.course.name}" %>
 
 <% if present_user.is_researcher? %>
-  <p>Since you are a researcher, this list only includes students who have consented.</p>
+  <p>Since you are a researcher, this page only includes students who have consented.</p>
+<% end %>
+
+<%= render  :partial  => "registration_totals",
+            :locals   => { :klass => @klass } %>
+
+<% if present_user.is_researcher? || present_user.is_administrator? %>
+  <%= render  :partial  => "consent_totals",
+              :locals   => { :klass => @klass } %>
 <% end %>
 
 <% num_sections = @klass.sections.count %>
-<% num_consents = 0 %>
-<% num_students = 0 %>
 
 <% name_width = 75 - (num_sections > 1 ? 15 : 0) - (present_user.is_administrator? ? 15 : 0) %>
 <% num_columns = 4 - (num_sections > 1 ? 1 : 0)  - (present_user.is_administrator? ? 1 : 0) %>
@@ -31,8 +37,8 @@
   <% @klass.sections.each do |section| %>
   
     <% groups = section.students.visible(present_user).std_sort(present_user).group_by { |s| student_status_string(s) } %>
-	<% students = [] %>
-	<% [student_status_string_registered, student_status_string_auditing, student_status_string_dropped].each { |str| students += groups[str] if groups[str].present? } %>
+    <% students = [] %>
+    <% [student_status_string_registered, student_status_string_auditing, student_status_string_dropped].each { |str| students += groups[str] if groups[str].present? } %>
 
     <% if students.any? %>
       <% if num_sections > 1 %>
@@ -41,7 +47,6 @@
         </tr>
       <% end %>
       <% students.each do |student| %>
-        <% num_students += 1 %>
         <tr class="test test_section">
           <% if num_sections > 1 %>
             <td></td>
@@ -51,7 +56,6 @@
             <td>
               <%= student.user.research_id %> 
               <% if student.consented? %> 
-                <% num_consents += 1 %>
                 (C)
               <% end %>
             </td>
@@ -63,9 +67,5 @@
   <% end %>
 
 </table>
-
-<% if present_user.is_administrator? %>
-  <p>Number of consents: <%= num_consents %> / <%= num_students %></p>
-<% end %>
 
 <% navitem { link_to "Class", klass_path(@klass) }%>

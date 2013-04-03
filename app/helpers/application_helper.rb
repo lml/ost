@@ -546,6 +546,10 @@ module ApplicationHelper
     "DROPPED"
   end
   
+  def student_status_strings
+    [student_status_string_registered, student_status_string_auditing, student_status_string_dropped]
+  end
+
   def student_status_string(student)
     if student.has_dropped?
       student_status_string_dropped

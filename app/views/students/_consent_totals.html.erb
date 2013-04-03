@@ -1,0 +1,25 @@
+<%
+  consent_consent_given_string     = "GIVEN"
+  consent_consent_not_given_string = "NOT GIVEN"
+  consent_no_response_string       = "NO RESPONSE"
+
+  consent_status_strings = [consent_consent_given_string, consent_consent_not_given_string, consent_no_response_string]
+
+  students_by_consent_string = klass.students.group_by do |s|
+    if !s.consent.present? || s.consent.did_consent.nil?
+      consent_no_response_string
+    elsif s.consent.did_consent
+      consent_consent_given_string
+    else
+      consent_consent_not_given_string
+    end
+  end
+%>
+
+<div id="registration-total-consent-counts">
+  <p>Total consent
+    <%= consent_status_strings.map{|cs| cs.downcase}.join("/") %> 
+    = 
+    <%= consent_status_strings.map{|cs| students_by_consent_string.fetch(cs,[]).count}.join("/") %>
+  </p>
+</div>
