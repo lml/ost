@@ -1,19 +1,11 @@
 <%
-  total_students_by_status_string = {}
-
-  klass.sections.each do |section|
-    students_by_status_string = section.students.group_by{|s| student_status_string(s)}
-    students_by_status_string.each do |status_string, students|
-      total_students_by_status_string[status_string] = total_students_by_status_string.fetch(status_string, []) << students
-    end
-  end
-
-  total_status_counts = []
-  student_status_strings.each do |status_string|
-    total_status_counts << total_students_by_status_string.fetch(status_string, []).flatten.count
-  end
+  students_by_registration_string = klass.students.group_by{|s| student_status_string(s)}
 %>
 
 <div id="registration-total-status-counts">
-  <p>Total <%= student_status_strings.join("/") %> = <%= total_status_counts.join("/") %></p>
+  <p>Total
+    <%= student_status_strings.map{|rs| rs.downcase}.join("/") %> 
+    = 
+    <%= student_status_strings.map{|rs| students_by_registration_string.fetch(rs,[]).count}.join("/") %>
+  </p>
 </div>
