@@ -1,0 +1,11 @@
+<%
+  students_by_registration_string = klass.students.group_by{|s| student_status_string(s)}
+%>
+
+<div id="registration-total-status-counts">
+  <p>Total
+    <%= student_status_strings.map{|rs| rs.downcase}.join("/") %> 
+    = 
+    <%= student_status_strings.map{|rs| students_by_registration_string.fetch(rs,[]).count}.join("/") %>
+  </p>
+</div>
