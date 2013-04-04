@@ -59,6 +59,7 @@ ses.find_each do |se|
         <Cell><Data ss:Type="String">Exercise ID</Data></Cell>
         <Cell><Data ss:Type="String">Concept</Data></Cell>
         <Cell><Data ss:Type="String">Labels</Data></Cell>
+        <Cell><Data ss:Type="String">Completed</Data></Cell>
         <Cell><Data ss:Type="String">Free Response</Data></Cell>
         <Cell><Data ss:Type="String">Confidence</Data></Cell>
         <Cell><Data ss:Type="String">Choice</Data></Cell>
@@ -88,6 +89,7 @@ ses.find_each do |se|
         <Cell><Data ss:Type="String"><%= ae_info[ae][:quadbase_id] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:concept] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:tag_list] %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= se.free_responses.collect{|fr| fr.as_text}.join('; ') %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.free_response_confidence %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.selected_answer %></Data></Cell>
