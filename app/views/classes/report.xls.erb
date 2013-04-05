@@ -16,7 +16,7 @@
     end
   end
 
-  response_time_query = ResponseTime.where{ (note =="READY") & (page == "feedback") }
+  response_time_query = ResponseTime.where{ (note =~ "READY%") & (page == "feedback") }
 %>
 <%#         
 ses.find_each do |se|
