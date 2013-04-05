@@ -11,35 +11,17 @@
         ae_info[ae] = { :number       => ae.number,
                         :quadbase_id  => ae.topic_exercise.exercise.quadbase_id,
                         :concept      => ae.topic_exercise.concept.try(:name),
-                        :tag_list     => ae.tag_list }
+                        :tag_list     => ae.tag_list,
+                        :fb_required  => false}
+        if ae.student_exercises.any?
+          ae_info[ae][:fb_required] = ae.student_exercises.first.feedback_required_for_credit?
+        end
       end
     end
   end
 
   response_time_query = ResponseTime.where{ (note =~ "READY%") & (page == "feedback") }
 %>
-<%#         
-ses.find_each do |se|
-  csv << [
-    full_name(se.student_assignment.student),
-    
-    
-  ]
-  
-  csv << [full_name(subject.user), 
-          present_user_is_researcher ? tf_to_yn(subject.consent.nil? ? false : subject.consent.did_consent) : "HIDDEN",
-          assignment_response.assignment.lesson.number, 
-          exercise_response.assigned_exercise.number, 
-          tf_to_yn(!exercise_response.assigned_exercise.is_standard_practice),
-          exercise_response.assigned_exercise.lesson_exercise.lesson_exercise_set.lesson.number,
-          exercise_response.assigned_exercise.lesson_exercise.lesson_exercise_set.number,
-          lesson_exercise.concept.nil? ? "undefined" : lesson_exercise.concept.id,
-          exercise_response.response_text, 
-          exercise_response.response_confidence,
-          exercise_response.response_choice,
-          exercise_response.credit]
-%>
-
 
 <?xml version="1.0"?>
 <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
@@ -51,52 +33,81 @@ ses.find_each do |se|
     <Table>
       <Row>
         <Cell><Data ss:Type="String">Name/ID</Data></Cell>
-        <Cell><Data ss:Type="String">Status</Data></Cell>
+        <Cell><Data ss:Type="String">RegStatus</Data></Cell>
         <Cell><Data ss:Type="String">Section</Data></Cell>
         <Cell><Data ss:Type="String">Cohort</Data></Cell>
-        <Cell><Data ss:Type="String">Assignment #</Data></Cell>
-        <Cell><Data ss:Type="String">Exercise #</Data></Cell>
-        <Cell><Data ss:Type="String">Exercise ID</Data></Cell>
-        <Cell><Data ss:Type="String">Concept</Data></Cell>
-        <Cell><Data ss:Type="String">Labels</Data></Cell>
-        <Cell><Data ss:Type="String">Completed</Data></Cell>
-        <Cell><Data ss:Type="String">Free Response</Data></Cell>
-        <Cell><Data ss:Type="String">Confidence</Data></Cell>
-        <Cell><Data ss:Type="String">Choice</Data></Cell>
-        <Cell><Data ss:Type="String">Correctness Credit</Data></Cell>
-        <Cell><Data ss:Type="String">Submitted Late</Data></Cell>
-        <Cell><Data ss:Type="String">Feedback Scaling</Data></Cell>
-        <Cell><Data ss:Type="String">Overall Score</Data></Cell>
-        <Cell><Data ss:Type="String"># Feedback Loads</Data></Cell>
+        <Cell><Data ss:Type="String">AssgnName</Data></Cell>
+        <Cell><Data ss:Type="String">AssgnNum</Data></Cell>
+        <Cell><Data ss:Type="String">ExNum</Data></Cell>
+        <Cell><Data ss:Type="String">ExQbId</Data></Cell>
+        <Cell><Data ss:Type="String">ExConcept</Data></Cell>
+        <Cell><Data ss:Type="String">ExLabels</Data></Cell>
+        <Cell><Data ss:Type="String">FreeResp?</Data></Cell>
+        <Cell><Data ss:Type="String">FreeResp</Data></Cell>
+        <Cell><Data ss:Type="String">SelAns?</Data></Cell>
+        <Cell><Data ss:Type="String">SelAns</Data></Cell>
+        <Cell><Data ss:Type="String">SelAnsConf</Data></Cell>
+        <Cell><Data ss:Type="String">SelAnsCredit</Data></Cell>
+        <Cell><Data ss:Type="String">FbScaling</Data></Cell>
+        <Cell><Data ss:Type="String">OverallScore</Data></Cell>
+        <Cell><Data ss:Type="String">Comp?</Data></Cell>
+        <Cell><Data ss:Type="String">CompOnTime?</Data></Cell>
+        <Cell><Data ss:Type="String">Correct?</Data></Cell>
+        <Cell><Data ss:Type="String">FbViewReq?</Data></Cell>
+        <Cell><Data ss:Type="String">FbViewed?</Data></Cell>
+        <Cell><Data ss:Type="String">FbViewedOnTime?</Data></Cell>
+        <Cell><Data ss:Type="String">FbLoadCount</Data></Cell>
       </Row>
       <% @klass.sections.each do |section| %>
         <% section_name = section.name %>
         <% section.students.visible(present_user).each do |student| %>
-          <% student_full_name = student.full_name(present_user) %>
-          <% student_status    = student_status_string(student) %>
-          <% cohort_name       = student.cohort.name %>
-          <% StudentAssignment.for_student(student).each do |sa| %>
-            <% assignment_plan_name = sa.assignment.assignment_plan.name %>
+          <% student_full_name  = student.full_name(present_user) %>
+          <% student_reg_status = student_status_string(student) %>
+          <% cohort_name        = student.cohort.name %>
+          <% StudentAssignment.for_student(student).sort_by{|sa| sa.assignment.assignment_plan.starts_at}.each_with_index do |sa, ii| %>
+            <% assignment_num  = ii + 1 %>
+            <% assignment_name = sa.assignment.assignment_plan.name %>
             <% sa.student_exercises.each do |se| %>
               <% ae = se.assignment_exercise %>
       <Row>
         <Cell><Data ss:Type="String"><%= student_full_name %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= student_status %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= student_reg_status %></Data></Cell>
         <Cell><Data ss:Type="String"><%= section_name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= cohort_name %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= assignment_plan_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= assignment_name %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= assignment_num %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= ae_info[ae][:number] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:quadbase_id] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:concept] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:tag_list] %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete?) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.free_response_submitted?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= se.free_responses.collect{|fr| fr.as_text}.join('; ') %></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= se.free_response_confidence %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.selected_answer_submitted?) %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.selected_answer %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= se.free_response_confidence %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.automated_credit %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= tf_to_yn(se.was_submitted_late) %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.feedback_credit_multiplier %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.score %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete?) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete? && !se.was_submitted_late) %></Data></Cell>
+        <Cell><Data ss:Type="String">
+        <%= 
+          if se.complete?
+            case se.automated_credit
+            when 1.0
+              "Yes"
+            when 0.0
+              "No"
+            else
+             "Partially"
+            end
+          else
+            "No"
+          end
+        %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(ae_info[ae][:fb_required]) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed?) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed_for_credit?) %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= response_time_query.where{ |rt| rt.response_timeable_id == se.id }.count %></Data></Cell>
       </Row>
             <% end %>
