@@ -171,6 +171,10 @@ class StudentExercise < ActiveRecord::Base
     complete? && (feedback_credit_multiplier > 0.0)
   end
 
+  def feedback_required_for_credit?
+    learning_condition.feedback_required_for_credit?(self)
+  end
+
   def get_mail_hook
     MailHook.get_for(self)
   end
