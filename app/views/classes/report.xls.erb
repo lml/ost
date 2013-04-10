@@ -90,21 +90,7 @@
         <Cell><Data ss:Type="Number"><%= se.score %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete? && !se.was_submitted_late) %></Data></Cell>
-        <Cell><Data ss:Type="String">
-        <%= 
-          if se.complete?
-            case se.automated_credit
-            when 1.0
-              "Yes"
-            when 0.0
-              "No"
-            else
-             "Partially"
-            end
-          else
-            "No"
-          end
-        %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= exercise_correctness_string(se) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(ae_info[ae][:fb_required]) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed_for_credit?) %></Data></Cell>

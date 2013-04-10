@@ -559,7 +559,22 @@ module ApplicationHelper
       student_status_string_registered
     end
   end
-  
+
+  def exercise_correctness_string(student_exercise)
+    if student_exercise.complete?
+      case student_exercise.automated_credit
+      when 1.0
+        "Yes"
+      when 0.0
+        "No"
+      else
+       "Partially"
+      end
+    else
+      "No"
+    end
+  end
+
   def classify(var)
     "class=#{var}" if var
   end
