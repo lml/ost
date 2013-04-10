@@ -44,7 +44,9 @@ module Ost
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password, :attachments]
+    config.filter_parameters += [:password, 
+                                 :attachments,     # for uploaded email attachments
+                                 :plain]           # for uploaded email attachments
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
