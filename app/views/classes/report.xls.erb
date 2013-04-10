@@ -32,31 +32,31 @@
   <Worksheet ss:Name="Data">
     <Table>
       <Row>
-        <Cell><Data ss:Type="String">Name/ID</Data></Cell>
-        <Cell><Data ss:Type="String">RegStatus</Data></Cell>
-        <Cell><Data ss:Type="String">Section</Data></Cell>
-        <Cell><Data ss:Type="String">Cohort</Data></Cell>
-        <Cell><Data ss:Type="String">AssgnName</Data></Cell>
-        <Cell><Data ss:Type="String">AssgnNum</Data></Cell>
-        <Cell><Data ss:Type="String">ExNum</Data></Cell>
-        <Cell><Data ss:Type="String">ExQbId</Data></Cell>
-        <Cell><Data ss:Type="String">ExConcept</Data></Cell>
-        <Cell><Data ss:Type="String">ExLabels</Data></Cell>
-        <Cell><Data ss:Type="String">FreeResp?</Data></Cell>
-        <Cell><Data ss:Type="String">FreeResp</Data></Cell>
-        <Cell><Data ss:Type="String">SelAns?</Data></Cell>
-        <Cell><Data ss:Type="String">SelAns</Data></Cell>
-        <Cell><Data ss:Type="String">SelAnsConf</Data></Cell>
-        <Cell><Data ss:Type="String">SelAnsCredit</Data></Cell>
-        <Cell><Data ss:Type="String">FbScaling</Data></Cell>
-        <Cell><Data ss:Type="String">OverallScore</Data></Cell>
-        <Cell><Data ss:Type="String">Comp?</Data></Cell>
-        <Cell><Data ss:Type="String">CompOnTime?</Data></Cell>
-        <Cell><Data ss:Type="String">Correct?</Data></Cell>
-        <Cell><Data ss:Type="String">FbViewReq?</Data></Cell>
-        <Cell><Data ss:Type="String">FbViewed?</Data></Cell>
-        <Cell><Data ss:Type="String">FbViewedOnTime?</Data></Cell>
-        <Cell><Data ss:Type="String">FbLoadCount</Data></Cell>
+        <%= render "report_heading_cell", data: "Name/ID",       comment: "Student name, Educator-facing ID, or Research ID" %>
+        <%= render "report_heading_cell", data: "RegStatus",     comment: "Student Registration Status" %>
+        <%= render "report_heading_cell", data: "Section",       comment: "Student Class Section name" %>
+        <%= render "report_heading_cell", data: "Section",       comment: "Student Cohort name" %>
+        <%= render "report_heading_cell", data: "AssgnName",     comment: "Assignment name" %>
+        <%= render "report_heading_cell", data: "AssgnNum",      comment: "Assignment order number within Learning Plan (including tests)" %>
+        <%= render "report_heading_cell", data: "ExNum",         comment: "Exercise order number (within Assignment)" %>
+        <%= render "report_heading_cell", data: "ExQbId",        comment: "Exercise Quadbase ID" %>
+        <%= render "report_heading_cell", data: "ExConcept",     comment: "Exercise Concept description" %>
+        <%= render "report_heading_cell", data: "ExLabels",      comment: "Exercise Labels" %>
+        <%= render "report_heading_cell", data: "FreeResp?",     comment: "Student locked-in a Free Response?" %>
+        <%= render "report_heading_cell", data: "FreeResp",      comment: "Free Response" %>
+        <%= render "report_heading_cell", data: "SelAns?",       comment: "Student locked-in a Selected Answer?" %>
+        <%= render "report_heading_cell", data: "SelAns",        comment: "Selected Answer {0 == 'a', 1 == 'b', ...}" %>
+        <%= render "report_heading_cell", data: "SelAnsConf",    comment: "Selected Answer Confidence {0 == 'Definitely Wrong, ..., 4 == 'Definitely Right'}" %>
+        <%= render "report_heading_cell", data: "SelAnsCredit",  comment: "Selected Answer Credit [0..1]" %>
+        <%= render "report_heading_cell", data: "FbScaling",     comment: "Feedback Scaling Factor {0,1}" %>
+        <%= render "report_heading_cell", data: "OverallCredit", comment: "Overall Exercise Credit [0..1] (combines Credit and Feedback Scaling)" %>
+        <%= render "report_heading_cell", data: "Comp?",         comment: "Exercise was completed?" %>
+        <%= render "report_heading_cell", data: "CompOnTime?",   comment: "Exercise was completed before the due date?" %>
+        <%= render "report_heading_cell", data: "Correct?",      comment: "Selected Answer was correct? {Yes, No, Partially}" %>
+        <%= render "report_heading_cell", data: "FbViewReq?",    comment: "Viewing Feedback was required for Overall Credit?" %>
+        <%= render "report_heading_cell", data: "FbViewed?",     comment: "Feedback was viewed (ever)?" %>
+        <%= render "report_heading_cell", data: "FbViewed?",     comment: "Feedback was viewed with the Feedback Credit Window?" %>
+        <%= render "report_heading_cell", data: "FbLoadCount",   comment: "Approx. number of times Feedback page was loaded by the Student" %>
       </Row>
       <% @klass.sections.each do |section| %>
         <% section_name = section.name %>
@@ -90,21 +90,7 @@
         <Cell><Data ss:Type="Number"><%= se.score %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete? && !se.was_submitted_late) %></Data></Cell>
-        <Cell><Data ss:Type="String">
-        <%= 
-          if se.complete?
-            case se.automated_credit
-            when 1.0
-              "Yes"
-            when 0.0
-              "No"
-            else
-             "Partially"
-            end
-          else
-            "No"
-          end
-        %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= exercise_correctness_string(se) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(ae_info[ae][:fb_required]) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed_for_credit?) %></Data></Cell>
