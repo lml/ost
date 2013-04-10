@@ -37,7 +37,10 @@ class UploaderBase < CarrierWave::Uploader::Base
   # end
 
   def image?(new_file)
-    new_file.content_type.include? 'image'
+    # sometimes this method needs a file passed in others it doesn't
+    # sometimes new_file has its content_type set, sometimes it is 
+    # available in 'file'; it is a mystery.
+    (new_file.content_type || file.content_type).include? 'image'
   end
 
 end
