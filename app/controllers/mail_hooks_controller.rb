@@ -16,6 +16,7 @@ class MailHooksController < ApplicationController
     rescue MailHookHookableError => e
       Rails.logger.info("MailHook: #{e.inspect}")
       Rails.logger.info("inside error: #{e.original.inspect}")
+      DeveloperNotifier.exception_email(e, nil, "MailHook unexpected error")
       render status: 422, text: 'an unknown error occurred when processing the inbound email'
     else
       render status: 200, text: 'success'
