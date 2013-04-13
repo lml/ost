@@ -85,10 +85,10 @@ group :development, :test do
 end
 
 group :development, :test do
-  gem 'railroady'
+  gem 'rails-erd', '~> 1.1.0'
 end
 
 group :production do
-	gem 'mysql2', '~> 0.3.11'
-	gem 'rack-ssl-enforcer', '~> 0.2.4'
+  gem 'mysql2', '~> 0.3.11'
+  gem 'rack-ssl-enforcer', '~> 0.2.4'
 end
