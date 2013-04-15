@@ -529,7 +529,18 @@ module ApplicationHelper
   def choice_letter(index)
     ("a".ord + index).chr
   end
-  
+
+  def answer_html(answer_choices, answer_index)
+    begin
+      answer_choices[answer_index]["html"].html_safe
+    rescue
+      content_tag :p,
+        [ "The content for your answer, (#{choice_letter answer_index}), could not be found.",
+          "This is likely because the question was updated and your chosen answer was removed.",
+          "If you believe this to be an error, please contact your instructor." ].join(" ")
+    end
+  end
+
   def enum_radio_button(form_builder, field_symbol, enum_class, enum_name)
     (form_builder.radio_button field_symbol, enum_class[enum_name]) + enum_name.to_s.humanize
   end
