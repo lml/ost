@@ -4,36 +4,96 @@
 <%= pageHeading "Help | Learning Conditions" do %>
 <% end %>
 
-  <p>Learning conditions define how OST builds and schedules assignments and feedback.
-     This section is intended to give an overview of each type of learning condition. 
-     To create these conditions, or to simply use the default conditions, use the in-line help found on the Class 
-     Learning Conditions pages.</p>
+  <p>Learning conditions are customizable rules that let you control important aspects of your students' experiences 
+  in OpenStax Tutor. You can create learning conditions that specify when and how feedback is provided, 
+  how exercises are presented, and automate massed practice or spaced practice.</p>
+
+  <p>Select from the help topics below to learn more.</p>
   
 <div class="accordion" id="accordion2" style="padding-top:20px;">
 
 <%= section "Learning Conditions", {:classes => 'no_bar'} do %>
 
    <%= accordion_entry :title => "Overview of learning conditions" do %>
-         <p>Learning conditions are customizable rules that control how OST builds assignments. There 
-           are three (3) kinds of learning conditions:</p> 
-        <ol>
-            <li><strong>Schedule conditions</strong> control how OST builds and schedules
-               homework (<em>not</em> test) assignments.</li>
-            <p>
-            <li><strong>Feedback conditions</strong> control how and when OST presents feedback after 
-              students work homework and tests exercises.</li>
-            <p>
-            <li><strong>Presentation conditions</strong> control exercise format: multiple choice only,      
-               or free form and multiple choice.</li>
-          </ol>
-        <p>Using OST, you can create any combination of learning conditions. In addition, human subjects researchers 
-          can create complex experimental conditions, i.e., apply one set of learning conditions to one set of students and another set to the rest.</p>  
-        
-        <p>You have the option to simply use the default learning conditions, or you can create more complex, custom 
-          conditions to control over your students' experiences in OST. If you are an instructor who partners with the research team, 
-          they will set learning conditions.</p>
-          
+        <p>Learning conditions are customizable rules that enable you to: 
+          <ul>
+            <li><b>Schedule actions to occur when triggered by specific criteria</b>. For example, 
+              apply a condition to release solutions immediately after homework is due.</li>
+              <br/>
+            <li><b>Activate different rules in different scenarios</b>. For example, apply  
+              learning conditions to all homeworks and another to all tests.</li>
+              <br/>
+            <li><b>Automate massed practice or spaced practice using the Scheduler</b>.</li>
+            <br/>
+            <li><b>Automatically apply labels to homework exercises using the Scheduler</b>.</li>
+          </ul>
+        <p>Every OST class includes a default Scheduler and default presentation and feedback conditions. You may use the 
+          default conditions, or create your own custom conditions. <i>Exception</i>: if you participate in a research study, 
+          the researchers will set learning conditions on your behalf.</p>
     <% end %>    
+
+<%= accordion_entry :title => "How to create and apply learning conditions" do %>
+
+    <p>Applying a learning condition to an assignment involves three basic steps:</p>
+      <ol>
+        <li>Create the learning condition.</li>
+        <br/>
+        <li>Specify when the learning condition should be executed. This requires you to attach a label to the relevant 
+          exercise/assignment.</li>
+        <li>Re-order conditions as necessary. The first Learning Condition that applies will be executed.</li> 
+        <br/>
+
+      In this example, we want to create a feedback condition whereby exam feedback is automatically available 2 days 
+      after the homework due date. 
+
+      <b>To create the learning condition</b>:
+
+      Go to Dashboard > Class > Learning Conditions and click <b>Add a New Feedback Condition</b>.
+      Click <b>Edit</b> under the newly created condition. 
+      In the </i>Match Labels Against</i> field, enter a unique label describing this feedback condition, e.g. <i>delayed feedback</i>.
+      Complete the remaining feedback settings and click <b>Update</b> to save.
+      You've created a learning condition!
+
+      <b>To apply the <i>delayed feedback</i> learning condition to an exercise or assignment, simply attach the condition label 
+        to the relevant exercise or assignment.</b> 
+
+        <%= render :partial => 'help/blurbs/attach_feedback_label_to_exercises'%>
+
+    <% end %>
+
+    <%= accordion_entry :title => "Creating learning conditions" do %>
+      <p> 
+
+        Set up presentation conditions. 
+
+        Presentation conditions control whether your multiple-choice questions include a free-response portion or not. 
+
+        In the below example, the "free response" condition includes both free-response and multiple choice, while the 
+        "mc only" condition does not include free-response. 
+
+        Set up feedback conditions. 
+
+
+
+        Set up the Scheduler.  
+
+        In the Learning Plan, you will organize your materials into topics, then assign topic(s) as homework. 
+        The Scheduler is where you specify how many exercises from each topic are added to homework assignments, and what (if any) 
+        labels are attached. 
+
+        Once you create a Scheduler, OST will automatically apply the Scheduler rule to each homework assignment. For example, 
+        the default Scheduler assigns 100% of exercises from topic(s) assigned as homework and attaches the label 
+        "standard practice" to each exercise. 
+
+        [image]
+
+        Create presentation and feedback conditions. 
+
+        Create any number of presentation and feedback conditions, then attach their labels to the intended exercises. 
+
+    <% end %>
+
+
       <% if false %>
           <%= accordion_entry :title => "The default learning conditions" do %>
           <p>OST automatically creates default learning conditions for each class. <em>Unless you change 
@@ -53,6 +113,7 @@
               <%= link_to_help 'example_feedback', text="feedback", {:title => 'Example Feedback',
               :width => '500', :height => '400'} %> to students   
       <% end %>
+
     <% end %>
 
 <% end %>
@@ -62,6 +123,11 @@
 
   <%= accordion_entry :title => "Overview of schedule conditions" do %>
   
+  <p>Schedule conditions prescribe how OST builds homework assignments.</p>
+            
+  <p>The Scheduler prescribes how your homework assignments are built. For each topic you add to a homework 
+    assignment, 
+
   <p>Schedule conditions define the following aspects of homework assignments (<em>not</em> tests):</p>
     <ol>
       <li>Given that you create homework assignments by listing a topic or topics, <em>how many</em>
@@ -107,7 +173,9 @@
 <%= section "Feedback Conditions", {:classes => 'no_bar'} do %>
 
        <%= accordion_entry :title => "Overview of feedback conditions" do %>
-      <p> Feedback conditions allow you to set what kind of feedback students receive as they work assignments 
+      <p> Feedback conditions control how and when OST presents feedback/solutions.
+
+allow you to set what kind of feedback students receive as they work assignments 
         in OST. Create feedback conditions to define the following:</p> 
       <ol>
         <li>When will feedback become available?</li>
