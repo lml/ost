@@ -43,15 +43,23 @@
     
 <%= section "Manage Student Enrollment", {:classes => 'first no_bar'} do %>  
     <%= accordion_entry :title => "Preapprove student registration requests" do %>
-    <p>Follow the instructions below to preapprove student registration requests. Or, if 
-      you prefer to manually approve all registration requests, do nothing.</p>
+    <p>By default, when a student request to register for your class, <%= SITE_NAME %> will 
+      ask you to manually approve or deny each request. If you prefer, you can automatically 
+      approve registration requests for specific email addresses or domains.</p>
+
+    <p>To specify preapproved email domains:</p> 
     <ol>
       <li>Go to <strong>Dashboard > Class</strong> and click <strong>Edit Class</strong>.</li>
       <p><%= image_tag("edit_class.png", {:border => 1, :width => "90%", 
        :title=>"edit class"})%>
       <li>On the Edit Class page, scroll to the <strong>Approved Emails</strong> field.</li>
+      <p>
+      <li>Click the help icon to view the guidelines for preapproving emails.</li>
+      <p><%= image_tag("preapproved_email_box.png") %></p>
+      <li>Follow the guidelines to specify email addresses or domains.</li>
+      <p>
+      <li>Click <b>Update Class</b> to save changes.</li>
     </ol>
-    <%= render :partial => 'help/blurbs/preapproved_emails' %>
     <% end %>
     
     <%= accordion_entry :title => "Confirm pending registration requests" do %>
