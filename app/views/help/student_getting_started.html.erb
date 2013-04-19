@@ -3,7 +3,11 @@
 
 <%= pageHeading "Getting Started for Students" %>
 
-<p>Welcome to <%= SITE_NAME %>! This help page will guide you through creating an account, registering for a class and completing assignments in OST. Click on the below links to learn more about each help topic. Also, be sure to check out our <%= link_to "video tutorials", help_student_tutorials_path %>.</p>
+<p>Welcome to <%= SITE_NAME %>! This help page will guide you through creating an account, registering for a class and completing assignments in OST. 
+  Click on the below links to learn more about each help topic. Be sure to check out our <%= link_to "video tutorials", help_student_tutorials_path %>, too.</p>
+
+  <p>As always, feel free to <%= email_link "support", "email our friendly support team" %> if you 
+  need one-on-one help.</p>
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
 
@@ -13,41 +17,60 @@
 
   <%= accordion_entry :title => "Sign up for #{SITE_NAME}" do %>   
     <p>Read the instructions below or <%= link_to_help 'student_register_screencast',
-     text="click here to check out a 2 minute video tutorial", 
-     {:title => 'Video Tutorial', :width => '600', :height => '425'} %>.</p> 
+     text="click here to check out the first 30 seconds of this video tutorial", 
+     {:title => 'Video Tutorial', :width => '700', :height => '600'} %>.</p> 
     <%= render :partial => 'help/blurbs/sign_up'%>
   <% end %>
 
   <%= accordion_entry :title => "Register for a class" do %>
-  <p>Read the instructions below or <%= link_to_help 'student_register_screencast',
-   text="click here to check out a 2 minute video tutorial", 
-   {:title => 'Video Tutorial', :width => '600', :height => '425'} %>.</p>
     <%= render :partial => 'help/blurbs/register_for_a_class'%>
   <% end %>
 
   <%= accordion_entry :title => "How to access assignments" do %>
-  <p>Read the instructions below or <%= link_to_help 'student_assignments_screencast',
-   text="click here to check out a quick tutorial", 
-   {:title => 'Video Tutorial', :width => '600', :height => '425'} %>.</p>
-  
+
     <%= render :partial => 'help/blurbs/access_assignments'%>
   <% end %>
 
   <%= accordion_entry :title => "How to show work on free-response questions" do %>
-    <p><%= link_to_help 'student_ff_screencast', text="Click here to check out a quick tutorial.", 
-    {:title => 'Video Tutorial', :width => '600', :height => '425'} %></p>
+    <p>OpenStax Tutor gives you several ways to show your work:</p>
+      <ul>
+        <li>Enter <b>plain text</b> using the  text editor</li>
+        <li>Enter <b>LaTeX math notation</b> using the text editor</li>
+        <li>Attach an <b>image/document</b> (GIF, JPG, JPEG, PNG or PDF) from your PC</li>
+        <li>Draw a <b>sketch</b> using the SVG image editor</li>
+        <li>Upload a picture by email using your smart device</li>
+      </ul>
+
+    <p>In this video, we walk through how to attach different kinds of work and how to edit, delete, 
+      or reorder your draft answers.</p>
+
+    <p><%= render :partial => 'help/blurbs/student_ff_screencast' %>
   <% end %>
+
+   <%= accordion_entry :title => "How to upload your work via smart phone/tablet" do %>
+          <%= render :partial => 'help/blurbs/student_camera_phone_screencast'%>
+       <% end %>
   
   <%= accordion_entry :title => "How to view scores on assignments" do %>
     <%= render :partial => 'help/blurbs/grades'%>
   <% end %>
   
-  <%= accordion_entry :title => "How #{SITE_NAME} calculates scores" do %>
+  <%= accordion_entry :title => "How scores are calculated" do %>
     <%= render :partial => 'help/blurbs/calc_grade'%>
     
-    <p><strong>In all cases, final determination about student grades are always made by
-       the instructor.</p>
+    <p>You always have an A in our book. But when it comes to class grades, final determinations about grades are
+    up to your instructor.</p>
   <% end %>
+
+    <%= accordion_entry :title => "OpenStax Tutor Analytics" do %>
+        
+    <p>Have you checked out your personal Analytics page yet? Go to <b>Dashboard > Class > Analytics</b> and behold!
+      Analytics give you a handy visual representation of how you are doing on each topic. As you work other problems in these topics 
+      throughout the class, your Analytics will update automatically.</p>
+
+            <%= image_tag("student_analytics.png", {:border => 1, :title=>"analytics"})%>
+  <% end %>
+
 
 </div>
 

@@ -1,16 +1,18 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<%= pageHeading "Help" %>
+<%= pageHeading "Support" %>
 
-<p style="width: 600px">Need some help learning to use <%= SITE_NAME %>? Check out the resources below.  If you still need assistance, shoot us an email at <%= email_link "support", "support@openstaxtutor.org" %>.</p>
+<p style="width: 600px">Welcome to <%= SITE_NAME %>! Have a question? This is the place to start. 
+  Check out the resources below, or <%= email_link "support", "email our friendly support team" %> 
+  if you need one-on-one help with OpenStax Tutor. </p>
 
-<%= section "First Stop", {:classes => 'first no_bar'} do %>
+<%= section "Getting Started", {:classes => 'first no_bar'} do %>
 
   <ul>
-    <li><%= link_to "Frequently Asked Questions", help_faq_path %></li>
     <li><%= link_to "Getting Started as an Instructor", help_instructor_getting_started_path %></li>
     <li><%= link_to "Getting Started as a Student", help_student_getting_started_path %></li>
+     <li><%= link_to "Frequently Asked Questions", help_faq_path %></li>
   </ul>
   
 <% end %>

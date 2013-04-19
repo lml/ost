@@ -40,10 +40,7 @@
   <%= section "Student FAQs", {:classes => 'no_bar'} do %>
       
       <%= accordion_entry :title => "How do I register for a class?" do %>
-        <p>Check out our registration screencast, which will walk you through the registration process
-         in 2 minutes: </p>
-
-        <%= render :partial => 'help/blurbs/student_register_screencast' %>
+        <%= render :partial => 'help/blurbs/register_for_a_class' %>
   
   <% end %>
   
@@ -54,21 +51,17 @@
 
         <p>If your registration request is still pending, i.e. you see <strong>Cancel my request to join
          this class</strong>, click <strong>Cancel</strong> and confirm your choice.</li>
-          <%= image_tag("cancelrequest.png", {:border => 1, :width => "100%",
-             :height => "100%", :title=>"cancel request"})%>  
+          <%= image_tag("cancelrequest.png", {:border => 1, :title=>"cancel request"})%>  
           <p>
           <p>Once you've canceled your registration request, click <strong>Register</strong> 
             to submit a new registration request for the correct section.
       <% end %>
 
-       <%= accordion_entry :title => "How do I access and work assignments?" do %>
-          <p>Check out our assignment screencasts.</p> 
+       <%= accordion_entry :title => "How do I access assignments?" do %>
+         <%= render :partial => 'help/blurbs/access_assignments' %>
+      <% end %>
 
-          <p><b>Accessing assignments</b>:</p> 
-
-          <%= render :partial => 'help/blurbs/student_assignments_screencast'%>
-          <p>
-          <p><b>Showing your work on free-response questions</b>:</p>  
+       <%= accordion_entry :title => "How do I show my work on free-response questions?" do %> 
           <%= render :partial => 'help/blurbs/student_ff_screencast'%>
         <% end %>
 
