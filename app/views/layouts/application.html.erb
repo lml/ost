@@ -9,8 +9,8 @@
     <% if @redirect_url %>
       <meta http-equiv='refresh' content='<%= @redirect_delay -%>;url=<%= @redirect_url -%>'>
     <% end %>
-    
-    
+
+
     <% if !@page_title_override.nil? %>
       <title><%= @page_title_override %></title>
     <% else %>
@@ -33,17 +33,17 @@
       <meta property="og:type" content="website"/>
     <% end %>
 <% end %>
-    
+
     <% if content_for?(:head) %>
       <%= yield(:head) %>
     <% end %>
-    
+
     <meta name="Description" content="A personalized learning experience from a tutor that adapts to you.">
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/ico"/>
 
     <%= render :partial => 'layouts/common_head_includes' %>
-    
+
     <% if Rails.env.production? %>
       <script type="text/javascript">
 
@@ -59,7 +59,7 @@
 
       </script>
     <% end %>
-  
+
     <% if @include_mathjax %>  
        <script type="text/x-mathjax-config">
          MathJax.Hub.Config({
@@ -71,13 +71,13 @@
        </script>
 
        <% mj_url_base = request.ssl? ? 
-                        "https://c328740.ssl.cf1.rackcdn.com" : 
+                        "https://c328740.ssl.cf1.rackcdn.com" :
                         "http://cdn.mathjax.org" %>
        <script type="text/javascript"
          src="<%= mj_url_base %>/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
        </script>
     <% end %>
-  
+
     <% if @enable_timeout && user_signed_in? %>
       <script type="text/javascript">
         $(document).ready(function() {
@@ -85,11 +85,11 @@
         });
       </script>
     <% end %>
-  
+
   </head>
 
-  <body>    
-    
+  <body>
+
     <div style="display:none">
       <div id="os_green" class="os_green"></div>
       <div id="os_orange" class="os_orange"></div>
@@ -98,7 +98,7 @@
       <div id="os_blue" class="os_blue"></div>
       <div id="os_dark_orange" class="os_dark_orange"></div>
     </div>
-    
+
     <div id="toolbox" style="position:absolute; top:0; left:0">
       <% if present_user.is_administrator? %>
         <%= link_to "Admin Console", admin_path, :test => "admin_console" %><br/>
@@ -123,12 +123,12 @@
       <% end %>
 
       <% clock_is_normally_enabled = @clock_enabled && user_signed_in? %>
-	  <% clock_is_enabled = clock_is_normally_enabled || !Rails.env.production? %>
+    <% clock_is_enabled = clock_is_normally_enabled || !Rails.env.production? %>
       <% if (clock_is_enabled) %>
       <br/>
       <span id="clock" <%= "style='color:#ff00ff;'".html_safe if !clock_is_normally_enabled %> >
-		<% time = Time.zone.now %>
-		<%= standard_date(time) %><br/>
+    <% time = Time.zone.now %>
+    <%= standard_date(time) %><br/>
         <%= standard_time(time) %><br/>(on last refresh)
       </span>
       <% end %>
@@ -143,23 +143,23 @@
         <% if Rails.env.production? %>
           <%= attention_tag(["This is the LIVE SITE!"], :alert, "live_site_alert") %>
         <% elsif Rails.env.development? %>
-          <%= attention_tag(["This is DEV.", "#{Rails.root}"], :notice, "development_site_alert") %>
+          <%= attention_tag(["This is DEV.",  app_info].flatten.compact, :notice, "development_site_alert") %>
         <% elsif Rails.env.test? %>
-          <%= attention_tag(["This is TEST.", "#{Rails.root}"], :notice, "test_site_alert") %>
+          <%= attention_tag(["This is TEST.", app_info].flatten.compact, :notice, "test_site_alert") %>
         <% else %>
           <%= attention_tag(["I have NO IDEA where you are!"], :alert, "unknown_site_alert") %>
-        <% end %>        
+        <% end %>
       </div>
     <% end %>
 
     <%= render :partial => 'consent_forms/consent_form_machinery' if @ask_for_consent %>
 
     <div id="outer">
-      
+
       <%# #########################   HEADER   ############################## #%>
-      
+
       <div id="header" <%= classify(@header_class || "white") %>>
-                 
+
         <div id="nav_bar" class="test test_section top_nav">
           <a href="/" class="logo"></a>
             <% nav_links = [
@@ -171,7 +171,7 @@
                 ["HELP #{image_tag 'help_icon_v4.png', :height => '12px', :width => '12px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}", 
                   help_path, "help_highlight", :help]
               ] %>
-            
+
             <ul>
               <% nav_links.each do |nav_link| %>
                 <li>
@@ -179,7 +179,7 @@
                     <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %>" 
                           style="display:inline; position:relative"><%= nav_link[0].html_safe %><em></em></span>
                   <% end %>
-                </li>              
+                </li>
               <% end %>
             </ul>
           </div>
@@ -187,9 +187,9 @@
           <% if user_signed_in? && current_user.is_administrator? && WebsiteConfiguration.get_value(:sudo_enabled) %>
             <span style="float:left; color:#b22222; font-size:16px; font-weight:bold">
               SUDO ENABLED!!
-            </span>        
+            </span>
           <% end %>
-          
+
       </div>
 
       <noscript>
@@ -203,16 +203,16 @@
         <div id="message_dialog" style="display:none" title="">
           <div id="message_dialog_errors"></div>
           <div id="message_dialog_body"></div>
-        </div>	
-        
+        </div>
+
         <div id="help_dialog" style="display:none" title="">
           <div id="help_dialog_errors"></div>
           <div id="help_dialog_body"></div>
         </div>
-        
+
         <% show_account_bar = !@main_div_background_image %>
         <% icon_color = show_account_bar ? 'gray' : 'white' %>
-        
+
         <div class="account_info <%= 'account_bar' if !@main_div_background_image %>">
           <div>
             <% if user_signed_in? %>
@@ -234,14 +234,14 @@
 
           </div>
         </div>
-        
-        
+
+
         <% @navitems ||= [] %>
-        
+
         <div class="top_level_container">
-	
-		  <% has_nav_content = content_for?(:right_column) || !@navitems.empty? || content_for?(:other_nav_content) %>
-	
+
+      <% has_nav_content = content_for?(:right_column) || !@navitems.empty? || content_for?(:other_nav_content) %>
+
           <% if content_for?(:main) %>
 
             <%= yield(:page_heading) %>
@@ -251,12 +251,12 @@
                 <%= render 'shared/attention' %>
               </div>
 
-              <%= yield(:main) %>         
+              <%= yield(:main) %>
             </div>
-            
+
           <% elsif @force_nav_bar || has_nav_content %>
 
-            <%= yield(:page_heading) %>                     
+            <%= yield(:page_heading) %>
             
             <div id="attention"><%= render 'shared/attention' %></div>
             
@@ -285,7 +285,7 @@
             <div style="clear:both"></div>
 
            <% else %>
-           
+
              <%= yield(:page_heading) %>
              <%= yield(:important) %>
 
