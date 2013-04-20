@@ -625,5 +625,26 @@ module ApplicationHelper
                           :frameborder => 0,
                           :allowfullscreen => true} {}
   end
-  
+
+  def app_info
+    [rails_root_info, git_branch_info]
+  end
+
+  def rails_root_info
+    "Rails root: #{rails_root}"
+  end
+
+  def git_branch_info
+    "Branch: #{git_branch.blank? ? "N/A" : git_branch}"
+  end
+
+  def rails_root
+    Rails.root.to_s
+  end
+
+  def git_branch
+    git_branch = `cd #{rails_root}; git symbolic-ref HEAD 2> /dev/null`
+    git_branch.gsub! /\Arefs\/heads\//, ''
+    git_branch.gsub! /\s/, ""
+  end
 end
