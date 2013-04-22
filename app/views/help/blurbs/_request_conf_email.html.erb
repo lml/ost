@@ -1,14 +1,13 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>If you haven't received the confirmation email with an activation link, here are the most common reasons it may not have arrived:</p>
+<p>If you haven't received a confirmation email with an activation link, here are the most common reasons it may not have arrived:</p>
   <ol>
-    <li><b>Trapped by email spam filter</b>? Check your junk or spam folder. If the email is there, great! Please make sure that emails from
-     <i>@openstaxtutor.org</i> are marked as 
-      Not Spam. If the email wasn't trapped by your email spam folder, it is possible your server or ISP blocked it. If this happens, 
-      try signing up with another email address.</b></li>
+    <li><b>Emails may be trapped by your spam or junk filter</b>. Check your junk or spam folder. If the email is there, please make sure that emails from <i>@openstaxtutor.org</i> are not being marked as spam.</li>
+    </li>
       <p>
-    <li><b>You typed the wrong email address when you signed up?</b> No worries, this happens. Just <%= link_to "sign up again", new_user_registration_path %>!</b></li> 
-    <p>
-    </OL>
- <p>Still having problems? Go to the OpenStax Tutor login page and <%= link_to "request the activation email be resent", new_user_confirmation_path %>.</p>
+    <li><b>You may have typed the wrong email address when you signed up.</b> No worries, this happens. Just <%= link_to "sign up again", new_user_registration_path %>.</b></li> 
+    </ol>
+ <p>Still having problems? Go to the OpenStax Tutor login page and <%= link_to "request the activation email be resent", new_user_confirmation_path %>. If that fails, it is possible that your server or ISP is blocking our emails. 
+  You may want to try creating a new account with a different email address, such as a 
+  Gmail address. If you need further help, please email the support team at <%= email_link "support", "support@openstaxtutor.org" %>.</p>

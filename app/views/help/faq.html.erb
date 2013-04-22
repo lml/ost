@@ -5,7 +5,7 @@
 
 <p style="width: 600px">The most commonly asked questions we receive are 
   answered below. If you have a question that isn't addressed below, feel free to email 
-  <%= email_link "the friendly Support Team", "support@openstaxtutor.org" %>.</p>
+  <%= email_link "support", "the friendly Support Team" %>.</p>
 
 <%# ########### SET UP YOUR FAQ ENTRIES HERE %%%%%%%%%%%%%%%%% %>
 
@@ -23,16 +23,16 @@
        <%= render :partial => 'help/blurbs/browser_reqs'%>
     <% end %>
 
+    <%= accordion_entry :title => "I am not receiving email notifications about new assignments or 
+    feedback." do %>
+    <%= render :partial => 'help/blurbs/email_notifications' %>
+    <p>To change the email address we use to contact you:</p>
+    <%= render :partial => 'help/blurbs/update_account' %>
+    <% end %>
+
     
     <%= accordion_entry :title => "I need to update my password, email address or time zone." do %>    
-      <ol>
-        <li>Sign in and click <strong>My Account</strong>, found in the upper right 
-            of every page, next to the welcome message.</li>
-        <p>
-        <li>In My Account, update your password, email address and/or time zone.</li>
-        <p>
-        <li>Enter your current password to confirm changes.</li>
-      </ol>  
+     <% render :partial => 'help/blurbs/update_account' %>
     <% end %>
 
 <% end %>
