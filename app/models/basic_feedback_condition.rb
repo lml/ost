@@ -9,12 +9,12 @@ class BasicFeedbackCondition < FeedbackCondition
   store_typed_accessor :settings, :boolean, :is_feedback_required_for_credit
   store_typed_accessor :settings, :boolean, :can_automatically_show_feedback
   store_typed_accessor :settings, :integer, :availability_opens_option
-  store_typed_accessor :settings, :integer, :availability_opens_delay_days
+  store_typed_accessor :settings, :float,   :availability_opens_delay_days
   store_typed_accessor :settings, :integer, :availability_closes_option
-  store_typed_accessor :settings, :integer, :availability_closes_delay_days
+  store_typed_accessor :settings, :float,   :availability_closes_delay_days
   store_typed_accessor :settings, :integer, :availability_event
   store_typed_accessor :settings, :integer, :credit_closes_option
-  store_typed_accessor :settings, :integer, :credit_closes_delay_days
+  store_typed_accessor :settings, :float,   :credit_closes_delay_days
   store_typed_accessor :settings, :boolean, :show_correctness_feedback
   store_typed_accessor :settings, :boolean, :show_correct_answer_feedback
   store_typed_accessor :settings, :boolean, :show_high_level_feedback
@@ -34,16 +34,13 @@ class BasicFeedbackCondition < FeedbackCondition
   before_validation :nil_out_blank_regex
 
   validates :availability_opens_delay_days, allow_nil: true,
-                                            numericality: { only_integer: true,
-                                                            greater_than: 0 }
+                                            numericality: { greater_than: 0 }
 
   validates :availability_closes_delay_days, allow_nil: true,
-                                             numericality: { only_integer: true,
-                                                             greater_than: 0 }
+                                             numericality: { greater_than: 0 }
 
   validates :credit_closes_delay_days, allow_nil: true,
-                                       numericality: { only_integer: true,
-                                                       greater_than: 0 }
+                                       numericality: { greater_than: 0 }
 
   validate :delay_days_specified_if_delay_chosen
   validate :credit_window_within_availability_window
