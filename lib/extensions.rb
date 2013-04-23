@@ -164,8 +164,18 @@ module LocalActiveRecordExtensions
       if !precast_value.blank?
         case datatype
         when :integer
-          cast_value = precast_value.to_i
-          error_msg = "is not an integer" if cast_value.to_s != precast_value
+          begin
+            cast_value = Integer(precast_value)
+          rescue
+            error_msg = "is not an integer"
+          end
+        when :float
+          begin
+            ## NOTE: this does NOT allow 'Infinity', '-Infinity', or 'NaN'
+            cast_value = Float(precast_value)
+          rescue
+            error_msg = "is not a float"
+          end
         when :boolean
           case precast_value.downcase
           when "1", "true", "t", "yes"
