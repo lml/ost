@@ -53,7 +53,11 @@ class Exercise < ActiveRecord::Base
   end
   
   def get_credit(choice_index)
-    content["simple_question"]["answer_choices"][choice_index]["credit"].to_f
+    begin
+      content["simple_question"]["answer_choices"][choice_index]["credit"].to_f
+    rescue
+      0.0
+    end
   end
   
   def correct_choice_index

@@ -132,8 +132,11 @@
   navitem { link_to "#{t(@learning_plan.klass.class)}", @learning_plan.klass }
   navitem { link_to "Concepts", learning_plan_concepts_path(@learning_plan) }
   navitem { 
-      x = link_to "Refresh Exercises", learning_plan_refresh_exercises_path(@learning_plan), :method => :put, :remote => true 
-      x << " " << (link_to_help 'refresh_exercises', "", {:width => 700})
+      x = link_to "Refresh Exercises", learning_plan_refresh_exercises_path(@learning_plan), 
+            :method => :put, 
+            :remote => true,
+            :confirm => "Are you sure?  This could have unintended consequences!  Click the 'Refresh Exercises' help icon for details."
+      x << " " << (link_to_help 'refresh_exercises', "", {:width => 700, :height => 400})
   }
 %>
 
