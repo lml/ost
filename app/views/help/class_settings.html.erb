@@ -43,24 +43,33 @@
     
 <%= section "Manage Student Enrollment", {:classes => 'first no_bar'} do %>  
     <%= accordion_entry :title => "Preapprove student registration requests" do %>
-    <p>By default, when a student request to register for your class, <%= SITE_NAME %> will 
-      ask you to manually approve or deny each request. If you prefer, you can automatically 
-      approve registration requests for specific email addresses or domains.</p>
 
-    <p>To specify preapproved email domains:</p> 
+    <p>By default, <%= SITE_NAME %> requires you to manually approve all student registration requests. 
+      If you don't want to manually approve each request, specify a list of email addresses 
+      or domains that can be automatically approved. </p>
+
+    <p>To preapprove email addresses or domains:</p> 
     <ol>
       <li>Go to <strong>Dashboard > Class</strong> and click <strong>Edit Class</strong>.</li>
       <p><%= image_tag("edit_class.png", {:border => 1, :width => "90%", 
        :title=>"edit class"})%>
       <li>On the Edit Class page, scroll to the <strong>Approved Emails</strong> field.</li>
       <p>
-      <li>Click the help icon to view the guidelines for preapproving emails.</li>
-      <p><%= image_tag("preapproved_email_box.png") %></p>
-      <li>Follow the guidelines to specify email addresses or domains.</li>
-      <p>
-      <li>Click <b>Update Class</b> to save changes.</li>
-    </ol>
-    <% end %>
+    
+<li><p><strong>To approve individual students</strong>, enter one student email address per line: </li>
+<p>
+<pre>michael@college.edu
+ali@college.edu</pre>
+
+<li><p><strong>To approve any email in a domain</strong>, enter domain followed by a $ sign:</li>
+<p>
+<pre>@domain.edu$
+@math.college.edu$</pre>
+<p>
+<li>Click <b>Update Class</b> to save changes.</li>
+</ol>
+
+<% end %>
     
     <%= accordion_entry :title => "Confirm pending registration requests" do %>
     <p>By default, when a student requests to register for your class, <%= SITE_NAME %> will 

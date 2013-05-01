@@ -1,17 +1,19 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>Use this form to create rules to define (a) which exercises are used in which assignments and (b) what labels are attached to each exercise. The examples below illustrate how schedules work.</p>
+<p>Use the Scheduler to create a rule to build homework assignments. The Scheduler defines (a) which exercises are used in which homework and (b) what labels are attached to each exercise. The examples below illustrate how schedules work.</p>
 
-<p><strong>Example 1</strong>: This schedule will yield assignments that include exercises from both (i) the current topic and (ii) topics covered <em>two assignments ago</em> (a form of <%= link_to_help 'spaced_practice', text="spaced practice", {:title => 'Spaced Practice', :width => '900', :height => '700'} %>).</p>
+<p><strong>Example 1</strong>: This is the <u><strong>default schedule setting</strong></u>, i.e., OST will build your assignments using this rule unless you change it.</p>
+<p><center><%= image_tag("default_schedule copy.png", {:border => 1, :width => "95%", 
+   :title=>"schedule"})%></center></p>
+
+<p>Note: The Scheduler will not use exercises marked as tests nor will it reuse previously assigned exercises.</p> 
+
+ <p><strong>Example 2</strong>: This schedule will yield assignments that include exercises from both (i) the current topic and (ii) topics covered <em>two assignments ago</em> (a form of <%= link_to_help 'spaced_practice', text="spaced practice", {:title => 'Spaced Practice', :width => '900', :height => '700'} %>).</p>
 <p>
 <p><center><%= image_tag("schedule1.png", {:border => 1, :width => "95%", 
    :title=>"schedule"})%></center></p> 
 <p>
-<p><strong>Example 2</strong>: The schedule below is the <em><strong>default schedule setting</strong></em>, i.e., OST will build your assignments using this rule unless you change it.</p>
-<p><center><%= image_tag("default_schedule copy.png", {:border => 1, :width => "95%", 
-   :title=>"schedule"})%></center></p>
-   
   
 <p><strong>Example 3</strong>: You can also create <em><strong>multiple schedules</strong></em>. Given multiple schedules, OST will cycle through the schedules in order. </p> 
 <p>

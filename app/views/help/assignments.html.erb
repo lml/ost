@@ -4,65 +4,71 @@
 <%= pageHeading "Help | Creating Assignments" do %>
 <% end %>
 
-<p>This help page describes how to create homework and test assignments in <%= SITE_NAME %>. Click 
-  the links below to learn more.</p>
+<p>When you create an assignment, you can set a start date/time for automatic release, create assignment rules, add an introduction and web resources to set the stage, and apply learning conditions -- e.g., specify when and how feedback should become available -- by attaching labels.</p>
 
-<p>The assignment tutorials assume you have already:</p>
-<ul>
-  <li>Organized your course materials into topics and marked any test exercises as such.</li>
-  <li>Have learning conditions set up (if you partner with the research team, they will set learning conditions 
-    for you).</li>
-  </ul> 
+<p>This help page will show you how to create homework and tests in <%= SITE_NAME %>. We recommend you start from the top and read through each topic.</p>
 
    <div class="accordion" id="accordion2" style="padding-top:20px;">
-  
-      <%= accordion_entry :title => "Overview of assignments" do %>
-      <p>Once you have organized your material into topics and set learning conditions for your 
-        class, creating assignments is simple.</p>
-          <ul>
-            <li>To plan homework assignments, decide the topic(s) each assignment covers.</li>
-            <p>
-            <li>To plan tests, decide which specific exercises each test covers.</li>
-          </ul>
-      <p>OST will build each assignment according to your learning conditions and then deliver
-         those assignments to students via the assignment interface.</p>
 
-              <% if false %>
-              <p>In addition, OST assignments integrate three proven principles from cognitive science:</p>
-                <ul>
-                  <li>Retrieval practice</li>
-                  <li>Feedback</li>
-                  <li>Spaced practice</li>
-                </ul>
+      <%= accordion_entry :title => "What to do before creating any assignments" do %> 
+<p><em>Before</em> you create any assignments, make sure to: </p>
+<ol>
+  <li>Organize your course materials into topics and mark any test exercises as such.</li>
+  <p>
+  <li>Make sure you understand how the Scheduler will build your homework 
+    assignments.</li>
+  <p>
+  <li>Create any feedback and presentation conditions you want to apply to your homework and tests.</li>
+  <p>
+  <li>Understand how to attach labels to assignments to activate feedback and presentation conditions.</li>
+  </ol>
 
-              <p>Relative to more convention methods of applying, learning and reinforcing concepts, 
-                these learning principles have been shown to 
-                produce superior long-term retention and transfer of knowledge.</p>    
+  <p><b>Are you an instructor participating in a learning study</b>? If yes, the research team will set up the Scheduler and create feedback and presentation conditions on your behalf. <i>However</i>, as experiments typically do not manipulate test feedback or presentation, you'll still need to a) tell the research team what learning conditions you want to apply to tests and b) manually apply labels to tests to activate those conditions.</p>
+      <% end %>
 
-              <p>Check out the help tutorials below to create homework and tests, or go here 
-                to learn more about learning conditions.</p>
+      <%= accordion_entry :title => "Overview: creating homework assignments" do %>
+      <p>Read this overview to understand the general process, then use the more detailed tutorials below for a step-by-step walkthrough.</p>
 
-                      Set assignment rules (start date/due date, open or closed book, homework 
-                      or test, etc.)
-                <p>
-                <li>For homework, decide what topics each homework covers:</li>
-  
-                <%= image_tag("hw_topic.png", {:border => 1, :width => "90%"})%>
-                <p>
-                <li>For tests, decide what topics each test covers, then select the number of test 
-                  questions you want to include:
-                <p>  
-                <%= image_tag("test_topics.png", {:border => 1, :width => "90%"})%>
-                <p>
-                <li>Mark assignment <strong>as ready to be assigned</strong>.</li>
-                <p>
-                <li>Click <strong>Preview Exercises</strong> to verify assignment contents are correct.</li>
-                <p>
-                <li>On the designated start date and time, OST will notify your students the assignment is available.</li>
-              </ol>  
-              <% end %>
-        <% end %>
+      <p>By this point, you should have created at least one topic containing related resources, homework questions, and possibly test questions. Check out this example topic:</p>
+      </ul> 
+      <p><%= image_tag("example_topic.png", {:border => 1, :width => "80%", 
+                          :title=>"topic"})%></p>  
+      <p>Recall that a topic is a a building block of an assignment. Thus, once your topics are in order, creating a homework is easy.</p>
 
+      <p>Here are the general steps to create a <b>homework</b>: </p>
+           <ol>
+          <li>On the Learning Plan, add a new assignment</li>
+          <li>Choose desired settings, e.g. start date/time, rules, introduction, etc.</li>
+          <li><u>Attach the topic(s) you want the assignment to include</u> -- the Scheduler will control what exercises are used</li>
+          <li>Apply labels to trigger feedback and presentation conditions, if desired</li>  
+         <li>Preview the homework <i>before</i> releasing it; verify the correct exercises are included and the correct labels are attached</li>
+         <li>Mark the homework as Ready to be Assigned</li>
+      </ol>
+
+      <p>At the start/date time you specify, your homework will be built <u>according to the Scheduler</u>. (<%= link_to_help 'schedule',
+       text="Need a refresher on how the Scheduler works?",  
+       {:title => 'How the Scheduler works', :width => '900', :height => '700'} %>) Learning conditions matching any applied labels will be activated, if applicable. And the homework will be released to students automatically.</p>
+
+      <% end %> 
+
+      <%= accordion_entry :title => "Overview: creating tests" do %>
+
+      <p>The process to create a test is slightly different than that to create homework. Check out this overview, then use the detailed tutorial below for a step-by-step walkthrough.</p>
+
+      <p>Here are the general steps to create a <b>test</b>:</p>
+              <ol>
+          <li>Add a new assignment to the Learning Plan</li>
+          <li>Choose desired settings, e.g. start date/time, introduction, rules, etc.
+          <li><u>Attach the topic(s) you want the test to include</u></li>
+          <li>Select the specific test exercises you want to use (<i>the Scheduler doesn't apply to tests!</i>)</li>
+          <li>Apply labels to trigger feedback and presentation conditions, if desired</li>  
+         <li>Preview the test <i>before</i> releasing it; verify the correct exercises are included and the correct labels are attached</li>
+         <li>Mark the test as Ready to be Assigned</li>
+      </ol> 
+
+      <p>At the start date/time you specify, your test will be released automatically. Learning conditions matching any applied labels will be activated, if applicable.</p> 
+
+      <% end %> 
 
         <%= accordion_entry :title => "Create a homework assignment" do %>
               <ol>
@@ -74,9 +80,12 @@
                        <%= image_tag("click_add_assign.png", {:border => 1, :width => "90%", 
                           :title=>"add assignment"})%>  
                 <p>
-                <li>Complete the Assignment dialog box and click <strong>Create Assignment</strong>. </li>
+                <li>Name the assignment, enter an optional introduction, and enter the desired start and end date/times.</li>
+
+                
+                 and click <strong>Create Assignment</strong>. </li>
                 <p>
-                <%= image_tag("edit_assignment.png", {:border => 1, :width => "60%", :height => "60%", 
+                <%= image_tag("edit_assignment.png", {:border => 1, :width => "80%", :height => "80%", 
                   :title=>"edit assignment"})%>  
                 <p>
                 <li>Next, <em><strong>double
@@ -90,9 +99,19 @@
                 <li>Select the topic the assignment will cover and click <strong>Add this topic</strong>.</li>  
                    <p>  <%= image_tag("add_topic_to_a_2.png", {:border => 1, :width => "50%", :height => "50%",
                       :title=>"edit assignment"})%></p>
-                <li>Click <strong>Preview Assignments</strong> to verify the assignment includes all intended exercises.</li>
+                    <p>
+                <p><b>Tip</b>: Recall that the Scheduler -- found on the Learning Conditions page -- defines how many exercises are added to your assignment. The default Scheduler automatically applies 
+                  labels to activate certain learning conditions, too. (<%= link_to_help 'schedule',
+       text="Need a refresher on how the Scheduler works?",  
+       {:title => 'How the Scheduler works', :width => '900', :height => '700'} %>)</p> 
+                  <p>
+                <li>Click <strong>Preview Assignments</strong>.</li>
                 <p>  <%= image_tag("preview_assignments.png", {:border => 1, :width => "80%", 
                    :title=>"edit assignment"})%></p>
+                <li>In Preview Assignments, verify that your assignment includes all expected exercises.</li>
+                <p>
+                <li>Still in preview, verify that the correct labels are attached and make sure your intended conditions will be activated.</li>
+                <p>
                 <li>When the assignment settings are correct, mark <strong>This is ready to be assigned</strong>.</li>
                   <p>
                   <ul>
