@@ -1,21 +1,34 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>Use the Scheduler to create a rule to build homework assignments. The Scheduler defines (a) which exercises are used in which homework and (b) what labels are attached to each exercise. The examples below illustrate how schedules work.</p>
+<p>For each topic you assign as homework, the Scheduler defines <em>what percentage of those exercises are added</em> 
+  to a particular assignment. We provide a default Scheduler for every class, or you can create a custom Scheduler.</p>
 
-<p><strong>Example 1</strong>: This is the <u><strong>default schedule setting</strong></u>, i.e., OST will build your assignments using this rule unless you change it.</p>
+<p><b>How the default Scheduler works</p></b>
+
+<p>For each topic you add to a homework assignment, this Scheduler will automatically add 
+<b>100%</b> of exercises in that topic to your homework assignment. <em>Exceptions</em>: the Scheduler will not use exercises reserved for tests 
+nor will it use exercises that were previously assigned by the Scheduler.</p>
+
 <p><center><%= image_tag("default_schedule copy.png", {:border => 1, :width => "95%", 
    :title=>"schedule"})%></center></p>
 
-<p>Note: The Scheduler will not use exercises marked as tests nor will it reuse previously assigned exercises.</p> 
+<p>The default Scheduler will also automatically apply the label <em>standard practice</em> to every homework exercise. 
+  By applying labels to exercises, you can automatically schedule certain actions to occur, e.g. release solutions immediately after 
+the homework due date.</p>
 
- <p><strong>Example 2</strong>: This schedule will yield assignments that include exercises from both (i) the current topic and (ii) topics covered <em>two assignments ago</em> (a form of <%= link_to_help 'spaced_practice', text="spaced practice", {:title => 'Spaced Practice', :width => '900', :height => '700'} %>).</p>
+<p><b>Other types of Schedulers</b></p>
+
+ <p><strong>Example 1</strong>: This schedule will yield assignments that include exercises from both 
+  (i) the current topic and (ii) topics covered <em>two assignments ago</em> (a form of 
+  <%= link_to_help 'spaced_practice', text="spaced practice", {:title => 'Spaced Practice', :width => '900', :height => '700'} %>).</p>
 <p>
 <p><center><%= image_tag("schedule1.png", {:border => 1, :width => "95%", 
    :title=>"schedule"})%></center></p> 
 <p>
   
-<p><strong>Example 3</strong>: You can also create <em><strong>multiple schedules</strong></em>. Given multiple schedules, OST will cycle through the schedules in order. </p> 
+<p><strong>Example 2</strong>: You can also create <em><strong>multiple schedules</strong></em>. Given 
+  multiple schedules, OST will cycle through the schedules in order. </p> 
 <p>
 <p><center><%= image_tag("schedule2.png", {:border => 1, :width => "95%", 
    :title=>"schedule"})%></center></p>
@@ -28,7 +41,8 @@
   <li>The first row <strong>(n=0)</strong> controls the current assignment:</li>
   <p>
   <ul>
-    <li>Under <em>percent to draw</em>, specify what percentage of exercises OST should draw from each topic attached to the current assignment.</li>
+    <li>Under <em>percent to draw</em>, specify what percentage of exercises OST should draw from each 
+      topic attached to the current assignment.</li>
     <p>
     <li>Under <em>labels to apply</em>, enter comma-separated labels, e.g. to activate a feedback condition.</li>
   </ul>
@@ -42,13 +56,17 @@
   <li>Continue adding new rows as necessary.</li>
 </ol>
 
-For row <strong>assignment n=0</strong>, designate what percentage of exercises OST should draw from each topic attached to the current assignment. 
+For row <strong>assignment n=0</strong>, designate what percentage of exercises OST should draw from each topic
+ attached to the current assignment. 
 
-  For example: if Assignment 1 includes Topic A, and Topic A has 4 exercises, a 50% rule will pull 2 exercises from Topic A into the current assignment. 
+  For example: if Assignment 1 includes Topic A, and Topic A has 4 exercises, a 50% rule will pull 2 exercises 
+  from Topic A into the current assignment. 
   
 Click Add a new row to create an additional percentage rule. 
 
-  For example: If Assignment 2 includes Topic B, a 50% rule for Assignment n = 1 will pull 2 exercises from Topic A (covered in Assignment n =1 ) and 2 exer f Assignment n = 1 is set to draw 50%  rule where all non-test assignments automatically draw exercises from <em>previously assigned topics</em>. 
+  For example: If Assignment 2 includes Topic B, a 50% rule for Assignment n = 1 will pull 2 exercises from Topic A 
+  (covered in Assignment n =1 ) and 2 exer f Assignment n = 1 is set to draw 50%  rule where all non-test
+   assignments automatically draw exercises from <em>previously assigned topics</em>. 
 
 Give Assignment n = 0 draws 50% of the exercises from topics attached to the current HW assignment; and 
 Given Assignment n = 1 draws 50% of the exercises from topics attached to the <em>previous</em> HW assignment; and 

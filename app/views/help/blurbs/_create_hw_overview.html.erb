@@ -1,0 +1,52 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+  Once you have added resources and exercises to the Topics section of the Learning Plan, you  
+ can create assignments that deliver those materials to your students. 
+
+  <p><b>Create an assignment plan</b></p>
+
+  <p>Add an introduction, indicate assignment rules, set the start and end date, etc.</p>
+
+  <p><b>Add topic(s) to the assignment</b></p>
+
+  <p>Here is an example topic containing exercises I want to assign:</p> 
+
+      <p><%= image_tag("example_topic.png", {:border => 1, :width => "95%", 
+                          :title=>"topic"})%></p>  
+
+      <p>In OpenStax Tutor, a topic is a building block of assignments. So, to assign  
+        this topic, just add it to the assignment plan:</p>
+
+            <p><%= image_tag("example_assignment_plan.png", {:border => 1, :width => "95%", 
+                          :title=>"topic"})%></p>
+
+<p><b>Homework vs tests</b></p>
+
+      <p>Note the following key differences between creating a homework vs a test/exam:</p>
+
+      <ul>
+        <li><u>If creating a <b>test</b></u>, you'll be prompted to select what test exercises you want to add to the test.</li>
+        <p>
+        <li><p><u>If creating a <b>homework</b></u>, your   <%= link_to_help 'schedule', text="Scheduler",  
+       {:title => 'How the Scheduler works', :width => '900', :height => '700'} %>, found on the Learning Conditions page, 
+        will control how many exercises will be added to the assignment.</li>
+        <p>        
+      </ul>
+
+  <p><b>Apply learning conditions</b></p>
+
+  <p>Recall that a learning condition is a rule that lets you schedule certain actions automatically. For example, 
+    you could create a feedback condition to automatically release feedback on the assignment due date. Once you 
+    create this rule, you can apply it to an assignment by <%= link_to_help 'attach_feedback_label_to_exercises', 
+            text="attaching its label", {:title => 'How to apply learning conditions', 
+              :width => '700', :height => '700'} %>.</p>
+
+  
+
+  <p><b>Preview and release the assignment</b></p>
+       
+       <p>Whether a homework or test, you can set it up to be released automatically on the start date/time you indicate. But as a general 
+        rule, <u>you should always preview the assignment <em>before</em> releasing it</u>. Preview will show you what exercises are in the assignment, 
+        and will show you any labels attached to the exercises. By previewing before releasing, you can make sure a) your assignment contains 
+        all desired exercises and b) the desired learning conditions will be applied.</p>
