@@ -42,9 +42,12 @@
         <%= render "report_heading_cell", data: "ExQbId",        comment: "Exercise Quadbase ID" %>
         <%= render "report_heading_cell", data: "ExConcept",     comment: "Exercise Concept description" %>
         <%= render "report_heading_cell", data: "ExLabels",      comment: "Exercise Labels" %>
+        <%= render "report_heading_cell", data: "AssgnCws",      comment: "Assignment Coworkers (including Student), sorted, comma-separated" %>
         <%= render "report_heading_cell", data: "FreeResp?",     comment: "Student locked-in a Free Response?" %>
+        <%= render "report_heading_cell", data: "FreeRespTime",  comment: "Time at which Free Response was locked-in" %>
         <%= render "report_heading_cell", data: "FreeResp",      comment: "Free Response" %>
         <%= render "report_heading_cell", data: "SelAns?",       comment: "Student locked-in a Selected Answer?" %>
+        <%= render "report_heading_cell", data: "SelAnsTime",    comment: "Time at which Selected Answer was locked-in" %>
         <%= render "report_heading_cell", data: "SelAns",        comment: "Selected Answer {0 == 'a', 1 == 'b', ...}" %>
         <%= render "report_heading_cell", data: "SelAnsConf",    comment: "Selected Answer Confidence {0 == 'Definitely Wrong, ..., 4 == 'Definitely Right'}" %>
         <%= render "report_heading_cell", data: "SelAnsCredit",  comment: "Selected Answer Credit [0..1]" %>
@@ -67,6 +70,7 @@
           <% StudentAssignment.for_student(student).sort_by{|sa| sa.assignment.assignment_plan.starts_at}.each_with_index do |sa, ii| %>
             <% assignment_num  = ii + 1 %>
             <% assignment_name = sa.assignment.assignment_plan.name %>
+            <% assignment_coworkers = sa.assignment_coworkers.collect{|acw| acw.student}.uniq.concat([student]).collect{|s| s.full_name(present_user)}.sort_by{|s| s.downcase}.join(',') %>
             <% sa.student_exercises.each do |se| %>
               <% ae = se.assignment_exercise %>
       <Row>
@@ -80,9 +84,12 @@
         <Cell><Data ss:Type="String"><%= ae_info[ae][:quadbase_id] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:concept] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:tag_list] %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= assignment_coworkers %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.free_response_submitted?) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.free_response_submitted_at %></Data></Cell>
         <Cell><Data ss:Type="String"><%= se.free_responses.collect{|fr| fr.as_text}.join('; ') %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.selected_answer_submitted?) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.selected_answer_submitted_at %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.selected_answer %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.free_response_confidence %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.automated_credit %></Data></Cell>
