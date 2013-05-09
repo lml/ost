@@ -100,9 +100,9 @@
                 <li>The assignment dialog box will pop up. Complete the form, noting the following:</li>
                   <p>
                   <ul>
-                      <li>Since this a homework, leave <em>This is a test</em> unchecked.</li>
+                      <li>Since this a homework, leave <em>This is a test</em> <u>unchecked</u>.</li>
                 <p>
-                      <li>Leave <em>This is ready to be assigned</em> unchecked until you've previewed the assignment. 
+                      <li>Leave <em>This is ready to be assigned</em> <u>unchecked</u> until you've previewed the assignment. 
                 <p>
                       <li>If you wish to apply feedback or presentation conditions to this assignment, 
                       <%= link_to_help 'attach_feedback_label_to_exercises', 
@@ -110,11 +110,12 @@
              in the <em>Extra labels to apply</em> field.</li> 
                   </ul>
                 <p>
-               <center> <%= image_tag("edit_assignment.png", {:border => 1, :width => "80%", :height => "80%", 
-                  :title=>"edit assignment"})%> </center>
+               <%= image_tag("edit_assignment2.png", {:border => 1, :width => "95%", 
+                  :title=>"edit assignment"})%>
                 <p>
                 
-                <li>Click <strong>Create Assignment</strong>; you've just created an assignment plan! Note that it has 0 topics, 
+                <li>Next, click <strong>Create Assignment</strong>; you've just created an 
+                  empty assignment plan! Note that it has 0 topics, 
                   so the next step is to <u>attach the topic(s) it covers</u>.</li>
                   <p>
                     <%= image_tag("empty_assignment.png", {:border => 1, :width => "80%", 
@@ -136,14 +137,16 @@
        text="Need a refresher on how the Scheduler works?",  
        {:title => 'How the Scheduler works', :width => '900', :height => '700'} %>)</p> 
                   <p>
-                <li>Click <strong>Preview Assignments</strong>.</li>
+                    <li>Before releasing the assignment, click <strong>Preview Assignments</strong>.</li>
                 <p>  <%= image_tag("preview_assignments.png", {:border => 1, :width => "80%", 
                    :title=>"edit assignment"})%></p>
-                <li>In Preview Assignments, verify that your assignment includes all expected exercises.</li>
-                <p>
-                <li>Still in Preview, verify that the correct labels are attached and make sure your intended conditions will be activated.</li>
-                <p>
-                <li>Once you've verified assignment settings are correct, mark <strong>This is ready to be assigned</strong>. To do this:</li>
+                  <p>
+              <li>In Preview, verify the following:</li>
+                            <%= image_tag("preview_assignments2.png", {:border => 1, :width => "90%", 
+                   :title=>"edit assignment"})%></p>
+                   <p>
+                <li>Once you've verified assignment settings are correct, mark <strong>This is ready to 
+                  be assigned</strong>. To do this:</li>
                   <p>
                   <ul>
                     <li>Hold mouse over topic to reveal edit/trash icons and click the pencil icon.</li>
@@ -158,17 +161,19 @@
         <% end %>
 
      <%= accordion_entry :title => "Create a test, step by step" do %>
-          <p>This tutorial assumes that you have already marked the exercises you want to reserve for tests. If you 
+          <p>This tutorial assumes that you have already marked the exercises you want to reserve for 
+            tests. If you 
             need help reserving exercises for tests, check out the  <%= link_to "Topics help page", help_topics_path %>.</p>
           <ol>
             <li>Go to <strong>Dashboard > Class > Learning Plan > Assignments</strong>. </li>
             <p><%= image_tag("click_LP.png", {:border => 1, :width => "90%"})%></p>
-            <li>On the Learning Plan page, scroll to the <strong>Assignments</strong> section and click <strong>Add new assignment</strong>.</li>
+            <li>On the Learning Plan page, scroll to the <strong>Assignments</strong> section and click <strong>Add 
+              new assignment</strong>.</li>
             <p>
                <%= image_tag("click_add_assign.png", {:border => 1, :width => "90%", 
                 :title=>"add assignment"})%>  
             <li>Complete the Assignment dialog box, noting the following: 
-
+                <p>
                   <ul>
                       <li>Since this a test/exam, make sure to check <em>This is a test</em>.</li>
                 <p>
@@ -180,7 +185,7 @@
              in the <em>Extra labels to apply</em> field.</li> 
                   </ul>
               <p>
-                <%= image_tag("edit_assignment1.png", {:border => 1, :width => "90%", :height => "90%", 
+                <%= image_tag("edit_assignment1.png", {:border => 1, :width => "99%", 
                 :title=>"edit assignment"})%>  
               <p>
                 <li>Next, <em><strong>double click</strong></em> the assignment you just created.</li>
@@ -193,19 +198,22 @@
               <li>Select the topic the assignment will cover and click <strong>Add this topic</strong>.</li>  
                  <p>  <%= image_tag("add_topic_to_a_test.png", {:border => 1, :width => "50%", :height => "50%",
                     :title=>"edit assignment"})%></p>
-            <li>When prompted select how many of the existing test exercises you want to add to this particular assignment 
-              by clicking on the <strong>0</strong>:</li>
+            <li>You will be prompted to select how many of the existing test exercises you want to add to this particular assignment. 
+            To do so, click on the <strong>0</strong>.</li>
             <p>
                <%= image_tag("test1.png", {:border => 1, :width => "90%", :title=>"create test"})%>  
             <p>
-              <li>Click <strong>Preview Assignments</strong>.</li>
+              <li>Then, select how many of the existing test exercises you wish to use: </li>
+              <%= image_tag("sample_assignment_plan.png", {:border => 1, :width => "90%"})%>
+              <p>
+              <li>Before releasing the assignment, click <strong>Preview Assignments</strong>.</li>
                 <p>  <%= image_tag("preview_assignments.png", {:border => 1, :width => "80%", 
                    :title=>"edit assignment"})%></p>
-                <ul>
-                 <li>In Preview Assignments, verify that your assignment includes all expected exercises.</li>
                   <p>
-                 <li>Still in Preview, verify that the correct labels are attached and make sure your intended conditions will be activated.</li>
-                  <p>
+              <li>In Preview, verify the following:</li>
+                            <%= image_tag("preview_assignments2.png", {:border => 1, :width => "90%", 
+                   :title=>"edit assignment"})%></p>
+                   <p>
                 </ul>
               <li>Once you've verified assignment settings are correct, mark <strong>This is ready to be assigned</strong>. To do this:</li>
                   <p>
@@ -221,10 +229,13 @@
           </ol>
       <% end %>
 
+    <%= accordion_entry :title => "Preview assignments before release" do %>
+    <p>As a general rule, <u>you should always preview an assignment <em>before</em> releasing it</u>. 
+  Preview will show you what exercises are in the assignment and what labels are attached to each 
+  exercise.</p>
 
-    <%= accordion_entry :title => "Preview assignments" do %>
-    <p>  
-    <% end %>    
+       <%= render :partial => 'help/blurbs/preview_assignments' %>
+            <% end %>    
 
     <%= accordion_entry :title => "Edit assignment properties" do %>
     <p>Sometimes you'll want to edit assignment properties before it's assigned. Follow these instructions:</p>

@@ -1,37 +1,9 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>For each topic you assign as homework, the Scheduler defines <em>what percentage of those exercises are added</em> 
-  to a particular assignment. We provide a default Scheduler for every class, or you can create a custom Scheduler.</p>
+<%= render :partial => 'help/blurbs/default_scheduler' %>
 
-<p><b>How the default Scheduler works</p></b>
-
-<p>For each topic you add to a homework assignment, this Scheduler will automatically add 
-<b>100%</b> of exercises in that topic to your homework assignment. <em>Exceptions</em>: the Scheduler will not use exercises reserved for tests 
-nor will it use exercises that were previously assigned by the Scheduler.</p>
-
-<p><center><%= image_tag("default_schedule copy.png", {:border => 1, :width => "95%", 
-   :title=>"schedule"})%></center></p>
-
-<p>The default Scheduler will also automatically apply the label <em>standard practice</em> to every homework exercise. 
-  By applying labels to exercises, you can automatically schedule certain actions to occur, e.g. release solutions immediately after 
-the homework due date.</p>
-
-<p><b>Other types of Schedulers</b></p>
-
- <p><strong>Example 1</strong>: This schedule will yield assignments that include exercises from both 
-  (i) the current topic and (ii) topics covered <em>two assignments ago</em> (a form of 
-  <%= link_to_help 'spaced_practice', text="spaced practice", {:title => 'Spaced Practice', :width => '900', :height => '700'} %>).</p>
-<p>
-<p><center><%= image_tag("schedule1.png", {:border => 1, :width => "95%", 
-   :title=>"schedule"})%></center></p> 
-<p>
-  
-<p><strong>Example 2</strong>: You can also create <em><strong>multiple schedules</strong></em>. Given 
-  multiple schedules, OST will cycle through the schedules in order. </p> 
-<p>
-<p><center><%= image_tag("schedule2.png", {:border => 1, :width => "95%", 
-   :title=>"schedule"})%></center></p>
+<%= render :partial => 'help/blurbs/other_schedulers' %>
 
 <% if false %>
 

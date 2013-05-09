@@ -5,46 +5,54 @@
 <% end %>
 
   <p>Learning conditions are customizable rules that let you control important aspects of your students' experiences 
-  in OpenStax Tutor. You can create learning conditions that specify when and how feedback is provided, 
-  how exercises are presented, and automate massed practice or spaced practice.</p>
+  in OpenStax Tutor. Select from the help topics below to learn more. We recommend you start with the overview.</p>
 
-  <p>Select from the help topics below to learn more.</p>
+  <p><i>Are you an educator participating in a research study?</i> If so, the research team will set up  
+          learning conditions on your behalf. To preserve a firewall between researcher and educator, you will not be 
+          able to access the Learning Conditions page.</p> 
   
 <div class="accordion" id="accordion2" style="padding-top:20px;">
 
-<%= section "Learning Conditions", {:classes => 'no_bar'} do %>
+<%= section "Overview", {:classes => 'no_bar'} do %>
 
-   <%= accordion_entry :title => "Overview of learning conditions" do %>
-        <p>Learning conditions are customizable rules that enable you to: 
+   <%= accordion_entry :title => "What are learning conditions?" do %>
+
+      <p><b>What is a learning condition?</b></p>
+
+        <p>Learning conditions are customizable rules that enable you 
+          to schedule actions to occur automatically. 
+          Using learning conditions, you can automatically 
+          release feedback when certain conditions are met, 
+   customize timing and type of feedback for different assignments (e.g., 
+  homeworks vs tests), control the presentation of 
+  your assignments, and automate massed or spaced practice for your homework. </p>
+
+        <p><b>Types of learning conditions</b></p>
+
           <ul>
-            <li><b>Schedule actions to occur when triggered by specific criteria</b>. For example, 
-              apply a condition to release solutions immediately after homework is due.</li>
-              <br/>
-            <li><b>Activate different rules in different scenarios</b>. For example, apply  
-              learning conditions to all homeworks and another to all tests.</li>
-              <br/>
-            <li><b>Automate massed practice or spaced practice using the Scheduler</b>.</li>
-            <br/>
-            <li><b>Automatically apply labels to homework exercises using the Scheduler</b>.</li>
+            <li><b>The Scheduler</b>: For each topic you 
+              assign as homework, the Scheduler defines <em>what percentage of 
+              those exercises are added</em> 
+            to a particular assignment. You <u>must</u> have a Scheduler in place.
+             It will be applied automatically 
+            to all homework assignments.</li>
+            <p>
+            <li><b>Feedback conditions</b> let you control how, when, and what 
+              kind of 
+              solutions you release to students. You can create multiple feedback conditions, 
+              then choose which one to apply to each assignment.</li>
+            <p>
+            <li><b>Presentation conditions</b> let you control whether or not 
+              multiple-choice exercises include 
+              a free-form component. You can create multiple presentation conditions, 
+              then choose which one to apply to each assignment.</p>
           </ul>
-        <p>Every OST class includes a default Scheduler and default presentation and feedback conditions. You may use the 
-          default conditions, or create your own custom conditions. <i>Exception</i>: if you participate in a research study, 
-          the researchers will set learning conditions on your behalf.</p>
-    <% end %>    
 
-<%= accordion_entry :title => "How to create and apply learning conditions" do %>
+    <% end %>
 
-    <p>Applying a learning condition to an assignment involves three basic steps:</p>
-      <ol>
-        <li>Create the learning condition.</li>
-        <br/>
-        <li>Specify when the learning condition should be executed. This requires you to attach a label to the relevant 
-          exercise/assignment.</li>
-        <li>Re-order conditions as necessary. The first Learning Condition that applies will be executed.</li> 
-        <br/>
 
-      In this example, we want to create a feedback condition whereby exam feedback is automatically available 2 days 
-      after the homework due date. 
+<% if false %>
+
 
       <b>To create the learning condition</b>:
 
@@ -58,10 +66,6 @@
         to the relevant exercise or assignment.</b> 
 
         <%= render :partial => 'help/blurbs/attach_feedback_label_to_exercises'%>
-
-    <% end %>
-
-    <%= accordion_entry :title => "Creating learning conditions" do %>
       <p> 
 
         Set up presentation conditions. 
@@ -90,17 +94,6 @@
         Create presentation and feedback conditions. 
 
         Create any number of presentation and feedback conditions, then attach their labels to the intended exercises. 
-
-    <% end %>
-
-
-      <% if false %>
-          <%= accordion_entry :title => "The default learning conditions" do %>
-          <p>OST automatically creates default learning conditions for each class. <em>Unless you change 
-            these conditions or create new conditions, 
-          OST will schedule your assignments according to the default conditions below</em>.</p>       
-          <%= render :partial => 'help/blurbs/default_learning_conditions'%>
-        <% end %>
         
        <%= accordion_entry :title => "Creating multiple cohorts (advanced setting)" do %>
           <p>By default, a class comprises one (1) <strong>cohort</strong>. <em>A cohort is a group of students 
@@ -113,64 +106,132 @@
               <%= link_to_help 'example_feedback', text="feedback", {:title => 'Example Feedback',
               :width => '500', :height => '400'} %> to students   
       <% end %>
+ <% end %>
+ <% end %>
+  
+<%= section "The Scheduler", {:classes => 'no_bar'} do %>
 
+  <%= accordion_entry :title => "What is the Scheduler?" do %>
+  
+<p>The Scheduler is a rule that automates how your <u>homework assignments</u> are 
+  built. For each topic you assign as homework, the Scheduler defines how many exercises 
+  from that topic are added to a particular assignment.</p>
+
+    <p>Every class has a default Scheduler in place by default. You may use the default 
+  Scheduler, or create a custom Scheduler, but you <u>must</u> have a valid Scheduler in place. It will 
+be applied to all homework assignments.</p>
+
+      <p>The Scheduler lets you:</p>
+      <ul>
+        <li>Automate  <%= link_to_help 'spaced_vs_massed', 
+      text="spaced practice or massed practice", 
+      {:title => 'Spaced practice vs massed practice', :width => '600', :height => '700'} %> 
+      for your homework assignments</li>
+      <p>
+      <li>Automatically apply labels to all homework in order to activate learning conditions for 
+        all homework</li>
+    </ul>
+
+
+  <% end %>
+
+   <%= accordion_entry :title => "How the default Scheduler works" do %>
+  
+   <%= render :partial => 'help/blurbs/default_scheduler' %>
+
+   <p>So, if you added this topic to a homework assignment ...  
+
+    <p><%= image_tag("example_topic.png", {:border => 1, :width => "95%", 
+                          :title=>"topic"})%></p>  
+
+    ... OST would add 100% of the homework exercises and apply the label <i>standard practice</i> to them. 
+    You can verify this by going to Learning Plan, then clicking <b>Preview Assignments</b>:</p>
+
+    <p>    <p><%= image_tag("preview_default_scheduler.png", {:border => 1, :width => "70%", 
+                          :title=>"topic"})%></p>  
+
+   <% end %>
+
+   <%= accordion_entry :title => "Other types of Schedulers" do %> 
+   <p>If you like, you can create a custom Scheduler. Researchers who wish to 
+    manipulate learning conditions can even use the Scheduler to apply different conditions to each homework assignment. 
+    Before creating a custom Scheduler, we recommend you to review the help topics above, which explain how the 
+    default Scheduler and other Schedulers work. This will help you build a custom Scheduler.</p>
+
+  <%= render :partial => 'help/blurbs/other_schedulers' %>
+
+  <% end %>
+
+     <%= accordion_entry :title => "How to create a custom Scheduler" do %> 
+   
+   <ol>
+    <li>Go to <b>Dashboard > your class > Learning Conditions</b>.</li>
+    <p>
+    <li>Under <b>Scheduler</b>, click <b>Edit</b>.</li>
+    <p>
+      <%= image_tag("edit_schedule.png", {:border => 1, :width => "70%", 
+                          :title=>"schedule"})%></p>  
+    <p>
+    <li>In the first row (<i>n = 0 assignments ago</i>), under <b>Percent to draw</b>, enter an integer between 0 and 100. 
+    This number represents the percentage of exercises OST will draw from each topic you add to a homework 
+    assignment.</li> 
+    <p>
+
+    <p>
+    <li>Do you want to automatically apply specific a feedback condition and/or presentation condition to all of these 
+    exercises? If so, under <b>Labels to apply</b>, enter comma-separated labels that match the name of 
+    the condition(s) you wish to activate.</li>  
+    <p>
+
+    <p>  
+    <li>Do you want your Scheduler to automatically pull in exercises from previous topics? If not, click <b>Update Scheduler</b>. You're done!</li>
+    <li>If you do want to pull in repetition practice exercises, click <b>Add a new row</b>.
+    <p>
+
+    <p>
+    <li>In the second row (<i>n = 1 assignment ago</i>), under <b>Percent to draw</b>, enter an integer between 0 and 100. 
+    This number represents the percentage of exercises OST will draw from each topic you added to the <u>previous</u> homework 
+    assignment.</li>
+    <p>
+
+    <p>
+    <li>Do you want to automatically apply a specific feedback condition and/or presentation condition to all of these exercises? 
+    If so, under <b>Labels to apply</b>, enter comma-separated labels that match the name fo the condition(s) you wish to activate.</li>  
     <% end %>
 
-<% end %>
 
-
-<%= section "Schedule Conditions", {:classes => 'no_bar'} do %>
-
-  <%= accordion_entry :title => "Overview of schedule conditions" do %>
-  
-  <p>Schedule conditions prescribe how OST builds homework assignments.</p>
-            
-  <p>The Scheduler prescribes how your homework assignments are built. For each topic you add to a homework 
-    assignment, 
-
-  <p>Schedule conditions define the following aspects of homework assignments (<em>not</em> tests):</p>
-    <ol>
-      <li>Given that you create homework assignments by listing a topic or topics, <em>how many</em>
-         <em>exercises</em> from each topic will be in each homework?</li>
-      <p>
-      <li>Will homework include exercises from <em>previous topics</em> to give students <%= link_to_help 'spaced_practice', 
-      text="spaced practice", {:title => 'Spaced practice', :width => '500', :height => '500'} %> ? If so, over what interval?</li>
-      <p>
-      <li>Are the above rules consistently applied to every assignment, or do they vary from homework to 
-        homework? For example: Week 1 assignments can follow one schedule, while week 2 follow another. </li>
-      <p>  
-      <li>What, if any, labels should OST attach to each homework exercise (i.e., to trigger a particular feedback or 
-        presentation condition)?</li> 
-      <p>
-      <li>Will each group of students receive the same set of assignments, or will different groups receive 
-        different types of assignments?</li>
-    </ol>       
-    
-  <% end %>
-
-  <% if false %>
-        <%= accordion_entry :title => "Default schedule condition" do %> 
-           <p><strong>By default, OST will build homework assignments according to the following schedule:</p></strong>
-           <p>Given that you assign one or more topics -- each containing a number of exercises -- as homework, 
-             the default schedule simply draws 100% of non-test exercises from those topics into the assignment</strong>.</p>
-           <p>For example: if you add Topic A and Topic B to an assignment, each containing 10 questions, your 
-             assignment will contain all 20 questions from those topics.</p>
-           <p>If you don't want to use the default schedule, consult the Edit Scheduler Form to understand how to
-              build a more complex, custom schedule.</p>
-      <% end %>
-  <% end %>
-  
-  <% if false %>
-        <%= accordion_entry :title => "How to create a spaced practice schedule condition " do %>
-        <p>Coming soon!</p>
-        <% end %> 
-  <% end %>
   
 <% end %>
 
 
 
-<%= section "Feedback Conditions", {:classes => 'no_bar'} do %>
+<%= section "Feedback and Presentation Conditions", {:classes => 'no_bar'} do %>
+
+    <%= accordion_entry :title => "Overview: how to customize your assignments' feedback and presentation" do %>
+
+        <p>OpenStax Tutor makes it easy to customize your assignments' feedback and presentation. You'll 
+          follow these general steps:</p>
+
+        <ol>
+
+          <li>Create any number of feedback and/or presentation conditions.</li>
+          <p>
+          <li>Attach the name of a condition (its <i>label</i>) to the applicable exercise/assignment.</li>
+          <p>
+          <li>Re-order the learning conditions so that the conditions you want to apply first are listed first.</li>
+        </ol>
+
+          <p>When your assignment is built, each exercise's labels are matched against your feedback and presentation 
+            conditions. If/when a matching feedback condition is found, its rules are used to determine how/when feedback is given
+            for that exercise. 
+            And if/when a matching presentation condition is found, its rules are used to determine the presentation of that 
+            exercise. 
+        </p>
+
+        <p>The below help tutorials will explain how to create conditions, re-order conditions, and apply labels to exercises and 
+          assignments to trigger learning conditions.</p>
+
+     <% end %>    
 
        <%= accordion_entry :title => "Overview of feedback conditions" do %>
       <p> Feedback conditions control how and when OST presents feedback/solutions.

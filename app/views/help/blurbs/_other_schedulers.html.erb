@@ -1,0 +1,18 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<p><b>Other types of Schedulers</b></p>
+
+ <p><strong>Example 1</strong>: This schedule will yield assignments that include exercises from both 
+  (i) the current topic and (ii) topics covered <em>two assignments ago</em> (a form of 
+  <%= link_to_help 'spaced_practice', text="spaced practice", {:title => 'Spaced Practice', :width => '600', :height => '500'} %>).</p>
+<p>
+<p><center><%= image_tag("schedule1.png", {:border => 1, :width => "95%", 
+   :title=>"schedule"})%></center></p> 
+<p>
+  
+<p><strong>Example 2</strong>: You can also create <em><strong>multiple schedules</strong></em>. Given 
+  multiple schedules, OST will cycle through the schedules in order. </p> 
+<p>
+<p><center><%= image_tag("schedule2.png", {:border => 1, :width => "95%", 
+   :title=>"schedule"})%></center></p>
