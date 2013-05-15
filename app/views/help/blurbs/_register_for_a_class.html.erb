@@ -3,26 +3,28 @@
 
 <p>Read the instructions below or <%= link_to_help 'student_register_screencast',
    text="click here to check out a video tutorial", 
-   {:title => 'Video Tutorial', :width => '700', :height => '600'} %>. If you've already 
-    confirmed your OpenStax Tutor user account, feel free to skip to 1:12 in the video.</p>
+   {:title => 'Video Tutorial', :width => '700', :height => '600'} %>. 
+   If you've already confirmed your OpenStax Tutor user account, feel 
+   free to skip to 1:12 in the video.</p>
 <ol>
-  <li>From the <%= SITE_NAME %> homepage, click on <%= link_to "Current Classes", klasses_path %>.</li>
-  <p>
-          <%= image_tag("current_classes.png", {:border => 1, :width => "80%", :height => "80%", :title=>"current classes"})%>
-        <p>
-  <li>Find the name and instructor of your class and click on the class name.</li>
-  <p>
-  <li>On the Class page, click <strong>Register</strong>:</li>
+    <li>From the <%= SITE_NAME %> homepage, click on <%= link_to "Current Classes", klasses_path, :target => '_blank'  %>.</li>
+     <p>
+      <%= image_tag("current_classes.png", {:border => 1, :width => "80%", :height => "80%", :title=>"current classes"})%>
+     <p>
+    <li>Find the name and instructor of your class and click on the class name.</li>
+     <p>
+    <li>On the Class page, click <strong>Register</strong>:</li>
+     <p>
       <%= image_tag("register.png", {:border => 1, :width => "80%", :height => "80%", :title=>"register"})%>
-      <p>
-  <li>If the class has multiple sections, click the <strong>section name</strong>, then <strong>select the section you 
-    will attend</strong>.</li>
-  <p>
+     <p>
+    <li>If the class has multiple sections, click the <strong>section name</strong>, then <strong>select the section you 
+      will attend</strong>.</li>
+     <p>
       <%= image_tag("select_section.png", {:border => 1, :width => "60%", :height => "60%", :title=>"select section"})%>
-    <p>
-  <li><em>Optional</em>: enter your university/student ID if instructor enabled this setting.</li>
-  <p>
-  <li>Optional: if you wish to audit, mark the audit box.</li>
-  <p>
-  <li>Click <strong>Create Registration Request</strong> to send your request to the instructor.</li>
+     <p>
+    <li><em>Optional</em>: enter your university/student ID if instructor enabled this setting.</li>
+     <p>
+    <li>Optional: if you wish to audit, mark the audit box.</li>
+     <p>
+    <li>Click <strong>Create Registration Request</strong> to send your request to the instructor.</li>
 </ol>

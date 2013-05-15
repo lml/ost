@@ -1,26 +1,26 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>For each topic you assign as homework, the Scheduler defines <em>what
- percentage of those exercises are added</em> 
-  to a particular assignment. We provide a default Scheduler for every 
-  class, or you can create a custom Scheduler.</p>
+<p>The Scheduler is a rule that automates how your 
+	<u>homework assignments</u> are 
+  built. Before releasing any assignments, you 
+  <u>must</u> have a Scheduler in place.</p>
+
+<p><p>We create a <i>default Scheduler</i> for each class. 
+	  You can easily customize it if you like, but 
+	  first it's helpful to know how the default Scheduler works. </p>
 
 <p><b>How the default Scheduler works</p></b>
 
-<%= image_tag("default_scheduler.png", {:border => 1, :width => "80%", 
-		   :title=>"schedule"})%></p>
-	<ol>
-		<li>For each topic you add to a homework assignment, this Scheduler will automatically add 
-		<b>100%</b> of exercises in that topic to your homework assignment.</li>
-		<p>
-		 <em><u>Exceptions</em></u>: the Scheduler will not use exercises reserved for tests 
-		nor will it use exercises that were previously assigned by the Scheduler.</p>
-		<p>
-		
-		<p>
-			<li>The default Scheduler will also automatically apply the label <em>standard 
-			practice</em> to every homework exercise. This label is intended to activate the 
-			<i>standard practice</i>
-			feedback and presentation conditions.</li>
-</oL>
+<p>Here is the default Scheduler:</p>
+ 
+ <p><%= image_tag("default_scheduler1.png", {:border => 1, :width => "95%", 
+       :title=>"schedule"})%></p>
+ 
+ <p>The default Scheduler builds homework 
+ 	by pulling <b>100%</b> of the exercises 
+    in the topic(s) you add to each homework assignment,
+    then applies the label <b><i>standard practice</i></b> to 
+    each assigned exercise. <u>Exception</u>: the Scheduler 
+    will not add exercises reserved for tests or previously 
+	assigned exercises.</p>

@@ -26,11 +26,13 @@
       <p>Note the following key differences between creating a homework vs a test/exam:</p>
 
       <ul>
-        <li><u>If creating a <b>test</b></u>, you'll be prompted to select what test exercises you want to add to the test.</li>
+        <li><u>If creating a <b>test</b></u>, you'll be prompted to 
+          select what test exercises you want to add to the test.</li>
         <p>
-        <li><p><u>If creating a <b>homework</b></u>, your   <%= link_to_help 'schedule', text="Scheduler",  
-       {:title => 'How the Scheduler works', :width => '900', :height => '700'} %>, found on the Learning Conditions page, 
-        will control how many exercises will be added to the assignment.</li>
+        <li><p><u>If creating a <b>homework</b></u>, your 
+          <%= link_to "Scheduler", help_learning_conditions_path, :target => '_blank' %>, found on 
+          the Learning Conditions page, will control how many exercises will 
+          be added to the assignment.</li>
         <p>        
       </ul>
 

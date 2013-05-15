@@ -5,11 +5,13 @@
 <% end %>
 
   <p>Learning conditions are customizable rules that let you control important aspects of your students' experiences 
-  in OpenStax Tutor. Select from the help topics below to learn more. We recommend you start with the overview.</p>
+  in OpenStax Tutor.</p>
 
   <p><i>Are you an educator participating in a research study?</i> If so, the research team will set up  
           learning conditions on your behalf. To preserve a firewall between researcher and educator, you will not be 
           able to access the Learning Conditions page.</p> 
+
+  <p>Select from the help topics below. We recommend you start with the overview.</p>
   
 <div class="accordion" id="accordion2" style="padding-top:20px;">
 
@@ -39,12 +41,16 @@
             <p>
             <li><b>Feedback conditions</b> let you control how, when, and what 
               kind of 
-              solutions you release to students. You can create multiple feedback conditions, 
+              <%= link_to_help 'example_feedback', text="feedback", 
+              {:title => 'Feedback', :width => '700', :height => '700'} %>
+              you release to students. You can create multiple feedback conditions, 
               then choose which one to apply to each assignment.</li>
             <p>
             <li><b>Presentation conditions</b> let you control whether or not 
               multiple-choice exercises include 
-              a free-form component. You can create multiple presentation conditions, 
+              a <%= link_to_help 'question_format', text="a free-form component",  
+       {:title => 'Adding a free-form component to multiple-choice exercises', :width => '700', :height => '700'} %>. 
+       You can create multiple presentation conditions, 
               then choose which one to apply to each assignment.</p>
           </ul>
 
@@ -112,53 +118,39 @@
 <%= section "The Scheduler", {:classes => 'no_bar'} do %>
 
   <%= accordion_entry :title => "What is the Scheduler?" do %>
-  
-<p>The Scheduler is a rule that automates how your <u>homework assignments</u> are 
-  built. For each topic you assign as homework, the Scheduler defines how many exercises 
-  from that topic are added to a particular assignment.</p>
+ <%= render :partial => 'help/blurbs/default_scheduler' %> 
 
-    <p>Every class has a default Scheduler in place by default. You may use the default 
-  Scheduler, or create a custom Scheduler, but you <u>must</u> have a valid Scheduler in place. It will 
-be applied to all homework assignments.</p>
+<p><b>An example</b></p>
 
-      <p>The Scheduler lets you:</p>
-      <ul>
-        <li>Automate  <%= link_to_help 'spaced_vs_massed', 
-      text="spaced practice or massed practice", 
-      {:title => 'Spaced practice vs massed practice', :width => '600', :height => '700'} %> 
-      for your homework assignments</li>
-      <p>
-      <li>Automatically apply labels to all homework in order to activate learning conditions for 
-        all homework</li>
-    </ul>
-
-
-  <% end %>
-
-   <%= accordion_entry :title => "How the default Scheduler works" do %>
-  
-   <%= render :partial => 'help/blurbs/default_scheduler' %>
-
-   <p>So, if you added this topic to a homework assignment ...  
+ <p>Say that you created this topic ... 
+    </p>
 
     <p><%= image_tag("example_topic.png", {:border => 1, :width => "95%", 
                           :title=>"topic"})%></p>  
 
-    ... OST would add 100% of the homework exercises and apply the label <i>standard practice</i> to them. 
-    You can verify this by going to Learning Plan, then clicking <b>Preview Assignments</b>:</p>
+   <p>... then assigned this topic as homework.</p>
+
+               <p><%= image_tag("example_assignment_plan.png", {:border => 1, :width => "95%", 
+                          :title=>"topic"})%></p>
+  <p>The default Scheduler would build your homework as follows:</p>
+    <ol>
+      <li>Your homework will include the 2 homework questions, but not the test questions.</li>
+    <p>
+    <li>The label <i>standard practice</i> will be applied to each exercise.</li>
+    </ol>
+
+<p>You can verify this by going to Learning Plan, then clicking <b>Preview Assignments</b>:</p>
 
     <p>    <p><%= image_tag("preview_default_scheduler.png", {:border => 1, :width => "70%", 
                           :title=>"topic"})%></p>  
+    
+  <% end %>
 
-   <% end %>
+   <%= accordion_entry :title => "Use the Scheduler to enact different learning principles" do %> 
 
-   <%= accordion_entry :title => "Other types of Schedulers" do %> 
-   <p>If you like, you can create a custom Scheduler. Researchers who wish to 
-    manipulate learning conditions can even use the Scheduler to apply different conditions to each homework assignment. 
-    Before creating a custom Scheduler, we recommend you to review the help topics above, which explain how the 
-    default Scheduler and other Schedulers work. This will help you build a custom Scheduler.</p>
-
-  <%= render :partial => 'help/blurbs/other_schedulers' %>
+   <%= render :partial => 'help/blurbs/spaced_vs_massed' %>
+ 
+   <%= render :partial => 'help/blurbs/other_schedulers' %>
 
   <% end %>
 

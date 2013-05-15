@@ -1,21 +1,31 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>When you add an exercise to a topic, <%=SITE_NAME %> saves a version in its cache. If you later update that 
-exercise in Quadbase, <%= SITE_NAME %> will <em>not</em> automatically synchronize those changes.</p>
+<p>When you add an exercise to a topic, <%=SITE_NAME %> 
+    saves a version in its cache. If you later update that 
+    exercise in the exercise repository, <%= SITE_NAME %> will
+    <em>not</em> automatically synchronize those changes.</p>
 
-<p>Clicking <strong>Refresh Exercises</strong> will update all <i>unversioned</i> exercises to the latest version.</p>
+<p>Clicking <strong>Refresh Exercises</strong> will update all 
+    <i>unversioned</i> exercises to the latest version.</p>
 
-<p><strong>Note the following limitations to using Refresh Exercises</strong>:</p> 
+<p><strong><i>Note the following limitations to using Refresh 
+    Exercises</strong></i>:</p> 
   <ol>
-    <li>If you refresh exercises that have already been assigned, students will see the updated exercises in the assignment.
-     However, students who already worked the previous version <i>won't</i> have the opportunity to rework 
-     the new version.</li>
-    <p>
-    <li><i>Avoid altering answer choices for exercises that have already been assigned</i>. Altering answer choices
-    	 -- in particular, removing answers or reordering answers -- is problematic for grading and feedback.</li>
+    <li>If you refresh exercises that have already been assigned, 
+        students will see the updated exercises in the assignment.
+        However, students who already worked the previous version 
+        <i>won't</i> have the opportunity to rework 
+        the new version.</li>
+        <p>
+    <li><i>Avoid altering answer choices for exercises that have 
+        already been assigned</i>. Altering answer choices
+    	 -- in particular, removing answers or reordering answers 
+         -- is problematic for grading and feedback.</li>
     </li> 
-    <p>
-    <li>Versioned exercises, i.e. those ending in a version number, <em>cannot</em> be refreshed.
-     To change a versioned exercise, you must create a new question in Quadbase and add the new link to Topics.</li>
+        <p>
+    <li>Versioned exercises, i.e. those ending in a version number,
+     <em>cannot</em> be refreshed.
+        To change a versioned exercise, you must create a new question 
+        and add the new link to Topics.</li>
   </ol>
