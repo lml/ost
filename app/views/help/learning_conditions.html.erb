@@ -4,334 +4,356 @@
 <%= pageHeading "Help | Learning Conditions" do %>
 <% end %>
 
-  <p>Learning conditions are customizable rules that let you control important aspects of your students' experiences 
-  in OpenStax Tutor.</p>
+  <p>Learning conditions are customizable rules that let you 
+     control important aspects of your students' experiences 
+      in OpenStax Tutor. Select from the help topics below. We 
+      recommend you start with the overview.</p>
 
   <p><i>Are you an educator participating in a research study?</i> If so, the research team will set up  
           learning conditions on your behalf. To preserve a firewall between researcher and educator, you will not be 
           able to access the Learning Conditions page.</p> 
-
-  <p>Select from the help topics below. We recommend you start with the overview.</p>
   
 <div class="accordion" id="accordion2" style="padding-top:20px;">
 
 <%= section "Overview", {:classes => 'no_bar'} do %>
 
    <%= accordion_entry :title => "What are learning conditions?" do %>
-
-      <p><b>What is a learning condition?</b></p>
-
         <p>Learning conditions are customizable rules that enable you 
           to schedule actions to occur automatically. 
-          Using learning conditions, you can automatically 
-          release feedback when certain conditions are met, 
-   customize timing and type of feedback for different assignments (e.g., 
-  homeworks vs tests), control the presentation of 
-  your assignments, and automate massed or spaced practice for your homework. </p>
-
-        <p><b>Types of learning conditions</b></p>
-
-          <ul>
-            <li><b>The Scheduler</b>: For each topic you 
-              assign as homework, the Scheduler defines <em>what percentage of 
-              those exercises are added</em> 
-            to a particular assignment. You <u>must</u> have a Scheduler in place.
-             It will be applied automatically 
-            to all homework assignments.</li>
-            <p>
-            <li><b>Feedback conditions</b> let you control how, when, and what 
-              kind of 
-              <%= link_to_help 'example_feedback', text="feedback", 
-              {:title => 'Feedback', :width => '700', :height => '700'} %>
-              you release to students. You can create multiple feedback conditions, 
-              then choose which one to apply to each assignment.</li>
-            <p>
-            <li><b>Presentation conditions</b> let you control whether or not 
-              multiple-choice exercises include 
-              a <%= link_to_help 'question_format', text="a free-form component",  
-       {:title => 'Adding a free-form component to multiple-choice exercises', :width => '700', :height => '700'} %>. 
-       You can create multiple presentation conditions, 
-              then choose which one to apply to each assignment.</p>
-          </ul>
-
+          Using learning conditions, you can:</p>
+        <ul>
+            <li>Automatically release feedback when certain conditions are met</li>
+            <li>Customize timing and type of feedback for different assignments (e.g., 
+          homeworks vs tests)</li>
+            <li>Control whether your multiple-choice exercises contain a free-form 
+                component</li>
+            <li>Automate how your homework is built.</li>
+        </ul>
     <% end %>
 
-
-<% if false %>
-
-
-      <b>To create the learning condition</b>:
-
-      Go to Dashboard > Class > Learning Conditions and click <b>Add a New Feedback Condition</b>.
-      Click <b>Edit</b> under the newly created condition. 
-      In the </i>Match Labels Against</i> field, enter a unique label describing this feedback condition, e.g. <i>delayed feedback</i>.
-      Complete the remaining feedback settings and click <b>Update</b> to save.
-      You've created a learning condition!
-
-      <b>To apply the <i>delayed feedback</i> learning condition to an exercise or assignment, simply attach the condition label 
-        to the relevant exercise or assignment.</b> 
-
-        <%= render :partial => 'help/blurbs/attach_feedback_label_to_exercises'%>
-      <p> 
-
-        Set up presentation conditions. 
-
-        Presentation conditions control whether your multiple-choice questions include a free-response portion or not. 
-
-        In the below example, the "free response" condition includes both free-response and multiple choice, while the 
-        "mc only" condition does not include free-response. 
-
-        Set up feedback conditions. 
-
-
-
-        Set up the Scheduler.  
-
-        In the Learning Plan, you will organize your materials into topics, then assign topic(s) as homework. 
-        The Scheduler is where you specify how many exercises from each topic are added to homework assignments, and what (if any) 
-        labels are attached. 
-
-        Once you create a Scheduler, OST will automatically apply the Scheduler rule to each homework assignment. For example, 
-        the default Scheduler assigns 100% of exercises from topic(s) assigned as homework and attaches the label 
-        "standard practice" to each exercise. 
-
-        [image]
-
-        Create presentation and feedback conditions. 
-
-        Create any number of presentation and feedback conditions, then attach their labels to the intended exercises. 
-        
-       <%= accordion_entry :title => "Creating multiple cohorts (advanced setting)" do %>
-          <p>By default, a class comprises one (1) <strong>cohort</strong>. <em>A cohort is a group of students 
-            whose assignments are built using the same learning conditions</em>. 
-            The default setting should meet most instructors' needs.</p>    
-          <p>Should you want to apply different learning conditions to different cohorts, e.g. to create
-             control and experimental groups, go here to learn more.</p> 
-          assignments. <%= link_to_help 'spaced_practice', text="Spaced practice", {:title => 'Spaced practice', 
-              :width => '500', :height => '500'} %> is an example schedule condition       
-              <%= link_to_help 'example_feedback', text="feedback", {:title => 'Example Feedback',
-              :width => '500', :height => '400'} %> to students   
-      <% end %>
- <% end %>
+  <%= accordion_entry :title => "What you need to set up before releasing assignments" do %>
+          <ul>
+            <li><b>Set up the Scheduler</b>: For each topic you 
+              assign as homework, the Scheduler defines <em>what percentage of 
+              those exercises are added</em> 
+              to a particular assignment. You must 
+              have a Scheduler in place. It will be applied automatically 
+              to all homework assignments.</li>
+            <p>
+            <li><b>Create feedback conditions</b>: Feedback conditions
+                let you control how, when, and what 
+                kind of <%= link_to_help 'example_feedback', text="feedback", 
+              {:title => 'Feedback', :width => '700', :height => '700'} %>
+              you release to students. You can create multiple feedback conditions, 
+              then apply different feedback conditions to different assignments. For 
+              example, you could release feedback immediately for homework and release 
+              feedback after the due date for exams. </li>
+            <p>
+            <li><b>Create presentation conditions</b>: Presentation conditions
+               let you control whether or not 
+               multiple-choice exercises include 
+               a <%= link_to_help 'question_format', text="a free-form component",  
+               {:title => 'Adding a free-form component to multiple-choice exercises', :width => '700', :height => '700'} %>. 
+              You can create multiple presentation conditions, 
+              then choose which one to apply to each assignment.</p>
+            <p>
+            <li><b>Attach feedback and/or presentation labels to assignments</b>:
+                Once you create feedback and presentation conditions, you need to 
+                specify when you want them to be activated. You'll do this by attaching 
+                labels to exercises. When assignments are built, each exercise's labels 
+                are matched against the existing feedback and presentation conditions. 
+            </li> 
+          </ul>
+    <% end %>
  <% end %>
   
 <%= section "The Scheduler", {:classes => 'no_bar'} do %>
 
-  <%= accordion_entry :title => "What is the Scheduler?" do %>
- <%= render :partial => 'help/blurbs/default_scheduler' %> 
-
-<p><b>An example</b></p>
-
- <p>Say that you created this topic ... 
-    </p>
-
-    <p><%= image_tag("example_topic.png", {:border => 1, :width => "95%", 
-                          :title=>"topic"})%></p>  
-
-   <p>... then assigned this topic as homework.</p>
-
-               <p><%= image_tag("example_assignment_plan.png", {:border => 1, :width => "95%", 
-                          :title=>"topic"})%></p>
-  <p>The default Scheduler would build your homework as follows:</p>
-    <ol>
-      <li>Your homework will include the 2 homework questions, but not the test questions.</li>
-    <p>
-    <li>The label <i>standard practice</i> will be applied to each exercise.</li>
-    </ol>
-
-<p>You can verify this by going to Learning Plan, then clicking <b>Preview Assignments</b>:</p>
-
-    <p>    <p><%= image_tag("preview_default_scheduler.png", {:border => 1, :width => "70%", 
-                          :title=>"topic"})%></p>  
-    
+  <%= accordion_entry :title => "How the default Scheduler works" do %>
+           <%= render :partial => 'help/blurbs/default_scheduler' %> 
+           <p><b>An example to show how the default Scheduler works</b></p>
+           <p>Say that you created this topic ... </p>
+           <p><%= image_tag("example_topic.png", {:border => 1, :width => "95%", 
+                                :title=>"topic"})%></p>  
+           <p>... then assigned this topic as homework.</p>
+           <p><%= image_tag("example_assignment_plan.png", {:border => 1, :width => "95%", 
+                                 :title=>"topic"})%></p>
+           <p>The default Scheduler would build your homework as follows:</p>
+            <ol>
+               <li>Your homework will include 100% of the <i>unused</i> homework 
+                   questions, i.e., the 2 questions reserved 
+                   for homework and not those marked as test questions.</li>
+               <p>
+               <li>The label <i>standard practice</i> will be applied to each exercise.
+              </li>
+            </ol>
+          <p>You can verify this by going to Learning Plan, then clicking <b>Preview Assignments</b>. 
+             Preview mode shows what questions were added to a homework by the Scheduler, as well as 
+             any labels attached to each exercise.</p>
+           <p> <%= image_tag("preview_default_scheduler.png", {:border => 1, :width => "70%", 
+              :title=>"topic"})%></p>  
+           <p>
   <% end %>
 
-   <%= accordion_entry :title => "Use the Scheduler to enact different learning principles" do %> 
+    <%= accordion_entry :title => "When to adjust the default Scheduler" do %>
+          <p>While the default Scheduler will be applicable to many classes, you may 
+            want to create a custom Scheduler. This can be as simple as changing the labels 
+            the Scheduler automatically applies to each exercise. But the Scheduler also 
+            supports more complicated rules, such as multiple schedules or automatically 
+            adding exercises from previously assigned topics.</p> 
+           <%= render :partial => 'help/blurbs/other_schedulers' %>    
+    <% end %>
 
-   <%= render :partial => 'help/blurbs/spaced_vs_massed' %>
- 
-   <%= render :partial => 'help/blurbs/other_schedulers' %>
+    <%= accordion_entry :title => "Create a custom Scheduler" do %>
+       <ol>
+        <li>Go to <b>Dashboard > your class > Learning Conditions</b>.</li>
+        <p>
+        <li>Under <b>Scheduler</b>, click <b>Edit</b>.</li>
+        <p>
+            <%= image_tag("edit_schedule.png", {:border => 1, :width => "95%", 
+                              :title=>"schedule"})%></p>  
+            <p>
+        <li>In the first row (<i>n = 0 assignments ago</i>), under <b>Percent
+             to draw</b>, enter an integer between 0 and 100. 
+             This number represents the percentage of exercises OST will draw from
+             each topic you add to the <u>newest</u> homework 
+             assignment.</li> 
+             <p>
+                      <%= image_tag("example_scheduler1.png", {:border => 1, :width => "95%", 
+                              :title=>"schedule"})%></p>  
+             <p> 
+        <li>Do you want to automatically apply a specific feedback 
+            condition and/or presentation condition to all of these 
+            exercises? If so, under <b>Labels to apply</b>, enter comma-separated 
+            labels that match the name of 
+            the condition(s) you wish to activate.</li>  
+             <p>
+            <%= image_tag("example_scheduler2.png", {:border => 1, :width => "95%", 
+                    :title=>"schedule"})%></p>  
+             <p>
+        <li>Do you want the Scheduler to automatically pull in exercises
+            from topics assigned in the previous assignment (n=1 homeworks ago)? If yes, 
+            proceed to the next step. If not, go to step 10 below.</li>
+                     <p>
+        <li>To set up the Scheduler to automatically add exercises from previously assigned 
+            topics, click <b>Add a new row</b>.  
+             <p>
+               <%= image_tag("example_scheduler5.png", {:border => 1, :width => "95%", 
+           :title=>"schedule"})%></p>  
+            <p>
+        <li>In the second row (<i>n = 1 assignment ago</i>), under 
+            <b>Percent to draw</b>, enter an integer between 0 and 100. 
+            This number represents the percentage of exercises the Scheduler will
+            draw from each topic you added to the <u>previous</u> homework 
+            assignment. <b>Tip</b>: The Scheduler will ignore any previously 
+            assigned exercises and those reserved for tests.</li>
+                     <p>
+                      <%= image_tag("example_scheduler3.png", {:border => 1, :width => "95%", 
+                              :title=>"schedule"})%></p>  
+             <p>
+        <li>Again, if you want to automatically apply a specific feedback condition and/or 
+           presentation condition to <i>these</i> exercises, enter comma-separated labels 
+           that match the name of the condition(s) you wish to activate.</li>
+           <p>
+           <%= image_tag("example_scheduler4.png", {:border => 1, :width => "95%", 
+           :title=>"schedule"})%></p>  
+           <p>
+        <li>Continue adding rows until you have built your custom Scheduler as desired.</li>
+            <p>
+        <li>Finally, you have the option to create additional Schedules. 
+          If you create more than one schedule, your 
+            Scheduler will cycle through each in sequence. For example,
+             with 3 schedules, the Scheduler would 
+            build HW 1 according to Schedule 1, HW 2 according 
+            to Schedule 2, HW 3 according to Schedule 3, and HW 4 
+            according to schedule 1. 
+            If <u>yes</u>, proceed to the next step. Else, proceed
+            to step 12.</li>
+            <p>
+        <li>To create another schedule, simply click <b>Add new 
+            Schedule</b> and complete it following the instructions 
+            above.</li>
+            <p>
+            <%= image_tag("example_schedule6.png", {:border => 1, :width => "95%", 
+           :title=>"schedule"})%></p>  
+            <p>
+        <li>When you are finished editing, click <b>Update 
+            Schedule</b>.</li>
+            <p>
+                    <%= image_tag("example_schedule7.png", {:border => 1, :width => "95%", 
+           :title=>"schedule"})%></p>  
+      </ol>
 
-  <% end %>
-
-     <%= accordion_entry :title => "How to create a custom Scheduler" do %> 
-   
-   <ol>
-    <li>Go to <b>Dashboard > your class > Learning Conditions</b>.</li>
-    <p>
-    <li>Under <b>Scheduler</b>, click <b>Edit</b>.</li>
-    <p>
-      <%= image_tag("edit_schedule.png", {:border => 1, :width => "70%", 
-                          :title=>"schedule"})%></p>  
-    <p>
-    <li>In the first row (<i>n = 0 assignments ago</i>), under <b>Percent to draw</b>, enter an integer between 0 and 100. 
-    This number represents the percentage of exercises OST will draw from each topic you add to a homework 
-    assignment.</li> 
-    <p>
-
-    <p>
-    <li>Do you want to automatically apply specific a feedback condition and/or presentation condition to all of these 
-    exercises? If so, under <b>Labels to apply</b>, enter comma-separated labels that match the name of 
-    the condition(s) you wish to activate.</li>  
-    <p>
-
-    <p>  
-    <li>Do you want your Scheduler to automatically pull in exercises from previous topics? If not, click <b>Update Scheduler</b>. You're done!</li>
-    <li>If you do want to pull in repetition practice exercises, click <b>Add a new row</b>.
-    <p>
-
-    <p>
-    <li>In the second row (<i>n = 1 assignment ago</i>), under <b>Percent to draw</b>, enter an integer between 0 and 100. 
-    This number represents the percentage of exercises OST will draw from each topic you added to the <u>previous</u> homework 
-    assignment.</li>
-    <p>
-
-    <p>
-    <li>Do you want to automatically apply a specific feedback condition and/or presentation condition to all of these exercises? 
-    If so, under <b>Labels to apply</b>, enter comma-separated labels that match the name fo the condition(s) you wish to activate.</li>  
     <% end %>
 
 
   
 <% end %>
 
-
-
 <%= section "Feedback and Presentation Conditions", {:classes => 'no_bar'} do %>
 
-    <%= accordion_entry :title => "Overview: how to customize your assignments' feedback and presentation" do %>
+    <%= accordion_entry :title => "Overview: how to customize assignments' feedback and presentation" do %>
 
-        <p>OpenStax Tutor makes it easy to customize your assignments' feedback and presentation. You'll 
-          follow these general steps:</p>
-
+        <p>OpenStax Tutor makes it easy to customize your assignments'
+           feedback and presentation. You'll 
+           follow these general steps:</p>
         <ol>
-
-          <li>Create any number of feedback and/or presentation conditions.</li>
-          <p>
-          <li>Attach the name of a condition (its <i>label</i>) to the applicable exercise/assignment.</li>
-          <p>
-          <li>Re-order the learning conditions so that the conditions you want to apply first are listed first.</li>
+          <li>Create any number of feedback and/or presentation 
+              conditions.</li>
+              <p>
+          <li>Attach the name of a condition (its <i>label</i>) 
+              to the applicable exercise/assignment.</li>
+              <p>
+          <li>If you have more than one feedback 
+              condition and/or more than one 
+              presentation condition, re-order them
+              so that the condition 
+              you want to apply first is listed first.</li>
         </ol>
-
-          <p>When your assignment is built, each exercise's labels are matched against your feedback and presentation 
-            conditions. If/when a matching feedback condition is found, its rules are used to determine how/when feedback is given
-            for that exercise. 
-            And if/when a matching presentation condition is found, its rules are used to determine the presentation of that 
-            exercise. 
-        </p>
-
-        <p>The below help tutorials will explain how to create conditions, re-order conditions, and apply labels to exercises and 
-          assignments to trigger learning conditions.</p>
-
+          <p>When your assignment is built, each exercise's labels
+             are matched against your feedback and presentation 
+             conditions. If/when a matching condition is found,
+             its rules are used to determine the rules for that 
+             exercise.</p>
+         </p>
+        <p>The below help tutorials will explain how to create conditions,
+           re-order conditions, and apply labels to exercises and 
+           assignments to trigger learning conditions.</p>
      <% end %>    
 
-       <%= accordion_entry :title => "Overview of feedback conditions" do %>
-      <p> Feedback conditions control how and when OST presents feedback/solutions.
-
-allow you to set what kind of feedback students receive as they work assignments 
-        in OST. Create feedback conditions to define the following:</p> 
-      <ol>
-        <li>When will feedback become available?</li>
-        <p>
-        <li>Is viewing required to receive full credit for the exercise?</li> 
-        <p>
-        <li>What level -- no feedback, just the answer, a high-level explanation? -- of feedback will students see?</li>
-        <p>
-        <li>Does every student group receive the same type of feedback, at the same time, or do different 
-          students receive different feedback?</li>
-      </ol>
-      <p>Using <%= SITE_NAME %>, you can create multiple feedback conditions and apply them to different 
-        exercises: for example, create different feedback conditions for homework exercises than for test exercises.</p> 
-<% end %>
-
-       <% if false %>   
-           <%= accordion_entry :title => "Create custom feedback conditions" do %>
- 
-           <em><p>Step 1: Create new feedback condition.</p></em>
-           <ol>
-             <li>Go to <strong>Dashboard > Class > Learning Conditions</strong>.</li>
-             <li>In the Feedback Conditions section, click <strong>Add New Feedback Condition</strong>.</li>
-             <li>In the pop up dialog box, select <strong>Basic</strong> feedback condition and 
-               click <strong>Choose</strong>.</li>
-             <li>You have just created an empty feedback condition.</li>
-           </ol>
-
-           <p><em>Step 2: Edit feedback condition.</em></p>
-             <ol>
-             <li>Find the feedback condition you want to edit and click <strong>Edit</strong>.</li> 
-               <%= image_tag("feedback7.png", {:border => 1, :width => "70%", :height => "70%",
+   <%= accordion_entry :title => "Create a feedback condition" do %>
+      <p>Feedback conditions
+         let you control how, when, and what 
+         kind of <%= link_to_help 'example_feedback', text="feedback", 
+         {:title => 'Feedback', :width => '700', :height => '700'} %>
+         you release to students. You can create any number of feedback conditions, 
+         e.g. one for homework, one for exams, one for quizzes. You can apply 
+         one condition to one assignment or many assignments. </p>
+       <b><p>Create a feedback condition</p></b>
+       <ol>
+         <li>Go to <strong>Dashboard > Class > Learning Conditions</strong>.</li>
+            <p>
+         <li>In the Feedback Conditions section, click <strong>Add
+             New Feedback Condition</strong>.</li>
+                        <%= image_tag("fb_2.png", {:border => 1, :width => "90%", 
                   :title=>"new feedback condition"})%>
-             <li>Complete the <strong>Feedback Condition Editing</strong> form:</li>
+           <li>Under this feedback condition, click <strong>Edit</strong>.</li> 
+               <%= image_tag("feedback7.png", {:border => 1, :width => "90%", 
+                  :title=>"edit feedback condition"})%>
+             <li>Complete the <strong>Feedback Condition Editing</strong> form.</li>
                <p>
-               <ul>
-                 <li><strong>Match Labels Against field</strong>: The label you enter here must 
-                   match the label of the exercise(s) you want to receive this feedback condition. 
-                   (<%= link_to "Read more about labels.", help_learning_conditions_path(:anchor => "labels") %>) </li>
+             <li><strong>Match Labels Against field</strong>: Enter a unique label 
+                 describing this condition.</li> 
+                 <%= image_tag("fb_3.png", {:border => 1, :width => "90%", 
+                  :title=>"edit feedback condition"})%>
+             <li><strong>Feedback credit field</strong>: check this box 
+                 to make viewing feedback
+                 <em>mandatory</em> for credit. If checked, students who 
+                 fail to view feedback for an exercise will receive <u>no credit</u>
+                 for that exercise.</li>
+                                <%= image_tag("fb_4.png", {:border => 1, :width => "90%", 
+                  :title=>"edit feedback condition"})%>
                  <p>
-                 <li><strong>Feedback credit field</strong>: check this box to make viewing feedback
-                    <em>mandatory</em> for credit.</li>
+             <li><strong>Feedback presentation field</strong>: 
+                 check this feedback presentation 
+                 box to show students feedback automatically, or 
+                 leave it unchecked to make students 
+                 manually click on feedback page to view.</li>
+                 <%= image_tag("fb_5.png", {:border => 1, :width => "99%", 
+                  :title=>"edit feedback condition"})%>
+               <p>
+             <li><b>Feedback activating event</b>: This event will activate the feedback 
+                  condition. </b></li>
+                <p>
+                <%= image_tag("fb_6.png", {:border => 1, :width => "90%", 
+                  :title=>"edit feedback condition"})%>
+                <p>
+             <li><b>Feedback to show</b>: This lets you select what type of feedback to 
+                 show. Recommended: check all. For students to see grades in 
+                 <%= SITE_NAME %>, <b>show correct/incorrect</b> 
+                 must be checked.</li>
                  <p>
-                 <li><strong>Feedback presentation field</strong>: check this feedback presentation 
-                   box to show students feedback automatically, or leave it unchecked to make students 
-                   manually click on feedback page to view.</li>
-                 <p>  
-                 <li><strong>Set timing options</strong> by answering the prompts.</li>
+                <%= image_tag("fb_7.png", {:border => 1, :width => "90%", 
+                  :title=>"edit feedback condition"})%>  
                  <p>
-               </ul>
-             <li>Click <strong>Update</strong> to save.</li>
-             <li>Create as many feedback conditions as you need.</li>
-             <% end %>
-            <% end %>
-
-
-      <% if false %> 
-             <%= accordion_entry :title => "Use labels to control feedback conditions" do %>
-             Use labels to control when the site applies feedback conditions
-             <p> must specify which feedback conditions apply to what exercises.
-               <ol>
-                 <li>Create a feedback condition and assign it a unique label.</li>
-                 <li>Attach that same feedback label to <em>all exercises you want to receive that
-                    feedback condition</em><br/></li>
-                <li>Each additional feedback condition you create should have a different label.</li> 
-               </ol>
-
-             <p>When a student completes an exercise, <%= SITE_NAME %> looks at the exercise labels 
-               and searches for a matching feedback condition label. When a matching feedback condition
-                is found, its rules are used to determine how feedback is given. </p>
-
-             <ul>
-             </li><strong>Example 1</strong>: if a student completes an exercise labeled 
-             <em>Homework</em>, and there is a feedback condition labeled <em>Homework</em>, 
-             <%= SITE_NAME %> will apply the <em>Homework</em> feedback condition to that exercise.</li>
+             <li><strong>Set timing options</strong>:</li>
+               <p>
+                                <%= image_tag("fb_8.png", {:border => 1, :width => "90%", 
+                  :title=>"edit feedback condition"})%>  
+             <li>Click <strong>Update feedback condition</strong> to save.</li>
              <p>
-             </li><strong>Example 2</strong>: if a student completes an exercise labeled 
-             <em>Test</em>, and there is no feedback condition matching that exercise label,
-              <%= SITE_NAME %> cannot apply a feedback condition. The student will <em><strong>not</strong></em>
-               receive feedback for that exercise.</li>
-             <p>
-             </ul>
-             <% end %>
-       <% end %>
-   
-   <% if false %>
-       <%= accordion_entry :title => "Attach feedback labels to exercises or assignments" do %>
-             <p>Once you have defined a feedback condition, attach the feedback label to all exercises 
-               you want to receive this feedback condition.</p>
-             <p>As students complete each exercise, <%= SITE_NAME %> will search for matching exercise and
-                feedback labels. When a matching feedback condition is found, its rules are used to determine 
-              how feedback is presented.</p>
-             <%= render :partial => 'help/blurbs/attach_feedback_label_to_exercises' %>
-       <% end %>
-  <% end %>
-   
-<% end %>
+           </ul>
+        <% end %>
 
-  <%= section "Presentation Conditions", {:classes => 'no_bar'} do %>
-         <%= accordion_entry :title => "Overview of presentation conditions" do %>
-         <%= render :partial => 'help/blurbs/presentation_conditions' %>
-         <% end %>
+  <%= accordion_entry :title => "Create a presentation condition" do %>
+        <p>Presentation conditions
+           let you control whether or not 
+           multiple-choice exercises include 
+           a <%= link_to_help 'question_format', text="a free-form component",  
+           {:title => 'Adding a free-form component to multiple-choice exercises', 
+           :width => '700', :height => '700'} %>.</p>
+        <p><b>Create a presentation condition</b></p>
+          <ol>
+             <li>Go to <strong>Dashboard > Class > Learning Conditions</strong>.</li>
+                 <p>
+            <li>In the Presentation Conditions section, click <strong>Add
+                New Presentation Condition</strong>.</li>
+                        <%= image_tag("presentation_1.png", {:border => 1, :width => "95%", 
+                  :title=>"new presentation condition"})%>
+           <li>Under this presentation condition, click <strong>Edit</strong>.</li> 
+                        <%= image_tag("presentation_2.png", {:border => 1, :width => "95%", 
+                  :title=>"edit presentation condition"})%>
+          <li>Complete the form.</li>
+               <p>
+          <li><strong>Match Labels Against field</strong>: Enter a unique label 
+               describing this condition.</li> 
+               <%= image_tag("fb_3.png", {:border => 1, :width => "60%", 
+                :title=>"edit presentation condition"})%>
+              <p>
+          <li><b>Free-response</b>: Check this box to include the free-form component, or 
+              leave unchecked to omit the free-form component.</li>
+               <p>
+                 <%= image_tag("presentation_3.png", {:border => 1, :width => "60%", 
+                  :title=>"edit presentation condition"})%>
+              <p>
+          <li>Click <b>Update Presentation Condition</b> to save.</li>
+        </ol>           
   <% end %>
 
+    <%= accordion_entry :title => "Apply labels to assignments to activate conditions" do %>
+        <p>To apply a feedback and/or presentation condition to an assignment, 
+           you must attach its label to the applicable assignment. <u>If you don't  
+           attach a label, no feedback or presentation condition 
+           will be activated.</u></p>    
+        <%= render :partial => 'help/blurbs/attach_feedback_label_to_exercises' %>
+       <p>When your assignment is built, each exercise's labels are matched against your
+         feedback and presentation conditions. If/when a matching condition 
+         is found, its rules are used to determine how/when feedback is given for that exercise.</p>       
+  <% end %>    
+
+    <%= accordion_entry :title => "When to reorder your learning conditions" do %>
+        <p>If you have more than one feedback condition, or if you have more than one 
+           presentation condition, you may need to reorder them.</p>
+        <p><b>An example</b></p>
+        <p>Say that you create an assignment and accidentally apply two conflicting labels.</p>
+          <%= image_tag("reorder_2.png", {:border => 1, :width => "99%", 
+                :title=>"reorder"})%>
+        <p><%= SITE_NAME %> will activate the first matching condition. So if your conditions 
+          are ordered like so ... 
+           <%= image_tag("reorder_1.png", {:border => 1, :width => "99%", 
+                :title=>"reorder"})%>
+        <p>... the condition labeled <b>free response</b> will be applied first. If that's what you 
+           want, great! If not, use the + icon to reorder via drag-and-drop.</p>
+           <%= image_tag("reorder_3.png", {:border => 1, :width => "99%", 
+                :title=>"reorder"})%>
+        <p><b>Key takeaway</b>: At most one feedback condition and one 
+             presentation condition can be applied
+             to any individual exercise. Order your conditions so 
+             that the first one you want to be applied is listed first.</p>
+    <% end %>
+
+
+ <% end %>
 
 </div>
 

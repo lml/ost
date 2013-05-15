@@ -2,8 +2,16 @@
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <% pageHeading "Sections for #{@klass.course.name}"%>
-<p>If your class has multiple sections, add additional sections here. <%= link_to_help 'sections', 
-text="Learn how.", {:title => 'Create Sections', :width => '500', :height => '400'} %></p>
+
+<p>A section is an administrative grouping. If you 
+   create more than one section, <%= SITE_NAME %> 
+   prompt your students to register for a specific section. 
+   Your grades reports will separate students by section, 
+   and you'll also have the option to associate each 
+   assignment with one or both sections. 
+   <%= link_to_help 'sections', 
+   text="Learn how to create multiple sections.", 
+   {:title => 'Create Sections', :width => '500', :height => '400'} %></p>
 
 <%= uber_list @sections, :name %>
 

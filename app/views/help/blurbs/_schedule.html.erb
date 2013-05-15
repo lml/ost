@@ -3,46 +3,5 @@
 
 <%= render :partial => 'help/blurbs/default_scheduler' %>
 
-<%= render :partial => 'help/blurbs/other_schedulers' %>
-
-<% if false %>
-
-<strong>Edit Schedule 1</strong>
-
-<ol>
-  <li>The first row <strong>(n=0)</strong> controls the current assignment:</li>
-  <p>
-  <ul>
-    <li>Under <em>percent to draw</em>, specify what percentage of exercises OST should draw from each 
-      topic attached to the current assignment.</li>
-    <p>
-    <li>Under <em>labels to apply</em>, enter comma-separated labels, e.g. to activate a feedback condition.</li>
-  </ul>
-  <p>
-  <li>Click <strong>Add a new row</strong> if you want to include exercises from previously assigned topics.</li>
-    <ul>
-      <p>
-    <li>For n=1 assignments ago, specify the percentage and label rules, if any, or leave blank.</li>
-    </ul>
-    <p>
-  <li>Continue adding new rows as necessary.</li>
-</ol>
-
-For row <strong>assignment n=0</strong>, designate what percentage of exercises OST should draw from each topic
- attached to the current assignment. 
-
-  For example: if Assignment 1 includes Topic A, and Topic A has 4 exercises, a 50% rule will pull 2 exercises 
-  from Topic A into the current assignment. 
-  
-Click Add a new row to create an additional percentage rule. 
-
-  For example: If Assignment 2 includes Topic B, a 50% rule for Assignment n = 1 will pull 2 exercises from Topic A 
-  (covered in Assignment n =1 ) and 2 exer f Assignment n = 1 is set to draw 50%  rule where all non-test
-   assignments automatically draw exercises from <em>previously assigned topics</em>. 
-
-Give Assignment n = 0 draws 50% of the exercises from topics attached to the current HW assignment; and 
-Given Assignment n = 1 draws 50% of the exercises from topics attached to the <em>previous</em> HW assignment; and 
-Given Topic A has 2 unused exercises, and Topic B has 4 unused exercises; 
-
-<% end %>               
-               
+<%= link_to "Learn more about the Scheduler.", help_learning_conditions_path,
+           :target => '_blank' %>

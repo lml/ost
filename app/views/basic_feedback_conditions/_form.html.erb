@@ -7,7 +7,11 @@
 
 <%= form_for feedback_condition, :as => :feedback_condition, :url => feedback_condition_path(feedback_condition)  do |f| %>
 
-  <p>Use this form to control when and how <%= SITE_NAME %> provides feedback to students.</p>
+  <p>Feedback conditions
+    let you control how, when, and what 
+    kind of <%= link_to_help 'example_feedback', text="feedback", 
+    {:title => 'Feedback', :width => '700', :height => '700'} %>
+    you release to students.</p>
 
   <%= hidden_field_tag :type, 'BasicFeedbackCondition' %>
   

@@ -3,18 +3,30 @@
 
 <p><b>Other types of Schedulers</b></p>
 
-<p>You can use the Scheduler editing form to create custom schedulers. Examples below.</p>
+<p>You can use the Scheduler editing form to create
+ custom schedulers. Examples below.</p>
 
- <p><strong>Example 1</strong>: This schedule will yield assignments that include exercises from both 
-  (i) the current topic and (ii) topics covered <em>two assignments ago</em> (a form of 
-  <%= link_to_help 'spaced_practice', text="spaced practice", {:title => 'Spaced Practice', :width => '600', :height => '500'} %>).</p>
+<p><b>Example 1</b>: This schedule pulls 100%
+ of the non-test exercises from each topic 
+	added to the newest homework, but automatically
+	 applies two different labels.</p>
+	<p>
+	<center><%= image_tag("schedule3.png", {:border => 1, :width => "95%", 
+   :title=>"schedule"})%></center></p>
+<p><strong>Example 2</strong>: This schedule will 
+	yield assignments that include exercises from both 
+  (i) the current topic and (ii) topics covered 
+  <em>two assignments ago</em> (a form of 
+  <%= link_to_help 'spaced_practice', 
+  text="spaced practice", {:title => 'Spaced Practice', 
+  	:width => '600', :height => '500'} %>).</p>
 <p>
 <p><center><%= image_tag("schedule1.png", {:border => 1, :width => "95%", 
    :title=>"schedule"})%></center></p> 
-<p>
-  
-<p><strong>Example 2</strong>: You can also create <em><strong>multiple schedules</strong></em>. Given 
+<p>  
+<p><strong>Example 3</strong>: You can also create
+ <em><strong>multiple schedules</strong></em>. Given 
   multiple schedules, OST will cycle through the schedules in order. </p> 
 <p>
-<p><center><%= image_tag("schedule2.png", {:border => 1, :width => "95%", 
+<p><center><%= image_tag("schedule4.png", {:border => 1, :width => "95%", 
    :title=>"schedule"})%></center></p>

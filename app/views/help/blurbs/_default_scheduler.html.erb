@@ -1,26 +1,37 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>The Scheduler is a rule that automates how your 
-	<u>homework assignments</u> are 
-  built. Before releasing any assignments, you 
-  <u>must</u> have a Scheduler in place.</p>
+<p>The Scheduler is a <u>fixed</u> rule that automates how your 
+<u>homework assignments</u> are 
+built. Before releasing any assignments, you 
+<u>must</u> have a Scheduler in place.</p>
 
-<p><p>We create a <i>default Scheduler</i> for each class. 
-	  You can easily customize it if you like, but 
-	  first it's helpful to know how the default Scheduler works. </p>
+<p>A <i>default Scheduler</i> is created for each class. 
+While the default Scheduler will apply to many classes, you can easily customize it.
+But first it's helpful to know how the default Scheduler works. </p>
 
-<p><b>How the default Scheduler works</p></b>
-
-<p>Here is the default Scheduler:</p>
+<p><b>How the default Scheduler builds homework</p></b>
  
- <p><%= image_tag("default_scheduler1.png", {:border => 1, :width => "95%", 
+ <p><%= image_tag("default_scheduler1.png", {:border => 1, :width => "90%", 
        :title=>"schedule"})%></p>
  
- <p>The default Scheduler builds homework 
- 	by pulling <b>100%</b> of the exercises 
-    in the topic(s) you add to each homework assignment,
-    then applies the label <b><i>standard practice</i></b> to 
-    each assigned exercise. <u>Exception</u>: the Scheduler 
-    will not add exercises reserved for tests or previously 
-	assigned exercises.</p>
+ <ol>
+    <li>The default Scheduler builds homework 
+     	  by pulling <b>100%</b> of the exercises 
+        in the topic(s) you add to each homework assignment. 
+        <u>Exception</u>: the Scheduler 
+        will not add exercises reserved for tests or previously 
+        assigned exercises.</li>
+        <p>
+    <li>The default Scheduler also applies the 
+        label <b><i>standard practice</i></b> to 
+        each assigned exercise.</p>
+        <p><i>Why attach labels?</i> When an assignment
+        is built, each exercise's labels 
+        are matched against the existing feedback 
+        and presentation conditions. Under the 
+        default Scheduler, the label <i>standard 
+        practice</i> will trigger the feedback and 
+        presentation conditions with that label. You can 
+        view/edit these on the Learning Conditions page.</p>
+</ol>
