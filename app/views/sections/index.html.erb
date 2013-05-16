@@ -3,14 +3,13 @@
 
 <% pageHeading "Sections for #{@klass.course.name}"%>
 
-<p>A section is an administrative grouping. If you 
-   create more than one section, <%= SITE_NAME %> 
-   prompt your students to register for a specific section. 
-   Your grades reports will separate students by section, 
+<p>If you set up multiple sections, <%= SITE_NAME %> will 
+   prompt your students to register for a specific section of 
+   the class. Your grades reports will separate students by section, 
    and you'll also have the option to associate each 
    assignment with one or both sections. 
    <%= link_to_help 'sections', 
-   text="Learn how to create multiple sections.", 
+   text="See how to create multiple sections.", 
    {:title => 'Create Sections', :width => '500', :height => '400'} %></p>
 
 <%= uber_list @sections, :name %>
