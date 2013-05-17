@@ -1,10 +1,21 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p><%= SITE_NAME %> is built to capitalize on the large universe of freely available open educational resources (OER) but does not itself host educational content.</p>
+<p><%= SITE_NAME %> is built to capitalize on the large universe of freely available open educational resources (OER). While we do not directly 
+ host educational content, we make it easy for you to embed OER and other web content directly in your assignments.</p>
 
-<p>To assign exercises in OST, you must add your course materials to external OER repositories, or search for reusable OER content to use or adapt. For example, you can embed resources from <%= link_to "Connexions", 
-  "http://www.cnx.org" %> and exercises from our OST-compatible OER repository. Please email <%= email_link "support", "support@openstaxtutor.org" %> for more information about the repository for exercises and assessments.</p>
+<ul>
+    <li><b>Exercises.</b> Exercises you assign via <%= SITE_NAME %> must be hosted in our external, OST-compatible OER repository. You can add your own exercises
+      to the repository, or you can easily search for and use existing exercises created by 
+      other authors. Because the content in the repository is openly licensed, exercises are <em>totally free to use or adapt</em> as long the original author is credited!</li>
+      <p>
+    <li><b>Other resources</b>. Any web URL can be provided as an assignment resource. For example, you can embed resources from <%= link_to "Connexions", 
+      "http://www.cnx.org" %> or link to a blog or other website.</li>
+</ul>
+
+<p> Please email <%= email_link "support", "support@openstaxtutor.org" %> for more information about the repository for exercises and assessments.</p>
+
+
     <% if false %>  
        <ul>
          <li><em>Exercises</em> you use must be hosted on <%= link_to "Quadbase", "http://www.quadbase.org"%>, the open-access question and answer repository. 

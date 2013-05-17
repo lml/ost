@@ -1,0 +1,28 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+ <p>Multiple-choice exercises can be presented in two ways: 
+            <i>with</i> or <i>without</i> a 
+            free-response component.</p>
+        <p>By adding a free-response component, you can engage students in <b>retrieval 
+            practice</b>. The free-response component challenges students to 
+            first attempt to retrieve the answer from memory, rather than recognizing the answer in a list.
+             When you include a free-response component, the answer 
+            process is two-step, as shown below:</p>
+
+        <ul>
+            <li><p><b><i>Step 1: Question stem only</i></b></li.>
+
+            <p>The multiple-choice answer options are hidden for 
+            the moment. Students are prompted to show their work and are given various methods to do so: 
+            text/LaTeX editor, graphics editor to sketch an answer, upload an image or PDF via PC, or 
+            upload an image or PDF via smart device.</p>
+
+                    <p><center><%= image_tag("example exercise.png", {:border => 1, :width => "95%"})%></center></p>
+
+            <li><b><i>Step 2: Multiple-choice options are revealed</i></b></li>
+
+            <p>Once a student locks in a free-response answer, OST reveals the multiple-choice answer options and 
+              asks the student to enter the answer that corresponds to their work. The multiple-choice answer is 
+              then auto-graded. </p>
+        </ul>

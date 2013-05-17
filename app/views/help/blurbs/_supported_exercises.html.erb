@@ -1,13 +1,13 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>Currently, <%= SITE_NAME %> supports multiple choice questions and open-ended questions. <%= SITE_NAME %> will support additional question types soon, including matching questions, 
-      multipart questions, and dynamic questions.</p>
-  
-
+<p>Currently, <%= SITE_NAME %> supports multiple choice questions, with the option to include 
+	a <%= link_to_help 'question_format', text="free-form component", {:title => 'Exercise formatting', 
+    :width => '500', :height => '500'} %>. <%= SITE_NAME %> will support additional
+    question types soon, including matching questions, 
+    multipart questions, open-ended questions and dynamic questions.</p>
 
 <% if false %>
   <p><%= link_to "Go here", "https://quadbase.org/help/authoring#simple" %> for a 
-    tutorial on writing a simple multiple choice question in Quadbase.</p>
+    tutorial on writing a simple multiple choice question.</p>
 <% end %>  
-
