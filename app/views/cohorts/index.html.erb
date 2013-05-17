@@ -3,10 +3,13 @@
 
 <%= pageHeading "#{@klass.course.name} Cohorts"%>
 
-<p>A cohort is a student group that receives the same assignment schedule 
-  and feedback. By default, OST creates <em>one (1) cohort</em> for each class. 
-  Unless you are designing a learning experiment, changing the default setting is not advised.</p>
-
+<p>Create more than one cohort only if you want <%= SITE_NAME %>
+   to randomly assign students into experimental and 
+   control groups. Unless you are designing a learning experiment,
+   changing the default setting is not 
+   advised.</p>
+ <p>If you'd like to create administrative groupings 
+   in a class, set up multiple sections on the Sections page.</p>
 
 <%= uber_list @cohorts, :name %>
 

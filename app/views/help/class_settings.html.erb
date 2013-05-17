@@ -27,8 +27,15 @@
   
   <% end %>
   <%= accordion_entry :title => "Create class sections" do %>
-  
-  <p>Go to <strong>Dashboard > Class</strong> and click on <strong>Sections</strong>.
+  <p>A section is an administrative grouping. If you 
+   create more than one section, <%= SITE_NAME %> 
+   prompt your students to register for a specific section. 
+   Your grades reports will separate students by section, 
+   and you'll also have the option to associate each 
+   assignment with one or both sections.</p>
+
+  <p>To create sections, go to <strong>Dashboard > Class</strong> and 
+    click on <strong>Sections</strong>.
   <p>
   <%= image_tag("sections.png", {:border => 1, :width => "100%", 
     :height => "100%", :title=>"section"})%>
@@ -43,16 +50,33 @@
     
 <%= section "Manage Student Enrollment", {:classes => 'first no_bar'} do %>  
     <%= accordion_entry :title => "Preapprove student registration requests" do %>
-    <p>Follow the instructions below to preapprove student registration requests. Or, if 
-      you prefer to manually approve all registration requests, do nothing.</p>
+
+    <p>By default, <%= SITE_NAME %> requires you to manually approve all student registration requests. 
+      If you don't want to manually approve each request, specify a list of email addresses 
+      or domains that can be automatically approved. </p>
+
+    <p>To preapprove email addresses or domains:</p> 
     <ol>
       <li>Go to <strong>Dashboard > Class</strong> and click <strong>Edit Class</strong>.</li>
       <p><%= image_tag("edit_class.png", {:border => 1, :width => "90%", 
        :title=>"edit class"})%>
       <li>On the Edit Class page, scroll to the <strong>Approved Emails</strong> field.</li>
-    </ol>
-    <%= render :partial => 'help/blurbs/preapproved_emails' %>
-    <% end %>
+      <p>
+    
+<li><p><strong>To approve individual students</strong>, enter one student email address per line: </li>
+<p>
+<pre>michael@college.edu
+ali@college.edu</pre>
+
+<li><p><strong>To approve any email in a domain</strong>, enter domain followed by a $ sign:</li>
+<p>
+<pre>@domain.edu$
+@math.college.edu$</pre>
+<p>
+<li>Click <b>Update Class</b> to save changes.</li>
+</ol>
+
+<% end %>
     
     <%= accordion_entry :title => "Confirm pending registration requests" do %>
     <p>By default, when a student requests to register for your class, <%= SITE_NAME %> will 

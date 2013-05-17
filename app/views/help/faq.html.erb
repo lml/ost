@@ -4,8 +4,8 @@
 <%= pageHeading "Frequently Asked Questions" %>
 
 <p style="width: 600px">The most commonly asked questions we receive are 
-  answered below. If you have a question that isn't addressed below, email 
-  <%= email_link "support", "support@openstaxtutor.org" %>.</p>
+  answered below. If you have a question that isn't addressed below, feel free to email 
+  <%= email_link "support", "the friendly Support Team" %>.</p>
 
 <%# ########### SET UP YOUR FAQ ENTRIES HERE %%%%%%%%%%%%%%%%% %>
 
@@ -18,21 +18,23 @@
       <%= render :partial => 'help/blurbs/request_conf_email'%>
     <% end %>
 
-    <%= accordion_entry :title => "I am experiencing problems with the display, e.g. I can't access or view 
+    <%= accordion_entry :title => "I am experiencing problems with the display,
+     e.g. I can't access or view 
     content." do %>
        <%= render :partial => 'help/blurbs/browser_reqs'%>
     <% end %>
 
+    <%= accordion_entry :title => "I am not receiving email notifications 
+    about new assignments or 
+    feedback." do %>
+    <%= render :partial => 'help/blurbs/email_notifications' %>
+    <p>To change the email address we use to contact you:</p>
+    <%= render :partial => 'help/blurbs/update_account' %>
+    <% end %>
+
     
     <%= accordion_entry :title => "I need to update my password, email address or time zone." do %>    
-      <ol>
-        <li>Sign in and click <strong>My Account</strong>, found in the upper right 
-            of every page, next to the welcome message.</li>
-        <p>
-        <li>In My Account, update your password, email address and/or time zone.</li>
-        <p>
-        <li>Enter your current password to confirm changes.</li>
-      </ol>  
+     <% render :partial => 'help/blurbs/update_account' %>
     <% end %>
 
 <% end %>
@@ -40,10 +42,7 @@
   <%= section "Student FAQs", {:classes => 'no_bar'} do %>
       
       <%= accordion_entry :title => "How do I register for a class?" do %>
-        <p>Check out our registration screencast, which will walk you through the registration process
-         in 2 minutes: </p>
-
-        <%= render :partial => 'help/blurbs/student_register_screencast' %>
+        <%= render :partial => 'help/blurbs/register_for_a_class' %>
   
   <% end %>
   
@@ -54,21 +53,17 @@
 
         <p>If your registration request is still pending, i.e. you see <strong>Cancel my request to join
          this class</strong>, click <strong>Cancel</strong> and confirm your choice.</li>
-          <%= image_tag("cancelrequest.png", {:border => 1, :width => "100%",
-             :height => "100%", :title=>"cancel request"})%>  
+          <%= image_tag("cancelrequest.png", {:border => 1, :title=>"cancel request"})%>  
           <p>
           <p>Once you've canceled your registration request, click <strong>Register</strong> 
             to submit a new registration request for the correct section.
       <% end %>
 
-       <%= accordion_entry :title => "How do I access and work assignments?" do %>
-          <p>Check out our assignment screencasts.</p> 
+       <%= accordion_entry :title => "How do I access assignments?" do %>
+         <%= render :partial => 'help/blurbs/access_assignments' %>
+      <% end %>
 
-          <p><b>Accessing assignments</b>:</p> 
-
-          <%= render :partial => 'help/blurbs/student_assignments_screencast'%>
-          <p>
-          <p><b>Showing your work on free-response questions</b>:</p>  
+       <%= accordion_entry :title => "How do I show my work on free-response questions?" do %> 
           <%= render :partial => 'help/blurbs/student_ff_screencast'%>
         <% end %>
 
@@ -114,7 +109,9 @@
         
     <%= render :partial => 'help/blurbs/supported_exercises'%>
     
-    <p>Note: Exercises you assign in OST must be hosted in the OST-compatible repository for assessments. You can add your own exercises or search for and adapt existing materials. Email <%= email_link "support", "support@openstaxtutor.org" %> for more information.</p> 
+    <p>Note: Exercises you assign must be hosted in the OST-compatible repository for assessments. 
+      You can add your own exercises or search for and adapt existing materials. 
+      Email <%= email_link "support", "support@openstaxtutor.org" %> for more information.</p> 
      <% end %>
   
   <% if false %>
@@ -135,7 +132,7 @@
 
         <p>Once your materials are hosted on external sites, you can copy
            and paste the URL in the Topics section.</p>
-    <%= link_to "Click here to learn more.", help_topics_path%> </p>
+    <%= link_to "Learn more about organizing your materials in OpenStax Tutor", help_topics_path, :target => '_blank' %> </p>
     <% end %>
 
     <%= accordion_entry :title => "How do I add exercises to an assignment? It looks like I can
@@ -143,8 +140,8 @@
       <p>To add exercises to an Assignment, attach the topic, or topics, you 
         want the assignment to cover. <%= SITE_NAME %> will pull exercises from
          the topic(s) you list, in accordance with any learning conditions set for your class. </p>
-      <p><%#<%= link_to "Click here to learn more about creating assignments.",
-       help_assignments_path %></p>  
+      <p><%= link_to "Click here to learn how to create assignments.",
+       help_assignments_path, :target => '_blank'  %></p>  
     <% end %>
   
     <%= accordion_entry :title => "My student registered for the wrong section.
@@ -175,7 +172,7 @@
       <p>You may be able to edit the exercise in Quadbase and then use the <strong>Refresh 
         Exercises</strong> feature to update the exercise. There are some limitations 
         to this feature, though. <%= link_to_help 'refresh_exercises', text="Click here to
-         learn more.", {:title => 'Refresh Exercises', :width => '700'} %></p> 
+         learn more.", {:title => 'Refresh Exercises', :width => '700', :height => '400'} %></p> 
     <% end %>
     
     

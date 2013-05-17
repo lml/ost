@@ -1,18 +1,21 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<p>Follow these steps:</p>
-
-<ol>
-  <li>Check your spam folder for the email.</li>
-  <p>
-  <li>You may be using an older browser; we recommend downloading the current version of Chrome or Firefox.</li>
-  <p>
-  <li>Check your browser settings and confirm that JavaScript is enabled.</li>
-  <p>
-  <li><%= link_to "Go here", new_user_confirmation_path %> to request the confirmation email
-   be resent. Enter the email address you used when creating an account.</li>
-  <p>
-  <li>If you don't receive a confirmation email, try creating a new account with a different email address.</li>
-  <p>
-</ol>
+<p>If you haven't received a confirmation email with an activation link, 
+	here are the most common reasons it may not have arrived:</p>
+  <ol>
+    <li><b>Emails may be trapped by your spam or junk filter</b>. 
+    	Check your junk or spam folder. If the email is there, please make 
+    	sure that emails from <i>@openstaxtutor.org</i> are not being marked as spam.</li>
+    </li>
+      <p>
+    <li><b>You may have typed the wrong email address when you signed up.</b>
+     No worries, this happens all the time. Just 
+     <%= link_to "sign up again", new_user_registration_path, :target => '_blank'  %>.</b></li> 
+    </ol>
+ <p>Still having problems? Go to the OpenStax Tutor login page and 
+ 	<%= link_to "request the activation email be resent", new_user_confirmation_path, :target => '_blank'  %>.
+ 	 If that fails, it is possible that your server or ISP is blocking our emails. 
+  You may want to try creating a new account with a different email address, such as a 
+  Gmail address. If you need further help, please email the support team at 
+  <%= email_link "support", "support@openstaxtutor.org" %>.</p>

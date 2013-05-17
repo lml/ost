@@ -3,9 +3,10 @@
 
 <%= pageHeading "Learning Conditions" %>
 
-<p>We strongly advise that you chat with the OpenStax team before making a bunch 
-   of changes here, as the settings below strongly impact the experience that your
-   students will have on <%= SITE_NAME %>.</p>
+<p>Learning conditions are customizable rules that enable you to customize your 
+	students' experiences using <%= SITE_NAME %>. <u>Before</u> releasing any assignments, 
+	you'll need to set up the Scheduler, presentation conditions, and feedback conditions. 
+	We strongly advise you check out our <%= link_to "detailed help tutorial", help_learning_conditions_path, :target => '_blank' %>.</p>
 
 <% if @klass.cohorts.none? %>
   <p>To see and set learning conditions, please first make one or more cohorts for this class!</p>
