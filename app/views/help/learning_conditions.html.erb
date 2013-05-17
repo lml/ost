@@ -29,6 +29,8 @@
                 component</li>
             <li>Automate how your homework is built.</li>
         </ul>
+       <p>To access the Learning Conditions page, go to <b>Dashboard > Your Class > 
+        Learning Conditions.</p></b>
     <% end %>
 
   <%= accordion_entry :title => "What you need to set up before releasing assignments" do %>
@@ -44,18 +46,14 @@
                 let you control how, when, and what 
                 kind of <%= link_to_help 'example_feedback', text="feedback", 
               {:title => 'Feedback', :width => '700', :height => '700'} %>
-              you release to students. You can create multiple feedback conditions, 
-              then apply different feedback conditions to different assignments. For 
-              example, you could release feedback immediately for homework and release 
-              feedback after the due date for exams. </li>
+              you release to students.</li>
             <p>
             <li><b>Create presentation conditions</b>: Presentation conditions
                let you control whether or not 
                multiple-choice exercises include 
                a <%= link_to_help 'question_format', text="a free-form component",  
                {:title => 'Adding a free-form component to multiple-choice exercises', :width => '700', :height => '700'} %>. 
-              You can create multiple presentation conditions, 
-              then choose which one to apply to each assignment.</p>
+             </p>
             <p>
             <li><b>Attach feedback and/or presentation labels to assignments</b>:
                 Once you create feedback and presentation conditions, you need to 
@@ -280,7 +278,11 @@
                <p>
                                 <%= image_tag("fb_8.png", {:border => 1, :width => "90%", 
                   :title=>"edit feedback condition"})%>  
-             <li>Click <strong>Update feedback condition</strong> to save.</li>
+             <li>Click <strong>Update feedback condition</strong> to save this 
+                 condition. Remember that to activate  
+                 this condition, you'll need to attach its label 
+                 to the relevant exercise or assignment. To learn how, proceed to the below help topic <b>Apply 
+                labels to activate conditions</b>.</li>
              <p>
            </ul>
         <% end %>
@@ -316,7 +318,10 @@
                  <%= image_tag("presentation_3.png", {:border => 1, :width => "60%", 
                   :title=>"edit presentation condition"})%>
               <p>
-          <li>Click <b>Update Presentation Condition</b> to save.</li>
+          <li>Click <b>Update Presentation Condition</b> to save. Remember that to activate  
+                 this condition, you'll need to attach its label 
+                 to the relevant exercise or assignment. To learn how, proceed to the below
+                help topic <b>Apply labels to activate conditions</b>.</li>
         </ol>           
   <% end %>
 
@@ -332,24 +337,23 @@
   <% end %>    
 
     <%= accordion_entry :title => "When to reorder your learning conditions" do %>
-        <p>If you have more than one feedback condition, or if you have more than one 
-           presentation condition, you may need to reorder them.</p>
+        <p>At most one feedback condition and one presentation condition can be applied
+             to any individual exercise. Order your conditions so 
+             that the first one you want to be applied is listed first.</p></p>
         <p><b>An example</b></p>
-        <p>Say that you create an assignment and accidentally apply two conflicting labels.</p>
+        <p>Say that you create an assignment and attach two conflicting presentation labels.</p>
           <%= image_tag("reorder_2.png", {:border => 1, :width => "99%", 
                 :title=>"reorder"})%>
         <p><%= SITE_NAME %> will activate the first matching condition. So if your conditions 
           are ordered like so ... 
            <%= image_tag("reorder_1.png", {:border => 1, :width => "99%", 
                 :title=>"reorder"})%>
-        <p>... the condition labeled <b>free response</b> will be applied first. If that's what you 
-           want, great! If not, use the + icon to reorder via drag-and-drop.</p>
+        <p>... <b>the first matching condition will be applied first.</b> In this case, 
+          <b>free response</b> will be applied first. To reorder conditions, 
+          use the + icon to reorder via drag-and-drop.</p>
            <%= image_tag("reorder_3.png", {:border => 1, :width => "99%", 
                 :title=>"reorder"})%>
-        <p><b>Key takeaway</b>: At most one feedback condition and one 
-             presentation condition can be applied
-             to any individual exercise. Order your conditions so 
-             that the first one you want to be applied is listed first.</p>
+
     <% end %>
 
 
