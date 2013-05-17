@@ -121,7 +121,7 @@
               <p><b>Tip</b>: Recall that the Scheduler controls how many 
               exercises are added to your homework. The default Scheduler automatically applies 
               labels to activate certain learning conditions, too. For more on the Scheduler, go 
-              <%= link_to "here", help_learning_conditions_path %>.</p> 
+              <%= link_to "here", help_learning_conditions_path, :target => '_blank'  %>.</p> 
               <p>
           <li>Before releasing the assignment, click <strong>Preview Assignments</strong>.</li>
              <p>  <%= image_tag("preview_assignments.png", {:border => 1, :width => "80%", 
@@ -222,8 +222,8 @@
       <% end %>
 
     <%= accordion_entry :title => "Preview assignments before release" do %>
-        <p>As a general rule, <u>you should always preview an assignment
-         <em>before</em> releasing it</u>. Preview will show you what exercises 
+        <p>As a general rule, you should always preview an assignment
+         <em>before</em> releasing it. Preview will show you what exercises 
          are in the assignment and what labels are attached to each 
          exercise.</p>
          <%= render :partial => 'help/blurbs/preview_assignments' %>
