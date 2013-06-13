@@ -32,34 +32,34 @@
   <Worksheet ss:Name="Data">
     <Table>
       <Row>
-        <%= render "report_heading_cell", data: "Name/ID",       comment: "Student name, Educator-facing ID, or Research ID" %>
-        <%= render "report_heading_cell", data: "RegStatus",     comment: "Student Registration Status" %>
-        <%= render "report_heading_cell", data: "Section",       comment: "Student Class Section name" %>
-        <%= render "report_heading_cell", data: "Section",       comment: "Student Cohort name" %>
-        <%= render "report_heading_cell", data: "AssgnName",     comment: "Assignment name" %>
-        <%= render "report_heading_cell", data: "AssgnNum",      comment: "Assignment order number within Learning Plan (including tests)" %>
-        <%= render "report_heading_cell", data: "ExNum",         comment: "Exercise order number (within Assignment)" %>
-        <%= render "report_heading_cell", data: "ExQbId",        comment: "Exercise Quadbase ID" %>
-        <%= render "report_heading_cell", data: "ExConcept",     comment: "Exercise Concept description" %>
-        <%= render "report_heading_cell", data: "ExLabels",      comment: "Exercise Labels" %>
-        <%= render "report_heading_cell", data: "AssgnCws",      comment: "Assignment Coworkers (including Student), sorted, comma-separated" %>
-        <%= render "report_heading_cell", data: "FreeResp?",     comment: "Student locked-in a Free Response?" %>
-        <%= render "report_heading_cell", data: "FreeRespTime",  comment: "Time at which Free Response was locked-in" %>
-        <%= render "report_heading_cell", data: "FreeResp",      comment: "Free Response" %>
-        <%= render "report_heading_cell", data: "SelAns?",       comment: "Student locked-in a Selected Answer?" %>
-        <%= render "report_heading_cell", data: "SelAnsTime",    comment: "Time at which Selected Answer was locked-in" %>
-        <%= render "report_heading_cell", data: "SelAns",        comment: "Selected Answer {0 == 'a', 1 == 'b', ...}" %>
-        <%= render "report_heading_cell", data: "SelAnsConf",    comment: "Selected Answer Confidence {0 == 'Definitely Wrong, ..., 4 == 'Definitely Right'}" %>
-        <%= render "report_heading_cell", data: "SelAnsCredit",  comment: "Selected Answer Credit [0..1]" %>
-        <%= render "report_heading_cell", data: "FbScaling",     comment: "Feedback Scaling Factor {0,1}" %>
-        <%= render "report_heading_cell", data: "OverallCredit", comment: "Overall Exercise Credit [0..1] (combines Credit and Feedback Scaling)" %>
-        <%= render "report_heading_cell", data: "Comp?",         comment: "Exercise was completed?" %>
-        <%= render "report_heading_cell", data: "CompOnTime?",   comment: "Exercise was completed before the due date?" %>
-        <%= render "report_heading_cell", data: "Correct?",      comment: "Selected Answer was correct? {Yes, No, Partially}" %>
-        <%= render "report_heading_cell", data: "FbViewReq?",    comment: "Viewing Feedback was required for Overall Credit?" %>
-        <%= render "report_heading_cell", data: "FbViewed?",     comment: "Feedback was viewed (ever)?" %>
-        <%= render "report_heading_cell", data: "FbViewed?",     comment: "Feedback was viewed with the Feedback Credit Window?" %>
-        <%= render "report_heading_cell", data: "FbLoadCount",   comment: "Approx. number of times Feedback page was loaded by the Student" %>
+        <%= render "report_heading_cell", data: "Name/ID",          comment: "Student name, Educator-facing ID, or Research ID" %>
+        <%= render "report_heading_cell", data: "RegStatus",        comment: "Student Registration Status" %>
+        <%= render "report_heading_cell", data: "Section",          comment: "Student Class Section name" %>
+        <%= render "report_heading_cell", data: "Cohort",           comment: "Student Cohort name" %>
+        <%= render "report_heading_cell", data: "AssgnName",        comment: "Assignment name" %>
+        <%= render "report_heading_cell", data: "AssgnNum",         comment: "Assignment order number within Learning Plan (including tests)" %>
+        <%= render "report_heading_cell", data: "ExNum",            comment: "Exercise order number (within Assignment)" %>
+        <%= render "report_heading_cell", data: "ExQbId",           comment: "Exercise Quadbase ID" %>
+        <%= render "report_heading_cell", data: "ExConcept",        comment: "Exercise Concept description" %>
+        <%= render "report_heading_cell", data: "ExLabels",         comment: "Exercise Labels" %>
+        <%= render "report_heading_cell", data: "AssgnCws",         comment: "Assignment Coworkers (including Student), sorted, comma-separated" %>
+        <%= render "report_heading_cell", data: "FreeResp?",        comment: "Student locked-in a Free Response?" %>
+        <%= render "report_heading_cell", data: "FreeRespTime",     comment: "Time at which Free Response was locked-in" %>
+        <%= render "report_heading_cell", data: "FreeResp",         comment: "Free Response" %>
+        <%= render "report_heading_cell", data: "SelAns?",          comment: "Student locked-in a Selected Answer?" %>
+        <%= render "report_heading_cell", data: "SelAnsTime",       comment: "Time at which Selected Answer was locked-in" %>
+        <%= render "report_heading_cell", data: "SelAns",           comment: "Selected Answer {0 == 'a', 1 == 'b', ...}" %>
+        <%= render "report_heading_cell", data: "SelAnsConf",       comment: "Selected Answer Confidence {0 == 'Definitely Wrong, ..., 4 == 'Definitely Right'}" %>
+        <%= render "report_heading_cell", data: "SelAnsCredit",     comment: "Selected Answer Credit [0..1]" %>
+        <%= render "report_heading_cell", data: "FbScaling",        comment: "Feedback Scaling Factor {0,1}" %>
+        <%= render "report_heading_cell", data: "OverallCredit",    comment: "Overall Exercise Credit [0..1] (combines Credit and Feedback Scaling)" %>
+        <%= render "report_heading_cell", data: "Comp?",            comment: "Exercise was completed?" %>
+        <%= render "report_heading_cell", data: "CompOnTime?",      comment: "Exercise was completed before the due date?" %>
+        <%= render "report_heading_cell", data: "Correct?",         comment: "Selected Answer was correct? {Yes, No, Partially}" %>
+        <%= render "report_heading_cell", data: "FbViewReq?",       comment: "Viewing Feedback was required for Overall Credit?" %>
+        <%= render "report_heading_cell", data: "FbViewed?",        comment: "Feedback was viewed (ever) or viewing not required?" %>
+        <%= render "report_heading_cell", data: "FbViewedCredit?",  comment: "Feedback was viewed for credit (withing Feedback Credit Window) or viewing not required?" %>
+        <%= render "report_heading_cell", data: "FbLoadCount",      comment: "Approx. number of times Feedback page was loaded by the Student" %>
       </Row>
       <% @klass.sections.each do |section| %>
         <% section_name = section.name %>
