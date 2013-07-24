@@ -8,7 +8,8 @@
   <% else %>
 
     <% assignment_plans = klass.learning_plan.assignment_plans.select{|ap| ap.assigned?} %>
-    <% student_assignments = StudentAssignment.for_student(student).sort_by{|sa| sa.assignment.assignment_plan.number} %>
+    <% student_assignments = StudentAssignment.for_student(student).reject{|sa| sa.assignment.nil?} # happened somehow %>
+    <% student_assignments.sort_by!{|sa| sa.assignment.assignment_plan.number} %>
 
     <% show_grades = student_assignments.inject(false) { |result, sa| result || sa.learning_condition.show_correctness_feedback?(sa) } %>
 
