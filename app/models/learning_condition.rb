@@ -46,6 +46,14 @@ class LearningCondition < ActiveRecord::Base
     get_presentation_condition(student_exercise).requires_free_response?
   end
 
+  def requires_follow_up_question?(student_exercise)
+    get_presentation_condition(student_exercise).requires_follow_up_question?
+  end
+
+  def follow_up_question(student_exercise)
+    get_presentation_condition(student_exercise).follow_up_question
+  end
+
   def requires_selected_answer?(student_exercise)
     get_presentation_condition(student_exercise).requires_selected_answer?
   end

@@ -12,8 +12,11 @@
   <%= section "Your Answer", {:classes => 'no_bar'} do %>
     
     <%= render 'free_response_list', student_exercise: @student_exercise %>
-    <%= render 'add_and_turn_in_free_responses', student_exercise: @student_exercise \
-          if @student_exercise.free_responses_can_be_updated? %>
+    <% if @student_exercise.free_responses_can_be_updated? %>
+      <%= render 'add_and_turn_in_free_responses', student_exercise: @student_exercise %>
+    <% else %>
+      <%= render 'follow_up_answer', student_exercise: @student_exercise %>
+    <% end %>
 
   <% end %>
 

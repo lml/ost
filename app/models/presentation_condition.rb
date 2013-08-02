@@ -15,7 +15,8 @@ class PresentationCondition < ActiveRecord::Base
 
   attr_accessible :learning_condition,
                   :label_regex,
-                  :requires_free_response, :requires_selected_answer
+                  :requires_free_response, :requires_selected_answer,
+                  :follow_up_question
 
   def self.standard_practice_presentation_condition
     PresentationCondition.new(:label_regex              => 'standard practice', 
@@ -46,6 +47,10 @@ class PresentationCondition < ActiveRecord::Base
 
   def requires_selected_answer?
     requires_selected_answer
+  end
+
+  def requires_follow_up_question?
+    !!follow_up_question.present?
   end
 
   #############################################################################

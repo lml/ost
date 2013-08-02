@@ -50,6 +50,13 @@
 <div id="turn_in_free_response" style="<%= 'display:none' if student_exercise.free_responses.none? %>">
 
   <%= form_for(student_exercise) do |f| %>
+    <% if student_exercise.requires_follow_up_question? %>
+      <div class="field">
+        <p><%= student_exercise.follow_up_question %></p>
+        <%= f.text_area :follow_up_answer, :rows => 3, :style => "width:97.5%" %>
+      </div>
+    <% end %>
+
     <div class="field">
       <p>How confident are you in this answer?</p>
       <p>This answer is...</p>
@@ -61,8 +68,8 @@
                 <%= f.radio_button :free_response_confidence, ii %></br/>
                 <%= cl.sub("-","<br/>").html_safe %>
               </center>
-            </td>        
-          <% end %>        
+            </td>
+          <% end %>
         </tr>
       </table>
     </div>

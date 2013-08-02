@@ -22,6 +22,9 @@ class StudentExercise < ActiveRecord::Base
                                 :less_than_or_equal_to => 4, 
                                 :allow_nil => true}
 
+  validates :follow_up_answer,
+              :presence => {:if => Proc.new{|se| se.requires_follow_up_question?}}
+
   # If the free response has been submitted, the next update should have a selected answer
   validates :selected_answer, :presence => {:if => Proc.new{|se| se.free_response_submitted?}}
   
@@ -41,7 +44,7 @@ class StudentExercise < ActiveRecord::Base
   
   after_save :notify_if_answer_selected, :on => :update
   
-  attr_accessible :free_response_confidence, :selected_answer, :feedback_credit_multiplier
+  attr_accessible :free_response_confidence, :selected_answer, :feedback_credit_multiplier, :follow_up_answer
 
   # Realized a little late in the game that it is bad when these numbers are the same as
   # the Event enum numbers in student assignment, so made them different
@@ -185,6 +188,14 @@ class StudentExercise < ActiveRecord::Base
 
   def process_hooked_mail(mail)
     FreeResponseFactory.create_from_mail(mail, self)
+  end
+
+  def requires_follow_up_question?
+    learning_condition.requires_follow_up_question?(self)
+  end
+
+  def follow_up_question
+    learning_condition.follow_up_question(self)
   end
 
   #############################################################################
