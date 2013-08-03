@@ -7,8 +7,9 @@
 
   <p>Presentation conditions let you control whether or not 
      multiple-choice exercises include 
-     a <%= link_to_help 'question_format', text="a free-form component",  
-     {:title => 'Adding a free-form component to multiple-choice exercises', :width => '700', :height => '700'} %>.
+     a <%= link_to_help 'question_format', text="free-form component",
+     {:title => 'Adding a free-form component to multiple-choice exercises', :width => '700', :height => '700'} %>
+     or a follow-up question.
       <%= link_to "Learn more.", help_learning_conditions_path, :target => '_blank' %></p>
 
   <div class="field">
@@ -25,8 +26,12 @@
   </div>
   
   <div class="field">
-    Follow-up Question:
-    <%= f.text_field :follow_up_question %>
+    Follow-up Question <i>(leave blank if not applicable)</i>:<br>
+    <%= f.text_area :follow_up_question, :rows => 1, :style => "width:97.5%" %>
+    <div style="padding-left:15px">
+      <%= f.check_box :apply_follow_up_question_to_tests %>
+      Apply to tests
+    </div>
   </div>
 
   <br/>

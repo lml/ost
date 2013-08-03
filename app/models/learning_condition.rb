@@ -47,7 +47,7 @@ class LearningCondition < ActiveRecord::Base
   end
 
   def requires_follow_up_question?(student_exercise)
-    get_presentation_condition(student_exercise).requires_follow_up_question?
+    get_presentation_condition(student_exercise).requires_follow_up_question?(student_exercise)
   end
 
   def follow_up_question(student_exercise)

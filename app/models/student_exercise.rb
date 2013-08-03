@@ -76,7 +76,11 @@ class StudentExercise < ActiveRecord::Base
 
   def assignment
     assignment_exercise.assignment
-  end  
+  end
+
+  def is_test?
+    assignment.assignment_plan.is_test?
+  end
 
   def student
     student_assignment.student
