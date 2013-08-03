@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130323005215) do
+ActiveRecord::Schema.define(:version => 20130802061931) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -289,11 +289,13 @@ ActiveRecord::Schema.define(:version => 20130323005215) do
   add_index "organizations", ["name"], :name => "index_organizations_on_name", :unique => true
 
   create_table "presentation_conditions", :force => true do |t|
-    t.integer  "learning_condition_id", :null => false
+    t.integer  "learning_condition_id",                                :null => false
     t.text     "settings"
     t.integer  "number"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.datetime "created_at",                                           :null => false
+    t.datetime "updated_at",                                           :null => false
+    t.string   "follow_up_question"
+    t.boolean  "apply_follow_up_question_to_tests", :default => false
   end
 
   add_index "presentation_conditions", ["learning_condition_id"], :name => "index_presentation_conditions_on_learning_condition_id"
@@ -412,6 +414,7 @@ ActiveRecord::Schema.define(:version => 20130323005215) do
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
     t.float    "feedback_credit_multiplier",   :default => 1.0
+    t.string   "follow_up_answer"
   end
 
   add_index "student_exercises", ["assignment_exercise_id", "student_assignment_id"], :name => "index_student_exercises_on_assignment_exercise_scoped", :unique => true
