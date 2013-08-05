@@ -1,0 +1,4 @@
+<% if student_exercise.requires_follow_up_question? %>
+  <p><i><%= student_exercise.follow_up_question %></i></p>
+  <p><%= student_exercise.follow_up_answer %></p>
+<% end %>

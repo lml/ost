@@ -51,6 +51,10 @@
         <%= render "report_heading_cell", data: "SelAns",           comment: "Selected Answer {0 == 'a', 1 == 'b', ...}" %>
         <%= render "report_heading_cell", data: "SelAnsConf",       comment: "Selected Answer Confidence {0 == 'Definitely Wrong, ..., 4 == 'Definitely Right'}" %>
         <%= render "report_heading_cell", data: "SelAnsCredit",     comment: "Selected Answer Credit [0..1]" %>
+        <%= render "report_heading_cell", data: "FollowUpQ?",       comment: "Exercise had follow-up question?" %>
+        <%= render "report_heading_cell", data: "FollowUpQ",        comment: "Follow-up question" %>
+        <%= render "report_heading_cell", data: "FollowUpA?",       comment: "Student provided follow-up answer?" %>
+        <%= render "report_heading_cell", data: "FollowUpA",        comment: "Follow-up Answer" %>
         <%= render "report_heading_cell", data: "FbScaling",        comment: "Feedback Scaling Factor {0,1}" %>
         <%= render "report_heading_cell", data: "OverallCredit",    comment: "Overall Exercise Credit [0..1] (combines Credit and Feedback Scaling)" %>
         <%= render "report_heading_cell", data: "Comp?",            comment: "Exercise was completed?" %>
@@ -93,6 +97,10 @@
         <Cell><Data ss:Type="Number"><%= se.selected_answer %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.free_response_confidence %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.automated_credit %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.requires_follow_up_question?) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.follow_up_question %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.follow_up_answer?) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.follow_up_answer %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.feedback_credit_multiplier %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.score %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete?) %></Data></Cell>

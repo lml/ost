@@ -15,16 +15,17 @@ class PresentationCondition < ActiveRecord::Base
 
   attr_accessible :learning_condition,
                   :label_regex,
-                  :requires_free_response, :requires_selected_answer
+                  :requires_free_response, :requires_selected_answer,
+                  :follow_up_question, :apply_follow_up_question_to_tests
 
   def self.standard_practice_presentation_condition
-    PresentationCondition.new(:label_regex              => 'standard practice', 
+    PresentationCondition.new(:label_regex              => 'standard practice',
                               :requires_free_response   => true,
                               :requires_selected_answer => true)
   end
 
   def self.default_presentation_condition
-    PresentationCondition.new(:label_regex              => '.*', 
+    PresentationCondition.new(:label_regex              => '.*',
                               :requires_free_response   => true,
                               :requires_selected_answer => true)
   end
@@ -37,7 +38,7 @@ class PresentationCondition < ActiveRecord::Base
       labels.any? do |label|
         label == regex || label.match(regex)
       end
-    end    
+    end
   end
 
   def requires_free_response?
@@ -46,6 +47,12 @@ class PresentationCondition < ActiveRecord::Base
 
   def requires_selected_answer?
     requires_selected_answer
+  end
+
+  def requires_follow_up_question?(student_exercise)
+    return false if !follow_up_question.present?
+    return apply_follow_up_question_to_tests? if student_exercise.is_test?
+    return true
   end
 
   #############################################################################
