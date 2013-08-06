@@ -10,6 +10,7 @@ config/deploy_settings.yml
 public/system/**
 public/uploads/**
 db/data.yml
+db/.data.yml.gz
 *~
 .vagrant
 brakeman.html

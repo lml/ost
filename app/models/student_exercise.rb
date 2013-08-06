@@ -25,7 +25,7 @@ class StudentExercise < ActiveRecord::Base
   validates :follow_up_answer,
             :presence => {:if => 
               Proc.new{|se| 
-                (se.requires_free_response? && se.free_responses.any? || se.present_selected_answer_only?) && 
+                (se.requires_free_response? && se.free_responses.any? || se.present_selected_answer_only? && se.selected_answer_changed?) && 
                 se.requires_follow_up_question?
               }
             }
