@@ -5,6 +5,7 @@
   
   <p>Choose an answer from options below.</p>
 
-  <%= render :partial => "multiple_choice_form", :locals => { :student_exercise => student_exercise } %>
+  <%= render :partial => "multiple_choice_form", :locals => { :student_exercise => student_exercise,
+                                                              :allow_followup_question => true } %>
 
 </div>

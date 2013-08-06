@@ -23,7 +23,12 @@ class StudentExercise < ActiveRecord::Base
                                 :allow_nil => true}
 
   validates :follow_up_answer,
-              :presence => {:if => Proc.new{|se| se.free_responses.any? && se.requires_follow_up_question?}}
+            :presence => {:if => 
+              Proc.new{|se| 
+                (se.requires_free_response? && se.free_responses.any? || se.present_selected_answer_only?) && 
+                se.requires_follow_up_question?
+              }
+            }
 
   # If the free response has been submitted, the next update should have a selected answer
   validates :selected_answer, :presence => {:if => Proc.new{|se| se.free_response_submitted?}}

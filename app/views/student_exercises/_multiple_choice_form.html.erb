@@ -2,10 +2,11 @@
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <%
-  assignment_exercise = student_exercise.assignment_exercise
-  assignment          = assignment_exercise.assignment
-  assignment_plan     = assignment.assignment_plan
-  exercise_data       = assignment_exercise.topic_exercise.exercise.content  
+  assignment_exercise       = student_exercise.assignment_exercise
+  assignment                = assignment_exercise.assignment
+  assignment_plan           = assignment.assignment_plan
+  exercise_data             = assignment_exercise.topic_exercise.exercise.content  
+  allow_followup_question   ||= false
 %>
 
 <%= form_for(@student_exercise) do |f| %>
@@ -14,11 +15,11 @@
   <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>
      <tr>
         <td class="question" width="5%">
-          <%= f.radio_button :selected_answer, ii %>
+          <%= f.radio_button :selected_answer, ii, :class => 'multiple_choice_radio_button' %>
         </td>
         <td class="question" width="5%">
            <p><%= choice_letter(ii) %>)</p>
-        </td>
+        </td>`
         <td class="question" width="90%">
            <%= answer_choice["html"].html_safe %>
         </td>
@@ -26,6 +27,14 @@
   <% end %>
 
   </table>
+
+  <% if allow_followup_question && student_exercise.requires_follow_up_question? %>
+    <div class="field" id="followup_question" style="display:none">
+      <p><%= student_exercise.follow_up_question %></p>
+      <%= f.text_area :follow_up_answer, :rows => 3, :style => "width:97.5%" %>
+    </div>
+  <% end %>
+
   <center>
     <div class="actions">
       <%= f.submit "Turn in my choice", 
@@ -34,4 +43,14 @@
                         "Are you sure you want to turn it in?" %>
     </div>
   </center>
+<% end %>
+
+<%= content_for :javascript do %>
+  <script type='text/javascript'>
+    $().ready(function() {
+      $('.multiple_choice_radio_button').click(function() {
+        $('#followup_question').show();
+      });
+    })
+  </script>
 <% end %>
