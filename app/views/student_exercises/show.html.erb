@@ -74,3 +74,6 @@
   <%= render 'student_exercises/list', student_exercise: @student_exercise %>
 <% end %>
 
+<% content_for :other_nav_content do %>
+  <%= render 'student_exercises/nav', student_exercise: @student_exercise %>
+<% end %>
