@@ -10,6 +10,7 @@
 <% end %>
 
 <%= section "Exercise Responses", :classes => 'section-exercise-responses' do %>
+  NOTE: In the 'Response' column, free responses are always shown.  If required by the learning conditions, follow-up answers appear in gray below the free responses.  In both cases, a missing response will be depicted by the string '(blank)'.
   <table class="list" width="90%">
     <tr>
       <th width="3%">#</th>
@@ -25,10 +26,17 @@
       <tr>
         <td><%= ii+1%>.</td>
         <td class='outlined_cell'>
-          <%= '(blank)' if se.free_responses.none? %>
-          <% se.free_responses.each do |free_response| %>
-            <%= render :partial => 'free_responses/show', 
-                       :locals => { :free_response => free_response } %>
+          <div class='free_response'>
+            <%= '(blank)' if se.free_responses.none? %>
+            <% se.free_responses.each do |free_response| %>
+              <%= render :partial => 'free_responses/show', 
+                         :locals => { :free_response => free_response } %>
+            <% end %>
+          </div>
+          <% if se.requires_follow_up_question? %>
+            <div class='follow_up_question'>
+              <%= se.follow_up_answer || '(blank)' %>
+            </div>
           <% end %>
         </td>
         <td><%= se.free_response_confidence.nil? ? "--" : se.free_response_confidence %></td>
