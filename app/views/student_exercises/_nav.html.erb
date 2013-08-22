@@ -1,9 +1,0 @@
-<%# 
-  Clients must provide student_exercise.
-%>
-
-<% prev_se = prev_student_exercise(student_exercise) %>
-<% next_se = next_student_exercise(student_exercise) %>
-
-<%= link_to_if(prev_se, '< prev', prev_se) { } %>
-<%= link_to_if(next_se, 'next >', next_se) { } %>

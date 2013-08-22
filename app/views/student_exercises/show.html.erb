@@ -67,13 +67,4 @@
 
 <%= protect_form %>
 
-<% navitem{ link_to 'Show Assignment', assignment_path(@student_exercise.assignment_exercise.assignment) }%>
-
-<% content_for :other_nav_content do %>
-  Exercises
-  <%= render 'student_exercises/list', student_exercise: @student_exercise %>
-<% end %>
-
-<% content_for :other_nav_content do %>
-  <%= render 'student_exercises/nav', student_exercise: @student_exercise %>
-<% end %>
+<%= render 'student_exercises/exercise_nav', student_exercise: @student_exercise %>
