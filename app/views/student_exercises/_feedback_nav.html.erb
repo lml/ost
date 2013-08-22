@@ -1,0 +1,30 @@
+<%# 
+  Clients must provide student_exercise.
+%>
+
+<% prev_se_feeback_path = prev_available_student_exercise_feedback_path(student_exercise) %>
+<% next_se_feeback_path = next_available_student_exercise_feedback_path(student_exercise) %>
+
+<% content_for :other_nav_content do %>
+
+  <%= link_to 'Show Class',       student_exercise.klass %><br/>
+  <%= link_to 'Show Assignment',  student_exercise.assignment %><br/>
+  <%= link_to 'Show Exercise',    student_exercise %><br/>
+  <br/>
+
+  <% if [prev_se_feeback_path, next_se_feeback_path].any? %>
+    <% if prev_se_feeback_path %>
+      <%= link_to 'Prev Available Feedback', prev_se_feeback_path %><br/>
+    <% end %>
+
+    <% if next_se_feeback_path %>
+      <%= link_to 'Next Available Feedback', next_se_feeback_path %><br/>
+    <% end %>
+
+    <br/>
+  <% end %>
+
+  Exercises
+  <%= render 'student_exercises/list', student_exercise: @student_exercise %>
+
+<% end %>
