@@ -913,6 +913,14 @@ input.ui-widget {
   background-color: #fff;
 }
 
+///////// FOLLOW UP QUESTIONS ///////////
+
+.follow_up_question {
+  margin-bottom:6px;
+  background-color: #eee;
+  clear:both;
+}
+
 @mixin content-box {
   visibility: visible; 
   overflow: hidden; 
