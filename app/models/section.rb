@@ -37,7 +37,7 @@ class Section < ActiveRecord::Base
   def children_can_be_read_by?(user, children_symbol)
     case children_symbol
     when :students
-      !user.is_anonymous? && (klass.is_educator?(user) || Researcher.is_one?(user) || user.is_administrator?)
+      !user.is_anonymous? && (klass.is_teacher?(user) || Researcher.is_one?(user) || user.is_administrator?)
     else
       false
     end

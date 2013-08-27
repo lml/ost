@@ -214,7 +214,7 @@ class StudentExercise < ActiveRecord::Base
   def can_be_read_by?(user)
     return false          if user.is_anonymous?
     return !klass.closed? if belongs_to_active_student_user?(user)
-    return true           if is_educator?(user)
+    return true           if is_teacher?(user)
     return true           if user.is_administrator?
     return false
   end
@@ -227,14 +227,14 @@ class StudentExercise < ActiveRecord::Base
 
   def can_be_changed_by?(user)
     return false if user.is_anonymous?
-    return true  if is_educator?(user)
+    return true  if is_teacher?(user)
     return true  if user.is_administrator?
     return false
   end
   
   def belongs_to_student_user?(user)
     student_assignment.student.user_id == user.id
-    # TODO see if the following statement works (also do in is_educator? below)
+    # TODO see if the following statement works (also do in is_teacher? below)
     # joins{student_assignment.student.user}.any{student_assignment.student.user_id == my{user}.id}
   end
 
@@ -242,8 +242,8 @@ class StudentExercise < ActiveRecord::Base
     belongs_to_student_user?(user) && student_assignment.student.active?
   end
   
-  def is_educator?(user)
-    student_assignment.student.section.klass.is_educator?(user)
+  def is_teacher?(user)
+    student_assignment.student.section.klass.is_teacher?(user)
   end
 
   def destroyable?

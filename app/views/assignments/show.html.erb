@@ -95,7 +95,7 @@
 
 <% end %>
 
-<% if klass.is_educator?(present_user) || Researcher.is_one?(present_user) || present_user.is_administrator? %>
+<% if klass.is_teacher?(present_user) || Researcher.is_one?(present_user) || present_user.is_administrator? %>
   <%= render 'results', :assignment_plan => assignment_plan %>
 <% end %>
 

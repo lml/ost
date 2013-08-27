@@ -125,7 +125,7 @@ class Student < ActiveRecord::Base
   #############################################################################
 
   def can_be_read_by?(user)
-    user.id == user_id || section.klass.is_educator?(user) || Researcher.is_one?(user) || user.is_administrator?
+    user.id == user_id || section.klass.is_teacher?(user) || Researcher.is_one?(user) || user.is_administrator?
   end
 
   def can_be_updated_by?(user)
@@ -135,7 +135,7 @@ class Student < ActiveRecord::Base
   def children_can_be_read_by?(user, children_symbol)
     case children_symbol
     when :student_assignments
-      return section.klass.is_educator?(user) || Researcher.is_one?(user) || user.is_administrator?
+      return section.klass.is_teacher?(user) || Researcher.is_one?(user) || user.is_administrator?
     end
     false
   end

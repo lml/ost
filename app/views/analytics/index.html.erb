@@ -9,7 +9,7 @@
 <%# If the user is a student, show the analytics for that student, otherwise if the user
     is an educator, don't limit the analytics by a student record %>
 
-<% if @klass.is_educator?(present_user) || present_user.is_administrator? %>
+<% if @klass.is_teacher?(present_user) || present_user.is_administrator? %>
 
   <p class='intro-paragraph'>The graphs below show you how your students are performing on the topics in your class.</p>
   

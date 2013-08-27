@@ -84,13 +84,13 @@ class Assignment < ActiveRecord::Base
   end
 
   def can_be_updated_by?(user)
-    cohort.klass.is_educator?(user)
+    cohort.klass.is_teacher?(user)
   end
 
   def children_can_be_read_by?(user, children_symbol)
     case children_symbol
     when :grades
-      cohort.klass.is_educator?(user) || user.is_researcher? || user.is_administrator?
+      cohort.klass.is_teacher?(user) || user.is_researcher? || user.is_administrator?
     end
   end
 
