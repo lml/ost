@@ -14,8 +14,7 @@
   <table class="list" width="90%">
     <tr>
       <th width="3%">#</th>
-      <th width="58%">Response</th>
-      <th width="8%">Conf<br/>(0-4)</th>
+      <th width="66%">Response</th>
       <th width="8%">Choice</th>
       <th width="8%">Score</th>
       <th width="8%">Times</th>
@@ -39,7 +38,6 @@
             </div>
           <% end %>
         </td>
-        <td><%= se.free_response_confidence.nil? ? "--" : se.free_response_confidence %></td>
         <td><%= se.selected_answer.nil? ? "--" : "(#{choice_letter(se.selected_answer)})" %></td>
         <td><%= link_to se.score, student_exercise_score_detail_path(se), :remote => true %></td>
         <td>

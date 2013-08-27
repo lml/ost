@@ -49,7 +49,9 @@
         <%= render "report_heading_cell", data: "SelAns?",          comment: "Student locked-in a Selected Answer?" %>
         <%= render "report_heading_cell", data: "SelAnsTime",       comment: "Time at which Selected Answer was locked-in" %>
         <%= render "report_heading_cell", data: "SelAns",           comment: "Selected Answer {0 == 'a', 1 == 'b', ...}" %>
-        <%= render "report_heading_cell", data: "SelAnsConf",       comment: "Selected Answer Confidence {0 == 'Definitely Wrong, ..., 4 == 'Definitely Right'}" %>
+        <% if present_user_is_researcher %>
+          <%= render "report_heading_cell", data: "SelAnsConf",       comment: "Selected Answer Confidence {0 == 'Definitely Wrong, ..., 4 == 'Definitely Right'}" %>
+        <% end %>
         <%= render "report_heading_cell", data: "SelAnsCredit",     comment: "Selected Answer Credit [0..1]" %>
         <%= render "report_heading_cell", data: "FollowUpQ?",       comment: "Exercise had follow-up question?" %>
         <%= render "report_heading_cell", data: "FollowUpQ",        comment: "Follow-up question" %>
@@ -95,7 +97,9 @@
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.selected_answer_submitted?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= se.selected_answer_submitted_at %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.selected_answer %></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= se.free_response_confidence %></Data></Cell>
+        <% if present_user_is_researcher %>
+          <Cell><Data ss:Type="Number"><%= se.free_response_confidence %></Data></Cell>
+        <% end %>
         <Cell><Data ss:Type="Number"><%= se.automated_credit %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.requires_follow_up_question?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= se.follow_up_question %></Data></Cell>
