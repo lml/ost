@@ -1,9 +1,19 @@
+<% time_zone_str = current_user.time_zone %>
+
 <% if klasses.any? %>
   <%= section section_name, {:classes => 'first no_bar'} do %>
-    <ul>
-    <% klasses.each do |klass| %>
-      <li><%= link_to klass.course.name, klass %></li>    
-    <% end %>
-    </ul>
+    <table class="list" width="100%">
+      <% klasses.group_by{|klass| klass.course.organization.name}.sort_by{|key,value| key}.each do |org_name, org_klasses| %>
+        <% org_klasses.sort_by{|klass| klass.start_date}.each do |klass| %>
+          <% start_date_str = TimeUtils.time_and_zonestr_to_timestr_in_zone(klass.start_date, time_zone_str, '%b %d, %Y') %>
+          <% end_date_str   = TimeUtils.time_and_zonestr_to_timestr_in_zone(klass.end_date,   time_zone_str, '%b %d, %Y') %>
+          <tr>
+            <td width="20%"><%= org_name %></td>
+            <td width="55%"><%= link_to klass.course.name, klass %></td>
+            <td width="25%"><%= start_date_str %> - <%= end_date_str %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </table>
   <% end %>
 <% end %>
