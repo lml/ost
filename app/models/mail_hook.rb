@@ -106,7 +106,7 @@ protected
   def self.get_mail_fields(mail)
     to_addresses = [mail.to].flatten.collect{|to| to.downcase}
     # Get rid of non word characters and strip whitespace
-    subject = mail.subject.downcase.gsub(/[^a-z\s^A-Z\s]/,"").strip
+    subject = (mail.subject || "").downcase.gsub(/[^a-z\s^A-Z\s]/,"").strip
     [to_addresses, subject]
   end
 
