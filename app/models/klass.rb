@@ -141,7 +141,7 @@ class Klass < ActiveRecord::Base
   end
   
   def is_preapproved?(user)
-    return true if is_educator?(user)
+    return true if is_teacher?(user)
 
     approved_emails_array = (approved_emails || '').split("\n").collect{|ae| ae.strip}
 
@@ -153,6 +153,10 @@ class Klass < ActiveRecord::Base
 
   def is_educator?(user)
     educators.any?{|e| e.user_id == user.id}
+  end
+
+  def is_teacher?(user)
+    is_instructor?(user) || is_teaching_assistant?(user)
   end
 
   def is_instructor?(user)  # TODO change all of these to use Squeel
@@ -204,11 +208,11 @@ class Klass < ActiveRecord::Base
   end
 
   def can_be_updated_by?(user)
-    is_educator?(user) || user.is_administrator?
+    is_teacher?(user) || user.is_administrator?
   end
 
   def can_be_destroyed_by?(user)
-    is_educator?(user) || user.is_administrator?
+    is_teacher?(user) || user.is_administrator?
   end
   
   def children_can_be_read_by?(user, children_symbol)
@@ -222,11 +226,11 @@ class Klass < ActiveRecord::Base
     when :students
       is_educator?(user) || user.is_researcher? || user.is_administrator?
     when :report
-      is_educator?(user) || user.is_researcher? || user.is_administrator?
+      is_teacher?(user) || user.is_researcher? || user.is_administrator?
     when :class_grades
       is_educator?(user) || user.is_researcher? || user.is_administrator?
     when :analytics 
-      is_educator?(user) || is_student?(user) || user.is_administrator?
+      is_teacher?(user) || is_student?(user) || user.is_administrator?
     end
   end
 
