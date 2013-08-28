@@ -7,6 +7,7 @@
 
 <% 
   is_teacher = @klass.is_teacher?(present_user)
+  is_educator = @klass.is_educator?(present_user)
   student = @klass.student_for(present_user) 
   is_student = !student.nil?
   student_cohort = student.try(:cohort)
@@ -180,7 +181,7 @@
 
 <% end %>
 
-<% sees_all_cohort_assignments = is_teacher || present_user.is_researcher? || present_user.is_administrator? %>
+<% sees_all_cohort_assignments = is_educator || present_user.is_researcher? || present_user.is_administrator? %>
 
 <%= section "Registration Status", {:classes => "registration_status"} do %>
   <% if is_student %>

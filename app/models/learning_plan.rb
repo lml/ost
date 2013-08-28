@@ -35,7 +35,7 @@ class LearningPlan < ActiveRecord::Base
   #############################################################################
   
   def can_be_read_by?(user)
-    klass.is_teaching_assistant?(user) || user.is_researcher? || user.is_administrator?
+    klass.is_educator?(user) || user.is_researcher? || user.is_administrator?
   end
     
   def can_be_created_by?(user)

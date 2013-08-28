@@ -218,17 +218,17 @@ class Klass < ActiveRecord::Base
   def children_can_be_read_by?(user, children_symbol)
     case children_symbol
     when :sections
-      is_teacher?(user) || user.is_administrator?
+      is_educator?(user) || user.is_administrator?
     when :cohorts
       (is_controlled_experiment ? Researcher.is_one?(user) : is_teaching_assistant?(user)) || user.is_administrator?
     when :learning_conditions # not a direct child
       (is_controlled_experiment ? Researcher.is_one?(user) : is_instructor?(user)) || user.is_administrator?
     when :students
-      is_teacher?(user) || user.is_researcher? || user.is_administrator?
+      is_educator?(user) || user.is_researcher? || user.is_administrator?
     when :report
       is_teacher?(user) || user.is_researcher? || user.is_administrator?
     when :class_grades
-      is_teacher?(user) || user.is_researcher? || user.is_administrator?
+      is_educator?(user) || user.is_researcher? || user.is_administrator?
     when :analytics 
       is_teacher?(user) || is_student?(user) || user.is_administrator?
     end
