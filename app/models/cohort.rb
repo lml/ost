@@ -81,7 +81,7 @@ class Cohort < ActiveRecord::Base
       (klass.is_controlled_experiment ? Researcher.is_one?(user) : klass.is_instructor?(user)) || 
       user.is_administrator?
     when :assignments
-      klass.is_educator?(user) || klass.is_active_student?(user) || Researcher.is_one?(user) || user.is_administrator?
+      klass.is_teacher?(user) || klass.is_active_student?(user) || Researcher.is_one?(user) || user.is_administrator?
     end
   end
   

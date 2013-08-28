@@ -25,7 +25,7 @@
             <li class="test test_section"><%= link_to "#{te.display_name}", exercise.url %> 
                 [<%= te.topic.name %> / 
                  <%= te.concept.try(:name) || 'no concept' %>
-                 <% if present_user.is_researcher? || present_user.is_administrator? %> 
+                 <% if present_user.is_researcher? || present_user.is_administrator? || !assignment.klass.is_controlled_experiment %> 
                    / <%= ae.tag_list %>
                  <% end %>
                 ]

@@ -6,6 +6,7 @@
 <% addTestMeta {{:minor_name => @klass.course.name}} %>
 
 <% 
+  is_teacher = @klass.is_teacher?(present_user)
   is_educator = @klass.is_educator?(present_user)
   student = @klass.student_for(present_user) 
   is_student = !student.nil?

@@ -234,7 +234,7 @@ class StudentExercise < ActiveRecord::Base
   
   def belongs_to_student_user?(user)
     student_assignment.student.user_id == user.id
-    # TODO see if the following statement works (also do in is_educator? below)
+    # TODO see if the following statement works (also do in is_teacher? below)
     # joins{student_assignment.student.user}.any{student_assignment.student.user_id == my{user}.id}
   end
 
@@ -242,8 +242,16 @@ class StudentExercise < ActiveRecord::Base
     belongs_to_student_user?(user) && student_assignment.student.active?
   end
   
+  def klass
+    student_assignment.student.section.klass
+  end
+
+  def is_teacher?(user)
+    klass.is_teacher?(user)
+  end
+
   def is_educator?(user)
-    student_assignment.student.section.klass.is_educator?(user)
+    klass.is_educator?(user)
   end
 
   def destroyable?

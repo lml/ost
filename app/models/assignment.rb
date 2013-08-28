@@ -84,7 +84,7 @@ class Assignment < ActiveRecord::Base
   end
 
   def can_be_updated_by?(user)
-    cohort.klass.is_educator?(user)
+    cohort.klass.is_teacher?(user)
   end
 
   def children_can_be_read_by?(user, children_symbol)

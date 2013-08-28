@@ -48,7 +48,7 @@ class RegistrationRequest < ActiveRecord::Base
   #############################################################################
 
   def can_be_read_by?(user)
-    user.id == user_id || klass.is_educator?(user)
+    user.id == user_id || klass.is_teacher?(user)
   end
     
   def can_be_created_by?(user)
@@ -56,15 +56,15 @@ class RegistrationRequest < ActiveRecord::Base
   end
   
   def can_be_approved_by?(user)
-    klass.is_educator?(user)
+    klass.is_teacher?(user)
   end
   
   def can_be_rejected_by?(user)
-    klass.is_educator?(user)
+    klass.is_teacher?(user)
   end
   
   def can_be_destroyed_by?(user)
-    user.id == user_id || klass.is_educator?(user)
+    user.id == user_id || klass.is_teacher?(user)
   end
   
 protected
