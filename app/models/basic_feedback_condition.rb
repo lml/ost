@@ -103,7 +103,7 @@ class BasicFeedbackCondition < FeedbackCondition
 
     label_regex_array.any? do |regex|
       labels.any? do |label|
-        label == regex || label.match(regex)
+        label == regex || label.match(Regexp.new(regex, Regexp::IGNORECASE))
       end
     end    
   end

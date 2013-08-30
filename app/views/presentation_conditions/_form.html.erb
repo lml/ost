@@ -13,7 +13,7 @@
       <%= link_to "Learn more.", help_learning_conditions_path, :target => '_blank' %></p>
 
   <div class="field">
-    Match Labels Against <%= link_to_help 'presentation_labels' %>:
+    Match Labels Against <%= link_to_help 'presentation_labels' %> <i>(comparisons are automatically made case-insensitive)</i>:<br/>
     <%= f.text_field :label_regex %>
   </div>
 
