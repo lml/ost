@@ -8,7 +8,7 @@ class MailHooksController < ApplicationController
   skip_before_filter :authenticate_user!
 
   def catch
-    mail = MailFactory.from_cloudmailin_json(filter_params(params))
+    mail = MailFactory.from_cloudmailin_json(params)
 
     begin
       outcome = MailHook.process(mail)
