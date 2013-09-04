@@ -25,7 +25,7 @@
   <%= @backtrace.join("<br/>\n").html_safe %>
 </p>
 
-<p>Parameters: <%= @request.nil? ? "N/A" : @request.params %></p>
+<p>Parameters: <%= @request.nil? ? "N/A" : filter_params(@request.params) %></p>
 
 </body>
 </html>

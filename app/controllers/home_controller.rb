@@ -3,6 +3,8 @@
 
 class HomeController < ApplicationController
 
+  include ApplicationHelper
+
   skip_before_filter :authenticate_user!, :only => [:index, :terms, :contact, :contact_submit, :about]
 
   def index; end
@@ -32,7 +34,7 @@ class HomeController < ApplicationController
     if !@errors[:base].empty?
       render action: 'contact'
     else
-      ContactUsMailer.submission(params).deliver
+      ContactUsMailer.submission(filter_params(params)).deliver
       flash[:notice] = "Thanks for sending us a message!  Your feedback is important to us."
       redirect_to root_path
     end
