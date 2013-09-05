@@ -3,7 +3,12 @@
 
 module ApplicationHelper
   include Ost::Utilities
-  
+
+  def filter_params(params)
+    f = ActionDispatch::Http::ParameterFilter.new(Rails.application.config.filter_parameters)
+    f.filter params
+  end
+
   def read_errors(object)
     @errors = object.errors
     @errors_object = object
