@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130802061931) do
+ActiveRecord::Schema.define(:version => 20130904230948) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -400,8 +400,8 @@ ActiveRecord::Schema.define(:version => 20130802061931) do
   add_index "student_assignments", ["student_id"], :name => "index_student_assignments_on_student_id"
 
   create_table "student_exercises", :force => true do |t|
-    t.integer  "student_assignment_id",                         :null => false
-    t.integer  "assignment_exercise_id",                        :null => false
+    t.integer  "student_assignment_id",                                        :null => false
+    t.integer  "assignment_exercise_id",                                       :null => false
     t.text     "content_cache"
     t.text     "free_response"
     t.datetime "free_response_submitted_at"
@@ -411,13 +411,13 @@ ActiveRecord::Schema.define(:version => 20130802061931) do
     t.boolean  "was_submitted_late"
     t.float    "automated_credit"
     t.float    "manual_credit"
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
-    t.float    "feedback_credit_multiplier",   :default => 1.0
-    t.string   "follow_up_answer"
+    t.datetime "created_at",                                                   :null => false
+    t.datetime "updated_at",                                                   :null => false
+    t.float    "feedback_credit_multiplier",                  :default => 1.0
+    t.text     "follow_up_answer",             :limit => 255
   end
 
-  add_index "student_exercises", ["assignment_exercise_id", "student_assignment_id"], :name => "index_student_exercises_on_assignment_exercise_scoped", :unique => true
+  add_index "student_exercises", ["assignment_exercise_id", "student_assignment_id"], :name => "index_ses_on_aes_scoped", :unique => true
   add_index "student_exercises", ["assignment_exercise_id"], :name => "index_student_exercises_on_assignment_exercise_id"
   add_index "student_exercises", ["student_assignment_id"], :name => "index_student_exercises_on_student_assignment_id"
 
