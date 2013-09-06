@@ -132,7 +132,13 @@ class ClassesController < ApplicationController
       format.xls
     end
   end
-    
+
+  def management_overview
+    @klass = Klass.find(params[:id])
+
+    raise SecurityTransgression unless present_user.can_read_children?(@klass, :management_overview)
+  end
+
 protected
 
   def get_course
