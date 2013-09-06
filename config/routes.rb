@@ -67,6 +67,7 @@ Ost::Application.routes.draw do
     get 'preview_assignments', :on => :member
     get 'report', :on => :member
     get 'class_grades', :on => :member
+    get 'management_overview', :on => :member
   end
   
   resources :learning_conditions, :only => [] do

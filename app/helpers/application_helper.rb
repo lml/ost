@@ -554,14 +554,26 @@ module ApplicationHelper
     "REGISTERED"
   end
 
+  def student_status_string_short_registered
+    "REG"
+  end
+
   def student_status_string_auditing
     "AUDITING"
+  end
+
+  def student_status_string_short_auditing
+    "AUD"
   end
 
   def student_status_string_dropped
     "DROPPED"
   end
-  
+
+  def student_status_string_short_dropped
+    "DRP"
+  end
+
   def student_status_strings
     [student_status_string_registered, student_status_string_auditing, student_status_string_dropped]
   end
@@ -573,6 +585,16 @@ module ApplicationHelper
       student_status_string_auditing
     else
       student_status_string_registered
+    end
+  end
+
+  def student_status_string_short(student)
+    if student.has_dropped?
+      student_status_string_short_dropped
+    elsif student.auditing?
+      student_status_string_short_auditing
+    else
+      student_status_string_short_registered
     end
   end
 
