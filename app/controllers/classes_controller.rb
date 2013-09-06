@@ -119,7 +119,7 @@ class ClassesController < ApplicationController
     
     respond_to do |format|
       # format.csv
-      format.xls
+      format.xls { render 'report' }
     end
   end
   

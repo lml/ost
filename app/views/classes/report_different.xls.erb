@@ -1,0 +1,150 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% present_user_is_researcher = present_user.is_researcher? %>
+
+<%  
+  ae_info = { }
+  @klass.learning_plan.topics.each do |topic|
+    topic.topic_exercises.each do |te|
+      te.assignment_exercises.each do |ae|
+        ae_info[ae] = { :number       => ae.number,
+                        :quadbase_id  => ae.topic_exercise.exercise.quadbase_id,
+                        :concept      => ae.topic_exercise.concept.try(:name),
+                        :tag_list     => ae.tag_list,
+                        :fb_required  => false}
+        if ae.student_exercises.any?
+          ae_info[ae][:fb_required] = ae.student_exercises.first.feedback_required_for_credit?
+        end
+      end
+    end
+  end
+
+  response_time_query = ResponseTime.where{ (note =~ "READY%") & (page == "feedback") }
+%>
+
+<%= xls_workbook({:author => "OpenStax Tutor"}) do %>
+
+  <%= xls_worksheet("Data") do %>
+
+    <%# Header row %>
+
+    <%= xls_row do %>
+
+      <%= xls_cell(:string, comment: {text: "Student Name"}) {"Name/ID"} %>
+      <%= xls_cell(:string, comment: {text: "Student Registration Status"}) {"RegStatus"} %>
+      <%= xls_cell(:string, comment: {text: "Student Class Section name"}) {"Section"} %>
+      <%= xls_cell(:string, comment: {text: "Student Cohort name"}) {"Cohort"} %>
+      <%= xls_cell(:string, comment: {text: "Assignment name"}) {"AssgnName"} %>
+      <%= xls_cell(:string, comment: {text: "Assignment order number within Learning Plan (including tests)"}) {"AssgnNum"} %>
+      <%= xls_cell(:string, comment: {text: "Exercise order number (within Assignment)"}) {"ExNum"} %>
+      <%= xls_cell(:string, comment: {text: "Exercise Quadbase ID"}) {"ExQbId"} %>
+      <%= xls_cell(:string, comment: {text: "Exercise Concept description"}) {"ExConcept"} %>
+      <%= xls_cell(:string, comment: {text: "Exercise Labels"}) {"ExLabels"} %>
+      <%= xls_cell(:string, comment: {text: "Assignment Coworkers (including Student), sorted, comma-separated"}) {"AssgnCws"} %>
+      <%= xls_cell(:string, comment: {text: "Student locked-in a Free Response?"}) {"FreeResp?"} %>
+      <%= xls_cell(:string, comment: {text: "Time at which Free Response was locked-in"}) {"FreeRespTime"} %>
+      <%= xls_cell(:string, comment: {text: "Free Response"}) {"FreeResp"} %>
+      <%= xls_cell(:string, comment: {text: "Student locked-in a Selected Answer?"}) {"SelAns?"} %>
+      <%= xls_cell(:string, comment: {text: "Time at which Selected Answer was locked-in"}) {"SelAnsTime"} %>
+      <%= xls_cell(:string, comment: {text: "Selected Answer {0 == 'a', 1 == 'b', ...}"}) {"SelAns"} %>
+      <% if present_user_is_researcher %>
+        <%= xls_cell(:string, comment: {text: "Selected Answer Confidence {0 == 'Definitely Wrong, ..., 4 == 'Definitely Right'}"}) {"SelAnsConf"} %>
+      <% end %>
+      <%= xls_cell(:string, comment: {text: "Selected Answer Credit [0..1]"}) {"SelAnsCredit"} %>
+      <%= xls_cell(:string, comment: {text: "Exercise had follow-up question?"}) {"FollowUpQ?"} %>
+      <%= xls_cell(:string, comment: {text: "Follow-up question"}) {"FollowUpQ"} %>
+      <%= xls_cell(:string, comment: {text: "Student provided follow-up answer?"}) {"FollowUpA?"} %>
+      <%= xls_cell(:string, comment: {text: "Follow-up Answer"}) {"FollowUpA"} %>
+      <%= xls_cell(:string, comment: {text: "Feedback Scaling Factor {0,1}"}) {"FbScaling"} %>
+      <%= xls_cell(:string, comment: {text: "Overall Exercise Credit [0..1] (combines Credit and Feedback Scaling)"}) {"OverallCredit"} %>
+      <%= xls_cell(:string, comment: {text: "Exercise was completed?"}) {"Comp?"} %>
+      <%= xls_cell(:string, comment: {text: "Exercise was completed before the due date?"}) {"CompOnTime?"} %>
+      <%= xls_cell(:string, comment: {text: "Selected Answer was correct? {Yes, No, Partially}"}) {"Correct?"} %>
+      <%= xls_cell(:string, comment: {text: "Viewing Feedback was required for Overall Credit?"}) {"FbViewReq?"} %>
+      <%= xls_cell(:string, comment: {text: "Feedback was viewed (ever) or viewing not required?"}) {"FbViewed?"} %>
+      <%= xls_cell(:string, comment: {text: "Feedback was viewed for credit (withing Feedback Credit Window) or viewing not required?"}) {"FbViewedCredit?"} %>
+      <%= xls_cell(:string, comment: {text: "Approx. number of times Feedback page was loaded by the Student"}) {"FbLoadCount"} %>
+
+    <% end %>
+
+    <% @klass.sections.each do |section| %>
+      <% section_name = section.name %>
+      <% section.students.visible(present_user).each do |student| %>
+        <% student_full_name  = student.full_name(present_user) %>
+        <% student_reg_status = student_status_string(student) %>
+        <% cohort_name        = student.cohort.name %>
+        <% StudentAssignment.for_student(student).sort_by{|sa| sa.assignment.assignment_plan.starts_at}.each_with_index do |sa, ii| %>
+          <% assignment_num  = ii + 1 %>
+          <% assignment_name = sa.assignment.assignment_plan.name %>
+          <% assignment_coworkers = sa.assignment_coworkers.collect{|acw| acw.student}.uniq.concat([student]).collect{|s| s.full_name(present_user)}.sort_by{|s| s.downcase}.join(',') %>
+          <% sa.student_exercises.each do |se| %>
+            <% ae = se.assignment_exercise %>
+
+            <%= xls_row do %>
+
+              <%= xls_cell(:string) { student_full_name } %>
+              <%= xls_cell(:string) { student_reg_status } %>
+              <%= xls_cell(:string) { section_name } %>
+              <%= xls_cell(:string) { cohort_name } %>
+              <%= xls_cell(:string) { assignment_name } %>
+              <%= xls_cell(:number) { assignment_num } %>
+              <%= xls_cell(:number) { ae_info[ae][:number] } %>
+              <%= xls_cell(:string) { ae_info[ae][:quadbase_id] } %>
+              <%= xls_cell(:string) { ae_info[ae][:concept] } %>
+              <%= xls_cell(:string) { ae_info[ae][:tag_list] } %>
+              <%= xls_cell(:string) { assignment_coworkers } %>
+              <%= xls_cell(:string) { tf_to_yn(se.free_response_submitted?) } %>
+              <%= xls_cell(:string) { se.free_response_submitted_at } %>
+              <%= xls_cell(:string) { se.free_responses.collect{|fr| fr.as_text}.join('; ') } %>
+              <%= xls_cell(:string) { tf_to_yn(se.selected_answer_submitted?) } %>
+              <%= xls_cell(:string) { se.selected_answer_submitted_at } %>
+              <%= xls_cell(:number) { se.selected_answer  } %>
+              <%= xls_cell(:number) { se.free_response_confidence } if present_user_is_researcher %>
+              <%= xls_cell(:number) { se.automated_credit } %>
+              <%= xls_cell(:string) { tf_to_yn(se.requires_follow_up_question?) } %>
+              <%= xls_cell(:string) { se.follow_up_question } %>
+              <%= xls_cell(:string) { tf_to_yn(se.follow_up_answer?) } %>
+              <%= xls_cell(:string) { se.follow_up_answer } %>
+              <%= xls_cell(:number) { se.feedback_credit_multiplier } %>
+              <%= xls_cell(:number) { se.score } %>
+              <%= xls_cell(:string) { tf_to_yn(se.complete?) } %>
+              <%= xls_cell(:string) { tf_to_yn(se.complete? && !se.was_submitted_late) } %>
+              <%= xls_cell(:string) { exercise_correctness_string(se) } %>
+              <%= xls_cell(:string) { tf_to_yn(ae_info[ae][:fb_required]) } %>
+              <%= xls_cell(:string) { tf_to_yn(se.feedback_has_been_viewed?) } %>
+              <%= xls_cell(:string) { tf_to_yn(se.feedback_has_been_viewed_for_credit?) } %>
+              <%= xls_cell(:number) { response_time_query.where{ |rt| rt.response_timeable_id == se.id }.count } %>
+
+            <% end %>
+          <% end %>
+        <% end %> 
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= xls_worksheet("Info") do %>
+
+    <%= xls_row do %>
+      <%= xls_cell(:string) { "Organization" } %>
+      <%= xls_cell(:string) { @klass.course.organization.name } %>
+    <% end %>
+
+    <%= xls_row do %>
+      <%= xls_cell(:string) { "Class" } %>
+      <%= xls_cell(:string) { @klass.name } %>
+    <% end %>
+
+    <%= xls_row do %>
+      <%= xls_cell(:string) { "Dates" } %>
+      <%= xls_cell(:string) { standard_datetime(@klass.start_date) + " to " + standard_datetime(@klass.end_date) } %>
+    <% end %>
+
+    <%= xls_row do %>
+      <%= xls_cell(:string) { "Instructors" } %>
+      <%= xls_cell(:string) { @klass.educators.select{|e| e.is_instructor}.collect{|e| e.user.full_name}.join(", ") } %>
+    <% end %>
+
+  <% end %>
+
+<% end %>

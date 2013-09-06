@@ -125,11 +125,13 @@ class LearningCondition < ActiveRecord::Base
 protected
 
   def get_presentation_condition(student_exercise)
-    presentation_conditions.detect{ |pc| pc.applies_to?(student_exercise) } || PresentationCondition.default_presentation_condition
+    @presentation_conditions ||= {}
+    @presentation_conditions[student_exercise.id] ||= presentation_conditions.detect{ |pc| pc.applies_to?(student_exercise) } || PresentationCondition.default_presentation_condition
   end
 
   def get_feedback_condition(student_exercise)
-    feedback_conditions.detect{ |fc| fc.applies_to?(student_exercise) } || BasicFeedbackCondition.default_feedback_condition
+    @feedback_conditions ||= {}
+    @feedback_conditions[student_exercise.id] ||= feedback_conditions.detect{ |fc| fc.applies_to?(student_exercise) } || BasicFeedbackCondition.default_feedback_condition
   end
 
   def show_student_assignment_correctness_feedback?(student_assignment)
