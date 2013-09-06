@@ -1,0 +1,48 @@
+<% user_is_researcher = present_user.is_researcher? %>
+<% user_is_visitor    = present_user.is_visitor? %>
+
+<% registration_status_sort_order = [ student_status_string_short_registered,
+                                      student_status_string_short_auditing,
+                                      student_status_string_short_dropped ] %>
+
+<%
+  students = @klass.students.visible(present_user).sort_by do |student|
+    [
+      student.section.klass.sections.index(student.section),
+      student.cohort.number,
+      registration_status_sort_order.index(student_status_string_short(student)),
+      (user_is_researcher || user_is_visitor) ? student.user.research_id : "#{student.user.last_name} #{student.user.first_name}".downcase
+    ]
+  end
+%>
+
+<%= pageHeading "Class Management Overview: #{@klass.course.name}" %>
+
+<div>
+
+  <table class="list klass_management_overview" width="100%">
+  <tr>
+    <th width="20%">Student Section</th>
+    <th width="20%">Cohort Section</th>
+    <th width="20%">Cohort</th>
+    <th width="10%">RS</th>
+    <th width="30%">Student</th>
+  </tr>
+  <% students.each do |student| %>
+    <tr>
+      <td><%= student.section.name %></td>
+      <td><%= student.cohort.section.nil? ? "" : student.cohort.section.name %></td>
+      <td><%= student.cohort.name %></td>
+      <td><%= student_status_string_short(student) %></td>
+      <td><%= link_to_if(present_user.can_read?(student), student.full_name(present_user), student) %></td>
+    </tr>
+  <% end %>
+  </table>
+
+</div>
+
+<%
+  navitem(present_user.can_read?(@klass)) { link_to('Back to Class', klass_path(@klass)) }
+  navitem(:can_read_children?, @klass, :sections) { link_to("Sections", klass_sections_path(@klass)) }
+  navitem(:can_read_children?, @klass, :cohorts) { link_to("Cohorts", klass_cohorts_path(@klass)) }
+%>

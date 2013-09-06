@@ -231,6 +231,8 @@ class Klass < ActiveRecord::Base
       is_educator?(user) || user.is_researcher? || user.is_administrator?
     when :analytics 
       is_teacher?(user) || is_student?(user) || user.is_administrator?
+    when :management_overview
+      user.is_researcher? || user.is_administrator?
     end
   end
 
