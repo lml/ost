@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130904230948) do
+ActiveRecord::Schema.define(:version => 20130907030901) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(:version => 20130904230948) do
     t.datetime "updated_at",            :null => false
   end
 
-  add_index "assignment_coworkers", ["student_assignment_id"], :name => "index_assignment_coworkers_on_student_assignment_id"
+  add_index "assignment_coworkers", ["student_assignment_id"], :name => "index_assignment_cws_on_sa_id"
   add_index "assignment_coworkers", ["student_id", "student_assignment_id"], :name => "index_assignment_coworkers_on_student_id_scoped", :unique => true
   add_index "assignment_coworkers", ["student_id"], :name => "index_assignment_coworkers_on_student_id"
 
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(:version => 20130904230948) do
 
   add_index "assignment_exercises", ["assignment_id"], :name => "index_assignment_exercises_on_assignment_id"
   add_index "assignment_exercises", ["number", "assignment_id"], :name => "index_assignment_exercises_on_number_scoped", :unique => true
-  add_index "assignment_exercises", ["topic_exercise_id", "assignment_id"], :name => "index_assignment_exercises_on_topic_exercise_id_scoped", :unique => true
+  add_index "assignment_exercises", ["topic_exercise_id", "assignment_id"], :name => "index_aes_on_te_id_scoped", :unique => true
   add_index "assignment_exercises", ["topic_exercise_id"], :name => "index_assignment_exercises_on_topic_exercise_id"
 
   create_table "assignment_plan_topics", :force => true do |t|
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(:version => 20130904230948) do
     t.boolean  "hide_resources",       :default => false
   end
 
-  add_index "assignment_plan_topics", ["assignment_plan_id"], :name => "index_assignment_plan_topics_on_assignment_plan_id"
+  add_index "assignment_plan_topics", ["assignment_plan_id"], :name => "index_apts_on_ap_id"
   add_index "assignment_plan_topics", ["topic_id"], :name => "index_assignment_plan_topics_on_topic_id"
 
   create_table "assignment_plans", :force => true do |t|
@@ -201,7 +201,7 @@ ActiveRecord::Schema.define(:version => 20130904230948) do
     t.datetime "updated_at",            :null => false
   end
 
-  add_index "feedback_conditions", ["learning_condition_id"], :name => "index_feedback_conditions_on_learning_condition_id"
+  add_index "feedback_conditions", ["learning_condition_id"], :name => "index_fcs_on_lc_id"
   add_index "feedback_conditions", ["number", "learning_condition_id"], :name => "index_feedback_conditions_on_number_scoped", :unique => true
 
   create_table "free_responses", :force => true do |t|
@@ -298,8 +298,8 @@ ActiveRecord::Schema.define(:version => 20130904230948) do
     t.boolean  "apply_follow_up_question_to_tests", :default => false
   end
 
-  add_index "presentation_conditions", ["learning_condition_id"], :name => "index_presentation_conditions_on_learning_condition_id"
-  add_index "presentation_conditions", ["number", "learning_condition_id"], :name => "index_presentation_condition_on_number_scoped", :unique => true
+  add_index "presentation_conditions", ["learning_condition_id"], :name => "index_pcs_on_lc_id"
+  add_index "presentation_conditions", ["number", "learning_condition_id"], :name => "index_pcs_on_number_scoped", :unique => true
 
   create_table "registration_requests", :force => true do |t|
     t.integer  "user_id",                            :null => false
@@ -448,7 +448,7 @@ ActiveRecord::Schema.define(:version => 20130904230948) do
   end
 
   add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_type_context"
 
   create_table "tags", :force => true do |t|
     t.string "name"
