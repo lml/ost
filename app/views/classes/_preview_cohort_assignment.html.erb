@@ -1,0 +1,47 @@
+<% present_user_can_see_tag_lists = present_user.is_researcher? ||
+                                    present_user.is_administrator? ||
+                                    !assignment.klass.is_controlled_experiment %>
+
+<table class="list preview_cohort_assignment" style="width:1325px;table-layout:fixed">
+  <tr>
+    <th width="025px">#</th>
+    <th width="100px">Ex</th>
+    <th width="200px">Topic</th>
+    <th width="200px">Concept</th>
+    <th width="300px">Ex Labels</th>
+    <th width="050px">PC Id</th>
+    <th width="200px">PC Regex</th>
+    <th width="050px">FC Id</th>
+    <th width="200px">FC Regex</th>
+  </tr>
+
+  <% assignment.assignment_exercises.each_with_index do |ae, ae_index| %>
+    <%
+      te = ae.topic_exercise
+      ex = te.exercise
+      lc = cohort.learning_condition
+      pc = lc.get_presentation_condition(ae)
+      fc = lc.get_feedback_condition(ae)
+    %>
+    <tr>
+      <td><%= 1 + ae_index %></td>
+      <td><%= link_to "#{te.display_name}", ex.url %></td>
+      <td><%= te.topic.name %></td>
+      <td><%= te.concept.try(:name) || "N/A" %></td>
+
+      <% if present_user_can_see_tag_lists %>
+        <td><%= present_user_can_see_tag_lists ? ae.tag_list.join(", ") : "N/A" %></td>
+        <td><%= pc.id.nil? ? '--' : link_to_if(present_user.can_update?(pc), pc.id, edit_presentation_condition_path(pc)) %></td>
+        <td><%= pc.label_regex %></td>
+        <td><%= fc.id.nil? ? '--' : link_to_if(present_user.can_update?(fc), fc.id, edit_feedback_condition_path(fc)) %></td>
+        <td><%= fc.label_regex %></td>
+      <% else %>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
