@@ -5,38 +5,28 @@
 <% addTestMeta {{:major_name => @klass.course.name}} %>
 <% addTestMeta {{:minor_name => "Learning Plan"}} %>
 
-<%= pageHeading "Preview of Assignments" %>
+<%= pageHeading "Preview of Assignments: #{@klass.course.name}" %>
 
 <% @assignments.each_with_index do |assignment_array, ii| %>
   
   <% next if assignment_array.empty? %>
   
-  <%= section "#{assignment_array[0].assignment_plan.name}", {:classes => "#{ii == 0 ? 'first no_bar' : ''}" } do %>
+  <%= section "Assignment: #{assignment_array[0].assignment_plan.name}", {:classes => "#{ii == 0 ? 'first no_bar' : ''}" } do %>
     
     <% assignment_array.each do |assignment| %>
       <% cohort = assignment.cohort %>
     
       <div class="test test_section cohort">
-        <p><b>Cohort: <%= cohort.name %> <%= ", Section: #{cohort.section.name}" if !cohort.section_id.nil? %></b></p>
-        <ol>
-          <% assignment.assignment_exercises.each do |ae| %>
-            <% te = ae.topic_exercise %>
-            <% exercise = te.exercise %>
-            <li class="test test_section"><%= link_to "#{te.display_name}", exercise.url %> 
-                [<%= te.topic.name %> / 
-                 <%= te.concept.try(:name) || 'no concept' %>
-                 <% if present_user.is_researcher? || present_user.is_administrator? || !assignment.klass.is_controlled_experiment %> 
-                   / <%= ae.tag_list %>
-                 <% end %>
-                ]
-            </li>
-          <% end %>
-        </ol>
+        <p><b>Cohort: <%= cohort.name %>, Cohort Section: <%= cohort.section.nil? ? "N/A" : cohort.section.name %></b></p>
+        <% if assignment.assignment_exercises.any? %>
+          <%= render partial: "preview_cohort_assignment", locals: { cohort: cohort, assignment: assignment } %>
+        <% else %>
+          <p>No assignment exercises.</p>
+        <% end %>
       </div>
 
     <% end %>
   
   <% end %>
-  
   
 <% end %>

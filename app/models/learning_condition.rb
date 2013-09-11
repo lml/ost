@@ -121,18 +121,16 @@ class LearningCondition < ActiveRecord::Base
       Researcher.is_one?(user) || user.is_administrator? :
       cohort.klass.is_instructor?(user) || user.is_administrator?
   end
-  
+
+  def get_presentation_condition(student_or_assignment_exercise)
+    presentation_conditions.detect{ |pc| pc.applies_to?(student_or_assignment_exercise) } || PresentationCondition.default_presentation_condition
+  end
+
+  def get_feedback_condition(student_or_assignment_exercise)
+    feedback_conditions.detect{ |fc| fc.applies_to?(student_or_assignment_exercise) } || BasicFeedbackCondition.default_feedback_condition
+  end
+
 protected
-
-  def get_presentation_condition(student_exercise)
-    @presentation_conditions ||= {}
-    @presentation_conditions[student_exercise.id] ||= presentation_conditions.detect{ |pc| pc.applies_to?(student_exercise) } || PresentationCondition.default_presentation_condition
-  end
-
-  def get_feedback_condition(student_exercise)
-    @feedback_conditions ||= {}
-    @feedback_conditions[student_exercise.id] ||= feedback_conditions.detect{ |fc| fc.applies_to?(student_exercise) } || BasicFeedbackCondition.default_feedback_condition
-  end
 
   def show_student_assignment_correctness_feedback?(student_assignment)
     student_assignment.student_exercises.inject(true) { |result, se| result && show_student_exercise_correctness_feedback?(se) }

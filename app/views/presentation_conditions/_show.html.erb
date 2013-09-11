@@ -2,6 +2,7 @@
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <ul>
+  <li>Id: <%= presentation_condition.id || "N/A" %></li>
   <li>Matches labels against: <%= presentation_condition.label_regex || "[Not set]" %></li>
   <li>Require free-response?: <%= tf_to_yn(presentation_condition.requires_free_response?) %></li>
   <li>Require selected answer?: <%= tf_to_yn(presentation_condition.requires_selected_answer?) %></li>
