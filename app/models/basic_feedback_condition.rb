@@ -97,15 +97,22 @@ class BasicFeedbackCondition < FeedbackCondition
                                :show_detailed_feedback          => false)
   end
 
-  def applies_to?(student_exercise)
+  def applies_to?(student_or_assignment_exercise)
     label_regex_array = label_regex.split(",").collect{|lr| lr.strip}
-    labels = student_exercise.assignment_exercise.tag_list
+
+    if student_or_assignment_exercise.instance_of? StudentExercise
+      assignment_exercise = student_or_assignment_exercise.assignment_exercise
+    else
+      assignment_exercise = student_or_assignment_exercise
+    end
+
+    labels = assignment_exercise.tag_list
 
     label_regex_array.any? do |regex|
       labels.any? do |label|
         label == regex || label.match(Regexp.new(regex, Regexp::IGNORECASE))
       end
-    end    
+    end
   end
   
   def can_automatically_show_feedback?(student_exercise)
