@@ -3,7 +3,9 @@
 
 class SiteMailer < ActionMailer::Base
   include Ost::Utilities
-    
+  
+  helper :application
+
   default :from => "noreply@openstaxtutor.org"
 
   def mail(headers={}, &block)
