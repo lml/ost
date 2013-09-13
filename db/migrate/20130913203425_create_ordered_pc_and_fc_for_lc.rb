@@ -38,24 +38,19 @@ class CreateOrderedPcAndFcForLc < ActiveRecord::Migration
     FeedbackCondition.reset_column_information
 
     LearningCondition.find_each do |lc|
-      puts "processing LC ##{lc.id}"
-
-      debugger
 
       PresentationCondition.where{id == lc.id}.each do |pc|
-        puts "  processing PC ##{pc.id} (LC ##{pc.learning_condition_id})"
         lcpc = LearningConditionPresentationCondition.create! do |lcpc|
-          lcpc.learning_condition_id      = pc.learning_condition_id,
-          lcpc.presentation_condition_id  = pc.id,
+          lcpc.learning_condition_id      = pc.learning_condition_id
+          lcpc.presentation_condition_id  = pc.id
           lcpc.number                     = pc.number
         end
       end
 
       FeedbackCondition.where{id == lc.id}.each do |fc|
-        puts "  processing FC ##{fc.id} (LC ##{fc.learning_condition_id})"
-        lcfc =LearningConditionFeedbackCondition.create! do |lcfc|
-          lcfc.learning_condition_id  = fc.learning_condition_id,
-          lcfc.feedback_condition_id  = fc.id,
+        lcfc = LearningConditionFeedbackCondition.create! do |lcfc|
+          lcfc.learning_condition_id  = fc.learning_condition_id
+          lcfc.feedback_condition_id  = fc.id
           lcfc.number                 = fc.number
         end
       end
