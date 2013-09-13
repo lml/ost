@@ -5,8 +5,8 @@ class LearningCondition < ActiveRecord::Base
   belongs_to :cohort
   
   has_one  :scheduler
-  has_many :presentation_conditions, :order => :number
-  has_many :feedback_conditions,     :order => :number
+  has_many :learning_condition_presentation_conditions, :order => :number
+  has_many :learning_condition_feedback_conditions,     :order => :number
 
   before_create :set_defaults
   
@@ -17,7 +17,15 @@ class LearningCondition < ActiveRecord::Base
     TestBuilder.build_assignment(assignment_plan, cohort) : # take specific percentages from each topics test reserves
     scheduler.build_assignment(assignment_plan, cohort)
   end
-  
+
+  def presentation_conditions
+    learning_condition_presentation_conditions.collect{|lcpc| lcpc.presentation_condition}
+  end
+
+  def feedback_conditions
+    learning_condition_feedback_conditions.collect{|lcfc| lcpc.feedback_condition}
+  end
+
   # Student exercises and assignments are supposed to notify their learning
   # condition when certain events happen, e.g.:
   #
@@ -123,11 +131,11 @@ class LearningCondition < ActiveRecord::Base
   end
 
   def get_presentation_condition(student_or_assignment_exercise)
-    presentation_conditions.detect{ |pc| pc.applies_to?(student_or_assignment_exercise) } || PresentationCondition.default_presentation_condition
+    presentation_conditions.detect{|pc| pc.applies_to? student_or_assignment_exercise} || PresentationCondition.default_presentation_condition
   end
 
   def get_feedback_condition(student_or_assignment_exercise)
-    feedback_conditions.detect{ |fc| fc.applies_to?(student_or_assignment_exercise) } || BasicFeedbackCondition.default_feedback_condition
+    feedback_conditions.detect{|fc| fc.applies_to? student_or_assignment_exercise} || BasicFeedbackCondition.default_feedback_condition
   end
 
 protected
@@ -154,8 +162,8 @@ protected
 
   def set_defaults
     self.scheduler = PercentScheduler.standard_practice_scheduler
-    self.presentation_conditions << PresentationCondition.standard_practice_presentation_condition
-    self.feedback_conditions     << BasicFeedbackCondition.standard_practice_feedback_condition
+    self.learning_conditon_presentation_conditions << LearningConditonPresentationCondition.standard_practice_learning_condition_presentation_condition
+    self.learning_conditon_feedback_conditions     << LearningConditionFeedbackCondition.standard_practice_learning_condition_feedback_condition
   end
 
 end

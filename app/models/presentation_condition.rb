@@ -2,19 +2,14 @@
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 class PresentationCondition < ActiveRecord::Base
-  belongs_to :learning_condition
-
   store                :settings
   store_accessor       :settings, :label_regex
   store_typed_accessor :settings, :boolean, :requires_free_response
   store_typed_accessor :settings, :boolean, :requires_selected_answer
 
-  acts_as_numberable :container => :learning_condition
-
   after_initialize  :supply_missing_values
 
-  attr_accessible :learning_condition,
-                  :label_regex,
+  attr_accessible :label_regex,
                   :requires_free_response, :requires_selected_answer,
                   :follow_up_question, :apply_follow_up_question_to_tests
 

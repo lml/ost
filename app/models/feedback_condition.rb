@@ -2,14 +2,8 @@
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 class FeedbackCondition < ActiveRecord::Base
-  belongs_to :learning_condition
-  
   store :settings
-  
-  attr_accessible :learning_condition
-  
-  acts_as_numberable :container => :learning_condition
-  
+
   #############################################################################
   # Access control methods
   #############################################################################
