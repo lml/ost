@@ -86,7 +86,7 @@ class FeedbackCondition < ActiveRecord::Base
   end
   
   def self.default_feedback_condition
-    FeedbackCondition.new(:label_regex                     => '.*', 
+    FeedbackCondition.new(:label_regex                     => 'DefaultFC', 
                           :is_feedback_required_for_credit => false.to_s,
                           :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
                           :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 

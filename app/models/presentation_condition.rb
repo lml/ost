@@ -20,7 +20,7 @@ class PresentationCondition < ActiveRecord::Base
   end
 
   def self.default_presentation_condition
-    PresentationCondition.new(:label_regex              => '.*',
+    PresentationCondition.new(:label_regex              => 'DefaultPC',
                               :requires_free_response   => true,
                               :requires_selected_answer => true)
   end
