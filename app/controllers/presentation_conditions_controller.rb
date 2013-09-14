@@ -6,7 +6,7 @@ class PresentationConditionsController < ApplicationController
   before_filter :get_learning_condition, :only => [:new, :create, :sort]
 
   def new
-    raise SecurityTransgression unless present_user.can_update?(@learning_condition)    
+    raise SecurityTransgression unless present_user.can_update?(@learning_condition)
   end
 
   def create
@@ -14,7 +14,7 @@ class PresentationConditionsController < ApplicationController
 
     PresentationCondition.create(:learning_condition => @learning_condition)
     
-    redirect_to klass_learning_conditions_path(@learning_condition.cohort.klass) 
+    redirect_to klass_learning_conditions_path(@learning_condition.cohort.klass)
   end
   
   def edit
@@ -28,7 +28,7 @@ class PresentationConditionsController < ApplicationController
 
     respond_to do |format|
       if @presentation_condition.update_attributes(params[:presentation_condition])
-        format.html { redirect_to klass_learning_conditions_path(@presentation_condition.learning_condition.cohort.klass), 
+        format.html { redirect_to klass_learning_conditions_path(@presentation_condition.learning_condition.cohort.klass),
                                   notice: 'Presentation condition was successfully updated.' }
       else
         format.html { render action: "edit" }
@@ -40,10 +40,6 @@ class PresentationConditionsController < ApplicationController
     @presentation_condition = PresentationCondition.find(params[:id])
     raise SecurityTransgression unless present_user.can_destroy?(@presentation_condition)
     @presentation_condition.destroy
-  end
-  
-  def sort
-    super('presentation_condition', PresentationCondition, @learning_condition, :learning_condition)
   end
 
 protected

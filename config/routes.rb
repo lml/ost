@@ -72,10 +72,10 @@ Ost::Application.routes.draw do
   
   resources :learning_conditions, :only => [] do
     resources :schedulers, :shallow => true, :except => [:index, :show, :destroy]
-    resources :presentation_conditions, :shallow => true, :except => [:index, :show] do
+    resources :learning_condition_presentation_conditions, :shallow => true, :except => [:index, :show] do
       post 'sort', :on => :collection
     end
-    resources :feedback_conditions, :shallow => true, :except => [:index, :show] do
+    resources :learning_condition_feedback_conditions, :shallow => true, :except => [:index, :show] do
       post 'sort', :on => :collection
     end
   end

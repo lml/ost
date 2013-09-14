@@ -1,0 +1,28 @@
+<p>Presentation conditions let you control whether or not 
+   multiple-choice exercises include 
+   a <%= link_to_help 'question_format', text="free-form component",
+   {:title => 'Adding a free-form component to multiple-choice exercises', :width => '700', :height => '700'} %>
+   or a follow-up question.
+    <%= link_to "Learn more.", help_learning_conditions_path, :target => '_blank' %></p>
+
+<div class="field">
+  Match Labels Against <%= link_to_help 'presentation_labels' %> <i>(comparisons are automatically made case-insensitive)</i>:<br/>
+  <%= form.text_field :label_regex %>
+</div>
+
+<div class="field">
+  Require the following from the student:
+  <div style="padding-left:15px">
+    <%= form.check_box :requires_free_response %>
+    Free-response answer
+  </div>
+</div>
+
+<div class="field">
+  Follow-up Question <i>(leave blank if not applicable)</i>:<br>
+  <%= form.text_area :follow_up_question, :rows => 1, :style => "width:97.5%" %>
+  <div style="padding-left:15px">
+    <%= form.check_box :apply_follow_up_question_to_tests %>
+    Apply to tests
+  </div>
+</div>

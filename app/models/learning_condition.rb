@@ -23,7 +23,7 @@ class LearningCondition < ActiveRecord::Base
   end
 
   def feedback_conditions
-    learning_condition_feedback_conditions.collect{|lcfc| lcpc.feedback_condition}
+    learning_condition_feedback_conditions.collect{|lcfc| lcfc.feedback_condition}
   end
 
   # Student exercises and assignments are supposed to notify their learning
@@ -135,7 +135,7 @@ class LearningCondition < ActiveRecord::Base
   end
 
   def get_feedback_condition(student_or_assignment_exercise)
-    feedback_conditions.detect{|fc| fc.applies_to? student_or_assignment_exercise} || BasicFeedbackCondition.default_feedback_condition
+    feedback_conditions.detect{|fc| fc.applies_to? student_or_assignment_exercise} || FeedbackCondition.default_feedback_condition
   end
 
 protected

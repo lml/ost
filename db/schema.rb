@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130907030901) do
+ActiveRecord::Schema.define(:version => 20130913203425) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -193,16 +193,11 @@ ActiveRecord::Schema.define(:version => 20130907030901) do
   add_index "exercises", ["url"], :name => "index_exercises_on_url", :unique => true
 
   create_table "feedback_conditions", :force => true do |t|
-    t.integer  "learning_condition_id", :null => false
     t.text     "settings"
     t.string   "type"
-    t.integer  "number"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
-
-  add_index "feedback_conditions", ["learning_condition_id"], :name => "index_fcs_on_lc_id"
-  add_index "feedback_conditions", ["number", "learning_condition_id"], :name => "index_feedback_conditions_on_number_scoped", :unique => true
 
   create_table "free_responses", :force => true do |t|
     t.integer  "student_exercise_id"
@@ -232,6 +227,28 @@ ActiveRecord::Schema.define(:version => 20130907030901) do
   end
 
   add_index "klasses", ["course_id"], :name => "index_klasses_on_course_id"
+
+  create_table "learning_condition_feedback_conditions", :force => true do |t|
+    t.integer  "learning_condition_id"
+    t.integer  "feedback_condition_id"
+    t.integer  "number"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  add_index "learning_condition_feedback_conditions", ["learning_condition_id"], :name => "index_lcfcs_on_lc_id"
+  add_index "learning_condition_feedback_conditions", ["number", "learning_condition_id"], :name => "index_lcfcs_on_number_scoped", :unique => true
+
+  create_table "learning_condition_presentation_conditions", :force => true do |t|
+    t.integer  "learning_condition_id"
+    t.integer  "presentation_condition_id"
+    t.integer  "number"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "learning_condition_presentation_conditions", ["learning_condition_id"], :name => "index_lcpcs_on_lc_id"
+  add_index "learning_condition_presentation_conditions", ["number", "learning_condition_id"], :name => "index_lcpcs_on_number_scoped", :unique => true
 
   create_table "learning_conditions", :force => true do |t|
     t.integer  "cohort_id"
@@ -289,17 +306,12 @@ ActiveRecord::Schema.define(:version => 20130907030901) do
   add_index "organizations", ["name"], :name => "index_organizations_on_name", :unique => true
 
   create_table "presentation_conditions", :force => true do |t|
-    t.integer  "learning_condition_id",                                :null => false
     t.text     "settings"
-    t.integer  "number"
     t.datetime "created_at",                                           :null => false
     t.datetime "updated_at",                                           :null => false
     t.string   "follow_up_question"
     t.boolean  "apply_follow_up_question_to_tests", :default => false
   end
-
-  add_index "presentation_conditions", ["learning_condition_id"], :name => "index_pcs_on_lc_id"
-  add_index "presentation_conditions", ["number", "learning_condition_id"], :name => "index_pcs_on_number_scoped", :unique => true
 
   create_table "registration_requests", :force => true do |t|
     t.integer  "user_id",                            :null => false

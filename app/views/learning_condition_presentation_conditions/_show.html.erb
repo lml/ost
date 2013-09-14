@@ -1,0 +1,7 @@
+<% lcpc = learning_condition_presentation_condition %>
+
+<div>
+  <p>LCPC #<%= lcpc.id %> number: <%= lcpc.number %></p>
+  <%= render partial: "presentation_conditions/show",
+             locals:  { presentation_condition: lcpc.presentation_condition } %>
+</div>

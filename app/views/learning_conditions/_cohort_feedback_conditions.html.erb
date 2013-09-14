@@ -1,21 +1,22 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<% feedback_conditions    = learning_condition.feedback_conditions %>
-<% feedback_conditions_id = "feedback_conditions_#{learning_condition.id}" %>
+<% lcfcs       = learning_condition.learning_condition_feedback_conditions %>
+<% lcfc_div_id = "learning_condition_feedback_conditions_#{learning_condition.id}" %>
 
-<div id="<%= feedback_conditions_id %>">
+<div id="<%= lcfc_div_id %>">
   
-  <% if feedback_conditions.empty? %>
+  <% if lcfcs.empty? %>
     <p>No feedback conditions yet</p>
   <% else %>
             
-    <% feedback_conditions.each do |feedback_condition| %>
-      <div id="feedback_condition_<%= feedback_condition.id %>" class="sortable_item_entry lp_item_info" style="margin-top: 15px">
-        <%= render :partial => "#{view_dir(feedback_condition)}/show", :locals => {:feedback_condition => feedback_condition} %>
+    <% lcfcs.each do |lcfc| %>
+      <div id="learning_condition_feedback_condition_<%= lcfc.id %>" class="sortable_item_entry lp_item_info" style="margin-top: 15px">
+        <%= render partial: "learning_condition_feedback_conditions/show", 
+                   locals:  { learning_condition_feedback_condition: lcfc } %>
 
-        <%= link_to "Edit", edit_feedback_condition_path(feedback_condition) %> |
-        <%= link_to "Delete", feedback_condition_path(feedback_condition), 
+        <%= link_to "Edit", edit_learning_condition_feedback_condition_path(lcfc) %> |
+        <%= link_to "Delete", learning_condition_feedback_condition_path(lcfc), 
                               :method  => :delete, 
                               :remote  => true,
                               :confirm => "Are you sure?" %> &nbsp;&nbsp;
@@ -26,7 +27,7 @@
     
      <% content_for :javascript do %>
         <%= javascript_tag do %>
-          $('#<%= feedback_conditions_id %>').sortable({
+          $('#<%= lcfc_div_id %>').sortable({
              dropOnEmpty: false,
              handle: '.handle',
              items: 'div.sortable_item_entry',
@@ -35,9 +36,9 @@
              update: function(){
                 $.ajax({
                    type: 'post',
-                   data: $('#<%= feedback_conditions_id %>').sortable('serialize'),
+                   data: $('#<%= lcfc_div_id %>').sortable('serialize'),
                    dataType: 'script',
-                   url: '<%= sort_learning_condition_feedback_conditions_path(learning_condition) %>'
+                   url: '<%= sort_learning_condition_learning_condition_feedback_conditions_path(learning_condition) %>'
                 });
              }
           }).disableSelection();
@@ -49,5 +50,5 @@
 </div>
 
 <%= link_to "Add a New Feedback Condition",
-            learning_condition_feedback_conditions_path(learning_condition),
+            learning_condition_learning_condition_feedback_conditions_path(learning_condition),
             :method => :post %>

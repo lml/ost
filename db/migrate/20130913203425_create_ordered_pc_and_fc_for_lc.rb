@@ -39,16 +39,16 @@ class CreateOrderedPcAndFcForLc < ActiveRecord::Migration
 
     LearningCondition.find_each do |lc|
 
-      PresentationCondition.where{id == lc.id}.each do |pc|
-        lcpc = LearningConditionPresentationCondition.create! do |lcpc|
+      PresentationCondition.where{learning_condition_id == lc.id}.each do |pc|
+        LearningConditionPresentationCondition.create! do |lcpc|
           lcpc.learning_condition_id      = pc.learning_condition_id
           lcpc.presentation_condition_id  = pc.id
           lcpc.number                     = pc.number
         end
       end
 
-      FeedbackCondition.where{id == lc.id}.each do |fc|
-        lcfc = LearningConditionFeedbackCondition.create! do |lcfc|
+      FeedbackCondition.where{learning_condition_id == lc.id}.each do |fc|
+        LearningConditionFeedbackCondition.create! do |lcfc|
           lcfc.learning_condition_id  = fc.learning_condition_id
           lcfc.feedback_condition_id  = fc.id
           lcfc.number                 = fc.number

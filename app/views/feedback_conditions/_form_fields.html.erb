@@ -1,0 +1,92 @@
+<p>Feedback conditions
+  let you control how, when, and what 
+  kind of <%= link_to_help 'example_feedback', text="feedback", 
+  {:title => 'Feedback', :width => '700', :height => '700'} %>
+  you release to students. For help setting up feedback conditions, 
+  check out the <%= link_to "Learning Conditions help page", help_learning_conditions_path,
+         :target => '_blank' %>.</p>
+
+<%= hidden_field_tag :type, 'FeedbackCondition' %>
+
+<div class="field">
+  Match Labels Against <%= link_to_help 'labels' %> <i>(comparisons are automatically made case-insensitive)</i>:<br/>
+  <%= form.text_field :label_regex %>
+</div>
+<div class="field">
+  <%= form.check_box :is_feedback_required_for_credit %>
+  Students must view the feedback to get credit for the problems.
+</div>
+<div class="field">
+  <%= form.check_box :can_automatically_show_feedback %>
+  The site can automatically present students with feedback if other conditions are met. <%#<%= link_to_help 'auto_feedback' %>
+</div>  
+<div class="field">
+  The assignment event to use when determining feedback availability:
+  <%= form.select :availability_event, events %>
+</div>
+
+<div class="field">
+  Present the following feedback types (if present)...
+
+  <div style="padding-left:15px">
+    <%= form.check_box :show_correctness_feedback %>
+    Show correct/incorrect (also allows student to see assignment grades)
+  </div>
+  <div style="padding-left:15px">
+    <%= form.check_box :show_correct_answer_feedback %>
+    Show correct answer
+  </div>
+  <div style="padding-left:15px">
+    <%= form.check_box :show_high_level_feedback %>
+    Show high-level explanation
+  </div>
+  <div style="padding-left:15px">
+    <%= form.check_box :show_detailed_feedback %>
+    Show detailed explanation
+  </div>
+</div>
+
+<div class="field">
+  Feedback becomes available...</br>
+
+  <div style="padding-left:15px">
+    <p>
+    <%= enum_radio_button form, :availability_opens_option, 
+                          FeedbackCondition::AvailabilityOpensOption, :NEVER %></p>
+    <p>
+    <%= enum_radio_button form, :availability_opens_option, 
+                          FeedbackCondition::AvailabilityOpensOption, :IMMEDIATELY_AFTER_EVENT %></p>
+    <p>
+    <%= enum_radio_button form, :availability_opens_option, 
+                          FeedbackCondition::AvailabilityOpensOption, :DELAY_AFTER_EVENT %>
+    of <%= form.text_field :availability_opens_delay_days, :size => 4 %> days</p>
+  </div>
+</div>
+
+<div class="field">
+  Feedback stops being available for credit...</br>
+
+  <div style="padding-left:15px">
+    <p>
+    <%= enum_radio_button form, :credit_closes_option, 
+                          FeedbackCondition::CreditClosesOption, :WHEN_FEEDBACK_BECOMES_UNAVAILABLE %></p>
+    <p>
+    <%= enum_radio_button form, :credit_closes_option, 
+                          FeedbackCondition::CreditClosesOption, :DELAY_AFTER_OPEN %>
+    of <%= form.text_field :credit_closes_delay_days, :size => 4 %> days</p>
+  </div>
+</div>
+
+<div class="field">
+  Feedback becomes unavailable...</br>
+
+  <div style="padding-left:15px">
+    <p>
+    <%= enum_radio_button form, :availability_closes_option, 
+                          FeedbackCondition::AvailabilityClosesOption, :NEVER %></p>
+    <p>
+    <%= enum_radio_button form, :availability_closes_option, 
+                          FeedbackCondition::AvailabilityClosesOption, :DELAY_AFTER_OPEN %>
+    of <%= form.text_field :availability_closes_delay_days, :size => 4 %> days</p>
+  </div>
+</div>

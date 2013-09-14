@@ -1,21 +1,21 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<% presentation_conditions = learning_condition.presentation_conditions %>
-<% lcpc_div_id = "presentation_conditions_#{learning_condition.id}" %>
+<% lcpcs       = learning_condition.learning_condition_presentation_conditions %>
+<% lcpc_div_id = "learning_condition_presentation_conditions_#{learning_condition.id}" %>
 
 <div id="<%= lcpc_div_id %>">
   
-  <% if presentation_conditions.empty? %>
+  <% if lcpcs.empty? %>
     <p>No presentation conditions yet</p>
   <% else %>
-            
-    <% presentation_conditions.each do |presentation_condition| %>
-      <div id="presentation_condition_<%= presentation_condition.id %>" class="sortable_item_entry lp_item_info" style="margin-top: 15px">
-        <%= render :partial => "presentation_conditions/show", :locals => {:presentation_condition => presentation_condition} %>
+    <% lcpcs.each do |lcpc| %>
+      <div id="learning_condition_presentation_condition_<%= lcpc.id %>" class="sortable_item_entry lp_item_info" style="margin-top: 15px">
+        <%= render partial: "learning_condition_presentation_conditions/show", 
+                   locals:  { learning_condition_presentation_condition: lcpc } %>
 
-        <%= link_to "Edit", edit_presentation_condition_path(presentation_condition) %> |
-        <%= link_to "Delete", presentation_condition_path(presentation_condition), 
+        <%= link_to "Edit", edit_learning_condition_presentation_condition_path(lcpc) %> |
+        <%= link_to "Delete", learning_condition_presentation_condition_path(lcpc), 
                               :method  => :delete, 
                               :remote  => true,
                               :confirm => "Are you sure?" %> &nbsp;&nbsp;
@@ -37,7 +37,7 @@
                    type: 'post',
                    data: $('#<%= lcpc_div_id %>').sortable('serialize'),
                    dataType: 'script',
-                   url: '<%= sort_learning_condition_presentation_conditions_path(learning_condition) %>'
+                   url: '<%= sort_learning_condition_learning_condition_presentation_conditions_path(learning_condition) %>'
                 });
              }
           }).disableSelection();
@@ -49,5 +49,5 @@
 </div>
 
 <%= link_to "Add a New Presentation Condition",
-            learning_condition_presentation_conditions_path(learning_condition),
+            learning_condition_learning_condition_presentation_conditions_path(learning_condition),
             :method => :post %>
