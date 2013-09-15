@@ -79,7 +79,10 @@ Ost::Application.routes.draw do
       post 'sort', :on => :collection
     end
   end
-  
+
+  resources :learning_condition_default_presentation_conditions, only: [ :edit, :update ]
+  resources :learning_condition_default_feedback_conditions,     only: [ :edit, :update ]
+
   resources :percent_schedulers, :only => [] do
     post 'add_schedule'
     post 'add_schedule_row'

@@ -1,0 +1,23 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% @errors = @lcdfc.errors %>
+
+<% events = options_for_select(FeedbackCondition::AvailabilityEvent.options, @lcdfc.feedback_condition.try(:availability_event)) %>
+
+<%= form_for @lcdfc do |f| %>
+
+  <%= f.fields_for :feedback_condition do |nested_form| %>
+
+    <%= render partial: "feedback_conditions/form_fields",
+               locals:  { form:   nested_form,
+                          events: events } %>
+
+  <% end %>
+
+  <br/>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>

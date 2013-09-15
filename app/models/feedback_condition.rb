@@ -31,8 +31,7 @@ class FeedbackCondition < ActiveRecord::Base
                   :show_high_level_feedback, :show_detailed_feedback
 
   after_initialize  :supply_missing_values
-  before_validation :strip_and_downcase_regex
-  before_validation :nil_out_blank_regex
+  before_validation :strip_regex, :nil_out_blank_regex
 
   validates :availability_opens_delay_days, allow_nil: true,
                                             numericality: { greater_than: 0 }
@@ -274,8 +273,8 @@ protected
     return true
   end
 
-  def strip_and_downcase_regex
-    self.label_regex = label_regex.strip.downcase if !self.label_regex.nil?
+  def strip_regex
+    self.label_regex = label_regex.strip if !self.label_regex.nil?
   end
   
   def nil_out_blank_regex

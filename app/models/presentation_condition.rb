@@ -8,6 +8,7 @@ class PresentationCondition < ActiveRecord::Base
   store_typed_accessor :settings, :boolean, :requires_selected_answer
 
   after_initialize  :supply_missing_values
+  before_validation :strip_regex, :nil_out_blank_regex
 
   attr_accessible :label_regex,
                   :requires_free_response, :requires_selected_answer,
@@ -58,6 +59,15 @@ class PresentationCondition < ActiveRecord::Base
   end
 
 protected
+
+  def strip_regex
+    self.label_regex = label_regex.strip if !self.label_regex.nil?
+  end
+  
+  def nil_out_blank_regex
+    self.label_regex = nil if label_regex.blank?
+    true
+  end
 
   def supply_missing_values
     self.label_regex              = '.*' if label_regex.nil?

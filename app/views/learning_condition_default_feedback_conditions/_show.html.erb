@@ -1,0 +1,7 @@
+<% lcdfc = learning_condition_default_feedback_condition %>
+
+<div>
+  <p>LCDFC #<%= lcdfc.id %></p>
+  <%= render partial: "feedback_conditions/show",
+             locals:  { feedback_condition: lcdfc.feedback_condition } %>
+</div>

@@ -1,0 +1,20 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% @errors = @lcdpc.errors %>
+
+<%= form_for @lcdpc do |f| %>
+
+  <%= f.fields_for :presentation_condition do |nested_form| %>
+
+    <%= render partial: "presentation_conditions/form_fields",
+               locals:  { form: nested_form } %>
+
+  <% end %>
+
+  <br/>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>

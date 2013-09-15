@@ -47,6 +47,15 @@
     
   <% end %>
 
+  <% lcdfc = learning_condition.learning_condition_default_feedback_condition %>
+  <p><i>The following Feedback Condition will be unconditionally used as a default (its regex will be ignored)
+        if no other Feedback Conditions matches an Exercise:</i></p>
+  <div id="learning_condition_default_feedback_condition_<%= lcdfc.id%>" class="sortable_item_entry lp_item_info" style="margin-top: 15px">
+    <%= render partial: "learning_condition_default_feedback_conditions/show",
+               locals:  { learning_condition_default_feedback_condition: lcdfc } %>
+    <%= link_to "Edit", edit_learning_condition_default_feedback_condition_path(lcdfc) %>
+  </div>
+
 </div>
 
 <%= link_to "Add a New Feedback Condition",
