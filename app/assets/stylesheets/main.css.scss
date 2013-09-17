@@ -978,3 +978,16 @@ input.ui-widget {
   padding-top:12px;
   padding-left: 45px;
 }
+
+// See http://stackoverflow.com/a/8318171 for details on blinking elements.
+@-webkit-keyframes blink {
+  from { opacity: 1.0; }
+  to   { opacity: 0.0; }
+}
+
+.blink {
+  -webkit-animation-name:            blink;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+  -webkit-animation-duration:        2s;
+}

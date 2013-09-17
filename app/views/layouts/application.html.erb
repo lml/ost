@@ -141,7 +141,7 @@
     <% if session[:was_ever_logged_in_as_admin] %>
       <div id="live_site_warning" style="position:fixed; top:150px">
         <% if Rails.env.production? %>
-          <%= attention_tag(["This is the LIVE SITE!"], :alert, "live_site_alert") %>
+          <%= attention_tag(["This is the LIVE SITE!"], :alert, "live_site_alert blink") %>
         <% elsif Rails.env.development? %>
           <%= attention_tag(["This is DEV.",  app_info].flatten.compact, :notice, "development_site_alert") %>
         <% elsif Rails.env.test? %>
