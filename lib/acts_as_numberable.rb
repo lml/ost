@@ -81,7 +81,7 @@ module ActsAsNumberable
         # removed from the container), but then when it came time to delete those 
         # objects they still had their old number.  So just reload before
         # destroy.
-        before_destroy {self.reload}
+        before_destroy(prepend: true) {self.reload}
       
         after_destroy :remove_from_container!
       
