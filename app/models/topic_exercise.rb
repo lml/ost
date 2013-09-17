@@ -7,7 +7,7 @@ class TopicExercise < ActiveRecord::Base
   belongs_to :topic
   has_many :assignment_exercises, :dependent => :destroy
   
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
   
   validates :topic_id, :presence => true
   # validates :exercise_id, :presence => true, :uniqueness => {:scope => :topic_id}

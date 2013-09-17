@@ -10,12 +10,12 @@ class Concept < ActiveRecord::Base
   
   acts_as_numberable :container => :learning_plan
   
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
   
   attr_accessible :name, :learning_plan
   
   def destroyable?
-    return true if topic_exercises.none?
+    return true if topic_exercises(true).none?
     errors.add(:base, "This concept cannot be deleted because it is attached to exercises.")
     false
   end

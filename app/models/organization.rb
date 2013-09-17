@@ -7,7 +7,7 @@ class Organization < ActiveRecord::Base
   
   validates :name, :presence => true, :uniqueness => true
 
-  before_destroy :assert_no_courses
+  before_destroy :assert_no_courses, prepend: true
   
   attr_accessible :default_time_zone, :name
   
@@ -43,7 +43,7 @@ class Organization < ActiveRecord::Base
 protected
 
   def assert_no_courses
-    return if courses.empty?
+    return if courses(true).empty?
     errors.add(:base, "Cannot delete an organization that has courses.")
     false
   end
