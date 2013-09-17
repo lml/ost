@@ -18,7 +18,7 @@ class Klass < ActiveRecord::Base
   validates :time_zone, :presence => true
   validate :is_controlled_experiment_change_ok?, :on => :update
 
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
   before_create :set_first_instructor
   before_create :init_learning_plan
   before_create :init_first_section
@@ -240,7 +240,7 @@ protected
 
   def destroyable?
     return true if sudo_enabled?
-    errors.add(:base, "This class cannot be deleted because it has sections (except by admin override).") if sections.any?
+    errors.add(:base, "This class cannot be deleted because it has sections (except by admin override).") if sections(true).any?
     errors.none?
   end
 

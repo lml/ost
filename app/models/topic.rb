@@ -8,7 +8,7 @@ class Topic < ActiveRecord::Base
   has_many :assignment_plans, :through => :assignment_plan_topics
   has_many :resources, :order => :number
   
-  before_destroy :destroyable?  
+  before_destroy :destroyable?, prepend: true
   
   validates :learning_plan_id, :presence => true
   validates :name, :presence => true, :uniqueness => {:scope => :learning_plan_id}

@@ -14,7 +14,7 @@ class AssignmentExercise < ActiveRecord::Base
   validates :assignment_id, :presence => true, :on => :update
   validates :topic_exercise_id, :presence => true, :uniqueness => {:scope => :assignment_id}
   
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
   
   acts_as_numberable :container => :assignment
   
@@ -23,7 +23,7 @@ class AssignmentExercise < ActiveRecord::Base
   def destroyable?
     return true if sudo_enabled?
     errors.add(:base, "This assignment exercise cannot be deleted because it has already been distributed to students (except by admin override)") \
-      if student_exercises.any?
+      if student_exercises(true).any?
     errors.none?
   end
   

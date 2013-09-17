@@ -6,7 +6,7 @@ class Student < ActiveRecord::Base
   belongs_to :cohort
   belongs_to :section
 
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
   has_many :student_assignments, :dependent => :destroy
 
   has_one :consent, :as => :consentable, :dependent => :destroy
@@ -144,7 +144,7 @@ class Student < ActiveRecord::Base
 protected
 
   def destroyable?
-    errors.add(:base, "Cannot delete a student who has already started work!") if student_assignments.any?
+    errors.add(:base, "Cannot delete a student who has already started work!") if student_assignments(true).any?
     errors.none?
   end
   

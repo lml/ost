@@ -10,7 +10,7 @@ class AssignmentPlanTopic < ActiveRecord::Base
   
   attr_accessible :assignment_plan, :topic_id, :num_exercises_to_use, :hide_resources
   
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
   
   scope :resources_visible, where(:hide_resources => false)
     
@@ -18,7 +18,7 @@ class AssignmentPlanTopic < ActiveRecord::Base
   
   def destroyable?
     self.errors.add(:base, "This topic cannot be removed from its assignment because the assignment has been issued.") \
-      if assignment_plan.assigned?
+      if assignment_plan(true).assigned?
     self.errors.none?
   end
   

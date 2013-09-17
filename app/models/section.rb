@@ -7,7 +7,7 @@ class Section < ActiveRecord::Base
   has_many :students, :dependent => :destroy
   has_many :registration_requests, :dependent => :destroy
   
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
   
   validates :klass_id, :presence => true
   validates :name, :presence => true, :uniqueness => {:scope => :klass_id}
@@ -47,13 +47,13 @@ protected
 
   def destroyable?
     self.errors.add(:base, "This section cannot be deleted because it is the last one in its course offering") \
-      if klass.sections.count == 1
+      if klass.sections(true).count == 1
     
     self.errors.add(:base, "This section cannot be deleted because students are assigned to it.") \
-      if students.any?
+      if students(true).any?
         
     self.errors.add(:base, "This section cannot be deleted because it has active cohorts.") \
-      if cohorts.any?
+      if cohorts(true).any?
 
     return errors.empty?
   end
