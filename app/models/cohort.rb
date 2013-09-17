@@ -13,7 +13,7 @@ class Cohort < ActiveRecord::Base
   validate :klass_unchanged?, :on => :update
 
   before_create :init_learning_condition
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
   
   acts_as_numberable :container => :klass
   
@@ -93,8 +93,8 @@ class Cohort < ActiveRecord::Base
 protected
 
   def destroyable?
-    errors.add(:base, "Cannot delete this cohort because it has students") if students.any?
-    errors.add(:base, "Cannot delete this cohort because it has assignments") if assignments.any?
+    errors.add(:base, "Cannot delete this cohort because it has students") if students(true).any?
+    errors.add(:base, "Cannot delete this cohort because it has assignments") if assignments(true).any?
     errors.none?
   end
   
