@@ -173,11 +173,11 @@ protected
   def set_defaults
     self.scheduler = PercentScheduler.standard_practice_scheduler
 
-    self.learning_conditon_presentation_conditions << LearningConditonPresentationCondition.standard_practice_learning_condition_presentation_condition
-    self.learning_conditon_feedback_conditions     << LearningConditionFeedbackCondition.standard_practice_learning_condition_feedback_condition
+    self.learning_condition_presentation_conditions << LearningConditionPresentationCondition.standard_practice_learning_condition_presentation_condition
+    self.learning_condition_feedback_conditions     << LearningConditionFeedbackCondition.standard_practice_learning_condition_feedback_condition
 
-    self.learning_condition_default_presentation_condition = LearningConditionDefaultPresentationCondition.new
-    self.learning_condition_default_feedback_condition     = LearningConditionDefaultFeedbackCondition.new
+    self.learning_condition_default_presentation_condition = LearningConditionDefaultPresentationCondition.default_learning_condition_presentation_condition
+    self.learning_condition_default_feedback_condition     = LearningConditionDefaultFeedbackCondition.default_learning_condition_feedback_condition
   end
 
 end

@@ -6,6 +6,12 @@ class LearningConditionDefaultFeedbackCondition < ActiveRecord::Base
 
   attr_accessible :feedback_condition_attributes
 
+  def self.default_learning_condition_feedback_condition
+    LearningConditionDefaultFeedbackCondition.new do |lcdfc|
+      lcdfc.feedback_condition = FeedbackCondition.default_feedback_condition
+    end
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################

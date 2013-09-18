@@ -6,6 +6,12 @@ class LearningConditionDefaultPresentationCondition < ActiveRecord::Base
 
   attr_accessible :presentation_condition_attributes
 
+  def self.default_learning_condition_presentation_condition
+    LearningConditionDefaultPresentationCondition.new do |lcdpc|
+      lcdpc.presentation_condition = PresentationCondition.default_presentation_condition
+    end
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################
