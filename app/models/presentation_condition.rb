@@ -20,8 +20,14 @@ class PresentationCondition < ActiveRecord::Base
                               :requires_selected_answer => true)
   end
 
+  def self.new_presentation_condition
+    PresentationCondition.new(:label_regex              => 'NewPresentation',
+                              :requires_free_response   => true,
+                              :requires_selected_answer => true)
+  end
+
   def self.default_presentation_condition
-    PresentationCondition.new(:label_regex              => 'DefaultPC',
+    PresentationCondition.new(:label_regex              => 'DefaultPresentation',
                               :requires_free_response   => true,
                               :requires_selected_answer => true)
   end

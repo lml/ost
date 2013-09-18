@@ -6,7 +6,7 @@ class LearningConditionPresentationConditionsController < ApplicationController
   def create
     raise SecurityTransgression unless present_user.can_update?(@learning_condition)
     LearningConditionPresentationCondition.create! learning_condition:     @learning_condition,
-                                                   presentation_condition: PresentationCondition.standard_practice_presentation_condition
+                                                   presentation_condition: PresentationCondition.new_presentation_condition
     redirect_to klass_learning_conditions_path(@learning_condition.cohort.klass)
   end
 

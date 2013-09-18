@@ -14,6 +14,12 @@ class LearningConditionFeedbackCondition < ActiveRecord::Base
     end
   end
 
+  def self.new_learning_condition_feedback_condition
+    LearningConditionFeedbackCondition.new do |lcfc|
+      lcfc.feedback_condition = FeedbackCondition.new_feedback_condition
+    end
+  end
+
   def self.default_learning_condition_feedback_condition
     LearningConditionFeedbackCondition.new do |lcfc|
       lcfc.feedback_condition = FeedbackCondition.default_feedback_condition

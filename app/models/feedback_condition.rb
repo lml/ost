@@ -72,7 +72,20 @@ class FeedbackCondition < ActiveRecord::Base
   end
 
   def self.standard_practice_feedback_condition
-    FeedbackCondition.new(:label_regex                     => 'standard practice', 
+    FeedbackCondition.new(:label_regex                     => 'standard practice',
+                          :is_feedback_required_for_credit => false.to_s,
+                          :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
+                          :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
+                          :availability_event              => AvailabilityEvent::EXERCISE_COMPLETE.to_s,
+                          :credit_closes_option            => CreditClosesOption::WHEN_FEEDBACK_BECOMES_UNAVAILABLE.to_s,
+                          :show_correctness_feedback       => true,
+                          :show_correct_answer_feedback    => true,
+                          :show_high_level_feedback        => true,
+                          :show_detailed_feedback          => true)
+  end
+
+  def self.new_feedback_condition
+    FeedbackCondition.new(:label_regex                     => 'NewFeedback',
                           :is_feedback_required_for_credit => false.to_s,
                           :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
                           :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
@@ -85,7 +98,7 @@ class FeedbackCondition < ActiveRecord::Base
   end
   
   def self.default_feedback_condition
-    FeedbackCondition.new(:label_regex                     => 'DefaultFC', 
+    FeedbackCondition.new(:label_regex                     => 'DefaultFeedback', 
                           :is_feedback_required_for_credit => false.to_s,
                           :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
                           :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 

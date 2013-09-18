@@ -6,7 +6,7 @@ class LearningConditionFeedbackConditionsController < ApplicationController
   def create
     raise SecurityTransgression unless present_user.can_update?(@learning_condition)
     LearningConditionFeedbackCondition.create! learning_condition: @learning_condition,
-                                               feedback_condition: FeedbackCondition.standard_practice_feedback_condition
+                                               feedback_condition: FeedbackCondition.new_feedback_condition
     redirect_to klass_learning_conditions_path(@learning_condition.cohort.klass)
   end
 

@@ -14,6 +14,12 @@ class LearningConditionPresentationCondition < ActiveRecord::Base
     end
   end
 
+  def self.new_learning_condition_presentation_condition
+    LearningConditionPresentationCondition.new do |lcpc|
+      lcpc.presentation_condition = PresentationCondition.new_presentation_condition
+    end
+  end
+
   def self.default_learning_condition_presentation_condition
     LearningConditionPresentationCondition.new do |lcpc|
       lcpc.presentation_condition = PresentationCondition.default_presentation_condition
