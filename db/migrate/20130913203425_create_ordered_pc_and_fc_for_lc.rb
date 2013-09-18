@@ -9,6 +9,7 @@ class CreateOrderedPcAndFcForLc < ActiveRecord::Migration
   end
 
   class FeedbackCondition < ActiveRecord::Base
+    self.inheritance_column = nil
   end
 
   def up
@@ -36,6 +37,7 @@ class CreateOrderedPcAndFcForLc < ActiveRecord::Migration
     PresentationCondition.reset_column_information
     LearningConditionFeedbackCondition.reset_column_information
     FeedbackCondition.reset_column_information
+    FeedbackCondition.inheritance_column = nil
 
     LearningCondition.find_each do |lc|
 
