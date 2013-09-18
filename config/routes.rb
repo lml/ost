@@ -9,9 +9,6 @@ Ost::Application.routes.draw do
 
   resources :site_licenses
 
-  resources :presentation_conditions, :except => [:index, :show]
-  resources :feedback_conditions,     :except => [:index, :show]
-
   resources :consent_forms
   resources :consent_options, :only => [:show, :edit, :update]
   
@@ -72,14 +69,17 @@ Ost::Application.routes.draw do
   
   resources :learning_conditions, :only => [] do
     resources :schedulers, :shallow => true, :except => [:index, :show, :destroy]
-    resources :presentation_conditions, :shallow => true, :except => [:index, :show] do
+    resources :learning_condition_presentation_conditions, :shallow => true, :except => [:index, :show] do
       post 'sort', :on => :collection
     end
-    resources :feedback_conditions, :shallow => true, :except => [:index, :show] do
+    resources :learning_condition_feedback_conditions, :shallow => true, :except => [:index, :show] do
       post 'sort', :on => :collection
     end
   end
-  
+
+  resources :learning_condition_default_presentation_conditions, only: [ :edit, :update ]
+  resources :learning_condition_default_feedback_conditions,     only: [ :edit, :update ]
+
   resources :percent_schedulers, :only => [] do
     post 'add_schedule'
     post 'add_schedule_row'

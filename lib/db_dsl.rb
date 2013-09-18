@@ -75,8 +75,8 @@ module DbDsl
     run_block_if_given(assignment_plan_topic,block)
   end
 
-  def DbCofBasicFeedbackCondition(options={}, &block)
-    if !options[:force_create] && (feedback_condition = find_on_stack(BasicFeedbackCondition))
+  def DbCofFeedbackCondition(options={}, &block)
+    if !options[:force_create] && (feedback_condition = find_on_stack(FeedbackCondition))
     else
       attrs = FactoryGirl.attributes_for(:basic_feedback_condition)
       attrs[:label_regex]                     = options[:label_regex]                     if options.key?(:label_regex)

@@ -56,6 +56,10 @@ Ost::Application.configure do
   # config.enable_url_format_validations = false
 
   config.enable_response_times = false
+
+  ## Uncomment the following lines to enable mailcatcher: http://mailcatcher.me/
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
 end
 
 Devise.setup do |config|

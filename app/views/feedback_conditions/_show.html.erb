@@ -1,7 +1,7 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<% assignment_event = BasicFeedbackCondition::AvailabilityEvent[feedback_condition.availability_event].to_s.humanize.downcase %>
+<% assignment_event = FeedbackCondition::AvailabilityEvent[feedback_condition.availability_event].to_s.humanize.downcase %>
 <ul>
   <li>Id: <%= feedback_condition.id || "N/A" %></li>
   <li>Matches labels against: <%= feedback_condition.label_regex || "[Not set]" %></li>
@@ -10,11 +10,11 @@
   <li>Feedback becomes available: 
     <%= 
       case feedback_condition.availability_opens_option 
-      when BasicFeedbackCondition::AvailabilityOpensOption::NEVER 
+      when FeedbackCondition::AvailabilityOpensOption::NEVER 
         "Never" 
-      when BasicFeedbackCondition::AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT
+      when FeedbackCondition::AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT
         "Immediately after #{assignment_event}"
-      when BasicFeedbackCondition::AvailabilityOpensOption::DELAY_AFTER_EVENT  
+      when FeedbackCondition::AvailabilityOpensOption::DELAY_AFTER_EVENT  
         "#{feedback_condition.availability_opens_delay_days} days after #{assignment_event}"
       end
     %>
@@ -22,7 +22,7 @@
   <li>Feedback stops being available for credit: 
     <%=
       case feedback_condition.credit_closes_option
-      when BasicFeedbackCondition::CreditClosesOption::DELAY_AFTER_OPEN
+      when FeedbackCondition::CreditClosesOption::DELAY_AFTER_OPEN
         "#{feedback_condition.credit_closes_delay_days} days after becoming available"
       else
         "When feedback stops being accessible"
@@ -32,9 +32,9 @@
   <li>Feedback stops being accessible: 
     <%= 
       case feedback_condition.availability_closes_option
-      when BasicFeedbackCondition::AvailabilityClosesOption::NEVER
+      when FeedbackCondition::AvailabilityClosesOption::NEVER
         "Never"
-      when BasicFeedbackCondition::AvailabilityClosesOption::DELAY_AFTER_OPEN
+      when FeedbackCondition::AvailabilityClosesOption::DELAY_AFTER_OPEN
         "#{feedback_condition.availability_closes_delay_days} days after becoming available"
       end
     %>
@@ -44,4 +44,3 @@
   <li>Show high-level explanation?: <%= tf_to_yn(feedback_condition.show_high_level_feedback) %></li>
   <li>Show detailed explanation?: <%= tf_to_yn(feedback_condition.show_detailed_feedback) %></li>
 </ul>
-

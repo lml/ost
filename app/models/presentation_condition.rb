@@ -2,19 +2,15 @@
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 class PresentationCondition < ActiveRecord::Base
-  belongs_to :learning_condition
-
   store                :settings
   store_accessor       :settings, :label_regex
   store_typed_accessor :settings, :boolean, :requires_free_response
   store_typed_accessor :settings, :boolean, :requires_selected_answer
 
-  acts_as_numberable :container => :learning_condition
-
   after_initialize  :supply_missing_values
+  before_validation :strip_regex, :nil_out_blank_regex
 
-  attr_accessible :learning_condition,
-                  :label_regex,
+  attr_accessible :label_regex,
                   :requires_free_response, :requires_selected_answer,
                   :follow_up_question, :apply_follow_up_question_to_tests
 
@@ -24,8 +20,14 @@ class PresentationCondition < ActiveRecord::Base
                               :requires_selected_answer => true)
   end
 
+  def self.new_presentation_condition
+    PresentationCondition.new(:label_regex              => 'NewPresentation',
+                              :requires_free_response   => true,
+                              :requires_selected_answer => true)
+  end
+
   def self.default_presentation_condition
-    PresentationCondition.new(:label_regex              => '.*',
+    PresentationCondition.new(:label_regex              => 'DefaultPresentation',
                               :requires_free_response   => true,
                               :requires_selected_answer => true)
   end
@@ -62,35 +64,16 @@ class PresentationCondition < ActiveRecord::Base
     return true
   end
 
-  #############################################################################
-  # Access control methods
-  #############################################################################
-
-  def can_be_read_by?(user)
-    can_anything?(user)
-  end
-
-  def can_be_created_by?(user)
-    can_anything?(user)
-  end
-
-  def can_be_updated_by?(user)
-    can_anything?(user)
-  end
-
-  def can_be_destroyed_by?(user)
-    can_anything?(user)
-  end
-  
-  def can_be_sorted_by?(user)
-    can_anything?(user)
-  end
-  
-  def can_anything?(user)
-    learning_condition.can_anything?(user)
-  end
-
 protected
+
+  def strip_regex
+    self.label_regex = label_regex.strip if !self.label_regex.nil?
+  end
+  
+  def nil_out_blank_regex
+    self.label_regex = nil if label_regex.blank?
+    true
+  end
 
   def supply_missing_values
     self.label_regex              = '.*' if label_regex.nil?

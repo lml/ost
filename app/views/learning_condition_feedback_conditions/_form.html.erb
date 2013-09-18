@@ -1,0 +1,23 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% lcfc = learning_condition_feedback_condition %>
+
+<% @errors = lcfc.errors %>
+
+<%= form_for lcfc do |f| %>
+
+  <%= f.fields_for :feedback_condition do |nested_form| %>
+
+    <%= render partial: "feedback_conditions/form_fields",
+               locals:  { feedback_condition: lcfc.feedback_condition,
+                          form:               nested_form } %>
+
+  <% end %>
+
+  <br/>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>
