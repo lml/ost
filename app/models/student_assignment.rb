@@ -17,7 +17,7 @@ class StudentAssignment < ActiveRecord::Base
   validates :student_id, :presence => true, :uniqueness => {:scope => :assignment_id}
 
   after_create :create_student_exercises
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
 
   # Realized a little late in the game that it is bad when these numbers are the same as
   # the Event enum numbers in student exercise, so made them different

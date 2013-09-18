@@ -12,9 +12,8 @@ class AssignmentPlan < ActiveRecord::Base
 
   before_save :add_new_exercise_tags
 
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
 
-  
   attr_accessible :introduction, :is_group_work_allowed, :is_open_book, 
                   :is_ready, :is_test, :learning_plan_id, :name, :learning_plan,
                   :starts_at, :ends_at, :section_id, :tag_list
@@ -116,7 +115,7 @@ class AssignmentPlan < ActiveRecord::Base
   end
   
   def assigned?
-    assignments.any?
+    assignments(true).any?
     # assignments.any?{|a| a.assigned?}
   end
   

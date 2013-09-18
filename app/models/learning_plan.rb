@@ -13,7 +13,7 @@ class LearningPlan < ActiveRecord::Base
   validates :test_exercise_tags,    :tag_list_format => true
   validates :nontest_exercise_tags, :tag_list_format => true
 
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
   
   attr_accessible :description, :name,
                   :test_exercise_tags, :nontest_exercise_tags

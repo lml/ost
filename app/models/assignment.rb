@@ -18,7 +18,7 @@ class Assignment < ActiveRecord::Base
   
   accepts_nested_attributes_for :assignment_exercises
   
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
   
   attr_accessor :dry_run
   
@@ -48,7 +48,7 @@ class Assignment < ActiveRecord::Base
   end
   
   def assigned?
-    student_assignments.any?
+    student_assignments(true).any?
   end
 
   def active?

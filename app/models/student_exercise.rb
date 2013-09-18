@@ -10,7 +10,7 @@ class StudentExercise < ActiveRecord::Base
   has_many :response_times, :as => :response_timeable, :dependent => :destroy
   has_many :free_responses, :dependent => :destroy, :order => :number
   
-  before_destroy :destroyable?
+  before_destroy :destroyable?, prepend: true
   
   validates :student_assignment_id, :presence => true
   validates :assignment_exercise_id, :presence => true, 
