@@ -194,7 +194,6 @@ ActiveRecord::Schema.define(:version => 20130914200043) do
 
   create_table "feedback_conditions", :force => true do |t|
     t.text     "settings"
-    t.string   "type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
