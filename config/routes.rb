@@ -9,8 +9,8 @@ Ost::Application.routes.draw do
 
   resources :site_licenses
 
-  resources :presentation_conditions, :except => [:index, :show]
-  resources :feedback_conditions,     :except => [:index, :show]
+  resources :presentation_conditions, :only => [:edit, :update]
+  resources :feedback_conditions,     :only => [:edit, :update]
 
   resources :consent_forms
   resources :consent_options, :only => [:show, :edit, :update]

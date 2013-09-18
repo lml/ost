@@ -1,3 +1,5 @@
+<% events = options_for_select(FeedbackCondition::AvailabilityEvent.options, feedback_condition.try(:availability_event)) %>
+
 <p>Feedback conditions
   let you control how, when, and what 
   kind of <%= link_to_help 'example_feedback', text="feedback", 

@@ -1,0 +1,5 @@
+<%= pageHeading "Presentation Condition Editing" %> 
+
+<%= render :partial => "presentation_conditions/form", :locals => {:presentation_condition => @presentation_condition} %>
+
+<% navitem { link_to "Learning Condition", klass_learning_conditions_path(@learning_condition.cohort.klass) }%>

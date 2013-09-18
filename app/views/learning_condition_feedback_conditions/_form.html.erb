@@ -5,15 +5,13 @@
 
 <% @errors = lcfc.errors %>
 
-<% events = options_for_select(FeedbackCondition::AvailabilityEvent.options, lcfc.feedback_condition.try(:availability_event)) %>
-
 <%= form_for lcfc do |f| %>
 
   <%= f.fields_for :feedback_condition do |nested_form| %>
 
     <%= render partial: "feedback_conditions/form_fields",
-               locals:  { form:   nested_form,
-                          events: events } %>
+               locals:  { feedback_condition: lcfc.feedback_condition,
+                          form:               nested_form } %>
 
   <% end %>
 

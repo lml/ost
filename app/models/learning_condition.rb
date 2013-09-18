@@ -20,22 +20,6 @@ class LearningCondition < ActiveRecord::Base
     scheduler.build_assignment(assignment_plan, cohort)
   end
 
-  def presentation_conditions
-    learning_condition_presentation_conditions.collect{|lcpc| lcpc.presentation_condition}
-  end
-
-  def feedback_conditions
-    learning_condition_feedback_conditions.collect{|lcfc| lcfc.feedback_condition}
-  end
-
-  def default_presentation_condition
-    learning_condition_default_presentation_condition.presentation_condition
-  end
-
-  def default_feedback_condition
-    learning_condition_default_feedback_condition.feedback_condition
-  end
-
   # Student exercises and assignments are supposed to notify their learning
   # condition when certain events happen, e.g.:
   #
@@ -140,12 +124,36 @@ class LearningCondition < ActiveRecord::Base
       cohort.klass.is_instructor?(user) || user.is_administrator?
   end
 
+  def presentation_conditions
+    learning_condition_presentation_conditions.collect{|lcpc| lcpc.presentation_condition}
+  end
+
+  def feedback_conditions
+    learning_condition_feedback_conditions.collect{|lcfc| lcfc.feedback_condition}
+  end
+
+  def default_presentation_condition
+    learning_condition_default_presentation_condition.presentation_condition
+  end
+
+  def default_feedback_condition
+    learning_condition_default_feedback_condition.feedback_condition
+  end
+
   def get_presentation_condition(student_or_assignment_exercise)
-    presentation_conditions.detect{|pc| pc.applies_to? student_or_assignment_exercise} || default_presentation_condition
+    get_learning_condition_presentation_condition(student_or_assignment_exercise).presentation_condition
   end
 
   def get_feedback_condition(student_or_assignment_exercise)
-    feedback_conditions.detect{|fc| fc.applies_to? student_or_assignment_exercise} || default_feedback_condition
+    get_learning_condition_feedback_condition(student_or_assignment_exercise).feedback_condition
+  end
+
+  def get_learning_condition_presentation_condition(student_or_assignment_exercise)
+    learning_condition_presentation_conditions.detect{|lcpc| lcpc.presentation_condition.applies_to? student_or_assignment_exercise} || learning_condition_default_presentation_condition
+  end
+
+  def get_learning_condition_feedback_condition(student_or_assignment_exercise)
+    learning_condition_feedback_conditions.detect{|lcfc| lcfc.feedback_condition.applies_to? student_or_assignment_exercise} || learning_condition_default_feedback_condition
   end
 
 protected
