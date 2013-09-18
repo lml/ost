@@ -1,7 +1,6 @@
 <% lcfc = learning_condition_feedback_condition %>
 
 <div>
-  <p>LCFC #<%= lcfc.id %> number: <%= lcfc.number %></p>
   <%= render partial: "feedback_conditions/show",
              locals:  { feedback_condition: lcfc.feedback_condition } %>
 </div>

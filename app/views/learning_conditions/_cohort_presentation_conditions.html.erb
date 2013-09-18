@@ -5,8 +5,6 @@
 <% lcpc_div_id = "learning_condition_presentation_conditions_#{learning_condition.id}" %>
 
 <div id="<%= lcpc_div_id %>">
-  <p><i>NOTE: Only the default Presentation Condition will match an Execise without labels!</i></p>
-
   <% if lcpcs.empty? %>
     <p>No presentation conditions yet</p>
   <% else %>
@@ -48,9 +46,7 @@
   <% end %>
 
   <% lcdpc = learning_condition.learning_condition_default_presentation_condition %>
-  <p><i>The following Presentation Condition will be unconditionally used as a default (its regex will be ignored)
-        if no other Presentation Conditions matches an Exercise:</i></p>
-  <div id="learning_condition_default_presentation_condition_<%= lcdpc.id%>" class="sortable_item_entry lp_item_info" style="margin-top: 15px">
+  <div id="learning_condition_default_presentation_condition_<%= lcdpc.id%>" class="lp_item_info" style="margin-top: 15px">
     <%= render partial: "learning_condition_default_presentation_conditions/show",
                locals:  { learning_condition_default_presentation_condition: lcdpc } %>
     <%= link_to "Edit", edit_learning_condition_default_presentation_condition_path(lcdpc) %>

@@ -1,7 +1,8 @@
 <% lcdpc = learning_condition_default_presentation_condition %>
 
 <div>
-  <p>LCDPC #<%= lcdpc.id %></p>
+  <p><i>This Presentation Condition will be automatically applied to an Exercise
+        if no other matching Presentation Conditions is found.</i></p>
   <%= render partial: "presentation_conditions/show",
              locals:  { presentation_condition: lcdpc.presentation_condition } %>
 </div>

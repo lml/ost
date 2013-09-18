@@ -1,7 +1,8 @@
 <% lcdfc = learning_condition_default_feedback_condition %>
 
 <div>
-  <p>LCDFC #<%= lcdfc.id %></p>
+  <p><i>This Feedback Condition will be automatically applied to an Exercise
+        if no other matching Feedback Conditions is found.</i></p>
   <%= render partial: "feedback_conditions/show",
              locals:  { feedback_condition: lcdfc.feedback_condition } %>
 </div>
