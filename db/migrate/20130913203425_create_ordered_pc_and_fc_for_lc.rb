@@ -9,7 +9,6 @@ class CreateOrderedPcAndFcForLc < ActiveRecord::Migration
   end
 
   class FeedbackCondition < ActiveRecord::Base
-    self.inheritance_column = nil
   end
 
   def up

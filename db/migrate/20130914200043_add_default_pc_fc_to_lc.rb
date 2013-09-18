@@ -25,7 +25,11 @@ class AddDefaultPcFcToLc < ActiveRecord::Migration
     LearningConditionDefaultPresentationCondition.reset_column_information
     LearningConditionDefaultFeedbackCondition.reset_column_information
 
+    PresentationCondition.reset_column_information
+    FeedbackCondition.reset_column_information
+
     LearningCondition.find_each do |lc|
+
       dpc = PresentationCondition.default_presentation_condition
       dpc.save!
 
