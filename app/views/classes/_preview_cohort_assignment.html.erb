@@ -33,9 +33,9 @@
 
       <% if present_user_can_see_tag_lists %>
         <td><%= present_user_can_see_tag_lists ? ae.tag_list.join(", ") : "N/A" %></td>
-        <td><%= link_to_if(present_user.can_read?(lc), pc.id, edit_presentation_condition_path(pc)) %></td>
+        <td><%= link_to_if(present_user.can_read?(lc), pc.id, edit_polymorphic_path(lcpc)) %></td>
         <td><%= pc.label_regex %></td>
-        <td><%= link_to_if(present_user.can_read?(lc), fc.id, edit_feedback_condition_path(fc)) %></td>
+        <td><%= link_to_if(present_user.can_read?(lc), fc.id, edit_polymorphic_path(lcfc)) %></td>
         <td><%= fc.label_regex %></td>
       <% else %>
         <td>N/A</td>
