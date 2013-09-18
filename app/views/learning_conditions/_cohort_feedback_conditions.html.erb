@@ -5,7 +5,8 @@
 <% lcfc_div_id = "learning_condition_feedback_conditions_#{learning_condition.id}" %>
 
 <div id="<%= lcfc_div_id %>">
-  
+  <p><i>NOTE: Only the default Presentation Condition will match an Execise without labels!</i></p>
+
   <% if lcfcs.empty? %>
     <p>No feedback conditions yet</p>
   <% else %>

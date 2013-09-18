@@ -5,7 +5,8 @@
 <% lcpc_div_id = "learning_condition_presentation_conditions_#{learning_condition.id}" %>
 
 <div id="<%= lcpc_div_id %>">
-  
+  <p><i>NOTE: Only the default Presentation Condition will match an Execise without labels!</i></p>
+
   <% if lcpcs.empty? %>
     <p>No presentation conditions yet</p>
   <% else %>
