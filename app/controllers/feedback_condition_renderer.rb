@@ -5,7 +5,7 @@
 # http://stackoverflow.com/a/6061215
 # http://stackoverflow.com/questions/4713571/view-helper-link-to-in-model-class
 
-class BasicFeedbackConditionRenderer < AbstractController::Base
+class FeedbackConditionRenderer < AbstractController::Base
   include AbstractController::Rendering
   include AbstractController::Layouts
   include AbstractController::Helpers
@@ -20,7 +20,7 @@ class BasicFeedbackConditionRenderer < AbstractController::Base
   def request; FakeRequest.new; end
   def env; {}; end
   
-  BasicFeedbackConditionRenderer.controller = self
+  FeedbackConditionRenderer.controller = self
 
   # Uncomment if you want to use helpers defined in ApplicationHelper in your views
   helper ApplicationHelper
@@ -32,9 +32,9 @@ class BasicFeedbackConditionRenderer < AbstractController::Base
   # helper_method :current_admin
   # def current_admin; nil; end
 
-  def feedback_availability_message(basic_feedback_condition, student_exercise, feedback_closes_at)
-    render :partial => 'basic_feedback_conditions/feedback_notification',
-           :locals => { :basic_feedback_condition => basic_feedback_condition,
+  def feedback_availability_message(feedback_condition, student_exercise, feedback_closes_at)
+    render :partial => 'feedback_conditions/feedback_notification',
+           :locals => { :feedback_condition => feedback_condition,
                         :student_exercise => student_exercise,
                         :feedback_closes_at => feedback_closes_at }
   end

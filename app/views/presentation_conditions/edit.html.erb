@@ -1,8 +1,0 @@
-<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
-    License version 3 or later.  See the COPYRIGHT file for details. %>
-
-<%= pageHeading "Presentation Condition Editing" %> 
-
-<%= render :partial => "presentation_conditions/form", :locals => {:presentation_condition => @presentation_condition} %>
-
-<% navitem { link_to "Learning Condition", klass_learning_conditions_path(@presentation_condition.learning_condition.cohort.klass) }%>

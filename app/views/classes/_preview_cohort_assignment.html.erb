@@ -17,11 +17,13 @@
 
   <% assignment.assignment_exercises.each_with_index do |ae, ae_index| %>
     <%
-      te = ae.topic_exercise
-      ex = te.exercise
-      lc = cohort.learning_condition
-      pc = lc.get_presentation_condition(ae)
-      fc = lc.get_feedback_condition(ae)
+      te   = ae.topic_exercise
+      ex   = te.exercise
+      lc   = cohort.learning_condition
+      lcpc = lc.get_learning_condition_presentation_condition(ae)
+      pc   = lcpc.presentation_condition
+      lcfc = lc.get_learning_condition_feedback_condition(ae)
+      fc   = lcfc.feedback_condition
     %>
     <tr>
       <td><%= 1 + ae_index %></td>
@@ -31,9 +33,9 @@
 
       <% if present_user_can_see_tag_lists %>
         <td><%= present_user_can_see_tag_lists ? ae.tag_list.join(", ") : "N/A" %></td>
-        <td><%= pc.id.nil? ? '--' : link_to_if(present_user.can_update?(pc), pc.id, edit_presentation_condition_path(pc)) %></td>
+        <td><%= link_to_if(present_user.can_read?(lc), pc.id, edit_polymorphic_path(lcpc)) %></td>
         <td><%= pc.label_regex %></td>
-        <td><%= fc.id.nil? ? '--' : link_to_if(present_user.can_update?(fc), fc.id, edit_feedback_condition_path(fc)) %></td>
+        <td><%= link_to_if(present_user.can_read?(lc), fc.id, edit_polymorphic_path(lcfc)) %></td>
         <td><%= fc.label_regex %></td>
       <% else %>
         <td>N/A</td>

@@ -4,20 +4,22 @@
 class LearningCondition < ActiveRecord::Base
   belongs_to :cohort
   
-  has_one  :scheduler
-  has_many :presentation_conditions, :order => :number
-  has_many :feedback_conditions,     :order => :number
+  has_one  :scheduler, dependent: :destroy
+
+  has_many :learning_condition_presentation_conditions, order: :number, dependent: :destroy
+  has_many :learning_condition_feedback_conditions,     order: :number, dependent: :destroy
+
+  has_one :learning_condition_default_presentation_condition, dependent: :destroy
+  has_one :learning_condition_default_feedback_condition,     dependent: :destroy
 
   before_create :set_defaults
-  
-  attr_accessible
-  
+
   def build_assignment(assignment_plan)
     assignment_plan.is_test? ?
     TestBuilder.build_assignment(assignment_plan, cohort) : # take specific percentages from each topics test reserves
     scheduler.build_assignment(assignment_plan, cohort)
   end
-  
+
   # Student exercises and assignments are supposed to notify their learning
   # condition when certain events happen, e.g.:
   #
@@ -122,12 +124,36 @@ class LearningCondition < ActiveRecord::Base
       cohort.klass.is_instructor?(user) || user.is_administrator?
   end
 
+  def presentation_conditions
+    learning_condition_presentation_conditions.collect{|lcpc| lcpc.presentation_condition}
+  end
+
+  def feedback_conditions
+    learning_condition_feedback_conditions.collect{|lcfc| lcfc.feedback_condition}
+  end
+
+  def default_presentation_condition
+    learning_condition_default_presentation_condition.presentation_condition
+  end
+
+  def default_feedback_condition
+    learning_condition_default_feedback_condition.feedback_condition
+  end
+
   def get_presentation_condition(student_or_assignment_exercise)
-    presentation_conditions.detect{ |pc| pc.applies_to?(student_or_assignment_exercise) } || PresentationCondition.default_presentation_condition
+    get_learning_condition_presentation_condition(student_or_assignment_exercise).presentation_condition
   end
 
   def get_feedback_condition(student_or_assignment_exercise)
-    feedback_conditions.detect{ |fc| fc.applies_to?(student_or_assignment_exercise) } || BasicFeedbackCondition.default_feedback_condition
+    get_learning_condition_feedback_condition(student_or_assignment_exercise).feedback_condition
+  end
+
+  def get_learning_condition_presentation_condition(student_or_assignment_exercise)
+    learning_condition_presentation_conditions.detect{|lcpc| lcpc.presentation_condition.applies_to? student_or_assignment_exercise} || learning_condition_default_presentation_condition
+  end
+
+  def get_learning_condition_feedback_condition(student_or_assignment_exercise)
+    learning_condition_feedback_conditions.detect{|lcfc| lcfc.feedback_condition.applies_to? student_or_assignment_exercise} || learning_condition_default_feedback_condition
   end
 
 protected
@@ -154,8 +180,12 @@ protected
 
   def set_defaults
     self.scheduler = PercentScheduler.standard_practice_scheduler
-    self.presentation_conditions << PresentationCondition.standard_practice_presentation_condition
-    self.feedback_conditions     << BasicFeedbackCondition.standard_practice_feedback_condition
+
+    self.learning_condition_presentation_conditions << LearningConditionPresentationCondition.standard_practice_learning_condition_presentation_condition
+    self.learning_condition_feedback_conditions     << LearningConditionFeedbackCondition.standard_practice_learning_condition_feedback_condition
+
+    self.learning_condition_default_presentation_condition = LearningConditionDefaultPresentationCondition.default_learning_condition_presentation_condition
+    self.learning_condition_default_feedback_condition     = LearningConditionDefaultFeedbackCondition.default_learning_condition_feedback_condition
   end
 
 end

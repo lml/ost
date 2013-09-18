@@ -45,13 +45,13 @@ class Scenario1Test < ActiveSupport::TestCase
     klass.cohorts(true).each_with_index do |cohort,cc|
       PercentScheduler.create(:learning_condition => cohort.learning_condition, :schedules => schedules_by_cohort[cc] )
       cohort.learning_condition.feedback_conditions.destroy_all
-      BasicFeedbackCondition.create(:learning_condition => cohort.learning_condition,
-                                    :label_regex => '.*',
-                                    :is_feedback_required_for_credit => true,
-                                    :can_automatically_show_feedback => false,
-                                    :availability_event => BasicFeedbackCondition::AvailabilityEvent::ASSIGNMENT_DUE,
-                                    :availability_opens_option => BasicFeedbackCondition::AvailabilityOpensOption::DELAY_AFTER_EVENT,
-                                    :availability_opens_delay_days => 7)
+      FeedbackCondition.create(:learning_condition => cohort.learning_condition,
+                               :label_regex => '.*',
+                               :is_feedback_required_for_credit => true,
+                               :can_automatically_show_feedback => false,
+                               :availability_event => FeedbackCondition::AvailabilityEvent::ASSIGNMENT_DUE,
+                               :availability_opens_option => FeedbackCondition::AvailabilityOpensOption::DELAY_AFTER_EVENT,
+                               :availability_opens_delay_days => 7)
     end
     
     s1 = FactoryGirl.create(:student, :section => klass.sections.first, :cohort => klass.cohorts.first)

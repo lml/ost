@@ -145,9 +145,9 @@ module DbSetup
                                         scheduler.schedules = [[{percent: 100, tags: "100_percent"}]]
                                         scheduler.save!
                                     end
-                                    DbCofBasicFeedbackCondition do |bfc|
-                                        bfc.show_correctness_feedback = true
-                                        bfc.save!
+                                    DbCofFeedbackCondition do |fc|
+                                        fc.show_correctness_feedback = true
+                                        fc.save!
                                     end
                                 end
                             end
