@@ -1,0 +1,12 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%
+  time_zone = student_exercise.student.user.time_zone
+  assignment_name = student_exercise.student_assignment.assignment.assignment_plan.name
+  feedback_credit_close_time = feedback_condition.credit_window_close_time(student_exercise)
+%>
+
+Feedback for <%= assignment_name %> exercise #<%= student_exercise.assignment_exercise.number %> <%= link_to 'is_available', student_exercise_feedback_url(student_exercise) %>.
+<% if FeedbackCondition::AvailabilityClosesOption::DELAY_AFTER_OPEN == feedback_condition.availability_closes_option %>This feedback will be available until <%= standard_datetime_zone(feedback_closes_at, time_zone) %>.<% end %>
+<% if feedback_condition.is_feedback_required_for_credit %>You <b>must view this feedback<% if feedback_credit_close_time %> by <%= standard_datetime_zone(feedback_credit_close_time, time_zone) %><% end %></b> in order to get credit for this exercise.<% end %>
