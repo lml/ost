@@ -28,7 +28,7 @@
       <% elsif se.is_feedback_available? %>
         (<%= link_to_unless_current "Feedback", student_exercise_feedback_path(se) %>)
       <% else %>
-        (Feedback not currently available)
+        (Feedback not available)
       <% end %>
 
       <% if show_feedback_status %>
@@ -38,12 +38,6 @@
               (Feedback viewed within credit window)
             <% elsif se.feedback_has_been_viewed? %>
               (Feedback viewed late)
-            <% else %>
-              (Feedback not viewed)
-            <% end %>
-          <% else %>
-            <% if se.feedback_has_been_viewed? %>
-              (Feedback viewed)
             <% else %>
               (Feedback not viewed)
             <% end %>
