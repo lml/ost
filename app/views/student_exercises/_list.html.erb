@@ -23,19 +23,33 @@
 <ol>
 <% student_exercises.each do |se| %>
   <li><%= link_to_unless_current se.status, se %> 
-      <% if se.is_feedback_available? %>
+      <% if !se.complete? %>
+        (Exercise not complete)
+      <% elsif se.is_feedback_available? %>
         (<%= link_to_unless_current "Feedback", student_exercise_feedback_path(se) %>)
+      <% else %>
+        (Feedback not currently available)
       <% end %>
-      <% if se.complete? && show_feedback_status %>
-        <% if se.learning_condition.feedback_required_for_credit?(se) %>
-          <% if se.feedback_has_been_viewed_for_credit? %>
-            (Feedback viewed within credit window)
-          <% elsif se.feedback_has_been_viewed? %>
-            (Feedback viewed late)
+
+      <% if show_feedback_status %>
+        <% if se.complete? %>
+          <% if se.learning_condition.feedback_required_for_credit?(se) %>
+            <% if se.feedback_has_been_viewed_for_credit? %>
+              (Feedback viewed within credit window)
+            <% elsif se.feedback_has_been_viewed? %>
+              (Feedback viewed late)
+            <% else %>
+              (Feedback not viewed)
+            <% end %>
           <% else %>
-            (Feedback not viewed)
+            <% if se.feedback_has_been_viewed? %>
+              (Feedback viewed)
+            <% else %>
+              (Feedback not viewed)
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
-<% end %>
+
+  <% end %>
 </ol>
