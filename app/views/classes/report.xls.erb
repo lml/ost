@@ -16,7 +16,8 @@
       <Row>
         <%= render "report_heading_cell", data: "Name/ID",          comment: "Student name, Educator-facing ID, or Research ID" %>
         <%= render "report_heading_cell", data: "RegStatus",        comment: "Student Registration Status" %>
-        <%= render "report_heading_cell", data: "ChSection",        comment: "Assignment Cohort Section name" %>
+        <%= render "report_heading_cell", data: "StudentSection",   comment: "Student's (current) Section name" %>
+        <%= render "report_heading_cell", data: "CohortSection",    comment: "Assignment Cohort Section name" %>
         <%= render "report_heading_cell", data: "Cohort",           comment: "Assignment Cohort name" %>
         <%= render "report_heading_cell", data: "AssgnName",        comment: "Assignment name" %>
         <%= render "report_heading_cell", data: "AssgnNum",         comment: "Assignment order number within Learning Plan (including tests)" %>
@@ -73,6 +74,7 @@
             <% student              = student_assignment.student %>
             <% student_full_name    = student.full_name(present_user) %>
             <% student_reg_status   = student_status_string(student) %>
+            <% student_section_name = student.section.name %>
             <% assignment_coworkers = student_assignment.assignment_coworkers.collect{|acw| acw.student}.concat([student]).uniq.collect{|s| s.full_name(present_user)}.sort_by{|s| s.downcase}.join(',') %>
 
             <% student_assignment.student_exercises.find_each do |se| %>
@@ -80,6 +82,7 @@
       <Row>
         <Cell><Data ss:Type="String"><%= student_full_name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= student_reg_status %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= student_section_name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= cohort_section_name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= cohort.name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= assignment_name %></Data></Cell>
