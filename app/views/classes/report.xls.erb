@@ -3,25 +3,7 @@
 
 <% present_user_is_researcher = present_user.is_researcher? %>
 
-<%  
-  ae_info = { }
-  @klass.learning_plan.topics.each do |topic|
-    topic.topic_exercises.each do |te|
-      te.assignment_exercises.each do |ae|
-        ae_info[ae] = { :number       => ae.number,
-                        :quadbase_id  => ae.topic_exercise.exercise.quadbase_id,
-                        :concept      => ae.topic_exercise.concept.try(:name),
-                        :tag_list     => ae.tag_list,
-                        :fb_required  => false}
-        if ae.student_exercises.any?
-          ae_info[ae][:fb_required] = ae.student_exercises.first.feedback_required_for_credit?
-        end
-      end
-    end
-  end
-
-  response_time_query = ResponseTime.where{ (note =~ "READY%") & (page == "feedback") }
-%>
+<% response_time_query = ResponseTime.where{ (note =~ "READY%") & (page == "feedback") } %>
 
 <?xml version="1.0"?>
 <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
@@ -34,8 +16,8 @@
       <Row>
         <%= render "report_heading_cell", data: "Name/ID",          comment: "Student name, Educator-facing ID, or Research ID" %>
         <%= render "report_heading_cell", data: "RegStatus",        comment: "Student Registration Status" %>
-        <%= render "report_heading_cell", data: "Section",          comment: "Student Class Section name" %>
-        <%= render "report_heading_cell", data: "Cohort",           comment: "Student Cohort name" %>
+        <%= render "report_heading_cell", data: "ChSection",        comment: "Assignment Cohort Section name" %>
+        <%= render "report_heading_cell", data: "Cohort",           comment: "Assignment Cohort name" %>
         <%= render "report_heading_cell", data: "AssgnName",        comment: "Assignment name" %>
         <%= render "report_heading_cell", data: "AssgnNum",         comment: "Assignment order number within Learning Plan (including tests)" %>
         <%= render "report_heading_cell", data: "ExNum",            comment: "Exercise order number (within Assignment)" %>
@@ -67,23 +49,39 @@
         <%= render "report_heading_cell", data: "FbViewedCredit?",  comment: "Feedback was viewed for credit (withing Feedback Credit Window) or viewing not required?" %>
         <%= render "report_heading_cell", data: "FbLoadCount",      comment: "Approx. number of times Feedback page was loaded by the Student" %>
       </Row>
-      <% @klass.sections.each do |section| %>
-        <% section_name = section.name %>
-        <% section.students.visible(present_user).each do |student| %>
-          <% student_full_name  = student.full_name(present_user) %>
-          <% student_reg_status = student_status_string(student) %>
-          <% cohort_name        = student.cohort.name %>
-          <% StudentAssignment.for_student(student).sort_by{|sa| sa.assignment.assignment_plan.starts_at}.each_with_index do |sa, ii| %>
-            <% assignment_num  = ii + 1 %>
-            <% assignment_name = sa.assignment.assignment_plan.name %>
-            <% assignment_coworkers = sa.assignment_coworkers.collect{|acw| acw.student}.uniq.concat([student]).collect{|s| s.full_name(present_user)}.sort_by{|s| s.downcase}.join(',') %>
-            <% sa.student_exercises.each do |se| %>
+      <% @klass.cohorts.find_each do |cohort| %>
+        <% cohort_section_name = cohort.section.try(:name) %>
+        <% learning_condition  = cohort.learning_condition %>
+
+        <% cohort.assignments.find_each do |assignment| %>
+          <% assignment_plan = assignment.assignment_plan %>
+          <% assignment_num  = assignment_plan.number %>
+          <% assignment_name = assignment_plan.name %>
+
+          <% ae_info = {} %>
+          <% assignment.assignment_exercises.find_each do |ae| %>
+            <% ae_info[ae]                          = {} %>
+            <% ae_info[ae][:number]                 = ae.number %>
+            <% ae_info[ae][:quadbase_id]            = ae.topic_exercise.exercise.quadbase_id %>
+            <% ae_info[ae][:concept]                = ae.topic_exercise.concept.try(:name) %>
+            <% ae_info[ae][:tag_list]               = ae.tag_list %>
+            <% ae_info[ae][:presentation_condition] = learning_condition.get_presentation_condition(ae) %>
+            <% ae_info[ae][:feedback_condition]     = learning_condition.get_feedback_condition(ae) %>
+          <% end %>
+
+          <% assignment.student_assignments.find_each do |student_assignment| %>
+            <% student              = student_assignment.student %>
+            <% student_full_name    = student.full_name(present_user) %>
+            <% student_reg_status   = student_status_string(student) %>
+            <% assignment_coworkers = student_assignment.assignment_coworkers.collect{|acw| acw.student}.concat([student]).uniq.collect{|s| s.full_name(present_user)}.sort_by{|s| s.downcase}.join(',') %>
+
+            <% student_assignment.student_exercises.find_each do |se| %>
               <% ae = se.assignment_exercise %>
       <Row>
         <Cell><Data ss:Type="String"><%= student_full_name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= student_reg_status %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= section_name %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= cohort_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= cohort_section_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= cohort.name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= assignment_name %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= assignment_num %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= ae_info[ae][:number] %></Data></Cell>
@@ -101,8 +99,8 @@
           <Cell><Data ss:Type="Number"><%= se.free_response_confidence %></Data></Cell>
         <% end %>
         <Cell><Data ss:Type="Number"><%= se.automated_credit %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= tf_to_yn(se.requires_follow_up_question?) %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= se.follow_up_question %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(ae_info[ae][:presentation_condition].requires_follow_up_question?(se)) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ae_info[ae][:presentation_condition].follow_up_question %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.follow_up_answer?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= se.follow_up_answer %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= se.feedback_credit_multiplier %></Data></Cell>
@@ -110,13 +108,14 @@
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete? && !se.was_submitted_late) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= exercise_correctness_string(se) %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= tf_to_yn(ae_info[ae][:fb_required]) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(ae_info[ae][:feedback_condition].is_feedback_required_for_credit) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed_for_credit?) %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= response_time_query.where{ |rt| rt.response_timeable_id == se.id }.count %></Data></Cell>
       </Row>
             <% end %>
-          <% end %> 
+          <% end %>
+
         <% end %>
       <% end %>
     </Table>
