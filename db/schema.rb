@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130914200043) do
+ActiveRecord::Schema.define(:version => 20130921005353) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -210,6 +210,7 @@ ActiveRecord::Schema.define(:version => 20130914200043) do
   end
 
   add_index "free_responses", ["number", "student_exercise_id"], :name => "index_free_responses_on_number_scoped", :unique => true
+  add_index "free_responses", ["student_exercise_id"], :name => "index_free_responses_on_student_exercise_id"
 
   create_table "klasses", :force => true do |t|
     t.integer  "course_id"
