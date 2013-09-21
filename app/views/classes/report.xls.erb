@@ -3,7 +3,7 @@
 
 <% present_user_is_researcher = present_user.is_researcher? %>
 
-<% response_time_query = ResponseTime.where{ (note =~ "READY%") & (page == "feedback") } %>
+<% response_time_query = ResponseTime.where{ (note =~ "READY%") & (page == "feedback") & (response_timeable_type == 'StudentExercise') } %>
 
 <?xml version="1.0"?>
 <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
@@ -114,7 +114,7 @@
         <Cell><Data ss:Type="String"><%= tf_to_yn(ae_info[ae][:feedback_condition].is_feedback_required_for_credit) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed_for_credit?) %></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= response_time_query.where{ |rt| rt.response_timeable_id == se.id }.count %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= response_time_query.where{response_timeable_id == se.id}.count %></Data></Cell>
       </Row>
             <% end %>
           <% end %>
