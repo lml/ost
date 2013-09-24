@@ -1,11 +1,13 @@
 <%= sub_section "Cohort: #{assignment.cohort.name}" do %>
 
-  <% registered_students = assignment.cohort.students.visible(present_user).registered.active.std_sort(present_user) %>
+  <% students = Student.joins{student_assignments}.where{student_assignments.assignment_id == my{assignment.id}} %>
+
+  <% registered_students = students.visible(present_user).registered.active.std_sort(present_user) %>
   <%= render 'student_results', :title => "Registered", :assignment => assignment, :students => registered_students %>
 
-  <% auditing_students = assignment.cohort.students.visible(present_user).auditing.active.std_sort(present_user) %>
+  <% auditing_students = students.visible(present_user).auditing.active.std_sort(present_user) %>
   <%= render 'student_results', :title => "Auditing", :assignment => assignment, :students => auditing_students %>
 
-  <% dropped_students = assignment.cohort.students.visible(present_user).dropped.std_sort(present_user) %>
+  <% dropped_students = students.visible(present_user).dropped.std_sort(present_user) %>
   <%= render 'student_results', :title => "Dropped", :assignment => assignment, :students => dropped_students %>
 <% end %>

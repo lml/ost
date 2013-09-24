@@ -1,12 +1,10 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<% 
-present_user_is_researcher = present_user.is_researcher? 
-
-visible_students = Student.joins{section}.where{section.klass_id == my{@klass}.id}.visible(present_user).active.std_sort(present_user)
-klass_aps = @klass.learning_plan.assignment_plans
-                      
+<%
+  present_user_is_researcher = present_user.is_researcher? 
+  visible_students = Student.joins{section}.where{section.klass_id == my{@klass.id}}.visible(present_user).active.std_sort(present_user)
+  klass_aps = @klass.learning_plan.assignment_plans
 %>
 
 <?xml version="1.0"?>
@@ -27,33 +25,33 @@ klass_aps = @klass.learning_plan.assignment_plans
         <Cell><Data ss:Type="String">Status</Data></Cell>
         <Cell><Data ss:Type="String">Section</Data></Cell>
         <Cell><Data ss:Type="String">Cohort</Data></Cell>
-    <% hw_count = 0 %>
-    <% test_count = 0 %>
-		<% klass_aps.each do |ap| %>
-        <Cell><Data ss:Type="String"><%= !ap.is_test ? "HW #{hw_count += 1}" : "T #{test_count += 1}" %></Data><Comment
-      ss:Author="<%= SITE_NAME %>"><Data><Font
-        html:Size="9" html:Color="#000000"
-        xmlns="http://www.w3.org/TR/REC-html40"><%= ap.name %></Font></Data></Comment></Cell>
-		<% end %>
+        <% hw_count = 0 %>
+        <% test_count = 0 %>
+        <% klass_aps.each do |ap| %>
+          <Cell><Data ss:Type="String"><%= !ap.is_test ? "HW #{hw_count += 1}" : "T #{test_count += 1}" %></Data><Comment
+          ss:Author="<%= SITE_NAME %>"><Data><Font
+          html:Size="9" html:Color="#000000"
+          xmlns="http://www.w3.org/TR/REC-html40"><%= ap.name %></Font></Data></Comment></Cell>
+        <% end %>
       </Row>
-    <% visible_students.each do |vs| %>
-      <Row>
-        <Cell><Data ss:Type="String"><%= vs.full_name(present_user) %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= student_status_string(vs) %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= vs.section.name %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= vs.cohort.name %></Data></Cell>
-		<% klass_aps.each do |ap| %>
-			<% score = nil %>
-			<% assignment = Assignment.where{ (cohort_id == vs.cohort_id) & (assignment_plan_id == ap.id) }.first %>
-			<% if !assignment.nil? %>
-				<% score = 0.0 %>
-				<% sa = StudentAssignment.where{ (assignment_id == assignment.id) & (student_id == vs.id) }.first %>
-				<% score = sa.score if !sa.nil? %>
-			<% end%>
-        <Cell ss:StyleID="s20"><Data ss:Type=<%= score.nil? ? '"String"' : '"Number"' %>><%= score || "" %></Data></Cell>
-		<% end %>
-      </Row>
-    <% end %>
+      <% visible_students.each do |vs| %>
+        <Row>
+          <Cell><Data ss:Type="String"><%= vs.full_name(present_user) %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= student_status_string(vs) %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= vs.section.name %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= vs.cohort.name %></Data></Cell>
+          <% klass_aps.each do |ap| %>
+            <% score = nil %>
+            <% assignment = Assignment.where{ (cohort_id == vs.cohort_id) & (assignment_plan_id == ap.id) }.first %>
+            <% if !assignment.nil? %>
+              <% score = 0.0 %>
+              <% sa = StudentAssignment.where{ (assignment_id == assignment.id) & (student_id == vs.id) }.first %>
+              <% score = sa.score if !sa.nil? %>
+            <% end%>
+              <Cell ss:StyleID="s20"><Data ss:Type=<%= score.nil? ? '"String"' : '"Number"' %>><%= score || "" %></Data></Cell>
+          <% end %>
+        </Row>
+      <% end %>
     </Table>
   </Worksheet>
 </Workbook>

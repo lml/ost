@@ -26,6 +26,10 @@ class Assignment < ActiveRecord::Base
     cohort.klass
   end
 
+  def get_student(user)
+    Student.where{user_id == my{user.id}}.joins{student_assignments}.where{student_assignments.assignment_id == my{id}}.first
+  end
+
   def add_topic_exercise(topic_exercise, tags)
     assignment_exercise = AssignmentExercise.new(:topic_exercise => topic_exercise)
     assignment_exercise.add_tags(tags)
@@ -77,7 +81,7 @@ class Assignment < ActiveRecord::Base
   #############################################################################
 
   def can_be_read_by?(user)
-    return !klass.closed? if cohort.is_active_member?(user)
+    return !klass.closed? if is_active_assignment_recipient?(user) || is_educator?(user)
     return true           if user.is_researcher?
     return true           if user.is_administrator?
     return false
@@ -94,4 +98,13 @@ class Assignment < ActiveRecord::Base
     end
   end
 
+  def is_active_assignment_recipient?(user)
+    student = get_student(user)
+    return student.active? if student.present?
+    return false
+  end
+
+  def is_educator?(user)
+    klass.is_educator?(user)
+  end
 end

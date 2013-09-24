@@ -24,10 +24,6 @@ class Cohort < ActiveRecord::Base
     true_name.blank? ? "Cohort #{number}" : true_name
   end
   
-  def get_student(user)
-    students.where{user_id == user.id}.first
-  end
-  
   def is_student?(user)
     Cohort.joins{students.user}.where{students.user_id == user.id}.any?
   end
