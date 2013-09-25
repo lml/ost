@@ -17,8 +17,9 @@
         <%= render "report_heading_cell", data: "Name/ID",          comment: "Student name, Educator-facing ID, or Research ID" %>
         <%= render "report_heading_cell", data: "RegStatus",        comment: "Student Registration Status" %>
         <%= render "report_heading_cell", data: "StudentSection",   comment: "Student's (current) Section name" %>
-        <%= render "report_heading_cell", data: "CohortSection",    comment: "Assignment Cohort Section name" %>
-        <%= render "report_heading_cell", data: "Cohort",           comment: "Assignment Cohort name" %>
+        <%= render "report_heading_cell", data: "StudentCohort",    comment: "Student's (current) Cohort name" %>
+        <%= render "report_heading_cell", data: "AsgnCohortSec",    comment: "Assignment's Cohort Section name" %>
+        <%= render "report_heading_cell", data: "AsgnCohort",       comment: "Assignment's Cohort name" %>
         <%= render "report_heading_cell", data: "AssgnName",        comment: "Assignment name" %>
         <%= render "report_heading_cell", data: "AssgnNum",         comment: "Assignment order number within Learning Plan (including tests)" %>
         <%= render "report_heading_cell", data: "ExNum",            comment: "Exercise order number (within Assignment)" %>
@@ -51,12 +52,11 @@
         <%= render "report_heading_cell", data: "FbLoadCount",      comment: "Approx. number of times Feedback page was loaded by the Student" %>
       </Row>
       <% @klass.cohorts.find_each do |cohort| %>
-        <% cohort_section_name = cohort.section.try(:name) %>
-        <% learning_condition  = cohort.learning_condition %>
+        <% learning_condition = cohort.learning_condition %>
 
         <% cohort.assignments.find_each do |assignment| %>
           <% assignment_plan = assignment.assignment_plan %>
-          <% assignment_num  = assignment_plan.number %>
+          <% assignment_num  = assignment_plan.number + 1 %>
           <% assignment_name = assignment_plan.name %>
 
           <% ae_info = {} %>
@@ -71,11 +71,14 @@
           <% end %>
 
           <% assignment.student_assignments.find_each do |student_assignment| %>
-            <% student              = student_assignment.student %>
-            <% student_full_name    = student.full_name(present_user) %>
-            <% student_reg_status   = student_status_string(student) %>
-            <% student_section_name = student.section.name %>
-            <% assignment_coworkers = student_assignment.assignment_coworkers.collect{|acw| acw.student}.concat([student]).uniq.collect{|s| s.full_name(present_user)}.sort_by{|s| s.downcase}.join(',') %>
+            <% student                 = student_assignment.student %>
+            <% student_full_name       = student.full_name(present_user) %>
+            <% student_reg_status      = student_status_string(student) %>
+            <% student_section_name    = student.section.name %>
+            <% student_cohort_name     = student.cohort.name %>
+            <% assignment_section_name = assignment.cohort.section.try(:name) %>
+            <% assignment_cohort_name  = assignment.cohort.name %>
+            <% assignment_coworkers    = student_assignment.assignment_coworkers.collect{|acw| acw.student}.concat([student]).uniq.collect{|s| s.full_name(present_user)}.sort_by{|s| s.downcase}.join(',') %>
 
             <% student_assignment.student_exercises.find_each do |se| %>
               <% ae = se.assignment_exercise %>
@@ -83,8 +86,9 @@
         <Cell><Data ss:Type="String"><%= student_full_name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= student_reg_status %></Data></Cell>
         <Cell><Data ss:Type="String"><%= student_section_name %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= cohort_section_name %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= cohort.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= student_cohort_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= assignment_section_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= assignment_cohort_name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= assignment_name %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= assignment_num %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= ae_info[ae][:number] %></Data></Cell>
