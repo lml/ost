@@ -12,7 +12,7 @@ class AssignmentsController < ApplicationController
 
     raise SecurityTransgression unless present_user.can_read?(@assignment)
 
-    student = @assignment.cohort.get_student(present_user)
+    student = @assignment.get_student(present_user)
 
     turn_on_consenting(student)
 

@@ -26,6 +26,10 @@ class Assignment < ActiveRecord::Base
     cohort.klass
   end
 
+  def get_student(user)
+    Student.where{user_id == my{user.id}}.joins{student_assignments}.where{student_assignments.assignment_id == my{id}}.first
+  end
+
   def add_topic_exercise(topic_exercise, tags)
     assignment_exercise = AssignmentExercise.new(:topic_exercise => topic_exercise)
     assignment_exercise.add_tags(tags)
@@ -57,17 +61,24 @@ class Assignment < ActiveRecord::Base
 
   def self.create_missing_student_assignments
     Assignment.find_each do |assignment|
-      assignment.create_missing_student_assignments
+      assignment.create_missing_student_assignments \
+        if assignment.assignment_plan.learning_plan.klass.current?
     end
   end
 
   def create_missing_student_assignments
     cohort.students.active.find_each do |student|
-      student_assignment = StudentAssignment.for_student(student).for_assignment(self).first
-      if student_assignment.nil?
+      ## Seach for any StudentAssignment for the current Student belonging to
+      ## this Assignment's AssignmentPlan (in case the Student switched Section
+      ## or Cohort).
+      student_assignments = StudentAssignment.for_student(student)
+                                             .joins{assignment}
+                                             .where{assignment.assignment_plan_id == my{self.assignment_plan_id}}
+      if student_assignments.none?
         student_assignment = StudentAssignment.new(:student_id    => student.id, 
                                                    :assignment_id => self.id)
         student_assignment.save!
+        # Rails.logger.info("created SA ##{student_assignment.try(:id) || "N/A"} for A ##{self.id} for Student ##{student.id}")
       end
     end
   end
@@ -77,7 +88,7 @@ class Assignment < ActiveRecord::Base
   #############################################################################
 
   def can_be_read_by?(user)
-    return !klass.closed? if cohort.is_active_member?(user)
+    return !klass.closed? if is_active_assignment_recipient?(user) || is_educator?(user)
     return true           if user.is_researcher?
     return true           if user.is_administrator?
     return false
@@ -94,4 +105,13 @@ class Assignment < ActiveRecord::Base
     end
   end
 
+  def is_active_assignment_recipient?(user)
+    student = get_student(user)
+    return student.active? if student.present?
+    return false
+  end
+
+  def is_educator?(user)
+    klass.is_educator?(user)
+  end
 end

@@ -1,9 +1,8 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<% 
+<%
   klass = @assignment.cohort.klass
-  cohorts = klass.cohorts
 %>
 
 <%= xls_workbook({:author => "OpenStax Tutor"}) do %>
@@ -16,18 +15,11 @@
     <%= xls_row { xls_cell(:string) { "Generated at: #{standard_datetime_zone(Time.now, klass.time_zone)}" } } %>
   <% end %>
 
-  <% cohorts.each do |cohort| %>
-    <% Rails.logger.debug(@assignment.inspect) %>
-    <% assignment = Assignment.where{cohort_id == cohort.id}
-                              .where{assignment_plan_id == my{@assignment}.assignment_plan_id}
-                              .first %>
-
-    <%# Could be that this cohort doesn't have this assignment, if so, move on %>
-    <% next if assignment.nil? %>
+  <% @assignment.assignment_plan.assignments.sort_by{|a| a.cohort.number}.each do |assignment| %>
 
     <% num_exercises = assignment.assignment_exercises.count %>
   
-    <%= xls_worksheet(cohort.name) do %>
+    <%= xls_worksheet(assignment.cohort.name) do %>
 
       <%# Header row %>
 
@@ -53,11 +45,12 @@
         <% num_exercises.times do  %>
           <%= xls_cell(:number) { "1" } %>
         <% end %>
-      <% end %>    
+      <% end %>
 
       <%# Student Data %>
-
-      <% students = cohort.students.visible(present_user).active.std_sort(present_user) %>
+      <% students = Student.joins{student_assignments}
+                           .where{student_assignments.assignment_id == my{assignment.id}}
+                           .active.std_sort(present_user) %>
 
       <% students.each do |student| %>
         <%= xls_row do %>
@@ -90,8 +83,6 @@
         <% end %>
 
       <% end %>
-
-
 
     <% end %>
 
