@@ -3,8 +3,6 @@
 
 <% present_user_is_researcher = present_user.is_researcher? %>
 
-<% response_time_query = ResponseTime.where{ (note =~ "READY%") & (page == "feedback") & (response_timeable_type == 'StudentExercise') } %>
-
 <?xml version="1.0"?>
 <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
   xmlns:o="urn:schemas-microsoft-com:office:office"
@@ -27,6 +25,8 @@
         <%= render "report_heading_cell", data: "ExConcept",        comment: "Exercise Concept description" %>
         <%= render "report_heading_cell", data: "ExLabels",         comment: "Exercise Labels" %>
         <%= render "report_heading_cell", data: "AssgnCws",         comment: "Assignment Coworkers (including Student), sorted, comma-separated" %>
+        <%= render "report_heading_cell", data: "ExViewed?",        comment: "Exercise was viewed by Student?" %>
+        <%= render "report_heading_cell", data: "ExViewedTime",     comment: "Time at which Exercise was first viewed by Student" %>
         <%= render "report_heading_cell", data: "FreeResp?",        comment: "Student locked-in a Free Response?" %>
         <%= render "report_heading_cell", data: "FreeRespTime",     comment: "Time at which Free Response was locked-in" %>
         <%= render "report_heading_cell", data: "FreeResp",         comment: "Free Response" %>
@@ -47,8 +47,9 @@
         <%= render "report_heading_cell", data: "CompOnTime?",      comment: "Exercise was completed before the due date?" %>
         <%= render "report_heading_cell", data: "Correct?",         comment: "Selected Answer was correct? {Yes, No, Partially}" %>
         <%= render "report_heading_cell", data: "FbViewReq?",       comment: "Viewing Feedback was required for Overall Credit?" %>
-        <%= render "report_heading_cell", data: "FbViewed?",        comment: "Feedback was viewed (ever) or viewing not required?" %>
-        <%= render "report_heading_cell", data: "FbViewedCredit?",  comment: "Feedback was viewed for credit (withing Feedback Credit Window) or viewing not required?" %>
+        <%= render "report_heading_cell", data: "FbViewed?",        comment: "Feedback page was viewed (ever)?" %>
+        <%= render "report_heading_cell", data: "FbViewedTime",     comment: "Time at which Feedback page was first viewed by Student" %>
+        <%= render "report_heading_cell", data: "FbViewedCredit?",  comment: "Feedback was viewed for credit (within Feedback Credit Window) or viewing not required?" %>
         <%= render "report_heading_cell", data: "FbLoadCount",      comment: "Approx. number of times Feedback page was loaded by the Student" %>
         <% if present_user_is_researcher %>
           <%= render "report_heading_cell", data: "PcId",             comment: "Exercise PresentationCondition ID" %>
@@ -102,6 +103,8 @@
         <Cell><Data ss:Type="String"><%= ae_info[ae][:concept] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:tag_list] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= assignment_coworkers %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.exercise_first_viewed_at.present?) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.exercise_first_viewed_at %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.free_response_submitted?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= se.free_response_submitted_at %></Data></Cell>
         <Cell><Data ss:Type="String"><%= se.free_responses.collect{|fr| fr.as_text}.join('; ') %></Data></Cell>
@@ -122,9 +125,10 @@
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete? && !se.was_submitted_late) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= exercise_correctness_string(se) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(ae_info[ae][:feedback_condition].is_feedback_required_for_credit) %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed?) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_first_viewed_at.present?) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= se.feedback_first_viewed_at %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed_for_credit?) %></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= response_time_query.where{response_timeable_id == se.id}.count %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= se.feedback_views_count %></Data></Cell>
         <% if present_user_is_researcher %>
           <Cell><Data ss:Type="String"><%= ae_info[ae][:presentation_condition].id %></Data></Cell>
           <Cell><Data ss:Type="String"><%= ae_info[ae][:presentation_condition].label_regex %></Data></Cell>
