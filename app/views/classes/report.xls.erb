@@ -50,6 +50,12 @@
         <%= render "report_heading_cell", data: "FbViewed?",        comment: "Feedback was viewed (ever) or viewing not required?" %>
         <%= render "report_heading_cell", data: "FbViewedCredit?",  comment: "Feedback was viewed for credit (withing Feedback Credit Window) or viewing not required?" %>
         <%= render "report_heading_cell", data: "FbLoadCount",      comment: "Approx. number of times Feedback page was loaded by the Student" %>
+        <% if present_user_is_researcher %>
+          <%= render "report_heading_cell", data: "PcId",             comment: "Exercise PresentationCondition ID" %>
+          <%= render "report_heading_cell", data: "PcRegex",          comment: "Exercise PresentationCondition Regex" %>
+          <%= render "report_heading_cell", data: "FcId",             comment: "Exercise FeedbackCondition ID" %>
+          <%= render "report_heading_cell", data: "FcRegex",          comment: "Exercise FeedbackCondition Regex" %>
+        <% end %>
       </Row>
       <% @klass.cohorts.find_each do |cohort| %>
         <% learning_condition = cohort.learning_condition %>
@@ -119,6 +125,12 @@
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed_for_credit?) %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= response_time_query.where{response_timeable_id == se.id}.count %></Data></Cell>
+        <% if present_user_is_researcher %>
+          <Cell><Data ss:Type="String"><%= ae_info[ae][:presentation_condition].id %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= ae_info[ae][:presentation_condition].label_regex %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= ae_info[ae][:feedback_condition].id %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= ae_info[ae][:feedback_condition].label_regex %></Data></Cell>
+        <% end %>
       </Row>
             <% end %>
           <% end %>
