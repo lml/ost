@@ -61,17 +61,24 @@ class Assignment < ActiveRecord::Base
 
   def self.create_missing_student_assignments
     Assignment.find_each do |assignment|
-      assignment.create_missing_student_assignments
+      assignment.create_missing_student_assignments \
+        if assignment.assignment_plan.learning_plan.klass.current?
     end
   end
 
   def create_missing_student_assignments
     cohort.students.active.find_each do |student|
-      student_assignment = StudentAssignment.for_student(student).for_assignment(self).first
-      if student_assignment.nil?
+      ## Seach for any StudentAssignment for the current Student belonging to
+      ## this Assignment's AssignmentPlan (in case the Student switched Section
+      ## or Cohort).
+      student_assignments = StudentAssignment.for_student(student)
+                                             .joins{assignment}
+                                             .where{assignment.assignment_plan_id == my{self.assignment_plan_id}}
+      if student_assignments.none?
         student_assignment = StudentAssignment.new(:student_id    => student.id, 
                                                    :assignment_id => self.id)
         student_assignment.save!
+        # Rails.logger.info("created SA ##{student_assignment.try(:id) || "N/A"} for A ##{self.id} for Student ##{student.id}")
       end
     end
   end
