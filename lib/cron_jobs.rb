@@ -42,6 +42,10 @@ module Ost
       MailHook.destroy_all_expired!
       Rails.logger.info "CRON: #{Time.now} end   MainlHook.destroy_all_expired!"
 
+      Rails.logger.info "CRON: #{Time.now} begin StudentExercise.update_page_view_info!"
+      StudentExercise.update_page_view_info!
+      Rails.logger.info "CRON: #{Time.now} end   StudentExercise.update_page_view_info!"
+
       Rails.logger.info "CRON: #{Time.now} end   30 min cron jobs"
     end
 

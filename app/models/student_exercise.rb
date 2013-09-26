@@ -176,7 +176,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def feedback_has_been_viewed?
-    complete? && (feedback_has_been_viewed_for_credit? || ResponseTime.where{response_timeable_id == my{id}}.where{page == "feedback"}.any?)
+    complete? && (feedback_has_been_viewed_for_credit? || feedback_first_viewed_at || response_times.where{page == "feedback"}.any?)
   end
 
   def feedback_has_been_viewed_for_credit?
@@ -205,6 +205,91 @@ class StudentExercise < ActiveRecord::Base
 
   def follow_up_question
     learning_condition.follow_up_question(self)
+  end
+
+  def self.update_page_view_info!
+    StudentExercise.update_exercise_first_viewed_at_times!
+    StudentExercise.update_feedback_first_viewed_at_times!
+    StudentExercise.update_feedback_view_counts!
+  end
+
+  def self.update_exercise_first_viewed_at_times!(max_num_updates = 5000)
+    student_exercises = StudentExercise.where{exercise_first_viewed_at == nil}
+                                       .joins{response_times}
+                                       .where{response_times.page == 'work'}
+                                       .where{response_times.note =~ 'READY%'}
+                                       .select{distinct(id)}
+                                       .limit(max_num_updates)
+                                       .readonly(false)
+
+    student_exercises.each do |student_exercise|
+      response_time = student_exercise.response_times
+                                      .where{page == "work"}
+                                      .where{note =~ "READY%"}
+                                      .order('CREATED_AT ASC')
+                                      .limit(1).first
+
+      student_exercise.exercise_first_viewed_at = response_time.created_at
+
+      student_exercise.skip_update_callbacks = true
+      student_exercise.save! validate: false
+      student_exercise.skip_update_callbacks = false
+    end
+
+    student_exercises.count
+  end
+
+  def self.update_feedback_first_viewed_at_times!(max_num_updates = 5000)
+    student_exercises = StudentExercise.where{feedback_first_viewed_at == nil}
+                                       .joins{response_times}
+                                       .where{response_times.page == 'feedback'}
+                                       .where{response_times.note =~ 'READY%'}
+                                       .select{distinct(id)}
+                                       .limit(max_num_updates)
+                                       .readonly(false)
+
+    student_exercises.each do |student_exercise|
+      response_time = student_exercise.response_times
+                                      .where{page == "feedback"}
+                                      .where{note =~ "READY%"}
+                                      .order('CREATED_AT ASC')
+                                      .limit(1).first
+
+      student_exercise.feedback_first_viewed_at = response_time.created_at
+
+      student_exercise.skip_update_callbacks = true
+      student_exercise.save! validate: false
+      student_exercise.skip_update_callbacks = false
+    end
+
+    student_exercises.count
+  end
+
+  def self.update_feedback_view_counts!(max_num_updates = 5000)
+    query_time = Time.now
+
+    student_exercises = StudentExercise.joins{response_times}
+                                       .where{response_times.page       == 'feedback'}
+                                       .where{response_times.note       =~ 'READY%'}
+                                       .where{response_times.created_at >= ~feedback_views_timestamp}
+                                       .where{response_times.created_at <  query_time}
+                                       .select{distinct(id)}
+                                       .limit(max_num_updates)
+                                       .readonly(false)
+
+    student_exercises.each do |student_exercise|
+      student_exercise.feedback_views_timestamp = query_time
+      student_exercise.feedback_views_count     = student_exercise.response_times
+                                                                  .where{page == "feedback"}
+                                                                  .where{note =~ "READY%"}
+                                                                  .count
+
+      student_exercise.skip_update_callbacks = true
+      student_exercise.save! validate: false
+      student_exercise.skip_update_callbacks = false
+    end
+
+    student_exercises.size
   end
 
   #############################################################################
@@ -261,6 +346,13 @@ class StudentExercise < ActiveRecord::Base
   end
   
   def note_feedback_viewed!
+    if Rails.env.development?
+      if feedback_first_viewed_at.blank?
+        self.skip_update_callbacks = true
+        self.update_attribute(:feedback_first_viewed_at, Time.now)
+        self.skip_update_callbacks = false
+      end
+    end
     notify_observers(:feedback_viewed)
   end
   
