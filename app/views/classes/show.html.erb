@@ -227,8 +227,7 @@
   navitem(:can_read_children?, @klass, :learning_conditions) { link_to("Learning Conditions", klass_learning_conditions_path(@klass)) }
   navitem(:can_read_children?, @klass, :cohorts) { link_to("Cohorts", klass_cohorts_path(@klass)) }
   navitem(:can_read?, @klass.consent_options) { link_to("Consent Options", @klass.consent_options) }
-  navitem(:can_read_children?, @klass, :report) { link_to("Report", report_klass_path(@klass, :format => :xls)) } \
-    if present_user.is_administrator? || Rails.env.development?
+  navitem(:can_read_children?, @klass, :report) { link_to("Report", report_klass_path(@klass, :format => :xls)) }
   navitem(:can_read_children?, @klass, :class_grades) { link_to("Class Grades", class_grades_klass_path(@klass, :format => :xls)) }
   navitem(:can_read_children?, @klass, :analytics) { link_to("Analytics", klass_analytics_path(@klass)) }
 %>
