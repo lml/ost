@@ -77,7 +77,7 @@
             <% ae_info[ae][:feedback_condition]     = learning_condition.get_feedback_condition(ae) %>
           <% end %>
 
-          <% assignment.student_assignments.find_each do |student_assignment| %>
+          <% assignment.student_assignments.visible(present_user).find_each do |student_assignment| %>
             <% student                 = student_assignment.student %>
             <% student_full_name       = student.full_name(present_user) %>
             <% student_reg_status      = student_status_string(student) %>

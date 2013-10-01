@@ -25,7 +25,15 @@ class StudentAssignment < ActiveRecord::Base
     DUE = 100
     COMPLETE = 101 
   end
-
+  
+  scope :visible, lambda { |user| 
+    if user.is_researcher? || user.is_visitor?
+      joins{student.consent}.where{student.consent.did_consent == true}
+    else
+      scoped
+    end
+  }
+ 
   def assignment_has_exercises?
     errors.add(:assignment, "doesn't have any exercises.") \
       if assignment(true).assignment_exercises.empty?
