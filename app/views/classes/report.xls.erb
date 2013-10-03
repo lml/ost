@@ -85,7 +85,7 @@
             <% student_cohort_name     = student.cohort.name %>
             <% assignment_section_name = assignment.cohort.section.try(:name) %>
             <% assignment_cohort_name  = assignment.cohort.name %>
-            <% assignment_coworkers    = student_assignment.assignment_coworkers.collect{|acw| acw.student}.concat([student]).uniq.collect{|s| s.full_name(present_user)}.sort_by{|s| s.downcase}.join(',') %>
+            <% assignment_coworkers    = report_coworkers(student_assignment, present_user) %>
 
             <% student_assignment.student_exercises.find_each do |se| %>
               <% ae = se.assignment_exercise %>
