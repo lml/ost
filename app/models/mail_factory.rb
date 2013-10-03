@@ -11,7 +11,7 @@ class MailFactory
       end
     end
 
-    json[:attachments].each do |attachment|
+    (json[:attachments] || []).each do |attachment|
       mail.add_file({:filename => attachment[:file_name], :content => attachment[:content]})
       mail.parts.last.content_transfer_encoding = 'base64'
     end
