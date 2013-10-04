@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/jpslav/lograge.git
+  revision: 9847241bad86abe7e3c4869df5e41549238fc3b1
+  specs:
+    lograge (0.2.0)
+      actionpack (>= 3)
+      activesupport (>= 3)
+      railties (>= 3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -344,6 +353,7 @@ DEPENDENCIES
   jquery-rails (~> 2.0.2)
   launchy
   localtunnel
+  lograge!
   mime-types
   mini_magick
   mysql2 (~> 0.3.11)
