@@ -14,12 +14,14 @@ class MailHooksController < ApplicationController
       outcome = MailHook.process(mail)
     rescue MailHookNoMatch => e
       Rails.logger.info("MailHook: #{e.inspect}")
-      render status: 404, text: 'incoming email subject and addressee were not expected'
+      # Used to be a 404, but that might have been ticking off our uploads@ email provider
+      render status: 202, text: 'incoming email subject and addressee were not expected'
     rescue MailHookHookableError => e
       Rails.logger.info("MailHook: #{e.inspect}")
       Rails.logger.info("inside error: #{e.original.inspect}")
       DeveloperNotifier.exception_email(e, nil, "MailHook unexpected error")
-      render status: 422, text: 'an unknown error occurred when processing the inbound email'
+      # Used to be a 422, but that might have been ticking off our uploads@ email provider
+      render status: 202, text: 'an unknown error occurred when processing the inbound email'
     else
       render status: 200, text: 'success'
     end      
