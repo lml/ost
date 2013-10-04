@@ -91,4 +91,5 @@ end
 group :production do
   gem 'mysql2', '~> 0.3.11'
   gem 'rack-ssl-enforcer', '~> 0.2.4'
+  gem 'lograge', git: 'https://github.com/jpslav/lograge.git' # 'git@github.com:jpslav/lograge.git'
 end
