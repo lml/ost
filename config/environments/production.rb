@@ -87,4 +87,5 @@ Ost::Application.configure do
     end
     { "params" => params }
   end
+  config.lograge.ignore_actions = ["response_times#create"]
 end
