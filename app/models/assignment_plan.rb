@@ -109,7 +109,8 @@ class AssignmentPlan < ActiveRecord::Base
   def self.can_be_assigned; not_assigned.in_progress.where{is_ready == true}; end
   
   def destroyable?
-    errors.add(:base, "This assignment cannot be deleted because it has been assigned") \
+    return true if sudo_enabled?
+    errors.add(:base, "This assignment cannot be deleted because it has been assigned (except by admin override)") \
       if assigned?
     errors.none?
   end

@@ -17,6 +17,7 @@ class AssignmentPlanTopic < ActiveRecord::Base
     
   
   def destroyable?
+    return true if sudo_enabled?
     self.errors.add(:base, "This topic cannot be removed from its assignment because the assignment has been issued.") \
       if assignment_plan(true).assigned?
     self.errors.none?
