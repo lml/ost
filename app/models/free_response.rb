@@ -14,6 +14,7 @@ class FreeResponse < ActiveRecord::Base
   attr_accessor :ignore_updatable_validation
 
   def updatable?
+    return true if sudo_enabled?
     errors.add(:base, "Cannot add or edit free responses for a turned-in exercise") \
       if !student_exercise.free_responses_can_be_updated?
     errors.none?
