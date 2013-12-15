@@ -480,12 +480,11 @@ ActiveRecord::Schema.define(:version => 20131124190837) do
   end
 
   create_table "student_external_assignments", :force => true do |t|
-    t.integer  "external_assignment_id",                    :null => false
-    t.integer  "student_id",                                :null => false
-    t.boolean  "is_pending",             :default => false
+    t.integer  "external_assignment_id",                  :null => false
+    t.integer  "student_id",                              :null => false
     t.float    "grade",                  :default => 0.0
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
   end
 
   create_table "students", :force => true do |t|

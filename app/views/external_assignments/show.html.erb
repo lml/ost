@@ -8,7 +8,15 @@
 
 <%
   navitem(:can_update?, @external_assignment) {
-    link_to 'Edit', edit_external_assignment_path(@external_assignment)
+    link_to 'Edit External Assignment', edit_external_assignment_path(@external_assignment)
+  }
+
+  navitem(:can_update?, @external_assignment) {
+    link_to 'Show Grades', show_table_external_assignment_path(@external_assignment)
+  }
+
+  navitem(:can_update?, @external_assignment) {
+    link_to 'Edit Grades', edit_table_external_assignment_path(@external_assignment)
   }
 
   navitem(:can_read_children?, @external_assignment.klass, :external_assignments) {

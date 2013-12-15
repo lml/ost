@@ -17,7 +17,6 @@ class CreateExternalAssignments < ActiveRecord::Migration
     create_table :student_external_assignments do |t|
       t.integer     :external_assignment_id,  null:     false
       t.integer     :student_id,              null:     false
-      t.boolean     :is_pending,              default:  false
       t.float       :grade,                   default:  0.0
       t.timestamps
     end

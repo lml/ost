@@ -10,6 +10,8 @@ class ExternalAssignmentsController < ApplicationController
   def show
     @external_assignment = ExternalAssignment.find(params[:id])
     raise SecurityTransgression unless present_user.can_read?(@external_assignment)
+
+    @external_assignment.add_missing_components
   end
 
   def new
@@ -20,6 +22,8 @@ class ExternalAssignmentsController < ApplicationController
   def edit
     @external_assignment = ExternalAssignment.find(params[:id])
     raise SecurityTransgression unless present_user.can_update?(@external_assignment)
+
+    @external_assignment.add_missing_components
   end
 
   def create
@@ -60,6 +64,20 @@ class ExternalAssignmentsController < ApplicationController
   def sort
     super('external_assignment', ExternalAssignment,
           @klass, :klass)
+  end
+
+  def show_table
+    @external_assignment = ExternalAssignment.find(params[:id])
+    raise SecurityTransgression unless present_user.can_read?(@external_assignment)
+
+    @external_assignment.add_missing_components
+  end
+
+  def edit_table
+    @external_assignment = ExternalAssignment.find(params[:id])
+    raise SecurityTransgression unless present_user.can_read?(@external_assignment)
+
+    @external_assignment.add_missing_components
   end
 
 protected

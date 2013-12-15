@@ -1,5 +1,6 @@
 class ExternalAssignmentExercise < ActiveRecord::Base
   belongs_to :external_assignment
+  has_many   :student_external_assignment_exercises
 
   acts_as_numberable container: :external_assignment
 

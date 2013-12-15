@@ -1,0 +1,55 @@
+<%= pageHeading "#{@external_assignment.klass.course.name}: #{@external_assignment.name}"%>
+
+<p><b>Name:</b> <%= @external_assignment.name %></p>
+
+<table class="list">
+  <tr style="font-weight:bold">
+    <td width="100px">Student</td>
+    <td width="100px">Reg Status</td>
+    <td width="100px">Assgn Grade</td>
+    <% @external_assignment.external_assignment_exercises.ordered.each do |eae| %>
+      <td width="100px"><%= eae.name %></td>
+    <% end %>
+  </tr>
+
+  <% groups = @external_assignment.klass.students.visible(present_user).std_sort(present_user).group_by { |s| student_status_string(s) } %>
+  <% students = [] %>
+  <% [student_status_string_registered, student_status_string_auditing, student_status_string_dropped].each { |str| students += groups[str] if groups[str].present? } %>
+
+  <% student_external_assignments = [] %>
+  <% students.each do |student| %>
+    <% sea = StudentExternalAssignment.where{student_id == my{student.id}}
+                                      .where{external_assignment_id == my{@external_assignment.id}}
+                                      .first %>
+    <% logger.debug "EA #{@external_assignment.id} student #{student.id} SEA #{sea.id}" %>
+    <% student_external_assignments << sea %>
+  <% end %>
+
+  <% logger.debug student_external_assignments %>
+
+  <% student_external_assignments.each do |sea| %>
+    <%= render partial: "show_table_row", locals: { student_external_assignment: sea } %>
+  <% end %>
+</table>
+
+<%
+  navitem(:can_update?, @external_assignment) {
+    link_to 'Show External Assignment', external_assignment_path(@external_assignment)
+  }
+
+  navitem(:can_update?, @external_assignment) {
+    link_to 'Edit External Assignment', edit_external_assignment_path(@external_assignment)
+  }
+
+  navitem(:can_update?, @external_assignment) {
+    link_to 'Edit Grades', edit_table_external_assignment_path(@external_assignment)
+  }
+
+  navitem(:can_read_children?, @external_assignment.klass, :external_assignments) {
+    link_to 'External Assignment List', klass_external_assignments_path(@external_assignment.klass)
+  }
+
+  navitem(:can_read?, @external_assignment.klass) {
+    link_to 'Back to Class', klass_path(@external_assignment.klass)
+  }
+%>

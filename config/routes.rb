@@ -59,6 +59,9 @@ Ost::Application.routes.draw do
     resources :sections, :shallow => true
     resources :external_assignments, :shallow => true do
       post 'sort', :on => :collection
+      get  'show_table',   :on => :member
+      get  'edit_table',   :on => :member
+      put  'update_table', :on => :member
       resources :external_assignment_exercises, :shallow => true, :except => [:index, :show] do
         post 'sort', :on => :collection
       end
@@ -71,6 +74,24 @@ Ost::Application.routes.draw do
     get 'report', :on => :member
     get 'class_grades', :on => :member
     get 'management_overview', :on => :member
+  end
+
+  resources :student_external_assignments do
+    collection do
+      put :update_attribute_on_the_spot
+      get :get_attribute_on_the_spot
+    end
+
+    put 'update_grade', :on => :member
+  end
+
+  resources :student_external_assignment_exercises do
+    collection do
+      put :update_attribute_on_the_spot
+      get :get_attribute_on_the_spot
+    end
+
+    put 'update_grade', :on => :member
   end
 
   resources :learning_conditions, :only => [] do

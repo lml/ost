@@ -1,0 +1,12 @@
+<tr>
+  <td width="100px"><%= student_external_assignment.student.full_name(present_user)%></td>
+  <td width="100px"><%= student_status_string(student_external_assignment.student) %></td>
+  <td width="100px"><%= on_the_spot_edit student_external_assignment, :grade,
+                        url: update_grade_student_external_assignment_path(student_external_assignment) %></td>
+  <% student_external_assignment.external_assignment.external_assignment_exercises.ordered.each do |eae| %>
+    <% seae = eae.student_external_assignment_exercises
+                 .where{student_external_assignment_id == my{student_external_assignment.id}}
+                 .first %>
+    <td width="100px"><%= on_the_spot_edit seae, :grade, url: update_grade_student_external_assignment_exercise_path(seae) %></td>
+  <% end %>
+</tr>
