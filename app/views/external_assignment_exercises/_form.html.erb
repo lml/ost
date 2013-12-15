@@ -1,0 +1,11 @@
+<% @errors = @external_assignment_exercise.errors %>
+
+<%= form_for @external_assignment_exercise do |f| %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit :class => 'link_button' %>
+  </div>
+<% end %>

@@ -1,0 +1,17 @@
+<%= pageHeading "Editing an External Assignment Exercise in #{@external_assignment_exercise.external_assignment.name}"%>
+
+<%= render partial: "form" %>
+
+<%
+  navitem(:can_update?, @external_assignment_exercise.external_assignment) {
+    link_to 'External Assignment', edit_external_assignment_path(@external_assignment_exercise.external_assignment)
+  }
+
+  navitem(:can_update?, @external_assignment_exercise.external_assignment.klass) {
+    link_to 'External Assignment List', klass_external_assignments_path(@external_assignment_exercise.external_assignment.klass)
+  }
+
+  navitem(:can_read?, @external_assignment_exercise.external_assignment.klass) {
+    link_to 'Back to Class', @external_assignment_exercise.external_assignment.klass
+  }
+%>

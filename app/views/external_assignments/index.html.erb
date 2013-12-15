@@ -1,0 +1,8 @@
+<% pageHeading "External Assignments for #{@klass.course.name}"%>
+
+<%= render  partial: "list",
+            locals:  { klass: @klass } %>
+
+<%= link_to("Add a New External Assignment", klass_external_assignments_path(@klass), :method => :post) if ExternalAssignment.new(klass: @klass).can_be_created_by?(present_user) %>
+
+<% navitem{ link_to "Back to Class", klass_path(@klass) } %>

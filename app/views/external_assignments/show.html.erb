@@ -1,0 +1,21 @@
+<%= pageHeading "#{@external_assignment.klass.course.name}: #{@external_assignment.name}"%>
+
+<p><b>Name:</b> <%= @external_assignment.name %></p>
+
+<%= render partial: "external_assignment_exercises/list",
+           locals:  { external_assignment:    @external_assignment,
+                      exercises_are_editable: false } %>
+
+<%
+  navitem(:can_update?, @external_assignment) {
+    link_to 'Edit', edit_external_assignment_path(@external_assignment)
+  }
+
+  navitem(:can_read_children?, @external_assignment.klass, :external_assignments) {
+    link_to 'External Assignment List', klass_external_assignments_path(@external_assignment.klass)
+  }
+
+  navitem(:can_read?, @external_assignment.klass) {
+    link_to 'Back to Class', klass_path(@external_assignment.klass)
+  }
+%>

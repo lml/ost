@@ -55,8 +55,14 @@ Ost::Application.routes.draw do
         post 'search_assistants' => 'educators#search', :type => 'teaching_assistant'
       end
     end
-    resources :students, :shallow => true, :only => [:index, :show, :update, :edit]    
+    resources :students, :shallow => true, :only => [:index, :show, :update, :edit]
     resources :sections, :shallow => true
+    resources :external_assignments, :shallow => true do
+      post 'sort', :on => :collection
+      resources :external_assignment_exercises, :shallow => true, :except => [:index, :show] do
+        post 'sort', :on => :collection
+      end
+    end
     resources :registration_requests, :shallow => true, :only => [:new, :index]
     resources :learning_conditions, :shallow => true, :only => [:index]
     resources :cohorts, :shallow => true
@@ -66,7 +72,7 @@ Ost::Application.routes.draw do
     get 'class_grades', :on => :member
     get 'management_overview', :on => :member
   end
-  
+
   resources :learning_conditions, :only => [] do
     resources :schedulers, :shallow => true, :except => [:index, :show, :destroy]
     resources :learning_condition_presentation_conditions, :shallow => true, :except => [:index, :show] do

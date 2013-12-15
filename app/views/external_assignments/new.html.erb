@@ -1,0 +1,5 @@
+<%= pageHeading "New External Assignment for #{@klass.course.name}" %>
+
+<%= render 'form' %>
+
+<% navitem { link_to('External Assignment List', klass_external_assignments_path(@klass))} %>

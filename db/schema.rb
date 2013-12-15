@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130925154928) do
+ActiveRecord::Schema.define(:version => 20131124190837) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -191,6 +191,22 @@ ActiveRecord::Schema.define(:version => 20130925154928) do
   end
 
   add_index "exercises", ["url"], :name => "index_exercises_on_url", :unique => true
+
+  create_table "external_assignment_exercises", :force => true do |t|
+    t.integer  "external_assignment_id",                :null => false
+    t.integer  "number"
+    t.string   "name",                   :limit => 100
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+  end
+
+  create_table "external_assignments", :force => true do |t|
+    t.integer  "klass_id",                  :null => false
+    t.integer  "number"
+    t.string   "name",       :limit => 100
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
 
   create_table "feedback_conditions", :force => true do |t|
     t.text     "settings"
@@ -448,12 +464,29 @@ ActiveRecord::Schema.define(:version => 20130925154928) do
     t.datetime "exercise_first_viewed_at"
     t.datetime "feedback_first_viewed_at"
     t.integer  "feedback_views_count"
-    t.datetime "feedback_views_timestamp",                    :default => '1980-01-01 20:00:00'
+    t.datetime "feedback_views_timestamp",                    :default => '1980-01-01 17:00:00'
   end
 
   add_index "student_exercises", ["assignment_exercise_id", "student_assignment_id"], :name => "index_ses_on_aes_scoped", :unique => true
   add_index "student_exercises", ["assignment_exercise_id"], :name => "index_student_exercises_on_assignment_exercise_id"
   add_index "student_exercises", ["student_assignment_id"], :name => "index_student_exercises_on_student_assignment_id"
+
+  create_table "student_external_assignment_exercises", :force => true do |t|
+    t.integer  "external_assignment_exercise_id",                  :null => false
+    t.integer  "student_external_assignment_id",                   :null => false
+    t.float    "grade",                           :default => 0.0
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+  end
+
+  create_table "student_external_assignments", :force => true do |t|
+    t.integer  "external_assignment_id",                    :null => false
+    t.integer  "student_id",                                :null => false
+    t.boolean  "is_pending",             :default => false
+    t.float    "grade",                  :default => 0.0
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+  end
 
   create_table "students", :force => true do |t|
     t.integer  "cohort_id"

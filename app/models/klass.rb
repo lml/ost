@@ -7,6 +7,8 @@ class Klass < ActiveRecord::Base
   has_one :learning_plan, :dependent => :destroy
   has_many :sections,   :dependent => :destroy
   has_many :cohorts,    :dependent => :destroy, :order => :number
+  has_many :external_assignments, :dependent => :destroy, :order => :number
+
   has_many :educators,  :dependent => :destroy
 
   validates :open_date,   :presence => true
@@ -233,6 +235,8 @@ class Klass < ActiveRecord::Base
       is_teacher?(user) || is_student?(user) || user.is_administrator?
     when :management_overview
       user.is_researcher? || user.is_administrator?
+    when :external_assignments
+      is_teacher?(user) || user.is_researcher? || user.is_administrator?
     end
   end
 
