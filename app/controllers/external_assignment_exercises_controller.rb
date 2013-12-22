@@ -1,5 +1,5 @@
 class ExternalAssignmentExercisesController < ApplicationController
-  can_edit_on_the_spot
+  can_edit_on_the_spot :check_access
 
   before_filter :set_members, only: [ :show, :destroy ]
 
@@ -18,6 +18,10 @@ class ExternalAssignmentExercisesController < ApplicationController
   end
 
 protected
+
+  def check_access(external_assignment_exercise, field_name)
+    present_user.can_update?(external_assignment_exercise)
+  end
 
   def set_members
     @external_assignment_exercise = get_external_assignment_exercise

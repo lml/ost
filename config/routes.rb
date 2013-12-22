@@ -89,14 +89,14 @@ Ost::Application.routes.draw do
     end
   end
 
-  resources :student_external_assignments do
+  resources :student_external_assignments, :shallow => true, :only => [ ] do
     collection do
       put :update_attribute_on_the_spot
       get :get_attribute_on_the_spot
     end
   end
 
-  resources :student_external_assignment_exercises do
+  resources :student_external_assignment_exercises, :shallow => true, :only => [ ] do
     collection do
       put :update_attribute_on_the_spot
       get :get_attribute_on_the_spot

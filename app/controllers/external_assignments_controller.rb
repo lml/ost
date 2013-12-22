@@ -1,6 +1,6 @@
 class ExternalAssignmentsController < ApplicationController
 
-  can_edit_on_the_spot
+  can_edit_on_the_spot :check_access
 
   before_filter :get_klass, :only => [:index, :new, :create]
 
@@ -56,6 +56,10 @@ class ExternalAssignmentsController < ApplicationController
   end
 
 protected
+
+  def check_access(external_assignment, field_name)
+    present_user.can_update?(external_assignment)
+  end
 
   def get_klass
     @klass = Klass.find(params[:klass_id])

@@ -1,10 +1,6 @@
-<% page_is_editable = @external_assignment_exercise.can_be_updated_by?(present_user) %>
-
 <%= pageHeading "Editing an External Assignment Exercise in #{@external_assignment_exercise.external_assignment.name}"%>
 
-<p><b>Name:</b> <%= page_is_editable ?
-                    on_the_spot_edit(@external_assignment_exercise, :name) :
-                    @external_assignment_exercise.name %></p>
+<p><b>Name:</b> <%= on_the_spot_edit(@external_assignment_exercise, :name) %></p>
 
 <%
   navitem(:can_read?, @external_assignment_exercise.external_assignment) {

@@ -1,10 +1,6 @@
-<% page_is_editable = @external_assignment.can_be_updated_by?(present_user) %>
-
 <%= pageHeading "#{@external_assignment.klass.course.name}: #{@external_assignment.name}"%>
 
-<p><b>Name:</b> <%= page_is_editable ?
-                    on_the_spot_edit(@external_assignment, :name) :
-                    @external_assignment.name %></p>
+<p><b>Name:</b> <%= on_the_spot_edit(@external_assignment, :name) %></p>
 
 <%= render partial: "external_assignment_exercises/list",
            locals:  { external_assignment: @external_assignment } %>
