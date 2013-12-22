@@ -4,6 +4,10 @@ class ExternalAssignmentExercise < ActiveRecord::Base
 
   acts_as_numberable container: :external_assignment
 
+  attr_accessible :external_assignment,
+                  :student_external_assignment_exercises,
+                  :name
+
   def can_be_read_by?(user)
     external_assignment.can_be_read_by?(user)
   end

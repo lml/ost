@@ -1,5 +1,4 @@
-
-<% editing_is_enabled = exercises_are_editable && external_assignment.can_be_updated_by?(present_user) %>
+<% page_is_editable = external_assignment.can_be_updated_by?(present_user) %>
 
 <% eae_div_id = "external_assignment_exercises_#{external_assignment.id}" %>
 
@@ -12,19 +11,19 @@
         <%= render partial: "external_assignment_exercises/summary",
                    locals:  { external_assignment_exercise: eae } %>
 
-        <% if editing_is_enabled %>
-          <%= link_to "Edit",       edit_external_assignment_exercise_path(eae) %> |
-          <%= link_to "Delete",     external_assignment_exercise_path(eae), 
-                                      :method  => :delete, 
-                                      :remote  => true,
-                                      :confirm => "Are you sure?" %> &nbsp;&nbsp;
+        <%= link_to "Show", eae %>
+        <% if page_is_editable %>
+          | <%= link_to "Delete", external_assignment_exercise_path(eae), 
+                                  :method  => :delete, 
+                                  :remote  => true,
+                                  :confirm => "Are you sure?" %> &nbsp;&nbsp;
           <%= content_tag(:span, "", :class => "ui-icon ui-icon-arrow-4 handle",
                                      :style => 'display:inline-block; height: 14px') %>
         <% end %>
       </div>
     <% end %>
     
-    <% if editing_is_enabled %>
+    <% if page_is_editable %>
       <% content_for :javascript do %>
         <%= javascript_tag do %>
           $('#<%= eae_div_id %>').sortable({

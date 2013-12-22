@@ -28,10 +28,6 @@
     link_to 'Show External Assignment', external_assignment_path(@external_assignment)
   }
 
-  navitem(:can_update?, @external_assignment) {
-    link_to 'Edit External Assignment', edit_external_assignment_path(@external_assignment)
-  }
-
   navitem(:can_read_children?, @external_assignment.klass, :external_assignments) {
     link_to 'External Assignment List', klass_external_assignments_path(@external_assignment.klass)
   }

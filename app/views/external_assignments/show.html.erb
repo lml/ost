@@ -1,18 +1,17 @@
+<% page_is_editable = @external_assignment.can_be_updated_by?(present_user) %>
+
 <%= pageHeading "#{@external_assignment.klass.course.name}: #{@external_assignment.name}"%>
 
-<p><b>Name:</b> <%= @external_assignment.name %></p>
+<p><b>Name:</b> <%= page_is_editable ?
+                    on_the_spot_edit(@external_assignment, :name) :
+                    @external_assignment.name %></p>
 
 <%= render partial: "external_assignment_exercises/list",
-           locals:  { external_assignment:    @external_assignment,
-                      exercises_are_editable: false } %>
+           locals:  { external_assignment: @external_assignment } %>
 
 <%
-  navitem(:can_update?, @external_assignment) {
-    link_to 'Edit External Assignment', edit_external_assignment_path(@external_assignment)
-  }
-
-  navitem(:can_update?, @external_assignment) {
-    link_to 'Show Grades', show_table_external_assignment_path(@external_assignment)
+  navitem(:can_read?, @external_assignment) {
+    link_to 'Grades', show_table_external_assignment_path(@external_assignment)
   }
 
   navitem(:can_read_children?, @external_assignment.klass, :external_assignments) {

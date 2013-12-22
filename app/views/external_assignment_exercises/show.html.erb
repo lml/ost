@@ -1,10 +1,14 @@
+<% page_is_editable = @external_assignment_exercise.can_be_updated_by?(present_user) %>
+
 <%= pageHeading "Editing an External Assignment Exercise in #{@external_assignment_exercise.external_assignment.name}"%>
 
-<%= render partial: "form" %>
+<p><b>Name:</b> <%= page_is_editable ?
+                    on_the_spot_edit(@external_assignment_exercise, :name) :
+                    @external_assignment_exercise.name %></p>
 
 <%
-  navitem(:can_update?, @external_assignment_exercise.external_assignment) {
-    link_to 'External Assignment', edit_external_assignment_path(@external_assignment_exercise.external_assignment)
+  navitem(:can_read?, @external_assignment_exercise.external_assignment) {
+    link_to 'External Assignment', @external_assignment_exercise.external_assignment
   }
 
   navitem(:can_update?, @external_assignment_exercise.external_assignment.klass) {

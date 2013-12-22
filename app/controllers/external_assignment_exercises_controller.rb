@@ -1,39 +1,10 @@
 class ExternalAssignmentExercisesController < ApplicationController
-  before_filter :set_members, except: [ :sort ]
+  can_edit_on_the_spot
 
-  def new
-    raise SecurityTransgression unless present_user.can_create?(@external_assignment_exercise)
-  end
+  before_filter :set_members, only: [ :show, :destroy ]
 
-  def edit
-    raise SecurityTransgression unless present_user.can_update?(@external_assignment_exercise)
-  end
-
-  def create
-    @external_assignment_exercise.external_assignment   = @external_assignment
-    @external_assignment_exercise.name                ||= "Unnamed Exercise"
-
-    raise SecurityTransgression unless present_user.can_create?(@external_assignment_exercise)
-
-    respond_to do |format|
-      if @external_assignment_exercise.save
-        format.html { redirect_to edit_external_assignment_exercise_path(@external_assignment_exercise), notice: 'External Assignment Exercise was successfully created.' }
-      else
-        format.html { render action: "new" }
-      end
-    end
-  end
-
-  def update
-    raise SecurityTransgression unless present_user.can_update?(@external_assignment_exercise)
-
-    respond_to do |format|
-      if @external_assignment_exercise.update_attributes(params[:external_assignment_exercise])
-        format.html { redirect_to edit_external_assignment_path(@external_assignment_exercise.external_assignment), notice: 'External Assignment Exercise was successfully updated.' }
-      else
-        format.html { render action: "edit" }
-      end
-    end
+  def show
+    raise SecurityTransgression unless present_user.can_read?(@external_assignment_exercise)
   end
 
   def destroy

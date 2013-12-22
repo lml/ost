@@ -46,7 +46,7 @@ Ost::Application.routes.draw do
     # resources :offered_courses, :shallow => true, :except => [:index]
     resources :classes, :as => 'klasses', :shallow => true, :except => [:index]
   end
-  
+
   resources :classes, :as => 'klasses', :only => [:index] do
     resources :educators, :shallow => true, :only => [:new, :create, :destroy, :show, :edit, :update] do
       collection do
@@ -57,11 +57,11 @@ Ost::Application.routes.draw do
     end
     resources :students, :shallow => true, :only => [:index, :show, :update, :edit]
     resources :sections, :shallow => true
-    resources :external_assignments, :shallow => true do
+    resources :external_assignments, :shallow => true, :except => [:edit, :update] do
       post 'sort', :on => :collection
       get  'show_table',   :on => :member
       put  'update_table', :on => :member
-      resources :external_assignment_exercises, :shallow => true, :except => [:index, :show] do
+      resources :external_assignment_exercises, :shallow => true, :only => [ ] do
         post 'sort', :on => :collection
       end
     end
@@ -73,6 +73,20 @@ Ost::Application.routes.draw do
     get 'report', :on => :member
     get 'class_grades', :on => :member
     get 'management_overview', :on => :member
+  end
+
+  resources :external_assignments, :shallow => true, :only => [ ] do
+    collection do
+      put :update_attribute_on_the_spot
+      get :get_attribute_on_the_spot
+    end
+  end
+
+  resources :external_assignment_exercises, :shallow => true, :only => [:show, :destroy] do
+    collection do
+      put :update_attribute_on_the_spot
+      get :get_attribute_on_the_spot
+    end
   end
 
   resources :student_external_assignments do
