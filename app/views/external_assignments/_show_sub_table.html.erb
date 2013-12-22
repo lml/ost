@@ -23,14 +23,14 @@
     <tr>
       <td><%= sea.student.full_name(present_user)%></td>
       <td><%= page_is_editable ?
-              on_the_spot_edit(sea, :grade, url: update_grade_student_external_assignment_path(sea)) :
+              on_the_spot_edit(sea, :grade, url: update_attribute_on_the_spot_student_external_assignments_path) :
               sea.grade %></td>
       <% sea.external_assignment.external_assignment_exercises.ordered.each do |eae| %>
         <% seae = eae.student_external_assignment_exercises
                      .where{student_external_assignment_id == my{sea.id}}
                      .first %>
         <td><%= page_is_editable ?
-                on_the_spot_edit(seae, :grade, url: update_grade_student_external_assignment_exercise_path(seae)) :
+                on_the_spot_edit(seae, :grade, url: update_attribute_on_the_spot_student_external_assignment_exercises_path) :
                 seae.grade %></td>
       <% end %>
     </tr>

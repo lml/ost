@@ -1,6 +1,6 @@
 class StudentExternalAssignmentsController < ApplicationController
 
-  can_edit_on_the_spot
+  can_edit_on_the_spot :check_access
 
   def show
     @sea = StudentExternalAssignment.find(params[:id])
@@ -11,17 +11,10 @@ class StudentExternalAssignmentsController < ApplicationController
     end
   end
 
-  def update_grade
-    logger.debug "SEA Controller #update: #{params}"
+protected
 
-    @sea = StudentExternalAssignment.find(params[:id])
-    raise SecurityTransgression unless present_user.can_update?(@sea.external_assignment)
-
-    respond_to do |format|
-      @sea.grade = params[:value]
-      @sea.save!
-
-      format.json { respond_with @sea }
-    end
+  def check_access(student_external_assignment, field_name)
+    present_user.can_update?(student_external_assignment.external_assignment)
   end
+
 end

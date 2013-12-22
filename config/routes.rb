@@ -94,8 +94,6 @@ Ost::Application.routes.draw do
       put :update_attribute_on_the_spot
       get :get_attribute_on_the_spot
     end
-
-    put 'update_grade', :on => :member
   end
 
   resources :student_external_assignment_exercises do
@@ -103,8 +101,6 @@ Ost::Application.routes.draw do
       put :update_attribute_on_the_spot
       get :get_attribute_on_the_spot
     end
-
-    put 'update_grade', :on => :member
   end
 
   resources :learning_conditions, :only => [] do
