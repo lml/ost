@@ -12,10 +12,9 @@
                    locals:  { external_assignment: ea } %>
 
         <%= link_to "Show",          external_assignment_path(ea) %> |
-        <%= link_to "Show Grades",   show_table_external_assignment_path(ea) %>
+        <%= link_to "Grades",   show_table_external_assignment_path(ea) %>
         <% if editing_is_enabled %>
           | <%= link_to "Edit",          edit_external_assignment_path(ea) %>
-          | <%= link_to "Edit Grades",   edit_table_external_assignment_path(ea) %>
           | <%= link_to "Delete", external_assignment_path(ea), 
                                   :method  => :delete, 
                                   :remote  => true,

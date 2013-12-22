@@ -60,7 +60,6 @@ Ost::Application.routes.draw do
     resources :external_assignments, :shallow => true do
       post 'sort', :on => :collection
       get  'show_table',   :on => :member
-      get  'edit_table',   :on => :member
       put  'update_table', :on => :member
       resources :external_assignment_exercises, :shallow => true, :except => [:index, :show] do
         post 'sort', :on => :collection

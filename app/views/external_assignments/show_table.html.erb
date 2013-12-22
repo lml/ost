@@ -2,35 +2,26 @@
 
 <p><b>Name:</b> <%= @external_assignment.name %></p>
 
-<table class="list">
-  <tr style="font-weight:bold">
-    <td width="100px">Student</td>
-    <td width="100px">Reg Status</td>
-    <td width="100px">Assgn Grade</td>
-    <% @external_assignment.external_assignment_exercises.ordered.each do |eae| %>
-      <td width="100px"><%= eae.name %></td>
-    <% end %>
-  </tr>
+<%= link_to_function "Click here if the results are clipped in your browser", 
+                     "$('#outer').css('width','2000px');", 
+                     :style => "font-size:9px; float:right;"%><br/>
 
-  <% groups = @external_assignment.klass.students.visible(present_user).std_sort(present_user).group_by { |s| student_status_string(s) } %>
-  <% students = [] %>
-  <% [student_status_string_registered, student_status_string_auditing, student_status_string_dropped].each { |str| students += groups[str] if groups[str].present? } %>
-
-  <% student_external_assignments = [] %>
-  <% students.each do |student| %>
+<% students_by_reg_status = @external_assignment.klass.students.visible(present_user).std_sort(present_user).group_by { |s| student_status_string(s) } %>
+<% [student_status_string_registered, student_status_string_auditing, student_status_string_dropped].each do |reg_status_str| %>
+  <% student_external_assignments = students_by_reg_status[reg_status_str].collect do |student| %>
     <% sea = StudentExternalAssignment.where{student_id == my{student.id}}
                                       .where{external_assignment_id == my{@external_assignment.id}}
                                       .first %>
     <% logger.debug "EA #{@external_assignment.id} student #{student.id} SEA #{sea.id}" %>
-    <% student_external_assignments << sea %>
+    <% sea %>
   <% end %>
 
-  <% logger.debug student_external_assignments %>
+  <%= render  partial: "show_sub_table",
+              locals: { sub_table_heading:            reg_status_str,
+                        external_assignment:          @external_assignment,
+                        student_external_assignments: student_external_assignments } %>
+<% end %>
 
-  <% student_external_assignments.each do |sea| %>
-    <%= render partial: "show_table_row", locals: { student_external_assignment: sea } %>
-  <% end %>
-</table>
 
 <%
   navitem(:can_update?, @external_assignment) {
@@ -39,10 +30,6 @@
 
   navitem(:can_update?, @external_assignment) {
     link_to 'Edit External Assignment', edit_external_assignment_path(@external_assignment)
-  }
-
-  navitem(:can_update?, @external_assignment) {
-    link_to 'Edit Grades', edit_table_external_assignment_path(@external_assignment)
   }
 
   navitem(:can_read_children?, @external_assignment.klass, :external_assignments) {

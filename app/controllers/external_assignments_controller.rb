@@ -73,13 +73,6 @@ class ExternalAssignmentsController < ApplicationController
     @external_assignment.add_missing_components
   end
 
-  def edit_table
-    @external_assignment = ExternalAssignment.find(params[:id])
-    raise SecurityTransgression unless present_user.can_read?(@external_assignment)
-
-    @external_assignment.add_missing_components
-  end
-
 protected
 
   def get_klass
