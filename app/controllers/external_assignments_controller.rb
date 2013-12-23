@@ -11,28 +11,25 @@ class ExternalAssignmentsController < ApplicationController
 
   def show
     @external_assignment = ExternalAssignment.find(params[:id])
+    @klass = @external_assignment.klass
+
     raise SecurityTransgression unless present_user.can_read?(@external_assignment)
 
     @external_assignment.add_missing_components
   end
 
-  def new
-    @external_assignment = ExternalAssignment.new(klass: @klass)
-    raise SecurityTransgression unless present_user.can_create?(@external_assignment)
-  end
-
   def create
     @external_assignment = ExternalAssignment.new(params[:external_assignment])
     @external_assignment.klass   = @klass
-    @external_assignment.name  ||= "Unnamed Assignment"
+    @external_assignment.name  ||= "External Assignment #{@klass.external_assignments.count + 1}"
 
     raise SecurityTransgression unless present_user.can_create?(@external_assignment)
 
     respond_to do |format|
       if @external_assignment.save
-        format.html { redirect_to @external_assignment, notice: 'External Assignment was successfully created.' }
+        format.html { redirect_to klass_external_assignments_path(@klass), notice: 'External Assignment was successfully created.' }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to klass_external_assignments_path(@klass) }
       end
     end
   end

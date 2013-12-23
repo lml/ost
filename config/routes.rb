@@ -57,11 +57,11 @@ Ost::Application.routes.draw do
     end
     resources :students, :shallow => true, :only => [:index, :show, :update, :edit]
     resources :sections, :shallow => true
-    resources :external_assignments, :shallow => true, :except => [:edit, :update] do
+    resources :external_assignments, :shallow => true, :except => [:new, :edit, :update] do
       post 'sort', :on => :collection
       get  'show_table',   :on => :member
       put  'update_table', :on => :member
-      resources :external_assignment_exercises, :shallow => true, :only => [ ] do
+      resources :external_assignment_exercises, :shallow => true, :only => [:create] do
         post 'sort', :on => :collection
       end
     end

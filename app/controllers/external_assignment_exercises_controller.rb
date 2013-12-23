@@ -1,7 +1,22 @@
 class ExternalAssignmentExercisesController < ApplicationController
   can_edit_on_the_spot :check_access
 
-  before_filter :set_members, only: [ :show, :destroy ]
+  before_filter :set_members, only: [ :create, :show, :destroy ]
+
+  def create
+    @external_assignment_exercise.external_assignment = @external_assignment
+    @external_assignment_exercise.name                = "Ex #{@external_assignment.external_assignment_exercises.count + 1}"
+
+    raise SecurityTransgression unless present_user.can_create?(@external_assignment_exercise)
+
+    respond_to do |format|
+      if @external_assignment_exercise.save
+        format.html { redirect_to @external_assignment, notice: 'Exercise was successfully created.' }
+      else
+        format.html { redirect_to @external_assignment }
+      end
+    end
+  end
 
   def show
     raise SecurityTransgression unless present_user.can_read?(@external_assignment_exercise)

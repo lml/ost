@@ -3,7 +3,7 @@
 <p><b>Name:</b> <%= @external_assignment.name %></p>
 
 <%= link_to_function "Click here if the results are clipped in your browser", 
-                     "$('#outer').css('width','2000px');", 
+                     "$('#outer').css('width','4000px');", 
                      :style => "font-size:9px; float:right;"%><br/>
 
 <% students_by_reg_status = @external_assignment.klass.students.visible(present_user).std_sort(present_user).group_by { |s| student_status_string(s) } %>
@@ -25,7 +25,7 @@
 
 <%
   navitem(:can_update?, @external_assignment) {
-    link_to 'Show External Assignment', external_assignment_path(@external_assignment)
+    link_to 'External Assignment', external_assignment_path(@external_assignment)
   }
 
   navitem(:can_read_children?, @external_assignment.klass, :external_assignments) {

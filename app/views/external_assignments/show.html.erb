@@ -5,6 +5,8 @@
 <%= render partial: "external_assignment_exercises/list",
            locals:  { external_assignment: @external_assignment } %>
 
+<%= link_to("Add a New Exercise", external_assignment_external_assignment_exercises_path(@external_assignment), :method => :post) if @external_assignment.can_be_updated_by?(present_user) %>
+
 <%
   navitem(:can_read?, @external_assignment) {
     link_to 'Grades', show_table_external_assignment_path(@external_assignment)
