@@ -448,7 +448,7 @@ ActiveRecord::Schema.define(:version => 20130925154928) do
     t.datetime "exercise_first_viewed_at"
     t.datetime "feedback_first_viewed_at"
     t.integer  "feedback_views_count"
-    t.datetime "feedback_views_timestamp",                    :default => '1980-01-01 20:00:00'
+    t.datetime "feedback_views_timestamp",                    :default => '1980-01-01 17:00:00'
   end
 
   add_index "student_exercises", ["assignment_exercise_id", "student_assignment_id"], :name => "index_ses_on_aes_scoped", :unique => true
