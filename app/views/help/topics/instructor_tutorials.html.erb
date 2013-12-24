@@ -1,0 +1,26 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+    
+<%= pageHeading "Video Tutorials for Instructors" %>
+
+    <div class="accordion" id="accordion2" style="padding-top:20px;">
+
+        <%= accordion_entry :title => "Create a homework (learning study)" do %>
+          <%= render :partial => 'help/blurbs/instructor_hw_study'%>
+      <% end %>
+
+        <%= accordion_entry :title => "Create a homework (no learning study)" do %>
+          <%= render :partial => 'help/blurbs/instructor_hw_nostudy'%>
+      <% end %>
+
+      <%= accordion_entry :title => "Create a test, quiz, or exam (learning study)" do %>
+          <%= render :partial => 'help/blurbs/instructor_test_study'%>
+      <% end %>
+
+      <%= accordion_entry :title => "Create a test, quiz, or exam (no learning study)" do %>
+          <%= render :partial => 'help/blurbs/instructor_test_nostudy'%>
+      <% end %>
+
+</div>   
+
+<% navitem { link_to "Back to Help", help_path } %> 
