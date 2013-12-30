@@ -5,4 +5,5 @@
 
 <%= link_to("Add a New External Assignment", klass_external_assignments_path(@klass), :method => :post) if ExternalAssignment.new(klass: @klass).can_be_created_by?(present_user) %>
 
+<% navitem{ link_to "Report", report_klass_external_assignments_path(@klass, :format => :xls) } %>
 <% navitem{ link_to "Back to Class", klass_path(@klass) } %>

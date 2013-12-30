@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+
+  <% @klass.external_assignments.ordered.each do |ea| %>
+    <%= render partial: "report_grades",    locals: { external_assignment: ea } %>
+    <%= render partial: "report_exercises", locals: { external_assignment: ea } %>
+  <% end %>
+
+</Workbook>

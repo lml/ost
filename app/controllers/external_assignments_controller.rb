@@ -2,7 +2,7 @@ class ExternalAssignmentsController < ApplicationController
 
   can_edit_on_the_spot :check_access
 
-  before_filter :get_klass, :only => [:index, :new, :create]
+  before_filter :get_klass, :only => [:index, :new, :create, :report]
 
   def index
     raise SecurityTransgression unless present_user.can_read_children?(@klass, :external_assignments)
@@ -50,6 +50,16 @@ class ExternalAssignmentsController < ApplicationController
     raise SecurityTransgression unless present_user.can_read?(@external_assignment)
 
     @external_assignment.add_missing_components
+  end
+
+  def report
+    raise SecurityTransgression unless present_user.can_read_children?(@klass, :external_assignments_report)
+
+    @klass.external_assignments.each{|ea| ea.add_missing_components}
+
+    respond_to do |format|
+      format.xls { render 'report' }
+    end
   end
 
 protected

@@ -1,0 +1,24 @@
+<% visible_students = Student.joins{section}
+                             .where{section.klass_id == my{@klass.id}}
+                             .visible(present_user)
+                             .active
+                             .std_sort(present_user) %>
+
+<% ordered_eaes = external_assignment.external_assignment_exercises.ordered %>
+
+<% visible_students.each do |vs| %>
+  <% sea = StudentExternalAssignment.where{student_id == my{vs.id}}
+                                    .where{external_assignment_id == my{external_assignment.id}}
+                                    .first %>
+  <Row>
+    <Cell><Data ss:Type="String"><%= vs.full_name(present_user) %></Data></Cell>
+    <Cell><Data ss:Type="String"><%= student_status_string(vs) %></Data></Cell>
+    <Cell><Data ss:Type="Number"><%= sea.grade %></Data></Cell>
+    <% ordered_eaes.each do |eae| %>
+      <% seae = eae.student_external_assignment_exercises
+                     .where{student_external_assignment_id == my{sea.id}}
+                     .first %>
+      <Cell><Data ss:Type="Number"><%= seae.grade %></Data></Cell>
+    <% end %>
+  </Row>
+<% end %>

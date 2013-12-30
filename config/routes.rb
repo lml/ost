@@ -61,6 +61,7 @@ Ost::Application.routes.draw do
       post 'sort', :on => :collection
       get  'show_table',   :on => :member
       put  'update_table', :on => :member
+      get  'report',       :on => :collection
       resources :external_assignment_exercises, :shallow => true, :only => [:create] do
         post 'sort', :on => :collection
       end
