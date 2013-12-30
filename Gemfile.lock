@@ -7,6 +7,13 @@ GIT
       activesupport (>= 3)
       railties (>= 3)
 
+GIT
+  remote: https://github.com/kevinburleigh75/on_the_spot.git
+  revision: 67a423a3d899d743427b4f468dee85201d524ced
+  specs:
+    on_the_spot (1.0.2)
+      json_pure (>= 1.4.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -193,8 +200,6 @@ GEM
       net-ssh (>= 1.99.1)
     newrelic_rpm (3.5.8.72)
     nokogiri (1.5.5)
-    on_the_spot (1.0.2)
-      json_pure (>= 1.4.6)
     orm_adapter (0.4.0)
     poltergeist (0.7.0)
       capybara (~> 1.1)
@@ -360,7 +365,7 @@ DEPENDENCIES
   mini_magick
   mysql2 (~> 0.3.11)
   newrelic_rpm
-  on_the_spot
+  on_the_spot!
   poltergeist
   quiet_assets (~> 1.0.1)
   rack-mini-profiler
