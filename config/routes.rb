@@ -82,7 +82,7 @@ Ost::Application.routes.draw do
     end
   end
 
-  resources :external_assignment_exercises, :shallow => true, :only => [:show, :destroy] do
+  resources :external_assignment_exercises, :shallow => true, :only => [:destroy] do
     collection do
       put :update_attribute_on_the_spot
       get :get_attribute_on_the_spot

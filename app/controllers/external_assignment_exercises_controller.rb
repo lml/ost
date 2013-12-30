@@ -1,7 +1,8 @@
 class ExternalAssignmentExercisesController < ApplicationController
+
   can_edit_on_the_spot :check_access
 
-  before_filter :set_members, only: [ :create, :show, :destroy ]
+  before_filter :set_members, only: [:create, :destroy]
 
   def create
     @external_assignment_exercise.external_assignment = @external_assignment
@@ -16,10 +17,6 @@ class ExternalAssignmentExercisesController < ApplicationController
         format.html { redirect_to @external_assignment }
       end
     end
-  end
-
-  def show
-    raise SecurityTransgression unless present_user.can_read?(@external_assignment_exercise)
   end
 
   def destroy

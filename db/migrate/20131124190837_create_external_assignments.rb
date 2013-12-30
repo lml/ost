@@ -9,6 +9,7 @@ class CreateExternalAssignments < ActiveRecord::Migration
 
     create_table :external_assignment_exercises do |t|
       t.integer     :external_assignment_id,  null: false
+      t.integer     :concept_id
       t.integer     :number
       t.string      :name,                    limit: 100
       t.timestamps

@@ -194,6 +194,7 @@ ActiveRecord::Schema.define(:version => 20131124190837) do
 
   create_table "external_assignment_exercises", :force => true do |t|
     t.integer  "external_assignment_id",                :null => false
+    t.integer  "concept_id"
     t.integer  "number"
     t.string   "name",                   :limit => 100
     t.datetime "created_at",                            :null => false
