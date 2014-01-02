@@ -11,7 +11,7 @@
         <%= render partial: "external_assignments/summary",
                    locals:  { external_assignment: ea } %>
 
-        <%= link_to "Show",     external_assignment_path(ea) %> |
+        <%= link_to "Change Name / Edit Exercises",     external_assignment_path(ea) %> |
         <%= link_to "Grades",   show_table_external_assignment_path(ea) %>
         <% if editing_is_enabled %>
           | <%= link_to "Delete", external_assignment_path(ea), 
