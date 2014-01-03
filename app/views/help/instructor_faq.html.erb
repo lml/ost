@@ -39,40 +39,6 @@
 
 <% end %>
 
-  <%= section "Student FAQs", {:classes => 'no_bar'} do %>
-       
-      <%= accordion_entry :title => "I registered for the wrong section
-       of my class. How do I change to a different section?" do %>
-        <p>If your instructor has already approved your registration request, please email your instructor 
-          and request they change your section.</p>
-
-        <p>If your registration request is still pending, i.e. you see <strong>Cancel my request to join
-         this class</strong>, click <strong>Cancel</strong> and confirm your choice.</li>
-          <%= image_tag("cancelrequest.png", {:border => 1, :title=>"cancel request"})%>  
-          <p>
-          <p>Once you've canceled your registration request, click <strong>Register</strong> 
-            to submit a new registration request for the correct section.
-      <% end %>
-
-    <%= accordion_entry :title => "Can I still get credit if I work exercises 
-    after the due date?" do %>
-      <p><%= SITE_NAME %> will not give credit for answers entered after the due 
-        date. However, final decisions about credit for late work are ultimately up 
-        to your instructor.</p>          
-    <% end %>
-    
-    <%= accordion_entry :title => "I made a mistake in an exercise. Can I 
-    fix my work and get credit?" do %>
-      <p>It depends.</P>
-      <p>If you have saved free-form work, but haven't yet turned in your work, you can edit your answers anytime before 
-      the assignment due date.</p> 
-      <p>However, once you have turned in your free-form work or submitted your final multiple choice answer, you cannot 
-      go back and change your answers.</p> 
-      <p>Final decisions about 
-        grades are always up to the instructor.</p>
-    <% end %>
-  <% end %>
-  
   <%= section "Instructor FAQ", {:classes => ' no_bar'} do %>
   
     

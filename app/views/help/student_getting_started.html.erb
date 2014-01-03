@@ -15,47 +15,49 @@
     <%= render :partial => 'help/blurbs/browser_reqs'%>
   <% end %>
 
-  <%= accordion_entry :title => "Sign up for #{SITE_NAME}" do %>   
-    <p>Read the instructions below or <%= link_to_help 'student_register_screencast',
-     text="click here to check out the first 30 seconds of this video tutorial", 
-     {:title => 'Video Tutorial', :width => '700', :height => '600'} %>.</p> 
+  <%= accordion_entry :title => "Sign up for #{SITE_NAME}" do %>    
     <%= render :partial => 'help/blurbs/sign_up'%>
   <% end %>
 
   <%= accordion_entry :title => "Register for a class" do %>
+          <%= render :partial => 'help/blurbs/student_register_screencast'%>
     <%= render :partial => 'help/blurbs/register_for_a_class'%>
   <% end %>
 
-  <%= accordion_entry :title => "How to access assignments" do %>
+<%= accordion_entry :title => "Participating in a Duke learning study" do %>  
+  <%= render :partial => 'help/blurbs/consent_video'%>
+<% end %>
 
-    <%= render :partial => 'help/blurbs/access_assignments'%>
-  <% end %>
+        <%= accordion_entry :title => "Assignments Pt. 1: Access assignments" do %>
+          <%= render :partial => 'help/blurbs/student_assignments_screencast'%>
+              <%= render :partial => 'help/blurbs/access_assignments'%>
+      <% end %>
 
-  <%= accordion_entry :title => "How to show work on free-response questions" do %>
-    <p>OpenStax Tutor gives you several ways to show your work:</p>
-      <ul>
-        <li>Enter <b>plain text</b> using the  text editor</li>
-        <li>Enter <b>LaTeX math notation</b> using the text editor</li>
-        <li>Attach an <b>image/document</b> (GIF, JPG, JPEG, PNG or PDF) from your PC</li>
-        <li>Draw a <b>sketch</b> using the SVG image editor</li>
-        <li>Upload a picture by email using your smart device</li>
-      </ul>
+       <%= accordion_entry :title => "Assignments Pt. 2: Assignments overview" do %>
+          <%= render :partial => 'help/blurbs/student_assignment_overview_screencast'%>
+      <% end %>
 
-    <p>In this video, we walk through how to attach different kinds of work and how to edit, delete, 
-      or reorder your draft answers.</p>
+       <%= accordion_entry :title => "Assignments Pt. 3: Multiple-choice questions" do %>
+          <%= render :partial => 'help/blurbs/student_multiple_choice_screencast'%>
+      <% end %>
 
-    <p><%= render :partial => 'help/blurbs/student_ff_screencast' %>
-  <% end %>
+       <%= accordion_entry :title => "Assignments Pt. 4: Two-part questions" do %>
+          <%= render :partial => 'help/blurbs/student_two_part_screencast'%>
+      <% end %>
 
-   <%= accordion_entry :title => "How to upload your work via smart phone/tablet" do %>
+   <%= accordion_entry :title => "Assignments Pt. 5: Upload work via smart phone/tablet" do %>
           <%= render :partial => 'help/blurbs/student_camera_phone_screencast'%>
        <% end %>
+
+   <%= accordion_entry :title => "Assignments Pt. 6: Viewing feedback" do %> 
+
+      <% end %>
   
-  <%= accordion_entry :title => "How to view scores on assignments" do %>
+  <%= accordion_entry :title => "Viewing scores" do %>
     <%= render :partial => 'help/blurbs/grades'%>
   <% end %>
   
-  <%= accordion_entry :title => "How scores are calculated" do %>
+  <%= accordion_entry :title => "How OST calculates scores" do %>
     <%= render :partial => 'help/blurbs/calc_grade'%>
     
     <p>You always have an A in our book. But when it comes to class grades, final determinations about grades are

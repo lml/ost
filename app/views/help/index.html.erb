@@ -7,31 +7,26 @@
   Check out the resources below, or email our friendly support team at <%= email_link "support", "support@openstaxtutor.org" %> 
   if you need one-on-one help. </p>
 
-<%= section "Getting Started", {:classes => 'first no_bar'} do %>
+<%= section "For Students", {:classes => 'first no_bar'} do %>
 
   <ul>
-    <li><%= link_to "Getting Started as an Instructor", help_instructor_getting_started_path, :target => '_blank' %></li>
     <li><%= link_to "Getting Started as a Student", help_student_getting_started_path, :target => '_blank' %></li>
+    <li><%= link_to "Video Tutorials", help_student_tutorials_path, :target => '_blank' %></li>
      <li><%= link_to "Frequently Asked Questions", help_faq_path, :target => '_blank' %></li>
   </ul>
   
 <% end %>
 
-<%= section "Video Tutorials", {:classes => 'first no_bar'} do %>
-
-  <ul>
-    <li><%= link_to "Tutorials for Students", help_student_tutorials_path, :target => '_blank' %></li>
-  </ul>
+<%= section "For Instructors", {:classes => 'first no_bar'} do %>
   
-<% end %>
-
-<%= section "Digging Deeper", {:classes => 'first no_bar'} do %>
-
-  <ul>
+   <ul>
+    <li><%= link_to "Getting Started as an Instructor", help_instructor_getting_started_path, :target => '_blank' %></li> 
+    <li><%= link_to "Frequently Asked Questions", help_instructor_faq_path, :target => '_blank' %></li>
+  
     <li><%= link_to "Managing your class, roster, and grades", help_class_settings_path, :target => '_blank' %></li>
     <li><%= link_to "Creating Topics", help_topics_path, :target => '_blank' %></li>
     <li><%= link_to "Setting up Learning Conditions", help_learning_conditions_path, :target => '_blank' %></li>
-    <li><%= link_to "Creating assignments", help_assignments_path, :target => '_blank' %></li>
+    <li><%= link_to "Creating Assignments", help_assignments_path, :target => '_blank' %></li>
   </ul>
 
 <% end %>
