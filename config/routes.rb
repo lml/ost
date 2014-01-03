@@ -224,6 +224,7 @@ Ost::Application.routes.draw do
   match 'help/class_settings'
   match 'help/student_tutorials'
   match 'help', :to => 'help#index'
+  match 'help/instructor_faq'
   
   get 'dev/toolbox', :as => 'dev_toolbox'
   put 'dev/reset_time'
