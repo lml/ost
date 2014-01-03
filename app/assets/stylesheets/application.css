@@ -16,6 +16,7 @@
  *= require_self
  *= require jquery-ui
  *= require fullcalendar
+ *= require on_the_spot
  *= require_tree .
 */
 

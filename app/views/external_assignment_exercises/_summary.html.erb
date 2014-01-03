@@ -1,0 +1,14 @@
+<p><b>Name:</b> <%= on_the_spot_edit(external_assignment_exercise, :name,
+                                     type:    :textarea,
+                                     rows:     1,
+                                     columns: 20) %></p>
+
+<p><b>Concept:</b> <%= on_the_spot_edit(external_assignment_exercise, :selected_concept,
+                                        type: :select,
+                                        data: external_assignment_exercise.selected_concept_pairs,
+                                        url:  update_attribute_on_the_spot_external_assignment_exercises_path) %></p>
+
+<p><b>Topic:</b> <%= on_the_spot_edit(external_assignment_exercise, :selected_topic,
+                                        type: :select,
+                                        data: external_assignment_exercise.selected_topic_pairs,
+                                        url:  update_attribute_on_the_spot_external_assignment_exercises_path) %></p>

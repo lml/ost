@@ -1,0 +1,6 @@
+<Worksheet ss:Name="A<%= external_assignment.number %> Gr">
+  <Table>
+    <%= render partial: "report_grades_header_row",   locals: { external_assignment: external_assignment } %>
+    <%= render partial: "report_grades_content_rows", locals: { external_assignment: external_assignment } %>
+  </Table>
+</Worksheet>

@@ -46,7 +46,7 @@ Ost::Application.routes.draw do
     # resources :offered_courses, :shallow => true, :except => [:index]
     resources :classes, :as => 'klasses', :shallow => true, :except => [:index]
   end
-  
+
   resources :classes, :as => 'klasses', :only => [:index] do
     resources :educators, :shallow => true, :only => [:new, :create, :destroy, :show, :edit, :update] do
       collection do
@@ -55,8 +55,17 @@ Ost::Application.routes.draw do
         post 'search_assistants' => 'educators#search', :type => 'teaching_assistant'
       end
     end
-    resources :students, :shallow => true, :only => [:index, :show, :update, :edit]    
+    resources :students, :shallow => true, :only => [:index, :show, :update, :edit]
     resources :sections, :shallow => true
+    resources :external_assignments, :shallow => true, :except => [:new, :edit, :update] do
+      post 'sort', :on => :collection
+      get  'show_table',   :on => :member
+      put  'update_table', :on => :member
+      get  'report',       :on => :collection
+      resources :external_assignment_exercises, :shallow => true, :only => [:create] do
+        post 'sort', :on => :collection
+      end
+    end
     resources :registration_requests, :shallow => true, :only => [:new, :index]
     resources :learning_conditions, :shallow => true, :only => [:index]
     resources :cohorts, :shallow => true
@@ -66,7 +75,35 @@ Ost::Application.routes.draw do
     get 'class_grades', :on => :member
     get 'management_overview', :on => :member
   end
-  
+
+  resources :external_assignments, :shallow => true, :only => [ ] do
+    collection do
+      put :update_attribute_on_the_spot
+      get :get_attribute_on_the_spot
+    end
+  end
+
+  resources :external_assignment_exercises, :shallow => true, :only => [:destroy] do
+    collection do
+      put :update_attribute_on_the_spot
+      get :get_attribute_on_the_spot
+    end
+  end
+
+  resources :student_external_assignments, :shallow => true, :only => [ ] do
+    collection do
+      put :update_attribute_on_the_spot
+      get :get_attribute_on_the_spot
+    end
+  end
+
+  resources :student_external_assignment_exercises, :shallow => true, :only => [ ] do
+    collection do
+      put :update_attribute_on_the_spot
+      get :get_attribute_on_the_spot
+    end
+  end
+
   resources :learning_conditions, :only => [] do
     resources :schedulers, :shallow => true, :except => [:index, :show, :destroy]
     resources :learning_condition_presentation_conditions, :shallow => true, :except => [:index, :show] do

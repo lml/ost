@@ -23,6 +23,7 @@
 //= require codecogs_editor
 //= require raphael-min
 //= require_tree .
+//= require on_the_spot
 // Loads Bootstrap javascripts for accordions; note loading everything breaks other existing CSS/JS
 //= require bootstrap-transition
 //= require bootstrap-collapse

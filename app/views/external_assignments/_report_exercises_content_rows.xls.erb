@@ -1,0 +1,13 @@
+<Row>
+  <Cell><Data ss:Type="String">ASSIGNMENT</Data></Cell>
+  <Cell><Data ss:Type="String"><%= external_assignment.name %></Data></Cell>
+  <Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+
+<% external_assignment.external_assignment_exercises.ordered.each do |eae| %>
+  <Row>
+    <Cell><Data ss:Type="String">EXERCISE</Data></Cell>
+    <Cell><Data ss:Type="String"><%= eae.name %></Data></Cell>
+    <Cell><Data ss:Type="String"><%= eae.selected_concept %></Data></Cell>
+  </Row>
+<% end %>

@@ -1,0 +1,8 @@
+<Row>
+  <%= render "report_header_row_cell", data: "Name/ID",           comment: "Student name, Educator-facing ID, or Research ID" %>
+  <%= render "report_header_row_cell", data: "RegStatus",         comment: "Student Registration Status" %>
+  <%= render "report_header_row_cell", data: "AsgnmtGrade",       comment: "Overall Assignment grade" %>
+  <% external_assignment.external_assignment_exercises.ordered.each do |eae| %>
+    <%= render "report_header_row_cell", data: eae.name,            comment: "Grade for Assignment Exercise #{eae.number}" %>
+  <% end %>
+</Row>

@@ -8,6 +8,7 @@ class Student < ActiveRecord::Base
 
   before_destroy :destroyable?, prepend: true
   has_many :student_assignments, :dependent => :destroy
+  has_many :student_external_assignments, :dependent => :destroy
 
   has_one :consent, :as => :consentable, :dependent => :destroy
   

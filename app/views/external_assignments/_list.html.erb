@@ -1,0 +1,51 @@
+<% editing_is_enabled = klass.can_be_updated_by?(present_user) %>
+
+<% ea_div_id = "external_assignments_#{klass.id}" %>
+
+<div id="<%= ea_div_id %>">
+  <% if klass.external_assignments.empty? %>
+    <p>No external assignments yet</p>
+  <% else %>
+    <% klass.external_assignments.ordered.each do |ea| %>
+      <div id="external_assignment_<%= ea.id %>" class="sortable_item_entry lp_item_info" style="margin-top: 15px">
+        <%= render partial: "external_assignments/summary",
+                   locals:  { external_assignment: ea } %>
+
+        <%= link_to "Change Name / Edit Exercises",     external_assignment_path(ea) %> |
+        <%= link_to "Grades",   show_table_external_assignment_path(ea) %>
+        <% if editing_is_enabled %>
+          | <%= link_to "Delete", external_assignment_path(ea), 
+                                  :method  => :delete, 
+                                  :remote  => true,
+                                  :confirm => "Are you sure?" %> &nbsp;&nbsp;
+          <%= content_tag(:span, "", :class => "ui-icon ui-icon-arrow-4 handle",
+                                     :style => 'display:inline-block; height: 14px') %>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <% if editing_is_enabled %>
+      <% content_for :javascript do %>
+        <%= javascript_tag do %>
+          $('#<%= ea_div_id %>').sortable({
+             dropOnEmpty: false,
+             handle: '.handle',
+             items: 'div.sortable_item_entry',
+             opacity: 0.7,
+             scroll: true,
+             update: function(){
+                $.ajax({
+                   type: 'post',
+                   data: $('#<%= ea_div_id %>').sortable('serialize'),
+                   dataType: 'script',
+                   url: '<%= sort_klass_external_assignments_path(klass) %>'
+                });
+             }
+          }).disableSelection();
+        <% end %>
+      <% end %>
+    <% end %>
+
+  <% end %>
+
+</div>
