@@ -10,6 +10,28 @@
 <%# ########### SET UP YOUR FAQ ENTRIES HERE %%%%%%%%%%%%%%%%% %>
 
 <div class="accordion" id="accordion2" style="padding-top:20px;">
+
+  <%= section "Instructor FAQ", {:classes => ' no_bar'} do %>
+  
+    <%= accordion_entry :title => "I'm interested in using OpenStax Tutor in my class." do %>
+
+    <p>Great! We are looking for instructors who are interested in using OpenStax Tutor. 
+      Please shoot us an email at <%= email_link "support", "support@openstaxtutor.org" %> 
+      and tell us a little bit about yourself and how you envision 
+      using our tools! </p>
+
+    <% end %>
+    
+    <%= accordion_entry :title => "What kinds of exercises can I assign in #{SITE_NAME}?" do %>
+        
+    <%= render :partial => 'help/blurbs/supported_exercises'%>
+    
+    <p>Note: Exercises you assign must be hosted in the OST-compatible repository for assessments. 
+      You can add your own exercises or search for and adapt existing materials. 
+      Email <%= email_link "support", "support@openstaxtutor.org" %> for more information.</p> 
+     <% end %>
+  
+
   
   <%= section "Accounts FAQ", {:classes => 'first no_bar'} do %>
   
@@ -39,19 +61,7 @@
 
 <% end %>
 
-  <%= section "Instructor FAQ", {:classes => ' no_bar'} do %>
-  
-    
-    <%= accordion_entry :title => "What kinds of exercises can I assign in #{SITE_NAME}?" do %>
-        
-    <%= render :partial => 'help/blurbs/supported_exercises'%>
-    
-    <p>Note: Exercises you assign must be hosted in the OST-compatible repository for assessments. 
-      You can add your own exercises or search for and adapt existing materials. 
-      Email <%= email_link "support", "support@openstaxtutor.org" %> for more information.</p> 
-     <% end %>
-  
-  <% if false %>
+    <% if false %>
     <%= accordion_entry :title => "Can I use #{SITE_NAME} to assign exercises that were published and copyrighted?" do %>
     
     We recommend you check out the legal and intellectual property FAQ section for Connexions 
@@ -60,59 +70,6 @@
     
     <% end %>
     <% end %>
-  
-    <%= accordion_entry :title => "How do I add exercises and resources to 
-    #{SITE_NAME}? It looks I can only add links." do %>
-    <p><%= SITE_NAME %> is built to capitalize on the large universe of open educational resources 
-      (OER) but does not itself host educational content. You can add your own course materials to external websites, or 
-      search particular OER repositories for reusable content to use, adapt, or remix.</p>
-
-        <p>Once your materials are hosted on external sites, you can copy
-           and paste the URL in the Topics section.</p>
-    <%= link_to "Learn more about organizing your materials in OpenStax Tutor", help_topics_path, :target => '_blank' %> </p>
-    <% end %>
-
-    <%= accordion_entry :title => "How do I add exercises to an assignment? It looks like I can
-     only add topics." do %>
-      <p>To add exercises to an Assignment, attach the topic, or topics, you 
-        want the assignment to cover. <%= SITE_NAME %> will pull exercises from
-         the topic(s) you list, in accordance with any learning conditions set for your class. </p>
-      <p><%= link_to "Click here to learn how to create assignments.",
-       help_assignments_path, :target => '_blank'  %></p>  
-    <% end %>
-  
-    <%= accordion_entry :title => "My student registered for the wrong section.
-     How can I change him to a different section?" do %>
-      <p>If you are participating in a research study, <em><strong>check with
-         the research team</strong></em> before moving a student to another 
-         section, as it may impact the student's assignments.</p>
-      <p>
-      <%= render :partial => 'help/blurbs/change_student_section'%>
-    <% end %>
-
-    <%= accordion_entry :title => "A student dropped my class, then changed her mind.
-     How do I reinstate a dropped student?" do %>
-      <%= render :partial => 'help/blurbs/toggle_reg_status'%>
-    <% end %>
-  
-    <%= accordion_entry :title => "I need to override the score OST assigned to a 
-    student on an exercise. How can I do that?" do %>
-      <p>At this time, there is not a way to override points taken away due to 
-        lateness or failure to view mandatory feedback. These features are coming soon.
-         However, you can make a wrong answer correct by following these steps:</p>
-      <%= render :partial => 'help/blurbs/make_correct'%>
-    <% end %>
-
-
-    <%= accordion_entry :title => "I sent out an assignment and realized later there
-     is an error in one of the exercises. How do I fix it?" do %>
-      <p>You may be able to edit the exercise in Quadbase and then use the <strong>Refresh 
-        Exercises</strong> feature to update the exercise. There are some limitations 
-        to this feature, though. <%= link_to_help 'refresh_exercises', text="Click here to
-         learn more.", {:title => 'Refresh Exercises', :width => '700', :height => '400'} %></p> 
-    <% end %>
-    
-    
     
   <% end %>
 
