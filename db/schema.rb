@@ -195,11 +195,16 @@ ActiveRecord::Schema.define(:version => 20131124190837) do
   create_table "external_assignment_exercises", :force => true do |t|
     t.integer  "external_assignment_id",                :null => false
     t.integer  "concept_id"
+    t.integer  "topic_id"
     t.integer  "number"
     t.string   "name",                   :limit => 100
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
   end
+
+  add_index "external_assignment_exercises", ["concept_id"], :name => "index_eae_on_concept_id"
+  add_index "external_assignment_exercises", ["external_assignment_id"], :name => "index_eae_on_external_assignment_id"
+  add_index "external_assignment_exercises", ["topic_id"], :name => "index_eae_on_topic_id"
 
   create_table "external_assignments", :force => true do |t|
     t.integer  "klass_id",                  :null => false
@@ -208,6 +213,8 @@ ActiveRecord::Schema.define(:version => 20131124190837) do
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
   end
+
+  add_index "external_assignments", ["klass_id"], :name => "index_external_assignments_on_klass_id"
 
   create_table "feedback_conditions", :force => true do |t|
     t.text     "settings"
@@ -465,7 +472,7 @@ ActiveRecord::Schema.define(:version => 20131124190837) do
     t.datetime "exercise_first_viewed_at"
     t.datetime "feedback_first_viewed_at"
     t.integer  "feedback_views_count"
-    t.datetime "feedback_views_timestamp",                    :default => '1980-01-01 17:00:00'
+    t.datetime "feedback_views_timestamp",                    :default => '1980-01-01 20:00:00'
   end
 
   add_index "student_exercises", ["assignment_exercise_id", "student_assignment_id"], :name => "index_ses_on_aes_scoped", :unique => true
@@ -480,6 +487,9 @@ ActiveRecord::Schema.define(:version => 20131124190837) do
     t.datetime "updated_at",                                       :null => false
   end
 
+  add_index "student_external_assignment_exercises", ["external_assignment_exercise_id"], :name => "index_seae_on_eae_id"
+  add_index "student_external_assignment_exercises", ["student_external_assignment_id"], :name => "index_seae_on_sea_id"
+
   create_table "student_external_assignments", :force => true do |t|
     t.integer  "external_assignment_id",                  :null => false
     t.integer  "student_id",                              :null => false
@@ -487,6 +497,9 @@ ActiveRecord::Schema.define(:version => 20131124190837) do
     t.datetime "created_at",                              :null => false
     t.datetime "updated_at",                              :null => false
   end
+
+  add_index "student_external_assignments", ["external_assignment_id"], :name => "index_sea_on_external_assignment_id"
+  add_index "student_external_assignments", ["student_id"], :name => "index_sea_on_student_id"
 
   create_table "students", :force => true do |t|
     t.integer  "cohort_id"

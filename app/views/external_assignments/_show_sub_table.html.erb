@@ -1,31 +1,35 @@
-<p style="font-size:1.25em"><%= sub_table_heading %></p>
+<p class='sub_table_heading'><%= sub_table_heading %></p>
 
 <%
   student_name_width_px     = 250
-  assignment_grade_width_px = 150
-  exercise_width_px         = 150
+  assignment_grade_width_px = 70
+  exercise_width_px         = 70
   table_width_px            = student_name_width_px + assignment_grade_width_px + 
-                              exercise_width_px*external_assignment.external_assignment_exercises.count
+                              exercise_width_px*@external_assignment.external_assignment_exercises.count
 %>
 
 <table class="list" style="table-layout:fixed; width:<%= table_width_px %>px">
-  <tr style="font-weight:bold">
-    <td width="<%= student_name_width_px %>px">Student</td>
-    <td width="<%= assignment_grade_width_px %>px">Assignment Grade</td>
-    <% external_assignment.external_assignment_exercises.ordered.each do |eae| %>
-      <td width="<%= exercise_width_px %>px"><%= eae.name %></td>
-    <% end %>
-  </tr>
 
-  <% student_external_assignments.each do |sea| %>
+  <% student_external_assignments.each_with_index do |sea, ii| %>
+
+    <% if ii % 20 == 0 %>
+    <tr style="font-weight:bold">
+      <th width="<%= student_name_width_px %>px">Student</th>
+      <th width="<%= assignment_grade_width_px %>px">Overall</th>
+      <% external_assignment.external_assignment_exercises.ordered.each do |eae| %>
+        <th width="<%= exercise_width_px %>px" title="<%= eae.name %>"><%= eae.name %></th>
+      <% end %>
+    </tr>
+    <% end %>
+
     <tr>
       <td><%= sea.student.full_name(present_user)%></td>
-      <td><%= on_the_spot_edit(sea, :grade, url: update_attribute_on_the_spot_student_external_assignments_path) %></td>
+      <td><%= on_the_spot_edit(sea, :grade, url: update_attribute_on_the_spot_student_external_assignments_path, ok_text: "&#x2713;", cancel_text: "X") %></td>
       <% sea.external_assignment.external_assignment_exercises.ordered.each do |eae| %>
         <% seae = eae.student_external_assignment_exercises
                      .where{student_external_assignment_id == my{sea.id}}
                      .first %>
-        <td><%= on_the_spot_edit(seae, :grade, url: update_attribute_on_the_spot_student_external_assignment_exercises_path) %></td>
+        <td><%= on_the_spot_edit(seae, :grade, url: update_attribute_on_the_spot_student_external_assignment_exercises_path, ok_text: "&#x2713;", cancel_text: "X") %></td>
       <% end %>
     </tr>
   <% end %>

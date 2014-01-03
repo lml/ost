@@ -1,13 +1,71 @@
-<%= pageHeading "#{@external_assignment.klass.course.name}: #{@external_assignment.name}"%>
 
-<p><b>Name:</b> <%= @external_assignment.name %></p>
+<style type="text/css">
 
-<%= link_to_function "Click here if the results are clipped in your browser", 
-                     "$('#outer').css('width','4000px');", 
-                     :style => "font-size:9px; float:right;"%><br/>
+  table.list th {
+    white-space: nowrap;
+    overflow: hidden;
+    padding-top: 10px;
+  }
+
+  table {
+    margin-top:15px;
+  }
+
+  .sub_table_heading {
+    font-size:1.25em;
+    margin-top:28px;
+  }
+
+  td span form input {
+    height: 6px;
+    display: block;
+  }
+
+  td span form button {
+    margin-top: 3px;
+    position: absolute;
+  }
+
+  td span form button[type='submit'] {
+    left: -30px;
+    top: 0px;
+  }
+
+  td span form button[type='cancel'] {
+    left: 39px;
+    top: 0px;
+  }
+
+  td span form {
+    margin-bottom: 3px;
+    position:relative;
+  }
+
+
+</style>
+
+<%= pageHeading "#{@external_assignment.klass.course.name}: Grades for #{@external_assignment.name}"%>
+
+<div style="float:right">
+<%= link_to 'External Assignment Info', external_assignment_path(@external_assignment) \
+      if present_user.can_update?(@external_assignment) %><br/>
+
+<%= link_to 'List of all External Assignments', klass_external_assignments_path(@external_assignment.klass) \
+      if present_user.can_read_children?(@external_assignment.klass, :external_assignments) %><br/>
+
+<%= link_to 'Back to Class', klass_path(@external_assignment.klass) \
+      if present_user.can_read?(@external_assignment.klass) %><br/>
+</div>
+
+<h4>Name: <%= @external_assignment.name %></h4>
+
+<h4 style="padding: 10px 0px 0px">Grades:</h4>
 
 <% students_by_reg_status = @external_assignment.klass.students.visible(present_user).std_sort(present_user).group_by { |s| student_status_string(s) } %>
 <% [student_status_string_registered, student_status_string_auditing, student_status_string_dropped].each do |reg_status_str| %>
+
+  <% next if students_by_reg_status[reg_status_str].blank? %>
+
   <% student_external_assignments = students_by_reg_status[reg_status_str].collect do |student| %>
     <% sea = StudentExternalAssignment.where{student_id == my{student.id}}
                                       .where{external_assignment_id == my{@external_assignment.id}}
@@ -19,20 +77,7 @@
   <%= render  partial: "show_sub_table",
               locals: { sub_table_heading:            reg_status_str,
                         external_assignment:          @external_assignment,
-                        student_external_assignments: student_external_assignments } %>
+                        student_external_assignments: student_external_assignments
+                      } %>
 <% end %>
 
-
-<%
-  navitem(:can_update?, @external_assignment) {
-    link_to 'External Assignment', external_assignment_path(@external_assignment)
-  }
-
-  navitem(:can_read_children?, @external_assignment.klass, :external_assignments) {
-    link_to 'External Assignment List', klass_external_assignments_path(@external_assignment.klass)
-  }
-
-  navitem(:can_read?, @external_assignment.klass) {
-    link_to 'Back to Class', klass_path(@external_assignment.klass)
-  }
-%>

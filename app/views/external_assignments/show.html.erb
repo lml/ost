@@ -2,6 +2,8 @@
 
 <p><b>Name:</b> <%= on_the_spot_edit(@external_assignment, :name) %></p>
 
+<p><b>Exercises:</b></p>
+
 <%= render partial: "external_assignment_exercises/list",
            locals:  { external_assignment: @external_assignment } %>
 
