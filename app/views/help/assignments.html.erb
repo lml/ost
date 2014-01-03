@@ -10,6 +10,8 @@
   through each topic.</p>
 
   <div class="accordion" id="accordion2" style="padding-top:20px;">
+  
+  <%= section "Assignments Overview", {:classes => 'first no_bar'} do %>
 
     <%= accordion_entry :title => "What to do before creating 
           any assignments" do %> 
@@ -49,7 +51,13 @@
   
    <% end %>
 
-    <%= accordion_entry :title => "Assignment format" do %> 
+      <%= accordion_entry :title => "Overview of creating assignments" do %>
+           <p>Read this overview to understand the general process, then check out 
+           the step-by-step tutorials below.</p>
+           <%= render :partial => 'help/blurbs/create_hw_overview'%>
+      <% end %> 
+
+   <%= accordion_entry :title => "Assignment format" do %> 
           <p>OpenStax Tutor assignments have 3 main components: the main page, 
             the exercises, and the feedback. </p>
           <p>
@@ -65,18 +73,48 @@
           <%= render :partial => 'help/blurbs/example_feedback'%>
       <% end %>
 
-      <%= accordion_entry :title => "Overview of creating assignments" do %>
-           <p>Read this overview to understand the general process, then check out 
-           the step-by-step tutorials below.</p>
-           <%= render :partial => 'help/blurbs/create_hw_overview'%>
-      <% end %> 
+<% end %>
 
-    <%= accordion_entry :title => "Create a homework assignment, step by step" do %>
+ <%= section "Creating assignments: video tutorials", {:classes => 'first no_bar'} do %>
+
+      <%= accordion_entry :title => "Create homework (learning study)" do %> 
+         <%= render :partial => 'help/blurbs/instructor_hw_study'%>
+      <% end %>
+
+      <%= accordion_entry :title => "Create homework (no learning study)" do %> 
+         <%= render :partial => 'help/blurbs/instructor_hw_nostudy'%>
+      <% end %>
+
+      <%= accordion_entry :title => "Create test or quiz (learning study)" do %> 
+      Coming soon!
+         <%= render :partial => 'help/blurbs/instructor_test_study'%>
+      <% end %>
+
+      <%= accordion_entry :title => "Create test or quiz (no learning study)" do %> 
+         <%= render :partial => 'help/blurbs/instructor_test_nostudy'%>
+      <% end %>
+
+  <% end %>
+
+ <%= section "Creating assignments: step by step", {:classes => 'first no_bar'} do %>   
+
+    <%= accordion_entry :title => "Create a homework assignment" do %>
+    
+    <p>This tutorial assumes you have already organized exercises into topics and set up your 
+        learning conditions. For help organizing content into topics, check out 
+          the <%= link_to "Topics help page", help_topics_path, :target => '_blank' %>. 
+          For help with learning conditions, check 
+          out the <%= link_to "Learning Conditions help page", help_learning_conditions_path,
+           :target => '_blank' %>. </p>
+          <p>
+          <em>Note</em>: If you are participating in a research study, the research team will set up learning conditions on your behalf.
+          <p> 
         <ol>
           <li>Go to <strong>Dashboard > Class</strong> and click on 
               <strong>Learning Plan</strong>. </strong> 
-              <p><%= image_tag("click_LP.png", {:border => 1, :width => "90%"})%></p>
-          <li>On the Learning Plan page, scroll to the <strong>Assignments</strong>
+                 <p><%= image_tag("click_LP.png", {:border => 1, :width => "90%"})%></p>
+          <li>On the Learning Plan, 
+          <li>On the Learning Plan, scroll to the <strong>Assignments</strong>
               section and click <strong>Add new assignment</strong>.</li>
               <p>
               <%= image_tag("click_add_assign.png", {:border => 1, :width => "90%", 
@@ -148,11 +186,16 @@
        </ol>
      <% end %>
 
-     <%= accordion_entry :title => "Create a test, step by step" do %>
-        <p>This tutorial assumes that you have already marked 
-            the exercises you want to reserve for 
-            tests. If you need help reserving exercises for tests, check out the  
-            <%= link_to "Topics help page", help_topics_path, :target => '_blank' %>.</p>
+     <%= accordion_entry :title => "Create a test" do %>
+
+        <p>This tutorial assumes that you have already set up learning conditions and 
+        topics. It also assumes you have marked the exercises you wish to reserve for 
+            tests. For help organizing topics and marking questions as test questions, check out 
+          the <%= link_to "Topics help page", help_topics_path, :target => '_blank' %>. 
+          For help with learning conditions, check 
+          out the <%= link_to "Learning Conditions help page", help_learning_conditions_path,
+           :target => '_blank' %>.</p>
+
           <ol>
             <li>Go to <strong>Dashboard > Class > Learning Plan > Assignments</strong>. </li>
                 <p><%= image_tag("click_LP.png", {:border => 1, :width => "90%"})%></p>
@@ -231,9 +274,12 @@
 
     <%= accordion_entry :title => "Mark assignment as ready to be assigned" do %>
           <p><%=SITE_NAME %> will automatically release assignments on the 
-          indicated start date/time once you mark them as 
+          indicated start date once you mark them as 
           <em>ready to be assigned.</em> Put another way, 
             your assignments won't be released unless you mark them as ready.<p>
+
+          <p><b>Tip</b>: It takes about 5 minutes for an assignment to appear in 
+            each student's dashboard.</p>
             <ol>
               <li>Hold mouse over assignment to reveal edit/trash icons.</li>
                   <p>
@@ -246,7 +292,6 @@
                   :title=>"edit assignment"})%></p>
           </ol>
       <% end %>
-
 
     <%= accordion_entry :title => "Editing an assignment" do %>
         <p><u>Before</u> an assignment is released to students, you 
@@ -274,6 +319,7 @@
              <p>
         </ul>
   <% end %>
+ <% end %>
 
 </div>
 

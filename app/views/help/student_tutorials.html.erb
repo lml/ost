@@ -8,25 +8,31 @@
 
     <div class="accordion" id="accordion2" style="padding-top:20px;">
 
-        <%= accordion_entry :title => "Getting Started: How to register for a class" do %>
+        <%= accordion_entry :title => "Register for a class" do %>
           <%= render :partial => 'help/blurbs/student_register_screencast'%>
-
       <% end %>
 
-        <%= accordion_entry :title => "Getting Started: How to access assignments" do %>
+        <%= accordion_entry :title => "Assignments Pt. 1: Access assignments" do %>
           <%= render :partial => 'help/blurbs/student_assignments_screencast'%>
       <% end %>
-      
-      
-        <%= accordion_entry :title => "Getting Started: How to show your work on free-response questions" do %>
-          <%= render :partial => 'help/blurbs/student_ff_screencast'%>
+
+       <%= accordion_entry :title => "Assignments Pt. 2: Assignments overview" do %>
+          <%= render :partial => 'help/blurbs/student_assignment_overview_screencast'%>
       <% end %>
 
-      <%= accordion_entry :title => "Getting Started: How to upload your work via smart phone/tablet" do %>
+       <%= accordion_entry :title => "Assignments Pt. 3: Multiple-choice questions" do %>
+          <%= render :partial => 'help/blurbs/student_multiple_choice_screencast'%>
+      <% end %>
+
+       <%= accordion_entry :title => "Assignments Pt. 4: Two-part questions" do %>
+          <%= render :partial => 'help/blurbs/student_two_part_screencast'%>
+      <% end %>
+      
+      <%= accordion_entry :title => "Assignments Pt. 5: Upload work via smart device (camera phone, tablet)" do %>
           <%= render :partial => 'help/blurbs/student_camera_phone_screencast'%>
        <% end %>
 
-       <%= accordion_entry :title => "Getting Started: Participating in a learning study" do %>
+       <%= accordion_entry :title => "Participating in a learning study" do %>
           <%= render :partial => 'help/blurbs/consent_video'%>
        <% end %>
 
