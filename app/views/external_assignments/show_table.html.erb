@@ -63,6 +63,9 @@
 
 <% students_by_reg_status = @external_assignment.klass.students.visible(present_user).std_sort(present_user).group_by { |s| student_status_string(s) } %>
 <% [student_status_string_registered, student_status_string_auditing, student_status_string_dropped].each do |reg_status_str| %>
+
+  <% next if students_by_reg_status[reg_status_str].blank? %>
+
   <% student_external_assignments = students_by_reg_status[reg_status_str].collect do |student| %>
     <% sea = StudentExternalAssignment.where{student_id == my{student.id}}
                                       .where{external_assignment_id == my{@external_assignment.id}}
@@ -74,11 +77,7 @@
   <%= render  partial: "show_sub_table",
               locals: { sub_table_heading:            reg_status_str,
                         external_assignment:          @external_assignment,
-                        student_external_assignments: student_external_assignments,
-                        # student_name_width_px:        student_name_width_px,
-                        # assignment_grade_width_px:    assignment_grade_width_px,
-                        # exercise_width_px:            exercise_width_px,
-                        # table_width_px:               table_width_px 
+                        student_external_assignments: student_external_assignments
                       } %>
 <% end %>
 
