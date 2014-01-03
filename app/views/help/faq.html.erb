@@ -73,19 +73,18 @@
     <% end %>
     
 <%= accordion_entry :title => "What is the rationale for the two-step answer process in OST?" do %>
-      <p>The first step in the answer process is about learning. Trying to generate the answer from memory -- before seeing the multiple-choice options -- is a beneficial learning activity that promotes long-term retention and deeper understanding of the material. Giving full effort on this first step will help you prepare for future quizzes and exams.</p>
-      <p>The second step in the answer process is about assessment. The purpose of selecting a multiple-choice alternative during the second answer step is to provide you and your instructor with objective feedback about your performance.</p>          
+      <%= render :partial => 'help/blurbs/two_step_answer_process'%>
+             
     <% end %>
 
 <%= accordion_entry :title => "Why am I asked to assess my confidence in my answers?" do %>
-      <p>Simply put, confidence ratings provide valuable insight into how well you understand the material. Please try to accurately rate your confidence because OST can use these ratings to help you reach your learning goals. And don't worry: your instructor will never see your confidence ratings and they are not used for grading. 
-
-</p>          
+              <%= render :partial => 'help/blurbs/confidence_ratings'%>
+     
     <% end %>
  
-<%= accordion_entry :title => "Why make viewing feedback mandatory?" do %>
-      <p>Feedback is critical to learning. Reviewing the feedback that OST provides can help you see when you made errors and understand why those errors occurred; however, it is also important to review the feedback for exercises that you got correct because the feedback can help improve your understanding and increase your retention of what you have learned. 
-</p>          
+<%= accordion_entry :title => "Why is it important to view feedback for each problem?" do %>
+      <%= render :partial => 'help/blurbs/why_feedback'%>
+             
     <% end %>
  
 
