@@ -10,6 +10,7 @@ GIT
 GIT
   remote: https://github.com/kevinburleigh75/on_the_spot.git
   revision: 67a423a3d899d743427b4f468dee85201d524ced
+  ref: 67a423a
   specs:
     on_the_spot (1.0.2)
       json_pure (>= 1.4.6)
