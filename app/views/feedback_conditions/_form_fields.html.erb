@@ -1,4 +1,5 @@
-<% events = options_for_select(FeedbackCondition::AvailabilityEvent.options, feedback_condition.try(:availability_event)) %>
+<% events                       = options_for_select(FeedbackCondition::AvailabilityEvent.options,          feedback_condition.try(:availability_event)) %>
+<% exercise_correctness_options = options_for_select(FeedbackCondition::ExerciseCorrectnessOption.options,  feedback_condition.try(:exercise_correctness_option)) %>
 
 <p>Feedback conditions
   let you control how, when, and what 
@@ -13,6 +14,10 @@
 <div class="field">
   Match Labels Against <%= link_to_help 'labels' %> <i>(comparisons are automatically made case-insensitive)</i>:<br/>
   <%= form.text_field :label_regex %>
+</div>
+<div class="field">
+  The assignment event to use when determining feedback availability:
+  <%= form.select :exercise_correctness_option, exercise_correctness_options %>
 </div>
 <div class="field">
   <%= form.check_box :is_feedback_required_for_credit %>
