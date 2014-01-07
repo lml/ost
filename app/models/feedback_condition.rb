@@ -144,7 +144,7 @@ class FeedbackCondition < ActiveRecord::Base
   end
 
   def applies_to_student_exercise?(student_exercise)
-    matches_correctness(student_exercise.is_correct?) && applies_to_assignment_exercise(student_exercise.assignment_exercise)
+    matches_correctness(student_exercise.is_correct?) && applies_to_assignment_exercise?(student_exercise.assignment_exercise)
   end
 
   def matches_correctness(student_exercise_is_correct)
