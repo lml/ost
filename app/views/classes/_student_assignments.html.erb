@@ -11,8 +11,6 @@
     <% student_assignments = StudentAssignment.for_student(student).reject{|sa| sa.assignment.nil?} # happened somehow %>
     <% student_assignments.sort_by!{|sa| sa.assignment.assignment_plan.number} %>
 
-    <% show_grades = student_assignments.inject(false) { |result, sa| result || sa.learning_condition.show_correctness_feedback?(sa) } %>
-
     <% if !student.has_dropped? %>
       <% if student_assignments.none? %>
         <p>No assignments yet!</p>
@@ -24,24 +22,20 @@
             <th class="assignment_name">Name</th>
             <th class="assignment_start">Starts</th>
             <th class="assignment_end">Ends</th>
-            <% if show_grades %>
-              <th class="assignment_grade percentage">Grade (%)</th>
-            <% end %>
+            <th class="assignment_grade percentage">Grade (%)</th>
           </tr>
 
-          <% student_assignments.each do |student_assignment| %>        
+          <% student_assignments.each do |student_assignment| %>
             <% assignment_plan = student_assignment.assignment.assignment_plan %>
             <tr>
               <td class="assignment_number"><%= 1+assignment_plan.number %>.</td>
               <td class="assignment_name"><%= link_to(assignment_plan.name, student_assignment.assignment) %></td>
               <td class="assignment_start"><%= standard_date(assignment_plan.starts_at) %></td>
               <td class="assignment_end"><%= standard_date(assignment_plan.ends_at) %></td>
-              <% if show_grades %>
-                <% if student_assignment.learning_condition.show_correctness_feedback?(student_assignment) %>
-                  <td class="assignment_grade"><%= standard_percentage(student_assignment.score) %></td>
-                <% else %>
-                  <td class="assignment_grade">N/A</td>
-                <% end %>
+              <% if student_assignment.assignment.assignment_plan.grades_can_be_shown? %>
+                <td class="assignment_grade"><%= standard_percentage(student_assignment.score) %></td>
+              <% else %>
+                <td class="assignment_grade">N/A</td>
               <% end %>
             </tr>
           <% end %>
