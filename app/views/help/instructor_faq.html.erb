@@ -1,0 +1,78 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%= pageHeading "Frequently Asked Questions" %>
+
+<p style="width: 600px">The most commonly asked questions we receive are 
+  answered below. If you have a question that isn't addressed below, feel free to email 
+  <%= email_link "support", "the friendly Support Team" %>.</p>
+
+<%# ########### SET UP YOUR FAQ ENTRIES HERE %%%%%%%%%%%%%%%%% %>
+
+<div class="accordion" id="accordion2" style="padding-top:20px;">
+
+  <%= section "Instructor FAQ", {:classes => ' no_bar'} do %>
+  
+    <%= accordion_entry :title => "I'm interested in using OpenStax Tutor in my class." do %>
+
+    <p>Great! We are looking for instructors who are interested in using OpenStax Tutor. 
+      Please shoot us an email at <%= email_link "support", "support@openstaxtutor.org" %> 
+      and tell us a little bit about yourself and how you envision 
+      using our tools! </p>
+
+    <% end %>
+    
+    <%= accordion_entry :title => "What kinds of exercises can I assign in #{SITE_NAME}?" do %>
+        
+    <%= render :partial => 'help/blurbs/supported_exercises'%>
+    
+    <p>Note: Exercises you assign must be hosted in the OST-compatible repository for assessments. 
+      You can add your own exercises or search for and adapt existing materials. 
+      Email <%= email_link "support", "support@openstaxtutor.org" %> for more information.</p> 
+     <% end %>
+  
+
+  
+  <%= section "Accounts FAQ", {:classes => 'first no_bar'} do %>
+  
+    <%= accordion_entry :title => "I created an account but never received a 
+                 confirmation email." do %>
+      <%= render :partial => 'help/blurbs/request_conf_email'%>
+    <% end %>
+
+    <%= accordion_entry :title => "I am experiencing problems with the display,
+     e.g. I can't access or view 
+    content." do %>
+       <%= render :partial => 'help/blurbs/browser_reqs'%>
+    <% end %>
+
+    <%= accordion_entry :title => "I am not receiving email notifications 
+    about new assignments or 
+    feedback." do %>
+    <%= render :partial => 'help/blurbs/email_notifications' %>
+    <p>To change the email address we use to contact you:</p>
+    <%= render :partial => 'help/blurbs/update_account' %>
+    <% end %>
+
+    
+    <%= accordion_entry :title => "I need to update my password, email address or time zone." do %>    
+     <% render :partial => 'help/blurbs/update_account' %>
+    <% end %>
+
+<% end %>
+
+    <% if false %>
+    <%= accordion_entry :title => "Can I use #{SITE_NAME} to assign exercises that were published and copyrighted?" do %>
+    
+    We recommend you check out the legal and intellectual property FAQ section for Connexions 
+     <%= link_to "here", "http://quadbase.org/help/legal" %>
+        and <%= link_to "here", "http://cnx.org/help/ip" %>.
+    
+    <% end %>
+    <% end %>
+    
+  <% end %>
+
+</div>
+
+<% navitem { link_to "Back to Help", help_path } %>
