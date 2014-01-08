@@ -19,7 +19,6 @@ class TermsController < ApplicationController
     if signature && signature.errors.none? 
       fine_print_return
     else
-      debugger
       @contract = FinePrint.get_contract(params[:contract_id])
       flash.now[:alert] = 'There was an error when trying to agree to these terms.'
       render 'pose'
