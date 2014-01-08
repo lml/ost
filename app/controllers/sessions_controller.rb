@@ -2,15 +2,17 @@
 
 class SessionsController < Devise::SessionsController
 
-    def create
-      super
-      session[:was_ever_logged_in_as_admin] = true if current_user.is_administrator?
-    end
+  fine_print_skip_signatures :general_terms_of_use, :privacy_policy
 
-    def destroy
-      was_ever_logged_in_as_admin = session[:was_ever_logged_in_as_admin] 
-      super  
-      session[:was_ever_logged_in_as_admin] = was_ever_logged_in_as_admin
-    end
+  def create
+    super
+    session[:was_ever_logged_in_as_admin] = true if current_user.is_administrator?
+  end
+
+  def destroy
+    was_ever_logged_in_as_admin = session[:was_ever_logged_in_as_admin] 
+    super  
+    session[:was_ever_logged_in_as_admin] = was_ever_logged_in_as_admin
+  end
 
 end
