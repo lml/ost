@@ -5,11 +5,19 @@ class HomeController < ApplicationController
 
   include ApplicationHelper
 
-  skip_before_filter :authenticate_user!, :only => [:index, :terms, :contact, :contact_submit, :about]
+  no_login_actions = [:index, :terms, :contact, :contact_submit, :about]
+
+  skip_before_filter :authenticate_user!, :only => no_login_actions
+  fine_print_skip_signatures :general_terms_of_use, :privacy_policy, :only => no_login_actions
 
   def index; end
-  def terms; 
-    @site_license = SiteLicense.latest
+
+  def terms
+    @contracts = [FinePrint.get_contract(:general_terms_of_use),
+                 FinePrint.get_contract(:privacy_policy)]
+    if @contracts.length != 2
+      redirect_to root_path, alert: 'The terms are temporarily unavailable.  Check back soon.'
+    end
   end
   
   def contact

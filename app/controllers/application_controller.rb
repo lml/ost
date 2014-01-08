@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
                         :site_not_in_maintenance!,
                         :authenticate_user!
 
+  fine_print_get_signatures :general_terms_of_use, :privacy_policy
+
   before_filter :enable_miniprofiler_for_devs
 
   before_filter :set_user_time_zone

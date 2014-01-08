@@ -4,6 +4,7 @@
 
 class ClassesController < ApplicationController
   skip_before_filter :authenticate_user!, :only => [:index]
+  fine_print_skip_signatures :general_terms_of_use, :privacy_policy, only: [:index]
   before_filter :get_course, :only => [:new, :create]
   before_filter :set_time_zone, :only => [:create, :update]
   before_filter :enable_clock

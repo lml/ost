@@ -9,7 +9,8 @@
   <li><%= link_to "Organizations", organizations_path, :test => "organizations" %></li>
   <li><%= link_to "Run cron tasks", cron_path, :method => :put, :test => "run_cron_tasks" %></li>
   <li><%= link_to "User List", users_path, :test => "user_list" %></li>
-  <li><%= link_to "Terms", site_licenses_path %></li>
+  <li><%= link_to "Terms", site_licenses_path %> (DEPRECATED, use "Fine Print")</li>
+  <li><%= link_to "Fine Print", fine_print_path %></li>
   <li>Raise an Exception:
     <ul>
       <li><%= link_to "SecurityTransgression",                admin_raise_security_transgression_path %></li>

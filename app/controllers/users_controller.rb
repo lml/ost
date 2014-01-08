@@ -4,6 +4,7 @@
 class UsersController < ApplicationController
   
   skip_before_filter :authenticate_user!, :only => [:become]
+  fine_print_skip_signatures :general_terms_of_use, :privacy_policy, :only => [:become]
   before_filter :authenticate_admin!, :except => [:become]
   
   def index

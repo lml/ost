@@ -12,6 +12,7 @@ include Ost::Cron
 
 class DevController < ApplicationController
   skip_before_filter :authenticate_user!
+  fine_print_skip_signatures :general_terms_of_use, :privacy_policy
   before_filter :check_dev_env
   before_filter :include_timepicker
 

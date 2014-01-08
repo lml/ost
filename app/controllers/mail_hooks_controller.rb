@@ -6,6 +6,7 @@ class MailHooksController < ApplicationController
 
   skip_before_filter :verify_authenticity_token
   skip_before_filter :authenticate_user!
+  fine_print_skip_signatures :general_terms_of_use, :privacy_policy
 
   def catch
     mail = MailFactory.from_cloudmailin_json(params)

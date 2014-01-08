@@ -17,16 +17,16 @@
   <p>Username<br/>
   <%= f.text_field :username %></p>
 
-  <p><%= f.label :email %><br />
+  <p>Email<br />
   <%= f.email_field :email %></p>
 
-  <p><%= f.label :email_confirmation %><br />
+  <p>Email Confirmation<br />
   <%= f.email_field :email_confirmation %></p>
 
-  <p><%= f.label :password %><br />
+  <p>Password<br />
   <%= f.password_field :password %></p>
 
-  <p><%= f.label :password_confirmation %><br />
+  <p>Password Confirmation<br />
   <%= f.password_field :password_confirmation %></p>
   
 
@@ -42,9 +42,13 @@
   <% end %>
   
   <div style="padding-top:20px">
+
+  <% contract_links = @contracts.collect do |contract|
+     link_to contract.title, show_terms_path(contract), remote: true
+   end %>
+
   <%= check_box_tag(:agreement_checkbox) %> 
-  I have read the <%= link_to SiteLicense.latest.title, terms_path, :target => "_blank" %> 
-  and I agree to be bound by its terms.
+  I have read this site's <%= contract_links[0] %> and <%= contract_links[1] %> and agree to be bound by their terms.
   </div>
   
   <div style="padding: 10px 0"><%= f.submit "Sign up", :id => 'register_submit', :class => "ui-state-default ui-state-disabled link_button" %></div>

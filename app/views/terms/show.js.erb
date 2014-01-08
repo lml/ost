@@ -1,0 +1,5 @@
+<%= message_dialog @contract.title, {:width => 600, :height => 500} do %>
+  <%= simple_format(@contract.content) %>
+<% end %>
+
+refresh_buttons();
