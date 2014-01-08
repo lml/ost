@@ -195,7 +195,7 @@ Ost::Application.routes.draw do
   
   # For users, we mix devise with our own users controller.  We have overriden
   # some devise controller methods, so point that out here.
-  devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions"}
+  devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions", :confirmations => "confirmations"}
 
   resources :users, :only => [:index, :show, :edit, :update] do
     post 'become'
