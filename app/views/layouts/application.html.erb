@@ -101,14 +101,14 @@
 
     <div id="toolbox" style="position:absolute; top:0; left:0">
       <% if present_user.is_administrator? %>
-        <%= link_to "Admin Console", admin_path, :test => "admin_console" %><br/>
+        <%= link_to "Admin Console", main_app.admin_path, :test => "admin_console" %><br/>
       <% end %>
       <% if present_user.is_researcher? || present_user.is_administrator? %>
-        <%= link_to "Research Console", research_path, :test => "research_console" %><br/>
+        <%= link_to "Research Console", main_app.research_path, :test => "research_console" %><br/>
       <% end %>
       <% if !Rails.env.production? %>
         Current user: <%= present_user.username %><br/>
-        <%= link_to "Dev Toolbox", dev_toolbox_path, :remote => true, :test => "dev_toolbox" %>
+        <%= link_to "Dev Toolbox", main_app.dev_toolbox_path, :remote => true, :test => "dev_toolbox" %>
         <div id="dev_toolbox_dialog" style="display:none" title="Dev Toolbox"></div>
         <% content_for :javascript do %>
           <%= javascript_tag do %>
@@ -163,13 +163,13 @@
         <div id="nav_bar" class="test test_section top_nav">
           <a href="/" class="logo"></a>
             <% nav_links = [
-                ["ABOUT", about_path, "", :about],
-                ["DASHBOARD", dashboard_path, "", :dashboard],
-                ["COURSE CATALOG", catalog_path, "", :catalog],
-                ["CURRENT CLASSES", klasses_path, "", :classes],
-                ["MY TUTOR", mytutor_path, "", :mytutor],
+                ["ABOUT", main_app.about_path, "", :about],
+                ["DASHBOARD", main_app.dashboard_path, "", :dashboard],
+                ["COURSE CATALOG", main_app.catalog_path, "", :catalog],
+                ["CURRENT CLASSES", main_app.klasses_path, "", :classes],
+                ["MY TUTOR", main_app.mytutor_path, "", :mytutor],
                 ["HELP #{image_tag 'help_icon_v4.png', :height => '12px', :width => '12px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}", 
-                  help_path, "help_highlight", :help]
+                  main_app.help_path, "help_highlight", :help]
               ] %>
 
             <ul>
@@ -217,13 +217,13 @@
           <div>
             <% if user_signed_in? %>
               <span style="color: black">Welcome <%= current_user.first_name.capitalize %></span> &nbsp;&nbsp;
-              <%= link_to "My Account", edit_user_registration_path %> 
+              <%= link_to "My Account", main_app.edit_user_registration_path %> 
               <%= vertical_bar(12) %>
-              <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :id => 'signout_link', :test => "sign_out" %>
+              <%= link_to "Sign out", main_app.destroy_user_session_path, :method => :delete, :id => 'signout_link', :test => "sign_out" %>
             <% else %>
-              <%= link_to "Join now", new_user_registration_path %> 
+              <%= link_to "Join now", main_app.new_user_registration_path %> 
               <%= vertical_bar(12) %>
-              <%= link_to "Sign in", new_user_session_path, :test => "sign_in" %>
+              <%= link_to "Sign in", main_app.new_user_session_path, :test => "sign_in" %>
             <% end %>
             <%= link_to "http://www.facebook.com/openstaxtutor", :style => 'margin-left: 16px' do %>
               <%= image_tag("fb_round_#{icon_color}.png") %>
@@ -318,8 +318,8 @@
 
         <div id="copy">
           Copyright &copy; <%= year = Time.now.year; 2012 == year ? "2012" : "2011&ndash;#{year}".html_safe %> <%= COPYRIGHT_HOLDER %> |
-          <%= link_to "Terms of Use", terms_path %> |
-          <%= link_to "Contact Us", contact_path %>
+          <%= link_to "Terms of Use", main_app.terms_path %> |
+          <%= link_to "Contact Us", main_app.contact_path %>
       
           <br/>
       

@@ -4,12 +4,20 @@
 class RegistrationsController < Devise::RegistrationsController
 
   @@enable_recaptcha = Ost::Application.config.enable_recaptcha
+  fine_print_skip_signatures :general_terms_of_use, :privacy_policy
 
   #rescue_from NoMethodError, :with => Proc.new { raise SecurityTransgression }
 
   def new
-    @enable_recaptcha = @@enable_recaptcha
-    super
+    @contracts = [FinePrint.get_contract(:general_terms_of_use),
+                  FinePrint.get_contract(:privacy_policy)]
+
+    if @contracts.length != 2
+      redirect_to root_path, alert: 'User registration is temporarily disabled.  Please check back soon.'
+    else
+      @enable_recaptcha = @@enable_recaptcha
+      super
+    end
   end
 
   def create

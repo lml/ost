@@ -4,6 +4,11 @@
 module ApplicationHelper
   include Ost::Utilities
 
+  # Double booked here so available from gems like fine print
+  def present_user
+    current_user || AnonymousUser.instance
+  end
+
   def filter_params(params)
     f = ActionDispatch::Http::ParameterFilter.new(Rails.application.config.filter_parameters)
     f.filter params

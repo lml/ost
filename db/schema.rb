@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131124190837) do
+ActiveRecord::Schema.define(:version => 20140107213909) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -221,6 +221,28 @@ ActiveRecord::Schema.define(:version => 20131124190837) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "fine_print_contracts", :force => true do |t|
+    t.string   "name",       :null => false
+    t.integer  "version"
+    t.string   "title",      :null => false
+    t.text     "content",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "fine_print_contracts", ["name", "version"], :name => "index_fine_print_contracts_on_name_and_version", :unique => true
+
+  create_table "fine_print_signatures", :force => true do |t|
+    t.integer  "contract_id", :null => false
+    t.integer  "user_id",     :null => false
+    t.string   "user_type",   :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "fine_print_signatures", ["contract_id"], :name => "index_fine_print_signatures_on_contract_id"
+  add_index "fine_print_signatures", ["user_id", "user_type", "contract_id"], :name => "index_fine_print_s_on_u_id_and_u_type_and_c_id", :unique => true
 
   create_table "free_responses", :force => true do |t|
     t.integer  "student_exercise_id"
@@ -472,7 +494,7 @@ ActiveRecord::Schema.define(:version => 20131124190837) do
     t.datetime "exercise_first_viewed_at"
     t.datetime "feedback_first_viewed_at"
     t.integer  "feedback_views_count"
-    t.datetime "feedback_views_timestamp",                    :default => '1980-01-01 17:00:00'
+    t.datetime "feedback_views_timestamp",                    :default => '1980-01-01 20:00:00'
   end
 
   add_index "student_exercises", ["assignment_exercise_id", "student_assignment_id"], :name => "index_ses_on_aes_scoped", :unique => true

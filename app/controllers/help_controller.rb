@@ -4,6 +4,7 @@
 class HelpController < ApplicationController
 
   skip_before_filter :authenticate_user!
+  fine_print_skip_signatures :general_terms_of_use, :privacy_policy
   
   before_filter :highlight_help
 

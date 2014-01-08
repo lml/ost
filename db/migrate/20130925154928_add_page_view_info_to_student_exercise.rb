@@ -3,6 +3,6 @@ class AddPageViewInfoToStudentExercise < ActiveRecord::Migration
     add_column :student_exercises, :exercise_first_viewed_at, :datetime
     add_column :student_exercises, :feedback_first_viewed_at, :datetime
     add_column :student_exercises, :feedback_views_count,     :integer
-    add_column :student_exercises, :feedback_views_timestamp, :datetime, default: Chronic.parse('Jan 1 1980')
+    add_column :student_exercises, :feedback_views_timestamp, :datetime, default: '1980-01-01 17:00:00'
   end
 end

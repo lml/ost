@@ -7,7 +7,7 @@ Ost::Application.routes.draw do
     post 'catch', :on => :collection
   end
 
-  resources :site_licenses
+  resources :site_licenses  # deprecated
 
   resources :consent_forms
   resources :consent_options, :only => [:show, :edit, :update]
@@ -204,6 +204,8 @@ Ost::Application.routes.draw do
 
   post "write", :to => 'write#index', :as => 'write'
 
+  mount FinePrint::Engine => "/fine_print"
+
   get 'terms', :to => 'home#terms'
   get 'contact', :to => 'home#contact'
   post 'contact', :to => 'home#contact_submit', :as => 'contact_submit'
@@ -226,6 +228,10 @@ Ost::Application.routes.draw do
   match 'help', :to => 'help#index'
   match 'help/instructor_faq'
   
+  get "terms/:id/show", to: "terms#show", as: "show_terms"
+  get "terms/pose", to: "terms#pose", as: "pose_terms"
+  post "terms/agree", to: "terms#agree", as: "agree_to_terms"
+
   get 'dev/toolbox', :as => 'dev_toolbox'
   put 'dev/reset_time'
   post 'dev/freeze_time'
