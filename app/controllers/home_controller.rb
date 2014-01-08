@@ -14,7 +14,7 @@ class HomeController < ApplicationController
 
   def terms
     @contracts = [FinePrint.get_contract(:general_terms_of_use),
-                 FinePrint.get_contract(:privacy_policy)]
+                 FinePrint.get_contract(:privacy_policy)].compact
     if @contracts.length != 2
       redirect_to root_path, alert: 'The terms are temporarily unavailable.  Check back soon.'
     end

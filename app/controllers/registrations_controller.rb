@@ -9,8 +9,7 @@ class RegistrationsController < Devise::RegistrationsController
   #rescue_from NoMethodError, :with => Proc.new { raise SecurityTransgression }
 
   def new
-    @contracts = [FinePrint.get_contract(:general_terms_of_use),
-                  FinePrint.get_contract(:privacy_policy)]
+    new_prep
 
     if @contracts.length != 2
       redirect_to root_path, alert: 'User registration is temporarily disabled.  Please check back soon.'
@@ -20,11 +19,17 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def new_prep
+    @contracts = [FinePrint.get_contract(:general_terms_of_use),
+                  FinePrint.get_contract(:privacy_policy)].compact 
+  end
+
   def create
     build_resource
 
     if !(params[:agreement_checkbox] == "1")
       flash[:alert] = "You must agree to the terms to sign up."
+      new_prep
       render 'new'
     else
       resource.username = params[:user][:username]
@@ -44,6 +49,7 @@ class RegistrationsController < Devise::RegistrationsController
         end
       else
         clean_up_passwords(resource)
+        new_prep
         render 'new'
       end
     end
