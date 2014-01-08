@@ -41,7 +41,7 @@ class RegistrationsController < Devise::RegistrationsController
            :message => "Your answer did not match the reCAPTCHA. Please try again.")) &&
          resource.save 
         
-        @contracts.each do {|contract| FinePrint.sign_contract(resource, contract) }
+        @contracts.each {|contract| FinePrint.sign_contract(resource, contract) }
          
         if resource.active_for_authentication?
           set_flash_message :notice, :signed_up
