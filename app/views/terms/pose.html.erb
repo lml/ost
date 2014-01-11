@@ -9,7 +9,7 @@
   <% end %>
 
   <div class="well">
-    <%= simple_format(@contract.content) %>
+    <%= @contract.content.html_safe %>
   </div>
 
   <%= form_tag(agree_to_terms_path, method: :post) do %>
