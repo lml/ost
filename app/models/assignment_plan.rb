@@ -88,8 +88,6 @@ class AssignmentPlan < ActiveRecord::Base
       if ends_at > learning_plan.klass.end_date
   end
 
-
-  
   validates :name, :presence => true, :uniqueness => {:scope => :learning_plan_id}
   validates :max_num_exercises, :allow_nil => true, :numericality => { :greater_than_or_equal_to => 0 }
   
@@ -123,7 +121,11 @@ class AssignmentPlan < ActiveRecord::Base
   def active?
     Time.now > starts_at && Time.now < ends_at
   end
-  
+
+  def grades_can_be_shown?
+    Time.now >= ends_at
+  end
+
   def peers
     learning_plan.assignment_plans(true)
   end

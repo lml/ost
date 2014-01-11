@@ -7,6 +7,7 @@ class FeedbackCondition < ActiveRecord::Base
   require 'enum'
   
   store_accessor       :settings, :label_regex
+  store_typed_accessor :settings, :integer, :exercise_correctness_option
   store_typed_accessor :settings, :boolean, :is_feedback_required_for_credit
   store_typed_accessor :settings, :boolean, :can_automatically_show_feedback
   store_typed_accessor :settings, :integer, :availability_opens_option
@@ -21,7 +22,8 @@ class FeedbackCondition < ActiveRecord::Base
   store_typed_accessor :settings, :boolean, :show_high_level_feedback
   store_typed_accessor :settings, :boolean, :show_detailed_feedback
 
-  attr_accessible :label_regex, :is_feedback_required_for_credit, 
+  attr_accessible :label_regex, :exercise_correctness_option,
+                  :is_feedback_required_for_credit, 
                   :availability_opens_option, :availability_opens_delay_days, 
                   :availability_closes_option, :availability_closes_delay_days,
                   :availability_event, 
@@ -71,8 +73,15 @@ class FeedbackCondition < ActiveRecord::Base
     DELAY_AFTER_OPEN = 1
   end
 
+  class ExerciseCorrectnessOption < Enum
+    ANY_CORRECTNESS = 0
+    CORRECT         = 1
+    INCORRECT       = 2
+  end
+
   def self.standard_practice_feedback_condition
     FeedbackCondition.new(:label_regex                     => 'standard practice',
+                          :exercise_correctness_option     => ExerciseCorrectnessOption::ANY_CORRECTNESS.to_s,
                           :is_feedback_required_for_credit => false.to_s,
                           :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
                           :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
@@ -86,6 +95,7 @@ class FeedbackCondition < ActiveRecord::Base
 
   def self.new_feedback_condition
     FeedbackCondition.new(:label_regex                     => 'NewFeedback',
+                          :exercise_correctness_option     => ExerciseCorrectnessOption::ANY_CORRECTNESS.to_s,
                           :is_feedback_required_for_credit => false.to_s,
                           :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
                           :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
@@ -98,7 +108,8 @@ class FeedbackCondition < ActiveRecord::Base
   end
   
   def self.default_feedback_condition
-    FeedbackCondition.new(:label_regex                     => 'DefaultFeedback', 
+    FeedbackCondition.new(:label_regex                     => 'DefaultFeedback',
+                          :exercise_correctness_option     => ExerciseCorrectnessOption::ANY_CORRECTNESS.to_s,
                           :is_feedback_required_for_credit => false.to_s,
                           :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
                           :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
@@ -110,14 +121,18 @@ class FeedbackCondition < ActiveRecord::Base
                           :show_detailed_feedback          => false)
   end
 
-  def applies_to?(student_or_assignment_exercise)
-    label_regex_array = label_regex.split(",").collect{|lr| lr.strip}
-
+  def applies_to?(student_or_assignment_exercise, is_correct=nil)
     if student_or_assignment_exercise.instance_of? StudentExercise
-      assignment_exercise = student_or_assignment_exercise.assignment_exercise
+      applies_to_student_exercise?(student_or_assignment_exercise)
     else
-      assignment_exercise = student_or_assignment_exercise
+      applies_to_assignment_exercise?(student_or_assignment_exercise, is_correct)
     end
+  end
+
+  def applies_to_assignment_exercise?(assignment_exercise, is_correct)
+    return false unless matches_correctness(is_correct)
+
+    label_regex_array = label_regex.split(",").collect{|lr| lr.strip}
 
     labels = assignment_exercise.tag_list
 
@@ -127,7 +142,26 @@ class FeedbackCondition < ActiveRecord::Base
       end
     end
   end
-  
+
+  def applies_to_student_exercise?(student_exercise)
+    matches_correctness(student_exercise.is_correct?) &&
+    (applies_to_assignment_exercise?(student_exercise.assignment_exercise, true) ||
+     applies_to_assignment_exercise?(student_exercise.assignment_exercise, false) )
+  end
+
+  def matches_correctness(student_exercise_is_correct)
+    return true if student_exercise_is_correct.nil?
+
+    case exercise_correctness_option
+    when ExerciseCorrectnessOption::ANY_CORRECTNESS
+      true
+    when ExerciseCorrectnessOption::CORRECT
+      student_exercise_is_correct
+    when ExerciseCorrectnessOption::INCORRECT
+      !student_exercise_is_correct
+    end
+  end
+
   def can_automatically_show_feedback?(student_exercise)
     can_automatically_show_feedback
   end
@@ -225,6 +259,7 @@ protected
 
   def supply_missing_values
     self.label_regex                     ||= '.*'
+    self.exercise_correctness_option     ||= ExerciseCorrectnessOption::ANY_CORRECTNESS
     self.is_feedback_required_for_credit ||= false
     self.availability_opens_option       ||= AvailabilityOpensOption::NEVER
     self.availability_closes_option      ||= AvailabilityClosesOption::NEVER

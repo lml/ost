@@ -46,7 +46,7 @@
         <%= render "report_heading_cell", data: "Comp?",            comment: "Exercise was completed?" %>
         <%= render "report_heading_cell", data: "CompOnTime?",      comment: "Exercise was completed before the due date?" %>
         <%= render "report_heading_cell", data: "Correct?",         comment: "Selected Answer was correct? {Yes, No, Partially}" %>
-        <%= render "report_heading_cell", data: "FbViewReq?",       comment: "Viewing Feedback was required for Overall Credit?" %>
+        <%= render "report_heading_cell", data: "FbViewReq?",       comment: "Viewing Feedback was required for Overall Credit? (conditioned on StudentExercise correctness)" %>
         <%= render "report_heading_cell", data: "FbViewed?",        comment: "Feedback page was viewed (ever)?" %>
         <%= render "report_heading_cell", data: "FbViewedTime",     comment: "Time at which Feedback page was first viewed by Student" %>
         <%= render "report_heading_cell", data: "FbViewedCredit?",  comment: "Feedback was viewed for credit (within Feedback Credit Window) or viewing not required?" %>
@@ -68,13 +68,14 @@
 
           <% ae_info = {} %>
           <% assignment.assignment_exercises.find_each do |ae| %>
-            <% ae_info[ae]                          = {} %>
-            <% ae_info[ae][:number]                 = ae.number %>
-            <% ae_info[ae][:quadbase_id]            = ae.topic_exercise.exercise.quadbase_id %>
-            <% ae_info[ae][:concept]                = ae.topic_exercise.concept.try(:name) %>
-            <% ae_info[ae][:tag_list]               = ae.tag_list %>
-            <% ae_info[ae][:presentation_condition] = learning_condition.get_presentation_condition(ae) %>
-            <% ae_info[ae][:feedback_condition]     = learning_condition.get_feedback_condition(ae) %>
+            <% ae_info[ae]                                = {} %>
+            <% ae_info[ae][:number]                       = ae.number %>
+            <% ae_info[ae][:quadbase_id]                  = ae.topic_exercise.exercise.quadbase_id %>
+            <% ae_info[ae][:concept]                      = ae.topic_exercise.concept.try(:name) %>
+            <% ae_info[ae][:tag_list]                     = ae.tag_list %>
+            <% ae_info[ae][:presentation_condition]       = learning_condition.get_presentation_condition(ae) %>
+            <% ae_info[ae][:feedback_condition_correct]   = learning_condition.get_feedback_condition(ae, true) %>
+            <% ae_info[ae][:feedback_condition_incorrect] = learning_condition.get_feedback_condition(ae, false) %>
           <% end %>
 
           <% assignment.student_assignments.visible(present_user).find_each do |student_assignment| %>
@@ -124,7 +125,7 @@
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.complete? && !se.was_submitted_late) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= exercise_correctness_string(se) %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= tf_to_yn(ae_info[ae][:feedback_condition].is_feedback_required_for_credit) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tf_to_yn(ae_info[ae][(se.is_correct? ? :feedback_condition_correct : :feedback_condition_incorrect)].is_feedback_required_for_credit) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_first_viewed_at.present?) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= se.feedback_first_viewed_at %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.feedback_has_been_viewed_for_credit?) %></Data></Cell>
@@ -132,8 +133,8 @@
         <% if present_user_is_researcher %>
           <Cell><Data ss:Type="String"><%= ae_info[ae][:presentation_condition].id %></Data></Cell>
           <Cell><Data ss:Type="String"><%= ae_info[ae][:presentation_condition].label_regex %></Data></Cell>
-          <Cell><Data ss:Type="String"><%= ae_info[ae][:feedback_condition].id %></Data></Cell>
-          <Cell><Data ss:Type="String"><%= ae_info[ae][:feedback_condition].label_regex %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= ae_info[ae][(se.is_correct? ? :feedback_condition_correct : :feedback_condition_incorrect)].id %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= ae_info[ae][(se.is_correct? ? :feedback_condition_correct : :feedback_condition_incorrect)].label_regex %></Data></Cell>
         <% end %>
       </Row>
             <% end %>
