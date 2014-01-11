@@ -47,6 +47,14 @@
     </div>
   <% end %>
 
+  <% if klass.enable_assignments_by_cohorts? %>
+    <div class="field">
+      This assignment is meant for 
+      <%= f.select :cohort_id, "<option value=''>All Cohorts</option>".html_safe + 
+                                options_from_collection_for_select(klass.cohorts, :id, :name, f.object.cohort_id)%>
+    </div>
+  <% end %>
+
   <% if @assignment_plan.assignments.any? %>
     <div class="field">
       Currently applied labels<br />

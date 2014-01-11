@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140107213909) do
+ActiveRecord::Schema.define(:version => 20140111000444) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -64,8 +64,10 @@ ActiveRecord::Schema.define(:version => 20140107213909) do
     t.datetime "updated_at",                           :null => false
     t.integer  "max_num_exercises"
     t.integer  "section_id"
+    t.integer  "cohort_id"
   end
 
+  add_index "assignment_plans", ["cohort_id"], :name => "index_assignment_plans_on_cohort_id"
   add_index "assignment_plans", ["learning_plan_id"], :name => "index_assignments_on_learning_plan_id"
   add_index "assignment_plans", ["name", "learning_plan_id"], :name => "index_assignment_plan_on_name_scoped", :unique => true
   add_index "assignment_plans", ["section_id"], :name => "index_assignment_plans_on_section_id"
@@ -264,12 +266,13 @@ ActiveRecord::Schema.define(:version => 20140107213909) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.string   "time_zone"
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
-    t.boolean  "is_controlled_experiment",   :default => false, :null => false
-    t.boolean  "allow_student_specified_id", :default => false, :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.boolean  "is_controlled_experiment",    :default => false, :null => false
+    t.boolean  "allow_student_specified_id",  :default => false, :null => false
     t.datetime "open_date"
     t.datetime "close_date"
+    t.boolean  "enable_assignment_by_cohort", :default => false
   end
 
   add_index "klasses", ["course_id"], :name => "index_klasses_on_course_id"

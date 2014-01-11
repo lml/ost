@@ -32,7 +32,7 @@ class Klass < ActiveRecord::Base
   attr_accessible :open_date, :close_date, :start_date, :end_date, 
                   :approved_emails, :time_zone, 
                   :source_learning_plan_id, :is_controlled_experiment,
-                  :allow_student_specified_id
+                  :allow_student_specified_id, :enable_assignment_by_cohort
   
   def self.opened;  where{open_date.lte  Time.now}; end 
   def self.started; where{start_date.lte Time.now}; end 
@@ -151,6 +151,10 @@ class Klass < ActiveRecord::Base
       user.email.downcase == ae.downcase || 
       user.email.downcase.match(ae.downcase)
     end
+  end
+
+  def enable_assignments_by_cohorts?
+    enable_assignment_by_cohort
   end
 
   def is_educator?(user)

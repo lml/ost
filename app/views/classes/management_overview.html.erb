@@ -41,6 +41,22 @@
 
 </div>
 
+<%= section "Other Class Settings", {:classes => 'first no_bar' } do %>
+
+  <%= form_for([@course, @klass]) do |f| %>
+
+    <div class="field">
+      Allow instructors to give assignments to specific cohorts?
+      <%= f.radio_button :enable_assignment_by_cohort, true %> Yes
+      <%= f.radio_button :enable_assignment_by_cohort, false %> No  
+    </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+
+<% end %>
+
 <%
   navitem(present_user.can_read?(@klass)) { link_to('Back to Class', klass_path(@klass)) }
   navitem(:can_read_children?, @klass, :sections) { link_to("Sections", klass_sections_path(@klass)) }

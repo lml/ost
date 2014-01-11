@@ -7,6 +7,7 @@ class AssignmentPlan < ActiveRecord::Base
   has_many :assignment_plan_topics, :dependent => :destroy
   has_many :topics, :through => :assignment_plan_topics
   belongs_to :section
+  belongs_to :cohort
 
   acts_as_taggable
 
@@ -16,7 +17,7 @@ class AssignmentPlan < ActiveRecord::Base
 
   attr_accessible :introduction, :is_group_work_allowed, :is_open_book, 
                   :is_ready, :is_test, :learning_plan_id, :name, :learning_plan,
-                  :starts_at, :ends_at, :section_id, :tag_list
+                  :starts_at, :ends_at, :section_id, :tag_list, :cohort_id
 
   attr_accessor   :new_exercise_tags
   attr_accessible :new_exercise_tags
@@ -147,11 +148,13 @@ class AssignmentPlan < ActiveRecord::Base
 
   def self.build_and_distribute_assignments
     AssignmentPlan.can_be_assigned.each do |assignment_plan|
-      cohorts_group = assignment_plan.section_id.nil? ?
-                      assignment_plan.learning_plan.klass :
-                      assignment_plan.section
-      
-      cohorts = cohorts_group.cohorts
+      if !assignment_plan.section_id.nil?
+        cohorts = assignment_plan.section.cohorts
+      else
+        cohorts = !assignment_plan.cohort_id.nil? ?
+                  [assignment_plan.cohort] :
+                  assignment_plan.learning_plan.klass.cohorts
+      end
       
       cohorts.each do |cohort|
         assignment = cohort.learning_condition.build_assignment(assignment_plan)
@@ -162,7 +165,13 @@ class AssignmentPlan < ActiveRecord::Base
   
   # This method assumes the argument is a klass cohort
   def applies_to_klass_cohort?(cohort)
-    section_id.nil? || section.cohorts.where{id == cohort.id}.any?
+    if !section_id.nil?
+      section.cohorts.where{id == cohort.id}.any?
+    elsif !cohort_id.nil?
+      cohort_id == cohort.id
+    else
+      true
+    end
   end
 
   def add_new_exercise_tags
