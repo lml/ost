@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/jpslav/fine_print.git
-  revision: 146315462619afb14210b689511f0674ffd61ee3
-  ref: 146315462619
+  revision: 3146ce934e337aede2e5f0af19150108812a4046
+  ref: 3146ce934e337
   specs:
     fine_print (1.2.0)
       jquery-rails

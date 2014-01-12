@@ -61,7 +61,7 @@ gem 'sketchily', '~> 1.5.0'
 
 gem 'on_the_spot', git: 'https://github.com/kevinburleigh75/on_the_spot.git', ref: '67a423a'
 
-gem 'fine_print', git: 'https://github.com/jpslav/fine_print.git', ref: '146315462619'
+gem 'fine_print', git: 'https://github.com/jpslav/fine_print.git', ref: '3146ce934e337'
 gem 'openstax_utilities', '~> 1.1.0'
 
 group :development, :test do
