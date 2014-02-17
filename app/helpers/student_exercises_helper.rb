@@ -29,19 +29,19 @@ module StudentExercisesHelper
     student_exercise.is_feedback_available? ? student_exercise_feedback_path(student_exercise) : nil
   end
 
-  def prev_available_student_exercise_feedback_path(student_exercise)
-    index = student_exercise_index(student_exercise)
-    if index > 0
-      ses = student_exercise.student_assignment.student_exercises[0..index-1]
-      se = ses.reverse.detect{|se| se.is_feedback_available?}
-      available_student_exercise_feedback_path(se)
-    end
-  end
+  # def prev_available_student_exercise_feedback_path(student_exercise)
+  #   index = student_exercise_index(student_exercise)
+  #   if index > 0
+  #     ses = student_exercise.student_assignment.student_exercises[0..index-1]
+  #     se = ses.reverse.detect{|se| se.is_feedback_available?}
+  #     available_student_exercise_feedback_path(se)
+  #   end
+  # end
 
-  def next_available_student_exercise_feedback_path(student_exercise)
-    index = student_exercise_index(student_exercise)
-    ses = Array(student_exercise.student_assignment.student_exercises[index+1..-1])
-    se = ses.detect{|se| se.is_feedback_available?}
-    available_student_exercise_feedback_path(se)
-  end
+  # def next_available_student_exercise_feedback_path(student_exercise)
+  #   index = student_exercise_index(student_exercise)
+  #   ses = Array(student_exercise.student_assignment.student_exercises[index+1..-1])
+  #   se = ses.detect{|se| se.is_feedback_available?}
+  #   available_student_exercise_feedback_path(se)
+  # end
 end

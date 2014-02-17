@@ -56,6 +56,45 @@ class StudentExercisesController < ApplicationController
     
     @include_mathjax = true
   end
+
+  def student_exercise_index(student_exercise)
+    student_exercise.assignment_exercise.number - 1
+  end
+
+  def prev_available_student_exercise_with_feedback(student_exercise)
+    index = student_exercise_index(student_exercise)
+    if index > 0
+      ses = student_exercise.student_assignment.student_exercises[0..index-1]
+      se = ses.reverse.detect{|se| se.is_feedback_available?}
+    end
+  end
+
+  def next_available_student_exercise_with_feedback(student_exercise)
+    index = student_exercise_index(student_exercise)
+    ses = Array(student_exercise.student_assignment.student_exercises[index+1..-1])
+    se = ses.detect{|se| se.is_feedback_available?}
+  end
+
+  def next_feedback
+    go_to_feedback(:next)
+  end
+
+  def prev_feedback
+    go_to_feedback(:prev)
+  end
+
+  def go_to_feedback(direction)
+    se = StudentExercise.find(params[:student_exercise_id])
+    target_se = direction == :next ? 
+                  next_available_student_exercise_with_feedback(se) : 
+                  prev_available_student_exercise_with_feedback(se)
+
+    if target_se.nil?
+      redirect_to request.referrer, alert: 'No more feedback is available'
+    else
+      redirect_to student_exercise_feedback_path(target_se)
+    end
+  end
   
   def score_detail
     @student_exercise = StudentExercise.find(params[:student_exercise_id]) 

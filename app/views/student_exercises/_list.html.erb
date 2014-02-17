@@ -25,7 +25,7 @@
   <li><%= link_to_unless_current se.status, se %> 
       <% if !se.complete? %>
         (Exercise not complete)
-      <% elsif se.is_feedback_available? %>
+      <% elsif true # se.is_feedback_available? %>
         (<%= link_to_unless_current "Feedback", student_exercise_feedback_path(se) %>)
       <% else %>
         (Feedback not available)

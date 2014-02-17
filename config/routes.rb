@@ -175,6 +175,8 @@ Ost::Application.routes.draw do
 
   resources :student_exercises, :only => [:show, :update] do
     get 'feedback'
+    get 'next_feedback'
+    get 'prev_feedback'
     put 'make_correct'
     get 'score_detail'
     resources :free_responses, :shallow => true, :except => [:index, :show] do
