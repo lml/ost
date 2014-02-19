@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140107213909) do
+ActiveRecord::Schema.define(:version => 20140218235334) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -494,11 +494,15 @@ ActiveRecord::Schema.define(:version => 20140107213909) do
     t.datetime "exercise_first_viewed_at"
     t.datetime "feedback_first_viewed_at"
     t.integer  "feedback_views_count"
-    t.datetime "feedback_views_timestamp",                    :default => '1980-01-01 20:00:00'
+    t.datetime "feedback_views_timestamp",                    :default => '1980-01-01 17:00:00'
+    t.integer  "feedback_condition_id"
+    t.integer  "presentation_condition_id"
   end
 
   add_index "student_exercises", ["assignment_exercise_id", "student_assignment_id"], :name => "index_ses_on_aes_scoped", :unique => true
   add_index "student_exercises", ["assignment_exercise_id"], :name => "index_student_exercises_on_assignment_exercise_id"
+  add_index "student_exercises", ["feedback_condition_id"], :name => "index_student_exercises_on_feedback_condition_id"
+  add_index "student_exercises", ["presentation_condition_id"], :name => "index_student_exercises_on_presentation_condition_id"
   add_index "student_exercises", ["student_assignment_id"], :name => "index_student_exercises_on_student_assignment_id"
 
   create_table "student_external_assignment_exercises", :force => true do |t|
