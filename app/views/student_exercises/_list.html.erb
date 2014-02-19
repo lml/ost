@@ -14,7 +14,11 @@
   if !local_assigns.has_key?(:student_exercises)
     student_exercise   ||= nil 
     student_assignment ||= student_exercise.student_assignment 
-    student_exercises = student_assignment.student_exercises.joins{assignment_exercise}.order{assignment_exercise.number.asc}
+    student_exercises = student_assignment
+                          .student_exercises
+                          .joins{assignment_exercise}
+                          .order{assignment_exercise.number.asc}
+                          .includes(:assignment_exercise)
   end
 
   show_feedback_status = false if !local_assigns.has_key?(:show_feedback_status)

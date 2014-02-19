@@ -141,11 +141,15 @@ class LearningCondition < ActiveRecord::Base
   end
 
   def get_presentation_condition(student_or_assignment_exercise)
-    get_learning_condition_presentation_condition(student_or_assignment_exercise).presentation_condition
+    student_or_assignment_exercise.is_a?(StudentExercise) ?
+      student_or_assignment_exercise.presentation_condition :
+      get_learning_condition_presentation_condition(student_or_assignment_exercise).presentation_condition
   end
 
   def get_feedback_condition(student_or_assignment_exercise, is_correct=nil)
-    get_learning_condition_feedback_condition(student_or_assignment_exercise, is_correct).feedback_condition
+    student_or_assignment_exercise.is_a?(StudentExercise) ?
+      student_or_assignment_exercise.feedback_condition :
+      get_learning_condition_feedback_condition(student_or_assignment_exercise, is_correct).feedback_condition
   end
 
   def get_learning_condition_presentation_condition(student_or_assignment_exercise)

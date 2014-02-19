@@ -9,7 +9,7 @@ class StudentExercise < ActiveRecord::Base
   belongs_to :assignment_exercise
   has_many :response_times, :as => :response_timeable, :dependent => :destroy
   has_many :free_responses, :dependent => :destroy, :order => :number
-  
+
   before_destroy :destroyable?, prepend: true
   
   validates :student_assignment_id, :presence => true
@@ -39,6 +39,8 @@ class StudentExercise < ActiveRecord::Base
   validate :changes_match_state, :on => :update
   validate :has_at_least_one_free_response, :on => :update
   
+  after_save :update_cached_conditions
+
   before_save :lock_choice_if_indicated, :on => :update
 
   attr_accessor :lock_response_text_on_next_save
@@ -58,6 +60,20 @@ class StudentExercise < ActiveRecord::Base
     COMPLETE = 201 
     FEEDBACK_VIEWED = 202
   end
+
+  # Retrieves cached feedback condition or loads from scratch.
+  def feedback_condition
+    feedback_condition_id.present? ? 
+      @feedback_condition ||= FeedbackCondition.find(feedback_condition_id) :
+      set_feedback_condition_from_scratch
+  end
+
+  # Retrieves cached presentation condition or loads from scratch.
+  def presentation_condition
+    presentation_condition_id.present? ?
+      @presentation_condition ||= PresentationCondition.find(presentation_condition_id) :
+      set_presentation_condition_from_scratch
+  end  
 
   def due_at
     assignment.assignment_plan.ends_at
@@ -366,6 +382,18 @@ class StudentExercise < ActiveRecord::Base
     return !free_response_submitted?
   end
 
+  def update_cached_conditions
+    # Whenever we save an SE, it is possible that its feedback or presentation conditions
+    # could change (since they are based on the state of the SE).  To be sure that an 
+    # invalid cached condition doesn't stick around, we update them here.
+
+    set_feedback_condition_from_scratch
+    set_presentation_condition_from_scratch
+
+    self.update_column(:feedback_condition_id, @feedback_condition.id)
+    self.update_column(:presentation_condition_id, @presentation_condition.id)
+  end
+
 protected
 
   def lock_response_text_if_directed
@@ -409,6 +437,14 @@ protected
   def has_at_least_one_free_response
     errors.add(:base, "At least one answer is required before you can turn this exercise in.") \
       if lock_response_text_on_next_save && free_responses.none?
+  end
+
+  def set_feedback_condition_from_scratch
+    @feedback_condition = learning_condition.get_learning_condition_feedback_condition(self).feedback_condition
+  end
+
+  def set_presentation_condition_from_scratch
+    @presentation_condition = learning_condition.get_learning_condition_presentation_condition(self).presentation_condition
   end
                   
 end
