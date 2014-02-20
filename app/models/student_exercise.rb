@@ -130,7 +130,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def requires_free_response?
-    learning_condition.requires_free_response?(self)
+    presentation_condition.requires_free_response?
   end
 
   def requires_selected_answer?
@@ -163,7 +163,7 @@ class StudentExercise < ActiveRecord::Base
   def learning_condition
     # a joins approach instead of doing multiple queries to get up the containment chain
     @learning_condition ||= LearningCondition.joins{cohort.students.student_assignments}
-                            .where{cohort.students.student_assignments.id == my{student_assignment.id}}
+                            .where{cohort.students.student_assignments.id == my{student_assignment_id}}
                             .first
   end
   
@@ -200,7 +200,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def feedback_required_for_credit?
-    learning_condition.feedback_required_for_credit?(self)
+    feedback_condition.is_feedback_required_for_credit
   end
 
   def get_mail_hook
