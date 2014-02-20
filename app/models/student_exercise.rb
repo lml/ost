@@ -134,7 +134,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def requires_selected_answer?
-    presentation_condition.requires_selected_answer?(self)
+    presentation_condition.requires_selected_answer?
   end
 
   def free_response_submitted?
