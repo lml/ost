@@ -134,7 +134,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def requires_selected_answer?
-    learning_condition.requires_selected_answer?(self)
+    presentation_condition.requires_selected_answer?(self)
   end
 
   def free_response_submitted?
@@ -180,15 +180,15 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def is_feedback_available?
-    learning_condition.is_feedback_available?(self)
+    feedback_condition.is_feedback_available?(self)
   end
   
   def can_automatically_show_feedback?
-    learning_condition.can_automatically_show_feedback?(self)
+    feedback_condition.can_automatically_show_feedback?(self)
   end
 
   def show_correctness_feedback?
-    learning_condition.show_correctness_feedback?(self)
+    feedback_condition.show_correctness_feedback
   end
 
   def feedback_has_been_viewed?
@@ -216,7 +216,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def requires_follow_up_question?
-    learning_condition.requires_follow_up_question?(self)
+    presentation_condition.requires_follow_up_question?(self)
   end
 
   def follow_up_question
