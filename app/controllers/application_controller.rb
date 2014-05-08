@@ -36,33 +36,35 @@ protected
 
   def rescue_from_exception(exception)
     error_page = 500
-    send_email = true
+    @email_sent = true
 
     case exception
     when SecurityTransgression
       error_page = 403
-      send_email = false
+      @email_sent = false
     when ActiveRecord::RecordNotFound, 
          ActionController::RoutingError,
          ActionController::UnknownController,
          ActionController::UnknownAction
       error_page = 404
-      send_email = false
+      @email_sent = false
     when ActionView::MissingTemplate
       error_page = 400
-      send_email = false
+      @email_sent = false
+    when ActiveRecord::StatementInvalid
+      @email_sent = false if /Mysql2::Error: Duplicate/ =~ exception.to_s ||\
+        /SQLite3::ConstraintException: UNIQUE/ =~ exception.to_s
     when NotYetImplemented
       error_page = "nyi"
-      send_email = false
+      @email_sent = false
     end
 
     @error_id = "%06d" % SecureRandom.random_number(10**6)
-    @email_sent = send_email
 
     logger.info "Exception: #{@error_id} #{present_user.username if present_user} #{request.path if request}"
 
     render_error_page(error_page)
-    mail_msg = DeveloperNotifier.exception_email(exception, present_user, nil, false, request, @error_id, @email_sent) if send_email
+    mail_msg = DeveloperNotifier.exception_email(exception, present_user, nil, false, request, @error_id, @email_sent) if @email_sent
 
     logger.info mail_msg if @email_sent
   end
