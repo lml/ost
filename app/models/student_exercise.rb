@@ -383,6 +383,8 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def update_cached_conditions
+    return true if self.skip_update_callbacks
+
     # Whenever we save an SE, it is possible that its feedback or presentation conditions
     # could change (since they are based on the state of the SE).  To be sure that an 
     # invalid cached condition doesn't stick around, we update them here.
@@ -440,7 +442,7 @@ protected
   end
 
   def set_feedback_condition_from_scratch
-    @feedback_condition = learning_condition.get_learning_condition_feedback_condition(self).feedback_condition
+    @feedback_condition = learning_condition.get_learning_condition_feedback_condition(self).feedback_condition 
   end
 
   def set_presentation_condition_from_scratch
