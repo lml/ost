@@ -23,6 +23,7 @@
         <%= render "report_heading_cell", data: "ExNum",            comment: "Exercise order number (within Assignment)" %>
         <%= render "report_heading_cell", data: "ExQbId",           comment: "Exercise Quadbase ID" %>
         <%= render "report_heading_cell", data: "ExConcept",        comment: "Exercise Concept description" %>
+        <%= render "report_heading_cell", data: "ExTopic",          comment: "Exercise Topic description" %>
         <%= render "report_heading_cell", data: "ExLabels",         comment: "Exercise Labels" %>
         <%= render "report_heading_cell", data: "AssgnCws",         comment: "Assignment Coworkers (including Student), sorted, comma-separated" %>
         <%= render "report_heading_cell", data: "ExViewed?",        comment: "Exercise was viewed by Student?" %>
@@ -72,6 +73,7 @@
             <% ae_info[ae][:number]                       = ae.number %>
             <% ae_info[ae][:quadbase_id]                  = ae.topic_exercise.exercise.quadbase_id %>
             <% ae_info[ae][:concept]                      = ae.topic_exercise.concept.try(:name) %>
+            <% ae_info[ae][:topic]                        = ae.topic_exercise.topic.try(:name) %>
             <% ae_info[ae][:tag_list]                     = ae.tag_list %>
             <% ae_info[ae][:presentation_condition]       = learning_condition.get_presentation_condition(ae) %>
             <% ae_info[ae][:feedback_condition_correct]   = learning_condition.get_feedback_condition(ae, true) %>
@@ -102,6 +104,7 @@
         <Cell><Data ss:Type="Number"><%= ae_info[ae][:number] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:quadbase_id] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:concept] %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ae_info[ae][:topic] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ae_info[ae][:tag_list] %></Data></Cell>
         <Cell><Data ss:Type="String"><%= assignment_coworkers %></Data></Cell>
         <Cell><Data ss:Type="String"><%= tf_to_yn(se.exercise_first_viewed_at.present?) %></Data></Cell>
