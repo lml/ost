@@ -59,16 +59,16 @@
           <%= render "report_heading_cell", data: "FcRegex",          comment: "Exercise FeedbackCondition Regex" %>
         <% end %>
       </Row>
-      <% @klass.cohorts.find_each do |cohort| %>
+      <% @klass.cohorts.each do |cohort| %>
         <% learning_condition = cohort.learning_condition %>
 
-        <% cohort.assignments.find_each do |assignment| %>
+        <% cohort.assignments.each do |assignment| %>
           <% assignment_plan = assignment.assignment_plan %>
           <% assignment_num  = assignment_plan.number + 1 %>
           <% assignment_name = assignment_plan.name %>
 
           <% ae_info = {} %>
-          <% assignment.assignment_exercises.find_each do |ae| %>
+          <% assignment.assignment_exercises.each do |ae| %>
             <% ae_info[ae]                                = {} %>
             <% ae_info[ae][:number]                       = ae.number %>
             <% ae_info[ae][:quadbase_id]                  = ae.topic_exercise.exercise.quadbase_id %>
@@ -80,7 +80,7 @@
             <% ae_info[ae][:feedback_condition_incorrect] = learning_condition.get_feedback_condition(ae, false) %>
           <% end %>
 
-          <% assignment.student_assignments.visible(present_user).for_report.find_each do |student_assignment| %>
+          <% assignment.student_assignments.visible(present_user).for_report.each do |student_assignment| %>
             <% student                 = student_assignment.student %>
             <% student_full_name       = student.full_name(present_user) %>
             <% student_reg_status      = student_status_string(student) %>
@@ -90,7 +90,7 @@
             <% assignment_cohort_name  = assignment.cohort.name %>
             <% assignment_coworkers    = report_coworkers(student_assignment, present_user) %>
 
-            <% student_assignment.student_exercises.find_each do |se| %>
+            <% student_assignment.student_exercises.each do |se| %>
               <% ae = se.assignment_exercise %>
       <Row>
         <Cell><Data ss:Type="String"><%= student_full_name %></Data></Cell>
