@@ -33,7 +33,9 @@ class StudentAssignment < ActiveRecord::Base
       scoped
     end
   }
- 
+
+  scope :for_report, -> { includes({:student => [:section, :cohort]}, {:student_exercises => :assignment_exercise}) }
+
   def assignment_has_exercises?
     errors.add(:assignment, "doesn't have any exercises.") \
       if assignment(true).assignment_exercises.empty?
