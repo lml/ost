@@ -80,7 +80,7 @@
             <% ae_info[ae][:feedback_condition_incorrect] = learning_condition.get_feedback_condition(ae, false) %>
           <% end %>
 
-          <% assignment.student_assignments.visible(present_user).for_report.each do |student_assignment| %>
+          <% assignment.student_assignments.visible(present_user).for_report.find_each do |student_assignment| %>
             <% student                 = student_assignment.student %>
             <% student_full_name       = student.full_name(present_user) %>
             <% student_reg_status      = student_status_string(student) %>

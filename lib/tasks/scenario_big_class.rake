@@ -25,6 +25,15 @@ namespace :db do
           s.cohort = c
           s.is_auditing = false
           s.save!
+
+          next if rand > 0.5
+
+          n = Consent.new
+          n.consentable = s
+          n.esignature = "Me"
+          n.did_consent = true
+          n.consent_options = ConsentOptions.first
+          n.save!
         end
 
         puts 'Creating assignments'
@@ -43,6 +52,7 @@ namespace :db do
         end
 
       end
+      puts 'Cohorts created'
 
       puts 'Creating concepts'
       10.times do |i|
