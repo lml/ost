@@ -82,7 +82,8 @@ namespace :db do
       
       puts "Building the learning condition...\n"
       
-      FactoryGirl.create(:cohort, :klass => klass)
+      FactoryGirl.create(:cohort, :klass => klass,
+                                  :section => klass.sections.first)
 
       schedules_by_cohort = [
         # Cohort 1
