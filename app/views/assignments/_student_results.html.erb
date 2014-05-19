@@ -1,5 +1,5 @@
 <% num_exercises = assignment.assignment_exercises.count %>
-    
+
 <% exercise_right_counts = num_exercises.times.collect{0} %>
 <% exercise_taken_counts = num_exercises.times.collect{0} %>
 
@@ -10,17 +10,17 @@
 
   <tr>
     <th>Name</th>
-    <% (1..num_exercises).each do |ii| %>
-      <th style="text-align:center"><%= ii.to_s %></th>
+    <% assignment.assignment_exercises.each_with_index do |ae, ii| %>
+      <th style="text-align:center"><%= link_to (ii + 1).to_s, ae %></th>
     <% end %>
   </tr>
-      
+
   <% students.each do |student| %>
     <tr>
       <% sa = StudentAssignment.for_assignment(assignment).for_student(student).first %>
 
       <td>
-        <%= link_to student.full_name(present_user), sa %> 
+        <%= link_to student.full_name(present_user), sa %>
         <%= "(C)" if present_user.is_administrator? && student.consent.try(:did_consent) %>
       </td>
 
@@ -31,9 +31,9 @@
         <% student_exercises.each_with_index do |se, ee| %>
           <td style="text-align:center">
             <% if !se.free_response_submitted? && !se.selected_answer_submitted? %>
-              <%= image_tag 'empty_circle_v2.png' %>              
+              <%= image_tag 'empty_circle_v2.png' %>
             <% elsif !se.selected_answer_submitted? %>
-              <%= image_tag 'half_filled_circle_v2.png' %>              
+              <%= image_tag 'half_filled_circle_v2.png' %>
             <% else %>
               <% if se.is_correct? %>
                 <% if se.was_submitted_late %>
@@ -58,8 +58,8 @@
   <tr>
     <td>Correct %</td>
     <% (0..num_exercises-1).each do |ee| %>
-      <% pct = exercise_taken_counts[ee] == 0 ? 
-               "--" : 
+      <% pct = exercise_taken_counts[ee] == 0 ?
+               "--" :
                exercise_right_counts[ee] * 100 / exercise_taken_counts[ee] %>
       <td style="text-align:center"><%= pct %></td>
     <% end %>
