@@ -1,4 +1,4 @@
-<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <% read_errors(@student_exercise) %>
@@ -10,7 +10,7 @@
 <% if @student_exercise.present_free_response_and_selected_answer? %>
 
   <%= section "Your Answer", {:classes => 'no_bar'} do %>
-    
+
     <%= render 'free_response_list', student_exercise: @student_exercise %>
     <% if @student_exercise.free_responses_can_be_updated? %>
       <%= render 'add_and_turn_in_free_responses', student_exercise: @student_exercise %>
@@ -37,7 +37,7 @@
       <%= render "show_selected_answer", student_exercise: @student_exercise %>
     <% else %>
       <%= render "input_selected_answer", student_exercise: @student_exercise %>
-    <% end %>  
+    <% end %>
   <% end %>
 
 <% else %>
@@ -51,7 +51,7 @@
     function preview_text_free_response(form_id) {
       $.get('<%= preview_text_free_responses_path %>', $('#' + form_id).serializeArray());
 
-      <% if Ost::Application.config.enable_response_times %>    
+      <% if Ost::Application.config.enable_response_times %>
         mark_time('ACTIVITY','preview');
       <% end %>
     }
