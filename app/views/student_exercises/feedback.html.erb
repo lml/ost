@@ -1,25 +1,31 @@
-<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<%= pageHeading("Feedback on #{@student_exercise.assignment.assignment_plan.name}, " + 
-                "Exercise #{@student_exercise.assignment_exercise.number}", 
+<%= pageHeading("Feedback on #{@student_exercise.assignment.assignment_plan.name}, " +
+                "Exercise #{@student_exercise.assignment_exercise.number}",
                 {:sub_heading_text => @student_exercise.student_assignment.student.section.klass.name})%>
 <% learning_condition = @student_exercise.learning_condition %>
 
 <% if true %>
-  <%= render :partial => "student_answer", :locals => { :student_exercise => @student_exercise } %> 
-<% end %>
-
-<% if learning_condition.show_correctness_feedback?(@student_exercise) %>
-  <%= render :partial => "correctness_feedback", :locals => { :student_exercise => @student_exercise } %> 
-<% end %>
-
-<% if learning_condition.show_correct_answer_feedback?(@student_exercise) %>
-  <%= render :partial => "correct_answer_feedback", :locals => { :student_exercise => @student_exercise } %> 
+  <%= section "Exercise", {:classes => 'first no_bar', :collapsible => true, :collapsed => true} do %>
+    <%= render "question", student_exercise: @student_exercise %>
+  <% end %>
 <% end %>
 
 <% if true %>
-  <%= render :partial => "solution_feedback", :locals => { :student_exercise => @student_exercise } %> 
+  <%= render :partial => "student_answer", :locals => { :student_exercise => @student_exercise } %>
+<% end %>
+
+<% if learning_condition.show_correctness_feedback?(@student_exercise) %>
+  <%= render :partial => "correctness_feedback", :locals => { :student_exercise => @student_exercise } %>
+<% end %>
+
+<% if learning_condition.show_correct_answer_feedback?(@student_exercise) %>
+  <%= render :partial => "correct_answer_feedback", :locals => { :student_exercise => @student_exercise } %>
+<% end %>
+
+<% if true %>
+  <%= render :partial => "solution_feedback", :locals => { :student_exercise => @student_exercise } %>
 <% end %>
 
 <%= render :partial => 'shared/response_times',
