@@ -1,4 +1,4 @@
-# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 Ost::Application.routes.draw do
@@ -11,11 +11,11 @@ Ost::Application.routes.draw do
 
   resources :consent_forms
   resources :consent_options, :only => [:show, :edit, :update]
-  
-  # 
+
+  #
   # resources :organization_managers
   # resources :researchers
-  # 
+  #
 
   get "admin", :to => 'admin#index'
   put "admin/cron", :to => 'admin#cron', :as => "cron"
@@ -35,14 +35,14 @@ Ost::Application.routes.draw do
   resources :organizations do
     resources :courses, :shallow => true
   end
-  
+
   resources :courses, :only => [] do
     resources :course_instructors, :shallow => true, :only => [:new, :create, :destroy] do
       collection do
         post 'search'
       end
     end
-    
+
     # resources :offered_courses, :shallow => true, :except => [:index]
     resources :classes, :as => 'klasses', :shallow => true, :except => [:index]
   end
@@ -75,6 +75,8 @@ Ost::Application.routes.draw do
     get 'class_grades', :on => :member
     get 'management_overview', :on => :member
   end
+
+  resources :assignment_exercises, :only => [:show]
 
   resources :external_assignments, :shallow => true, :only => [ ] do
     collection do
@@ -122,16 +124,16 @@ Ost::Application.routes.draw do
     post 'add_schedule_row'
     delete 'pop_schedule_row'
   end
-  
+
   resources :students, :only => [] do
     put 'drop', :on => :member
   end
-  
-  resources :registration_requests, :except => [:new, :index] do 
+
+  resources :registration_requests, :except => [:new, :index] do
     put 'approve', :as => "approve", :on => :member
     put 'reject', :as => "reject", :on => :member
   end
-      
+
   resources :learning_plans, :only => [:show, :edit, :update] do
     resources :topics, :shallow => true, :except => [:new, :index, :show]
     resources :assignment_plans, :shallow => true
@@ -140,15 +142,15 @@ Ost::Application.routes.draw do
     end
     put 'refresh_exercises'
   end
-  
+
   resources :assignment_plans do
     resources :assignment_plan_topics, :shallow => true, :only => [:new, :create, :destroy, :update]
   end
-  
+
   resources :assignments, :only => [:show] do
     get 'grades', :on => :member
   end
-  
+
   resources :topics, :only => [] do
     resources :resources, :shallow => true, :except => [:index, :show] do
       post 'sort', :on => :collection
@@ -157,7 +159,7 @@ Ost::Application.routes.draw do
       post 'sort', :on => :collection
     end
   end
-    
+
   resources :response_times, :only => [:create]
 
   resources :student_assignments, :only => [:show, :create] do
@@ -167,7 +169,7 @@ Ost::Application.routes.draw do
       end
     end
   end
-  
+
   resources :student, :only => [] do
     resources :student_assignments, :only => [:index]
     resources :consents, :shallow => true, :except => [:index, :show, :edit, :update, :destroy]
@@ -192,7 +194,7 @@ Ost::Application.routes.draw do
     get 'view', :on => :member
   end
 
-  
+
   # For users, we mix devise with our own users controller.  We have overriden
   # some devise controller methods, so point that out here.
   devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions", :confirmations => "confirmations"}
@@ -214,7 +216,7 @@ Ost::Application.routes.draw do
   get 'about', :to => 'home#about'
   get 'mytutor', :to => 'home#mytutor'
   get 'help', :to => 'help#index'
-  
+
   get 'help/blurbs/:blurb_name', :to => 'help#blurb', :as => 'blurb_help'
   match 'help/faq'
   match 'help/student_getting_started'
@@ -227,7 +229,7 @@ Ost::Application.routes.draw do
   match 'help/student_tutorials'
   match 'help', :to => 'help#index'
   match 'help/instructor_faq'
-  
+
   get "terms/:id/show", to: "terms#show", as: "show_terms"
   get "terms/pose", to: "terms#pose", as: "pose_terms"
   post "terms/agree", to: "terms#agree", as: "agree_to_terms"
@@ -238,14 +240,14 @@ Ost::Application.routes.draw do
   post 'dev/time_travel'
   post 'dev/run_cron_tasks'
   match 'dev/test_error/:number', :to => 'dev#test_error'
-  
+
   resources :website_configurations, :only => [:index] do
     collection do
       get 'edit'
       put 'update'
     end
   end
-  
+
 
   match '/', :to => 'home#index', :as => ''
   root :to => "home#index"

@@ -16,3 +16,4 @@ db/.data.yml.gz
 brakeman.html
 cucumber_rerun.txt
 rspec.failures
+vendor/cache

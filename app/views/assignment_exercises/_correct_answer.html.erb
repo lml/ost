@@ -1,0 +1,17 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%# Clients must supply:
+      assignment_exercise
+      phrase
+%>
+
+<%
+   exercise            = assignment_exercise.topic_exercise.exercise
+   exercise_data       = exercise.content
+   answer_index        = exercise.correct_choice_index
+%>
+
+<div class="exercise-answer">
+  <p><%= phrase %> <b>(<%= choice_letter(answer_index) %>)</b></p>
+</div>
