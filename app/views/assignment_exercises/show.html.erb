@@ -7,13 +7,17 @@
                    Exercise: #{@assignment_exercise.number}",
                 {:sub_heading_text => full_class_name(@assignment_exercise.assignment)}) %>
 
-<%= section "Exercise", {:collapsible => true, :collapsed => true, :classes => 'first no_bar'} do %>
+<%= section "Exercise", :classes => 'first no_bar' do %>
   <%= render 'question', assignment_exercise: @assignment_exercise %>
+<% end %>
+
+<%= section "Correct Answer", :classes => 'first no_bar' do %>
+  <%= render 'correct_answer', assignment_exercise: @assignment_exercise, phrase: 'The correct answer is:' %>
 <% end %>
 
 <% all_responses = @assignment_exercise.student_exercises %>
 
-<%= section "Responses", :classes => 'section-exercise-responses' do %>
+<%= section "Responses", :classes => 'section-exercise-responses no_bar' do %>
 
   NOTE: In the 'Response' column, free responses are always shown.  If
   required by the learning conditions, follow-up answers appear in

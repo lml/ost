@@ -7,6 +7,7 @@ class AssignmentExercisesController < ApplicationController
   def show
     @assignment_exercise = AssignmentExercise.find(params[:id])
     raise SecurityTransgression unless present_user.can_read?(@assignment_exercise)
+    @include_mathjax = true
   end
 
 end

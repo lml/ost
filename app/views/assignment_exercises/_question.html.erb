@@ -1,26 +1,25 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<%
-  assignment          = assignment_exercise.assignment
-  assignment_plan     = assignment.assignment_plan
-  exercise_data       = assignment_exercise.topic_exercise.exercise.content
+<%# Clients must supply:
+      assignment_exercise
 %>
 
-<div id="exercise_response_show">
+<% exercise_data = assignment_exercise.topic_exercise.exercise.content %>
 
-  <%= section "The Question", {:classes => 'first no_bar' } do %>
-
-    <div id="question_text"
-         class="question question-box">
+<div class="exercise-question">
+    <div class="question question-box">
 
       <% if !exercise_data["simple_question"]["introduction"].nil? %>
         <%= exercise_data["simple_question"]["introduction"]["html"].html_safe %>
       <% end %>
 
       <%= exercise_data["simple_question"]["content"]["html"].html_safe %>
+
     </div>
 
-  <% end %>
+    <%= section "Choices", {:collapsible => true, :collapsed => true, :classes => 'first no_bar' } do %>
+      <% render 'choices', assignment_exercise: assignment_exercise %>
+    <% end %>
 
 </div>
