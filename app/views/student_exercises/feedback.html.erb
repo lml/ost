@@ -12,7 +12,14 @@
 <%= render 'exercises/exercise_blurb', :exercise => exercise,
                                        :show_choices => true %>
 
-<%= render :partial => "student_answer", :locals => { :student_exercise => @student_exercise } %> 
+<%= render :partial => "student_answer", :locals => { :student_exercise => @student_exercise } %>
+
+<%= render :partial => "free_response_list", 
+           :layout  => 'layouts/section',
+           :locals  => { :student_exercise => @student_exercise, 
+                         :section_name     => 'Your free responses',
+                         :classes          => 'no_bar',
+                         :collapsed        => true} %>
 
 <% if learning_condition.show_correctness_feedback?(@student_exercise) %>
   <%= render :partial => "correctness_feedback", :locals => { :student_exercise => @student_exercise } %> 
