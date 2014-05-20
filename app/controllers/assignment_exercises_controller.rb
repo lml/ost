@@ -5,9 +5,8 @@
 class AssignmentExercisesController < ApplicationController
 
   def show
-    @assignment_exercise = AssignmentExercise.find(params[:id])
-    raise SecurityTransgression unless present_user.can_read?(@assignment_exercise)
-    @exercises = @assignment_exercise.exercises_by_student_status(present_user)
+    @assignment_exercises = AssignmentExercise.find(params[:id]).topic_exercise.assignment_exercises
+    raise SecurityTransgression unless present_user.can_read?(@assignment_exercises.first)
     @include_mathjax = true
   end
 
