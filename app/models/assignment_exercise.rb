@@ -1,4 +1,4 @@
-# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# Copyright 2011-2014 Rice University. Licensed under the Affero General Public
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 class AssignmentExercise < ActiveRecord::Base
@@ -35,4 +35,14 @@ class AssignmentExercise < ActiveRecord::Base
   def has_tag?(tag)
     tag_list.include?(tag.downcase)
   end
+
+  #############################################################################
+  # Access control methods
+  #############################################################################
+  def can_be_read_by?(user)
+    !user.is_anonymous? && (user.is_administrator? ||
+                            user.is_researcher?    ||
+                            assignment.is_educator?(user))
+  end
+
 end

@@ -1,0 +1,32 @@
+<%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%= render :partial => 'exercises/question',
+           :layout => 'layouts/section',
+           :locals => {
+             :exercise => exercise,
+             :section_name => "Exercise",
+             :collapsed => false,
+             :classes => 'first no_bar'
+           } %>
+
+
+<%= render :partial => 'exercises/correct_answer',
+           :layout => 'layouts/section',
+           :locals => {
+             :phrase => 'The correct answer is:',
+             :exercise => exercise,
+             :section_name => "Correct Answer",
+             :collapsed => false,
+             :classes => 'first no_bar'
+           } %>
+
+
+<%= render :partial => 'exercises/choices',
+           :layout => 'layouts/section',
+           :locals => {
+             :exercise => exercise,
+             :section_name => "Answer Choices",
+             :collapsed => true,
+             :classes => 'first no_bar'
+           } %>

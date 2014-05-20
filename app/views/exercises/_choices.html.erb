@@ -1,0 +1,25 @@
+<%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%# 
+
+Params:
+
+  exercise: required
+%>
+
+<%
+   exercise_data = exercise.content
+   solution = exercise.correct_choice_index
+%>
+
+<div class:="question multiple-choice">
+  <ul class="unstyled">
+    <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>
+    <li <% if solution == ii %>class="correct-answer"<% end %> >
+       <span class="choice-letter"><%= choice_letter(ii) %>)</span>
+       <span class="answer-choice"><%= answer_choice["html"].html_safe %></span>
+    <li>
+    <% end %>
+  </ul>
+</div>
