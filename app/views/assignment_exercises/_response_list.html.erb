@@ -1,0 +1,57 @@
+<%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%# 
+
+Params:
+  responses: required.
+   
+%>
+<table class="list" width="90%">
+  <thead>
+    <tr>
+      <th width="8%">Student</th>
+      <th width="56%">Response</th>
+      <th width="8%">Choice</th>
+      <th width="8%">Score</th>
+      <th width="8%">Times</th>
+    </tr>
+  <thead>
+  <tbody>
+  <% responses.each_with_index do |se, ii| %>
+    <% student = se.student_assignment.student %>
+    <tr>
+      <td>
+        <%= link_to student.full_name(present_user), se.student_assignment %>
+      </td>
+      <td>
+        <div class='free_response'>
+          <%= '(blank)' if se.free_responses.none? %>
+          <% se.free_responses.each do |free_response| %>
+            <%= render :partial => 'free_responses/show',
+                       :locals => { :free_response => free_response } %>
+          <% end %>
+        </div>
+        <% if se.requires_follow_up_question? %>
+          <div class='follow_up_question'>
+            <%= se.follow_up_answer || '(blank)' %>
+          </div>
+        <% end %>
+      </td>
+      <td><%= se.selected_answer.nil? ? "--" : "(#{choice_letter(se.selected_answer)})" %></td>
+      <td><%= link_to se.score, student_exercise_score_detail_path(se), :remote => true %></td>
+      <td>
+        <%= link_to_function "Show", "$('#se_#{ii}_rts').show(); $(this).hide(); $(this).next().show(); " %>
+        <%= link_to_function "Hide", "$('#se_#{ii}_rts').hide(); $(this).hide(); $(this).prev().show(); ", :style => "display:none" %>
+      </td>
+    </tr>
+    <tr id="se_<%= ii %>_rts" style="display:none">
+      <td></td>
+      <td colspan="4">
+        <%= render :partial => 'response_times/list',
+                   :locals => {:response_times => se.response_times, :show_page => true} %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

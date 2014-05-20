@@ -10,11 +10,9 @@
 
 <% exercise = @assignment_exercise.topic_exercise.exercise %>
 
-<%= render 'exercises/exercise_blurb', :exercise => exercise, 
-                                       :show_correct_answer => true, 
+<%= render 'exercises/exercise_blurb', :exercise => exercise,
+                                       :show_correct_answer => true,
                                        :show_choices => true %>
-
-<% all_responses = @assignment_exercise.student_exercises %>
 
 <%= section "Responses", :classes => 'section-exercise-responses no_bar' do %>
 
@@ -23,54 +21,17 @@
   gray below the free responses.  In both cases, a missing response
   will be depicted by the string '(blank)'.
 
-  <table class="list" width="90%">
-    <thead>
-      <tr>
-        <th width="12%">Student</th>
-        <th width="56%">Response</th>
-        <th width="8%">Choice</th>
-        <th width="8%">Score</th>
-        <th width="8%">Times</th>
-      </tr>
-    <thead>
-    <tbody>
-    <% all_responses.each_with_index do |se, ii| %>
-      <% student = se.student_assignment.student %>
-      <tr>
-        <td>
-          <%= link_to student.full_name(present_user), se.student_assignment %>
-        </td>
-        <td>
-          <div class='free_response'>
-            <%= '(blank)' if se.free_responses.none? %>
-            <% se.free_responses.each do |free_response| %>
-              <%= render :partial => 'free_responses/show',
-                         :locals => { :free_response => free_response } %>
-            <% end %>
-          </div>
-          <% if se.requires_follow_up_question? %>
-            <div class='follow_up_question'>
-              <%= se.follow_up_answer || '(blank)' %>
-            </div>
-          <% end %>
-        </td>
-        <td><%= se.selected_answer.nil? ? "--" : "(#{choice_letter(se.selected_answer)})" %></td>
-        <td><%= link_to se.score, student_exercise_score_detail_path(se), :remote => true %></td>
-        <td>
-          <%= link_to_function "Show", "$('#se_#{ii}_rts').show(); $(this).hide(); $(this).next().show(); " %>
-          <%= link_to_function "Hide", "$('#se_#{ii}_rts').hide(); $(this).hide(); $(this).prev().show(); ", :style => "display:none" %>
-        </td>
-      </tr>
-      <tr id="se_<%= ii %>_rts" style="display:none">
-        <td></td>
-        <td colspan="4">
-          <%= render :partial => 'response_times/list',
-                     :locals => {:response_times => se.response_times, :show_page => true} %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <% @exercises.each do |status, lst| %>
+    <% if !lst.nil? && lst.count > 0 %>
+      <% message = "From #{status} students" %>
+      <%= render :partial => 'response_list',
+                 :layout  => 'layouts/section',
+                 :locals  => {:responses => lst,
+                              :classes => 'no_bar',
+                              :section_name => message } %>
+    <% end %>
+  <% end %>
+
 <% end %>
 
 <% prev_ae = prev_assignment_exercise(@assignment_exercise) %>
