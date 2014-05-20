@@ -10,7 +10,9 @@
 
 <% exercise = @assignment_exercise.topic_exercise.exercise %>
 
-<%= render 'exercises/exercise_blurb', :exercise => exercise %>
+<%= render 'exercises/exercise_blurb', :exercise => exercise, 
+                                       :show_correct_answer => true, 
+                                       :show_choices => true %>
 
 <% all_responses = @assignment_exercise.student_exercises %>
 
