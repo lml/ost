@@ -34,7 +34,7 @@
       </tr>
     <thead>
     <tbody>
-    <% all_responses.each_with_index do |se,ii| %>
+    <% all_responses.each_with_index do |se, ii| %>
       <% student = se.student_assignment.student %>
       <tr>
         <td>
@@ -72,3 +72,16 @@
     </tbody>
   </table>
 <% end %>
+
+<% prev_ae = prev_assignment_exercise(@assignment_exercise) %>
+<% next_ae = next_assignment_exercise(@assignment_exercise) %>
+<%
+  navitem { link_to "Go to Assignment", assignment_path(@assignment_exercise.assignment) }
+  navitem { link_to "Go to Class", klass_path(@assignment_exercise.assignment.klass) }
+  if !prev_ae.nil?
+    navitem { link_to_if !prev_ae.nil?, "Previous Exercise", assignment_exercise_path(prev_ae) }
+  end
+  if !next_ae.nil?
+    navitem { link_to_if !next_ae.nil?, "Next Exercise", assignment_exercise_path(next_ae) }
+  end
+%>
