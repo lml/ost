@@ -24,7 +24,7 @@
 
   <% @assignment_exercises.each do |ae| %>
     <%= section "Cohort: #{ae.assignment.cohort.name}" do %>
-    <% exercises = ae.exercises_by_student_status(present_user) %>
+    <% exercises = ae.student_exercises_by_student_status(present_user) %>
     <% exercises.each do |status, lst| %>
       <% if !lst.nil? && lst.count > 0 %>
         <% message = "From #{status} students" %>

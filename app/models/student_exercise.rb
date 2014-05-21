@@ -9,6 +9,8 @@ class StudentExercise < ActiveRecord::Base
   belongs_to :assignment_exercise
   has_many :response_times, :as => :response_timeable, :dependent => :destroy
   has_many :free_responses, :dependent => :destroy, :order => :number
+  has_one :student, :through => :student_assignment
+  has_one :consent, :through => :student
 
   before_destroy :destroyable?, prepend: true
   
@@ -38,7 +40,14 @@ class StudentExercise < ActiveRecord::Base
   
   validate :changes_match_state, :on => :update
   validate :has_at_least_one_free_response, :on => :update
-  
+
+  scope :by_student, lambda { |present_user|
+    joins{student.user}
+    .includes{student.user}
+    .merge(Student.visible(present_user))
+    .order{[student.has_dropped, student.is_auditing, lower(student.user.last_name)]}
+  }
+
   after_save :update_cached_conditions
 
   before_save :lock_choice_if_indicated, :on => :update

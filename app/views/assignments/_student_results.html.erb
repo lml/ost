@@ -12,7 +12,7 @@
     <th>Name</th>
     <% assignment.assignment_exercises.each_with_index do |ae, ii| %>
       <th style="text-align:center">
-        <%= link_to_if ae.can_be_read_by?(present_user), (ii + 1).to_s, ae %>
+        <%= link_to (ii + 1).to_s, ae %>
       </th>
     <% end %>
   </tr>

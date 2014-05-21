@@ -41,28 +41,20 @@ class AssignmentExercise < ActiveRecord::Base
   #  - sorted   by student
   #  - grouped  by student status
   #  - filtered by visibility for present_user
-  def exercises_by_student_status(present_user)
+  def student_exercises_by_student_status(present_user)
     # Get students
     # sort, filter and group students
     # Get assignments for the students
-    students = Student.joins{student_assignments}
-                      .where{student_assignments.assignment_id == my{assignment.id}}
-    students = students.visible(present_user)
-    registered = students.registered.active.std_sort(present_user)
-    auditing = students.auditing.active.std_sort(present_user)
-    dropped = students.dropped.std_sort(present_user)
+    exercises = student_exercises.by_student(present_user)
 
-    registered_ex = student_exercises.joins(:student_assignment)
-                                     .where(student_assignment: {student_id: registered})
-
-    auditing_ex = student_exercises.joins(:student_assignment)
-                                     .where(student_assignment: {student_id: auditing})
-
-    dropped_ex = student_exercises.joins(:student_assignment)
-                                     .where(student_assignment: {student_id: dropped})
-
-
-    {:registered => registered_ex, :auditing => auditing_ex, :dropped => dropped_ex}
+    exercises.group_by { |ex| case
+                              when ex.student.has_dropped
+                                :dropped
+                              when ex.student.is_auditing
+                                :auditing
+                              else
+                                :registered
+                              end }
   end
 
 
