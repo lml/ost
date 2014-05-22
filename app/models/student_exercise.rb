@@ -41,11 +41,16 @@ class StudentExercise < ActiveRecord::Base
   validate :changes_match_state, :on => :update
   validate :has_at_least_one_free_response, :on => :update
 
-  scope :by_student, lambda { |present_user|
-    joins{student.user}
-    .includes{student.user}
-    .merge(Student.visible(present_user))
-    .order{[student.has_dropped, student.is_auditing, lower(student.user.last_name)]}
+  scope :by_student, lambda { |user|
+    if user.is_researcher? || user.is_visitor?
+      visible = where("1 = 1").merge(Student.visible(user))
+    else
+      visible = joins{student}
+    end
+    visible
+      .joins("INNER JOIN \"users\" ON \"students\".\"user_id\" = \"users\".\"id\"")
+      .includes{student_assignment.student.user}
+      .order{[students.has_dropped, students.is_auditing, lower(students.users.last_name)]}
   }
 
   after_save :update_cached_conditions
