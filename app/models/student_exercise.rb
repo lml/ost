@@ -44,7 +44,8 @@ class StudentExercise < ActiveRecord::Base
   # Gets the list of student exercises visible for the given user
   scope :visible, lambda { |user|
     if user.is_researcher? || user.is_visitor?
-      joins{student_assignment.student.consent}.where{student_assignment.student.consent.did_consent == true}
+      joins{student_assignment.student.consent}
+        .where{{student_assignment.student.consent => sift(:did_consent)}}
     else
       scoped
     end
