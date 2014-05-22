@@ -38,23 +38,22 @@ class AssignmentExercise < ActiveRecord::Base
   
 
   # Get the list of student exercises:
-  #  - sorted   by student
   #  - grouped  by student status
-  #  - filtered by visibility for present_user
-  def student_exercises_by_student_status(present_user)
-    # Get students
-    # sort, filter and group students
-    # Get assignments for the students
-    exercises = student_exercises.by_student(present_user)
+  #  - filtered by visibility for the given user
+  #  - sorted   by student
+  def student_exercises_by_student_status(user)
+    exercises = student_exercises.visible_by_student(user)
 
-    exercises.group_by { |ex| case
-                              when ex.student.has_dropped
-                                :dropped
-                              when ex.student.is_auditing
-                                :auditing
-                              else
-                                :registered
-                              end }
+    exercises.group_by do |ex|
+      case
+        when ex.student.has_dropped
+          :dropped
+        when ex.student.is_auditing
+          :auditing
+        else
+          :registered
+      end
+    end
   end
 
 
