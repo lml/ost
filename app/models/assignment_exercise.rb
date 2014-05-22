@@ -42,7 +42,7 @@ class AssignmentExercise < ActiveRecord::Base
   #  - filtered by visibility for the given user
   #  - sorted   by student
   def student_exercises_by_student_status(user)
-    exercises = student_exercises.visible_by_student(user)
+    exercises = student_exercises.visible(user).by_student
 
     exercises.group_by do |ex|
       case
@@ -55,7 +55,6 @@ class AssignmentExercise < ActiveRecord::Base
       end
     end
   end
-
 
   #############################################################################
   # Access control methods

@@ -41,23 +41,22 @@ class StudentExercise < ActiveRecord::Base
   validate :changes_match_state, :on => :update
   validate :has_at_least_one_free_response, :on => :update
 
-  # Gets the list of student exercises visible for the given user,
-  # sorted by student status (dropped / auditing) and the last name.
-  scope :visible_by_student, lambda { |user|
+  # Gets the list of student exercises visible for the given user
+  scope :visible, lambda { |user|
     if user.is_researcher? || user.is_visitor?
-      # The dummy "1 = 1" condition is added in order to use the
-      # merge method.
-      visible = where("1 = 1").merge(Student.visible(user))
+      joins{student_assignment.student.consent}.where{student_assignment.student.consent.did_consent == true}
     else
-      visible = joins{student}
+      scoped
     end
-    # Handcoded join avoids duplicate joins on student_assignment and
-    # student tables.
-    visible
-      .joins("INNER JOIN \"users\" ON \"students\".\"user_id\" = \"users\".\"id\"")
-      .includes{student_assignment.student.user}
-      .order{[students.has_dropped, students.is_auditing, lower(students.users.last_name)]}
   }
+
+  # Gets the list of student exercises sorted by student status
+  # (dropped / auditing) and the last name.
+  scope :by_student, joins{student_assignment.student.user}
+                       .includes{student_assignment.student.user}
+                       .order{[student_assignment.student.has_dropped,
+                               student_assignment.student.is_auditing,
+                               lower(student_assignment.student.users.last_name)]}
 
   after_save :update_cached_conditions
 
