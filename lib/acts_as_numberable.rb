@@ -76,8 +76,6 @@ module ActsAsNumberable
       class_eval <<-EOV
         include ActsAsNumberable::ContainerInstanceMethods
 
-        scope :peers, where{#{container_column}=my{#{container_column}}}
-
         # When we had nested acts_as_numberables, there were cases where the
         # objects were having their numbers changed (as their peers were being
         # removed from the container), but then when it came time to delete those 
@@ -123,14 +121,18 @@ module ActsAsNumberable
    
   module ContainerInstanceMethods
 
+    def peers
+      my_class.where(container_column => self.send(container_column))
+    end
+
     def prev
       if number > 1
-        my_class.peers.where{number == my{number} - 1}.first
+        peers.where{number == my{number} - 1}.first
       end
     end
 
     def next
-      my_class.peers.where{number == my{number} + 1}.first
+      peers.where{number == my{number} + 1}.first
     end
 
     def move_to_container!(new_container)
