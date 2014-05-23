@@ -46,7 +46,15 @@ module ActsAsNumberable
     
       scope :ordered, order('number ASC')
       scope :reverse_ordered, order('number DESC')
-      
+
+      sifter :prev do |current|
+        number == current - 1
+      end
+
+      sifter :next do |current|
+        number == current + 1
+      end
+
       def self.sort!(sorted_ids)
         return if sorted_ids.blank?
         items = []
@@ -104,6 +112,21 @@ module ActsAsNumberable
   end
    
   module BasicInstanceMethods
+
+    def peers
+      my_class.scoped
+    end
+
+    def prev
+      if number > 1
+        peers.where{sift :prev, my{number}}.first
+      end
+    end
+
+    def next
+      peers.where{sift :next, my{number}}.first
+    end
+
     protected
 
     def my_class
@@ -123,16 +146,6 @@ module ActsAsNumberable
 
     def peers
       my_class.where(container_column => self.send(container_column))
-    end
-
-    def prev
-      if number > 1
-        peers.where{number == my{number} - 1}.first
-      end
-    end
-
-    def next
-      peers.where{number == my{number} + 1}.first
     end
 
     def move_to_container!(new_container)
