@@ -1,0 +1,24 @@
+<%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%# 
+
+Params:
+
+  section_name: required. name for the section container.
+  collapsible:  optional. Can the section be collapsed? default: False.
+  collapsed:    optional. Should the section be collapsed initially? Implies collapsible. default: False.
+  classes:      optional. Classes to be tagged to the section container.
+%>
+
+<%
+  section_name = 'Section'          if local_assigns[:section_name].nil?
+  collapsed    = false              if local_assigns[:collapsed].nil?
+  collapsible  = defined? collapsed if local_assigns[:collapsible].nil?
+  classes      = ''                 if local_assigns[:classes].nil?
+
+%>
+
+<%= section section_name, {:collapsible => collapsible, :collapsed => collapsed, :classes => classes } do %>
+  <% yield %>
+<% end %>

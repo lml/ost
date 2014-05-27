@@ -31,6 +31,10 @@ class Consent < ActiveRecord::Base
 
   before_create :set_consent_options
 
+  sifter :did_consent do
+    did_consent == true
+  end
+
   def consented_at
     did_consent ? created_at : nil
   end

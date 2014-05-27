@@ -1,0 +1,19 @@
+<%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%# 
+
+Params:
+
+  exercise: required.
+  phrase: required.
+
+%>
+
+<%
+  solution = exercise.correct_choice_index
+%>
+
+<div class="exercise-answer">
+  <p><%= phrase %> <b>(<%= choice_letter(solution) %>)</b></p>
+</div>

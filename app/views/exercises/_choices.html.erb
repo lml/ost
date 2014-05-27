@@ -1,0 +1,27 @@
+<%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%# 
+
+Params:
+
+  exercise: required
+  mark_correct: optional. Marks the correct answer with a class. default: false.
+%>
+
+<%
+   exercise_data = exercise.content
+   solution      = exercise.correct_choice_index
+   mark_correct  = false if local_assigns[:mark_correct].nil?
+%>
+
+<div class:="question multiple-choice">
+  <ul class="unstyled">
+    <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>
+    <li class="row <% if mark_correct && solution == ii %>correct-answer<% end %>">
+       <div class="choice-letter span1"><%= choice_letter(ii) %>)</div>
+       <div class="answer-choice span6 text-left"><%= answer_choice["html"].html_safe %></div>
+    <li>
+    <% end %>
+  </ul>
+</div>

@@ -81,7 +81,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-rerun'
   gem 'cucumber-rails', :require => false
-  gem 'capybara-webkit'
   gem 'capybara-screenshot'
   gem 'poltergeist'
   gem 'launchy'

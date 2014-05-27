@@ -76,6 +76,8 @@ Ost::Application.routes.draw do
     get 'management_overview', :on => :member
   end
 
+  resources :assignment_exercises, :only => [:show]
+
   resources :external_assignments, :shallow => true, :only => [ ] do
     collection do
       put :update_attribute_on_the_spot

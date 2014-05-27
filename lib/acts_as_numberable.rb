@@ -46,7 +46,15 @@ module ActsAsNumberable
     
       scope :ordered, order('number ASC')
       scope :reverse_ordered, order('number DESC')
-      
+
+      sifter :prev do |current|
+        number == current - 1
+      end
+
+      sifter :next do |current|
+        number == current + 1
+      end
+
       def self.sort!(sorted_ids)
         return if sorted_ids.blank?
         items = []
@@ -75,7 +83,7 @@ module ActsAsNumberable
     if !configuration[:container].nil?
       class_eval <<-EOV
         include ActsAsNumberable::ContainerInstanceMethods
-      
+
         # When we had nested acts_as_numberables, there were cases where the
         # objects were having their numbers changed (as their peers were being
         # removed from the container), but then when it came time to delete those 
@@ -104,6 +112,21 @@ module ActsAsNumberable
   end
    
   module BasicInstanceMethods
+
+    def peers
+      my_class.scoped
+    end
+
+    def prev
+      if number > 1
+        peers.where{sift :prev, my{number}}.first
+      end
+    end
+
+    def next
+      peers.where{sift :next, my{number}}.first
+    end
+
     protected
 
     def my_class
@@ -120,6 +143,11 @@ module ActsAsNumberable
   end
    
   module ContainerInstanceMethods
+
+    def peers
+      my_class.where(container_column => self.send(container_column))
+    end
+
     def move_to_container!(new_container)
       return if new_container.id == self.send(container_column)
       ActiveRecord::Base.transaction do

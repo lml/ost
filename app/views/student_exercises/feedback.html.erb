@@ -1,14 +1,25 @@
-<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+<%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <%= pageHeading("Feedback on #{@student_exercise.assignment.assignment_plan.name}, " + 
                 "Exercise #{@student_exercise.assignment_exercise.number}", 
                 {:sub_heading_text => @student_exercise.student_assignment.student.section.klass.name})%>
-<% learning_condition = @student_exercise.learning_condition %>
+<% 
+   exercise = @student_exercise.assignment_exercise.topic_exercise.exercise
+   learning_condition = @student_exercise.learning_condition 
+%>
 
-<% if true %>
-  <%= render :partial => "student_answer", :locals => { :student_exercise => @student_exercise } %> 
-<% end %>
+<%= render 'exercises/exercise_blurb', :exercise => exercise,
+                                       :show_choices => true %>
+
+<%= render :partial => "student_answer", :locals => { :student_exercise => @student_exercise } %>
+
+<%= render :partial => "free_response_list", 
+           :layout  => 'layouts/section',
+           :locals  => { :student_exercise => @student_exercise, 
+                         :section_name     => 'Your Free Responses',
+                         :classes          => 'no_bar',
+                         :collapsed        => true} %>
 
 <% if learning_condition.show_correctness_feedback?(@student_exercise) %>
   <%= render :partial => "correctness_feedback", :locals => { :student_exercise => @student_exercise } %> 
@@ -18,9 +29,7 @@
   <%= render :partial => "correct_answer_feedback", :locals => { :student_exercise => @student_exercise } %> 
 <% end %>
 
-<% if true %>
-  <%= render :partial => "solution_feedback", :locals => { :student_exercise => @student_exercise } %> 
-<% end %>
+<%= render :partial => "solution_feedback", :locals => { :student_exercise => @student_exercise } %> 
 
 <%= render :partial => 'shared/response_times',
            :locals => {:response_timeable => @student_exercise,

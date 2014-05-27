@@ -1,0 +1,52 @@
+<%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%#
+
+Params:
+
+  show_correct_answer: optional. default: false
+  show_choices: optional. defailt: false
+
+%>
+
+<%
+  show_correct_answer = false if local_assigns[:show_correct_answer].nil?
+  show_choices        = false if local_assigns[:show_choices].nil?
+
+%>
+
+<%= render :partial => 'exercises/question',
+           :layout => 'layouts/section',
+           :locals => {
+             :exercise => exercise,
+             :section_name => "Exercise",
+             :collapsed => false,
+             :classes => 'first no_bar'
+           } %>
+
+
+<% if show_correct_answer %>
+<%= render :partial => 'exercises/correct_answer',
+           :layout => 'layouts/section',
+           :locals => {
+             :phrase => 'The correct answer is:',
+             :exercise => exercise,
+             :section_name => "Correct Answer",
+             :collapsed => false,
+             :classes => 'first no_bar'
+           } %>
+<% end %>
+
+
+
+<% if show_choices %>
+<%= render :partial => 'exercises/choices',
+           :layout => 'layouts/section',
+           :locals => {
+             :exercise => exercise,
+             :section_name => "Answer Choices",
+             :collapsed => true,
+             :classes => 'first no_bar'
+           } %>
+<% end %>
