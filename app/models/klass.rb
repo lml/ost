@@ -33,8 +33,10 @@ class Klass < ActiveRecord::Base
                   :approved_emails, :time_zone, 
                   :source_learning_plan_id, :is_controlled_experiment,
                   :allow_student_specified_id
-  
-  def self.opened;  where{open_date.lte  Time.now}; end 
+
+  scope :for_report, -> { includes({:cohorts => [{:learning_condition => [{:learning_condition_presentation_conditions => :presentation_condition}, {:learning_condition_default_presentation_condition => :presentation_condition}, {:learning_condition_feedback_conditions => :feedback_condition}, {:learning_condition_default_feedback_condition => :feedback_condition}]}, {:assignments => [:assignment_plan, {:assignment_exercises => [{:topic_exercise => [:exercise, :concept, :topic]}]}]}]}, {:course => :organization}, {:educators => :user}) }
+
+  def self.opened;  where{open_date.lte  Time.now}; end
   def self.started; where{start_date.lte Time.now}; end 
   def self.ended;   where{end_date.lte   Time.now}; end
   def self.closed;  where{close_date.lte Time.now}; end

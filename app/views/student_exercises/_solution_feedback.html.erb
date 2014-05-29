@@ -12,7 +12,7 @@
   <%= section "Solution".pluralize(number_of_solutions), {:classes => 'first no_bar' } do %>
 
     <% if 0 == number_of_solutions %>
-      <p>There are no availble solutions to this exercise.</p>
+      <p>There are no available solutions to this exercise.</p>
     <% else %>
 
       <% solutions_content["solutions"].each_with_index do |solution, index| %>

@@ -114,7 +114,7 @@ class ClassesController < ApplicationController
   end
   
   def report
-    @klass = Klass.find(params[:id])
+    @klass = Klass.for_report.find(params[:id])
         
     raise SecurityTransgression unless present_user.can_read_children?(@klass, :report)
     

@@ -9,6 +9,8 @@ class StudentExercise < ActiveRecord::Base
   belongs_to :assignment_exercise
   has_many :response_times, :as => :response_timeable, :dependent => :destroy
   has_many :free_responses, :dependent => :destroy, :order => :number
+  has_one :student, :through => :student_assignment
+  has_one :consent, :through => :student
 
   before_destroy :destroyable?, prepend: true
   
@@ -38,7 +40,25 @@ class StudentExercise < ActiveRecord::Base
   
   validate :changes_match_state, :on => :update
   validate :has_at_least_one_free_response, :on => :update
-  
+
+  # Gets the list of student exercises visible for the given user
+  scope :visible, lambda { |user|
+    if user.is_researcher? || user.is_visitor?
+      joins{student_assignment.student.consent}
+        .where{{student_assignment.student.consent => sift(:did_consent)}}
+    else
+      scoped
+    end
+  }
+
+  # Gets the list of student exercises sorted by student status
+  # (dropped / auditing) and the last name.
+  scope :by_student, joins{student_assignment.student.user}
+                       .includes{student_assignment.student.user}
+                       .order{[student_assignment.student.has_dropped,
+                               student_assignment.student.is_auditing,
+                               lower(student_assignment.student.users.last_name)]}
+
   after_save :update_cached_conditions
 
   before_save :lock_choice_if_indicated, :on => :update

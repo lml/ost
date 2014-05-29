@@ -1,0 +1,24 @@
+<%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%# Clients must supply:
+      exercise
+%>
+
+<%
+  question = exercise.content["simple_question"]
+%>
+
+<div class="exercise-question">
+  <div class="question question-box">
+    <div class="question intro">
+      <% if !question["introduction"].nil? %>
+        <%= question["introduction"]["html"].html_safe %>
+      <% end %>
+    </div>
+
+    <div class="question question-text">
+      <%= question["content"]["html"].html_safe %>
+    </div>
+  </div>
+</div>
