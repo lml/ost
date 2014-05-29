@@ -11,7 +11,7 @@ require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
 module Rails
   class Server
 
-    DEV_PORT = 3010
+    DEV_PORT = 3000
 
     alias :default_options_alias :default_options
     def default_options
