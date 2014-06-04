@@ -27,6 +27,7 @@
 // Loads Bootstrap javascripts for accordions; note loading everything breaks other existing CSS/JS
 //= require bootstrap-transition
 //= require bootstrap-collapse
+//= require bootstrap-dropdown
 
 
 function open_specified_dialog(name, is_modal, height, width, title, body) {

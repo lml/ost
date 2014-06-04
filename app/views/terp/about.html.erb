@@ -1,0 +1,19 @@
+ <div style="float:right">
+          <%= link_to "http://www.rice.edu" do %>
+            <%= image_tag 'rice_logo_4.png', :style => 'float:right' %>
+          <% end %>
+        </div>
+
+        <div id="copy">
+          Copyright &copy; <%= year = Time.now.year; 2012 == year ? "2012" : "2011&ndash;#{year}".html_safe %> <%= COPYRIGHT_HOLDER %> |
+          <%= link_to "Terms of Use", main_app.terms_path %> |
+          <%= link_to "Contact Us", main_app.contact_path %>
+      
+          <br/>
+      
+          Supported by the
+          <%= link_to "National Science Foundation", "http://www.nsf.org" %>,
+          <%= link_to "Google", "http://www.google.org" %>, <%= link_to "Duke University", "http://www.duke.edu" %>, and
+          <%= link_to "Rice University", "http://www.rice.edu" %>
+          <br/>
+        </div>
