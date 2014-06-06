@@ -1,0 +1,144 @@
+
+  <% @include_timepicker = true %>
+
+<%= pageHeading "Join #{SITE_NAME}"%>
+
+<p><b>Please sign up for an account to take the practice quiz!</b></p>
+
+<div style="width:500px; margin-left: auto; margin-right: auto">
+
+<% resource ||= User.new
+   resource_name = :user %>
+
+<style type='text/css'>
+  div.field {
+    display: inline-block;
+    margin-bottom: 0px;
+  }
+
+  div.field p {
+    margin-top: 0px;
+  }
+
+  div.field.left {
+    float: left;
+    clear:both;
+  }
+  div.field.right {
+    margin-left: 30px;
+  }
+</style>
+
+<%= lev_form_for :sign_up, url: terp_sign_up_path(params[:terp_id]) do |f| %>
+
+  <div class='field left'>
+    <p>First Name<br/>
+    <%= f.text_field :first_name %></p>
+  </div>
+
+  <div class='field right'>
+    <p>Last Name<br/>
+    <%= f.text_field :last_name %></p>
+  </div>
+  
+  <br/>
+  
+  <div class='field left'>
+    <p>Username<br/>
+    <%= f.text_field :username %></p>
+  </div>
+
+  <br/><div style="clear:both"></div>
+
+  <div class='field left'>
+    <p>Email<br />
+    <%= f.email_field :email %></p>
+  </div>
+
+  <div class='field right'>
+    <p>Email Again<br />
+    <%= f.email_field :email_confirmation %></p>
+  </div>
+
+  <br/><div style="clear:both"></div>
+
+  <div class='field left'>
+    <p>Password<br />
+    <%= f.password_field :password %></p>
+  </div>
+
+  <div class='field right'>
+    <p>Password Again<br />
+    <%= f.password_field :password_confirmation %></p>
+  </div>
+
+  <br/><div style="clear:both"></div>
+
+  <div class="field left">
+    <p><%= t(:time_zone) %><br />
+    <%= f.time_zone_select( 'time_zone', 
+                            ActiveSupport::TimeZone.us_zones, 
+                            :default => Time.zone) %></p>
+  </div>
+
+<br/><div style="clear:both"></div>
+
+  <div class='field left '>
+    <p>Registration Code<br/>
+    <%= f.text_field :registration_code %>
+  </div>
+
+<br/><div style="clear:both"></div>
+
+  <div style="padding-top:20px">
+
+    <%
+    @contracts = [FinePrint.get_contract(:general_terms_of_use),
+                  FinePrint.get_contract(:privacy_policy)].compact
+    %>
+
+  <% contract_links = @contracts.collect do |contract|
+     link_to contract.title, show_terms_path(contract), remote: true
+   end %>
+
+  <%= check_box_tag(:agreement_checkbox) %> 
+  I have read this site's <%= contract_links[0] %> and <%= contract_links[1] %> and agree to be bound by their terms.
+  </div>
+  
+  <div style="padding: 10px 0"><%= f.submit "Sign up", :id => 'register_submit', :class => "ui-state-default ui-state-disabled link_button" %></div>
+<% end %>
+
+</div>
+
+<%# JS to enable/disable the submit button dependent on if the agree checkbox is checked %>
+<% content_for :javascript do %>
+  <%= javascript_tag do %>
+  
+  function disable_button(id) {
+     $(id).attr('disabled', 'disabled');
+     $(id).addClass('ui-state-disabled ui-button-disabled');
+     $(id).attr('aria-disabled', true);
+  }
+  
+  function enable_button(id) {
+    $(id).removeAttr('disabled');
+    $(id).removeAttr('aria-disabled');
+    $(id).removeClass('ui-state-disabled ui-button-disabled');
+    $(id).button();
+  }
+  
+  $(document).ready(function() {
+    disable_button('#register_submit');
+    
+    $('#agreement_checkbox').live('click', function() {
+       if ($('#agreement_checkbox').is(':checked')) {
+         enable_button('#register_submit');
+       } 
+       else {
+         disable_button('#register_submit');
+       }
+    });
+    
+  });
+  <% end %>
+<% end %>

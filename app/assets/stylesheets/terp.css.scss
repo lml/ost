@@ -95,6 +95,12 @@ pre {
   font-color: #000;
   margin-top: 0px;
   height: 600px;
+  border: 1px solid #efefef;
+}
+
+
+.ui-dialog {
+  top: 50px !important;
 }
 
 .top_level_container {}
@@ -112,7 +118,7 @@ a, #message_dialog_body a, #help_dialog_body a {
    font-weight: normal;
 }
 
-$edge_distance: 0px;
+$edge_distance: 5px;
 
 @mixin header-main-footer-common {
   padding-left: $edge_distance;
@@ -128,6 +134,9 @@ $header_height: 52px;
 
   position: fixed;
   top:0;
+  background: $ost_light_beige;
+  // background: $os
+  // border-bottom: 1px solid $ost_hot_blue;
 
   .logo  {
     border: 0 none;
@@ -135,6 +144,7 @@ $header_height: 52px;
     float: left;   
     background: image-url("ost_logo_beta.png") no-repeat transparent;
     margin-top: 11px;
+    // margin-left:20px;
     height: 49px;
     width: 286px;
   }
@@ -199,7 +209,7 @@ $nav_bar_height: $header_height;
 #nav_bar {
   
   height: $nav_bar_height;    
-  width: $iframe_width;
+  width: $iframe_width - 2*$edge_distance;
 
   li.menu {
     text-align: left;
@@ -345,7 +355,8 @@ input[disabled].link_button {
 #main {
   @include header-main-footer-common;
   padding-bottom: 47px;
-  margin-bottom: -15px;
+  // margin-bottom: -15px;
+  margin-top: 10px + $header_height;
 }
 
 #footer {

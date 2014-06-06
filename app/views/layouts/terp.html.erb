@@ -50,6 +50,21 @@
 
         <div id="nav_bar" class="test test_section top_nav">
           <a href="/" class="logo"></a>
+          <%
+            submenu = []
+
+            if user_signed_in?
+              submenu.push ["Log Out", terp_logout_path(params[:terp_id]), {method: :delete}]
+              submenu.push ["Account", terp_my_account_path(params[:terp_id])]
+            end
+
+            submenu.push(
+              ["About", terp_about_path, {remote:true}],
+              ["Terms of Use", nil],
+              ["Contact Us", nil]
+            )
+          %>
+
             <% nav_links = [
 
                 ["QUIZ INSTRUCTIONS", main_app.about_path, "", :about],
@@ -57,8 +72,11 @@
                 ["HELP #{image_tag 'help_icon_v4.png', :height => '12px', :width => '12px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}", 
                   main_app.help_path, "", :help],
                 ["#{image_tag 'three_lines_16.png', :height => '16px', :width => '16px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px; padding-right: 5px;'}", 
-                  nil, "", :menu, [["Log Out", nil],["Account", nil]]]  
+                  nil, "", :menu, submenu]  
               ] %>
+     
+
+
 
             <ul class='top'>
               <% nav_links.each do |nav_link| %>
@@ -78,7 +96,9 @@
                   <% if is_dropdown %>
                     <ul class='dropdown-menu pull-right' role='menu'>
                     <% nav_link[4].each do |item| %>
-                      <li class='menu'><a tabindex='-1' href='#'><%= item[0] %></a></li>
+                      <li class='menu'>
+                        <%= link_to item[0], item[1], item[2] %>
+                      </li>
                     <% end %>
                     </ul>
                   <% end %>

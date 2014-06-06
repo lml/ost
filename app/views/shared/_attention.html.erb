@@ -4,6 +4,10 @@
 <% alert_messages = [] %>
 <% notice_messages = [] %>
 
+<% handler_errors.each do |error| %>
+ <% alert_messages.push error.translate %>
+<% end %>
+
 <% if !@errors.nil? && @errors.any? %>
   <% @human_field_names ||= {} %>
   <% @human_field_names = HUMAN_FIELD_NAMES.merge(@human_field_names) %>

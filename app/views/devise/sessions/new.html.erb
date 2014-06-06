@@ -7,7 +7,7 @@
 <%= pageHeading "Sign In" %>
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <% @errors = resource.errors %>
+  <% @errors = resource.try(:errors) %>
   
   <div class="field test input user_username"><%= f.label :username %><br />
   <%= f.text_field :username %></div>

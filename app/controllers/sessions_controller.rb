@@ -8,6 +8,12 @@ class SessionsController < Devise::SessionsController
 
   layout :layout
 
+  def new
+    terp? ?
+      render('terp/sign_in') :
+      render('new')
+  end
+
   def create
     super
     session[:was_ever_logged_in_as_admin] = true if current_user.is_administrator?
@@ -20,7 +26,11 @@ class SessionsController < Devise::SessionsController
   end
 
   def layout
-    session[:user_return_to].try(:starts_with?, "/terp/") ? 'terp' : 'application'
+    terp? ? 'terp' : 'application'
+  end
+
+  def terp?
+    session[:user_return_to].try(:starts_with?, "/terp/")
   end
 
 end

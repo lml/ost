@@ -6,7 +6,8 @@ Ost::Application.routes.draw do
   
 
   resources :terp, only: [] do  # can hack the use of the ID to be the quiz ID
-    get 'sign_in_or_up'
+    get 'sign_in'
+    delete 'logout'
     get "consent"
     get "quiz_start"
     get "instructions"
@@ -17,9 +18,13 @@ Ost::Application.routes.draw do
     get "dashboard"
     get "help"
     get "my_account"
-    get "about"
     get "preview"
+    get "sign_up"
+    post "sign_up"
   end
+
+  get "terp/about"
+  get "terp/account_help"
 
   resources :mail_hooks, :only => [] do
     post 'catch', :on => :collection

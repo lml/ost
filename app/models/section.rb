@@ -14,6 +14,13 @@ class Section < ActiveRecord::Base
   
   attr_accessible :name, :klass
   
+  after_create :reset_registration_code!
+
+  def reset_registration_code!
+    new_code = Babbler.babble until Section.where(registration_code: new_code).none?
+    self.update_attribute(:registration_code, new_code)
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################
