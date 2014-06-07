@@ -1,2 +1,20 @@
 <h1>Terp#question_feedback</h1>
 <p>Find me in app/views/terp/question_feedback.html.erb</p>
+
+
+<% next_se = next_student_exercise(@student_exercise) %>
+
+
+<% if next_se.nil? %>
+  <%= link_to "Quiz Summary >", 
+              terp_quiz_summary_path(
+                  terp_id: params[:terp_id]),
+              {class: 'link_button'} %>
+<% else %>
+  <%= link_to "Next Question >", 
+              terp_question_free_response_path(
+                  terp_id: params[:terp_id], 
+                  student_exercise_id: next_se.id),
+              {class: 'link_button'} %>
+<% end %>
+

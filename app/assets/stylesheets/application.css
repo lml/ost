@@ -18,7 +18,6 @@
  *= require common
  *= require home
  *= require main
- *= require_tree .
 */
 
 .ui-widget input.ui-widget {

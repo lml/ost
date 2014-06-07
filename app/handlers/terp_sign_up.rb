@@ -42,7 +42,7 @@ protected
 
     student = Student.create(:user_id => user.id, 
                              :section_id => section.id, 
-                             :is_auditing => sign_up_params.is_auditing, 
+                             :is_auditing => sign_up_params.is_auditing || false, 
                              :student_specified_id => sign_up_params.student_specified_id)
 
     transfer_errors_from(student, {type: :verbatim}, true)
@@ -51,6 +51,8 @@ protected
                  FinePrint.get_contract(:privacy_policy)].compact
 
     contracts.each {|contract| FinePrint.sign_contract(user, contract) }
+
+    options[:user_state].devise_sign_in user
   end
 
 end

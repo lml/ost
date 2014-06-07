@@ -1,4 +1,36 @@
-<h1>Terp#quiz_start</h1>
-<p>Find me in app/views/terp/quiz_start.html.erb</p>
+<%
+  ap = @student_assignment.assignment.assignment_plan
+  klass = @student_assignment.assignment.klass
+%>
 
-get the assignment, spit out instructions
+<div class='quiz_start'>
+  <div class='heading'>
+    <%= klass.name %>, <%= ap.name %>
+  </div>
+
+  <div class='info'>
+    <p>This practice activity is graded.  Your instructor will receive your results and assign
+    your score accordingly.  To ensure you are prepared, read the section before staring this
+    activity.</p>
+
+    <p>You will have one attempt per question.  This activity is untimed.</p>
+
+    <%= @student_assignment.assignment.assignment_plan.introduction %>
+  </div>
+
+  <div class='due_date'>
+    Due Date: <%= standard_datetime(ap.ends_at) %>
+  </div>
+
+  <%= link_to "Start!", 
+              terp_question_free_response_path(
+                terp_id: params[:terp_id], 
+                student_exercise_id: @student_assignment
+                                       .student_exercises
+                                       .joins{assignment_exercise}
+                                       .order{assignment_exercise.number.asc}.first),
+            {class: 'link_button'} %>
+
+</div>
+
+
