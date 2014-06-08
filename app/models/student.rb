@@ -22,6 +22,8 @@ class Student < ActiveRecord::Base
 
   attr_accessible :is_auditing , :user_id, :section_id, :student_specified_id, :has_dropped
   
+  after_create :create_missing_student_assignments
+
   scope :auditing, where(:is_auditing => true)
   scope :registered, where(:is_auditing => false)
   scope :active, where(:has_dropped => false)
@@ -195,6 +197,10 @@ protected
   def cannot_audit_if_researcher
     self.errors.add(:is_auditing, "A researcher cannot be fully registered for a class.") \
       if !self.is_auditing && user.is_researcher?
+  end
+
+  def create_missing_student_assignments
+    cohort.assignments.each{|assignment| assignment.create_missing_student_assignment_for_student(self)}
   end
     
 end
