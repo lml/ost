@@ -23,6 +23,9 @@ Ost::Application.routes.draw do
     get 'solicit_answer_selection'
     put 'save_answer_selection'
     get 'present_feedback'
+
+    get 'terms'
+    get 'contact_us'
   end
 
   get "terp/about"

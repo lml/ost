@@ -128,6 +128,12 @@ class TerpController < ApplicationController
   def account_help
   end
 
+  def contact_us
+  end
+
+  def terms
+  end
+
 protected
 
   def redirect_to_quiz_start

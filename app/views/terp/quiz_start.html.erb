@@ -22,14 +22,16 @@
     Due Date: <%= standard_datetime(ap.ends_at) %>
   </div>
 
-  <%= link_to "Start!", 
-              terp_solicit_free_response_path(
-                terp_id: params[:terp_id], 
-                student_exercise_id: @student_assignment
-                                       .student_exercises
-                                       .joins{assignment_exercise}
-                                       .order{assignment_exercise.number.asc}.first),
-            {class: 'link_button'} %>
+  <div class='nav-button'>
+    <%= link_to "Start!", 
+                terp_solicit_free_response_path(
+                  terp_id: params[:terp_id], 
+                  student_exercise_id: @student_assignment
+                                         .student_exercises
+                                         .joins{assignment_exercise}
+                                         .order{assignment_exercise.number.asc}.first),
+              {class: 'link_button'} %>
+  </div>
 
 </div>
 
