@@ -42,7 +42,7 @@ $iframe_height: 600px;
 }
 
 @mixin top-level {
-   width: $iframe_width;
+   width: $iframe_width - 4px;
    margin-left: auto;
    margin-right: auto;
 }
@@ -129,6 +129,7 @@ $header_height: 52px;
 
 #header {
   @include header-main-footer-common;
+  z-index:10000;
 
   height: $header_height;
 
@@ -543,8 +544,21 @@ div.field label {
 
 /************ Specific Pages ******************/
 
-#exercise_response_show .section_body {
+#exercise_response_show {
    width:600px;
+   margin: 20px auto;
+   clear: right;
+}
+
+#question_outer {
+   width:600px;
+   margin: 20px auto;
+   clear: right;
+
+   // &.present_feedback {
+   //   .section_heading { display: none }
+   //   .section_body {margin: 0}
+   // }
 }
 
 /************ 2-column layout *****************/
@@ -974,11 +988,16 @@ input.ui-widget {
 }
 
 .question-box {
-  @include content-box;
+  // @include content-box;
 }
 
 .free-response-box {
   @include content-box;
+}
+
+.question_count {
+  float:right;
+  font-style: italic;
 }
 
 .section-exercise-responses {
@@ -1057,3 +1076,19 @@ input.ui-widget {
 
 }
 
+.row.correct-answer {
+  background: image-url("green_check_v2.png") no-repeat transparent;  
+}
+
+.row {
+  .choice-letter {
+    padding-left: 10px;
+  }
+}
+
+.nav-button {
+  margin: 0px auto;
+  padding-top: 20px;
+  clear: both;
+  text-align: center;
+}

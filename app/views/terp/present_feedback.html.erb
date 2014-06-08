@@ -1,0 +1,53 @@
+
+
+<% next_se = next_student_exercise(@student_exercise) %>
+
+<% 
+   exercise = @student_exercise.assignment_exercise.topic_exercise.exercise
+   learning_condition = @student_exercise.learning_condition 
+%>
+
+<div class='question_count'>Problem <%= @student_exercise.assignment_exercise.number %> of <%= @student_exercise.student_assignment.assignment.assignment_exercises.count %></div>
+
+<div id="question_outer" class='present_feedback'>
+
+
+  <%= render :partial => 'exercises/question',
+             :locals => {
+               :exercise => exercise
+             } %>
+
+
+  <%= render :partial => 'exercises/choices',
+             :locals => {
+               :exercise => exercise,
+               :mark_correct => learning_condition.show_correct_answer_feedback?(@student_exercise)
+             } %>
+
+
+  <%= render :partial => "student_exercises/solution_feedback", :locals => { :student_exercise => @student_exercise } %> 
+
+
+ 
+
+
+  <div class='nav-button'>
+    <% if next_se.nil? %>
+      <%= link_to "Quiz Summary >", 
+                  terp_quiz_summary_path(
+                      terp_id: params[:terp_id]),
+                  {class: 'link_button'} %>
+    <% else %>
+      <%= link_to "Next Question >", 
+                  terp_solicit_free_response_path(
+                      terp_id: params[:terp_id], 
+                      student_exercise_id: next_se.id),
+                  {class: 'link_button'} %>
+    <% end %>
+  </div>
+
+</div>
+
+<%= render :partial => 'shared/response_times',
+           :locals => {:response_timeable => @student_exercise,
+                       :page => "feedback"} %>

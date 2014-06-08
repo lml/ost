@@ -3,24 +3,26 @@
 
 Ost::Application.routes.draw do
 
-  
-
   resources :terp, only: [] do  # can hack the use of the ID to be the quiz ID
     get 'sign_in'
     delete 'logout'
+    get "sign_up"
+    post "sign_up"
+    
     get "consent"
     get "quiz_start"
     get "instructions"
-    get "question_free_response"
-    get "question_answer_selection"
-    get "question_feedback"
     get "quiz_summary"
     get "dashboard"
     get "help"
     get "my_account"
     get "preview"
-    get "sign_up"
-    post "sign_up"
+
+    get 'solicit_free_response'
+    put 'save_free_response'
+    get 'solicit_answer_selection'
+    put 'save_answer_selection'
+    get 'present_feedback'
   end
 
   get "terp/about"

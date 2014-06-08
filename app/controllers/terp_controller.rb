@@ -5,14 +5,9 @@ class TerpController < ApplicationController
   before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up]
 
   before_filter :get_student_assignment, only: [:quiz_start]
-  before_filter :get_student_exercise, only: [:question_free_response, :question_feedback, 
-                                              :question_answer_selection, :question_update]
-
-  # interceptor :terp_authenticate_user, except: [:preview, :about, :sign_up]
-
-  # need an authenticate before filter that redirects here not the normal place
-
-  # acts_as_interceptor
+  before_filter :get_student_exercise, only: [:solicit_free_response, :save_free_response,
+                                              :solicit_answer_selection, :save_answer_selection,
+                                              :present_feedback]
 
   layout :layout
 
@@ -43,44 +38,65 @@ class TerpController < ApplicationController
   def consent; end
 
   def quiz_start
+    raise SecurityTransgression unless present_user.can_read?(@student_assignment.assignment)
+    # TODO advance user to farthest completed point
   end
 
   def instructions
   end
 
-  def question_free_response
+  def solicit_free_response
     raise SecurityTransgression unless present_user.can_read?(@student_exercise)
+
+    if @student_exercise.selected_answer_submitted?
+      redirect_to_feedback
+    elsif @student_exercise.free_response_submitted?
+      redirect_to_answer_selection
+    end
+    
     @include_mathjax = true
   end
 
-  def question_update
+  def save_free_response
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
     @student_exercise.lock_response_text_on_next_save = true if params[:save_and_lock]
-   
-    respond_to do |format|
-      if @student_exercise.update_attributes(params[:student_exercise])
-        flash[:notice] = "Response saved."
-        if @student_exercise.selected_answer_submitted? && 
-           @student_exercise.is_feedback_available? &&
-           @student_exercise.can_automatically_show_feedback?
-          format.html { redirect_to(terp_question_feedback_path(@student_exercise)) }
-        else
-          format.html { redirect_to(terp_question_answer_selection_path(@student_exercise)) }
-        end
-      else
-        @include_mathjax = true
-        format.html { render :action => "question_free_response" }  
-      end
+    @student_exercise.free_responses << TextFreeResponse.new(content: params[:student_exercise].delete(:free_response))
+
+    if @student_exercise.update_attributes(params[:student_exercise])
+      flash[:notice] = "Response saved."
+      redirect_to_answer_selection
+    else
+      @include_mathjax = true
+      render :action => "solicit_free_response" 
     end
   end
 
-  def question_answer_selection
+  def solicit_answer_selection
     raise SecurityTransgression unless present_user.can_read?(@student_exercise)
+
+    if !@student_exercise.free_response_submitted?
+      redirect_to_free_response
+    elsif @student_exercise.selected_answer_submitted?
+      redirect_to_feedback
+    end
+
     @include_mathjax = true
   end
 
-  def question_feedback
+  def save_answer_selection
+    raise SecurityTransgression unless present_user.can_update?(@student_exercise)
+   
+    if @student_exercise.update_attributes(params[:student_exercise])
+      flash[:notice] = "Response saved."
+      redirect_to_feedback
+    else
+      @include_mathjax = true
+      render :action => "solicit_answer_selection" 
+    end
+  end
+
+  def present_feedback
     raise SecurityTransgression unless present_user.can_read?(@student_exercise) && 
                                        @student_exercise.is_feedback_available?
     
@@ -116,6 +132,18 @@ protected
 
   def redirect_to_quiz_start
     redirect_to terp_quiz_start_path(terp_id: params[:terp_id])
+  end
+
+  def redirect_to_feedback
+    redirect_to(terp_present_feedback_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))
+  end
+
+  def redirect_to_answer_selection
+    redirect_to(terp_solicit_answer_selection_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))
+  end
+
+  def redirect_to_free_response
+    redirect_to(terp_solicit_free_response_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))
   end
 
   def layout

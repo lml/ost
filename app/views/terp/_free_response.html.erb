@@ -1,0 +1,124 @@
+
+
+<% content_for :javascript do %>
+  <%= javascript_tag do %>
+    $('.free_response').live('mouseenter mouseleave', function(event) {
+      $(this).children('.option_buttons:first')
+             .css('visibility', event.type == 'mouseenter' ? 'visible' : 'hidden');
+    });
+  <% end %>
+<% end %>
+
+<style>
+  .shift_left {
+    margin-left: -4px;
+  }
+</style>
+
+<% if false %>
+<div id="free_responses">
+
+  <% student_exercise.free_responses.each do |free_response| %>
+    <%= render :partial => 'free_responses/show', 
+               :locals => { :free_response => free_response } %>
+  <% end %>
+</div>
+<% end %>
+
+  <%= form_for(student_exercise, url: terp_question_update_path(terp_id: params[:terp_id], student_exercise_id: student_exercise.id)) do |f| %>
+
+
+    <%= f.text_area :free_response, rows: 3, style: "width: 97.5%" %>
+
+    <div class="field">
+      <p>How confident are you in this answer?</p>
+      <p>This answer is...</p>
+      <table width="100%">
+        <tr>
+          <% confidence_labels.each_with_index do |cl, ii| %>
+            <td width="16.67%">
+              <center>
+                <%= f.radio_button :free_response_confidence, ii %></br/>
+                <%= cl.sub("-","<br/>").html_safe %>
+              </center>
+            </td>
+          <% end %>
+        </tr>
+      </table>
+    </div>
+
+    <center>
+      
+      <div class="actions" style="padding-top:10px">
+        <%= f.submit "Turn in my answer", 
+                :name => "save_and_lock",
+                :class => 'link_button' %>
+      </div>
+
+    </center>
+  <% end %>
+
+
+<% if false %>
+<% content_for :javascript do %>
+  <script type="text/javascript">
+
+    function get_saved_free_response_ids() {
+      var ids = [-1]; // b/c jquery won't send empty array
+      $('.shown_free_response').each(function(index, element) {
+        ids.push($(element).attr('data-free-response-id'));
+      });
+      return ids;
+    }
+
+    var refresh_disabled = false;
+    var original_background_color;
+    var original_color;
+    var already_polling = false;
+
+    function disable_refresh() {
+      refresh_disabled = true;
+      $('#check_link').css('background-color', '#dddddd').css('color','#777777');
+    }
+
+    function enable_refresh() {
+      refresh_disabled = false;
+      $('#check_link').css('background-color', original_background_color).css('color',original_color);
+    }
+
+    function check_for_new_free_responses() {
+      disable_refresh();
+      $.get('<%= refresh_student_exercise_free_responses_path(student_exercise) %>',
+        {idsOnPage: get_saved_free_response_ids()}
+      );
+    }
+
+    function poll_for_new_free_responses() {
+      if (already_polling) {
+        return;
+      }
+      repeat(30000, function() { check_for_new_free_responses(); });
+      already_polling = true;
+    }
+
+    $(document).ready(function() {
+      original_background_color = $('#check_link').css('background-color');
+      original_color = $('#check_link').css('color');
+
+      $('#check_link')
+        .click(function(e) {
+          if (refresh_disabled) {
+            e.preventDefault();
+            return false;
+          }
+          check_for_new_free_responses();
+          return false;
+        })
+        .on('finished_checking', function() {
+          setTimeout(function() { enable_refresh(); }, 1000);
+        });
+    });
+
+  </script>
+<% end %>
+<% end %>

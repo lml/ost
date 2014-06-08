@@ -1,0 +1,20 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%
+  assignment_exercise = student_exercise.assignment_exercise
+  assignment          = assignment_exercise.assignment
+  assignment_plan     = assignment.assignment_plan
+  exercise_data       = assignment_exercise.topic_exercise.exercise.content  
+%>
+
+
+    <div id="question_text" 
+         class="question question-box">
+
+      <% if !exercise_data["simple_question"]["introduction"].nil? %>
+        <%= exercise_data["simple_question"]["introduction"]["html"].html_safe %>  
+      <% end %>
+
+      <%= exercise_data["simple_question"]["content"]["html"].html_safe %>
+    </div>
