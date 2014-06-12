@@ -1,4 +1,4 @@
-# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# Copyright 2011-2014 Rice University. Licensed under the Affero General Public 
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 
@@ -19,6 +19,7 @@ class AssignmentsController < ApplicationController
     if !student.nil?
       @student_assignment = StudentAssignment.for_student(student).for_assignment(@assignment).first
     end    
+    @include_mathjax = view_context.authority?
   end
 
   def grades

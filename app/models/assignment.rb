@@ -1,4 +1,4 @@
-# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# Copyright 2011-2014 Rice University. Licensed under the Affero General Public 
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 class Assignment < ActiveRecord::Base
@@ -21,7 +21,15 @@ class Assignment < ActiveRecord::Base
   before_destroy :destroyable?, prepend: true
   
   attr_accessor :dry_run
-  
+
+  scope :family, lambda { |assignment|
+    where{assignment_plan_id == assignment.assignment_plan.id}
+  }
+
+  def family
+    Assignment.family(self)
+  end
+
   def klass
     cohort.klass
   end
