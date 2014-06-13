@@ -22,14 +22,6 @@ class Assignment < ActiveRecord::Base
   
   attr_accessor :dry_run
 
-  scope :family, lambda { |assignment|
-    where{assignment_plan_id == assignment.assignment_plan.id}
-  }
-
-  def family
-    Assignment.family(self)
-  end
-
   def klass
     cohort.klass
   end

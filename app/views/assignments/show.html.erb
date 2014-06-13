@@ -88,7 +88,7 @@
     <p>This assignment has <%= pluralize(@assignment.assignment_exercises.count, "exercise") %>.</p>
     <% if authority? %>
       <%= render 'questions', :assignment => @assignment %>
-    <% else  %>%>
+    <% else  %>
       <p>You cannot see or work the exercises because they were not assigned to you.</p>
     <% end %>
   <% else %>    

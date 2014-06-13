@@ -7,7 +7,7 @@ Params:
 
     assignment
 %>
-<% assignment.family.each do |thissignment| %>
+<% assignment.assignment_plan.assignments.each do |thissignment| %>
   <%= sub_section "Cohort: #{thissignment.cohort.name}" do %>
     <ol class="cohort-questions">
     <% thissignment.assignment_exercises.each do |ae| %>
