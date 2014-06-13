@@ -44,6 +44,14 @@
 
     <%= render :partial => 'layouts/common_head_includes' %>
 
+    <% if current_user.present? %>
+      <% ost_user_settings = UserSettings.for(present_user) %>
+      <script type="text/javascript">
+        window.OSTUserSettings = <%= raw ost_user_settings.settings.to_json %>;
+      </script>
+    <% end %>
+
+
     <% if Rails.env.production? %>
       <script type="text/javascript">
 
@@ -204,6 +212,21 @@
           <div id="message_dialog_errors"></div>
           <div id="message_dialog_body"></div>
         </div>
+        
+        <% if current_user.present? %>
+        <div id="maybe_confirm_dialog" style="display:none" title="">
+          <div id="maybe_confirm_dialog_errors"></div>
+          <div id="maybe_confirm_dialog_body"></div>
+          <%= form_for ost_user_settings, :remote => true do |f| %>
+            <input type="checkbox" value="true" id="skip_maybe_confirm_dialog">
+            <label for="maybe_confirm_skip">Don't show this again.</label>
+          <% end %>
+          <div id="maybe_confirm_button_panel">
+            <button id="maybe_confirm_button_cancel" class="button dialog-cancel secondary">Cancel</button>
+            <button id="maybe_confirm_button_ok" class="button dialog-ok primary">Continue</button>
+          </div>
+        </div>
+        <% end %>
 
         <div id="help_dialog" style="display:none" title="">
           <div id="help_dialog_errors"></div>

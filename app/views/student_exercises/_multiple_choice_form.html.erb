@@ -37,10 +37,11 @@
 
   <center>
     <div class="actions">
-      <%= f.submit "Turn in my choice", 
-            :class   => 'link_button',
-            :confirm => "After you turn in your selected answer, you can no longer change it. " + 
+      <% confirm_message = "After you turn in your selected answer, you can no longer change it. "  +
                         "Are you sure you want to turn it in?" %>
+      <%= f.submit "Turn in my choice",
+            :data => {maybeConfirm: confirm_message, setting: 'skip_answer_lockin_message'},
+            :class   => 'link_button maybe_confirm' %>
     </div>
   </center>
 <% end %>
