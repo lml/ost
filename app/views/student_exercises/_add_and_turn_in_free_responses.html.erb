@@ -77,11 +77,11 @@
     <center>
       <% confirm_message =  "After you turn in your answer, you can no longer change it. " +
                             "Are you sure you want to turn in your answer?" %>
+      <input type="hidden" name="save_and_lock" value="true">
 
       <div class="actions" style="padding-top:10px">
         <%= f.submit "Turn in my answer",
                 :data => {maybeConfirm: confirm_message, setting: 'skip_answer_lockin_message'},
-                :name => "save_and_lock",
                 :class => 'link_button maybe_confirm' %>
 
       </div>
