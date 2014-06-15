@@ -45,7 +45,7 @@
     <%= render :partial => 'layouts/common_head_includes' %>
 
     <% if current_user.present? %>
-      <% ost_user_settings = UserSettings.for(present_user) %>
+      <% ost_user_settings = user_settings %>
       <script type="text/javascript">
         window.OSTUserSettings = <%= raw ost_user_settings.settings.to_json %>;
       </script>

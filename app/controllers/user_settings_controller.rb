@@ -5,11 +5,11 @@ class UserSettingsController < ApplicationController
   skip_before_filter :authenticate_user!
 
   def index
-    @settings = UserSettings.for(present_user)
+    @settings = user_settings
   end
 
   def update
-    @settings = UserSettings.for(present_user)
+    @settings = user_settings
     respond_to do |format|
       if @settings.update_attributes(params[:settings])
         format.json { render json: {:success => true, message: 'Settings were successfully updated.'}}
@@ -19,5 +19,4 @@ class UserSettingsController < ApplicationController
       end
     end
   end
-
 end
