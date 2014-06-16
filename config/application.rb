@@ -72,6 +72,8 @@ module Ost
 
     config.enable_response_times = true
 
+    config.skip_user_confirmation = false
+
     config.carrierwave_storage = :file
   end
 end

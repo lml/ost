@@ -35,6 +35,8 @@ class RegistrationsController < Devise::RegistrationsController
     else
       resource.username = params[:user][:username]
 
+      resource.skip_confirmation! if Ost::Application.config.skip_user_confirmation
+
       @enable_recaptcha = @@enable_recaptcha
 
       if (!@enable_recaptcha || verify_recaptcha(:model => resource,
