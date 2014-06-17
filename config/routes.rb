@@ -77,6 +77,7 @@ Ost::Application.routes.draw do
   end
 
   resources :assignment_exercises, :only => [:show]
+  resources :user_settings, :only => [:show, :update]
 
   resources :external_assignments, :shallow => true, :only => [ ] do
     collection do

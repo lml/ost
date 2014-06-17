@@ -24,7 +24,8 @@ class ApplicationController < ActionController::Base
                 :present_user,
                 :view_dir,
                 :view_dir_from_string,
-                :enable_clock
+                :enable_clock,
+                :user_settings
 
   unless Ost::Application.config.consider_all_requests_local
     rescue_from Exception, :with => :rescue_from_exception
@@ -245,6 +246,10 @@ protected
   def read_errors(object)
     @errors = object.errors
     @errors_object = object
+  end
+
+  def user_settings
+    session[:user_settings] ||= UserSettings.for(present_user)
   end
 
 end

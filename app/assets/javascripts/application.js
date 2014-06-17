@@ -56,6 +56,10 @@ function open_message_dialog(is_modal, height, width, title, body) {
   open_specified_dialog('message', is_modal, height, width, title, body);
 }
 
+function open_maybe_confirm_dialog(body) {
+  open_specified_dialog('maybe_confirm', true, 200, 400, "Are you sure?", body);
+}
+
 function get_os_color(color) {
   return $('#os_' + color).css('background-color');
 }
@@ -68,9 +72,39 @@ function sum(array) {
   return sum;
 }
 
+function initMaybeConfirm() {
+    $("#maybe_confirm_button_cancel").click(function () {
+        $("#maybe_confirm_button_ok").off();
+        $("#maybe_confirm_dialog").dialog('close');
+    });
+    $('.maybe_confirm').click(function (e) {
+        var submit = $(e.currentTarget);
+        var setting = $(e.currentTarget).data('setting');
+        if (!OSTUserSettings[setting]) {
+          var message = $(e.currentTarget).data('maybeconfirm');
+          var check = $("#skip_maybe_confirm_dialog");
+          check.attr("name", "settings[" + setting + "]");
+          check.data("setting", setting);
+          $("#maybe_confirm_button_ok").one('click', function() {
+            $("#maybe_confirm_dialog").dialog('close');
+            submit.closest('form').submit();
+          });
+          open_maybe_confirm_dialog(message);
+          return false;
+        }
+        return true;
+    });
+    $("#skip_maybe_confirm_dialog").click(function() {
+        // Get value and set.
+        OSTUserSettings[$(this).data('setting')] = $(this).is(":checked");
+        $(this).closest('form').submit();
+    });
+}
+
 // Open all non-local links in a new tab/window
 //  http://stackoverflow.com/questions/4086988/how-do-i-make-link-to-open-external-urls-in-a-new-window
 $(document).ready(function() {
+  initMaybeConfirm();
   $("a").on("click", function() {
     link_host = this.href.split("/")[2];
     document_host = document.location.href.split("/")[2];
