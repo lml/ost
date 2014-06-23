@@ -24,6 +24,14 @@ GIT
     on_the_spot (1.0.2)
       json_pure (>= 1.4.6)
 
+PATH
+  remote: ../unconfirm
+  specs:
+    unconfirm (0.0.1)
+      activerecord-typedstore
+      jquery-rails
+      rails (~> 3.2.17)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -48,6 +56,8 @@ GEM
       activesupport (= 3.2.17)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
+    activerecord-typedstore (0.4.3)
+      activerecord (>= 3.2)
     activeresource (3.2.17)
       activemodel (= 3.2.17)
       activesupport (= 3.2.17)
@@ -396,6 +406,7 @@ DEPENDENCIES
   thin (~> 1.4.1)
   timecop (~> 0.3.5)
   uglifier (>= 1.0.3)
+  unconfirm!
   whenever
   will_paginate (~> 3.0.3)
   yaml_db

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140218235334) do
+ActiveRecord::Schema.define(:version => 20140622221005) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -587,6 +587,15 @@ ActiveRecord::Schema.define(:version => 20140218235334) do
   add_index "topics", ["learning_plan_id"], :name => "index_topics_on_learning_plan_id"
   add_index "topics", ["name", "learning_plan_id"], :name => "index_topics_on_name_scoped", :unique => true
   add_index "topics", ["number", "learning_plan_id"], :name => "index_topics_on_number_scoped", :unique => true
+
+  create_table "unconfirm_user_settings", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.text     "settings"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "unconfirm_user_settings", ["user_id"], :name => "index_unconfirm_user_settings_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                                                          :null => false

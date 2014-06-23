@@ -75,13 +75,12 @@
     </div>
 
     <center>
-      
+
       <div class="actions" style="padding-top:10px">
-        <%= f.submit "Turn in my answer", 
+        <%= f.submit "Turn in my answer",
                 :name => "save_and_lock",
-                :class => 'link_button',
-                :confirm => "After you turn in your answer, you can no longer change it. " + 
-                            "Are you sure you want to turn in your answer?" %>
+                :class => 'link_button unconfirm',
+                :data => data_with_unconfirm('skip_answer_submitted_confirmation_dialog') %>
       </div>
 
     </center>
