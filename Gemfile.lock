@@ -193,6 +193,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    memoist (0.9.3)
     mime-types (1.25.1)
     mini_magick (3.4)
       subexec (~> 0.2.1)
@@ -370,6 +371,7 @@ DEPENDENCIES
   jquery-rails (~> 2.0.2)
   launchy
   lograge!
+  memoist
   mime-types
   mini_magick
   mysql2 (~> 0.3.11)
