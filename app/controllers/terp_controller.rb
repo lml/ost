@@ -171,13 +171,12 @@ protected
                        .where{student.user_id == my{current_user.id}}.all
 
     if @student_assignment.count > 1
-      raise IllegalState, "you somehow have too many assignments"
+      redirect_to terp_too_many_assignments_path(terp_id: params[:terp_id])
     elsif @student_assignment.count == 0
-      raise NotYetImplemented, "need to figure out if this student needs to register for a class, depends on if student has a class, if the embed code exists, etc"
+      redirect_to terp_missing_assignment_path(terp_id: params[:terp_id])
     end
 
     @student_assignment = @student_assignment.first
-
   end
 
   def get_student_exercise

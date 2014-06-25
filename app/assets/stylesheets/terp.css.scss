@@ -129,7 +129,7 @@ $header_height: 52px;
 
 #header {
   @include header-main-footer-common;
-  z-index:10000;
+  z-index:1000;
 
   height: $header_height;
 

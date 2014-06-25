@@ -18,10 +18,12 @@
     <div class="field test input user_password"><%= f.label :password %><br />
     <%= f.password_field :password, style: "width: 300px" %></div>
 
+    <%= f.hidden_field :terp_id, :value => params[:terp_id] %>
+
 
       <div class="field"><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
 
-    <div><%= f.submit "Sign in", :class => "link_button" %> <span style="float:right">or <%= link_to "Sign Up", terp_sign_up_path(params[:terp_id]) %></span></div>
+    <div><%= f.submit "Sign in", :class => "link_button" %> <span style="float:right">or <%= link_to "Sign Up", terp_sign_up_path(terp_id: params[:terp_id] || params[:user][:terp_id]) %></span></div>
   <% end %>
 
   <br/>

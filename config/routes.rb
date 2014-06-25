@@ -11,10 +11,8 @@ Ost::Application.routes.draw do
     
     get "consent"
     get "quiz_start"
-    get "instructions"
-    get "quiz_summary"
-    get "dashboard"
-    get "help"
+    get "missing_assignment"
+    get "too_many_assignments"
     get "my_account"
     get "preview"
 
@@ -24,12 +22,18 @@ Ost::Application.routes.draw do
     put 'save_answer_selection'
     get 'present_feedback'
 
+    get "quiz_summary"
+
+    get "instructions"
+    get "dashboard"
+    get "help"
     get 'terms'
     get 'contact_us'
+    get "about"
+    get "account_help"
   end
 
-  get "terp/about"
-  get "terp/account_help"
+
 
   resources :mail_hooks, :only => [] do
     post 'catch', :on => :collection
