@@ -1,6 +1,13 @@
 
 
-<% next_se = next_student_exercise(@student_exercise) %>
+<% #next_se = next_student_exercise(@student_exercise)  # broken!!! 
+
+  next_ae = @student_exercise.assignment_exercise.next
+  next_se = next_ae.nil? ?
+            nil :
+            StudentExercise.where{student_assignment_id == my{@student_exercise.student_assignment_id}}.where{assignment_exercise_id == my{next_ae.id}}.first
+
+%>
 
 <% 
    exercise = @student_exercise.assignment_exercise.topic_exercise.exercise
