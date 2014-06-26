@@ -35,7 +35,6 @@ Ost::Application.routes.draw do
   end
 
 
-
   resources :mail_hooks, :only => [] do
     post 'catch', :on => :collection
   end

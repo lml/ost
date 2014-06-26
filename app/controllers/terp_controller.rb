@@ -193,6 +193,19 @@ protected
     @student_exercise = StudentExercise.find(params[:student_exercise_id])
   end
 
+  def render_error_page(status)
+    
+    page = status
 
+    if "nyi" == "status"
+      page = "nyi"
+      status = 404
+    end
+
+    respond_to do |type| 
+      type.html { render :template => "terp/errors/#{status}", :layout => 'terp', :status => status } 
+      type.all  { render :nothing => true, :status => status } 
+    end    
+  end
 
 end
