@@ -36,9 +36,9 @@ protected
                                            :email_confirmation))
     user.save
 
-    user.confirm!
-
     transfer_errors_from(user, {type: :verbatim}, true) # do fatal errors
+
+    user.confirm!
 
     student = Student.create(:user_id => user.id, 
                              :section_id => section.id, 

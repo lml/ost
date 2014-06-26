@@ -11,6 +11,7 @@ class Section < ActiveRecord::Base
   
   validates :klass_id, :presence => true
   validates :name, :presence => true, :uniqueness => {:scope => :klass_id}
+  validates :registration_code, :uniqueness => {:allow_blank => true}
   
   attr_accessible :name, :klass
   

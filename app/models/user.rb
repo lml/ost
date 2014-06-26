@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
     
   validates_presence_of :first_name, :last_name, :username
   validates_uniqueness_of :username, :case_sensitive => false
+  validates_uniqueness_of :email, :case_sensitive => false
   validates_length_of :username, :in => 3..40
   validates_format_of :username, :with => /\A[A-Za-z\d_]+\z/  # alphanum + _
   validate :validate_username_unchanged, :on => :update

@@ -8,6 +8,7 @@ Ost::Application.routes.draw do
     delete 'logout'
     get "sign_up"
     post "sign_up"
+    post "register"
     
     get "consent"
     get "quiz_start"

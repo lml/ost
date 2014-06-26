@@ -7,7 +7,7 @@
 <% if @errors.nil? %>
   <% handler_errors.each do |attribute, error| %>
     <% message = error.nil? ?
-                   (attribute.respond_to?(:message) ? attribute.message : attribute) :
+                   (attribute.respond_to?(:translate) ? attribute.translate : attribute) :
                    (errors.is_a?(String) ? error : error.translate) %>
     <% alert_messages.push message%>
   <% end %>

@@ -28,6 +28,7 @@ class AssignmentPlan < ActiveRecord::Base
   validates :starts_at, :ends_at, :presence => true
   validates :ends_at, :date => {:after => :starts_at, :message => "End time must be after start time"}, :if => :starts_ends_at_present?
   validate :starts_ends_at_in_bounds, :if => :starts_ends_at_present?
+  validates :embed_code, :uniqueness => {:allow_blank => true, :scope => :learning_plan_id}
 
   def starts_at=(timeOrTimestr)
     time = nil

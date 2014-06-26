@@ -30,6 +30,12 @@ class TerpController < ApplicationController
     end
   end
 
+  def register # like sign up without user creation
+    handle_with(TerpRegister,
+                success: lambda { redirect_to_quiz_start },
+                failure: lambda { render 'terp/missing_assignment' })
+  end
+
   def logout
     sign_out
     redirect_to terp_quiz_start_path(params[:terp_id])
@@ -132,6 +138,10 @@ class TerpController < ApplicationController
   end
 
   def terms
+  end
+
+  def missing_assignment
+
   end
 
 protected
