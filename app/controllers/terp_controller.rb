@@ -4,7 +4,7 @@ class TerpController < ApplicationController
   fine_print_skip_signatures :general_terms_of_use, :privacy_policy # TODO don't skip always
   before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up]
 
-  before_filter :get_student_assignment, only: [:quiz_start]
+  before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary]
   before_filter :get_student_exercise, only: [:solicit_free_response, :save_free_response,
                                               :solicit_answer_selection, :save_answer_selection,
                                               :present_feedback]
@@ -121,7 +121,7 @@ class TerpController < ApplicationController
   end
 
   def quiz_summary
-    turn_on_consenting(@student_exercise.student)
+    turn_on_consenting(@student_assignment.student)
   end
 
   def dashboard
