@@ -9,6 +9,8 @@ class TerpController < ApplicationController
                                               :solicit_answer_selection, :save_answer_selection,
                                               :present_feedback]
 
+  before_filter :consent_prep
+
   layout :layout
 
   protect_beta
@@ -45,6 +47,7 @@ class TerpController < ApplicationController
 
   def quiz_start
     raise SecurityTransgression unless present_user.can_read?(@student_assignment.assignment)
+    turn_on_consenting(@student_assignment.student)
     # TODO advance user to farthest completed point
   end
 
@@ -60,6 +63,7 @@ class TerpController < ApplicationController
       redirect_to_answer_selection
     end
     
+    turn_on_consenting(@student_exercise.student)
     @include_mathjax = true
   end
 
@@ -73,6 +77,7 @@ class TerpController < ApplicationController
       flash[:notice] = "Response saved."
       redirect_to_answer_selection
     else
+      turn_on_consenting(@student_exercise.student)
       @include_mathjax = true
       render :action => "solicit_free_response" 
     end
@@ -87,6 +92,7 @@ class TerpController < ApplicationController
       redirect_to_feedback
     end
 
+    turn_on_consenting(@student_exercise.student) 
     @include_mathjax = true
   end
 
@@ -97,6 +103,7 @@ class TerpController < ApplicationController
       flash[:notice] = "Response saved."
       redirect_to_feedback
     else
+      turn_on_consenting(@student_exercise.student)
       @include_mathjax = true
       render :action => "solicit_answer_selection" 
     end
@@ -109,11 +116,12 @@ class TerpController < ApplicationController
     # If the person going to look at the feedback is the student whose exercise this is,
     # notify their learning condition that they've viewed it.                                   
     @student_exercise.note_feedback_viewed! if @student_exercise.belongs_to_student_user?(present_user)
-    
+    turn_on_consenting(@student_exercise.student)
     @include_mathjax = true
   end
 
   def quiz_summary
+    turn_on_consenting(@student_exercise.student)
   end
 
   def dashboard
@@ -206,6 +214,10 @@ protected
       type.html { render :template => "terp/errors/#{status}", :layout => 'terp', :status => status } 
       type.all  { render :nothing => true, :status => status } 
     end    
+  end
+
+  def consent_prep
+    @hide_open_consent_in_new_window = true
   end
 
 end
