@@ -42,7 +42,7 @@ $iframe_height: 600px;
 }
 
 @mixin top-level {
-   width: $iframe_width - 4px;
+   // width: $iframe_width - 4px;
    margin-left: auto;
    margin-right: auto;
 }
@@ -94,8 +94,7 @@ pre {
   font-weight: normal;
   font-color: #000;
   margin-top: 0px;
-  height: 600px;
-  border: 1px solid #efefef;
+  // height: 600px;
 }
 
 
@@ -221,6 +220,7 @@ $nav_bar_height: $header_height;
     padding-left: 0px;
     margin-top: 0px;
     float:right;
+    padding-right: 10px;
      
     li.top {
       display:inline-block;
@@ -998,6 +998,7 @@ input.ui-widget {
 .question_count {
   float:right;
   font-style: italic;
+  margin-right: 22px;
 }
 
 .section-exercise-responses {

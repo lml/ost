@@ -30,7 +30,7 @@ class SessionsController < Devise::SessionsController
   end
 
   def terp?
-    session[:user_return_to].try(:starts_with?, "/terp/")
+    session[:terp]
   end
 
 end

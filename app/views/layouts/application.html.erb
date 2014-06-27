@@ -2,6 +2,9 @@
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <% addTestMeta {{:current_user_id => @current_user.id}} if @current_user.present? %>
+
+<% session[:terp] = false %>
+
 <!DOCTYPE html>
 <html>
 

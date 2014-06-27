@@ -3,6 +3,8 @@
 
 <% addTestMeta {{:current_user_id => @current_user.id}} if @current_user.present? %>
 
+<% session[:terp] = true %>
+
 <!DOCTYPE html>
 <html>
 
@@ -29,7 +31,7 @@
 
   </head>
 
-  <body>
+  <body style="overflow-x:hidden">
 
     <div style="display:none">
       <div id="os_green" class="os_green"></div>
