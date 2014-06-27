@@ -1,5 +1,7 @@
 <% @errors = @student_exercise.errors %>
 
+<%= render 'shared/response_times', response_timeable: @student_exercise, page: "work" %>
+
 <div class='question_count'>Problem <%= @student_exercise.assignment_exercise.number %> of <%= @student_exercise.student_assignment.assignment.assignment_exercises.count %></div>
 
 <div id="question_outer">
@@ -11,6 +13,7 @@
 
     <%= f.text_area :free_response, rows: 3, style: "width: 97.5%" %>
 
+<% if false %>
     <div class="field">
       <p>How confident are you in this answer?</p>
       <p>This answer is...</p>
@@ -27,6 +30,7 @@
         </tr>
       </table>
     </div>
+<% end %>
 
     <center> 
       <div class="actions" style="padding-top:10px">
@@ -35,6 +39,7 @@
                 :class => 'link_button' %>
       </div>
     </center>
-    
+
+
   <% end %>
 </div>

@@ -3,6 +3,10 @@
   klass = @student_assignment.assignment.klass
 %>
 
+<%= render :partial => 'shared/response_times',
+           :locals => {:response_timeable => @student_assignment,
+                       :page => "assignment"} %>
+
 <div class='quiz_start'>
   <div class='heading'>
     <%= klass.name %>, <%= ap.name %>

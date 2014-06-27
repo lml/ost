@@ -19,7 +19,7 @@ class StudentExercise < ActiveRecord::Base
                                      :uniqueness => {:scope => :student_assignment_id}
 
   validates :free_response_confidence, 
-              :presence => {:if => Proc.new{|se| se.lock_response_text_on_next_save}},
+              :presence => {:if => Proc.new{|se| !se.skip_confidence && se.lock_response_text_on_next_save}},
               :numericality => {:greater_than_or_equal_to => 0, 
                                 :less_than_or_equal_to => 4, 
                                 :allow_nil => true}
@@ -72,6 +72,8 @@ class StudentExercise < ActiveRecord::Base
   after_save :notify_if_answer_selected, :on => :update
   
   attr_accessible :free_response_confidence, :selected_answer, :feedback_credit_multiplier, :follow_up_answer
+
+  attr_accessor :skip_confidence
 
   # Realized a little late in the game that it is bad when these numbers are the same as
   # the Event enum numbers in student assignment, so made them different

@@ -1,5 +1,7 @@
 <% @errors = @student_exercise.errors %>
 
+<%= render 'shared/response_times', response_timeable: @student_exercise, page: "work" %>
+
 <div class='question_count'>Problem <%= @student_exercise.assignment_exercise.number %> of <%= @student_exercise.student_assignment.assignment.assignment_exercises.count %></div>
 
 <div id="question_outer">

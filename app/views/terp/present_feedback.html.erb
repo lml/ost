@@ -1,4 +1,6 @@
-
+<%= render :partial => 'shared/response_times',
+           :locals => {:response_timeable => @student_exercise,
+                       :page => "feedback"} %>
 
 <% #next_se = next_student_exercise(@student_exercise)  # broken!!! 
 

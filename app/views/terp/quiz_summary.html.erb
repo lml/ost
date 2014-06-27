@@ -1,4 +1,8 @@
 
+<%= render :partial => 'shared/response_times',
+           :locals => {:response_timeable => @student_assignment,
+                       :page => "assignment"} %>
+
 <div class='quiz_start'>
   <div class='heading'>
     Quiz Summary

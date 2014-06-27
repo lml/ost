@@ -93,6 +93,7 @@ class TerpController < ApplicationController
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
     @student_exercise.lock_response_text_on_next_save = true if params[:save_and_lock]
+    @student_exercise.skip_confidence = true
     @student_exercise.free_responses << TextFreeResponse.new(content: params[:student_exercise].delete(:free_response))
 
     if @student_exercise.update_attributes(params[:student_exercise])
