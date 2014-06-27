@@ -47,8 +47,30 @@ class TerpController < ApplicationController
 
   def quiz_start
     raise SecurityTransgression unless present_user.can_read?(@student_assignment.assignment)
-    turn_on_consenting(@student_assignment.student)
-    # TODO advance user to farthest completed point
+
+    if @first_unworked_student_exercise.present?
+
+      if (@first_unworked_student_exercise.assignment_exercise.number == 1) &&
+         @first_unworked_student_exercise.free_response_submitted? 
+
+        # no work done yet so show start screen
+        turn_on_consenting(@student_assignment.student)   
+      else
+        @student_exercise = @first_unworked_student_exercise
+
+        !@student_exercise.free_response_submitted? ?
+          redirect_to_free_response :
+          redirect_to_answer_selection
+      end
+    else
+      if @student_assignment.student_exercises.any?
+        # all work finished, show summary
+        redirect_to terp_quiz_summary_path(terp_id: params[:terp_id])
+      else
+        # show error  
+        redirect_to terp_missing_exercises_path(terp_id: params[:terp_id])
+      end
+    end
   end
 
   def instructions
@@ -195,6 +217,7 @@ protected
     end
 
     @student_assignment = @student_assignment.first
+    @first_unworked_student_exercise = @student_assignment.ordered_student_exercises.find{|se| !se.selected_answer_submitted?}
   end
 
   def get_student_exercise

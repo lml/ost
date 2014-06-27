@@ -13,6 +13,7 @@ Ost::Application.routes.draw do
     get "consent"
     get "quiz_start"
     get "missing_assignment"
+    get "missing_exercises"
     get "too_many_assignments"
     get "my_account"
     get "preview"
