@@ -8,6 +8,9 @@
 <%
   assignment_plan = @assignment.assignment_plan
   klass = @assignment.cohort.klass
+  authority = @assignment.cohort.klass.is_educator?(present_user) ||
+              Researcher.is_one?(present_user) ||
+              present_user.is_administrator?
 %>
 
 
@@ -82,24 +85,22 @@
   <% end %>
 <% end %>
 
-<%= section "Exercises", {:classes => 'no_bar exercises', :collapsible => authority?, :collapsed => authority?} do %>
-
-  <% if @student_assignment.blank? %>
-    <p>This assignment has <%= pluralize(@assignment.assignment_exercises.count, "exercise") %>.</p>
-    <% if authority? %>
-      <%= render 'questions', :assignment => @assignment %>
-    <% else  %>
-      <p>You cannot see or work the exercises because they were not assigned to you.</p>
-    <% end %>
-  <% else %>    
+<% if !@student_assignment.blank? %>
+  <%= section "Your Exercises", {:classes => 'no_bar exercises'} do %>
     <%= render :partial => 'student_exercises/list', 
                :locals => { :student_assignment   => @student_assignment,
-                            :show_feedback_status => true } %>  
+                            :show_feedback_status => true } %>
   <% end %>
-
 <% end %>
 
-<% if authority? %>
+<% if authority %>
+  <%= section "Exercises", {:classes => 'no_bar exercises', :collapsible => true, :collapsed => true} do %>
+    <p>This assignment has <%= pluralize(@assignment.assignment_exercises.count, "exercise") %>.</p>
+    <%= render 'questions', :assignment => @assignment %>
+  <% end %>
+<% end %>
+
+<% if authority %>
   <%= render 'results', :assignment_plan => assignment_plan %>
 <% end %>
 

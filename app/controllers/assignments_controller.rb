@@ -19,7 +19,8 @@ class AssignmentsController < ApplicationController
     if !student.nil?
       @student_assignment = StudentAssignment.for_student(student).for_assignment(@assignment).first
     end    
-    @include_mathjax = view_context.authority?
+
+    @include_mathjax = self.authority?
   end
 
   def grades
@@ -29,5 +30,15 @@ class AssignmentsController < ApplicationController
       format.xls
     end
   end
+  
+  protected
+
+  def authority?
+    @assignment.cohort.klass.is_educator?(present_user) ||
+      Researcher.is_one?(present_user) ||
+      present_user.is_administrator?
+  end
+
+
 
 end

@@ -27,7 +27,7 @@ Params:
     </div>
     <% if show_url  %>
     <div class="question question-link">
-      <%= render 'exercises/url', :exercise => exercise %>
+      <a href="<%= exercise['url'] %>" class="question-url"><%= exercise["url"] %></a>
     </div>
     <% end %>
   </div>
