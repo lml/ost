@@ -59,7 +59,7 @@ gem 'remotipart', '~> 1.0'
 gem 'babbler', '~> 1.0.0'
 gem 'sketchily', '~> 1.5.0'
 
-gem 'unconfirm', path: '../unconfirm'
+gem 'unconfirm', git: 'https://github.com/lml/unconfirm.git', ref: '7cc1ed8b46'
 
 gem 'on_the_spot', git: 'https://github.com/kevinburleigh75/on_the_spot.git', ref: '67a423a'
 

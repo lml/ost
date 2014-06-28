@@ -24,8 +24,10 @@ GIT
     on_the_spot (1.0.2)
       json_pure (>= 1.4.6)
 
-PATH
-  remote: ../unconfirm
+GIT
+  remote: https://github.com/lml/unconfirm.git
+  revision: 7cc1ed8b46453fa78c7e117e0de9383a392d0bd5
+  ref: 7cc1ed8b46
   specs:
     unconfirm (0.0.1)
       activerecord-typedstore
