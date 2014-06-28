@@ -24,7 +24,7 @@
   Students must view the feedback to get credit for the problems.
 </div>
 <div class="field feedback-viewing-penalty"
-     <% if not feedback_condition.is_feedback_required_for_credit %>
+     <% unless feedback_condition.is_feedback_required_for_credit %>
      style="display:none"
      <% end %> >
   <%= link_to_help 'feedback_viewing_penalty',
