@@ -8,9 +8,6 @@
 <%
   assignment_plan = @assignment.assignment_plan
   klass = @assignment.cohort.klass
-  authority = @assignment.cohort.klass.is_educator?(present_user) ||
-              Researcher.is_one?(present_user) ||
-              present_user.is_administrator?
 %>
 
 
@@ -93,14 +90,14 @@
   <% end %>
 <% end %>
 
-<% if authority %>
+<% if @authority %>
   <%= section "Exercises", {:classes => 'no_bar exercises', :collapsible => true, :collapsed => true} do %>
     <p>This assignment has <%= pluralize(@assignment.assignment_exercises.count, "exercise") %>.</p>
     <%= render 'questions', :assignment => @assignment %>
   <% end %>
 <% end %>
 
-<% if authority %>
+<% if @authority %>
   <%= render 'results', :assignment_plan => assignment_plan %>
 <% end %>
 

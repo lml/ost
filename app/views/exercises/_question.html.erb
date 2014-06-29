@@ -27,7 +27,7 @@ Params:
     </div>
     <% if show_url  %>
     <div class="question question-link">
-      <a href="<%= exercise['url'] %>" class="question-url"><%= exercise["url"] %></a>
+      <%= link_to exercise.url, exercise.url, class: 'question-url' %>
     </div>
     <% end %>
   </div>
