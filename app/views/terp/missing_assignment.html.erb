@@ -1,0 +1,28 @@
+
+<%
+  matching_assignment_plans = AssignmentPlan.where{embed_code == my{params[:terp_id]}}
+
+  if matching_assignment_plans.none? 
+    %>
+      <p>This quiz has not been created yet.<p>
+    <%
+  else
+    matching_classes = Klass.joins{learning_plan.assignment_plans}.where{learning_plan.assignment_plans.id.in my{matching_assignment_plans.collect{|ap| ap.id}}}
+    
+    current_user_in_class_with_this_assignment = 
+      Student.joins{section.klass}.where{section.klass.id.in my{matching_classes.collect{|mc| mc.id}}}.where{user_id == my{current_user.id}}.any?
+
+    if current_user_in_class_with_this_assignment
+      %>
+        <p>This assignment has not been released yet</p>
+      <%
+    else # this user isn't in the class where this assignment is offered, show a registration code form
+      %>
+        <p><b>Before you can take the practice quiz you must register for a class offering it by entering that class' registration code below.</b></p>
+        <div style='padding-top:60px'></div>
+        <%= render 'terp/register' %>
+      <%
+    end
+
+  end
+%>

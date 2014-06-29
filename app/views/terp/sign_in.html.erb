@@ -1,0 +1,33 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%= pageHeading "Sign In" %>
+
+<%
+  resource ||= User.new
+  resource_name ||= User
+%>
+  
+  <div style="width: 300px; margin-left: auto; margin-right: auto">
+  <%= form_for(resource, :url => session_path(resource_name)) do |f| %>
+    <% @errors = resource.try(:errors) %>
+    
+    <div class="field test input user_username"><%= f.label :username %><br />
+    <%= f.text_field :username, style: "width: 300px" %></div>
+
+    <div class="field test input user_password"><%= f.label :password %><br />
+    <%= f.password_field :password, style: "width: 300px" %></div>
+
+    <%= f.hidden_field :terp_id, :value => params[:terp_id] %>
+
+
+      <div class="field"><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+
+    <div><%= f.submit "Sign in", :class => "link_button" %> <span style="float:right">or <%= link_to "Sign Up", terp_sign_up_path(terp_id: params[:terp_id] || params[:user][:terp_id]) %></span></div>
+  <% end %>
+
+  <br/>
+
+  <%= link_to "Need help? Click here", terp_account_help_path %>
+
+</div>

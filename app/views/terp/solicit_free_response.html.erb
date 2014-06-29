@@ -1,0 +1,45 @@
+<% @errors = @student_exercise.errors %>
+
+<%= render 'shared/response_times', response_timeable: @student_exercise, page: "work" %>
+
+<div class='question_count'>Problem <%= @student_exercise.assignment_exercise.number %> of <%= @student_exercise.student_assignment.assignment.assignment_exercises.count %></div>
+
+<div id="question_outer">
+  <%= render "question", student_exercise: @student_exercise %>
+
+  <%= form_for(@student_exercise, 
+               url: terp_save_free_response_path(terp_id: params[:terp_id], 
+                                                 student_exercise_id: @student_exercise.id)) do |f| %>
+
+    <%= f.text_area :free_response, rows: 3, style: "width: 97.5%" %>
+
+<% if false %>
+    <div class="field">
+      <p>How confident are you in this answer?</p>
+      <p>This answer is...</p>
+      <table width="100%">
+        <tr>
+          <% confidence_labels.each_with_index do |cl, ii| %>
+            <td width="16.67%">
+              <center>
+                <%= f.radio_button :free_response_confidence, ii %></br/>
+                <%= cl.sub("-","<br/>").html_safe %>
+              </center>
+            </td>
+          <% end %>
+        </tr>
+      </table>
+    </div>
+<% end %>
+
+    <center> 
+      <div class="actions" style="padding-top:10px">
+        <%= f.submit "Turn in my answer", 
+                :name => "save_and_lock",
+                :class => 'link_button' %>
+      </div>
+    </center>
+
+
+  <% end %>
+</div>

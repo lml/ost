@@ -37,9 +37,12 @@
 <% end %>
     
 <div id="consent_form_dialog" style="display:none" title="Research Consent Form">
+  <% unless @hide_open_consent_in_new_window %>
   <%= link_to "Open in a separate window", 
-              new_polymorphic_path([@consentable, Consent.new]), :style => 'float:right; font-size:10px' %>
-  <br/>
+              new_polymorphic_path([@consentable, Consent.new]), :style => 'float:right; font-size:10px', :target => :_blank %>
+  <br/>            
+  <% end %>
+
   <div id="consent_form_dialog_errors"></div>        
   
   <%= @consentable.consent_options.consent_form.html.html_safe %>

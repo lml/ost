@@ -65,6 +65,11 @@
     </div>
   <% end %>
 
+  <div class="field">
+    Embed Code<br/>
+    <%= f.text_field :embed_code, :style => "width:90%" %>
+  </div>
+
   <div class="actions">
     <%= f.submit "#{@assignment_plan.new_record? ? 'Create' : 'Update'} Assignment", :class => 'link_button' %>
   </div>

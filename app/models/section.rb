@@ -11,9 +11,17 @@ class Section < ActiveRecord::Base
   
   validates :klass_id, :presence => true
   validates :name, :presence => true, :uniqueness => {:scope => :klass_id}
+  validates :registration_code, :uniqueness => {:allow_blank => true}
   
   attr_accessible :name, :klass
   
+  after_create :reset_registration_code!
+
+  def reset_registration_code!
+    new_code = Babbler.babble until Section.where(registration_code: new_code).none?
+    self.update_attribute(:registration_code, new_code)
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################

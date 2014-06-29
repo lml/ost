@@ -1,0 +1,12 @@
+<%
+  @contracts = [FinePrint.get_contract(:general_terms_of_use),
+                FinePrint.get_contract(:privacy_policy)].compact
+
+  @contracts.each do |contract| %>
+
+    <%= section contract.title do %>
+      <%= contract.content.html_safe %>
+    <% end %>
+<%
+  end
+%>

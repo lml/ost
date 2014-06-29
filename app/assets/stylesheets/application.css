@@ -17,7 +17,9 @@
  *= require jquery-ui
  *= require fullcalendar
  *= require on_the_spot
- *= require_tree .
+ *= require common
+ *= require home
+ *= require main
 */
 
 .ui-widget input.ui-widget {

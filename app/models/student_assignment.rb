@@ -52,6 +52,10 @@ class StudentAssignment < ActiveRecord::Base
   def is_coworker?(user)
     assignment_coworkers.includes(:student).any?{|cw| cw.student.user_id == user.id}
   end
+
+  def ordered_student_exercises
+    student_exercises.joins{assignment_exercise}.order{assignment_exercise.number}
+  end
   
   def destroyable?
     return true if sudo_enabled?

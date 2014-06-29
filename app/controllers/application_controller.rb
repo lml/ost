@@ -3,6 +3,8 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+
+  include Lev::HandleWith
   
   # Prepend ensures we run those filters before authenticate_admin! no matter what
   prepend_before_filter :user_not_disabled!,

@@ -2,6 +2,9 @@
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <% addTestMeta {{:current_user_id => @current_user.id}} if @current_user.present? %>
+
+<% session[:terp] = false %>
+
 <!DOCTYPE html>
 <html>
 
@@ -17,23 +20,6 @@
       <title><%= @page_title + ' - ' if !@page_title.nil? %><%= SITE_NAME %></title>  
     <% end %>
 
-<% if false %>
-    <% if content_for?(:open_graph) %>
-      <%= yield(:open_graph) %>
-    <% else %>
-      <meta property="og:title" content="<%= SITE_NAME %>" />
-      <meta property="og:description" content="Free, open-source, high-quality textbooks for your college course." />
-      <meta property="og:image" content="http://openstaxcollege.org/osc_logo_open_graph.png" />
-      <meta property="og:url" content="http://openstaxcollege.org"/>
-      <meta property="og:site_name" content="<%= SITE_NAME %>"/>
-      <meta property="fb:admins" content="219380148143032"/>
-    <% end %>
-
-    <% if current_page?('/') %>
-      <meta property="og:type" content="website"/>
-    <% end %>
-<% end %>
-
     <% if content_for?(:head) %>
       <%= yield(:head) %>
     <% end %>
@@ -44,39 +30,9 @@
 
     <%= render :partial => 'layouts/common_head_includes' %>
 
-    <% if Rails.env.production? %>
-      <script type="text/javascript">
+    <%= render :partial => 'layouts/google_analytics' %>    
 
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-33394116-1']);
-        _gaq.push(['_trackPageview']);
-
-        (function() {
-          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
-      </script>
-    <% end %>
-
-    <% if @include_mathjax %>  
-       <script type="text/x-mathjax-config">
-         MathJax.Hub.Config({
-           tex2jax: {
-             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-             processEscapes: true
-           }
-         });
-       </script>
-
-       <% mj_url_base = request.ssl? ? 
-                        "https://c328740.ssl.cf1.rackcdn.com" :
-                        "http://cdn.mathjax.org" %>
-       <script type="text/javascript"
-         src="<%= mj_url_base %>/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-       </script>
-    <% end %>
+    <%= render :partial => 'layouts/mathjax' %>    
 
     <% if @enable_timeout && user_signed_in? %>
       <script type="text/javascript">

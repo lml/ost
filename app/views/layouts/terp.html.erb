@@ -1,0 +1,164 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% addTestMeta {{:current_user_id => @current_user.id}} if @current_user.present? %>
+
+<% session[:terp] = true %>
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <% if @redirect_url %>
+      <meta http-equiv='refresh' content='<%= @redirect_delay -%>;url=<%= @redirect_url -%>'>
+    <% end %>
+
+    <% if !@page_title_override.nil? %>
+      <title><%= @page_title_override %></title>
+    <% else %>
+      <title><%= @page_title + ' - ' if !@page_title.nil? %><%= SITE_NAME %></title>  
+    <% end %>
+
+    <% if content_for?(:head) %>
+      <%= yield(:head) %>
+    <% end %>
+
+    <%= render 'layouts/common_head_includes', stylesheet_file: "terp" %>
+
+    <%= render :partial => 'layouts/google_analytics' %>    
+
+    <%= render :partial => 'layouts/mathjax' %>    
+
+  </head>
+
+  <body style="overflow-x:hidden">
+
+    <div style="display:none">
+      <div id="os_green" class="os_green"></div>
+      <div id="os_orange" class="os_orange"></div>
+      <div id="os_gray" class="os_gray"></div>
+      <div id="os_yellow" class="os_yellow"></div>
+      <div id="os_blue" class="os_blue"></div>
+      <div id="os_dark_orange" class="os_dark_orange"></div>
+    </div>
+
+    <%= render :partial => 'consent_forms/consent_form_machinery' if @ask_for_consent %>
+
+    <div id="terp">
+
+      <%# #########################   HEADER   ############################## #%>
+
+      <div id="header">
+
+        <div id="nav_bar" class="test test_section top_nav">
+          
+          <a href="<%= terp_quiz_start_path(terp_id: params[:terp_id]) %>" class="logo"></a>
+          <%
+            submenu = []
+
+            if user_signed_in?
+              submenu.push ["Log Out", terp_logout_path(terp_id: params[:terp_id]), {method: :delete}]
+              submenu.push ["My Account", terp_my_account_path(terp_id: params[:terp_id]), {remote: true}]
+            end
+
+            submenu.push(
+              ["About", terp_about_path(terp_id: params[:terp_id]), {remote:true}],
+              ["Terms of Use", terp_terms_path(terp_id: params[:terp_id]), {remote: true}],
+              ["Contact Us", terp_contact_us_path(terp_id: params[:terp_id]), {remote: true}]
+            )
+          %>
+
+
+          <% 
+            nav_links = []
+
+            if user_signed_in?
+              nav_links.push ["QUIZ INSTRUCTIONS", main_app.terp_instructions_path(terp_id: params[:terp_id]), "", :about]
+              nav_links.push ["DASHBOARD", main_app.terp_dashboard_path(terp_id: params[:terp_id]), "", :dashboard]
+            end
+
+            nav_links.push(
+              ["HELP #{image_tag 'help_icon_v4.png', :height => '12px', :width => '12px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}", 
+                main_app.terp_help_path(terp_id: params[:terp_id]), "", :help],
+              ["#{image_tag 'three_lines_16.png', :height => '16px', :width => '16px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px; padding-right: 5px;'}", 
+                nil, "", :menu, submenu]  
+            )
+
+          %>
+     
+          <ul class='top'>
+            <% nav_links.each do |nav_link| %>
+              <% is_dropdown = nav_link[1].nil? && !nav_link[4].nil? %>
+              <li class='top' style="<%= 'position:relative' if is_dropdown %>">
+                <% options = {class: "top"}
+                   if nav_link[1].nil?
+                     options[:data] = {toggle: "dropdown"}
+                     options[:class] = options[:class] + " dropdown-toggle" 
+                   else
+                     options[:remote] = true
+                   end
+                    %>
+                <%= link_to nav_link[1] || '#', options do %>
+                  <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %>" 
+                        style="display:inline; position:relative"><%= nav_link[0].html_safe %><em></em></span>
+                <% end %>
+
+                <% if is_dropdown %>
+                  <ul class='dropdown-menu pull-right' role='menu'>
+                  <% nav_link[4].each do |item| %>
+                    <li class='menu'>
+                      <%= link_to item[0], item[1], item[2] %>
+                    </li>
+                  <% end %>
+                  </ul>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+
+      </div>
+
+      <noscript>
+        <%= attention_tag(["Please enable JavaScript in your browser! Many #{SITE_NAME} pages will not work properly without it."], :alert, "js_not_enabled_alert remove_by_js") %>
+      </noscript>
+
+      <%# #########################   MAIN   ############################## #%>
+     
+      <div id="main">
+        
+        <div id="message_dialog" style="display:none" title="">
+          <div id="message_dialog_errors"></div>
+          <div id="message_dialog_body"></div>
+        </div>
+
+        <div id="help_dialog" style="display:none" title="">
+          <div id="help_dialog_errors"></div>
+          <div id="help_dialog_body"></div>
+        </div>
+
+
+        <div id="attention">
+          <%= render 'shared/attention' %>
+        </div>
+
+        <%= yield %>
+
+            
+
+      </div>
+
+    </div>
+
+    <%= yield :javascript %>
+  
+    <%= yield :test_meta %>
+  
+  </body>
+
+  <%= render :partial => 'layouts/common_footer_includes' %>
+
+
+</html>
+
