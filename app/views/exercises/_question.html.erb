@@ -1,12 +1,17 @@
 <%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<%# Clients must supply:
-      exercise
+<%#
+
+Params:
+
+  exercise
+  show_url: optional. default: false.
 %>
 
 <%
   question = exercise.content["simple_question"]
+  show_url = false if local_assigns[:show_url].nil?
 %>
 
 <div class="exercise-question">
@@ -20,5 +25,10 @@
     <div class="question question-text">
       <%= question["content"]["html"].html_safe %>
     </div>
+    <% if show_url  %>
+    <div class="question question-link">
+      <%= link_to exercise.url, exercise.url, class: 'question-url' %>
+    </div>
+    <% end %>
   </div>
 </div>

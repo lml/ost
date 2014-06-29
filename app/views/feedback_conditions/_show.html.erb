@@ -1,4 +1,4 @@
-<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+<%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <% assignment_event = FeedbackCondition::AvailabilityEvent[feedback_condition.availability_event].to_s.humanize.downcase %>
@@ -7,6 +7,7 @@
   <li>Matches labels against: <%= feedback_condition.label_regex || "[Not set]" %></li>
   <li>Matches correctness against: <%= FeedbackCondition::ExerciseCorrectnessOption[feedback_condition.exercise_correctness_option].to_s.humanize %></li>
   <li>Feedback viewing is required?: <%= tf_to_yn(feedback_condition.is_feedback_required_for_credit) %></li>
+  <li>Feedback viewing penalty: <%= feedback_condition.feedback_viewing_penalty || 0 %>%</li>
   <li>Can automatically show feedback?: <%= tf_to_yn(feedback_condition.can_automatically_show_feedback) %></li>
   <li>Feedback becomes available: 
     <%= 

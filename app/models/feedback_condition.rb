@@ -1,4 +1,4 @@
-# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# Copyright 2011-2014 Rice University. Licensed under the Affero General Public 
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 class FeedbackCondition < ActiveRecord::Base
@@ -9,6 +9,7 @@ class FeedbackCondition < ActiveRecord::Base
   store_accessor       :settings, :label_regex
   store_typed_accessor :settings, :integer, :exercise_correctness_option
   store_typed_accessor :settings, :boolean, :is_feedback_required_for_credit
+  store_typed_accessor :settings, :integer, :feedback_viewing_penalty
   store_typed_accessor :settings, :boolean, :can_automatically_show_feedback
   store_typed_accessor :settings, :integer, :availability_opens_option
   store_typed_accessor :settings, :float,   :availability_opens_delay_days
@@ -30,10 +31,17 @@ class FeedbackCondition < ActiveRecord::Base
                   :credit_closes_option, :credit_closes_delay_days,
                   :can_automatically_show_feedback,
                   :show_correctness_feedback, :show_correct_answer_feedback,
-                  :show_high_level_feedback, :show_detailed_feedback
+                  :show_high_level_feedback, :show_detailed_feedback,
+                  :feedback_viewing_penalty
 
   after_initialize  :supply_missing_values
   before_validation :strip_regex, :nil_out_blank_regex
+
+  validates :feedback_viewing_penalty, allow_nil: true,
+                                       numericality: {
+                                                      greater_than_or_equal_to: 0,
+                                                      less_than_or_equal_to: 100
+                                                     }
 
   validates :availability_opens_delay_days, allow_nil: true,
                                             numericality: { greater_than: 0 }
@@ -49,7 +57,7 @@ class FeedbackCondition < ActiveRecord::Base
   validate :not_applicable_event_only_for_never
   validate :feedback_cannot_close_if_never_opened
   validate :feedback_must_open_if_needed_for_credit
-    
+
   class AvailabilityOpensOption < Enum
     NEVER = 0
     IMMEDIATELY_AFTER_EVENT = 1 
@@ -83,6 +91,7 @@ class FeedbackCondition < ActiveRecord::Base
     FeedbackCondition.new(:label_regex                     => 'standard practice',
                           :exercise_correctness_option     => ExerciseCorrectnessOption::ANY_CORRECTNESS.to_s,
                           :is_feedback_required_for_credit => false.to_s,
+                          :feedback_viewing_penalty        => 0.to_s,
                           :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
                           :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
                           :availability_event              => AvailabilityEvent::EXERCISE_COMPLETE.to_s,
@@ -97,6 +106,7 @@ class FeedbackCondition < ActiveRecord::Base
     FeedbackCondition.new(:label_regex                     => 'NewFeedback',
                           :exercise_correctness_option     => ExerciseCorrectnessOption::ANY_CORRECTNESS.to_s,
                           :is_feedback_required_for_credit => false.to_s,
+                          :feedback_viewing_penalty        => 0.to_s,
                           :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
                           :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
                           :availability_event              => AvailabilityEvent::EXERCISE_COMPLETE.to_s,
@@ -111,6 +121,7 @@ class FeedbackCondition < ActiveRecord::Base
     FeedbackCondition.new(:label_regex                     => 'DefaultFeedback',
                           :exercise_correctness_option     => ExerciseCorrectnessOption::ANY_CORRECTNESS.to_s,
                           :is_feedback_required_for_credit => false.to_s,
+                          :feedback_viewing_penalty        => 0.to_s,
                           :availability_opens_option       => AvailabilityOpensOption::IMMEDIATELY_AFTER_EVENT.to_s, 
                           :availability_closes_option      => AvailabilityClosesOption::NEVER.to_s, 
                           :availability_event              => AvailabilityEvent::EXERCISE_COMPLETE.to_s,
@@ -261,6 +272,7 @@ protected
     self.label_regex                     ||= '.*'
     self.exercise_correctness_option     ||= ExerciseCorrectnessOption::ANY_CORRECTNESS
     self.is_feedback_required_for_credit ||= false
+    self.feedback_viewing_penalty        ||= 0
     self.availability_opens_option       ||= AvailabilityOpensOption::NEVER
     self.availability_closes_option      ||= AvailabilityClosesOption::NEVER
     self.availability_event              ||= AvailabilityEvent::NOT_APPLICABLE
@@ -303,7 +315,7 @@ protected
   
   def adjust_credit(student_exercise, event)    
     if StudentExercise::Event::COMPLETE == event
-      student_exercise.update_feedback_credit_multiplier!(is_feedback_required_for_credit ? 0 : 1)
+      student_exercise.update_feedback_credit_multiplier!(is_feedback_required_for_credit ? feedback_viewing_penalty/100.0 : 1)
     end
     
     if StudentExercise::Event::FEEDBACK_VIEWED == event

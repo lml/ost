@@ -593,6 +593,15 @@ ActiveRecord::Schema.define(:version => 20140626002034) do
   add_index "topics", ["name", "learning_plan_id"], :name => "index_topics_on_name_scoped", :unique => true
   add_index "topics", ["number", "learning_plan_id"], :name => "index_topics_on_number_scoped", :unique => true
 
+  create_table "unconfirm_user_settings", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.text     "settings"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "unconfirm_user_settings", ["user_id"], :name => "index_unconfirm_user_settings_on_user_id"
+
   create_table "users", :force => true do |t|
     t.string   "email",                                                                          :null => false
     t.string   "encrypted_password",                   :default => "",                           :null => false
