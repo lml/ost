@@ -86,39 +86,36 @@
 
           %>
      
+          <ul class='top'>
+            <% nav_links.each do |nav_link| %>
+              <% is_dropdown = nav_link[1].nil? && !nav_link[4].nil? %>
+              <li class='top' style="<%= 'position:relative' if is_dropdown %>">
+                <% options = {class: "top"}
+                   if nav_link[1].nil?
+                     options[:data] = {toggle: "dropdown"}
+                     options[:class] = options[:class] + " dropdown-toggle" 
+                   else
+                     options[:remote] = true
+                   end
+                    %>
+                <%= link_to nav_link[1] || '#', options do %>
+                  <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %>" 
+                        style="display:inline; position:relative"><%= nav_link[0].html_safe %><em></em></span>
+                <% end %>
 
-
-
-            <ul class='top'>
-              <% nav_links.each do |nav_link| %>
-                <% is_dropdown = nav_link[1].nil? && !nav_link[4].nil? %>
-                <li class='top' style="<%= 'position:relative' if is_dropdown %>">
-                  <% options = {class: "top"}
-                     if nav_link[1].nil?
-                       options[:data] = {toggle: "dropdown"}
-                       options[:class] = options[:class] + " dropdown-toggle" 
-                     else
-                       options[:remote] = true
-                     end
-                      %>
-                  <%= link_to nav_link[1] || '#', options do %>
-                    <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %>" 
-                          style="display:inline; position:relative"><%= nav_link[0].html_safe %><em></em></span>
+                <% if is_dropdown %>
+                  <ul class='dropdown-menu pull-right' role='menu'>
+                  <% nav_link[4].each do |item| %>
+                    <li class='menu'>
+                      <%= link_to item[0], item[1], item[2] %>
+                    </li>
                   <% end %>
-
-                  <% if is_dropdown %>
-                    <ul class='dropdown-menu pull-right' role='menu'>
-                    <% nav_link[4].each do |item| %>
-                      <li class='menu'>
-                        <%= link_to item[0], item[1], item[2] %>
-                      </li>
-                    <% end %>
-                    </ul>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
-          </div>
+                  </ul>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
 
 
       </div>
@@ -141,46 +138,22 @@
           <div id="help_dialog_body"></div>
         </div>
 
-<% if false %>
-        <div class="account_info <%= 'account_bar' if !@main_div_background_image %>">
-          <div>
-            <% if user_signed_in? %>
-              <span style="color: black">Welcome <%= current_user.first_name.capitalize %></span> &nbsp;&nbsp;
-              <%= link_to "My Account", main_app.edit_user_registration_path %> 
-              <%= vertical_bar(12) %>
-              <%= link_to "Sign out", main_app.destroy_user_session_path, :method => :delete, :id => 'signout_link', :test => "sign_out" %>
-            <% else %>
-              <%= link_to "Join now", main_app.new_user_registration_path %> 
-              <%= vertical_bar(12) %>
-              <%= link_to "Sign in", main_app.new_user_session_path, :test => "sign_in" %>
-            <% end %>
-            <%= link_to "http://www.facebook.com/openstaxtutor", :style => 'margin-left: 16px' do %>
-              <%= image_tag("fb_round_#{icon_color}.png") %>
-            <% end %>
-            <%= link_to "http://www.twitter.com/openstaxtutor" do %>
-              <%= image_tag("twitter_round_#{icon_color}.png") %>
-            <% end %> 
 
-          </div>
+        <div id="attention">
+          <%= render 'shared/attention' %>
         </div>
-<% end %>
 
+        <%= yield %>
 
-      <div id="attention">
-        <%= render 'shared/attention' %>
+            
+
       </div>
-
-      <%= yield %>
-
-          
 
     </div>
 
-    
-
-  <%= yield :javascript %>
+    <%= yield :javascript %>
   
-  <%= yield :test_meta %>
+    <%= yield :test_meta %>
   
   </body>
 
