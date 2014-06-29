@@ -1,0 +1,20 @@
+category: student
+description: > 
+             This category contains the settings for confirmation messages 
+             when you are viewing the OST application as a student.
+             
+settings:
+        skip_answer_submitted_confirmation_dialog:
+                description: >
+                             This setting controls if you are shown a confirmation dialog
+                             before you submit a free response or a multiple choice answer.
+                message: >
+                         After you turn in your answer, you can no longer change it.                         
+                         Are you sure you want to turn in your answer?
+                message_title: >
+                               Are you sure?
+                dont_show_text: Don't show this message again.
+                continue_text: Continue
+                cancel_text: Cancel
+
+    
