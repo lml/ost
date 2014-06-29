@@ -1,0 +1,21 @@
+<%# Copyright 2011-2014 Rice University. Licensed under the Affero General Public
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%#
+
+Params:
+
+    assignment
+%>
+<% assignment.assignment_plan.assignments.each do |thissignment| %>
+  <%= sub_section "Cohort: #{thissignment.cohort.name}" do %>
+    <ol class="cohort-questions">
+    <% thissignment.assignment_exercises.each do |ae| %>
+      <% exercise = ae.topic_exercise.exercise %>
+      <li>
+        <%= render 'exercises/question', :exercise => exercise, :show_url => true %>
+      </li>
+    <% end  %>
+    </ol>
+  <% end %>
+<% end %>
