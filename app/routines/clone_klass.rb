@@ -59,14 +59,14 @@ protected
     # When copying the Klass, change the dates, clear approved emails, attach to the
     # intended course, and toggle the controlled_experiment flag appropriately.
 
-    new_klass = source_klass.clone.tap do |kk|
+    new_klass = source_klass.dup.tap do |kk|
       kk.approved_emails = nil
       kk.start_date = start_date
       kk.end_date = end_date
       kk.open_date = open_date
       kk.close_date = close_date
 
-      kk.is_controlled_experiment = false unless clone_research_settings
+      ((kk.enable_admin_controls = true) and (kk.is_controlled_experiment = false)) unless clone_research_settings
       kk.course_id = new_course.id
     end
 
@@ -80,7 +80,7 @@ protected
 
     source_learning_plan = source_klass.learning_plan
 
-    new_learning_plan = source_learning_plan.clone.tap do |lp|
+    new_learning_plan = source_learning_plan.dup.tap do |lp|
       lp.name = lp.name.gsub('(Copy)','').strip + " (Copy)"   # this name is mostly unused
     end
 
@@ -92,7 +92,7 @@ protected
     source_to_new_concept_map = {}
 
     source_learning_plan.concepts.each do |source_concept|
-      new_concept = source_concept.clone
+      new_concept = source_concept.dup
       source_to_new_concept_map[source_concept] = new_concept
       new_learning_plan.concepts << new_concept
     end
@@ -103,19 +103,19 @@ protected
     source_to_new_topics_map = {}
 
     source_learning_plan.topics.each do |source_topic|
-      new_topic = source_topic.clone
+      new_topic = source_topic.dup
       source_to_new_topics_map[source_topic] = new_topic
 
       # Resources
 
       source_topic.resources.each do |source_resource|
-        new_topic.resources << source_resource.clone
+        new_topic.resources << source_resource.dup
       end
 
       # TopicExercises
 
       source_topic.topic_exercises.each do |source_topic_exercise|
-        new_topic_exercise = source_topic_exercise.clone
+        new_topic_exercise = source_topic_exercise.dup
         new_topic_exercise.concept = source_to_new_concept_map[source_topic_exercise.concept]
         new_topic.topic_exercises << new_topic_exercise
       end
@@ -129,19 +129,19 @@ protected
     new_klass_duration = new_klass.end_date - new_klass.start_date
 
     source_learning_plan.assignment_plans.each do |source_assignment_plan|
-      new_assignment_plan = source_assignment_plan.clone.tap do |ap|
-        ap.section = new_klass.section
+      new_assignment_plan = source_assignment_plan.dup.tap do |ap|
+        ap.section = new_klass.sections.first
 
         # Map the start and end times to the new klass times
 
-        ap.starts_at = (ap.starts_at - source_klass.start_date) / source_klass_duration * new_klass_duration + new_klass.start_date
-        ap.ends_at   = (ap.ends_at   - source_klass.start_date) / source_klass_duration * new_klass_duration + new_klass.start_date
+        ap.starts_at = new_klass.start_date + ((ap.starts_at - source_klass.start_date) / source_klass_duration * new_klass_duration)
+        ap.ends_at   = new_klass.start_date + ((ap.ends_at   - source_klass.start_date) / source_klass_duration * new_klass_duration)
       end
 
       # AssignmentPlanTopics
 
-      source_learning_plan.assignment_plan_topics.each do |source_assignment_plan_topic|
-        new_assignment_plan_topic = source_assignment_plan_topic.clone
+      source_assignment_plan.assignment_plan_topics.each do |source_assignment_plan_topic|
+        new_assignment_plan_topic = source_assignment_plan_topic.dup
         new_assignment_plan_topic.topic = source_to_new_topics_map[source_assignment_plan_topic.topic]
         new_assignment_plan.assignment_plan_topics << new_assignment_plan_topic
       end
@@ -171,7 +171,7 @@ protected
       source_to_new_cohort_map = {}
 
       source_klass.cohorts.each do |source_cohort|
-        new_cohort = source_cohort.clone
+        new_cohort = source_cohort.dup
         source_to_new_cohort_map[source_cohort] = new_cohort
         new_cohort.section = new_klass.sections.first # we don't copy section
         new_klass.cohorts << new_cohort
@@ -179,32 +179,32 @@ protected
         # One LC per Cohort, so take care of it here.
 
         source_learning_condition = source_cohort.learning_condition
-        new_learning_condition = source_learning_condition.clone
+        new_learning_condition = source_learning_condition.dup
 
         # LC: copy regular and default feedback conditions
 
         source_learning_condition.learning_condition_feedback_conditions.each do |source_lcfc|
-          new_learning_condition.learning_condition_feedback_conditions << source_lcfc.clone.tap do |new_lcfc|
-            new_lcfc.feedback_condition = source_lcfc.feedback_condition.clone
+          new_learning_condition.learning_condition_feedback_conditions << source_lcfc.dup.tap do |new_lcfc|
+            new_lcfc.feedback_condition = source_lcfc.feedback_condition.dup
           end
         end
 
         source_lcdfc = source_learning_condition.learning_condition_default_feedback_condition
-        new_learning_condition.learning_condition_default_feedback_condition = source_lcdfc.clone.tap do |new_lcdfc|
-          new_lcdfc.feedback_condition = source_lcdfc.feedback_condition.clone
+        new_learning_condition.learning_condition_default_feedback_condition = source_lcdfc.dup.tap do |new_lcdfc|
+          new_lcdfc.feedback_condition = source_lcdfc.feedback_condition.dup
         end
 
         # LC: copy regular and default presentation conditions
 
         source_learning_condition.learning_condition_presentation_conditions.each do |source_lcpc|
-          new_learning_condition.learning_condition_presentation_conditions << source_lcpc.clone.tap do |new_lcpc|
-            new_lcpc.presentation_condition = source_lcpc.presentation_condition.clone
+          new_learning_condition.learning_condition_presentation_conditions << source_lcpc.dup.tap do |new_lcpc|
+            new_lcpc.presentation_condition = source_lcpc.presentation_condition.dup
           end
         end
 
         source_lcdpc = source_learning_condition.learning_condition_default_presentation_condition
-        new_learning_condition.learning_condition_default_presentation_condition = source_lcdpc.clone.tap do |new_lcdpc|
-          new_lcdpc.presentation_condition = source_lcdpc.presentation_condition.clone
+        new_learning_condition.learning_condition_default_presentation_condition = source_lcdpc.dup.tap do |new_lcdpc|
+          new_lcdpc.presentation_condition = source_lcdpc.presentation_condition.dup
         end
       end  
 
@@ -213,6 +213,7 @@ protected
     # Call save to make permanent all of the relations established above.
 
     new_klass.save! 
+    outputs[:new_klass] = new_klass
 
   end # def exec
 
