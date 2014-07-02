@@ -52,6 +52,8 @@ Ost::Application.routes.draw do
 
   get "admin", :to => 'admin#index'
   put "admin/cron", :to => 'admin#cron', :as => "cron"
+  get "admin/clone_klass", to: 'admin#clone_klass'
+  post "admin/clone_klass", to: "admin#clone_klass"
   get "admin/raise_security_transgression", :to => 'admin#raise_security_transgression'
   get "admin/raise_record_not_found",       :to => 'admin#raise_record_not_found'
   get "admin/raise_routing_error",          :to => 'admin#raise_routing_error'

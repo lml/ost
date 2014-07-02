@@ -244,6 +244,10 @@ class Klass < ActiveRecord::Base
     end
   end
 
+  def name_with_date
+    "#{course.name} (#{start_date.strftime('%b %Y')})"
+  end
+
 protected
 
   def destroyable?
