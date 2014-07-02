@@ -25,11 +25,11 @@ protected
 
     source_klass = inputs[:klass]
 
-    start_date = inputs[:start_date] || Time.now
-    end_date   = inputs[:end_date]   || start_date + 3.months
+    start_date = inputs[:start_date].presence || Time.now
+    end_date   = inputs[:end_date].presence   || start_date + 3.months
 
-    open_date  = inputs[:open_date]  || start_date - 2.weeks
-    close_date = inputs[:close_date] || end_date + 1.month
+    open_date  = inputs[:open_date].presence  || start_date - 2.weeks
+    close_date = inputs[:close_date].presence || end_date + 1.month
 
     clone_research_settings = inputs[:clone_research_settings] || false
 
@@ -81,10 +81,11 @@ protected
     source_learning_plan = source_klass.learning_plan
 
     new_learning_plan = source_learning_plan.dup.tap do |lp|
-      lp.name = lp.name.gsub('(Copy)','').strip + " (Copy)"   # this name is mostly unused
+      lp.name = "#{new_course.name} (#{start_date.strftime('%b %Y')})"
     end
 
     new_klass.learning_plan = new_learning_plan
+    new_klass.save
 
     # Concepts - track connection between source and new concepts to properly set associations
     # in topic exercises below
@@ -104,6 +105,8 @@ protected
 
     source_learning_plan.topics.each do |source_topic|
       new_topic = source_topic.dup
+      new_learning_plan.topics << new_topic
+
       source_to_new_topics_map[source_topic] = new_topic
 
       # Resources
@@ -120,7 +123,7 @@ protected
         new_topic.topic_exercises << new_topic_exercise
       end
 
-      new_learning_plan.topics << new_topic
+      
     end
 
     # AssignmentPlans
@@ -131,6 +134,7 @@ protected
     source_learning_plan.assignment_plans.each do |source_assignment_plan|
       new_assignment_plan = source_assignment_plan.dup.tap do |ap|
         ap.section = new_klass.sections.first
+        ap.tag_list = source_assignment_plan.tag_list.join(", ")
 
         # Map the start and end times to the new klass times
 
@@ -158,7 +162,7 @@ protected
       
       # Consent Options
 
-      new_klass.consent_options = source_klass.consent_options.tap do |new_consent_options|
+      new_klass.consent_options = source_klass.consent_options.dup.tap do |new_consent_options|
         new_consent_options.consent_form_id = nil
 
         new_consent_options.opens_at = new_klass.open_date

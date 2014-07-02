@@ -8,6 +8,11 @@
   </div>
 
   <div class="field">
+    Course to put the cloned class under:<br/>
+    <%= f.select :course_id, options_from_collection_for_select(Course.all.sort_by(&:org_and_name), :id, :org_and_name), {}, style: "width: 600px" %>
+  </div>
+
+  <div class="field">
     <%= t(:time_zone) %><br />
     <%= f.time_zone_select( 'time_zone', 
                             ActiveSupport::TimeZone.us_zones) %>
@@ -35,6 +40,6 @@
     <%= f.radio_button :clone_research_settings, false %> No  
   </div>
   
-  <div style="padding: 10px 0"><%= f.submit "Clonify!", :class => "ui-state-default link_button" %></div>
+  <div style="padding: 10px 0"><%= f.submit "Clonify!", :class => "ui-state-default link_button" %> (this takes a while be patient)</div>
 
 <% end %>
