@@ -29,20 +29,6 @@ protected
     inputs[:course] = Course.find(clone_klass_params.course_id)
 
     run(CloneKlass, inputs)
-
-
-    # section = Section.where(registration_code: register_params.registration_code).first
-
-    # fatal_error(message: 'The provided registration code is invalid.', 
-    #             code: :no_section_for_registration_code, 
-    #             offending_inputs: [:registration_code]) if section.nil?
-
-    # student = Student.create(:user_id => caller.id, 
-    #                          :section_id => section.id, 
-    #                          :is_auditing => register_params.is_auditing || false, 
-    #                          :student_specified_id => register_params.student_specified_id)
-
-    # transfer_errors_from(student, {type: :verbatim}, true)
   end
 
 end
