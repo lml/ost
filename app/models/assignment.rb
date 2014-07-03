@@ -68,7 +68,7 @@ class Assignment < ActiveRecord::Base
 
   def create_missing_student_assignments
     cohort.students.active.find_each do |student|
-      creating_missing_student_assignment_for_student(student)
+      create_missing_student_assignment_for_student(student)
     end
   end
 
