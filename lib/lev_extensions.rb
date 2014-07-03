@@ -7,7 +7,7 @@
       options[:time_zone] ||= "UTC"
 
       value = get_form_params_entry(name)
-      options[:value] ||= value.nil? ? "" : value.in_time_zone(options[:time_zone]).strftime(STANDARD_DATETIME_FORMAT)
+      options[:value] ||= value.presence.nil? ? "" : value.in_time_zone(options[:time_zone]).strftime(STANDARD_DATETIME_FORMAT)
 
       new_classes = "datetime_field date_time_picker"
     

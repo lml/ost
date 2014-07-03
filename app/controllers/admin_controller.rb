@@ -51,7 +51,7 @@ class AdminController < ApplicationController
   def clone_klass
     if request.post?
       handle_with(AdminCloneKlass,
-                  success: lambda { redirect_to admin_path },
+                  success: lambda { redirect_to admin_path, notice: 'Class successfully cloned.' },
                   failure: lambda {
                     render :clone_klass, status: @handler_result.errors.any? ? 400 : 200
                   })

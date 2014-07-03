@@ -9,7 +9,7 @@ class AdminCloneKlass
     attribute :end_date, type: String
     attribute :close_date, type: String
     attribute :clone_research_settings, type: boolean
-    validates :clone_research_settings, presence: true
+    # validates :clone_research_settings, presence: true
     attribute :course_id, type: Integer
     validates :course_id, presence: true
   end
