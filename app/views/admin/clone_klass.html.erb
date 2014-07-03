@@ -1,0 +1,45 @@
+<%= pageHeading "Clone a Class" %>
+
+<%= lev_form_for :clone_klass, url: admin_clone_klass_path do |f| %>
+
+  <div class="field">
+    Class to clone:<br/>
+    <%= f.select :klass_id, options_from_collection_for_select(Klass.all.sort_by(&:name), :id, :name_with_date), {}, style: "width: 600px" %>
+  </div>
+
+  <div class="field">
+    Course to put the cloned class under:<br/>
+    <%= f.select :course_id, options_from_collection_for_select(Course.all.sort_by(&:org_and_name), :id, :org_and_name), {}, style: "width: 600px" %>
+  </div>
+
+  <div class="field">
+    <%= t(:time_zone) %><br />
+    <%= f.time_zone_select( 'time_zone', 
+                            ActiveSupport::TimeZone.us_zones) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :open_date, t(:open_date_time) %><br />
+    <%= f.datetime_text_field :open_date, {:number_of_months => 2} %>
+  </div>
+  <div class="field">
+    <%= f.label :start_date, t(:start_date_time) %><br />
+    <%= f.datetime_text_field :start_date, {:number_of_months => 2} %>
+  </div>
+  <div class="field">
+    <%= f.label :end_date, t(:end_date_time) %><br />
+    <%= f.datetime_text_field :end_date, {:number_of_months => 2} %>
+  </div>
+  <div class="field">
+    <%= f.label :close_date, t(:close_date_time) %><br />
+    <%= f.datetime_text_field :close_date, {:number_of_months => 2} %>
+  </div>
+  <div class="field">
+    Copy research settings (cohorts, learning conditions, consent options)?<br/>
+    <%= f.radio_button :clone_research_settings, true %> Yes
+    <%= f.radio_button :clone_research_settings, false %> No  
+  </div>
+  
+  <div style="padding: 10px 0"><%= f.submit "Clonify!", :class => "ui-state-default link_button" %> (this takes a while be patient)</div>
+
+<% end %>

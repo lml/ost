@@ -17,6 +17,10 @@ class Course < ActiveRecord::Base
     course_instructors.any?{|ci| ci.user_id == user.id}
   end
   
+  def org_and_name
+    "#{organization.name} - #{name}"
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################

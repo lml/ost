@@ -95,7 +95,7 @@ protected
   end
   
   def init_learning_condition
-    self.learning_condition = LearningCondition.new
+    self.learning_condition ||= LearningCondition.new
   end
   
   def section_unchanged?

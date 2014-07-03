@@ -215,10 +215,10 @@ protected
       redirect_to terp_too_many_assignments_path(terp_id: params[:terp_id])
     elsif @student_assignment.count == 0
       redirect_to terp_missing_assignment_path(terp_id: params[:terp_id])
+    else
+      @student_assignment = @student_assignment.first
+      @first_unworked_student_exercise = @student_assignment.ordered_student_exercises.find{|se| !se.selected_answer_submitted?}
     end
-
-    @student_assignment = @student_assignment.first
-    @first_unworked_student_exercise = @student_assignment.ordered_student_exercises.find{|se| !se.selected_answer_submitted?}
   end
 
   def get_student_exercise
