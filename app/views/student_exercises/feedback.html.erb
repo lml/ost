@@ -9,27 +9,26 @@
    learning_condition = @student_exercise.learning_condition 
 %>
 
+<% if learning_condition.show_correctness_feedback?(@student_exercise) %>
+  <% if @student_exercise.selected_answer == @student_exercise.correct_choice_index %>
+    <span id="student_exercise_correct_message" style="color:green"><p><b>Your answer is correct</b></p></span>
+  <% else %>
+    <span id="student_exercise_incorrect_message" style="color:red"><p><b>Your answer is incorrect.</b></p></span>
+  <% end %>
+<% end %>
+
 <%= render 'exercises/exercise_blurb', :exercise => exercise,
                                        :show_choices => true %>
 
-<%= render :partial => "student_answer", :locals => { :student_exercise => @student_exercise } %>
-
-<%= render :partial => "free_response_list", 
-           :layout  => 'layouts/section',
-           :locals  => { :student_exercise => @student_exercise, 
-                         :section_name     => 'Your Free Responses',
-                         :classes          => 'no_bar',
-                         :collapsed        => true} %>
-
-<% if learning_condition.show_correctness_feedback?(@student_exercise) %>
-  <%= render :partial => "correctness_feedback", :locals => { :student_exercise => @student_exercise } %> 
-<% end %>
 
 <% if learning_condition.show_correct_answer_feedback?(@student_exercise) %>
   <%= render :partial => "correct_answer_feedback", :locals => { :student_exercise => @student_exercise } %> 
 <% end %>
 
 <%= render :partial => "solution_feedback", :locals => { :student_exercise => @student_exercise } %> 
+
+<%= render :partial => "student_answer", :locals => { :student_exercise => @student_exercise } %>
+
 
 <%= render :partial => 'shared/response_times',
            :locals => {:response_timeable => @student_exercise,

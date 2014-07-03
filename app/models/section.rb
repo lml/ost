@@ -13,9 +13,14 @@ class Section < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => {:scope => :klass_id}
   validates :registration_code, :uniqueness => {:allow_blank => true}
   
-  attr_accessible :name, :klass
+  attr_accessible :name, :klass, :registration_code
   
-  after_create :reset_registration_code!
+  after_create :populate_registration_code
+
+  def populate_registration_code
+    return if registration_code.present?
+    reset_registration_code!
+  end
 
   def reset_registration_code!
     new_code = Babbler.babble until Section.where(registration_code: new_code).none?

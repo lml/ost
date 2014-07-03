@@ -1,10 +1,12 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<%= section "Your Answer", {:classes => 'first no_bar' } do %>
+<%= section "Your Answer", {:classes => 'first no_bar', :collapsible => true, :collapsed => true } do %>
 
   <%= render :partial => "an_answer", :locals => { :exercise     => student_exercise.exercise,
                                                    :phrase       => "You chose answer",
                                                    :answer_index => student_exercise.selected_answer } %>
+
+  <%= render :partial => "free_response_list", locals: { student_exercise: student_exercise } %>
 
 <% end %>

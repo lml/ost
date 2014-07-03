@@ -365,6 +365,7 @@ input[disabled].link_button {
 
 .section {
    margin: 28px 0px 18px 0px;
+   clear: both;
    @extend .bar_topped_block;
 }
 
