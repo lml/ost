@@ -11,6 +11,7 @@ class AssignmentPlan < ActiveRecord::Base
   acts_as_taggable
 
   before_save :add_new_exercise_tags
+  before_validation :nillify_embed_code
 
   before_destroy :destroyable?, prepend: true
 
@@ -180,6 +181,11 @@ class AssignmentPlan < ActiveRecord::Base
 
     self.tag_list.add new_exercise_tags, :parse => true
     self.new_exercise_tags = ""
+  end
+
+  def nillify_embed_code
+    self.embed_code = nil if embed_code.blank?
+    true
   end
 
   #############################################################################
