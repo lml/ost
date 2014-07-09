@@ -81,7 +81,7 @@ protected
     source_learning_plan = source_klass.learning_plan
 
     new_learning_plan = source_learning_plan.dup.tap do |lp|
-      lp.name = "#{new_course.name} (#{start_date.strftime('%b %Y')})"
+      lp.name = "#{new_course.name} (#{new_klass.start_date.strftime('%b %Y')})"
     end
 
     new_klass.learning_plan = new_learning_plan
