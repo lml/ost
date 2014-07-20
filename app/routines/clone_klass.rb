@@ -183,7 +183,11 @@ protected
         # One LC per Cohort, so take care of it here.
 
         source_learning_condition = source_cohort.learning_condition
-        new_learning_condition = source_learning_condition.dup
+        new_cohort.learning_condition = new_learning_condition = source_learning_condition.dup
+
+        # LC: copy scheduler
+        
+        new_learning_condition.scheduler = source_learning_condition.scheduler.dup
 
         # LC: copy regular and default feedback conditions
 
