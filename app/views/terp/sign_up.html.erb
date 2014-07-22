@@ -45,7 +45,9 @@
   
   <div class='field left'>
     <p>Username<br/>
-    <%= f.text_field :username %></p>
+    <%= f.text_field :username %>
+    <div class='terp_field_help'>3+ letters, numbers, and underscores</div></p>
+
   </div>
 
   <br/><div style="clear:both"></div>
@@ -64,7 +66,8 @@
 
   <div class='field left'>
     <p>Password<br />
-    <%= f.password_field :password %></p>
+    <%= f.password_field :password %>
+    <div class='terp_field_help'>8+ characters</div></p>
   </div>
 
   <div class='field right'>
@@ -72,20 +75,13 @@
     <%= f.password_field :password_confirmation %></p>
   </div>
 
-  <br/><div style="clear:both"></div>
 
-  <div class="field left">
-    <p><%= t(:time_zone) %><br />
-    <%= f.time_zone_select( 'time_zone', 
-                            ActiveSupport::TimeZone.us_zones, 
-                            :default => Time.zone) %></p>
-  </div>
 
 <br/><div style="clear:both"></div>
 
   <div class='field left '>
     <p>Registration Code<br/>
-    <%= f.text_field :registration_code %>
+    <%= f.text_field :registration_code %><div class='terp_field_help'>Enter registration code as provided by your instructor</div>
   </div>
 
 <br/><div style="clear:both"></div>
@@ -102,7 +98,7 @@
    end %>
 
   <%= check_box_tag(:agreement_checkbox) %> 
-  I have read this site's <%= contract_links[0] %> and <%= contract_links[1] %> and agree to be bound by their terms.
+  I have read the <%= contract_links[0] %> and <%= contract_links[1] %> and agree to be bound by their terms.
   </div>
   
   <div style="padding: 10px 0"><%= f.submit "Sign up", :id => 'register_submit', :class => "ui-state-default ui-state-disabled link_button" %></div>

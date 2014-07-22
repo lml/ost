@@ -73,13 +73,14 @@
             nav_links = []
 
             if user_signed_in?
-              nav_links.push ["QUIZ INSTRUCTIONS", main_app.terp_instructions_path(terp_id: params[:terp_id]), "", :about]
               nav_links.push ["DASHBOARD", main_app.terp_dashboard_path(terp_id: params[:terp_id]), "", :dashboard]
+              nav_links.push(
+                ["HELP #{image_tag 'help_icon_v4.png', :height => '12px', :width => '12px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}", 
+                 main_app.terp_help_path(terp_id: params[:terp_id]), "", :help]
+              )
             end
 
             nav_links.push(
-              ["HELP #{image_tag 'help_icon_v4.png', :height => '12px', :width => '12px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}", 
-                main_app.terp_help_path(terp_id: params[:terp_id]), "", :help],
               ["#{image_tag 'three_lines_16.png', :height => '16px', :width => '16px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px; padding-right: 5px;'}", 
                 nil, "", :menu, submenu]  
             )
@@ -143,7 +144,9 @@
           <%= render 'shared/attention' %>
         </div>
 
-        <%= yield %>
+        <div id='terp-contents'>
+          <%= yield %>
+        </div>
 
             
 

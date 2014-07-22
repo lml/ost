@@ -52,6 +52,10 @@ function open_specified_dialog(name, is_modal, height, width, title, body) {
 
   $("#" + name + "_dialog").dialog('open').closeOnClickOutside();
   $("#" + name + "_dialog").scrollTop(0);   
+  $(document).on('after_dialog_open', function(event) {
+    $("#" + name + "_dialog").scrollTop("0");
+  });
+
 }
 
 function open_message_dialog(is_modal, height, width, title, body) {
@@ -81,5 +85,11 @@ $(document).ready(function() {
       window.open(this.href);
       return false;
     }
+  });
+});
+
+$(document).ready(function() {
+  $('body').on('added_errors', function(event) {
+    $('#' + event.target.id).parent('.ui-dialog-content').scrollTop("0");
   });
 });

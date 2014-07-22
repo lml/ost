@@ -29,7 +29,10 @@
             text: "I do not consent",
             click: function() { create_consent(false); }
           }
-        ] 
+        ],
+        open: function() {
+          $("#consent_form_dialog").scrollTop("0");
+        }
       });
      
     });

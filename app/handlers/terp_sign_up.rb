@@ -23,17 +23,20 @@ protected
   def handle
     section = Section.where(registration_code: sign_up_params.registration_code).first
 
-    fatal_error(message: 'The provided registration code is invalid.', 
+    fatal_error(message: 'Sorry, we don\'t recognize that code.  Please ask your instructor or check your syllabus.', 
                 code: :no_section_for_registration_code, 
                 offending_inputs: [:registration_code]) if section.nil?
 
-    user = User.new(sign_up_params.as_hash(:username, 
-                                           :first_name, 
-                                           :last_name, 
-                                           :password, 
-                                           :password_confirmation, 
-                                           :email, 
-                                           :email_confirmation))
+    user_params = sign_up_params.as_hash(:username, 
+                                         :first_name, 
+                                         :last_name, 
+                                         :password, 
+                                         :password_confirmation, 
+                                         :email, 
+                                         :email_confirmation)
+    user_params[:time_zone] = section.klass.time_zone
+
+    user = User.new(user_params)
     user.save
 
     transfer_errors_from(user, {type: :verbatim}, true) # do fatal errors

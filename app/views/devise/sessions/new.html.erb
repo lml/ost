@@ -9,7 +9,7 @@
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <% @errors = resource.try(:errors) %>
   
-  <div class="field test input user_username"><%= f.label :username %><br />
+  <div class="field test input user_username"><%= f.label :username_or_email %><br />
   <%= f.text_field :username %></div>
 
   <div class="field test input user_password"><%= f.label :password %><br />

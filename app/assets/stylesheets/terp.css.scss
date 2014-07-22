@@ -334,6 +334,12 @@ $nav_bar_height: $header_height;
   @include rounded-side(0px, 0px);
 }
 
+.link_button_terp {
+  @extend .link_button;
+  @include rounded-side(0px, 0px);
+  padding: 8px 13px 10px 14px;
+}
+
 input[disabled].link_button {
   background-color: $ost_hot_blue;
 }
@@ -468,6 +474,12 @@ div.field label {
    font-size:11px;
    color: #999;
    margin-top:-7px;
+}
+
+.terp_field_help {
+    font-size:11px;
+   color: #999;
+   margin-top:-15px; 
 }
 
 .field_with_errors {
@@ -1094,3 +1106,37 @@ input.ui-widget {
   clear: both;
   text-align: center;
 }
+
+#terp-contents {
+  padding: 15px;
+
+  .instructions {
+    font-weight: bold;
+    padding-bottom: 15px;
+  }
+}
+
+  .middle-space {
+    margin-left: 85px;
+
+    .or-bar {
+      margin-bottom: 35px;
+      margin-top: 10px;
+      margin-left: 50%;
+      position: relative;
+      height: 270px;
+      border-left: 1px solid #dddddd;
+
+      .or-text {
+        position: absolute;
+        left:-24px;
+        top: 100px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-left: -50%;
+        padding: 14px 14px;
+        background: white;
+        font-weight: bold;
+      }      
+    }  
+  }
