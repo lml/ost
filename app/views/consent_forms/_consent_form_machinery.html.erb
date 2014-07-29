@@ -18,16 +18,27 @@
         width: 700,
         buttons: [
           {
-            text: "I consent",
-            click: function() { create_consent(true); }
-          },
-          {
-            text: "Remind me later",
-            click: function() { create_consent(null); }
-          },
-          {
-            text: "I do not consent",
-            click: function() { create_consent(false); }
+            text: "Next",
+            click: function() {
+              $('#consent_form_dialog').dialog('option', 
+                                               'buttons', 
+                                               [
+                                                 {
+                                                   text: "I consent",
+                                                   click: function() { create_consent(true); }
+                                                 },
+                                                 {
+                                                   text: "Remind me later",
+                                                   click: function() { create_consent(null); }
+                                                 },
+                                                 {
+                                                   text: "I do not consent",
+                                                   click: function() { create_consent(false); }
+                                                 }
+                                               ]);
+              $('#research_splash').hide();
+              $('#consent_form').show();
+            }
           }
         ],
         open: function() {
@@ -39,7 +50,7 @@
   <% end %>
 <% end %>
     
-<div id="consent_form_dialog" style="display:none" title="Research Consent Form">
+<div id="consent_form_dialog" style="display:none" title="Research Consent">
   <% unless @hide_open_consent_in_new_window %>
   <%= link_to "Open in a separate window", 
               new_polymorphic_path([@consentable, Consent.new]), :style => 'float:right; font-size:10px', :target => :_blank %>
@@ -48,9 +59,18 @@
 
   <div id="consent_form_dialog_errors"></div>        
   
-  <%= @consentable.consent_options.consent_form.html.html_safe %>
+    <div id="research_splash">
+      <p>Research Study</p>
 
-  <%= form_for([@consentable, Consent.new]) do |f| %>
-    Signature: <%= f.text_field :esignature %>
-  <% end %>    
+      <p>You have the option to participate in a learning research study.  Please watch the video below explaining the research study and then click 'Next' to view the consent form.</p>
+
+    </div>
+
+    <div id="consent_form" style="display: none">
+      <%= @consentable.consent_options.consent_form.html.html_safe %>
+
+      <%= form_for([@consentable, Consent.new]) do |f| %>
+        Signature: <%= f.text_field :esignature %>
+      <% end %>    
+    </div>
 </div>

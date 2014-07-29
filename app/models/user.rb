@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
                   :password, :password_confirmation, 
                   :remember_me,
                   :first_name, :last_name, :nickname, 
-                  :time_zone, :terp_only
+                  :time_zone
     
   validates_presence_of :first_name, :last_name, :username
   validates_uniqueness_of :username, :case_sensitive => false
