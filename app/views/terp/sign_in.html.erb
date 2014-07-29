@@ -35,7 +35,9 @@
 
   <br/>
 
-  <%= link_to "Forgot your password? Click here", terp_account_help_path %>
+  <% if false %>
+  <%= link_to "Forgot your password? Click here", terp_account_help_path(terp_id: terp_id) %>
+  <% end %>
 
   </div>
 

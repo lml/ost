@@ -14,6 +14,8 @@ class TerpSignUp
     attribute :is_auditing, type: boolean
   end
 
+  uses_routine ResetTerpConfirmationCode
+
 protected
 
   def authorized?
@@ -35,9 +37,12 @@ protected
                                          :email, 
                                          :email_confirmation)
     user_params[:time_zone] = section.klass.time_zone
-
+    
     user = User.new(user_params)
+
     user.save
+
+    run(ResetTerpConfirmationCode, user: user)
 
     transfer_errors_from(user, {type: :verbatim}, true) # do fatal errors
 
@@ -46,7 +51,8 @@ protected
     student = Student.create(:user_id => user.id, 
                              :section_id => section.id, 
                              :is_auditing => sign_up_params.is_auditing || false, 
-                             :student_specified_id => sign_up_params.student_specified_id)
+                             :student_specified_id => sign_up_params.student_specified_id,
+                             :terp_only => true)
 
     transfer_errors_from(student, {type: :verbatim}, true)
 

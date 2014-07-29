@@ -136,12 +136,18 @@
     <tr>
       <th style="text-align:right">Preapprovals?</th>
       <td><%= tf_to_yn(!@klass.approved_emails.blank?) %></td>
-    </p>
+    </tr>
 
     <tr>
       <th style="text-align:right">Consent Form</th>
       <td><%= @klass.consent_options.consent_form.try(:name) || "None selected" %></td>
     </tr>
+
+    <tr>
+      <th style="text-align:right">Is Embedded?</th>
+      <td><%= tf_to_yn(@klass.is_embedded) %></td>
+    </tr>
+
     
     <% end %>
     

@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
                   :password, :password_confirmation, 
                   :remember_me,
                   :first_name, :last_name, :nickname, 
-                  :time_zone
+                  :time_zone, :terp_only
     
   validates_presence_of :first_name, :last_name, :username
   validates_uniqueness_of :username, :case_sensitive => false
@@ -161,6 +161,10 @@ class User < ActiveRecord::Base
     else
       where(conditions).first
     end
+  end
+
+  def terp_confirmed?
+    terp_confirmation_code.nil?
   end
 
 private 
