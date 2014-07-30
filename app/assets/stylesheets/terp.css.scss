@@ -447,9 +447,15 @@ input[disabled].link_button {
 }
 
 #attention {
-   margin-bottom:18px;
+   margin-bottom:0px;
    margin-top: $header_height;
    clear:both;
+
+   div {
+    div.ui-corner-all {
+      margin-bottom: 0px;
+    }
+   }
 }
 
 .js_not_enabled_alert {
@@ -1230,5 +1236,38 @@ span {
 
   &.terp-incorrect-answer {
     background: image-url("x_mark.png") no-repeat transparent;  
+  }
+}
+
+.terp-guess-was {
+  .terp-guess-was-intro {
+    font-size:11px;
+    color: #999;
+    margin-bottom: 6px;
+   
+  }
+  .terp-guess-was-content {
+    width: 97.5%;
+  }
+}
+
+.terp-now-select {
+  font-size:11px;
+  color: #999;
+  margin-top: 8px; 
+}
+
+
+.terp-correctness-feedback {
+  font-weight: bold;
+  margin-bottom: 24px;
+  .terp-correct-feedback {
+    color: $os_green;
+    display: inline-block;
+  }
+
+  .terp-incorrect-feedback {
+    color: rgb(237,28,36);
+    display: inline-block;
   }
 }

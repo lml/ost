@@ -20,6 +20,16 @@
 
 <div id="question_outer" class='present_feedback'>
 
+  <% is_correct = @student_exercise.selected_answer == exercise.correct_choice_index %>
+
+  <div class='terp-correctness-feedback'>
+    <% if is_correct %>
+      <div class='terp-correct-feedback'>That is correct!</div>
+    <% else %>
+      <div class='terp-incorrect-feedback'>Sorry, that is incorrect.</div>  The correct answer is <%= choice_letter(exercise.correct_choice_index).upcase %>.
+    <% end %>
+  </div>
+
 
   <%= render :partial => 'exercises/question',
              :locals => {
@@ -57,7 +67,7 @@
 
   <div class='fixed-right-button'>
     <% if next_se.nil? %>
-      <%= link_to "Quiz Summary >", 
+      <%= link_to "Summary >", 
                   terp_quiz_summary_path(
                       terp_id: params[:terp_id]),
                   {class: 'link_button_terp'} %>
