@@ -479,7 +479,7 @@ div.field label {
 .terp_field_help {
     font-size:11px;
    color: #999;
-   margin-top:-15px; 
+   margin-top:-10px; 
 }
 
 .field_with_errors {
@@ -1116,27 +1116,63 @@ input.ui-widget {
   }
 }
 
-  .middle-space {
-    margin-left: 85px;
+.middle-space {
+  margin-left: 102px;
 
-    .or-bar {
-      margin-bottom: 35px;
-      margin-top: 10px;
-      margin-left: 50%;
-      position: relative;
-      height: 270px;
-      border-left: 1px solid #dddddd;
+  .or-bar {
+    margin-bottom: 35px;
+    margin-top: 10px;
+    margin-left: 50%;
+    position: relative;
+    height: 230px;
+    border-left: 1px solid #dddddd;
 
-      .or-text {
-        position: absolute;
-        left:-24px;
-        top: 100px;
-        margin-top: 0px;
-        margin-bottom: 0px;
-        margin-left: -50%;
-        padding: 14px 14px;
-        background: white;
-        font-weight: bold;
-      }      
-    }  
+    .or-text {
+      position: absolute;
+      left:-24px;
+      top: 86px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      margin-left: -50%;
+      padding: 14px 14px;
+      background: white;
+      font-weight: bold;
+    }      
+  }  
+}
+
+.prompt {
+
+  padding-top: 0px;
+  width: 700px;
+  margin: 0 auto;
+
+  .prompt-instructions {
+    font-weight: bold;
+    padding-bottom: 15px;
   }
+
+  .prompt-form {
+
+    .prompt-buttons {
+      padding-top: 10px;
+    }
+
+  }
+}
+
+#confirmation-code-help {
+  padding-top: 15px;
+  ul {
+    padding-top: 8px;
+    width: 600px;
+  }
+}
+
+.terp-simple-message {
+  font-size: 18px;
+  line-height: 28px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}

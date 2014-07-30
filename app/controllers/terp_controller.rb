@@ -2,9 +2,9 @@ class TerpController < ApplicationController
 
   skip_before_filter :authenticate_user!
   fine_print_skip_signatures :general_terms_of_use, :privacy_policy # TODO don't skip always
-  before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up]
+  before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up, :logout]
 
-  before_filter :terp_confirm_email!, except: [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, :confirm_email, :resend_confirmation_email]
+  before_filter :terp_confirm_email!, except: [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, :confirm_email, :resend_confirmation_email, :logout]
 
   before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary]
   before_filter :get_student_exercise, only: [:solicit_free_response, :save_free_response,

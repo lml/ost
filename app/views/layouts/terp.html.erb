@@ -25,6 +25,13 @@
 
     <%= render 'layouts/common_head_includes', stylesheet_file: "terp" %>
 
+    <script type='text/javascript'>
+      $(document).ready(function() {
+        $('.terp-simple-message').css('margin-top', (470-$('.terp-simple-message').height())/2 + 'px');
+      });
+
+    </script>
+
     <%= render :partial => 'layouts/google_analytics' %>    
 
     <%= render :partial => 'layouts/mathjax' %>    

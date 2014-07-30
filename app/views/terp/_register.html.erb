@@ -1,37 +1,15 @@
 
 
 
-<div style="width:500px; margin-left: auto; margin-right: auto">
 
-
-<style type='text/css'>
-  div.field {
-    display: inline-block;
-    margin-bottom: 0px;
-  }
-
-  div.field p {
-    margin-top: 0px;
-  }
-
-  div.field.left {
-    float: left;
-    clear:both;
-  }
-  div.field.right {
-    margin-left: 30px;
-  }
-</style>
 
 <%= lev_form_for :register, url: terp_register_path(params[:terp_id]) do |f| %>
 
 
   <div class='field '>
-    <p>Registration Code<br/>
+    <div class='field_label'>Registration Code</div>
     <%= f.text_field :registration_code %>
   </div>
   
-  <div style="padding: 10px 0"><%= f.submit "Register", :class => "ui-state-default link_button" %></div>
+  <div class='prompt-buttons'><%= f.submit "Register", :class => "ui-state-default link_button" %></div>
 <% end %>
-
-</div>
