@@ -40,13 +40,12 @@ protected
     
     user = User.new(user_params)
 
+    user.skip_confirmation!
     user.save
 
     run(ResetTerpConfirmationCode, user: user)
 
     transfer_errors_from(user, {type: :verbatim}, true) # do fatal errors
-
-    user.confirm!
 
     student = Student.create(:user_id => user.id, 
                              :section_id => section.id, 
