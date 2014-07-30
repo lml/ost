@@ -1228,6 +1228,12 @@ span {
     width: 30px;
     height: 30px;
     display:block;    
+
+    &.summary {
+      margin-bottom: -8px;
+      margin-left: 18px;
+      display: inline-block;
+    }
   }
 
   &.terp-correct-answer {
@@ -1261,6 +1267,7 @@ span {
 .terp-correctness-feedback {
   font-weight: bold;
   margin-bottom: 24px;
+
   .terp-correct-feedback {
     color: $os_green;
     display: inline-block;
@@ -1270,4 +1277,65 @@ span {
     color: rgb(237,28,36);
     display: inline-block;
   }
+}
+
+.terp-summary-nav {
+  position: fixed;
+  right: 27px;
+  top: 300px;
+}
+
+.page-alpha {
+
+  padding-top: 0px;
+  width: 600px;
+  margin-left: 25px;
+
+  .instructions {
+    font-weight: bold;
+    padding-bottom: 15px;
+  }
+
+  .content {
+
+  }
+}
+
+@mixin terp-summary-item {
+  width: 60px;
+  height: 30px;
+  text-align: center;
+  color: white;
+  margin-bottom: 2px;
+}
+
+.terp-summary-nav {
+  .terp-summary-nav-item {
+    @include terp-summary-item;
+    background: image-url("terp-summary-link-2.png") no-repeat transparent;  
+    
+    span {
+      padding-top:6px;
+      display:inherit;
+      font-size: 11px;
+    }
+
+    &.correct {
+      background-color: rgb(237,28,36);
+    }
+
+    &.incorrect {
+      background-color: $os_green;
+    }
+  }
+}
+
+.terp-summary-nav-simple {
+  @include terp-summary-item;
+  background-color: $ost_hot_blue;
+
+  &.popout {
+    background: image-url("popout.png") no-repeat $ost_hot_blue 20px 4px;  
+  }
+  
 }
