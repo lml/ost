@@ -1,0 +1,26 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% solutions_content   = student_exercise.solutions_content %>
+<% number_of_solutions = solutions_content["solutions"].try(:size) || 0 %>
+
+<% if number_of_solutions > 0 %>
+  <%= section "Explanation".pluralize(number_of_solutions), {:classes => 'first no_bar' } do %>
+
+    <% solutions_content["solutions"].each_with_index do |solution, index| %>
+      <div class='terp-explanation'>
+
+        <div style=""> 
+          <%= simple_format solution["explanation"] if !solution["explanation"].blank? %>
+          <%= solution["details"]["html"].html_safe if !solution["details"].blank? %>
+        </div>
+
+        <% if number_of_solutions > 1 && index < number_of_solutions - 1%>
+          <div class='terp-explanation-separator'></div>
+        <% end %>
+      </div>
+
+    <% end %>
+
+  <% end %>
+<% end %>

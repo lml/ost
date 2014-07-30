@@ -11,35 +11,12 @@
                url: terp_save_free_response_path(terp_id: params[:terp_id], 
                                                  student_exercise_id: @student_exercise.id)) do |f| %>
 
-    <%= f.text_area :free_response, rows: 3, style: "width: 97.5%" %>
+    <%= f.text_area :free_response, rows: 3, style: "width: 97.5%; margin-top:10px" %>
+    <div class='field_help'>Think about the question and enter your best guess. <%= link_to_help 'terp_free_response', "", {:title => 'Why are free responses useful?', :width => '500', :height => '400'} %> </div>
 
-<% if false %>
-    <div class="field">
-      <p>How confident are you in this answer?</p>
-      <p>This answer is...</p>
-      <table width="100%">
-        <tr>
-          <% confidence_labels.each_with_index do |cl, ii| %>
-            <td width="16.67%">
-              <center>
-                <%= f.radio_button :free_response_confidence, ii %></br/>
-                <%= cl.sub("-","<br/>").html_safe %>
-              </center>
-            </td>
-          <% end %>
-        </tr>
-      </table>
+    <div class='fixed-right-button'>
+        <%= f.submit "Next >", :name => "save_and_lock", :class => 'link_button' %>
     </div>
-<% end %>
-
-    <center> 
-      <div class="actions" style="padding-top:10px">
-        <%= f.submit "Turn in my answer", 
-                :name => "save_and_lock",
-                :class => 'link_button' %>
-      </div>
-    </center>
-
 
   <% end %>
 </div>

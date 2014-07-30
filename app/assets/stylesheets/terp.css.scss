@@ -470,6 +470,12 @@ div.field label {
   margin-bottom: 3px;
 }
 
+td {
+  label {
+    margin-bottom: 0px;
+  }
+}
+
 .field_help {
    font-size:11px;
    color: #999;
@@ -565,13 +571,19 @@ div.field label {
 
 #question_outer {
    width:600px;
-   margin: 20px auto;
+   // margin: 20px auto;
    clear: right;
+   margin-left: 25px;
 
    // &.present_feedback {
    //   .section_heading { display: none }
    //   .section_body {margin: 0}
    // }
+
+   input[type='radio'] {
+     width: 15px;
+     height: 15px;
+   }
 }
 
 /************ 2-column layout *****************/
@@ -1011,7 +1023,8 @@ input.ui-widget {
 .question_count {
   float:right;
   font-style: italic;
-  margin-right: 22px;
+  margin-right: 12px;
+  margin-top: -10px;
 }
 
 .section-exercise-responses {
@@ -1073,11 +1086,13 @@ input.ui-widget {
 }
 
 .quiz_start {
-  width: 500px;
-  margin: 20px auto;
+  padding-top: 0px;
+  width: 700px;
+  margin: 0 auto;
 
   .heading {
     font-weight: bold;
+    padding-bottom: 15px;
   }
 
   .info {
@@ -1175,4 +1190,45 @@ input.ui-widget {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
+}
+
+.fixed-right-button {
+  position: fixed;
+  right: 27px;
+  top: 300px;
+}
+
+.terp-explanation {
+
+  .terp-explanation-separator {
+    margin: 8px;
+    border-top: 1px solid $ost_light_beige;
+  }
+}
+
+.highlighted-choice {
+  background-color: #efefef;
+}
+
+label.answer-content {
+  padding: 3px;
+  padding-left:8px;
+}
+
+
+span {
+  &.terp-correct-answer, &.terp-incorrect-answer {
+    width: 30px;
+    height: 30px;
+    display:block;    
+  }
+
+  &.terp-correct-answer {
+    background: image-url("check_mark.png") no-repeat transparent;  
+  }
+
+  &.terp-incorrect-answer {
+    background: image-url("x_mark.png") no-repeat transparent;  
+  }
 }

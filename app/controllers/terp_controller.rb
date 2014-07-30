@@ -52,18 +52,18 @@ class TerpController < ApplicationController
 
     if @first_unworked_student_exercise.present?
 
-      if (@first_unworked_student_exercise.assignment_exercise.number == 1) &&
-         @first_unworked_student_exercise.free_response_submitted? 
+      # if false && (@first_unworked_student_exercise.assignment_exercise.number == 1) &&
+      #    @first_unworked_student_exercise.free_response_submitted? 
 
-        # no work done yet so show start screen
-        turn_on_consenting(@student_assignment.student)   
-      else
+      #   # no work done yet so show start screen
+      #   turn_on_consenting(@student_assignment.student)   
+      # else
         @student_exercise = @first_unworked_student_exercise
 
         !@student_exercise.free_response_submitted? ?
           redirect_to_free_response :
           redirect_to_answer_selection
-      end
+      # end
     else
       if @student_assignment.student_exercises.any?
         # all work finished, show summary
@@ -197,9 +197,9 @@ class TerpController < ApplicationController
 
 protected
 
-  def redirect_to_quiz_start
-    redirect_to terp_quiz_start_path(terp_id: params[:terp_id])
-  end
+  # def redirect_to_quiz_start
+  #   redirect_to terp_quiz_start_path(terp_id: params[:terp_id])
+  # end
 
   def redirect_to_feedback
     redirect_to(terp_present_feedback_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))

@@ -7,6 +7,8 @@
            :locals => {:response_timeable => @student_assignment,
                        :page => "assignment"} %>
 
+
+
 <div class='quiz_start'>
   <div class='heading'>
     <%= klass.name %>, <%= ap.name %>
@@ -26,15 +28,16 @@
     Due Date: <%= standard_datetime(ap.ends_at) %>
   </div>
 
-  <div class='nav-button'>
-    <%= link_to "Start!", 
+  <div class='fixed-right-button'>
+    <%= link_to "Start >", 
                 terp_solicit_free_response_path(
                   terp_id: params[:terp_id], 
                   student_exercise_id: @student_assignment
                                          .student_exercises
                                          .joins{assignment_exercise}
                                          .order{assignment_exercise.number.asc}.first),
-              {class: 'link_button'} %>
+              {class: 'link_button_terp'} %>
   </div>
+
 
 </div>
