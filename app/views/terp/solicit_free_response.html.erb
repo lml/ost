@@ -11,8 +11,9 @@
                url: terp_save_free_response_path(terp_id: params[:terp_id], 
                                                  student_exercise_id: @student_exercise.id)) do |f| %>
 
+    <div class='field_help' style="margin-top: 16px; margin-bottom:-5px">Think about the question and enter your best guess. <%= link_to_help 'terp_free_response', image_tag('why_v2.png'), {:title => 'Why are free responses useful?', :width => '500', :height => '400'} %> </div>
     <%= f.text_area :free_response, rows: 3, style: "width: 97.5%; margin-top:10px" %>
-    <div class='field_help'>Think about the question and enter your best guess. <%= link_to_help 'terp_free_response', "", {:title => 'Why are free responses useful?', :width => '500', :height => '400'} %> </div>
+
 
     <div class='fixed-right-button'>
         <%= f.submit "Next >", :name => "save_and_lock", :class => 'link_button' %>

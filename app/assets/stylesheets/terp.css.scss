@@ -1321,11 +1321,11 @@ span {
     }
 
     &.correct {
-      background-color: rgb(237,28,36);
+      background-color: $os_green;
     }
 
     &.incorrect {
-      background-color: $os_green;
+      background-color: rgb(237,28,36);
     }
   }
 }
@@ -1352,4 +1352,10 @@ span {
   &.not-started {
     color: black;
   }
+}
+
+.section.summary-question {
+  border-top: 1px solid #d9d9d9;
+  margin-bottom: 27px;
+  margin-top:10px
 }

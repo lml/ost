@@ -34,8 +34,8 @@
       })
     %>
 
-    <%= section "Question #{ee+1} #{mark}".html_safe, {:classes => 'first no_bar', :anchor_name => "q#{ee}" } do %>
-
+    <%= section "Question #{ee+1} #{mark}".html_safe, {:classes => "summary-question first #{'no_bar' if ee == -1}" } do %>
+      <a name="q<%= ee %>" style="top:-100px; position:relative; display:block; visibility:hidden"></a>
       <%= render :partial => 'exercises/question',
                  :locals => {
                    :exercise => exercise
@@ -64,7 +64,7 @@
       </table>
 
       <%= render :partial => "terp/solution_feedback", :locals => { :student_exercise => se } %> 
-
+      
     <% end %>
 
 
