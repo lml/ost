@@ -62,7 +62,14 @@ class StudentAssignment < ActiveRecord::Base
     errors.add(:base, "This student assignment cannot be destroyed (except by admin override)")
     errors.none?
   end
-  
+
+  def mark_started_if_indicated!
+    if self.started_at.nil?
+      self.started_at = Time.now
+      self.save!
+    end
+  end
+
   def mark_complete_if_indicated!
     if student_exercises.where{selected_answer_submitted_at == nil}.none?
       self.completed_at = Time.now

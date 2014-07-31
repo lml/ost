@@ -17,7 +17,7 @@ class AssignmentPlan < ActiveRecord::Base
 
   attr_accessible :introduction, :is_group_work_allowed, :is_open_book, 
                   :is_ready, :is_test, :learning_plan_id, :name, :learning_plan,
-                  :starts_at, :ends_at, :section_id, :tag_list, :embed_code
+                  :starts_at, :ends_at, :section_id, :tag_list, :embed_code, :embedded_in
 
   attr_accessor   :new_exercise_tags
   attr_accessible :new_exercise_tags

@@ -1,3 +1,47 @@
-<p>Lists of other quizzes (with links to them, summary of progress / score)</p>
 
-<p>These dialog boxes are probably much nicer looking overlays.</p>
+<% klass = @student_assignment.assignment.assignment_plan.learning_plan.klass # bummer %>
+<% educators = klass.educators %>
+
+<p>
+  <b>Course Name:</b> <%= klass.name %><br/>
+  <b><%= "Instructor".pluralize(educators.size) %></b>: <%= educators.collect{|ed| ed.user.full_name}.join(", ") %>
+</p>
+
+<p>
+ <%= link_to "View / update", new_student_consent_path(@student_assignment.student) %> research consent
+</p>
+
+<% assignment_plans = klass.learning_plan.assignment_plans.started %>
+
+<br/>
+
+<table class='list' style="width:100%">
+  <tr>
+    <th>Knowledge Check</th>
+    <th>Due Date</th>
+    <th>Status</th>
+  </tr>
+  <% assignment_plans.each do |ap| %>
+    <% ap_sa = StudentAssignment.joins{assignment}
+                                .where{assignment.assignment_plan_id == my{ap.id}}
+                                .where{student_id == my{@student_assignment.student_id}}
+                                .first %>
+    <% next if ap_sa.blank? %>
+
+    <tr>
+      <td><%= link_to_unless ap.embedded_in.blank?, ap.name, ap.embedded_in, target: :blank %></td>
+      <td><%= standard_datetime(ap.ends_at) %></td>
+      <td>
+        <%       
+          if ap_sa.completed_at? %>
+            <div class='terp-dashboard-status complete'>Complete</div>
+          <% elsif ap_sa.started_at? %>
+            <div class='terp-dashboard-status started'>In Progress</div>
+          <% else %>
+            <div class='terp-dashboard-status not-started'>Not Started</div>
+          <% end 
+        %>
+      </td>
+    </tr>
+  <% end %>
+</table>

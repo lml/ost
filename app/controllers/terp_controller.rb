@@ -6,7 +6,7 @@ class TerpController < ApplicationController
 
   before_filter :terp_confirm_email!, except: [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, :confirm_email, :resend_confirmation_email, :logout]
 
-  before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary]
+  before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary, :dashboard]
   before_filter :get_student_exercise, only: [:solicit_free_response, :save_free_response,
                                               :solicit_answer_selection, :save_answer_selection,
                                               :present_feedback]
@@ -197,9 +197,9 @@ class TerpController < ApplicationController
 
 protected
 
-  # def redirect_to_quiz_start
-  #   redirect_to terp_quiz_start_path(terp_id: params[:terp_id])
-  # end
+  def redirect_to_quiz_start
+    redirect_to terp_quiz_start_path(terp_id: params[:terp_id])
+  end
 
   def redirect_to_feedback
     redirect_to(terp_present_feedback_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))

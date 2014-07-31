@@ -1339,3 +1339,17 @@ span {
   }
   
 }
+
+.terp-dashboard-status {
+  &.complete {
+    color: $os_green;
+  }
+
+  &.started {
+    color: $os_orange;
+  }
+
+  &.not-started {
+    color: black;
+  }
+}
