@@ -8,6 +8,7 @@ class StudentExerciseObserver < ActiveRecord::Observer
                         :event => "ACTIVITY",
                         :note => "free_response_locked",
                         :page => "work")
+    student_exercise.student_assignment.mark_started_if_indicated!
   end
   
   def selected_answer_to_be_locked(student_exercise)

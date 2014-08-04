@@ -9,6 +9,9 @@ Ost::Application.routes.draw do
     get "sign_up"
     post "sign_up"
     post "register"
+    get "solicit_email_confirmation"
+    post "confirm_email"
+    get 'resend_confirmation_email'
     
     get "consent"
     get "quiz_start"
@@ -32,7 +35,7 @@ Ost::Application.routes.draw do
     get 'terms'
     get 'contact_us'
     get "about"
-    get "account_help"
+    # get "account_help"
   end
 
 

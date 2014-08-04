@@ -154,6 +154,19 @@ class User < ActiveRecord::Base
     resource.children_can_be_read_by?(self, children_symbol)
   end
 
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    if username = conditions.delete(:username)
+      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => username.downcase }]).first
+    else
+      where(conditions).first
+    end
+  end
+
+  def terp_confirmed?
+    terp_confirmation_code.nil?
+  end
+
 private 
 
   attr_accessor :cached_is_researcher

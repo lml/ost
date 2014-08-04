@@ -140,6 +140,7 @@ protected
 
         ap.starts_at = new_klass.start_date + ((ap.starts_at - source_klass.start_date) / source_klass_duration * new_klass_duration)
         ap.ends_at   = new_klass.start_date + ((ap.ends_at   - source_klass.start_date) / source_klass_duration * new_klass_duration)
+        ap.is_ready  = false
       end
 
       # AssignmentPlanTopics

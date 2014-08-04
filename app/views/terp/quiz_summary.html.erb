@@ -3,14 +3,101 @@
            :locals => {:response_timeable => @student_assignment,
                        :page => "assignment"} %>
 
-<div class='quiz_start'>
-  <div class='heading'>
-    Quiz Summary
+
+
+
+<div class='page-alpha' style='width: 600px;'>
+  <div class='instructions'>
+    Knowledge check complete.  You are ready to begin reading the next section assigned by your instructor.
   </div>
 
-  <div class='info'>
-    <p>TBD reports / analytics / recommendations / details about worked problems</p>
+  <div class='content'>
+
+  <% nav_data = [] %>
+
+  <% student_exercises = @student_assignment.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
+  <% student_exercises.each_with_index do |se, ee| %>
+
+
+    <% exercise = se.exercise %>
+    <% is_correct = se.selected_answer == exercise.correct_choice_index %>
+
+    <% if is_correct %>
+      <% mark = "<span class='terp-correct-answer summary' style='display:inline-block; '></span>" %>
+    <% else %>
+      <% mark = "<span class='terp-incorrect-answer summary'></span>" %>
+    <% end %>
+
+    <%
+      nav_data.push({
+        is_correct: is_correct,
+      })
+    %>
+
+    <%= section "Question #{ee+1} #{mark}".html_safe, {:classes => "summary-question first #{'no_bar' if ee == -1}" } do %>
+      <a name="q<%= ee %>" style="top:-100px; position:relative; display:block; visibility:hidden"></a>
+      <%= render :partial => 'exercises/question',
+                 :locals => {
+                   :exercise => exercise
+                 } %>
+
+
+      <table width="100%">
+
+        <% exercise.content["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>
+
+          <% is_selection = se.selected_answer == ii %>
+
+           <tr>
+              <td class="question" width="5%">
+                <span class="<% if exercise.correct_choice_index == ii %>terp-correct-answer<% elsif is_selection %>terp-incorrect-answer<%end %>"></span>
+              </td>
+              <td class="question" width="5%">
+                 <label for="radio<%= ii %>"><%= choice_letter(ii) %>)</label>
+              </td>
+              <td class="question" width="90%">
+                 <label for="radio<%= ii %>" class='answer-content <%= 'highlighted-choice' if is_selection %>'><%= answer_choice["html"].html_safe %></label>
+              </td>
+           </tr>
+        <% end %>
+
+      </table>
+
+      <%= render :partial => "terp/solution_feedback", :locals => { :student_exercise => se } %> 
+      
+    <% end %>
+
+
+
+  <% end %>
+
+   
   </div>
 
 
 </div>
+
+
+
+<div class='terp-summary-nav'>
+  <% nav_data.each_with_index do |nav, ii| %>
+    <a href='#q<%= ii %>'>
+      <div class='terp-summary-nav-item <%= nav[:is_correct] ? 'correct' : 'incorrect' %>'>
+        <span><%= ii + 1 %></span>
+      </div>
+    </a>
+  <% end %>
+  <%= link_to terp_quiz_summary_path(terp_id: params[:terp_id]), target: :blank do %>
+    <div class='terp-summary-nav-simple popout'>
+      
+    </div>
+  <% end %>
+</div>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.terp-summary-nav').css('top', (602-$('.terp-summary-nav').height())/2 + 'px');
+    });
+  </script>
+<% end %>

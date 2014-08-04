@@ -7,27 +7,55 @@
   resource ||= User.new
   resource_name ||= User
 %>
-  
-  <div style="width: 300px; margin-left: auto; margin-right: auto">
-  <%= form_for(resource, :url => session_path(resource_name)) do |f| %>
-    <% @errors = resource.try(:errors) %>
-    
-    <div class="field test input user_username"><%= f.label :username %><br />
-    <%= f.text_field :username, style: "width: 300px" %></div>
 
-    <div class="field test input user_password"><%= f.label :password %><br />
-    <%= f.password_field :password, style: "width: 300px" %></div>
+<div class='prompt'>
+  <div class='prompt-instructions'>
+    Reinforce what you just read by completing this knowledge check.
+  </div>
+  <div class='prompt-form'>
 
-    <%= f.hidden_field :terp_id, :value => params[:terp_id] %>
+    <div style="padding-top: 50px; margin-left: auto; margin-right: auto">
 
 
-      <div class="field"><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+      <div style="width: 300px; float: left">
+        <%= form_for(resource, :url => session_path(resource_name)) do |f| %>
+          <% @errors = resource.try(:errors) %>
+          
+          <div class="field test input user_username"><%= f.label :username_or_email %><br />
+          <%= f.text_field :username, style: "width: 300px" %></div>
 
-    <div><%= f.submit "Sign in", :class => "link_button" %> <span style="float:right">or <%= link_to "Sign Up", terp_sign_up_path(terp_id: params[:terp_id] || params[:user][:terp_id]) %></span></div>
-  <% end %>
+          <div class="field test input user_password"><%= f.label :password %><br />
+          <%= f.password_field :password, style: "width: 300px" %></div>
 
-  <br/>
+          <%= f.hidden_field :terp_id, :value => params[:terp_id] %>
 
-  <%= link_to "Need help? Click here", terp_account_help_path %>
+          <div class="field"><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+
+          <div><%= f.submit "Sign in", :class => "link_button" %> </div>
+        <% end %>
+
+        <%= link_to "Forgot your password?", nil %>
+
+      </div>
+
+      <div class='middle-space' style='display:inline-block'>
+        <div class="or-bar" id='left-or-block'>
+          <div class="or-text">OR</div>
+        </div>
+      </div>
+
+      <div style="width: 200px; float:right; margin-left: 50px; margin-top: 85px;">
+
+        <div class="field test input user_username">Need an account?</div>
+
+        <div>
+          <%= link_to "Get an Account", terp_sign_up_path(terp_id: params[:terp_id] || params[:user][:terp_id]), class: 'link_button_terp' %>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 
 </div>
+

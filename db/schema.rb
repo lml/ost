@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140626002034) do
+ActiveRecord::Schema.define(:version => 20140731040602) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20140626002034) do
     t.integer  "max_num_exercises"
     t.integer  "section_id"
     t.string   "embed_code"
+    t.string   "embedded_in"
   end
 
   add_index "assignment_plans", ["embed_code", "learning_plan_id"], :name => "index_assignment_plans_on_embed_code_and_learning_plan_id", :unique => true
@@ -273,6 +274,7 @@ ActiveRecord::Schema.define(:version => 20140626002034) do
     t.boolean  "allow_student_specified_id", :default => false, :null => false
     t.datetime "open_date"
     t.datetime "close_date"
+    t.boolean  "is_embedded",                :default => false, :null => false
   end
 
   add_index "klasses", ["course_id"], :name => "index_klasses_on_course_id"
@@ -474,6 +476,7 @@ ActiveRecord::Schema.define(:version => 20140626002034) do
     t.datetime "updated_at",      :null => false
     t.datetime "completed_at"
     t.datetime "observed_due_at"
+    t.datetime "started_at"
   end
 
   add_index "student_assignments", ["assignment_id"], :name => "index_student_assignments_on_assignment_id"
@@ -541,6 +544,7 @@ ActiveRecord::Schema.define(:version => 20140626002034) do
     t.datetime "updated_at",                                            :null => false
     t.string   "student_specified_id", :limit => 30
     t.boolean  "has_dropped",                        :default => false, :null => false
+    t.boolean  "terp_only",                          :default => false, :null => false
   end
 
   add_index "students", ["cohort_id"], :name => "index_students_on_cohort_id"
@@ -632,6 +636,7 @@ ActiveRecord::Schema.define(:version => 20140626002034) do
     t.datetime "updated_at",                                                                     :null => false
     t.string   "time_zone",              :limit => 40, :default => "Central Time (US & Canada)", :null => false
     t.boolean  "receives_error_notices"
+    t.string   "terp_confirmation_code"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

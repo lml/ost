@@ -68,6 +68,13 @@
   <div class="field">
     Embed Code<br/>
     <%= f.text_field :embed_code, :style => "width:90%" %>
+    <span class="field_help">(Optional) Short string code to use for embedding in another site.</span>
+  </div>
+
+  <div class="field">
+    This assignment is embedded in...<br/>
+    <%= f.text_field :embedded_in, :style => "width:90%" %>
+    <span class="field_help">(Optional) URL for where this assignment is embedded.</span>
   </div>
 
   <div class="actions">

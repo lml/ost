@@ -2,9 +2,11 @@ class TerpController < ApplicationController
 
   skip_before_filter :authenticate_user!
   fine_print_skip_signatures :general_terms_of_use, :privacy_policy # TODO don't skip always
-  before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up]
+  before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up, :logout]
 
-  before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary]
+  before_filter :terp_confirm_email!, except: [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, :confirm_email, :resend_confirmation_email, :logout]
+
+  before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary, :dashboard]
   before_filter :get_student_exercise, only: [:solicit_free_response, :save_free_response,
                                               :solicit_answer_selection, :save_answer_selection,
                                               :present_feedback]
@@ -50,18 +52,18 @@ class TerpController < ApplicationController
 
     if @first_unworked_student_exercise.present?
 
-      if (@first_unworked_student_exercise.assignment_exercise.number == 1) &&
-         @first_unworked_student_exercise.free_response_submitted? 
+      # if false && (@first_unworked_student_exercise.assignment_exercise.number == 1) &&
+      #    @first_unworked_student_exercise.free_response_submitted? 
 
-        # no work done yet so show start screen
-        turn_on_consenting(@student_assignment.student)   
-      else
+      #   # no work done yet so show start screen
+      #   turn_on_consenting(@student_assignment.student)   
+      # else
         @student_exercise = @first_unworked_student_exercise
 
         !@student_exercise.free_response_submitted? ?
           redirect_to_free_response :
           redirect_to_answer_selection
-      end
+      # end
     else
       if @student_assignment.student_exercises.any?
         # all work finished, show summary
@@ -175,6 +177,24 @@ class TerpController < ApplicationController
 
   end
 
+  def solicit_email_confirmation
+
+  end
+
+  def resend_confirmation_email
+    handle_with(TerpResendConfirmationEmail,
+                complete: lambda { 
+                  flash[:notice] = 'A new confirmation email has been sent!'
+                  render :template => 'shared/display_flash' 
+                })
+  end
+
+  def confirm_email
+    handle_with(TerpConfirmEmail,
+                success: lambda { redirect_to_quiz_start },
+                failure: lambda { render 'terp/solicit_email_confirmation' })
+  end
+
 protected
 
   def redirect_to_quiz_start
@@ -201,6 +221,13 @@ protected
     if !user_signed_in?
       session[:user_return_to] = terp_quiz_start_path(params[:terp_id])
       redirect_to terp_sign_in_path(terp_id: params[:terp_id])
+    end
+  end
+
+  def terp_confirm_email!
+    if !current_user.terp_confirmed?
+      # session[:user_return_to] = "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+      redirect_to terp_solicit_email_confirmation_path(terp_id: params[:terp_id])
     end
   end
 

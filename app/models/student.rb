@@ -20,7 +20,7 @@ class Student < ActiveRecord::Base
   validates :user_id, :presence => true, :uniqueness => {:scope => :cohort_id}
   validate :cannot_audit_if_researcher
 
-  attr_accessible :is_auditing , :user_id, :section_id, :student_specified_id, :has_dropped
+  attr_accessible :is_auditing , :user_id, :section_id, :student_specified_id, :has_dropped, :terp_only
   
   after_create :create_missing_student_assignments
 

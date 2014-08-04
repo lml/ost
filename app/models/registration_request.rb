@@ -52,7 +52,7 @@ class RegistrationRequest < ActiveRecord::Base
   end
     
   def can_be_created_by?(user)
-    user.id == user_id
+    user.id == user_id && !klass.is_embedded
   end
   
   def can_be_approved_by?(user)

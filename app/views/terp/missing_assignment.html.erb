@@ -4,7 +4,9 @@
 
   if matching_assignment_plans.none? 
     %>
-      <p>This quiz has not been created yet.<p>
+      <div class='terp-simple-message'>
+        No knowledge check is available for this section of the textbook.  Please continue to the next textbook section assigned by your instructor.
+      </div>
     <%
   else
     matching_classes = Klass.joins{learning_plan.assignment_plans}.where{learning_plan.assignment_plans.id.in my{matching_assignment_plans.collect{|ap| ap.id}}}
@@ -14,13 +16,20 @@
 
     if current_user_in_class_with_this_assignment
       %>
-        <p>This assignment has not been released yet</p>
+        <div class='terp-simple-message'>
+          This knowledge check has not yet been released.  Please check back later.
+        </div>
       <%
     else # this user isn't in the class where this assignment is offered, show a registration code form
       %>
-        <p><b>Before you can take the practice quiz you must register for a class offering it by entering that class' registration code below.</b></p>
-        <div style='padding-top:60px'></div>
-        <%= render 'terp/register' %>
+        <div class='prompt'>
+          <div class='prompt-instructions'>
+            Before you can work this knowledge check you must register for a class offering it by entering that class' registration code below.
+          </div>
+          <div class='prompt-form'>
+            <%= render 'terp/register' %>
+          </div>
+        </div>
       <%
     end
 

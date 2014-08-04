@@ -32,7 +32,7 @@ class Klass < ActiveRecord::Base
   attr_accessible :open_date, :close_date, :start_date, :end_date, 
                   :approved_emails, :time_zone, 
                   :source_learning_plan_id, :is_controlled_experiment,
-                  :allow_student_specified_id
+                  :allow_student_specified_id, :is_embedded
 
   scope :for_report, -> { includes({:cohorts => [{:learning_condition => [{:learning_condition_presentation_conditions => :presentation_condition}, {:learning_condition_default_presentation_condition => :presentation_condition}, {:learning_condition_feedback_conditions => :feedback_condition}, {:learning_condition_default_feedback_condition => :feedback_condition}]}, {:assignments => [:assignment_plan, {:assignment_exercises => [{:topic_exercise => [:exercise, :concept, :topic]}]}]}]}, {:course => :organization}, {:educators => :user}) }
 

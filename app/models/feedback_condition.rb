@@ -305,12 +305,13 @@ protected
     return if feedback_opens_at.nil? || feedback_closes_at.nil?
                                              
     course = student_exercise.course
+    student = student_exercise.student
     message = FeedbackConditionRenderer.new.feedback_availability_message(self, student_exercise, feedback_closes_at)
     
-    ScheduledNotification.create(:user => student_exercise.student.user,
+    ScheduledNotification.create(:user => student.user,
                                  :send_after => feedback_opens_at,
                                  :subject => (course.short_name || course.name || "Exercise") + " feedback available",
-                                 :message => message)
+                                 :message => message) unless student.terp_only
   end
   
   def adjust_credit(student_exercise, event)    

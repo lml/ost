@@ -1,0 +1,46 @@
+<div class='prompt'>
+  <div class='prompt-instructions'>
+    Welcome <%= current_user.username %>!  We need to confirm your email address.  Please check your email for a confirmation code and enter it here:
+  </div>
+  <div class='prompt-form'>
+    <%= lev_form_for :confirm, url: terp_confirm_email_path(params[:terp_id]) do |f| %>
+
+
+      <div class='field'>
+        <div class='field_label'>Confirmation Code</div>
+        <%= f.text_field :code %>
+      </div>
+      
+      <div class='prompt-buttons'><%= f.submit "Submit", :class => "ui-state-default link_button" %></div>
+    <% end %>
+  </div>
+
+
+  <%= link_to "Resend confirmation code", terp_resend_confirmation_email_path(terp_id: params[:terp_id]), remote: true %><br/>
+  <%= link_to "Need more help?", nil, remote: true, id: 'need_more_help' %>
+
+
+  <div id='confirmation-code-help' style='display:none'>
+    <i>Troubleshooting Tips:</i>
+    <ul>
+      <li>If you have received the confirmation email, start by checking your spam or junk folder.</li>
+      <li>If the email is not in spam, click the link above to resend the confirmation code email.</li>
+      <li>If all else fails, try creating a new account with a different email address or send us a message at <%= email_link "support", "support@openstaxtutor.org" %>.</li>
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+
+<%= content_for :javascript do %>
+  <script type='text/javascript'>
+    $('#need_more_help').click(function() {
+      $(this).hide();
+      $('#confirmation-code-help').show();
+    })
+  </script>
+<% end %>

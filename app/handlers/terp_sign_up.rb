@@ -14,6 +14,8 @@ class TerpSignUp
     attribute :is_auditing, type: boolean
   end
 
+  uses_routine ResetTerpConfirmationCode
+
 protected
 
   def authorized?
@@ -23,27 +25,33 @@ protected
   def handle
     section = Section.where(registration_code: sign_up_params.registration_code).first
 
-    fatal_error(message: 'The provided registration code is invalid.', 
+    fatal_error(message: 'Sorry, we don\'t recognize that code.  Please ask your instructor or check your syllabus.', 
                 code: :no_section_for_registration_code, 
                 offending_inputs: [:registration_code]) if section.nil?
 
-    user = User.new(sign_up_params.as_hash(:username, 
-                                           :first_name, 
-                                           :last_name, 
-                                           :password, 
-                                           :password_confirmation, 
-                                           :email, 
-                                           :email_confirmation))
+    user_params = sign_up_params.as_hash(:username, 
+                                         :first_name, 
+                                         :last_name, 
+                                         :password, 
+                                         :password_confirmation, 
+                                         :email, 
+                                         :email_confirmation)
+    user_params[:time_zone] = section.klass.time_zone
+    
+    user = User.new(user_params)
+
+    user.skip_confirmation!
     user.save
 
-    transfer_errors_from(user, {type: :verbatim}, true) # do fatal errors
+    run(ResetTerpConfirmationCode, user: user)
 
-    user.confirm!
+    transfer_errors_from(user, {type: :verbatim}, true) # do fatal errors
 
     student = Student.create(:user_id => user.id, 
                              :section_id => section.id, 
                              :is_auditing => sign_up_params.is_auditing || false, 
-                             :student_specified_id => sign_up_params.student_specified_id)
+                             :student_specified_id => sign_up_params.student_specified_id,
+                             :terp_only => true)
 
     transfer_errors_from(student, {type: :verbatim}, true)
 
