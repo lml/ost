@@ -93,6 +93,8 @@ class TerpController < ApplicationController
   end
 
   def save_free_response
+    redirect_to_answer_selection and return if @student_exercise.free_response_submitted?
+
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
     @student_exercise.lock_response_text_on_next_save = true if params[:save_and_lock]
@@ -123,6 +125,8 @@ class TerpController < ApplicationController
   end
 
   def save_answer_selection
+    redirect_to_feedback and return if @student_exercise.selected_answer_submitted?
+    
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
     if @student_exercise.update_attributes(params[:student_exercise])
