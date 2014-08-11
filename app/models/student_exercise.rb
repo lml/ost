@@ -214,11 +214,11 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def feedback_has_been_viewed?
-    complete? && (feedback_has_been_viewed_for_credit? || feedback_first_viewed_at || response_times.where{page == "feedback"}.any?)
+    complete? && (feedback_first_viewed_at || response_times.where{page == "feedback"}.any?)
   end
 
   def feedback_has_been_viewed_for_credit?
-    complete? && (feedback_credit_multiplier > 0.0)
+    feedback_has_been_viewed? && (feedback_credit_multiplier > 0.0)
   end
 
   def feedback_required_for_credit?
