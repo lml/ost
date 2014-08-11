@@ -100,7 +100,7 @@ class TerpController < ApplicationController
     @student_exercise.free_responses << TextFreeResponse.new(content: params[:student_exercise].delete(:free_response))
 
     if @student_exercise.update_attributes(params[:student_exercise])
-      flash[:notice] = "Response saved."
+      # flash[:notice] = "Response saved."
       redirect_to_answer_selection
     else
       turn_on_consenting(@student_exercise.student)
@@ -126,7 +126,7 @@ class TerpController < ApplicationController
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
     if @student_exercise.update_attributes(params[:student_exercise])
-      flash[:notice] = "Response saved."
+      # flash[:notice] = "Response saved."
       redirect_to_feedback
     else
       turn_on_consenting(@student_exercise.student)
@@ -221,7 +221,10 @@ protected
   def terp_authenticate_user!
     if !user_signed_in?
       session[:user_return_to] = terp_quiz_start_path(params[:terp_id])
-      redirect_to terp_sign_in_path(terp_id: params[:terp_id])
+      respond_to do |format|
+        format.html { redirect_to terp_sign_in_path(terp_id: params[:terp_id]) }
+        format.js { render :text => 'location.reload(true)' }
+      end
     end
   end
 
