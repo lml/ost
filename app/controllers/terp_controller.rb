@@ -12,6 +12,7 @@ class TerpController < ApplicationController
                                               :present_feedback]
 
   before_filter :consent_prep
+  before_filter :cors
 
   layout :layout
 
@@ -269,6 +270,12 @@ protected
 
   def consent_prep
     @hide_open_consent_in_new_window = true
+  end
+
+  def cors
+    # headers['Access-Control-Allow-Origin'] = '*'
+    # headers['Access-Control-Request-Method'] = '*'
+    # # headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
   end
 
 end
