@@ -46,7 +46,7 @@ function open_specified_dialog(name, is_modal, height, width, title, body) {
     open: function () {
       $(document).trigger('after_dialog_open');
     }
-  });
+  }).parent().css('position', 'fixed'); // http://indicatrix.wordpress.com/2011/08/06/fixed-position-dialogs-in-jquery-ui/
   
   refresh_buttons();
 
