@@ -340,6 +340,10 @@ $nav_bar_height: $header_height;
   padding: 8px 13px 10px 14px;
 }
 
+#message_dialog_body a.link_button_terp {
+  color: white;
+}
+
 input[disabled].link_button {
   background-color: $ost_hot_blue;
 }

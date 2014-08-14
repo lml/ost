@@ -8,7 +8,7 @@
 </p>
 
 <p>
- <%= link_to "View / update", new_student_consent_path(@student_assignment.student) %> research consent
+ <%= link_to "View / update", terp_dashboard_consent_path(student_id: @student_assignment.student), remote: true %> research consent
 </p>
 
 <% assignment_plans = klass.learning_plan.assignment_plans.started %>

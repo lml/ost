@@ -31,6 +31,7 @@ Ost::Application.routes.draw do
 
     get "instructions"
     get "dashboard"
+    get "dashboard_consent"
     get "help"
     get 'terms'
     get 'contact_us'

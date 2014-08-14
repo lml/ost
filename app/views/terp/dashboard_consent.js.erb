@@ -1,0 +1,14 @@
+<% if false %>
+// $('#message_dialog_body').html("< ej(render :partial => 'terp/dashboard_consent') %> ");
+
+
+// debugger
+// 
+// 
+<% end %>
+
+
+$('#message_dialog').dialog('close');
+$('#consent_form_dialog').remove();
+$('body').append("<%= ej(render :partial => 'terp/consent_form_machinery') %>");
+$('#consent_form_dialog').dialog('open');

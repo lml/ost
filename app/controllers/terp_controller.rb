@@ -152,9 +152,17 @@ class TerpController < ApplicationController
 
   def quiz_summary
     turn_on_consenting(@student_assignment.student)
+    @include_mathjax = true
   end
 
   def dashboard
+  end
+
+  def dashboard_consent
+    @consentable = Student.find(params[:student_id]) if params[:student_id]
+    @consent ||= Consent.new({:consent_options => @consentable.options_for_new_consent, 
+                              :consentable => @consentable})
+    raise SecurityTransgression unless present_user.can_create?(@consent)
   end
 
   def help
