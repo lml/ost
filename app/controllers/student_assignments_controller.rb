@@ -12,24 +12,24 @@ class StudentAssignmentsController < ApplicationController
 
   def show
     @student_assignment = StudentAssignment.find(params[:id])
-    raise SecurityTransgression unless present_user.can_read?(@student_assignment)
+    raise SecurityTransgression unless present_user.can_read?(@student_assignment) || @student_assignment.student.terp_only
     @include_mathjax = true
   end
 
-  def create
-    @student_assignment = StudentAssignment.new(params[:student_assignment])
+  # def create
+  #   @student_assignment = StudentAssignment.new(params[:student_assignment])
 
-    raise SecurityTransgression unless present_user.can_create?(@student_assignment)
+  #   raise SecurityTransgression unless present_user.can_create?(@student_assignment)
 
-    respond_to do |format|
-      if @student_assignment.save
-        format.html { redirect_to(@student_assignment.exercise_responses.first) }
-      else
-        @errors = @student_assignment.errors
-        format.html { redirect_to request.referer }
-      end
-    end
-  end
+  #   respond_to do |format|
+  #     if @student_assignment.save
+  #       format.html { redirect_to(@student_assignment.exercise_responses.first) }
+  #     else
+  #       @errors = @student_assignment.errors
+  #       format.html { redirect_to request.referer }
+  #     end
+  #   end
+  # end
 
 protected
 

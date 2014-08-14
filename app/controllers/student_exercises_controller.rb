@@ -6,15 +6,15 @@ class StudentExercisesController < ApplicationController
 
   before_filter :enable_timeout, :only => [:show, :feedback]
   before_filter :enable_clock, :only => [:show, :feedback]
+  before_filter :get_student_exercise
+  before_filter :raise_if_terp_only
 
   def show
-    @student_exercise = StudentExercise.find(params[:id])
     raise SecurityTransgression unless present_user.can_read?(@student_exercise)
     @include_mathjax = true    
   end
 
   def update
-    @student_exercise = StudentExercise.find(params[:id])
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
     @student_exercise.lock_response_text_on_next_save = true if params[:save_and_lock]
@@ -37,7 +37,6 @@ class StudentExercisesController < ApplicationController
   end
   
   def make_correct
-    @student_exercise = StudentExercise.find(params[:student_exercise_id])
     raise SecurityTransgression unless @student_exercise.can_be_changed_by?(present_user)
     @student_exercise.force_to_be_correct!
     respond_to do |format|
@@ -46,7 +45,6 @@ class StudentExercisesController < ApplicationController
   end
   
   def feedback
-    @student_exercise = StudentExercise.find(params[:student_exercise_id])
     raise SecurityTransgression unless present_user.can_read?(@student_exercise) && 
                                        @student_exercise.is_feedback_available?
     
@@ -58,8 +56,18 @@ class StudentExercisesController < ApplicationController
   end
   
   def score_detail
-    @student_exercise = StudentExercise.find(params[:student_exercise_id]) 
     raise SecurityTransgression unless @student_exercise.can_be_changed_by?(present_user)
+  end
+
+protected
+
+  
+  def get_student_exercise
+    @student_exercise = StudentExercise.find(params[:student_exercise_id] || params[:id])
+  end
+
+  def raise_if_terp_only
+    raise SecurityTransgression if @student_exercise.student.terp_only
   end
 
 end

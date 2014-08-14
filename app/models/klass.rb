@@ -204,7 +204,7 @@ class Klass < ActiveRecord::Base
   #############################################################################
 
   def can_be_read_by?(user)
-    true
+    !is_embedded || (course.is_instructor?(user) || is_grader?(user) || user.is_administrator?)
   end
 
   def can_be_created_by?(user)

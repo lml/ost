@@ -201,7 +201,7 @@ Ost::Application.routes.draw do
     
   resources :response_times, :only => [:create]
 
-  resources :student_assignments, :only => [:show, :create] do
+  resources :student_assignments, :only => [:show] do
     resources :assignment_coworkers, :shallow => true, :only => [:new, :create, :destroy] do
       collection do
         post 'search'

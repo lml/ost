@@ -10,9 +10,9 @@ class AssignmentsController < ApplicationController
   def show
     @assignment = Assignment.find(params[:id])
 
-    raise SecurityTransgression unless present_user.can_read?(@assignment)
-
     student = @assignment.get_student(present_user)
+
+    raise SecurityTransgression unless present_user.can_read?(@assignment) || student.terp_only
 
     turn_on_consenting(student)
 
