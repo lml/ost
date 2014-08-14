@@ -1,10 +1,12 @@
 class TerpController < ApplicationController
 
+  non_work_pages = [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, :confirm_email, :resend_confirmation_email, :logout]
+
   skip_before_filter :authenticate_user!
   fine_print_skip_signatures :general_terms_of_use, :privacy_policy # TODO don't skip always
   before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up, :logout]
 
-  before_filter :terp_confirm_email!, except: [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, :confirm_email, :resend_confirmation_email, :logout]
+  before_filter :terp_confirm_email!, except: non_work_pages
 
   before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary, :dashboard]
   before_filter :get_student_exercise, only: [:solicit_free_response, :save_free_response,
@@ -13,6 +15,7 @@ class TerpController < ApplicationController
 
   before_filter :consent_prep
   before_filter :cors
+  before_filter :tutorial_allowed, except: non_work_pages
 
   layout :layout
 
@@ -291,6 +294,10 @@ protected
     # headers['Access-Control-Allow-Origin'] = '*'
     # headers['Access-Control-Request-Method'] = '*'
     # # headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+  end
+
+  def tutorial_allowed
+    @tutorial_allowed = true
   end
 
 end
