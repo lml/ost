@@ -18,7 +18,7 @@ class TopicExercise < ActiveRecord::Base
 
   acts_as_numberable :container => :topic
   
-  attr_accessible :exercise_id, :exercise, :topic_id, :topic, :name, :reserved_for_tests
+  attr_accessible :exercise_id, :exercise, :topic_id, :topic, :name, :reserved_for_tests, :hide_free_response
   
   scope :for_tests, where{reserved_for_tests == true}
   

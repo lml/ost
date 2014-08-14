@@ -36,6 +36,7 @@ Ost::Application.routes.draw do
     get 'terms'
     get 'contact_us'
     get "about"
+    get "tutorial"
     # get "account_help"
   end
 

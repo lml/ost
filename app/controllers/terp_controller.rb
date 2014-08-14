@@ -1,6 +1,6 @@
 class TerpController < ApplicationController
 
-  non_work_pages = [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, :confirm_email, :resend_confirmation_email, :logout]
+  non_work_pages = [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, :confirm_email, :resend_confirmation_email, :logout, :tutorial]
 
   skip_before_filter :authenticate_user!
   fine_print_skip_signatures :general_terms_of_use, :privacy_policy # TODO don't skip always
@@ -15,7 +15,7 @@ class TerpController < ApplicationController
 
   before_filter :consent_prep
   before_filter :cors
-  before_filter :tutorial_allowed, except: non_work_pages
+  # before_filter :tutorial_allowed, except: non_work_pages
 
   layout :layout
 
@@ -64,9 +64,9 @@ class TerpController < ApplicationController
       # else
         @student_exercise = @first_unworked_student_exercise
 
-        !@student_exercise.free_response_submitted? ?
-          redirect_to_free_response :
-          redirect_to_answer_selection
+        !free_response_present_or_not_needed? ?
+          redirect_to_free_response(params[:show_tutorial]) :
+          redirect_to_answer_selection(params[:show_tutorial])
       # end
     else
       if @student_assignment.student_exercises.any?
@@ -87,7 +87,7 @@ class TerpController < ApplicationController
 
     if @student_exercise.selected_answer_submitted?
       redirect_to_feedback
-    elsif @student_exercise.free_response_submitted?
+    elsif free_response_present_or_not_needed?
       redirect_to_answer_selection
     end
     
@@ -117,7 +117,7 @@ class TerpController < ApplicationController
   def solicit_answer_selection
     raise SecurityTransgression unless present_user.can_read?(@student_exercise)
 
-    if !@student_exercise.free_response_submitted?
+    if !free_response_present_or_not_needed?
       redirect_to_free_response
     elsif @student_exercise.selected_answer_submitted?
       redirect_to_feedback
@@ -189,6 +189,9 @@ class TerpController < ApplicationController
   def terms
   end
 
+  def tutorial
+  end
+
   def missing_assignment
 
   end
@@ -207,26 +210,30 @@ class TerpController < ApplicationController
 
   def confirm_email
     handle_with(TerpConfirmEmail,
-                success: lambda { redirect_to_quiz_start },
+                success: lambda { redirect_to_quiz_start(true) },
                 failure: lambda { render 'terp/solicit_email_confirmation' })
   end
 
 protected
 
-  def redirect_to_quiz_start
-    redirect_to terp_quiz_start_path(terp_id: params[:terp_id])
+  def redirect_to_quiz_start(show_tutorial = false)
+    redirect_to terp_quiz_start_path(terp_id: params[:terp_id], show_tutorial: show_tutorial)
   end
 
   def redirect_to_feedback
     redirect_to(terp_present_feedback_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))
   end
 
-  def redirect_to_answer_selection
-    redirect_to(terp_solicit_answer_selection_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))
+  def redirect_to_answer_selection(show_tutorial = false)
+    redirect_to(terp_solicit_answer_selection_path(terp_id: params[:terp_id], 
+                                                   student_exercise_id: @student_exercise.id, 
+                                                   show_tutorial: show_tutorial))
   end
 
-  def redirect_to_free_response
-    redirect_to(terp_solicit_free_response_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))
+  def redirect_to_free_response(show_tutorial = false)
+    redirect_to(terp_solicit_free_response_path(terp_id: params[:terp_id], 
+                                                student_exercise_id: @student_exercise.id,
+                                                show_tutorial: show_tutorial))
   end
 
   def layout
@@ -296,8 +303,12 @@ protected
     # # headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
   end
 
-  def tutorial_allowed
-    @tutorial_allowed = true
+  # def tutorial_allowed
+  #   @tutorial_allowed = true
+  # end
+
+  def free_response_present_or_not_needed?
+    @student_exercise.free_response_submitted? || @student_exercise.assignment_exercise.topic_exercise.hide_free_response
   end
 
 end

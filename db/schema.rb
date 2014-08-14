@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140731040602) do
+ActiveRecord::Schema.define(:version => 20140814201439) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -578,6 +578,7 @@ ActiveRecord::Schema.define(:version => 20140731040602) do
     t.datetime "updated_at",                            :null => false
     t.boolean  "reserved_for_tests", :default => false
     t.string   "name"
+    t.boolean  "hide_free_response", :default => false
   end
 
   add_index "topic_exercises", ["concept_id"], :name => "index_topic_exercises_on_concept_id"

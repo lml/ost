@@ -18,6 +18,9 @@
     <%= f.check_box :reserved_for_tests %> This exercise is reserved for use in tests.
   </div>
   <div class="field">
+    <%= f.check_box :hide_free_response %> Skip the free response when students answer this question (embedded classes only)
+  </div>
+  <div class="field">
     Concept <%= link_to_help 'concepts', "", {:width => 600 } %> <br/>
     <%= f.select(:concept_id, 
                      options_from_collection_for_select(topic.learning_plan.concepts, :id, :name, 
