@@ -233,6 +233,11 @@ class TerpController < ApplicationController
                 failure: lambda { render 'terp/forgot_password' })
   end
 
+  def change_password
+    handle_with(TerpChangePassword,
+                complete: lambda { render })
+  end
+
 protected
 
   def redirect_to_quiz_start(show_tutorial = false)

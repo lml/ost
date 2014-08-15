@@ -40,6 +40,9 @@ Ost::Application.routes.draw do
     get 'contact_us'
     get "about"
     get "tutorial"
+    get "my_account"
+
+    post "change_password"
     # get "account_help"
   end
 
