@@ -2,6 +2,8 @@
 # "VerificationToken" is just too long
 class Veritoken < ActiveRecord::Base
   
+  attr_accessible :num_attempts_left, :token
+
   def self.numeric(num_digits, options = {})
     options[:num_attempts] ||= 5
     options[:num_days_active] ||= 5
@@ -25,10 +27,16 @@ class Veritoken < ActiveRecord::Base
     token.nil?
   end
 
-  def verify!(otherToken); debugger
-    self.token = nil if !expired? && (token == otherToken)
-    self.num_attempts_left = num_attempts_left - 1
-    self.save
-    verified?
+  def matches?(otherToken)
+    !expired? && otherToken == token
+  end
+
+  def bad_attempt!
+    raise IllegalState if verified?
+    self.update_attributes(num_attempts_left: num_attempts_left - 1)
+  end
+
+  def verified!
+    self.update_attributes(token: nil)
   end
 end
