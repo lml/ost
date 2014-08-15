@@ -1,0 +1,34 @@
+
+# "VerificationToken" is just too long
+class Veritoken < ActiveRecord::Base
+  
+  def self.numeric(num_digits, options = {})
+    options[:num_attempts] ||= 5
+    options[:num_days_active] ||= 5
+
+    instance = Veritoken.new
+
+    begin
+      instance.token = "%0#{num_digits}d" % SecureRandom.random_number(10**num_digits)
+    end while Veritoken.where(:token => instance.token).any?
+
+    instance.num_attempts_left = options[:num_attempts]
+    instance.num_days_active = options[:num_days_active]
+    instance
+  end
+
+  def expired?
+    (num_attempts_left <= 0) && (Time.now < created_at + num_days_active.days)
+  end
+
+  def verified?
+    token.nil?
+  end
+
+  def verify!(otherToken); debugger
+    self.token = nil if !expired? && (token == otherToken)
+    self.num_attempts_left = num_attempts_left - 1
+    self.save
+    verified?
+  end
+end

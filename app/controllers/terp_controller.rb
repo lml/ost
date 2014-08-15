@@ -1,10 +1,12 @@
 class TerpController < ApplicationController
 
-  non_work_pages = [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, :confirm_email, :resend_confirmation_email, :logout, :tutorial]
+  non_work_pages = [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, 
+                    :confirm_email, :resend_confirmation_email, :logout, :tutorial, 
+                    :forgot_password, :reset_password]
 
   skip_before_filter :authenticate_user!
   fine_print_skip_signatures :general_terms_of_use, :privacy_policy # TODO don't skip always
-  before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up, :logout]
+  before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up, :logout, :forgot_password, :reset_password]
 
   before_filter :terp_confirm_email!, except: non_work_pages
 
@@ -214,6 +216,23 @@ class TerpController < ApplicationController
                 failure: lambda { render 'terp/solicit_email_confirmation' })
   end
 
+  def forgot_password
+    if request.get?
+      redirect_to terp_quiz_start_path(terp_id: params[:terp_id]) if user_signed_in?
+    elsif request.post?
+      handle_with(TerpForgotPassword,
+                  success: lambda { redirect_to terp_forgot_password_path(terp_id: params[:terp_id]), 
+                                                notice: 'Check your email for a password reset code and then complete the form on the right.' },
+                  failure: lambda { render })
+    end
+  end 
+
+  def reset_password
+    handle_with(TerpResetPassword,
+                success: lambda { redirect_to terp_sign_in_path(terp_id: params[:terp_id]), notice: 'Password successfully changed!' },
+                failure: lambda { render 'terp/forgot_password' })
+  end
+
 protected
 
   def redirect_to_quiz_start(show_tutorial = false)
@@ -251,8 +270,7 @@ protected
   end
 
   def terp_confirm_email!
-    if !current_user.terp_confirmed?
-      # session[:user_return_to] = "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+    if !current_user.terp_email_veritoken.try(:verified?)
       redirect_to terp_solicit_email_confirmation_path(terp_id: params[:terp_id])
     end
   end

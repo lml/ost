@@ -34,7 +34,7 @@
           <div><%= f.submit "Sign in", :class => "link_button" %> </div>
         <% end %>
 
-        <%= link_to "Forgot your password?", nil %>
+        <%= link_to "Forgot your password?", terp_forgot_password_path(terp_id: params[:terp_id]) %>
 
       </div>
 

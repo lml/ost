@@ -1166,6 +1166,18 @@ input.ui-widget {
   }  
 }
 
+#forgot_password {
+  .or-text {
+    left: -40px;
+    width: 75px;
+    top: 99px;
+  }
+
+  .or-bar {
+    height: 250px;
+  }
+}
+
 .prompt {
 
   padding-top: 0px;
