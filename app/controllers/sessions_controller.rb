@@ -8,9 +8,9 @@ class SessionsController < Devise::SessionsController
 
   layout :layout
 
-  def new
+  def new; debugger
     terp? ?
-      render('terp/sign_in') :
+      render('terp/sign_in', terp_id: params[:terp_id]) :
       render('new')
   end
 
