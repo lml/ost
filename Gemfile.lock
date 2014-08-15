@@ -34,18 +34,6 @@ GIT
       jquery-rails
       rails (~> 3.2.17)
 
-PATH
-  remote: /Users/jps/dev/lev
-  specs:
-    lev (2.1.2.alpha)
-      actionpack (>= 3.0)
-      active_attr
-      activemodel (>= 3.0)
-      activerecord (>= 3.0)
-      hashie
-      transaction_isolation
-      transaction_retry
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,7 +50,7 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
-    active_attr (0.8.3)
+    active_attr (0.8.4)
       activemodel (>= 3.0.2, < 4.2)
       activesupport (>= 3.0.2, < 4.2)
     activemodel (3.2.17)
@@ -202,7 +190,7 @@ GEM
     gherkin (2.11.2)
       json (>= 1.4.6)
     haml (3.1.7)
-    hashie (3.0.0)
+    hashie (3.2.0)
     highline (1.6.13)
     hike (1.2.3)
     http_parser.rb (0.5.3)
@@ -215,6 +203,14 @@ GEM
     json_pure (1.7.5)
     launchy (2.1.2)
       addressable (~> 2.3)
+    lev (2.2.0)
+      actionpack (>= 3.0)
+      active_attr
+      activemodel (>= 3.0)
+      activerecord (>= 3.0)
+      hashie
+      transaction_isolation
+      transaction_retry
     libv8 (3.3.10.4)
     libwebsocket (0.1.5)
       addressable
@@ -402,7 +398,7 @@ DEPENDENCIES
   fog (~> 1.3.1)
   jquery-rails (~> 2.0.2)
   launchy
-  lev!
+  lev (~> 2.2.0)
   lograge!
   mime-types
   mini_magick
