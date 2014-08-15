@@ -10,7 +10,7 @@ class ClassesController < ApplicationController
   before_filter :enable_clock
 
   def index
-    @klasses = Klass.current.where{end_date > Time.zone.now}
+    @klasses = Klass.current.where{end_date > Time.zone.now}.select{|kk| present_user.can_read?(kk)}
   end
 
   def show

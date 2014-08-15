@@ -340,6 +340,10 @@ $nav_bar_height: $header_height;
   padding: 8px 13px 10px 14px;
 }
 
+#message_dialog_body a.link_button_terp {
+  color: white;
+}
+
 input[disabled].link_button {
   background-color: $ost_hot_blue;
 }
@@ -450,6 +454,10 @@ input[disabled].link_button {
    margin-bottom:0px;
    margin-top: $header_height;
    clear:both;
+
+   a {
+     text-decoration: underline;
+   }
 
    div {
     div.ui-corner-all {
@@ -1160,6 +1168,18 @@ input.ui-widget {
       font-weight: bold;
     }      
   }  
+}
+
+#forgot_password {
+  .or-text {
+    left: -40px;
+    width: 75px;
+    top: 99px;
+  }
+
+  .or-bar {
+    height: 250px;
+  }
 }
 
 .prompt {

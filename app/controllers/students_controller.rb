@@ -5,6 +5,7 @@
 class StudentsController < ApplicationController
 
   before_filter :get_klass, :only => [:index]
+  before_filter :raise_if_terp_only
 
   def index
     raise SecurityTransgression unless present_user.can_read_children?(@klass, :students)
@@ -41,5 +42,9 @@ protected
 
   def get_klass
     @klass = Klass.find(params[:klass_id])
+  end
+
+  def raise_if_terp_only
+    raise SecurityTransgression if @student.try(:terp_only)
   end
 end

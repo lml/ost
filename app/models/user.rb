@@ -11,6 +11,9 @@ class User < ActiveRecord::Base
   has_many :course_instructors, :dependent => :destroy
   has_many :educators, :dependent => :destroy
 
+  belongs_to :terp_email_veritoken, class_name: 'Veritoken', dependent: :destroy
+  belongs_to :terp_password_veritoken, class_name: 'Veritoken', dependent: :destroy
+
   attr_accessor :email_confirmation
   
   attr_accessible :username, 
@@ -161,10 +164,6 @@ class User < ActiveRecord::Base
     else
       where(conditions).first
     end
-  end
-
-  def terp_confirmed?
-    terp_confirmation_code.nil?
   end
 
 private 

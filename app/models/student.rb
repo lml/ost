@@ -29,6 +29,7 @@ class Student < ActiveRecord::Base
   scope :active, where(:has_dropped => false)
   scope :dropped, where(:has_dropped => true)
   scope :consented, joins{consent}.where{{consent => sift(:did_consent)}}
+  scope :not_terp, where(:terp_only => false)
 
   scope :visible, lambda { |user| 
     if user.is_researcher? || user.is_visitor?

@@ -1,0 +1,10 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<p>Hi <%= @user.first_name %>,</p>
+
+<p>Someone requested a password reset for your account.  If this wasn't you, please disregard this email.  If it was you, please enter the following password reset code into the form on the right hand side of the password reset page.</p>
+
+<p>Password reset code: <%= @user.terp_password_veritoken.token %></p>
+
+<%= render :partial => 'shared/email_closing' %>

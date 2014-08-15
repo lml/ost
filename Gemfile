@@ -59,14 +59,14 @@ gem 'remotipart', '~> 1.0'
 gem 'babbler', '~> 1.0.0'
 gem 'sketchily', '~> 1.5.0'
 
-gem 'unconfirm', git: 'https://github.com/lml/unconfirm.git', ref: '7cc1ed8b46'
+gem 'unconfirm', git: 'https://github.com/lml/unconfirm.git', ref: '7cc1ed8b46453fa78c7e117e0de9383a392d0bd5'
 
 gem 'on_the_spot', git: 'https://github.com/kevinburleigh75/on_the_spot.git', ref: '67a423a'
 
 gem 'fine_print', git: 'https://github.com/jpslav/fine_print.git', ref: '3146ce934e337'
 gem 'openstax_utilities', '~> 1.1.0'
 
-gem 'lev', '~> 2.1.0'
+gem 'lev', '~> 2.2.0'
 
 group :development, :test do
   gem 'debugger', '~> 1.1.4'

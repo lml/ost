@@ -14,7 +14,7 @@ class TerpSignUp
     attribute :is_auditing, type: boolean
   end
 
-  uses_routine ResetTerpConfirmationCode
+  uses_routine ResetTerpEmailVeritoken
 
 protected
 
@@ -43,7 +43,7 @@ protected
     user.skip_confirmation!
     user.save
 
-    run(ResetTerpConfirmationCode, user: user)
+    run(ResetTerpEmailVeritoken, user: user)
 
     transfer_errors_from(user, {type: :verbatim}, true) # do fatal errors
 

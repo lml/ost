@@ -5,7 +5,7 @@
   if matching_assignment_plans.none? 
     %>
       <div class='terp-simple-message'>
-        No knowledge check is available for this section of the textbook.  Please continue to the next textbook section assigned by your instructor.
+        No Concept Coach is available for this section of the textbook.  Please continue to the next textbook section assigned by your instructor.
       </div>
     <%
   else
@@ -17,14 +17,14 @@
     if current_user_in_class_with_this_assignment
       %>
         <div class='terp-simple-message'>
-          This knowledge check has not yet been released.  Please check back later.
+          This Concept Coach has not yet been released.  Please check back later.
         </div>
       <%
     else # this user isn't in the class where this assignment is offered, show a registration code form
       %>
         <div class='prompt'>
           <div class='prompt-instructions'>
-            Before you can work this knowledge check you must register for a class offering it by entering that class' registration code below.
+            Before you can work this Concept Coach you must register for a class offering it by entering that class' registration code below.
           </div>
           <div class='prompt-form'>
             <%= render 'terp/register' %>

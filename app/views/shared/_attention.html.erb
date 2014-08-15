@@ -9,7 +9,7 @@
     <% message = error.nil? ?
                    (attribute.respond_to?(:translate) ? attribute.translate : attribute) :
                    (errors.is_a?(String) ? error : error.translate) %>
-    <% alert_messages.push message%>
+    <% alert_messages.push message.html_safe %>
   <% end %>
 <% end %>
 
@@ -18,7 +18,7 @@
   <% @human_field_names = HUMAN_FIELD_NAMES.merge(@human_field_names) %>
   
   <% @errors[:base].each do |msg| %>  
-    <% alert_messages.push(msg) %>
+    <% alert_messages.push(msg.html_safe) %>
   <% end %>  
   
   <%# In the future, this code should use locales exclusively, none of this
@@ -35,13 +35,13 @@
                                 attr.to_s.titleize + " " :
                                 @errors_object.class.human_attribute_name(attr.to_s) + " " %>
       
-      <% alert_messages.push(field_name + msg)%>
+      <% alert_messages.push(field_name + msg.html_safe)%>
     <% end %>
   <% end %>  
 <% end %>
 
-<% alert_messages.push(alert) if !alert.blank? %>
-<% notice_messages.push(notice) if !notice.blank? %>
+<% alert_messages.push(alert.html_safe) if !alert.blank? %>
+<% notice_messages.push(notice.html_safe) if !notice.blank? %>
 
 <%= alert_tag(alert_messages) %>        
 <%= notice_tag(notice_messages) %>

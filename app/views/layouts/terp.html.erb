@@ -29,8 +29,40 @@
       $(document).ready(function() {
         $('.terp-simple-message').css('margin-top', (470-$('.terp-simple-message').height())/2 + 'px');
       });
-
     </script>
+
+    <script type="text/javascript" src="//assets.zendesk.com/external/zenbox/v2.6/zenbox.js"></script>
+      <style type="text/css" media="screen, projection">
+        @import url(//assets.zendesk.com/external/zenbox/v2.6/zenbox.css);
+        #zenbox_body {
+          height: 500px;
+        }
+        #zenbox_container {
+          height: 550px;
+        }
+      </style>
+      <script type="text/javascript">
+        $(document).ready(function() {
+          if (typeof(Zenbox) !== "undefined") {
+            Zenbox.init({
+              dropboxID:   "20125969",
+              url:         "https://openstaxtutor.zendesk.com",
+              tabTooltip:  "Help",
+              tabImageURL: "https://assets.zendesk.com/external/zenbox/images/tab_help.png",
+              tabColor:    "black",
+              tabPosition: "Left",
+              hide_tab: true
+            });
+          
+            var elem = $('a[href*="zendesk.com"]');
+            elem.click(function(e) {
+              Zenbox.show(); 
+              return false;
+            });      
+          }  
+        })
+        
+      </script>
 
     <%= render :partial => 'layouts/google_analytics' %>    
 
@@ -49,6 +81,7 @@
       <div id="os_dark_orange" class="os_dark_orange"></div>
     </div>
 
+    <%= render 'terp/tutorial' if params[:show_tutorial] %>
     <%= render :partial => 'terp/consent_form_machinery' if @ask_for_consent %>
 
     <div id="terp">
@@ -64,58 +97,97 @@
             submenu = []
 
             if user_signed_in?
-              submenu.push ["Log Out", terp_logout_path(terp_id: params[:terp_id]), {method: :delete}]
-              submenu.push ["My Account", terp_my_account_path(terp_id: params[:terp_id]), {remote: true}]
+              submenu.push({
+                text: "Log Out", 
+                path: terp_logout_path(terp_id: params[:terp_id]), 
+                options: {method: :delete}
+              })
+              submenu.push({
+                text: "My Account", 
+                path: terp_my_account_path(terp_id: params[:terp_id]), 
+                options: {remote: true}
+              })
+              submenu.push({
+                text: "Tutorial", 
+                path: terp_tutorial_path(terp_id: params[:terp_id]), 
+                options: {remote: true}
+              })
             end
 
             submenu.push(
-              ["About", terp_about_path(terp_id: params[:terp_id]), {remote:true}],
-              ["Terms of Use", terp_terms_path(terp_id: params[:terp_id]), {remote: true}],
-              ["Contact Us", terp_contact_us_path(terp_id: params[:terp_id]), {remote: true}]
+              {
+                text: "About", 
+                path: terp_about_path(terp_id: params[:terp_id]), 
+                options: {remote:true}
+              },
+              {
+                text: "Terms of Use", 
+                path: terp_terms_path(terp_id: params[:terp_id]), 
+                options: {remote: true}
+              },
+              { 
+                text: "Contact Us", 
+                path: terp_contact_us_path(terp_id: params[:terp_id]), 
+                options: {remote: true}
+              }
             )
-          %>
 
-
-          <% 
             nav_links = []
 
             if user_signed_in?
-              nav_links.push ["DASHBOARD", main_app.terp_dashboard_path(terp_id: params[:terp_id]), "", :dashboard]
-              nav_links.push(
-                ["HELP #{image_tag 'help_icon_v4.png', :height => '12px', :width => '12px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}", 
-                 main_app.terp_help_path(terp_id: params[:terp_id]), "", :help]
-              )
+              nav_links.push({
+                text: "DASHBOARD", 
+                path: main_app.terp_dashboard_path(terp_id: params[:terp_id]), 
+                class: "", 
+                name: :dashboard, 
+                options: {remote: true}
+              })
+              nav_links.push({
+                text: "HELP #{image_tag 'help_icon_v4.png', 
+                                        :height => '12px', :width => '12px', 
+                                        :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}",
+                path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
+                class: "", 
+                name: :help, 
+                options: {remote: true}
+              })
             end
 
-            nav_links.push(
-              ["#{image_tag 'three_lines_16.png', :height => '16px', :width => '16px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px; padding-right: 5px;'}", 
-                nil, "", :menu, submenu]  
-            )
+            nav_links.push({
+              text: "#{image_tag 'three_lines_16.png', 
+                                 :height => '16px', :width => '16px', 
+                                 :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px; padding-right: 5px;'}", 
+              path: nil,
+              class: "",
+              name: :menu, 
+              options: { submenu: submenu }  
+            })
 
           %>
      
           <ul class='top'>
             <% nav_links.each do |nav_link| %>
-              <% is_dropdown = nav_link[1].nil? && !nav_link[4].nil? %>
+              <% is_dropdown = nav_link[:options][:submenu] %>
               <li class='top' style="<%= 'position:relative' if is_dropdown %>">
-                <% options = {class: "top"}
-                   if nav_link[1].nil?
-                     options[:data] = {toggle: "dropdown"}
+                <% options = { class: "top" }
+                   options[:remote] = nav_link[:options][:remote]
+
+                   if is_dropdown
+                     options[:data] = { toggle: "dropdown" }
                      options[:class] = options[:class] + " dropdown-toggle" 
-                   else
-                     options[:remote] = true
                    end
-                    %>
-                <%= link_to nav_link[1] || '#', options do %>
-                  <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %>" 
-                        style="display:inline; position:relative"><%= nav_link[0].html_safe %><em></em></span>
+                %>
+
+                <%= link_to nav_link[:path] || '#', options do %>
+                  <span class="<%= nav_link[:class] %> <%= "current" if @highlight == nav_link[:name] %>" 
+                        style="display:inline; position:relative"><%= nav_link[:text].html_safe %><em></em></span>
                 <% end %>
 
                 <% if is_dropdown %>
                   <ul class='dropdown-menu pull-right' role='menu'>
-                  <% nav_link[4].each do |item| %>
+                  <% nav_link[:options][:submenu].each do |item| %>
                     <li class='menu'>
-                      <%= link_to item[0], item[1], item[2] %>
+                      <%= link_to item[:text], item[:path], item[:options] %>
                     </li>
                   <% end %>
                   </ul>

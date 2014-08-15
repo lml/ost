@@ -1,0 +1,10 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<p>Hi <%= @user.first_name %>,</p>
+
+<p>Welcome to OpenStax Tutor!  Before working practice embedded in your textbook, we need you to confirm your email address by entering the code below into the practice tool.</p>
+
+<p>Confirmation code: <%= @user.terp_email_veritoken.token %></p>
+
+<%= render :partial => 'shared/email_closing' %>

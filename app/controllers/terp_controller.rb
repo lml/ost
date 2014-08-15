@@ -1,10 +1,14 @@
 class TerpController < ApplicationController
 
+  non_work_pages = [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, 
+                    :confirm_email, :resend_confirmation_email, :logout, :tutorial, 
+                    :forgot_password, :reset_password]
+
   skip_before_filter :authenticate_user!
   fine_print_skip_signatures :general_terms_of_use, :privacy_policy # TODO don't skip always
-  before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up, :logout]
+  before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up, :logout, :forgot_password, :reset_password]
 
-  before_filter :terp_confirm_email!, except: [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, :confirm_email, :resend_confirmation_email, :logout]
+  before_filter :terp_confirm_email!, except: non_work_pages
 
   before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary, :dashboard]
   before_filter :get_student_exercise, only: [:solicit_free_response, :save_free_response,
@@ -12,6 +16,8 @@ class TerpController < ApplicationController
                                               :present_feedback]
 
   before_filter :consent_prep
+  before_filter :cors
+  # before_filter :tutorial_allowed, except: non_work_pages
 
   layout :layout
 
@@ -60,9 +66,9 @@ class TerpController < ApplicationController
       # else
         @student_exercise = @first_unworked_student_exercise
 
-        !@student_exercise.free_response_submitted? ?
-          redirect_to_free_response :
-          redirect_to_answer_selection
+        !free_response_present_or_not_needed? ?
+          redirect_to_free_response(params[:show_tutorial]) :
+          redirect_to_answer_selection(params[:show_tutorial])
       # end
     else
       if @student_assignment.student_exercises.any?
@@ -83,7 +89,7 @@ class TerpController < ApplicationController
 
     if @student_exercise.selected_answer_submitted?
       redirect_to_feedback
-    elsif @student_exercise.free_response_submitted?
+    elsif free_response_present_or_not_needed?
       redirect_to_answer_selection
     end
     
@@ -92,6 +98,8 @@ class TerpController < ApplicationController
   end
 
   def save_free_response
+    redirect_to_answer_selection and return if @student_exercise.free_response_submitted?
+
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
     @student_exercise.lock_response_text_on_next_save = true if params[:save_and_lock]
@@ -99,7 +107,7 @@ class TerpController < ApplicationController
     @student_exercise.free_responses << TextFreeResponse.new(content: params[:student_exercise].delete(:free_response))
 
     if @student_exercise.update_attributes(params[:student_exercise])
-      flash[:notice] = "Response saved."
+      # flash[:notice] = "Response saved."
       redirect_to_answer_selection
     else
       turn_on_consenting(@student_exercise.student)
@@ -111,7 +119,7 @@ class TerpController < ApplicationController
   def solicit_answer_selection
     raise SecurityTransgression unless present_user.can_read?(@student_exercise)
 
-    if !@student_exercise.free_response_submitted?
+    if !free_response_present_or_not_needed?
       redirect_to_free_response
     elsif @student_exercise.selected_answer_submitted?
       redirect_to_feedback
@@ -122,10 +130,12 @@ class TerpController < ApplicationController
   end
 
   def save_answer_selection
+    redirect_to_feedback and return if @student_exercise.selected_answer_submitted?
+    
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
     if @student_exercise.update_attributes(params[:student_exercise])
-      flash[:notice] = "Response saved."
+      # flash[:notice] = "Response saved."
       redirect_to_feedback
     else
       turn_on_consenting(@student_exercise.student)
@@ -147,9 +157,17 @@ class TerpController < ApplicationController
 
   def quiz_summary
     turn_on_consenting(@student_assignment.student)
+    @include_mathjax = true
   end
 
   def dashboard
+  end
+
+  def dashboard_consent
+    @consentable = Student.find(params[:student_id]) if params[:student_id]
+    @consent ||= Consent.new({:consent_options => @consentable.options_for_new_consent, 
+                              :consentable => @consentable})
+    raise SecurityTransgression unless present_user.can_create?(@consent)
   end
 
   def help
@@ -173,6 +191,9 @@ class TerpController < ApplicationController
   def terms
   end
 
+  def tutorial
+  end
+
   def missing_assignment
 
   end
@@ -191,26 +212,52 @@ class TerpController < ApplicationController
 
   def confirm_email
     handle_with(TerpConfirmEmail,
-                success: lambda { redirect_to_quiz_start },
+                success: lambda { redirect_to_quiz_start(true) },
                 failure: lambda { render 'terp/solicit_email_confirmation' })
+  end
+
+  def forgot_password
+    if request.get?
+      redirect_to terp_quiz_start_path(terp_id: params[:terp_id]) if user_signed_in?
+    elsif request.post?
+      handle_with(TerpForgotPassword,
+                  success: lambda { redirect_to terp_forgot_password_path(terp_id: params[:terp_id]), 
+                                                notice: 'Check your email for a password reset code and then complete the form on the right.' },
+                  failure: lambda { render })
+    end
+  end 
+
+  def reset_password
+    handle_with(TerpResetPassword,
+                success: lambda { redirect_to terp_sign_in_path(terp_id: params[:terp_id]), notice: 'Password successfully reset!' },
+                failure: lambda { render 'terp/forgot_password' })
+  end
+
+  def change_password
+    handle_with(TerpChangePassword,
+                complete: lambda { render })
   end
 
 protected
 
-  def redirect_to_quiz_start
-    redirect_to terp_quiz_start_path(terp_id: params[:terp_id])
+  def redirect_to_quiz_start(show_tutorial = false)
+    redirect_to terp_quiz_start_path(terp_id: params[:terp_id], show_tutorial: show_tutorial)
   end
 
   def redirect_to_feedback
     redirect_to(terp_present_feedback_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))
   end
 
-  def redirect_to_answer_selection
-    redirect_to(terp_solicit_answer_selection_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))
+  def redirect_to_answer_selection(show_tutorial = false)
+    redirect_to(terp_solicit_answer_selection_path(terp_id: params[:terp_id], 
+                                                   student_exercise_id: @student_exercise.id, 
+                                                   show_tutorial: show_tutorial))
   end
 
-  def redirect_to_free_response
-    redirect_to(terp_solicit_free_response_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))
+  def redirect_to_free_response(show_tutorial = false)
+    redirect_to(terp_solicit_free_response_path(terp_id: params[:terp_id], 
+                                                student_exercise_id: @student_exercise.id,
+                                                show_tutorial: show_tutorial))
   end
 
   def layout
@@ -220,13 +267,15 @@ protected
   def terp_authenticate_user!
     if !user_signed_in?
       session[:user_return_to] = terp_quiz_start_path(params[:terp_id])
-      redirect_to terp_sign_in_path(terp_id: params[:terp_id])
+      respond_to do |format|
+        format.html { redirect_to terp_sign_in_path(terp_id: params[:terp_id]) }
+        format.js { render :text => 'location.reload(true)' }
+      end
     end
   end
 
   def terp_confirm_email!
-    if !current_user.terp_confirmed?
-      # session[:user_return_to] = "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+    if !current_user.terp_email_veritoken.try(:verified?)
       redirect_to terp_solicit_email_confirmation_path(terp_id: params[:terp_id])
     end
   end
@@ -269,6 +318,20 @@ protected
 
   def consent_prep
     @hide_open_consent_in_new_window = true
+  end
+
+  def cors
+    # headers['Access-Control-Allow-Origin'] = '*'
+    # headers['Access-Control-Request-Method'] = '*'
+    # # headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+  end
+
+  # def tutorial_allowed
+  #   @tutorial_allowed = true
+  # end
+
+  def free_response_present_or_not_needed?
+    @student_exercise.free_response_submitted? || @student_exercise.assignment_exercise.topic_exercise.hide_free_response
   end
 
 end

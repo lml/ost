@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140731040602) do
+ActiveRecord::Schema.define(:version => 20140815221040) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -578,6 +578,7 @@ ActiveRecord::Schema.define(:version => 20140731040602) do
     t.datetime "updated_at",                            :null => false
     t.boolean  "reserved_for_tests", :default => false
     t.string   "name"
+    t.boolean  "hide_free_response", :default => false
   end
 
   add_index "topic_exercises", ["concept_id"], :name => "index_topic_exercises_on_concept_id"
@@ -607,12 +608,12 @@ ActiveRecord::Schema.define(:version => 20140731040602) do
   add_index "unconfirm_user_settings", ["user_id"], :name => "index_unconfirm_user_settings_on_user_id"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                                                          :null => false
-    t.string   "encrypted_password",                   :default => "",                           :null => false
+    t.string   "email",                                                                              :null => false
+    t.string   "encrypted_password",                       :default => "",                           :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                        :default => 0
+    t.integer  "sign_in_count",                            :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -621,22 +622,23 @@ ActiveRecord::Schema.define(:version => 20140731040602) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                      :default => 0
+    t.integer  "failed_attempts",                          :default => 0
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.string   "username",                                                                       :null => false
+    t.string   "username",                                                                           :null => false
     t.datetime "disabled_at"
     t.string   "first_name"
     t.string   "last_name"
-    t.boolean  "is_administrator",                     :default => false,                        :null => false
-    t.string   "research_id",                                                                    :null => false
-    t.string   "education_id",                                                                   :null => false
+    t.boolean  "is_administrator",                         :default => false,                        :null => false
+    t.string   "research_id",                                                                        :null => false
+    t.string   "education_id",                                                                       :null => false
     t.string   "nickname"
-    t.datetime "created_at",                                                                     :null => false
-    t.datetime "updated_at",                                                                     :null => false
-    t.string   "time_zone",              :limit => 40, :default => "Central Time (US & Canada)", :null => false
+    t.datetime "created_at",                                                                         :null => false
+    t.datetime "updated_at",                                                                         :null => false
+    t.string   "time_zone",                  :limit => 40, :default => "Central Time (US & Canada)", :null => false
     t.boolean  "receives_error_notices"
-    t.string   "terp_confirmation_code"
+    t.integer  "terp_email_veritoken_id"
+    t.integer  "terp_password_veritoken_id"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
@@ -644,8 +646,20 @@ ActiveRecord::Schema.define(:version => 20140731040602) do
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["research_id"], :name => "index_users_on_research_id", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["terp_email_veritoken_id"], :name => "index_users_on_terp_email_veritoken_id", :unique => true
+  add_index "users", ["terp_password_veritoken_id"], :name => "index_users_on_terp_password_veritoken_id", :unique => true
   add_index "users", ["unlock_token"], :name => "index_users_on_unlock_token", :unique => true
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
+
+  create_table "veritokens", :force => true do |t|
+    t.string   "token"
+    t.integer  "num_attempts_left"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.datetime "expires_at"
+  end
+
+  add_index "veritokens", ["token"], :name => "index_veritokens_on_token", :unique => true
 
   create_table "website_configurations", :force => true do |t|
     t.string   "name"

@@ -5,6 +5,9 @@ Ost::Application.routes.draw do
 
   resources :terp, only: [] do  # can hack the use of the ID to be the quiz ID
     get 'sign_in'
+    get 'forgot_password'
+    post 'forgot_password'
+    post 'reset_password'
     delete 'logout'
     get "sign_up"
     post "sign_up"
@@ -31,10 +34,15 @@ Ost::Application.routes.draw do
 
     get "instructions"
     get "dashboard"
+    get "dashboard_consent"
     get "help"
     get 'terms'
     get 'contact_us'
     get "about"
+    get "tutorial"
+    get "my_account"
+
+    post "change_password"
     # get "account_help"
   end
 
@@ -200,7 +208,7 @@ Ost::Application.routes.draw do
     
   resources :response_times, :only => [:create]
 
-  resources :student_assignments, :only => [:show, :create] do
+  resources :student_assignments, :only => [:show] do
     resources :assignment_coworkers, :shallow => true, :only => [:new, :create, :destroy] do
       collection do
         post 'search'

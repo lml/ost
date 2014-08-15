@@ -36,6 +36,7 @@ function open_specified_dialog(name, is_modal, height, width, title, body) {
 
   $("#" + name + "_dialog_body").html(body);
   
+  $("#" + name + "_dialog").dialog('close');
   $("#" + name + "_dialog").dialog({ 
     autoOpen: false, 
     modal: is_modal, 
@@ -46,7 +47,7 @@ function open_specified_dialog(name, is_modal, height, width, title, body) {
     open: function () {
       $(document).trigger('after_dialog_open');
     }
-  });
+  }).parent().css('position', 'fixed'); // http://indicatrix.wordpress.com/2011/08/06/fixed-position-dialogs-in-jquery-ui/
   
   refresh_buttons();
 
@@ -77,7 +78,7 @@ function sum(array) {
 // Open all non-local links in a new tab/window
 //  http://stackoverflow.com/questions/4086988/how-do-i-make-link-to-open-external-urls-in-a-new-window
 $(document).ready(function() {
-  $("a").on("click", function() {
+  $("a[data-remote!='true'").on("click", function() {
     link_host = this.href.split("/")[2];
     document_host = document.location.href.split("/")[2];
 

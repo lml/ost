@@ -1,1 +1,53 @@
-<p>Account info, password reset, etc etc</p>
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<%= pageHeading "Sign In" %>
+
+<%
+  resource ||= User.new
+  resource_name ||= User
+  params[:terp_id] ||= params[:user][:terp_id]
+%>
+
+<%= section "My Information", {:classes => 'first no_bar'} do %>
+  <table class="left_heading">
+    <tr>
+      <th>Name</th>
+      <td><%= current_user.full_name %></td>
+    </tr>
+    <tr>
+      <th>Username</th>
+      <td><%= current_user.username %></td>
+    </tr>
+    <tr>
+      <th>Email</th>
+      <td><%= current_user.email %></td>
+    </tr>
+  </table>
+<% end %>
+
+
+<%= section "Change Password" do %>
+
+  <%= lev_form_for :change_password, url: terp_change_password_path(terp_id: params[:terp_id]), remote: true do |f| %>
+     
+    <div class='field '>
+      <div class='field_label'>Old password</div>
+      <%= f.password_field :old_password, style: "width: 250px" %>
+    </div>
+    
+    <div class='field '>
+      <div class='field_label'>New password</div>
+      <%= f.password_field :new_password, style: "width: 250px" %>
+    </div>
+
+    <div class='field '>
+      <div class='field_label'>New password again</div>
+      <%= f.password_field :new_password_confirmation, style: "width: 250px" %>
+    </div>
+
+    <div class='prompt-buttons'><%= f.submit "Reset my password", :class => "ui-state-default link_button" %></div>
+
+  <% end %>
+<% end %>
+

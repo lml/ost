@@ -13,8 +13,8 @@
  -->
 
 <%
-  user_classes_active_students  = present_user.students.active.select{ |student| student.section.klass.send(screen_method) }
-  user_classes_dropped_students = present_user.students.dropped.select{ |student| student.section.klass.send(screen_method) }
+  user_classes_active_students  = present_user.students.active.not_terp.select{ |student| student.section.klass.send(screen_method) }
+  user_classes_dropped_students = present_user.students.dropped.not_terp.select{ |student| student.section.klass.send(screen_method) }
   user_classes_educators        = present_user.educators.select{ |educator| educator.klass.send(screen_method) }
 
   user_classes_taking         = user_classes_active_students.collect{ |student| student.section.klass }

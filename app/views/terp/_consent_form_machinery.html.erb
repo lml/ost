@@ -1,80 +1,106 @@
 <%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
-<% content_for :javascript do %>
-  <%= javascript_tag do %>
-    function create_consent(did_consent) {
-      var data = $('#new_consent').serializeArray();
-      if (null != did_consent) {
-        data.push({name: "consent[did_consent]", value: did_consent});
-      }              
-      return $.post($("#new_consent").attr('action'), data, null, "script");      
-    }
+<% @prior_consent = @consentable.consent %>
 
-    $(document).ready(function() {
-      $('#consent_form_dialog').dialog({
-        modal: true,
-        height: 500,
-        width: 700,
-        buttons: [
-          {
-            text: "Next",
-            click: function() {
-              advanceToConsentForm();          
-            }
+<script type='text/javascript'>
+
+  function create_consent(did_consent) {
+    var data = $('#new_consent').serializeArray();
+    if (null != did_consent) {
+      data.push({name: "consent[did_consent]", value: did_consent});
+    }              
+    return $.post($("#new_consent").attr('action'), data, null, "script");      
+  }
+
+  $(document).ready(function() {
+    $('#consent_form_dialog').dialog({
+      modal: true,
+      height: 500,
+      width: 700,
+      buttons: [
+        {
+          text: "Next",
+          click: function() {
+            advanceToConsentForm();          
           }
-        ],
-        open: function() {
-          $("#consent_form_dialog").scrollTop("0");
         }
-      });
-     
-    });
+      ],
+      open: function() {
+        $("#consent_form_dialog").scrollTop("0");
+      }
+    }).parent().css('position', 'fixed');
+   
+  });
 
-    function advanceToConsentForm() {
-      $('#consent_form_dialog').dialog('option', 
-                                       'buttons', 
-                                       [
-                                         {
-                                           text: "I consent",
-                                           click: function() { create_consent(true); }
-                                         },
-                                         {
-                                           text: "Remind me later",
-                                           click: function() { create_consent(null); }
-                                         },
-                                         {
-                                           text: "I do not consent",
-                                           click: function() { create_consent(false); }
-                                         }
-                                       ]);
-      $('#research_splash').hide();
-      $('#consent_form').show();
-    }
-  <% end %>
-<% end %>
+  function advanceToConsentForm() {
+    $('#consent_form_dialog').dialog('option', 
+                                     'buttons', 
+                                     [
+                                       {
+                                         text: "I consent",
+                                         click: function() { create_consent(true); }
+                                       },
+                                       {
+                                         text: "Remind me later",
+                                         click: function() { create_consent(null); }
+                                       },
+                                       {
+                                         text: "I do not consent",
+                                         click: function() { create_consent(false); }
+                                       }
+                                     ]);
+    $('#intro_page').hide();
+    $('#consent_form').show();
+  }
+
+</script>
     
 <div id="consent_form_dialog" style="display:none" title="Research Consent">
   <% unless @hide_open_consent_in_new_window %>
-  <%= link_to "Open in a separate window", 
-              new_polymorphic_path([@consentable, Consent.new]), :style => 'float:right; font-size:10px', :target => :_blank %>
-  <br/>            
+    <%= link_to "Open in a separate window", 
+                new_polymorphic_path([@consentable, Consent.new]), :style => 'float:right; font-size:10px', :target => :_blank %>
+    <br/>            
   <% end %>
 
   <div id="consent_form_dialog_errors"></div>        
   
-    <div id="research_splash">
-      <p>Research Study</p>
+    <div id="intro_page">
+      <% if @prior_consent.present? %>
+        
+        <p>You <b>
+        <%= case (@prior_consent.did_consent) 
+            when nil
+              "requested to be asked later"
+            when false
+              "stated that you do not consent"
+            when true
+              "gave your consent"
+            end %> 
+        </b> to participate in a research study.</p>
+  
+        <p>This action was taken at <%= standard_datetime(@prior_consent.created_at) %>. 
+           <% if !@prior_consent.esignature.blank? %> You signed this action with your electronic 
+           signature (<%= @prior_consent.esignature %>). <% end %></p>
 
-      <p>You have the option to participate in a learning research study.  Please watch the video below explaining the research study and then click 'Next' to view the consent form.</p>
+        <p>To view the consent form, click the "Next" button below.  You may opt-in 
+          or opt-out at any time using the options at the bottom of the consent form.</p>
 
-    </div>
+      <% else %>
 
-    <div id="consent_form" style="display: none">
-      <%= @consentable.consent_options.consent_form.html.html_safe %>
+        <p>Research Study</p>
 
-      <%= form_for([@consentable, Consent.new]) do |f| %>
-        Signature: <%= f.text_field :esignature %>
-      <% end %>    
-    </div>
+        <p>You have the option to participate in a learning research study.  Please watch the video below explaining the research study and then click 'Next' to view the consent form.</p>
+
+      <% end %>
+  </div>
+  
+  <div id="consent_form" style="display: none">
+    <%= @consentable.consent_options.consent_form.html.html_safe %>
+
+    <%= form_for([@consentable, Consent.new]) do |f| %>
+      Signature: <%= f.text_field :esignature %>
+    <% end %>    
+  </div>
+  
 </div>

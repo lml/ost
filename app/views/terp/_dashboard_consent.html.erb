@@ -1,0 +1,75 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<script type="text/javascript">
+  function create_consent(did_consent) {
+    var data = $('#new_consent').serializeArray();
+    if (null != did_consent) {
+      data.push({name: "consent[did_consent]", value: did_consent});
+    }              
+    return $.post($("#new_consent").attr('action'), data, function() { alert('success'); }, "script").fail(function() { alert('error'); });      
+  }
+
+  function close_dialog() {
+    $('#message_dialog').dialog('close');
+  }
+
+  $(document).ready(function() {
+    $('a#do_consent').click(    function() { create_consent(true); close_dialog(); return false; });
+    $('a#remind').click(        function() { create_consent(null); close_dialog(); return false; });
+    $('a#do_not_consent').click(function() { create_consent(false); close_dialog(); return false; });
+  });
+</script>
+
+<% @errors = @consent.errors %>
+
+<%= section "Introduction and Status", {:classes => 'first no_bar' } do %>
+
+  <p>The consent form below describes a research study for which your participation
+     has been requested.  You may opt-in or opt-out at any time using the options 
+     at the bottom of this page.</p>
+
+<% @prior_consent = @consentable.consent %>
+
+  <% if !@prior_consent.nil? %>
+  <p>You <b>
+    <%= case (@prior_consent.did_consent) 
+        when nil
+          "requested to be asked later"
+        when false
+          "stated that you do not consent"
+        when true
+          "gave your consent"
+        end %> 
+    </b> to participate in the research study described by this consent form.</p>
+  
+    <p>This action was taken at <%= standard_datetime(@prior_consent.created_at) %>. 
+       <% if !@prior_consent.esignature.blank? %> You signed this action with your electronic 
+       signature (<%= @prior_consent.esignature %>). <% end %></p>
+  
+  <% end %>
+
+<% end %>
+
+
+
+<%= section "Consent Form" do %>
+
+  <%= @consent.consent_options.consent_form.html.html_safe %>
+  <br/>
+  
+  <% @consentable ||= @consent.consentable %>
+
+  <%= form_for([@consentable, Consent.new]) do |f| %>
+    <p>Signature: <%= f.text_field :esignature %></p>
+
+    <br/>
+  <% end %>
+
+  <%= link_to 'I do consent', nil, id: 'do_consent', class: 'link_button_terp', remote: true %> &nbsp;&nbsp;&nbsp;&nbsp;
+  <%= link_to 'Remind me later', nil, id: 'remind', class: 'link_button_terp', remote: true %> &nbsp;&nbsp;&nbsp;&nbsp;
+  <%= link_to 'I do not consent', nil, id: 'do_not_consent', class: 'link_button_terp', remote: true %>
+
+<% end %>
+
+
