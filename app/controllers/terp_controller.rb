@@ -229,7 +229,7 @@ class TerpController < ApplicationController
 
   def reset_password
     handle_with(TerpResetPassword,
-                success: lambda { redirect_to terp_sign_in_path(terp_id: params[:terp_id]), notice: 'Password successfully changed!' },
+                success: lambda { redirect_to terp_sign_in_path(terp_id: params[:terp_id]), notice: 'Password successfully reset!' },
                 failure: lambda { render 'terp/forgot_password' })
   end
 

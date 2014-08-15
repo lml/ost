@@ -455,6 +455,10 @@ input[disabled].link_button {
    margin-top: $header_height;
    clear:both;
 
+   a {
+     text-decoration: underline;
+   }
+
    div {
     div.ui-corner-all {
       margin-bottom: 0px;

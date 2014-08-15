@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140815003153) do
+ActiveRecord::Schema.define(:version => 20140815221040) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -654,9 +654,9 @@ ActiveRecord::Schema.define(:version => 20140815003153) do
   create_table "veritokens", :force => true do |t|
     t.string   "token"
     t.integer  "num_attempts_left"
-    t.integer  "num_days_active"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.datetime "expires_at"
   end
 
   add_index "veritokens", ["token"], :name => "index_veritokens_on_token", :unique => true
