@@ -1,5 +1,6 @@
-<% if false %>
-// $('#message_dialog_body').html("< ej(render :partial => 'terp/dashboard_consent') %> ");
+<% if true %>
+$('#consent_form_dialog').remove();
+$('body').append("<%= ej(render :partial => 'terp/consent_form_machinery') %> ");
 
 
 // debugger
@@ -8,4 +9,4 @@
 <% end %>
 
 
-$('#message_dialog').dialog('close');
+// $('#message_dialog').dialog('close');
