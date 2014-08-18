@@ -102,11 +102,15 @@ class TerpController < ApplicationController
 
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
+    free_response = params[:student_exercise].delete(:free_response)
+
+    @student_exercise.errors.add(:base, "Enter your best guess before continuing.") if free_response.blank?
+
     @student_exercise.lock_response_text_on_next_save = true if params[:save_and_lock]
     @student_exercise.skip_confidence = true
-    @student_exercise.free_responses << TextFreeResponse.new(content: params[:student_exercise].delete(:free_response))
+    @student_exercise.free_responses << TextFreeResponse.new(content: free_response)
 
-    if @student_exercise.update_attributes(params[:student_exercise])
+    if @student_exercise.errors.none? && @student_exercise.update_attributes(params[:student_exercise])
       # flash[:notice] = "Response saved."
       redirect_to_answer_selection
     else
@@ -134,7 +138,10 @@ class TerpController < ApplicationController
     
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
-    if @student_exercise.update_attributes(params[:student_exercise])
+    @student_exercise.errors.add(:base, "Please select a multiple choice option.") if 
+      params[:student_exercise].nil? || params[:student_exercise][:selected_answer].nil?
+
+    if @student_exercise.errors.none? && @student_exercise.update_attributes(params[:student_exercise])
       # flash[:notice] = "Response saved."
       redirect_to_feedback
     else
