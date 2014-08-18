@@ -138,7 +138,7 @@ class TerpController < ApplicationController
     
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
-    @student_exercise.errors.add(:base, "Please select a multiple choice option.") if 
+    @student_exercise.errors.add(:base, "Enter your answer before continuing.") if 
       params[:student_exercise].nil? || params[:student_exercise][:selected_answer].nil?
 
     if @student_exercise.errors.none? && @student_exercise.update_attributes(params[:student_exercise])

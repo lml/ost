@@ -17,7 +17,7 @@ protected
     user = User.find_for_database_authentication(username: forgot_password_params.username)
 
     if user.nil?
-      fatal_error(message: 'We can\'t find an account with that username or email.', 
+      fatal_error(message: 'Sorry we don\'t recognize that username or email.  Mind trying again?' , 
                   code: :invalid_terp_password_reset_username,
                   offending_inputs: [:username])
     end

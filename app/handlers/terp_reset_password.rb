@@ -18,7 +18,7 @@ protected
     user = User.find_for_database_authentication(username: reset_password_params.username)
 
     if user.nil?
-      fatal_error(message: 'We can\'t find an account with that username or email.', 
+      fatal_error(message: 'Sorry we don\'t recognize that username or email.  Mind trying again?', 
                   code: :invalid_terp_password_reset_username,
                   offending_inputs: [:username])
     end
@@ -48,7 +48,7 @@ protected
     
     if !veritoken.matches?(reset_password_params.reset_code)
       after_transaction { veritoken.bad_attempt! }
-      fatal_error(message: 'The provided password reset code is invalid or may have expired.', 
+      fatal_error(message: 'Sorry, that provided password reset code is invalid or may have expired.  Mind trying again?', 
                   code: :invalid_terp_password_reset_code,
                   offending_inputs: [:reset_code])
     end

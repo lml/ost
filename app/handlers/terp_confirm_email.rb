@@ -17,7 +17,7 @@ protected
 
     if !veritoken.matches?(confirm_params.code)
       after_transaction { veritoken.bad_attempt! }
-      fatal_error(message: 'The provided confirmation code is invalid.', 
+      fatal_error(message: 'Sorry, we don\'t recognize that confirmation code. Mind trying again?' , 
                   code: :invalid_terp_confirmation_code, 
                   offending_inputs: [:code])
     end
