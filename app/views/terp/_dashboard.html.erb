@@ -29,7 +29,7 @@
     <% next if ap_sa.blank? %>
 
     <tr>
-      <td><%= link_to_unless ap.embedded_in.blank?, ap.name, ap.embedded_in, target: :blank %></td>
+      <td><%= link_to_unless ap.embedded_in.blank?, ap.name, ap.embedded_in + "#terp-#{ap.embed_code}", target: :blank %></td>
       <td><%= standard_datetime(ap.ends_at) %></td>
       <td>
         <%       
