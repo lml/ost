@@ -54,8 +54,9 @@
               hide_tab: true
             });
           
-            var elem = $('a[href*="zendesk.com"]');
+            var elem = $('#help-menu-item');
             elem.click(function(e) {
+              $(this).parent().parent().parent().removeClass('open');
               Zenbox.show(); 
               return false;
             });      
@@ -129,7 +130,12 @@
                 text: "Contact Us", 
                 path: terp_contact_us_path(terp_id: params[:terp_id]), 
                 options: {remote: true}
-              }
+              },
+                text: "Help",
+                path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
+                class: "", 
+                options: {remote: true, id: 'help-menu-item'}
+
             )
 
             nav_links = []
@@ -142,15 +148,15 @@
                 name: :dashboard, 
                 options: {remote: true}
               })
-              nav_links.push({
-                text: "HELP #{image_tag 'help_icon_v4.png', 
-                                        :height => '12px', :width => '12px', 
-                                        :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}",
-                path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
-                class: "", 
-                name: :help, 
-                options: {remote: true}
-              })
+              # nav_links.push({
+              #   text: "HELP #{image_tag 'help_icon_v4.png', 
+              #                           :height => '12px', :width => '12px', 
+              #                           :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}",
+              #   path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
+              #   class: "", 
+              #   name: :help, 
+              #   options: {remote: true}
+              # })
             end
 
             nav_links.push({
