@@ -1,0 +1,12 @@
+  <% guess = @student_exercise.free_responses.try(:first).try(:content) %>
+
+  <% if guess.present? %>
+    <div class='terp-guess-was'>
+      <div class='terp-guess-was-intro'>You answered:</div>
+      <blockquote class='terp-guess-was-content'><%= guess %></blockquote> 
+    </div>
+  <% end %>
+
+  <% if prompt_select ||= false %>
+  <div class='terp-now-select'><%= guess.present? ? 'Next, select' : 'Select' %> the best answer from the choices below.</div>
+  <% end %>

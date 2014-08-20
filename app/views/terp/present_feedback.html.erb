@@ -1,6 +1,7 @@
 <%= render :partial => 'shared/response_times',
            :locals => {:response_timeable => @student_exercise,
                        :page => "feedback"} %>
+<% @show_footer = true %>
 
 <% #next_se = next_student_exercise(@student_exercise)  # broken!!! 
 
@@ -11,52 +12,19 @@
 
 %>
 
-<% 
-   exercise = @student_exercise.assignment_exercise.topic_exercise.exercise
-   learning_condition = @student_exercise.learning_condition 
-%>
 
-<div class='question_count'>Question <%= @student_exercise.assignment_exercise.number %> of <%= @student_exercise.student_assignment.assignment.assignment_exercises.count %></div>
+<%= render 'terp/question_nav', student_exercise: @student_exercise %>
 
 <div id="question_outer" class='present_feedback'>
 
-  <% is_correct = @student_exercise.selected_answer == exercise.correct_choice_index %>
+  <%= render "question", student_exercise: @student_exercise %>
 
-  <div class='terp-correctness-feedback'>
-    <% if is_correct %>
-      <div class='terp-correct-feedback'>That is correct!</div>
-    <% else %>
-      <div class='terp-incorrect-feedback'>Sorry, that is incorrect.</div>  The correct answer is <%= choice_letter(exercise.correct_choice_index).upcase %>.
-    <% end %>
-  </div>
+  <%= render "the_guess" %>
+
+  <%= render "correctness" %>
 
 
-  <%= render :partial => 'exercises/question',
-             :locals => {
-               :exercise => exercise
-             } %>
-
-
-  <table width="100%">
-
-    <% exercise.content["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>
-
-      <% is_selection = @student_exercise.selected_answer == ii %>
-
-       <tr>
-          <td class="question" width="5%">
-            <span class="<% if exercise.correct_choice_index == ii %>terp-correct-answer<% elsif is_selection %>terp-incorrect-answer<%end %>"></span>
-          </td>
-          <td class="question" width="5%">
-             <label for="radio<%= ii %>"><%= choice_letter(ii) %>)</label>
-          </td>
-          <td class="question" width="90%">
-             <label for="radio<%= ii %>" class='answer-content <%= 'highlighted-choice' if is_selection %>'><%= answer_choice["html"].html_safe %></label>
-          </td>
-       </tr>
-    <% end %>
-
-  </table>
+  <%= render 'terp/answer_choices' %>
 
 
   <%= render :partial => "terp/solution_feedback", :locals => { :student_exercise => @student_exercise } %> 
@@ -67,12 +35,12 @@
 
   <div class='fixed-right-button'>
     <% if next_se.nil? %>
-      <%= link_to "Summary >", 
+      <%= link_to "Got It! Summary >", 
                   terp_quiz_summary_path(
                       terp_id: params[:terp_id]),
                   {class: 'link_button_terp'} %>
     <% else %>
-      <%= link_to "Got It >", 
+      <%= link_to "Got It! Next Question >", 
                   terp_solicit_free_response_path(
                       terp_id: params[:terp_id], 
                       student_exercise_id: next_se.id),

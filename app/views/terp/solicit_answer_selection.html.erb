@@ -1,54 +1,24 @@
 <% @errors = @student_exercise.errors %>
+<% @show_footer = true %>
 
 <%= render 'shared/response_times', response_timeable: @student_exercise, page: "work" %>
 
-<div class='question_count'>Question <%= @student_exercise.assignment_exercise.number %> of <%= @student_exercise.student_assignment.assignment.assignment_exercises.count %></div>
+<%= render 'terp/question_nav', student_exercise: @student_exercise %>
 
 <div id="question_outer">
   <%= render "question", student_exercise: @student_exercise %>
 
-  <% guess = @student_exercise.free_responses.try(:first).try(:content) %>
-
-  <% if guess.present? %>
-    <div class='terp-guess-was'>
-      <div class='terp-guess-was-intro'>Your answer was:</div>
-      <textarea rows=2 disabled class='terp-guess-was-content'><%= guess %></textarea>
-    </div>
-  <% end %>
-
-  <%
-    assignment_exercise       = @student_exercise.assignment_exercise
-    assignment                = assignment_exercise.assignment
-    assignment_plan           = assignment.assignment_plan
-    exercise_data             = assignment_exercise.topic_exercise.exercise.content  
-    allow_followup_question   ||= false
-  %>
-
-  <div class='terp-now-select'><%= guess.present? ? 'Next, select' : 'Select' %> the best answer from the choices below.</div>
+  <%= render "the_guess", prompt_select: true %>
 
   <%= form_for(@student_exercise, 
                url: terp_save_answer_selection_path(terp_id: params[:terp_id], 
                                                     student_exercise_id: @student_exercise.id)) do |f| %>
-    <table width="100%">
 
-    <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>
-       <tr>
-          <td class="question" width="5%">
-            <%= f.radio_button :selected_answer, ii, :class => 'multiple_choice_radio_button', :id => "radio#{ii}" %>
-          </td>
-          <td class="question" width="5%">
-             <label for="radio<%= ii %>"><%= choice_letter(ii) %>)</label>
-          </td>
-          <td class="question" width="90%">
-             <label for="radio<%= ii %>" class='answer-content'><%= answer_choice["html"].html_safe %></label>
-          </td>
-       </tr>
-    <% end %>
+    <%= render 'terp/answer_choices', f: f %>
 
-    </table>
 
     <div class='fixed-right-button'>
-      <%= f.submit "Submit >", :class => 'link_button' %>
+      <%= f.submit "Submit Answer >", :class => 'link_button' %>
     </div>
 
   <% end %>
@@ -59,8 +29,10 @@
   <script type='text/javascript'>
     $(document).ready(function() {
       $('input[type="radio"]').click(function() {
-        $('label.answer-content').removeClass('highlighted-choice');
-        $("label[for='" + $(this).attr('id') + "'].answer-content").addClass('highlighted-choice');
+        $('.highlighted-choice').removeClass('highlighted-choice');
+        $(this).parent().addClass('highlighted-choice');
+        // $('label.answer-content').removeClass('highlighted-choice');
+        // $("label[for='" + $(this).attr('id') + "'].answer-content").addClass('highlighted-choice');
       });      
     });
 

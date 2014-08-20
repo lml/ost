@@ -16,7 +16,7 @@ protected
   def handle
     section = Section.where(registration_code: register_params.registration_code).first
 
-    fatal_error(message: 'The provided registration code is invalid.', 
+    fatal_error(message: 'Sorry, we don\'t recognize that code.  Please ask your instructor or check your syllabus.', 
                 code: :no_section_for_registration_code, 
                 offending_inputs: [:registration_code]) if section.nil?
 

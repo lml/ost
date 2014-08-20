@@ -54,8 +54,9 @@
               hide_tab: true
             });
           
-            var elem = $('a[href*="zendesk.com"]');
+            var elem = $('#help-menu-item');
             elem.click(function(e) {
+              $(this).parent().parent().parent().removeClass('open');
               Zenbox.show(); 
               return false;
             });      
@@ -129,34 +130,39 @@
                 text: "Contact Us", 
                 path: terp_contact_us_path(terp_id: params[:terp_id]), 
                 options: {remote: true}
-              }
+              },
+                text: "Help",
+                path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
+                class: "", 
+                options: {remote: true, id: 'help-menu-item'}
+
             )
 
             nav_links = []
 
             if user_signed_in?
               nav_links.push({
-                text: "DASHBOARD", 
+                text: "Dashboard", 
                 path: main_app.terp_dashboard_path(terp_id: params[:terp_id]), 
                 class: "", 
                 name: :dashboard, 
                 options: {remote: true}
               })
-              nav_links.push({
-                text: "HELP #{image_tag 'help_icon_v4.png', 
-                                        :height => '12px', :width => '12px', 
-                                        :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}",
-                path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
-                class: "", 
-                name: :help, 
-                options: {remote: true}
-              })
+              # nav_links.push({
+              #   text: "HELP #{image_tag 'help_icon_v4.png', 
+              #                           :height => '12px', :width => '12px', 
+              #                           :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}",
+              #   path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
+              #   class: "", 
+              #   name: :help, 
+              #   options: {remote: true}
+              # })
             end
 
             nav_links.push({
               text: "#{image_tag 'three_lines_16.png', 
                                  :height => '16px', :width => '16px', 
-                                 :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px; padding-right: 5px;'}", 
+                                 :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px; '}", 
               path: nil,
               class: "",
               name: :menu, 
@@ -166,9 +172,9 @@
           %>
      
           <ul class='top'>
-            <% nav_links.each do |nav_link| %>
+            <% nav_links.each_with_index do |nav_link, nn| %>
               <% is_dropdown = nav_link[:options][:submenu] %>
-              <li class='top' style="<%= 'position:relative' if is_dropdown %>">
+              <li class='top <%= 'last' if nn == nav_links.count - 1 %>' style="<%= 'position:relative' if is_dropdown %>">
                 <% options = { class: "top" }
                    options[:remote] = nav_link[:options][:remote]
 
@@ -206,7 +212,7 @@
 
       <%# #########################   MAIN   ############################## #%>
      
-      <div id="main">
+      <div id="main" class="<%= @main_elem_classes %>">
         
         <div id="message_dialog" style="display:none" title="">
           <div id="message_dialog_errors"></div>
@@ -230,6 +236,13 @@
             
 
       </div>
+
+      <% if @show_footer %>
+        <div id="footer">
+        </div>
+      <% else %>
+        <div id="bottom"></div>
+      <% end %>
 
     </div>
 

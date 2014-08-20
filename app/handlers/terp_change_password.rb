@@ -15,7 +15,7 @@ protected
 
   def handle
 
-    fatal_error(message: 'Your old password is incorrect',
+    fatal_error(message: 'Sorry, your old password is incorrect.  Mind trying again?',
                 code: :terp_change_password_old_password_incorrect) if !caller.valid_password?(change_password_params.old_password) 
 
     caller.update_attributes(password: change_password_params.new_password,
