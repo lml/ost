@@ -12,10 +12,6 @@
 
 %>
 
-<% 
-   exercise = @student_exercise.assignment_exercise.topic_exercise.exercise
-   learning_condition = @student_exercise.learning_condition 
-%>
 
 <%= render 'terp/question_nav', student_exercise: @student_exercise %>
 
@@ -25,15 +21,8 @@
 
   <%= render "the_guess" %>
 
-  <% is_correct = @student_exercise.selected_answer == exercise.correct_choice_index %>
+  <%= render "correctness" %>
 
-  <div class='terp-correctness-feedback'>
-    <% if is_correct %>
-      <div class='terp-correct-feedback'>Correct!</div>
-    <% else %>
-      <div class='terp-incorrect-feedback'>Incorrect</div>
-    <% end %>
-  </div>
 
   <%= render 'terp/answer_choices' %>
 

@@ -1,12 +1,94 @@
 
-<% show_footer = true %>
+<% show_footer = false %>
+<% @main_elem_classes = 'summary' %>
 
 <%= render :partial => 'shared/response_times',
            :locals => {:response_timeable => @student_assignment,
                        :page => "assignment"} %>
 
 
+ <% nav_data = [] %>
 
+  <% student_exercises = @student_assignment.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
+  <% student_exercises.each_with_index do |se, ee| %>
+    <% @student_exercise = se %>
+
+    <a name="q<%= ee %>" style="top:-150px; position:relative; display:block; visibility:hidden"></a>
+    <%= render 'terp/question_nav', student_exercise: @student_exercise %>
+    
+    <div id="question_outer" class='present_feedback'>
+
+      <%= render "question", student_exercise: @student_exercise %>
+
+      <% 
+        exercise = @student_exercise.assignment_exercise.topic_exercise.exercise
+        is_correct = @student_exercise.selected_answer == exercise.correct_choice_index
+      %>
+
+      <%= render "correctness" %>
+
+      <%
+        nav_data.push({
+          is_correct: is_correct,
+        })
+      %>
+
+      <%= render 'terp/answer_choices' %>
+
+
+      <%= render :partial => "terp/solution_feedback", :locals => { :student_exercise => @student_exercise } %> 
+    </div>
+
+    <% if ee != student_exercises.count - 1 %>
+    <div class='summary-separator'></div>
+    <% end %>
+
+
+
+  <% end %>
+
+
+<div id="summary-sub-header">
+  <div class="heading">Summary</div>
+
+    <div class='terp-summary-nav'>
+      <% nav_data.each_with_index do |nav, ii| %>
+        <a href='#q<%= ii %>' class='terp-summary-nav-item <%= nav[:is_correct] ? 'correct' : 'incorrect' %>'>
+          
+            <span><%= ii + 1 %></span>
+            <% if nav[:is_correct] %>
+              <%= image_tag 'check_glyph-01.png', style: '' %>
+            <% else %>
+              <%= image_tag 'x_glyph-01.png', style: '' %>
+            <% end %>
+          </a><%- end %>
+     
+
+   </div>
+
+   <div class='terp-summary-popout'>
+      <%= link_to terp_quiz_summary_path(terp_id: params[:terp_id]), target: :blank do %>
+        <%= image_tag 'popout_glyph-01-01.png', style: '' %>
+      <% end %>
+   </div>
+</div>
+
+
+
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      // $('.terp-summary-nav').css('top', (602-$('.terp-summary-nav').height())/2 + 'px');
+    });
+  </script>
+<% end %>
+
+
+
+
+
+<% if false %>
 
 <div class='page-alpha' style='width: 600px;'>
   <div class='instructions'>
@@ -30,11 +112,7 @@
       <% mark = "<span class='terp-incorrect-answer summary'></span>" %>
     <% end %>
 
-    <%
-      nav_data.push({
-        is_correct: is_correct,
-      })
-    %>
+
 
     <%= section "Question #{ee+1} #{mark}".html_safe, {:classes => "summary-question first #{'no_bar' if ee == -1}" } do %>
       <a name="q<%= ee %>" style="top:-100px; position:relative; display:block; visibility:hidden"></a>
@@ -79,27 +157,6 @@
 
 </div>
 
-
-
-<div class='terp-summary-nav'>
-  <% nav_data.each_with_index do |nav, ii| %>
-    <a href='#q<%= ii %>'>
-      <div class='terp-summary-nav-item <%= nav[:is_correct] ? 'correct' : 'incorrect' %>'>
-        <span><%= ii + 1 %></span>
-      </div>
-    </a>
-  <% end %>
-  <%= link_to terp_quiz_summary_path(terp_id: params[:terp_id]), target: :blank do %>
-    <div class='terp-summary-nav-simple popout'>
-      
-    </div>
-  <% end %>
-</div>
-
-<% content_for :javascript do %>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('.terp-summary-nav').css('top', (602-$('.terp-summary-nav').height())/2 + 'px');
-    });
-  </script>
 <% end %>
+
+

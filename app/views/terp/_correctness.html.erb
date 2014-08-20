@@ -1,0 +1,12 @@
+<% 
+   exercise = @student_exercise.assignment_exercise.topic_exercise.exercise
+   is_correct = @student_exercise.selected_answer == exercise.correct_choice_index
+%>
+
+  <div class='terp-correctness-feedback'>
+    <% if is_correct %>
+      <div class='terp-correct-feedback'>Correct!</div>
+    <% else %>
+      <div class='terp-incorrect-feedback'>Incorrect</div>
+    <% end %>
+  </div>

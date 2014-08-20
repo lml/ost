@@ -121,11 +121,25 @@ a, #message_dialog_body a, #help_dialog_body a {
    font-weight: normal;
 }
 
+#main {
+  ol {
+  li {
+    margin-left: 20px;
+  }  
+}
+
+ul {
+  li {
+    margin-left: 20px;
+  }
+}
+}
+
 $edge_distance: 5px;
 
 @mixin header-main-footer-common {
-  padding-left: $edge_distance;
-  padding-right: $edge_distance;
+  // padding-left: $edge_distance;
+  // padding-right: $edge_distance;
 }
 
 $header_height: 52px;
@@ -157,7 +171,7 @@ $header_height: 52px;
 
 #footer {
   @include header-main-footer-common;
-  z-index:1000;
+  z-index:999;
 
   height: $header_height;
 
@@ -187,7 +201,7 @@ $header_height: 52px;
 
 .account_info {
   @include header-main-footer-common;
-  margin-left: -$edge_distance;
+  // margin-left: -$edge_distance;
     
   font-size: 11px;
   color: white;
@@ -219,7 +233,7 @@ $header_height: 52px;
 }
 
 .account_info.account_bar {
-  margin-left: -$edge_distance;
+  // margin-left: -$edge_distance;
   background-color: $ost_light_beige;
   
   a {
@@ -237,7 +251,7 @@ $nav_bar_height: $header_height;
 #nav_bar {
   
   height: $nav_bar_height;    
-  width: $iframe_width - 2*$edge_distance;
+  width: $iframe_width; //- 2*$edge_distance;
 
   li.menu {
     text-align: left;
@@ -401,6 +415,10 @@ input[disabled].link_button {
   padding-bottom: 47px;
   // margin-bottom: -15px;
   margin-top: 10px + $header_height;
+
+  &.summary {
+    margin-top: 20px + 2 * $header_height;
+  }
 }
 
 
@@ -1225,6 +1243,7 @@ input.ui-widget {
   .prompt-instructions {
     font-weight: bold;
     padding-bottom: 15px;
+    font-size: 15px;
   }
 
   .prompt-form {
@@ -1257,7 +1276,7 @@ input.ui-widget {
   position: fixed;
   left: 0px;
   bottom: 10px;
-  z-index: 2000;
+  z-index: 1000;
 
   input, a {
     font-size: 15px;
@@ -1390,6 +1409,42 @@ span {
   }
 }
 
+.summary-separator {
+  width: 100%;
+  margin: 30px 0;
+  padding-bottom: 25px;
+  border-top: 1px solid #c5c5c5;
+
+}
+
+
+
+#summary-sub-header {
+
+position: fixed;
+top: $header_height;
+width: $iframe_width;
+
+// padding: 8px 0;
+@include header-main-footer-common;
+border: none;
+border-bottom: 1px solid #e5e5e5;
+background: #ffffff;
+text-align:center;
+height: 53px;
+// margin-left: -$edge_distance;
+
+  .heading {
+    position: fixed;
+    top: 65px;
+    // margin-left:-4px;
+    font-size: 22px;
+    line-height: 30px;
+    font-weight: 400;
+  }
+
+}
+
 .terp-guess-was {
   .terp-guess-was-intro {
     font-size:18px;
@@ -1435,12 +1490,6 @@ span {
   }
 }
 
-.terp-summary-nav {
-  position: fixed;
-  right: 27px;
-  top: 300px;
-}
-
 .page-alpha {
 
   padding-top: 0px;
@@ -1458,43 +1507,70 @@ span {
 }
 
 @mixin terp-summary-item {
-  width: 60px;
+  width: 40px;
   height: 30px;
   text-align: center;
   color: white;
-  margin-bottom: 2px;
+  // margin-bottom: 2px;
 }
 
+
 .terp-summary-nav {
+  // position: fixed;
+  // top: $header_height + 5px;
+  margin:auto;
+}
+
+
+.terp-summary-nav {
+  display: inline-block;
+  margin-top: 19px;
+
   .terp-summary-nav-item {
     @include terp-summary-item;
-    background: image-url("terp-summary-link-2.png") no-repeat transparent;  
+    
+    display: inline;
+    padding: 8px 6px;
+    border: 2px solid;
+    margin-bottom: 8px;
+    font-weight: bold;
+
     
     span {
-      padding-top:6px;
+      // padding-top:6px;
       display:inherit;
-      font-size: 11px;
+      font-size: 13px;
+
     }
 
     &.correct {
-      background-color: $os_green;
+      border-color: #e4f4d4;
+      color: $os_green;
     }
 
     &.incorrect {
-      background-color: rgb(237,28,36);
+      border-color: $an_orange;
+      color: $an_orange;
     }
   }
 }
 
-.terp-summary-nav-simple {
-  @include terp-summary-item;
-  background-color: $ost_hot_blue;
+.terp-summary-popout {
+      position: fixed;
+    top: 70px;
+    margin-left: $iframe_width - 26px;
 
-  &.popout {
-    background: image-url("popout.png") no-repeat $ost_hot_blue 20px 4px;  
-  }
-  
 }
+
+// .terp-summary-nav-simple {
+//   @include terp-summary-item;
+//   background-color: $ost_hot_blue;
+
+//   &.popout {
+//     background: image-url("popout.png") no-repeat $ost_hot_blue 20px 4px;  
+//   }
+  
+// }
 
 .terp-dashboard-status {
   &.complete {
