@@ -1,6 +1,7 @@
 <%= render :partial => 'shared/response_times',
            :locals => {:response_timeable => @student_exercise,
                        :page => "feedback"} %>
+<% @show_footer = true %>
 
 <% #next_se = next_student_exercise(@student_exercise)  # broken!!! 
 
@@ -16,7 +17,7 @@
    learning_condition = @student_exercise.learning_condition 
 %>
 
-<div class='question_count'>Question <%= @student_exercise.assignment_exercise.number %> of <%= @student_exercise.student_assignment.assignment.assignment_exercises.count %></div>
+<%= render 'terp/question_nav', student_exercise: @student_exercise %>
 
 <div id="question_outer" class='present_feedback'>
 
@@ -67,12 +68,12 @@
 
   <div class='fixed-right-button'>
     <% if next_se.nil? %>
-      <%= link_to "Summary >", 
+      <%= link_to "Got It! Summary >", 
                   terp_quiz_summary_path(
                       terp_id: params[:terp_id]),
                   {class: 'link_button_terp'} %>
     <% else %>
-      <%= link_to "Got It >", 
+      <%= link_to "Got It! Next Question &nbsp;>", 
                   terp_solicit_free_response_path(
                       terp_id: params[:terp_id], 
                       student_exercise_id: next_se.id),

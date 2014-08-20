@@ -1,8 +1,9 @@
 <% @errors = @student_exercise.errors %>
+<% @show_footer = true %>
 
 <%= render 'shared/response_times', response_timeable: @student_exercise, page: "work" %>
 
-<div class='question_count'>Question <%= @student_exercise.assignment_exercise.number %> of <%= @student_exercise.student_assignment.assignment.assignment_exercises.count %></div>
+<%= render 'terp/question_nav', student_exercise: @student_exercise %>
 
 <div id="question_outer">
   <%= render "question", student_exercise: @student_exercise %>
@@ -12,7 +13,7 @@
   <% if guess.present? %>
     <div class='terp-guess-was'>
       <div class='terp-guess-was-intro'>Your answer was:</div>
-      <textarea rows=2 disabled class='terp-guess-was-content'><%= guess %></textarea>
+      <blockquote class='terp-guess-was-content'><%= guess %></blockquote> 
     </div>
   <% end %>
 
@@ -29,7 +30,25 @@
   <%= form_for(@student_exercise, 
                url: terp_save_answer_selection_path(terp_id: params[:terp_id], 
                                                     student_exercise_id: @student_exercise.id)) do |f| %>
-    <table width="100%">
+
+
+    <div class='terp-answer-choices'>
+      <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>   
+        <div class='terp-answer-choice'>
+
+          <%= f.radio_button :selected_answer, ii, :class => 'multiple_choice_radio_button', :id => "radio#{ii}" %>
+          <div class='letter'>
+            <label for="radio<%= ii %>"><%= choice_letter(ii) %>)</label>
+          </div>
+          <div class='content'>
+            <label for="radio<%= ii %>" class='answer-content'><%= answer_choice["html"].html_safe %></label>
+          </div>
+        </div>                                           
+      <% end %>
+    </div>
+
+<% if false %>
+    <table width="100%" class='terp-answer-choices'>
 
     <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>
        <tr>
@@ -46,9 +65,11 @@
     <% end %>
 
     </table>
+<% end %>
+
 
     <div class='fixed-right-button'>
-      <%= f.submit "Submit >", :class => 'link_button' %>
+      <%= f.submit "Submit Answer >", :class => 'link_button' %>
     </div>
 
   <% end %>
@@ -59,8 +80,10 @@
   <script type='text/javascript'>
     $(document).ready(function() {
       $('input[type="radio"]').click(function() {
-        $('label.answer-content').removeClass('highlighted-choice');
-        $("label[for='" + $(this).attr('id') + "'].answer-content").addClass('highlighted-choice');
+        $('.highlighted-choice').removeClass('highlighted-choice');
+        $(this).parent().addClass('highlighted-choice');
+        // $('label.answer-content').removeClass('highlighted-choice');
+        // $("label[for='" + $(this).attr('id') + "'].answer-content").addClass('highlighted-choice');
       });      
     });
 

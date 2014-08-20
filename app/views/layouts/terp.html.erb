@@ -142,7 +142,7 @@
 
             if user_signed_in?
               nav_links.push({
-                text: "DASHBOARD", 
+                text: "Dashboard", 
                 path: main_app.terp_dashboard_path(terp_id: params[:terp_id]), 
                 class: "", 
                 name: :dashboard, 
@@ -162,7 +162,7 @@
             nav_links.push({
               text: "#{image_tag 'three_lines_16.png', 
                                  :height => '16px', :width => '16px', 
-                                 :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px; padding-right: 5px;'}", 
+                                 :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px; '}", 
               path: nil,
               class: "",
               name: :menu, 
@@ -172,9 +172,9 @@
           %>
      
           <ul class='top'>
-            <% nav_links.each do |nav_link| %>
+            <% nav_links.each_with_index do |nav_link, nn| %>
               <% is_dropdown = nav_link[:options][:submenu] %>
-              <li class='top' style="<%= 'position:relative' if is_dropdown %>">
+              <li class='top <%= 'last' if nn == nav_links.count - 1 %>' style="<%= 'position:relative' if is_dropdown %>">
                 <% options = { class: "top" }
                    options[:remote] = nav_link[:options][:remote]
 
@@ -236,6 +236,13 @@
             
 
       </div>
+
+      <% if @show_footer %>
+        <div id="footer">
+        </div>
+      <% else %>
+        <div id="bottom"></div>
+      <% end %>
 
     </div>
 
