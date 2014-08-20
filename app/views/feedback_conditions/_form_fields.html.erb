@@ -29,8 +29,8 @@
      <% end %> >
   <%= link_to_help 'feedback_viewing_penalty',
       text="Penalty",
-      {:title => 'Penalty'} %> if a student does not view feedback (1-100%):
-  <%= form.number_field :feedback_viewing_penalty, in:1..100, step:1, size:3 %>
+      {:title => 'Penalty'} %> if a student does not view feedback (0-100%):
+  <%= form.number_field :feedback_viewing_penalty, in:0..100, step:1, size:3 %>
 </div>
 <div class="field">
   <%= form.check_box :can_automatically_show_feedback %>
