@@ -8,64 +8,13 @@
 <div id="question_outer">
   <%= render "question", student_exercise: @student_exercise %>
 
-  <% guess = @student_exercise.free_responses.try(:first).try(:content) %>
-
-  <% if guess.present? %>
-    <div class='terp-guess-was'>
-      <div class='terp-guess-was-intro'>Your answer was:</div>
-      <blockquote class='terp-guess-was-content'><%= guess %></blockquote> 
-    </div>
-  <% end %>
-
-  <%
-    assignment_exercise       = @student_exercise.assignment_exercise
-    assignment                = assignment_exercise.assignment
-    assignment_plan           = assignment.assignment_plan
-    exercise_data             = assignment_exercise.topic_exercise.exercise.content  
-    allow_followup_question   ||= false
-  %>
-
-  <div class='terp-now-select'><%= guess.present? ? 'Next, select' : 'Select' %> the best answer from the choices below.</div>
+  <%= render "the_guess", prompt_select: true %>
 
   <%= form_for(@student_exercise, 
                url: terp_save_answer_selection_path(terp_id: params[:terp_id], 
                                                     student_exercise_id: @student_exercise.id)) do |f| %>
 
-
-    <div class='terp-answer-choices'>
-      <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>   
-        <div class='terp-answer-choice'>
-
-          <%= f.radio_button :selected_answer, ii, :class => 'multiple_choice_radio_button', :id => "radio#{ii}" %>
-          <div class='letter'>
-            <label for="radio<%= ii %>"><%= choice_letter(ii) %>)</label>
-          </div>
-          <div class='content'>
-            <label for="radio<%= ii %>" class='answer-content'><%= answer_choice["html"].html_safe %></label>
-          </div>
-        </div>                                           
-      <% end %>
-    </div>
-
-<% if false %>
-    <table width="100%" class='terp-answer-choices'>
-
-    <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>
-       <tr>
-          <td class="question" width="5%">
-            <%= f.radio_button :selected_answer, ii, :class => 'multiple_choice_radio_button', :id => "radio#{ii}" %>
-          </td>
-          <td class="question" width="5%">
-             <label for="radio<%= ii %>"><%= choice_letter(ii) %>)</label>
-          </td>
-          <td class="question" width="90%">
-             <label for="radio<%= ii %>" class='answer-content'><%= answer_choice["html"].html_safe %></label>
-          </td>
-       </tr>
-    <% end %>
-
-    </table>
-<% end %>
+    <%= render 'terp/answer_choices', f: f %>
 
 
     <div class='fixed-right-button'>

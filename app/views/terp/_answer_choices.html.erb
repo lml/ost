@@ -1,0 +1,43 @@
+<%
+  f ||= nil
+  feedback = f.nil?
+
+  assignment_exercise       = @student_exercise.assignment_exercise
+  assignment                = assignment_exercise.assignment
+  assignment_plan           = assignment.assignment_plan
+  exercise_data             = assignment_exercise.topic_exercise.exercise.content  
+%>
+
+<div class='terp-answer-choices'>
+  <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>   
+
+    <% 
+      is_selection = @student_exercise.selected_answer == ii
+      is_the_right_answer = @student_exercise.correct_choice_index == ii
+
+      cls = feedback && is_selection ?
+              (is_the_right_answer ? 'highlighted-choice correct' : 'highlighted-choice incorrect') :
+              ''
+    %>
+
+    <div class='terp-answer-choice <%= cls %>'>
+      <div class='input-or-mark'>
+        <% if feedback %>
+          <% if is_the_right_answer %>
+            <%= image_tag 'check_glyph-01.png', style: 'margin-top: 4px' %>
+          <% elsif is_selection %>
+            <%= image_tag 'x_glyph-01.png', style: 'margin-top: 6px' %>
+          <% end %>
+        <% else %>
+          <%= f.radio_button :selected_answer, ii, :class => 'multiple_choice_radio_button', :id => "radio#{ii}" %>
+        <% end %>
+      </div>
+      <div class='letter'>
+        <label for="radio<%= ii %>"><p><%= choice_letter(ii) %>)</p></label>
+      </div>
+      <div class='content'>
+        <label for="radio<%= ii %>" class='answer-content'><%= answer_choice["html"].html_safe %></label>
+      </div>
+    </div>                                           
+  <% end %>
+</div>

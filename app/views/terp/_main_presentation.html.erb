@@ -1,0 +1,104 @@
+<%= render 'terp/question_nav', student_exercise: @student_exercise %>
+
+<% button_text ||= "Submit >" %>
+<% mode ||= nil; raise IllegalArgument if mode.nil? %>
+
+<%
+  assignment_exercise       = @student_exercise.assignment_exercise
+  assignment                = assignment_exercise.assignment
+  assignment_plan           = assignment.assignment_plan
+  exercise_data             = assignment_exercise.topic_exercise.exercise.content  
+  allow_followup_question   ||= false
+%>
+
+<div id="question_outer">
+  <%= render "question", student_exercise: @student_exercise %>
+
+<% if mode == :free_response %>
+
+  <%= form_for(@student_exercise, 
+               url: terp_save_free_response_path(terp_id: params[:terp_id], 
+                                                 student_exercise_id: @student_exercise.id)) do |f| %>
+
+<% elsif mode == :select_answer %>
+
+  <%= form_for(@student_exercise, 
+               url: terp_save_answer_selection_path(terp_id: params[:terp_id], 
+                                                    student_exercise_id: @student_exercise.id)) do |f| %>
+
+<% end %>
+
+<%################################## %>
+
+<% if mode != :free_response %>
+
+    <% guess = @student_exercise.free_responses.try(:first).try(:content) %>
+
+    <% if guess.present? %>
+      <div class='terp-guess-was'>
+        <div class='terp-guess-was-intro'>Your answer was:</div>
+        <blockquote class='terp-guess-was-content'><%= guess %></blockquote> 
+      </div>
+    <% end %>
+
+<% else %>
+
+    <div class='terp-instructions'>Think about the question and enter your best guess. <%= link_to_help 'terp_free_response', image_tag('why_v2.png'), {:title => 'Why are free responses useful?', :width => '500', :height => '400'} %></div>
+
+    <%= f.text_area :free_response, rows: 5, style: "width: 97.5%; margin-top:10px" %>
+
+<% end %>
+
+
+<% if mode == :select_answer %>
+  <div class='terp-now-select'><%= guess.present? ? 'Next, select' : 'Select' %> the best answer from the choices below.</div>
+<% elsif mode == :feedback %>
+
+<% end %>
+
+<% if mode != :free_response %>
+    <div class='terp-answer-choices'>
+      <% exercise_data["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>   
+        <div class='terp-answer-choice'>
+
+          <%= f.radio_button :selected_answer, ii, :class => 'multiple_choice_radio_button', :id => "radio#{ii}" %>
+          <div class='letter'>
+            <label for="radio<%= ii %>"><%= choice_letter(ii) %>)</label>
+          </div>
+          <div class='content'>
+            <label for="radio<%= ii %>" class='answer-content'><%= answer_choice["html"].html_safe %></label>
+          </div>
+        </div>                                           
+      <% end %>
+    </div>
+<% end %>
+
+
+
+
+<% if mode == :free_response || mode == :selected_answer %>
+    <div class='fixed-right-button'>
+      <%= f.submit button_text, :class => 'link_button' %>
+    </div>
+
+  <% end # form %>
+<% elsif mode == :feedback %>
+
+  <div class='fixed-right-button'>
+    <% if next_se.nil? %>
+      <%= link_to "Got It! Summary >", 
+                  terp_quiz_summary_path(
+                      terp_id: params[:terp_id]),
+                  {class: 'link_button_terp'} %>
+    <% else %>
+      <%= link_to "Got It! Next Question &nbsp;>", 
+                  terp_solicit_free_response_path(
+                      terp_id: params[:terp_id], 
+                      student_exercise_id: next_se.id),
+                  {class: 'link_button_terp'} %>
+    <% end %>
+  </div>
+
+<% end %>
+
+</div>

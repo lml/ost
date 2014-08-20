@@ -72,7 +72,7 @@ input, textarea {
   background-color: #eeeeee;  
   border: 1px solid #e5e5e5;
   padding: 6px;
-  width: 100%;
+  // width: 100%;
 }
 
 input[type='checkbox'] {
@@ -612,7 +612,9 @@ td {
   margin-top: 6px;
   margin-bottom: 20px;
   p, ol, ul, li, td, a {
-    font-size: 17px;  
+    font-size: 22px;  
+    line-height: 30px;
+    font-weight: 400;
   }
 }
 
@@ -620,7 +622,8 @@ td {
   margin-top: 16px; margin-bottom:-5px;
   font-style: italic;
   color: #777;
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 1.42;
 }
 
 /************ 2-column layout *****************/
@@ -1058,9 +1061,9 @@ input.ui-widget {
 }
 
 @mixin question_header {
-  font-size: 12px;
-  margin-top: -12px;
-  margin-bottom: 12px;
+  font-size: 14px;
+  margin-top: -22px;
+  margin-bottom: 18px;
 }
 
 .question_number {
@@ -1262,50 +1265,93 @@ input.ui-widget {
   }
 }
 
-.terp-explanation {
-
-  .terp-explanation-separator {
-    margin: 8px;
-    border-top: 1px solid $ost_light_beige;
-  }
-}
 
 
 
 label.answer-content {
-  padding: 3px;
+  // padding: 3px;
   // padding-left:8px;
 }
+
+$an_orange: #ff8181;
 
 div.terp-answer-choices {
   div.terp-answer-choice {
     border: 2px solid white;
     width: 75%;
+    padding: 4px 0px;
+
+    &:hover {
+      background-color: #e4f5ff;
+    }
+
     &.highlighted-choice {
       border: 2px solid #e4f5ff;
       label, label p {
         font-weight: bold;
+        color: #000;
       }
     }
-    label p {
-      font-size: 14px;
-      margin-top: 3px;
-      margin-bottom: 3px;
+    &.incorrect {
+      border-color: $an_orange;
+    }
+    &.correct {
+      border-color: #e4f4d4;
+    }
+    label {
+      margin-bottom: 0px;
+      font-size: 16px;
+      line-height: 22px;
+      p {
+        font-size: 16px;
+        line-height: 22px;
+        margin-top: 3px;
+        margin-bottom: 3px;
+      }
     }
     input[type='radio'] {
+      margin-top: 6px;
+    }
+    .input-or-mark {
       display: inline-block;
-      margin-top:-1px;
-      margin-right: 6px;
-      margin-left: 17px;
+      // margin-top:-1px;
+      // margin-right: 6px;
+      margin-left: 17px;      
+      width: 20px;
     }
     .letter {
       display: inline-block;
       margin-left: 6px;
+      font-size: 16px;
+      // margin-top:2px;
+      vertical-align: top;
     }
     .content {
+      vertical-align: top;
       display: inline-block;
+      width:88%;
+
+      // margin-top:2px;
     }
   }
+}
+
+.terp-explanations {
+  .heading {
+    font-size: 18px;
+    margin: 30px 0 8px 0;
+    font-weight: 500;
+  }
+  .explanation p {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 0 10px;
+  }
+}
+
+.terp-explanation-separator {
+  margin: 8px;
+  border-top: 1px solid #e5e5e5;
 }
 
 // table.terp-answer-choices {
@@ -1346,40 +1392,45 @@ span {
 
 .terp-guess-was {
   .terp-guess-was-intro {
-    font-size:15px;
-    margin-bottom: 6px;
+    font-size:18px;
+    margin: 30px 0 8px 0;
+    font-weight: 500;
+    line-height: 1.1;
    
   }
   .terp-guess-was-content {
     color: #888;
-    font-size: 13x;
+    font-size: 16px;
     font-style: italic;
     padding: 10px 20px;
     margin: 0 0 20px;
-    font-size: 14px;
     border-left: 5px solid #eee;
+    line-height: 1.42;
     // width: 97.5%;
   }
 }
 
 .terp-now-select {
-  font-size:15px;
-  margin-top: 8px; 
-  margin-bottom: 6px;
+    font-size:18px;
+    margin: 30px 0 8px 0;
+    font-weight: 500;
+    line-height: 1.1;
 }
 
 
 .terp-correctness-feedback {
-  font-weight: bold;
-  margin-bottom: 24px;
+  font-size: 18px;
+  margin: 30px 0 8px 0;
+  font-weight: 500;
+  line-height: 1.1;
 
   .terp-correct-feedback {
-    color: $os_green;
+    color: #78b042;
     display: inline-block;
   }
 
   .terp-incorrect-feedback {
-    color: rgb(237,28,36);
+    color: #df1e25;
     display: inline-block;
   }
 }
