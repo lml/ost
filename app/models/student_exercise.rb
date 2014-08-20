@@ -218,7 +218,7 @@ class StudentExercise < ActiveRecord::Base
   end
 
   def feedback_has_been_viewed_for_credit?
-    feedback_has_been_viewed? && (feedback_credit_multiplier > 0.0)
+    feedback_has_been_viewed? && (feedback_credit_multiplier == 1)
   end
 
   def feedback_required_for_credit?

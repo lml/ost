@@ -15,7 +15,12 @@ class Section < ActiveRecord::Base
   
   attr_accessible :name, :klass, :registration_code
   
+  before_validation :nil_blank_registration_code
   after_create :populate_registration_code
+
+  def nil_blank_registration_code
+    self.registration_code = nil if registration_code.blank?
+  end
 
   def populate_registration_code
     return if registration_code.present?
