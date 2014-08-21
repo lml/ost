@@ -9,6 +9,7 @@ Ost::Application.routes.draw do
     post 'forgot_password'
     post 'reset_password'
     delete 'logout'
+    get 'logout' # helps some weird error happens when timed out of session and try delete logout
     get "sign_up"
     post "sign_up"
     post "register"
