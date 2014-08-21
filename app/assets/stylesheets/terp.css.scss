@@ -1189,14 +1189,22 @@ input.ui-widget {
 }
 
 #terp-contents {
-  padding: 15px 0px;
+  padding: 0px;
+  overflow-y: hidden;
+  height: 480px;
 
   .instructions {
     font-weight: bold;
     padding-bottom: 15px;
   }
 }
-
+#terp-contents:hover {
+  overflow-y: auto;
+}
+.terp-contents-inner {
+	width: 780px;
+	display: inline-block;
+}
 .middle-space {
   margin-left: 102px;
 

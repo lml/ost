@@ -71,7 +71,7 @@
 
   </head>
 
-  <body style="overflow-x:hidden">
+  <body style="overflow:hidden">
 
     <div style="display:none">
       <div id="os_green" class="os_green"></div>
@@ -230,7 +230,9 @@
         </div>
 
         <div id='terp-contents'>
-          <%= yield %>
+		  <div class="terp-contents-inner">
+            <%= yield %>
+		  </div>
         </div>
 
             
