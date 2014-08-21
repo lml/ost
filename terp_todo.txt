@@ -1,6 +1,0 @@
-
-
-When SAs created, emails sent out with links to normal OST pages.  Option 1: disable. Option 2: if quizzes
-come out over time, send email but redirect to CNX module?
-
-When user signs up, email confirmation link goes out.  We want a confirmation code that can be enetered in TERP.
