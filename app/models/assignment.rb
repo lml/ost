@@ -91,8 +91,8 @@ class Assignment < ActiveRecord::Base
   # Access control methods
   #############################################################################
 
-  def can_be_read_by?(user)
-    return !klass.closed? if is_active_assignment_recipient?(user) || is_educator?(user)
+  def can_be_read_by?(user, embedded_view=false)
+    return !klass.closed? if (is_active_assignment_recipient?(user) && (embedded_view || !klass.is_embedded)) || is_educator?(user)
     return true           if user.is_researcher?
     return true           if user.is_administrator?
     return false

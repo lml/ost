@@ -54,7 +54,7 @@ class TerpController < ApplicationController
   def consent; end
 
   def quiz_start
-    raise SecurityTransgression unless present_user.can_read?(@student_assignment.assignment)
+    raise SecurityTransgression unless @student_assignment.assignment.can_be_read_by?(present_user, true)
 
     if @first_unworked_student_exercise.present?
 
