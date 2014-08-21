@@ -11,6 +11,12 @@
       width: 700,
       buttons: [
         {
+          text: 'Full Screen',
+          click: function() {
+            window.open('https://docs.google.com/presentation/d/1QjgBdgusvyqda7olHzhl1cOPcNRv3gjekHKjJa_BH6M/pub?start=false&loop=false&delayms=5000', '_blank');
+          }
+        },
+        {
           text: "Close",
           click: function() {
             $('#tutorial_dialog').dialog('close');
@@ -31,6 +37,8 @@
 
   <div id="tutorial_dialog_errors"></div>        
   
-    <p>Tutorial goes here.  Changes coming to make this window only show up once.</p>
-  
+  <center>
+  <iframe src="https://docs.google.com/presentation/d/1QjgBdgusvyqda7olHzhl1cOPcNRv3gjekHKjJa_BH6M/embed?start=false&loop=false&delayms=5000" frameborder="0" width="480" height="389" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</center>
+
 </div>
