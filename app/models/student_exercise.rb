@@ -330,6 +330,11 @@ class StudentExercise < ActiveRecord::Base
     student_exercises.size
   end
 
+  def spaced_practice?
+    source_topic_id = assignment_exercise.topic_exercise.topic_id
+    assignment_exercise.assignment.assignment_plan.assignment_plan_topics.all.none?{|apt| apt.topic_id == source_topic_id}
+  end
+
   #############################################################################
   # Access control methods
   #############################################################################
