@@ -57,11 +57,6 @@
 </script>
     
 <div id="consent_form_dialog" style="display:none" title="Research Consent">
-  <% unless @hide_open_consent_in_new_window %>
-    <%= link_to "Open in a separate window", 
-                new_polymorphic_path([@consentable, Consent.new]), :style => 'float:right; font-size:10px', :target => :_blank %>
-    <br/>            
-  <% end %>
 
   <div id="consent_form_dialog_errors"></div>        
   
@@ -96,6 +91,12 @@
   </div>
   
   <div id="consent_form" style="display: none">
+
+    <%= link_to "Open in a separate window", 
+                terp_full_page_consent_path(terp_id: params[:terp_id]), :style => 'float:right; font-size:10px; text-decoration: underline', :target => :_blank %>
+    <br/>            
+
+
     <%= @consentable.consent_options.consent_form.html.html_safe %>
 
     <%= form_for([@consentable, Consent.new]) do |f| %>

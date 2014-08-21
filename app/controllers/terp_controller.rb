@@ -10,7 +10,7 @@ class TerpController < ApplicationController
 
   before_filter :terp_confirm_email!, except: non_work_pages
 
-  before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary, :dashboard]
+  before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary, :dashboard, :full_page_consent]
   before_filter :get_student_exercise, only: [:solicit_free_response, :save_free_response,
                                               :solicit_answer_selection, :save_answer_selection,
                                               :present_feedback]
@@ -245,6 +245,15 @@ class TerpController < ApplicationController
                 complete: lambda { render })
   end
 
+
+  def full_page_consent
+    @consentable = @student_assignment.student
+    @consent ||= Consent.new({:consent_options => @consentable.options_for_new_consent, 
+                              :consentable => @consentable})
+    raise SecurityTransgression unless present_user.can_create?(@consent)
+
+  end
+
 protected
 
   def redirect_to_quiz_start(show_tutorial = false)
@@ -326,6 +335,7 @@ protected
   def consent_prep
     @hide_open_consent_in_new_window = true
   end
+
 
   def cors
     # headers['Access-Control-Allow-Origin'] = '*'

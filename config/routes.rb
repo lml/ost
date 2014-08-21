@@ -42,6 +42,7 @@ Ost::Application.routes.draw do
     get "about"
     get "tutorial"
     get "my_account"
+    get "full_page_consent"
 
     post "change_password"
     # get "account_help"
