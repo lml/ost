@@ -19,7 +19,7 @@
 
 // bootstrap futzes with paragraph margins
 p {
-  margin:9px 0;
+  margin: 0;
 }
 
 $iframe_width: 800px;
@@ -607,11 +607,11 @@ td {
    margin: 20px auto;
    clear: right;
 }
-
 #question_outer {
    // width:600px;
    width: 100%;
    // margin: 20px auto;
+   margin-top: 10px;
    clear: right;
    // margin-left: 6px;
 
@@ -627,11 +627,9 @@ td {
 }
 
 #question_text {
-  margin-top: 6px;
-  margin-bottom: 20px;
   p, ol, ul, li, td, a {
-    font-size: 22px;  
-    line-height: 30px;
+    font-size: 18px;  
+    line-height: 27px;
     font-weight: 400;
   }
 }
@@ -1085,12 +1083,15 @@ input.ui-widget {
 }
 
 .question_number {
-  @include question_header;  
+  @include question_header; 
+  margin-top: -20px;
+  margin-bottom: 0;
 }
 
 .question_x_of_y {
   float:right;
   @include question_header;
+  margin-bottom: 0;
 }
 
 .section-exercise-responses {
@@ -1189,14 +1190,22 @@ input.ui-widget {
 }
 
 #terp-contents {
-  padding: 15px 0px;
+  padding: 0px;
+  overflow-y: hidden;
+  height: 470px;	
 
   .instructions {
     font-weight: bold;
     padding-bottom: 15px;
   }
 }
-
+#terp-contents:hover {
+  overflow-y: auto;
+}
+.terp-contents-inner {
+	width: 780px;
+	display: inline-block;
+}
 .middle-space {
   margin-left: 102px;
 
@@ -1298,7 +1307,7 @@ div.terp-answer-choices {
   div.terp-answer-choice {
     border: 2px solid white;
     width: 75%;
-    padding: 4px 0px;
+    padding: 0px;
 
     &:hover {
       background-color: #e4f5ff;
@@ -1322,7 +1331,7 @@ div.terp-answer-choices {
       font-size: 16px;
       line-height: 22px;
       p {
-        font-size: 16px;
+        font-size: 15px;
         line-height: 22px;
         margin-top: 3px;
         margin-bottom: 3px;
@@ -1362,8 +1371,8 @@ div.terp-answer-choices {
     font-weight: 500;
   }
   .explanation p {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 15px;
+    line-height: 22px;
     margin: 0 0 10px;
   }
 }
