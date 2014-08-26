@@ -291,7 +291,7 @@ protected
   end
 
   def terp_confirm_email!
-    if !current_user.confirmed? && !current_user.terp_email_veritoken.try(:verified?)
+    if !current_user.terp_email_veritoken.try(:verified?)
       redirect_to terp_solicit_email_confirmation_path(terp_id: params[:terp_id])
     end
   end
