@@ -133,7 +133,8 @@ protected
 
     source_learning_plan.assignment_plans.each do |source_assignment_plan|
       new_assignment_plan = source_assignment_plan.dup.tap do |ap|
-        ap.section = new_klass.sections.first
+        # ap.section = new_klass.sections.first
+        ap.section = nil
         ap.tag_list = source_assignment_plan.tag_list.join(", ")
 
         # Map the start and end times to the new klass times
