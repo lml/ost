@@ -13,5 +13,5 @@ $ () ->
       feedbackPenaltyValue.val "100"
       feedbackPenalty.show()
     else
-      feedbackPenaltyValue.val null
+      feedbackPenaltyValue.val 0
       feedbackPenalty.hide()

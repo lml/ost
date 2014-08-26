@@ -272,7 +272,7 @@ protected
     self.label_regex                     ||= '.*'
     self.exercise_correctness_option     ||= ExerciseCorrectnessOption::ANY_CORRECTNESS
     self.is_feedback_required_for_credit ||= false
-    self.feedback_viewing_penalty        ||= 0
+    self.feedback_viewing_penalty        ||= self.is_feedback_required_for_credit ? 100 : 0
     self.availability_opens_option       ||= AvailabilityOpensOption::NEVER
     self.availability_closes_option      ||= AvailabilityClosesOption::NEVER
     self.availability_event              ||= AvailabilityEvent::NOT_APPLICABLE
