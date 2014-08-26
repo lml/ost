@@ -21,8 +21,6 @@ class TerpController < ApplicationController
 
   layout :layout
 
-  protect_beta
-
   alias_method :devise_sign_in, :sign_in
 
   def sign_in; end
