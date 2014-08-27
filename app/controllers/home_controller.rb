@@ -53,7 +53,7 @@ class HomeController < ApplicationController
   end
 
   def quick_close
-    render layout: false
+    # render layout: false
   end
   
 end
