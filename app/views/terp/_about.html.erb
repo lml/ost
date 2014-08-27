@@ -1,4 +1,4 @@
- <p><%= SITE_NAME %> melds new cyber and social infrastructures to put <%= link_to "powerful learning tools", :anchor => 'features' %> in the hands of educators and learners.  <%= SITE_NAME %> is an ambitious effort that combines high-quality, public-ready software with advanced research pursuits.  We are still in beta and some of our features are still being developed.</p>
+ <p><%= SITE_NAME %> melds new cyber and social infrastructures to put powerful learning tools in the hands of educators and learners.  <%= SITE_NAME %> is an ambitious effort that combines high-quality, public-ready software with advanced research pursuits.  We are still in beta and some of our features are still being developed.</p>
 
 
 
@@ -11,10 +11,9 @@
     
 
     <%= SITE_NAME %> is Copyright &copy; <%= year = Time.now.year; 2012 == year ? "2012" : "2011&ndash;#{year}".html_safe %> <%= COPYRIGHT_HOLDER %> and is supported by the
-          <%= link_to "National Science Foundation", "http://www.nsf.org" %>,
-          <%= link_to "Google", "http://www.google.org" %>, <%= link_to "Duke University", "http://www.duke.edu" %>, and
-          <%= link_to "Rice University", "http://www.rice.edu" %>
-
-          <%= link_to "http://www.rice.edu" do %>
-            <%= image_tag 'rice_logo_4.png', :style => 'float:right' %>
-          <% end %>
+          <%= link_to "National Science Foundation", "http://www.nsf.org", 
+          :target => '_blank' %>,
+          <%= link_to "Google", "http://www.google.org", :target => '_blank' %>, <%= link_to "Duke University", "http://www.duke.edu", 
+          :target => '_blank' %>, and
+          <%= link_to "Rice University", "http://www.rice.edu", 
+          :target => '_blank' %>

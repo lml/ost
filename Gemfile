@@ -68,6 +68,8 @@ gem 'openstax_utilities', '~> 1.1.0'
 
 gem 'lev', '~> 2.2.0'
 
+gem 'rack-cors', :require => 'rack/cors'
+
 group :development, :test do
   gem 'debugger', '~> 1.1.4'
   gem 'faker', '~> 1.0.1'

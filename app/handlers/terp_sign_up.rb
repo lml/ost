@@ -29,6 +29,12 @@ protected
                 code: :no_section_for_registration_code, 
                 offending_inputs: [:registration_code]) if section.nil?
 
+    no_matching_assignments = section.klass.learning_plan.assignment_plans.none?{|ap| ap.embed_code == params[:terp_id]}
+
+    fatal_error(message: 'Sorry, that registration code doesn\'t correspond to this Concept Coach.  Please ask your instructor or check your syllabus.', 
+                code: :registration_code_does_not_agree_with_embed_code, 
+                offending_inputs: [:registration_code]) if no_matching_assignments
+
     user_params = sign_up_params.as_hash(:username, 
                                          :first_name, 
                                          :last_name, 

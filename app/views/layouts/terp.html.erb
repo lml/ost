@@ -31,6 +31,8 @@
       });
     </script>
 
+<% if true %>
+
     <script type="text/javascript" src="//assets.zendesk.com/external/zenbox/v2.6/zenbox.js"></script>
       <style type="text/css" media="screen, projection">
         @import url(//assets.zendesk.com/external/zenbox/v2.6/zenbox.css);
@@ -54,8 +56,8 @@
               hide_tab: true
             });
           
-            var elem = $('#help-menu-item');
-            elem.click(function(e) {
+            // var elem = $('#help-menu-item');
+            $('a[href^="http://myaccount.zendesk.com/account/dropboxes"]').click(function(e) {
               $(this).parent().parent().parent().removeClass('open');
               Zenbox.show(); 
               return false;
@@ -64,6 +66,7 @@
         })
         
       </script>
+<% end %>
 
     <%= render :partial => 'layouts/google_analytics' %>    
 
@@ -92,7 +95,9 @@
       <div id="header">
 
         <div id="nav_bar" class="test test_section top_nav">
-          
+<% if params[:terp_id].nil? %>
+          <a href="#" class="logo"></a>
+<% else %>
           <a href="<%= terp_quiz_start_path(terp_id: params[:terp_id]) %>" class="logo"></a>
           <%
             submenu = []
@@ -130,33 +135,35 @@
                 text: "Contact Us", 
                 path: terp_contact_us_path(terp_id: params[:terp_id]), 
                 options: {remote: true}
-              },
-                text: "Help",
-                path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
-                class: "", 
-                options: {remote: true, id: 'help-menu-item'}
-
+              }#,
+              # {
+              #   text: "Help",
+              #   path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
+              #   class: "", 
+              #   options: {remote: true, id: 'help-menu-item'}
+              # }
             )
 
             nav_links = []
 
             if user_signed_in?
+
+              unless @hide_dashboard
+                nav_links.push({
+                  text: "Dashboard", 
+                  path: main_app.terp_dashboard_path(terp_id: params[:terp_id]), 
+                  class: "", 
+                  name: :dashboard, 
+                  options: {remote: true}
+                })
+              end
               nav_links.push({
-                text: "Dashboard", 
-                path: main_app.terp_dashboard_path(terp_id: params[:terp_id]), 
+                text: "Help",
+                path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
                 class: "", 
-                name: :dashboard, 
+                name: :help, 
                 options: {remote: true}
               })
-              # nav_links.push({
-              #   text: "HELP #{image_tag 'help_icon_v4.png', 
-              #                           :height => '12px', :width => '12px', 
-              #                           :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}",
-              #   path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
-              #   class: "", 
-              #   name: :help, 
-              #   options: {remote: true}
-              # })
             end
 
             nav_links.push({
@@ -201,6 +208,7 @@
               </li>
             <% end %>
           </ul>
+<% end %>
         </div>
 
 

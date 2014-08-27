@@ -42,6 +42,12 @@
       </script>
     <% end %>
 
+    <script type="text/javascript">
+      if (window.top != window.self) {
+        window.location = "<%= escaped_terp_path %>"
+      }
+    </script>
+
   </head>
 
   <body>
