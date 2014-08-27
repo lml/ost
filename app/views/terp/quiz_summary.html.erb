@@ -13,7 +13,7 @@
   <% student_exercises.each_with_index do |se, ee| %>
     <% @student_exercise = se %>
 
-    <a name="q<%= ee %>" style="top:-150px; position:relative; display:block; visibility:hidden"></a>
+    <a name="q<%= ee %>" style="top: -18px; position:relative; display:block; visibility:hidden"></a>
     <%= render 'terp/question_nav', student_exercise: @student_exercise %>
     
     <div id="question_outer" class='present_feedback'>
