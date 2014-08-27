@@ -1,0 +1,44 @@
+<div class='prompt'>
+  <div class='prompt-instructions'>
+    Safari and Internet Explorer block this content by default.  To enable this Concept Coach, either use Chrome or Firefox or follow the instructions below:
+  </div>
+
+  <div class='terp-h2'>
+    Safari
+  </div>
+
+  <p>
+    Do this...
+
+    <ol>
+      <li><a href="/quick_close" id="quick_close">Click here</a> to teach Safari that you trust the OpenStax Tutor site.</li>
+      <li>Reload this entire page.</li>
+      <li>Repeat this process whenever you reset Safari.</li>
+    </ol>
+
+    <p>OR do this...</p>
+
+    <ol>
+      <li>Go to Safari's preferences and enable 3rd party cookies...</li>
+    </ol>
+  </p>
+
+
+  <div class='terp-h2'>
+    Internet Explorer
+  </div>
+
+  <p>
+    You'll need to enable 3rd party cookies.  
+  </p>
+
+
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('a#quick_close').click(function() {
+      return !window.open($(this).attr('href'), "pop", "width=600, height=400");
+    });
+  });
+</script>

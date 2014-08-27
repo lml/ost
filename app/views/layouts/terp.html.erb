@@ -95,7 +95,9 @@
       <div id="header">
 
         <div id="nav_bar" class="test test_section top_nav">
-          
+<% if params[:terp_id].nil? %>
+          <a href="#" class="logo"></a>
+<% else %>
           <a href="<%= terp_quiz_start_path(terp_id: params[:terp_id]) %>" class="logo"></a>
           <%
             submenu = []
@@ -204,6 +206,7 @@
               </li>
             <% end %>
           </ul>
+<% end %>
         </div>
 
 

@@ -48,6 +48,8 @@ Ost::Application.routes.draw do
     # get "account_help"
   end
 
+  get 'escaped_terp', to: 'terp#escaped_terp'
+  get 'quick_close', to: 'home#quick_close'
 
   resources :mail_hooks, :only => [] do
     post 'catch', :on => :collection

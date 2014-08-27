@@ -5,7 +5,7 @@ class HomeController < ApplicationController
 
   include ApplicationHelper
 
-  no_login_actions = [:index, :terms, :contact, :contact_submit, :about]
+  no_login_actions = [:index, :terms, :contact, :contact_submit, :about, :quick_close]
 
   skip_before_filter :authenticate_user!, :only => no_login_actions
   fine_print_skip_signatures :general_terms_of_use, :privacy_policy, :only => no_login_actions
@@ -50,6 +50,10 @@ class HomeController < ApplicationController
   
   def dashbaord
     
+  end
+
+  def quick_close
+    render layout: false
   end
   
 end
