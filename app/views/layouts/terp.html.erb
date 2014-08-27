@@ -31,6 +31,8 @@
       });
     </script>
 
+<% if false %>
+
     <script type="text/javascript" src="//assets.zendesk.com/external/zenbox/v2.6/zenbox.js"></script>
       <style type="text/css" media="screen, projection">
         @import url(//assets.zendesk.com/external/zenbox/v2.6/zenbox.css);
@@ -64,6 +66,7 @@
         })
         
       </script>
+<% end %>
 
     <%= render :partial => 'layouts/google_analytics' %>    
 
@@ -130,11 +133,11 @@
                 text: "Contact Us", 
                 path: terp_contact_us_path(terp_id: params[:terp_id]), 
                 options: {remote: true}
-              },
-                text: "Help",
-                path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
-                class: "", 
-                options: {remote: true, id: 'help-menu-item'}
+              } #,
+                # text: "Help",
+                # path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
+                # class: "", 
+                # options: {remote: true, id: 'help-menu-item'}
 
             )
 
