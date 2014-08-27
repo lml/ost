@@ -185,7 +185,7 @@
                 %>
 
                 <%= link_to nav_link[:path] || '#', options do %>
-                  <span class="<%= nav_link[:class] %> <%= "current" if @highlight == nav_link[:name] %>" 
+                  <span class="<%= nav_link[:class] %> <%= "" if @highlight == nav_link[:name] %>" 
                         style="display:inline; position:relative"><%= nav_link[:text].html_safe %><em></em></span>
                 <% end %>
 
@@ -225,17 +225,18 @@
         </div>
 
 
-        <div id="attention">
-          <%= render 'shared/attention' %>
-        </div>
+        
 
         <div id='terp-contents'>
 		  <div class="terp-contents-inner">
+          	<div id="attention">
+          		<%= render 'shared/attention' %>
+        	</div>
             <%= yield %>
+        	<div class="white_gradient"></div>
 		  </div>
         </div>
 
-            
 
       </div>
 

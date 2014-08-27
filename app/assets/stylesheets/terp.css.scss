@@ -181,7 +181,7 @@ $header_height: 52px;
   width: $iframe_width;
   // background: $os
   border: solid #e5e5e5;  
-  border-width: 1px 0px;
+  border-width: 0 0 1px 0px;
 }
 
 #bottom {
@@ -189,7 +189,6 @@ $header_height: 52px;
   bottom:0;
   background: white;
   width: $iframe_width;
-  border-bottom: 1px solid #e5e5e5;  
 }
 
 @mixin vertical-bar-common {
@@ -409,15 +408,13 @@ input[disabled].link_button {
   }
 }
 
-
 #main {
   @include header-main-footer-common;
-  padding-bottom: 47px;
   // margin-bottom: -15px;
-  margin-top: 10px + $header_height;
-
+  margin-top: $header_height;
+	
   &.summary {
-    margin-top: 20px + 2 * $header_height;
+    margin-top: 2 * $header_height;
   }
 }
 
@@ -437,7 +434,7 @@ input[disabled].link_button {
 }
 
 .section {
-   margin: 28px 0px 18px 0px;
+   margin: 18px 0px 8px 0px;
    @extend .bar_topped_block;
 }
 
@@ -477,7 +474,6 @@ input[disabled].link_button {
 
 #attention {
    margin-bottom:0px;
-   margin-top: $header_height;
    clear:both;
 
    a {
@@ -490,7 +486,9 @@ input[disabled].link_button {
     }
    }
 }
-
+.ui-state-error p {
+	margin-top: 10px;
+}
 .js_not_enabled_alert {
   margin-top:-10px;
   margin-bottom:-10px;
@@ -1078,13 +1076,11 @@ input.ui-widget {
 
 @mixin question_header {
   font-size: 14px;
-  margin-top: -22px;
   margin-bottom: 18px;
 }
 
 .question_number {
-  @include question_header; 
-  margin-top: -20px;
+  @include question_header;
   margin-bottom: 0;
 }
 
@@ -1191,20 +1187,19 @@ input.ui-widget {
 
 #terp-contents {
   padding: 0px;
-  overflow-y: hidden;
-  height: 470px;	
+  overflow-y: auto;
+  height: 494px;
+  border-bottom: 1px solid #e5e5e5;
 
   .instructions {
     font-weight: bold;
     padding-bottom: 15px;
   }
 }
-#terp-contents:hover {
-  overflow-y: auto;
-}
 .terp-contents-inner {
-	width: 780px;
+	width: 770px;
 	display: inline-block;
+	padding-bottom: 20px;
 }
 .middle-space {
   margin-left: 102px;
@@ -1284,7 +1279,7 @@ input.ui-widget {
 .fixed-right-button {
   position: fixed;
   left: 0px;
-  bottom: 10px;
+  bottom: 11px;
   z-index: 1000;
 
   input, a {
@@ -1421,7 +1416,6 @@ span {
 .summary-separator {
   width: 100%;
   margin: 30px 0;
-  padding-bottom: 25px;
   border-top: 1px solid #c5c5c5;
 
 }
@@ -1607,4 +1601,23 @@ height: 53px;
   img {
     margin-top: -4px;
   }
+}
+
+.white_gradient {
+	position: fixed;
+	top: 506px;
+	height: 40px;
+	width: 780px;
+	display: block;
+	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+}
+
+.summary .white_gradient {
+	top: 558px;
 }
