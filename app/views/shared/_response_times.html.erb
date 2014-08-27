@@ -27,6 +27,11 @@
       data.push({name: "response_time[event]", value: event});
       data.push({name: "response_time[page]", value: "<%= page %>"});
       data.push({name: "response_time[note]", value: note});
+
+      var csrfToken = $('meta[name=csrf-token]').attr('content');
+      var csrfParam = $('meta[name=csrf-param]').attr('content');
+      data.push({name: csrfParam, value: csrfToken});
+      
       return $.post($("#new_response_time").attr('action'), data);      
     }
 
