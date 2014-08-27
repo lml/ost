@@ -2,7 +2,7 @@ class TerpController < ApplicationController
 
   non_work_pages = [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, 
                     :confirm_email, :resend_confirmation_email, :logout, :tutorial, 
-                    :forgot_password, :reset_password, :escaped_terp]
+                    :forgot_password, :reset_password, :escaped_terp, :contact_us, :my_account, :change_password]
 
   skip_before_filter :authenticate_user!
   fine_print_skip_signatures :general_terms_of_use, :privacy_policy # TODO don't skip always

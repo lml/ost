@@ -146,13 +146,16 @@
             nav_links = []
 
             if user_signed_in?
-              nav_links.push({
-                text: "Dashboard", 
-                path: main_app.terp_dashboard_path(terp_id: params[:terp_id]), 
-                class: "", 
-                name: :dashboard, 
-                options: {remote: true}
-              })
+
+              unless @hide_dashboard
+                nav_links.push({
+                  text: "Dashboard", 
+                  path: main_app.terp_dashboard_path(terp_id: params[:terp_id]), 
+                  class: "", 
+                  name: :dashboard, 
+                  options: {remote: true}
+                })
+              end
               # nav_links.push({
               #   text: "HELP #{image_tag 'help_icon_v4.png', 
               #                           :height => '12px', :width => '12px', 
