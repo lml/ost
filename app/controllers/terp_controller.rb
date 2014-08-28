@@ -293,9 +293,13 @@ protected
   end
 
   def terp_confirm_email!
-    if !current_user.terp_email_veritoken.try(:verified?)
-      redirect_to terp_solicit_email_confirmation_path(terp_id: params[:terp_id])
-    end
+    return if current_user.confirmed?
+
+    ResetTerpEmailVeritoken.call(user: current_user) if current_user.terp_email_veritoken.nil?
+
+    return if current_user.terp_email_veritoken.verified?
+
+    redirect_to terp_solicit_email_confirmation_path(terp_id: params[:terp_id])
   end
 
   def get_student_assignment
