@@ -7,6 +7,8 @@
                        :page => "assignment"} %>
 
 
+ <div class='summary-heading'>Concept Coach complete. You are ready to move on to the next section assigned by your instructor.</div>
+
  <% nav_data = [] %>
 
   <% student_exercises = @student_assignment.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>

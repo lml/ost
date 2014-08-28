@@ -146,6 +146,16 @@
 
             nav_links = []
 
+            if @show_back
+                nav_links.push({
+                  text: "Back", 
+                  path: :back, 
+                  class: "", 
+                  name: :back, 
+                  options: {}
+                })
+            end
+
             if user_signed_in?
 
               unless @hide_dashboard
