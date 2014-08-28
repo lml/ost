@@ -22,9 +22,17 @@ protected
 
     no_matching_assignments = section.klass.learning_plan.assignment_plans.none?{|ap| ap.embed_code == params[:terp_id]}
 
-    fatal_error(message: 'Sorry, that registration code doesn\'t correspond to this Concept Coach.  Please ask your instructor or check your syllabus.', 
-                code: :registration_code_does_not_agree_with_embed_code, 
-                offending_inputs: [:registration_code]) if no_matching_assignments
+    if no_matching_assignments
+      if caller.students.any?{|s| s.terp_only}
+        fatal_error(message: 'It looks like this Concept Coach is not assigned to you.  If you think this is an error, please ask your instructor or contact Support.', 
+                    code: :wrong_concept_coach, 
+                    offending_inputs: [:registration_code]) 
+      else
+        fatal_error(message: 'The class you are trying to register for doesn\'t use this Concept Coach.  If you think this is an error, please ask your instructor or contact Support.', 
+                    code: :class_doesnt_have_concept_coach, 
+                    offending_inputs: [:registration_code]) 
+      end
+    end
 
     fatal_error(message: 'You have already registered for the class attached to this registration code.',
                 code: :already_registered,
