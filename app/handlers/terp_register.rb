@@ -24,11 +24,11 @@ protected
 
     if no_matching_assignments
       if caller.students.any?{|s| s.terp_only}
-        fatal_error(message: 'It looks like this Concept Coach is not assigned to you.  If you think this is an error, please ask your instructor or contact Support.', 
+        fatal_error(message: 'It looks like this Concept Coach is not assigned to you.  If you think this is an error, please email support@openstaxtutor.org.', 
                     code: :wrong_concept_coach, 
                     offending_inputs: [:registration_code]) 
       else
-        fatal_error(message: 'The class you are trying to register for doesn\'t use this Concept Coach.  If you think this is an error, please ask your instructor or contact Support.', 
+        fatal_error(message: 'The class you are trying to register for doesn\'t use this Concept Coach.  If you think this is an error, please email support@openstaxtutor.org.', 
                     code: :class_doesnt_have_concept_coach, 
                     offending_inputs: [:registration_code]) 
       end
