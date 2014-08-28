@@ -166,6 +166,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def confirmed_through_non_terp_flow?
+    confirmed? && confirmation_sent_at.present?
+  end
+
 private 
 
   attr_accessor :cached_is_researcher

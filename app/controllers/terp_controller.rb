@@ -308,8 +308,11 @@ protected
   end
 
   def terp_confirm_email!
-    return if current_user.confirmed?
+    # If the user is a normal Tutor user who did go through the normal confirmation process and is confirmed,
+    # skip terp confirmation
+    return if current_user.confirmed_through_non_terp_flow?
 
+    # If the user doesn't have a TERP veritoken give them one.
     ResetTerpEmailVeritoken.call(user: current_user) if current_user.terp_email_veritoken.nil?
 
     return if current_user.terp_email_veritoken.verified?
