@@ -15,9 +15,11 @@
       is_selection = @student_exercise.selected_answer == ii
       is_the_right_answer = @student_exercise.correct_choice_index == ii
 
-      cls = feedback && is_selection ?
-              (is_the_right_answer ? 'highlighted-choice correct' : 'highlighted-choice incorrect') :
-              ''
+      cls = feedback ? 
+              (is_selection ?
+                (is_the_right_answer ? 'highlighted-choice correct' : 'highlighted-choice incorrect') :
+                '') :
+              'selectable'
     %>
 
     <div class='terp-answer-choice <%= cls %>'>

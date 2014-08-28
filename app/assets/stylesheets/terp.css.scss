@@ -1304,7 +1304,7 @@ div.terp-answer-choices {
     width: 75%;
     padding: 0px;
 
-    &:hover {
+    &.selectable:hover {
       background-color: #e4f5ff;
     }
 
