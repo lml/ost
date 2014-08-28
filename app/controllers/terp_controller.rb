@@ -100,7 +100,7 @@ class TerpController < ApplicationController
   end
 
   def save_free_response
-    redirect_to_answer_selection and return if @student_exercise.free_response_submitted?
+    (flash[:alert] = 'Your free response was already submitted and cannot be changed.'; redirect_to_answer_selection) and return if @student_exercise.free_response_submitted?
 
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
@@ -136,7 +136,7 @@ class TerpController < ApplicationController
   end
 
   def save_answer_selection
-    redirect_to_feedback and return if @student_exercise.selected_answer_submitted?
+    (flash[:alert]='Your answer choice was already submitted and cannot be changed.'; flash.keep; redirect_to_feedback) and return if @student_exercise.selected_answer_submitted?
     
     raise SecurityTransgression unless present_user.can_update?(@student_exercise)
    
