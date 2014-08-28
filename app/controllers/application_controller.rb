@@ -34,8 +34,6 @@ class ApplicationController < ActionController::Base
 
   respond_to :html
 
-protected
-
   def rescue_from_exception(exception)
     error_page = 500
     @email_sent = true
@@ -84,6 +82,9 @@ protected
       type.all  { render :nothing => true, :status => status } 
     end    
   end
+
+protected
+
 
   def protect_beta
     return if !Rails.env.production?
