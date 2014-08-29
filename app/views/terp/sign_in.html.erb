@@ -35,8 +35,8 @@
           <div><%= f.submit "Sign in", :class => "link_button" %> </div>
         <% end %>
 
-        <%= link_to "Forgot your password?", terp_forgot_password_path(terp_id: (params[:terp_id])) %>
-
+        <%= link_to "Forgot your password?", terp_forgot_password_path(terp_id: (params[:terp_id])) %><br/>
+        Having other trouble? <%= %>  <%= email_link "support", "Send us an email" %>.
       </div>
 
       <div class='middle-space' style='display:inline-block'>

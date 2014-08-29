@@ -2,11 +2,11 @@ class TerpController < ApplicationController
 
   non_work_pages = [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, 
                     :confirm_email, :resend_confirmation_email, :logout, :tutorial, 
-                    :forgot_password, :reset_password, :escaped_terp, :contact_us, :my_account, :change_password]
+                    :forgot_password, :reset_password, :escaped_terp, :contact_us, :my_account, :change_password, :terms]
 
   skip_before_filter :authenticate_user!
   fine_print_skip_signatures :general_terms_of_use, :privacy_policy # TODO don't skip always
-  before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up, :logout, :forgot_password, :reset_password, :escaped_terp]
+  before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up, :logout, :forgot_password, :reset_password, :escaped_terp, :contact_us, :terms]
 
   before_filter :terp_confirm_email!, except: non_work_pages
 
