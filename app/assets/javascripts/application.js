@@ -36,7 +36,10 @@ function open_specified_dialog(name, is_modal, height, width, title, body) {
 
   $("#" + name + "_dialog_body").html(body);
   
-  $("#" + name + "_dialog").dialog('close');
+  if ($("#" + name + "_dialog_body").is(':data(dialog)') && $("#" + name + "_dialog").dialog('isOpen')) { 
+    $("#" + name + "_dialog").dialog('close'); 
+  }
+
   $("#" + name + "_dialog").dialog({ 
     autoOpen: false, 
     modal: is_modal, 

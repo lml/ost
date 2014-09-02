@@ -22,7 +22,8 @@
                          student_exercise_free_responses_path(extra_params) : 
                          free_response_path(free_response, extra_params),
                :html => {:id => html_ids[:form],
-                         :style => 'margin-bottom: 0px'},
+                         :style => 'margin-bottom: 0px',
+                         :multipart => true},
                :remote => true) do |f| %>
 
     <div id="<%= html_ids[:form] %>_errors"></div>

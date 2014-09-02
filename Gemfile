@@ -15,7 +15,7 @@ group :assets do
   gem 'bootstrap-sass', '~> 2.0.2'
 end
 
-gem 'jquery-rails', '~> 2.0.2'
+gem 'jquery-rails', '~> 2.1.0'
 
 gem 'capistrano', '~> 2.12.0'
 
