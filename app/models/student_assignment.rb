@@ -48,6 +48,14 @@ class StudentAssignment < ActiveRecord::Base
   scope :for_assignment, lambda {|assignment| 
     where{assignment_id == assignment.id} unless assignment.nil?
   }
+
+  def started?
+    !started_at.nil?
+  end
+
+  def completed?
+    !completed_at.nil?
+  end
   
   def is_coworker?(user)
     assignment_coworkers.includes(:student).any?{|cw| cw.student.user_id == user.id}

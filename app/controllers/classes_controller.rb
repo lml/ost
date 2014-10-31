@@ -125,7 +125,13 @@ class ClassesController < ApplicationController
   end
   
   def class_grades
-    @klass = Klass.find(params[:id])
+    @klass = Klass.includes(:learning_plan => {
+                              :assignment_plans => {
+                                :assignments => {
+                                  :student_assignments => :student_exercises
+                                }
+                              }
+                            }).find(params[:id])
 
     raise SecurityTransgression unless present_user.can_read_children?(@klass, :class_grades)
 
