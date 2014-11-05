@@ -1,13 +1,22 @@
 <% current_number = student_exercise.assignment_exercise.number %>
+<% non_survey_count = student_exercise.student_assignment.assignment.assignment_exercises.non_survey.count %>
 
 <div class='question_x_of_y'>
-  <%= current_number %> of <%= student_exercise.student_assignment.assignment.assignment_exercises.count %>
-  <% if student_exercise.spaced_practice? %>
-    <span class='review'>
-      <%= image_tag 'review.png' %> Review
-    </span>
+  <% if student_exercise.assignment_exercise.survey? %>
+    <%= current_number - non_survey_count %> of <%= student_exercise.student_assignment.assignment.assignment_exercises.survey.count %>
+  <% else %>
+    <%= current_number %> of <%= non_survey_count %>
+    <% if student_exercise.spaced_practice? %>
+      <span class='review'>
+        <%= image_tag 'review.png' %> Review
+      </span>
+    <% end %>
   <% end %>
 </div>
-<div class='question_number'>Question <%= current_number%></div>
-
-
+<div class='question_number'>
+  <% if student_exercise.assignment_exercise.survey? %>
+    Post-assignment survey
+  <% else %>
+    Question <%= current_number%>
+  <% end %>
+</div>

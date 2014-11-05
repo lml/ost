@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140815221040) do
+ActiveRecord::Schema.define(:version => 20141105194215) do
 
   create_table "assignment_coworkers", :force => true do |t|
     t.integer  "student_assignment_id"
@@ -588,10 +588,11 @@ ActiveRecord::Schema.define(:version => 20140815221040) do
 
   create_table "topics", :force => true do |t|
     t.string   "name",             :limit => 100
-    t.integer  "learning_plan_id",                :null => false
+    t.integer  "learning_plan_id",                                   :null => false
     t.integer  "number"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
+    t.boolean  "is_survey",                       :default => false, :null => false
   end
 
   add_index "topics", ["learning_plan_id"], :name => "index_topics_on_learning_plan_id"
