@@ -92,7 +92,7 @@
 
 <% if @authority %>
   <%= section "Exercises", {:classes => 'no_bar exercises', :collapsible => true, :collapsed => true} do %>
-    <p>This assignment has <%= pluralize(@assignment.assignment_exercises.count, "exercise") %>.</p>
+    <p>This assignment has <%= pluralize(@assignment.assignment_exercises.non_survey.count, "exercise") %> and <%= pluralize(@assignment.assignment_exercises.survey.count, "survey question") %>.</p>
     <%= render 'questions', :assignment => @assignment %>
   <% end %>
 <% end %>

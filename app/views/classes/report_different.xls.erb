@@ -7,7 +7,7 @@
   ae_info = { }
   @klass.learning_plan.topics.each do |topic|
     topic.topic_exercises.each do |te|
-      te.assignment_exercises.each do |ae|
+      te.assignment_exercises.non_survey.each do |ae|
         ae_info[ae] = { :number       => ae.number,
                         :quadbase_id  => ae.topic_exercise.exercise.quadbase_id,
                         :concept      => ae.topic_exercise.concept.try(:name),
@@ -78,7 +78,7 @@
           <% assignment_num  = ii + 1 %>
           <% assignment_name = sa.assignment.assignment_plan.name %>
           <% assignment_coworkers = sa.assignment_coworkers.collect{|acw| acw.student}.uniq.concat([student]).collect{|s| s.full_name(present_user)}.sort_by{|s| s.downcase}.join(',') %>
-          <% sa.student_exercises.each do |se| %>
+          <% sa.student_exercises.to_a.select{|se| !se.assignment_exercise.survey?}.each do |se| %>
             <% ae = se.assignment_exercise %>
 
             <%= xls_row do %>
