@@ -1,11 +1,14 @@
 <% current_number = student_exercise.assignment_exercise.number %>
-<% non_survey_count = student_exercise.student_assignment.assignment.assignment_exercises.to_a.select{|ae| !ae.topic.is_survey}.count %>
+   assignment_exercises = student_exercise.student_assignment.assignment
+                                          .assignment_exercises
+                                          .includes(:topic).to_a
+   non_survey_count = assignment_exercises.select{|ae| !ae.topic.is_survey}
+                                          .count %>
 
 <div class='question_x_of_y'>
   <% if student_exercise.assignment_exercise.topic.is_survey %>
     <%= current_number - non_survey_count %> of
-    <%= student_exercise.student_assignment.assignment.assignment_exercises
-                        .to_a.select{|ae| ae.topic.is_survey}.count %>
+    <%= assignment_exercises.select{|ae| ae.topic.is_survey}.count %>
   <% else %>
     <%= current_number %> of <%= non_survey_count %>
     <% if student_exercise.spaced_practice? %>
