@@ -6,7 +6,13 @@
                        :page => "assignment"} %>
 
 
- <div class='summary-heading'>Concept Coach complete. You are ready to move on to the next section assigned by your instructor.</div>
+ <div class='summary-heading'>
+ <% if @student_assignment.assignment.assignment_plan.is_test %>
+   Assignment complete.
+ <% else %>
+   Concept Coach complete. You are ready to move on to the next section assigned by your instructor.
+ <% end %>
+ </div>
 
  <% nav_data = [] %>
 
