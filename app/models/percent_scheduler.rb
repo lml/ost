@@ -56,7 +56,7 @@ class PercentScheduler < Scheduler
 
     schedule.each do |rule|
       # Non-surveys
-      topics = current_assignment_plan.topics.non_surveys
+      topics = current_assignment_plan.topics.non_survey
       num_plan_exercises = topics.collect{|t| t.topic_exercises.size}.sum
 
       if num_plan_exercises > 0
@@ -84,7 +84,7 @@ class PercentScheduler < Scheduler
       end
 
       # Surveys (always last; always assigned)
-      topics = current_assignment_plan.topics.surveys
+      topics = current_assignment_plan.topics.survey
       num_survey_exercises = topics.collect{|t| t.topic_exercises.size}.sum
 
       if num_survey_exercises > 0

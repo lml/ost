@@ -13,8 +13,6 @@ class AssignmentPlanTopic < ActiveRecord::Base
   before_destroy :destroyable?, prepend: true
   
   scope :resources_visible, where(:hide_resources => false)
-    
-    
   
   def destroyable?
     return true if sudo_enabled?
