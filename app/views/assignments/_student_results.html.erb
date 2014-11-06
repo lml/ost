@@ -1,4 +1,6 @@
-<% num_exercises = assignment.assignment_exercises.to_a.select{|ae| !ae.topic.is_survey}.count %>
+<% assignment_exercises = assignment.assignment_exercises.includes(:topic)
+                                    .to_a.select{|ae| !ae.topic.is_survey} %>
+<% num_exercises = assignment_exercises.count %>
     
 <% exercise_right_counts = num_exercises.times.collect{0} %>
 <% exercise_taken_counts = num_exercises.times.collect{0} %>
@@ -10,7 +12,7 @@
 
   <tr>
     <th>Name</th>
-    <% assignment.assignment_exercises.to_a.select{|ae| !ae.topic.is_survey}.each_with_index do |ae, ii| %>
+    <% assignment_exercises.each_with_index do |ae, ii| %>
       <th style="text-align:center">
         <%= link_to (ii + 1).to_s, ae %>
       </th>
@@ -30,7 +32,11 @@
       <% if sa.nil? %>
         <td colspan="<%= num_exercises %>"><center>Not Started</center></td>
       <% else %>
-        <% student_exercises = sa.student_exercises.to_a.select{|se| !se.topic.is_survey}.sort_by!{|se| se.assignment_exercise.number} %>
+        <% student_exercises = sa.student_exercises
+                                 .includes(:topic)
+                                 .includes(:assignment_exercise)
+                                 .to_a.select{|se| !se.topic.is_survey}
+                                 .sort_by!{|se| se.assignment_exercise.number} %>
         <% student_exercises.each_with_index do |se, ee| %>
           <td style="text-align:center">
             <% if !se.free_response_submitted? && !se.selected_answer_submitted? %>
