@@ -55,13 +55,15 @@ class PercentScheduler < Scheduler
     klass_tags = assignment_plan.learning_plan.nontest_exercise_tags
 
     schedule.each do |rule|
+      topics = current_assignment_plan.topics.to_a
+
       # Non-surveys
-      topics = current_assignment_plan.topics.non_survey
-      num_plan_exercises = topics.collect{|t| t.topic_exercises.size}.sum
+      ns_topics = topics.select{|t| !t.is_survey}
+      num_plan_exercises = ns_topics.collect{|t| t.topic_exercises.size}.sum
 
       if num_plan_exercises > 0
 
-        topics.each do |topic|
+        ns_topics.each do |topic|
           topic_exercises     = topic.topic_exercises
           num_topic_exercises = topic_exercises.size
         
@@ -84,12 +86,12 @@ class PercentScheduler < Scheduler
       end
 
       # Surveys (always last; always assigned)
-      topics = current_assignment_plan.topics.survey
-      num_survey_exercises = topics.collect{|t| t.topic_exercises.size}.sum
+      s_topics = topics.select{|t| t.is_survey}
+      num_survey_exercises = s_topics.collect{|t| t.topic_exercises.size}.sum
 
       if num_survey_exercises > 0
 
-        topics.each do |topic|
+        s_topics.each do |topic|
           topic_exercises = topic.topic_exercises.order(:created_at)
 
           # Always assign all topic exercises in the given order

@@ -18,9 +18,6 @@ class Topic < ActiveRecord::Base
   attr_accessible :name, :is_survey, :learning_plan_id
   
   before_validation :set_default_name, :on => :create
-
-  scope :non_survey, lambda { where(:is_survey => false) }
-  scope :survey, lambda { where(:is_survey => true) }
   
   def destroyable?
     self.errors.add(:base, "This topic cannot be destroyed because it is included in at least one assignment.") \
