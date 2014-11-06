@@ -365,7 +365,7 @@ protected
   end
 
   def feedback_viewed_or_not_needed?
-    @student_exercise.assignment_exercise.survey? || \
+    @student_exercise.assignment_exercise.topic.is_survey || \
     @student_exercise.feedback_has_been_viewed? || \
       !@student_exercise.is_feedback_available?
   end

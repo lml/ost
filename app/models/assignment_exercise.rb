@@ -5,7 +5,6 @@ class AssignmentExercise < ActiveRecord::Base
   belongs_to :assignment
   belongs_to :topic_exercise
   has_many :student_exercises, :dependent => :destroy
-
   has_one :topic, :through => :topic_exercise
   
   acts_as_taggable
@@ -21,14 +20,6 @@ class AssignmentExercise < ActiveRecord::Base
   acts_as_numberable :container => :assignment
   
   attr_accessible :assignment, :topic_exercise, :assignment_id
-
-  scope :non_survey, lambda { joins(:topic)
-                                .where(:topic => {:is_survey => false}) }
-  scope :survey, lambda { joins(:topic).where(:topic => {:is_survey => true}) }
-
-  def survey?
-    topic.is_survey
-  end
 
   def destroyable?
     return true if sudo_enabled?

@@ -11,6 +11,8 @@ class StudentExercise < ActiveRecord::Base
   has_many :free_responses, :dependent => :destroy, :order => :number
   has_one :student, :through => :student_assignment
   has_one :consent, :through => :student
+  has_one :topic_exercise, :through => :assignment_exercise
+  has_one :topic, :through => :topic_exercise
 
   before_destroy :destroyable?, prepend: true
   
