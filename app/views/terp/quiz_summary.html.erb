@@ -11,12 +11,10 @@
  <% nav_data = [] %>
 
   <% student_exercises = @student_assignment.student_exercises
-       .includes(:assignment_exercise => {:topic_exercise => [ 
-                                            :topic, :exercise
-                                          ]}).to_a
-       .select{|se| !se.assignment_exercise.topic_exercise.topic.is_survey}
+       .includes(:topic)
        .sort_by!{|se| se.assignment_exercise.number} %>
-  <% student_exercises.each_with_index do |se, ee| %>
+  <% student_exercises.to_a.select{|se| !se.topic.is_survey}
+                      .each_with_index do |se, ee| %>
     <% @student_exercise = se %>
 
     <a name="q<%= ee %>" style="top: -18px; position:relative; display:block; visibility:hidden"></a>
