@@ -17,8 +17,9 @@
 
   <% @assignment.assignment_plan.assignments.sort_by{|a| a.cohort.number}.each do |assignment| %>
 
-    <% assignment_exercises = assignment.assignment_exercises.includes(:topic)
-                                        .to_a.select{|ae| !ae.topic.is_survey}
+    <% assignment_exercises = assignment.assignment_exercises
+         .includes(:topic, :topic_exercise => :exercise)
+         .to_a.select{|ae| !ae.topic.is_survey}
        num_exercises = assignment_exercises.count %>
   
     <%= xls_worksheet(assignment.cohort.name) do %>

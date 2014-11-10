@@ -3,14 +3,13 @@
 
 <%
   present_user_is_researcher = present_user.is_researcher? 
-  visible_students = Student.includes([
-                       :section, :cohort, :user,
-                       :student_assignments => :student_exercises
-                     ]).joins{section}
+  visible_students = Student.includes([:section, :cohort, :user])
+                       .joins{section}
                        .where{section.klass_id == my{@klass.id}}
                        .visible(present_user).active
                        .std_sort(present_user)
-  klass_aps = @klass.learning_plan.assignment_plans
+  klass_aps = @klass.learning_plan.assignment_plans.includes(
+    :assignments => {:student_assignments => {:student_exercises => :topic}})
 %>
 
 <?xml version="1.0"?>
