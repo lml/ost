@@ -50,17 +50,18 @@
           <Cell><Data ss:Type="String"><%= vs.section.name %></Data></Cell>
           <Cell><Data ss:Type="String"><%= vs.cohort.name %></Data></Cell>
           <% klass_aps.each do |ap| %>
-            <% score = nil
+            <% is_ca = @klass.is_embedded && ap.is_test
+               score = nil
                completed = false %>
             <% assignment = ap.assignments.to_a
                               .select{|a| a.cohort_id == vs.cohort_id}
                               .first  %>
             <% if !assignment.nil? %>
-              <% score = 0.0 %>
+              <% score = 0.0 unless is_ca %>
               <% sa = assignment.student_assignments.to_a
                                 .select{|sa| sa.student_id == vs.id}.first %>
               <% unless sa.nil? %>
-                <% score = sa.score
+                <% score = sa.score unless is_ca
                    completed = sa.completed? %>
               <% end %>
             <% end%>
