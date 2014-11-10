@@ -304,9 +304,9 @@ protected
     when 'preview', 'ca'
       false
     else
-      @student_assignment.try(:assignment)
-                         .try(:assignment_plan).try(:is_test) ? \
-                           'layouts/terp_with_instructions' : 'layouts/terp'
+      sa = @student_assignment || @student_exercise.try(:student_assignment)
+      sa.try(:assignment).try(:assignment_plan).try(:is_test) ? \
+        'layouts/terp_with_instructions' : 'layouts/terp'
     end
   end
 
