@@ -10,21 +10,8 @@
 
 
 <div class='quiz_start'>
-  <div class='heading'>
-    <%= klass.name %>, <%= ap.name %>
-  </div>
 
-  <div class='info'>
-    <p>This criterial assessment is lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-    <p>You will have one attempt per question. This activity is untimed. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-    <%= @student_assignment.assignment.assignment_plan.introduction %>
-  </div>
-
-  <div class='due_date'>
-    Due Date: <%= standard_datetime(ap.ends_at) %>
-  </div>
+  <%= render :partial => 'instructions' %>
 
   <div class='fixed-right-button'>
     <%= link_to "Start >", 

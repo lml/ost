@@ -1,4 +1,4 @@
-<% current_number = student_exercise.assignment_exercise.number %>
+<% current_number = student_exercise.assignment_exercise.number
    assignment_exercises = student_exercise.student_assignment.assignment
                                           .assignment_exercises
                                           .includes(:topic).to_a

@@ -10,7 +10,7 @@ class TerpController < ApplicationController
 
   before_filter :terp_confirm_email!, except: non_work_pages
 
-  before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary, :dashboard, :full_page_consent]
+  before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary, :dashboard, :full_page_consent, :instructions]
   before_filter :get_student_exercise, only: [:solicit_free_response, :save_free_response,
                                               :solicit_answer_selection, :save_answer_selection,
                                               :present_feedback]
@@ -80,6 +80,9 @@ class TerpController < ApplicationController
         redirect_to terp_missing_exercises_path(terp_id: params[:terp_id])
       end
     end
+  end
+
+  def instructions
   end
 
   def solicit_free_response
@@ -301,7 +304,9 @@ protected
     when 'preview', 'ca'
       false
     else
-      'layouts/terp'
+      @student_assignment.try(:assignment)
+                         .try(:assignment_plan).try(:is_test) ? \
+                           'layouts/terp_with_instructions' : 'layouts/terp'
     end
   end
 
