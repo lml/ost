@@ -106,6 +106,10 @@ pre {
   top: 50px !important;
 }
 
+#consent_form_dialog ~ .ui-dialog-buttonpane > .ui-dialog-buttonset {
+  float: none;
+}
+
 .top_level_container {}
 
 a, #message_dialog_body a, #help_dialog_body a {
@@ -1638,6 +1642,12 @@ height: 53px;
   padding: 5px 0 30px;
 }
 
+.consent_form_link {
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 12px;
+  text-decoration: underline;
+}
 
 ::-webkit-scrollbar {
     -webkit-appearance: none;

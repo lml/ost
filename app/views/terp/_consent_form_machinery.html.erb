@@ -21,83 +21,50 @@
       width: 700,
       buttons: [
         {
-          text: "Next",
-          click: function() {
-            advanceToConsentForm();          
-          }
+          text: "I agree",
+          click: function() { create_consent(true); }
+        },
+        {
+          id: "learn_more_button"
+        },
+        {
+          id: "remind_me_later_button"
+        },
+        {
+          id: "i_do_not_agree_button"
         }
       ],
       open: function() {
-        $(".ui-dialog-titlebar-close").hide();
+        $(".ui-dialog-titlebar-close").remove();
         $("#consent_form_dialog").scrollTop("0");
+        $("#learn_more_button").replaceWith("<%= j link_to(
+          "Learn more", "https://www.youtube.com/watch?v=vMWj2Td6P4A",
+          :target => '_blank', :class => 'consent_form_link') %>");
+        $("#remind_me_later_button").replaceWith("<%= j link_to(
+          "Remind me later", "", :class => 'consent_form_link',
+          :remote => true,
+          :onclick => "create_consent(null); $('#consent_form_dialog').dialog('close');") %>");
+        $("#i_do_not_agree_button").replaceWith("<%= j link_to(
+          "I do not agree", "", :class => 'consent_form_link',
+          :remote => true,
+          :onclick => "create_consent(false); $('#consent_form_dialog').dialog('close');") %>");
       }
     }).parent().css('position', 'fixed');
    
   });
 
-  function advanceToConsentForm() {
-    $('#consent_form_dialog').dialog('option', 
-                                     'buttons', 
-                                     [
-                                       {
-                                         text: "I do not consent",
-                                         click: function() { create_consent(false); }
-                                       },
-                                       {
-                                         text: "Remind me later",
-                                         click: function() { create_consent(null); }
-                                       },
-                                       {
-                                         text: "I consent",
-                                         click: function() { create_consent(true); }
-                                       }
-                                     ]);
-    $('#intro_page').hide();
-    $('#consent_form').show();
-  }
-
 </script>
     
 <div id="consent_form_dialog" style="display:none" title="Research Consent">
 
-  <div id="consent_form_dialog_errors"></div>        
+  <div id="consent_form_dialog_errors"></div>
   
-    <div id="intro_page">
-      <% if @prior_consent.present? %>
-        
-        <p>You <b>
-        <%= case (@prior_consent.did_consent) 
-            when nil
-              "requested to be asked later"
-            when false
-              "stated that you do not consent"
-            when true
-              "gave your consent"
-            end %> 
-        </b> to participate in a research study.</p>
-  
-        <p>This action was taken at <%= standard_datetime(@prior_consent.created_at) %>. 
-           <% if !@prior_consent.esignature.blank? %> You signed this action with your electronic 
-           signature (<%= @prior_consent.esignature %>). <% end %></p>
-
-        <p>To view the consent form, click the "Next" button below.  You may opt-in 
-          or opt-out at any time using the options at the bottom of the consent form.</p>
-
-      <% else %>
-
-        <p>You have the option to participate in a learning research study.  Please watch the video below explaining the research study and then click 'Next' to view the consent form.</p>
-
-        <center>
-        <%= youtube_video({:height => 360, :width => 640, :code => 'vMWj2Td6P4A'}) %>
-        </center>
-
-      <% end %>
-  </div>
-  
-  <div id="consent_form" style="display: none">
+  <div id="consent_form">
 
     <%= link_to "Open in a separate window", 
-                terp_full_page_consent_path(terp_id: params[:terp_id]), :style => 'float:right; font-size:10px; text-decoration: underline', :target => :_blank %>
+                terp_full_page_consent_path(terp_id: params[:terp_id]),
+                :style => 'float:right;', :class => 'consent_form_link',
+                :target => :_blank %>
     <br/>            
 
 
