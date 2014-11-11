@@ -25,7 +25,9 @@ class Consent < ActiveRecord::Base
   validates :consentable_type, :presence => true
   validates :consentable_id, :presence => true, :uniqueness => {:scope => :consentable_type}
   validates :consent_options_id, :presence => true
-  validates :esignature, :presence => {:if => Proc.new{|c| c.did_consent}}
+  validates :esignature, :presence => {:if => Proc.new{ |c|
+    c.did_consent || \
+      (c.consentable.is_a?(Student) && c.consentable.terp_only)}}
 
   attr_protected :consent_options_id, :consentable_id, :consentable_type
 

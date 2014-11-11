@@ -43,11 +43,11 @@
         $("#remind_me_later_button").replaceWith("<%= j link_to(
           "Remind me later", "", :class => 'consent_form_link',
           :remote => true,
-          :onclick => "create_consent(null); $('#consent_form_dialog').dialog('close');") %>");
+          :onclick => "create_consent(null);") %>");
         $("#i_do_not_agree_button").replaceWith("<%= j link_to(
           "I do not agree", "", :class => 'consent_form_link',
           :remote => true,
-          :onclick => "create_consent(false); $('#consent_form_dialog').dialog('close');") %>");
+          :onclick => "create_consent(false);") %>");
       }
     }).parent().css('position', 'fixed');
    
