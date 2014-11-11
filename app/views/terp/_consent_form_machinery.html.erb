@@ -15,6 +15,7 @@
 
   $(document).ready(function() {
     $('#consent_form_dialog').dialog({
+      closeOnEscape: false,
       modal: true,
       height: 520,
       width: 700,
@@ -27,6 +28,7 @@
         }
       ],
       open: function() {
+        $(".ui-dialog-titlebar-close").hide();
         $("#consent_form_dialog").scrollTop("0");
       }
     }).parent().css('position', 'fixed');
@@ -38,16 +40,16 @@
                                      'buttons', 
                                      [
                                        {
-                                         text: "I consent",
-                                         click: function() { create_consent(true); }
+                                         text: "I do not consent",
+                                         click: function() { create_consent(false); }
                                        },
                                        {
                                          text: "Remind me later",
                                          click: function() { create_consent(null); }
                                        },
                                        {
-                                         text: "I do not consent",
-                                         click: function() { create_consent(false); }
+                                         text: "I consent",
+                                         click: function() { create_consent(true); }
                                        }
                                      ]);
     $('#intro_page').hide();
