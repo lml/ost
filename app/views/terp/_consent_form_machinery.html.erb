@@ -34,8 +34,7 @@
   });
 
   function advanceToConsentForm() {
-    $('#consent_form_dialog').dialog('option',
-                                     'buttons', [
+    $('#consent_form_dialog').dialog('option', 'buttons', [
                                        {
                                          text: "I Consent",
                                          click: function() {
@@ -43,18 +42,18 @@
                                          }
                                        },
                                        {
-                                         id: "no_thanks_button"
+                                         text: "No Thanks",
+                                         click: function() {
+                                           create_consent(false);
+                                         }
                                        },
                                        {
-                                         id: "ask_me_later_button"
+                                         text: "Ask Me Later",
+                                         click: function() {
+                                           create_consent(null);
+                                         }
                                        }
                                      ]);
-     $("#ask_me_later_button").replaceWith("<%= j link_to(
-       "Ask Me Later", "", :remote => true,
-       :onclick => "create_consent(null);") %>");
-     $("#no_thanks_button").replaceWith("<%= j link_to(
-       "No Thanks", "", :remote => true,
-       :onclick => "create_consent(false);") %>");
      $('#intro_page').hide();
      $('#consent_form').show();
   }

@@ -122,12 +122,15 @@ pre {
   font-size:   14px;
 }
 
-#consent_form_dialog a,
-#consent_form_dialog ~ .ui-dialog-buttonpane a {
+#consent_form_dialog a {
   font-size:   14px;
   padding-left: 3px;
   padding-right: 3px;
   text-decoration: underline;
+}
+
+#consent_form_dialog ~ .ui-dialog-buttonpane button {
+  width: 130px;
 }
 
 .top_level_container {}
