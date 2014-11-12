@@ -21,45 +21,95 @@
       width: 700,
       buttons: [
         {
-          text: "I agree",
-          click: function() { create_consent(true); }
-        },
-        {
-          id: "learn_more_button"
-        },
-        {
-          id: "remind_me_later_button"
-        },
-        {
-          id: "i_do_not_agree_button"
+          text: "Next",
+          click: function() { advanceToConsentForm(); }
         }
       ],
       open: function() {
         $(".ui-dialog-titlebar-close").remove();
         $("#consent_form_dialog").scrollTop("0");
-        $("#learn_more_button").replaceWith("<%= j link_to(
-          "Learn more", "https://www.youtube.com/watch?v=vMWj2Td6P4A",
-          :target => '_blank', :class => 'consent_form_link') %>");
-        $("#remind_me_later_button").replaceWith("<%= j link_to(
-          "Remind me later", "", :class => 'consent_form_link',
-          :remote => true,
-          :onclick => "create_consent(null);") %>");
-        $("#i_do_not_agree_button").replaceWith("<%= j link_to(
-          "I do not agree", "", :class => 'consent_form_link',
-          :remote => true,
-          :onclick => "create_consent(false);") %>");
       }
     }).parent().css('position', 'fixed');
    
   });
+
+  function advanceToConsentForm() {
+    $(".ui-dialog-buttonset").css('float', 'none');
+    $('#consent_form_dialog').dialog('option',
+                                     'buttons', [
+                                       {
+                                         text: "I Consent",
+                                         click: function() {
+                                           create_consent(true);
+                                         }
+                                       },
+                                       {
+                                         id: "no_thanks_button"
+                                       },
+                                       {
+                                         id: "ask_me_later_button"
+                                       }
+                                     ]);
+     $("#ask_me_later_button").replaceWith("<%= j link_to(
+       "Ask Me Later", "", :class => 'consent_form_link',
+       :remote => true, :onclick => "create_consent(null);") %>");
+     $("#no_thanks_button").replaceWith("<%= j link_to(
+       "No Thanks", "", :class => 'consent_form_link',
+       :remote => true, :onclick => "create_consent(false);") %>");
+     $('#intro_page').hide();
+     $('#consent_form').show();
+  }
 
 </script>
     
 <div id="consent_form_dialog" style="display:none" title="Research Consent">
 
   <div id="consent_form_dialog_errors"></div>
+
+    <div id="intro_page">
+      <% if @prior_consent.present? %>
+
+        <p>You <b>
+        <%= case (@prior_consent.did_consent)
+            when nil
+              "requested to be asked later"
+            when false
+              "stated that you do not consent"
+            when true
+              "gave your consent"
+            end %>
+        </b> to participate in a research study.</p>
+
+        <p>This action was taken at <%= standard_datetime(@prior_consentcreated_at) %>.
+           <% if !@prior_consent.esignature.blank? %> You signed this action with your electronic
+           signature (<%= @prior_consent.esignature %>). <% end %></p>
+
+        <p>To view the consent form, click the "Next" button below.  You may opt-in
+          or opt-out at any time using the options at the bottom of the consent form.</p>
+
+      <% else %>
+
+        <p>Hello! You have the option to participate in a learning research study run by OpenStax, a non-profit based at Rice University. <b>By participating, you can help us meet our goal of improving student learning.</b></p>
+
+        <ul>
+          <li>If you participate in this study, you agree to share data about
+          how you use Concept Coach -- with all your identifying information
+          removed -- with researchers.</li>
+          <li>Beyond signing the consent form, nothing additional is
+          required from you to participate.</li>
+        </ul>
+
+        <p>We've made a <%= link_to("short video",
+                              "https://www.youtube.com/watch?v=vMWj2Td6P4A",
+                              :target => '_blank',
+                              :class => 'consent_form_link') %> explaining
+           the study in more detail. Click Next to read the consent form.
+           Thanks for your consideration!</p>
+
+      <% end %>
+  </div>
   
-  <div id="consent_form">
+  <div id="consent_form" style="display:none">
 
     <%= link_to "Open in a separate window", 
                 terp_full_page_consent_path(terp_id: params[:terp_id]),

@@ -22,6 +22,10 @@ p {
   margin: 0 0 14px;
 }
 
+ul {
+  margin: 0 0 14px 25px;
+}
+
 $iframe_width: 800px;
 $iframe_height: 600px;
 
@@ -104,10 +108,6 @@ pre {
 
 .ui-dialog {
   top: 50px !important;
-}
-
-#consent_form_dialog ~ .ui-dialog-buttonpane > .ui-dialog-buttonset {
-  float: none;
 }
 
 .top_level_container {}
@@ -1643,8 +1643,8 @@ height: 53px;
 }
 
 .consent_form_link {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 3px;
+  padding-right: 3px;
   font-size: 12px;
   text-decoration: underline;
 }
