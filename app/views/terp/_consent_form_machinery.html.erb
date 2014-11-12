@@ -121,8 +121,7 @@
     <%= @consentable.consent_options.consent_form.html.html_safe %>
 
     <%= form_for([@consentable, Consent.new]) do |f| %>
-      Signature: <%= f.text_field :esignature %>
-    <% end %>    
+    <% end %>
   </div>
   
 </div>
