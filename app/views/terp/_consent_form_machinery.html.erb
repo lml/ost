@@ -34,7 +34,6 @@
   });
 
   function advanceToConsentForm() {
-    $(".ui-dialog-buttonset").css('float', 'none');
     $('#consent_form_dialog').dialog('option',
                                      'buttons', [
                                        {
@@ -51,11 +50,11 @@
                                        }
                                      ]);
      $("#ask_me_later_button").replaceWith("<%= j link_to(
-       "Ask Me Later", "", :class => 'consent_form_link',
-       :remote => true, :onclick => "create_consent(null);") %>");
+       "Ask Me Later", "", :remote => true,
+       :onclick => "create_consent(null);") %>");
      $("#no_thanks_button").replaceWith("<%= j link_to(
-       "No Thanks", "", :class => 'consent_form_link',
-       :remote => true, :onclick => "create_consent(false);") %>");
+       "No Thanks", "", :remote => true,
+       :onclick => "create_consent(false);") %>");
      $('#intro_page').hide();
      $('#consent_form').show();
   }
@@ -80,7 +79,7 @@
             end %>
         </b> to participate in a research study.</p>
 
-        <p>This action was taken at <%= standard_datetime(@prior_consentcreated_at) %>.
+        <p>This action was taken at <%= standard_datetime(@prior_consent.created_at) %>.
            <% if !@prior_consent.esignature.blank? %> You signed this action with your electronic
            signature (<%= @prior_consent.esignature %>). <% end %></p>
 
@@ -89,7 +88,10 @@
 
       <% else %>
 
-        <p>Hello! You have the option to participate in a learning research study run by OpenStax, a non-profit based at Rice University. <b>By participating, you can help us meet our goal of improving student learning.</b></p>
+        <p>Hello! You have the option to participate in a
+        learning research study run by OpenStax, a non-profit based at Rice
+        University. <b>By participating, you can help us meet our goal of
+        improving student learning.</b></p>
 
         <ul>
           <li>If you participate in this study, you agree to share data about
@@ -101,8 +103,7 @@
 
         <p>We've made a <%= link_to("short video",
                               "https://www.youtube.com/watch?v=vMWj2Td6P4A",
-                              :target => '_blank',
-                              :class => 'consent_form_link') %> explaining
+                              :target => :_blank) %> explaining
            the study in more detail. Click Next to read the consent form.
            Thanks for your consideration!</p>
 
@@ -113,8 +114,7 @@
 
     <%= link_to "Open in a separate window", 
                 terp_full_page_consent_path(terp_id: params[:terp_id]),
-                :style => 'float:right;', :class => 'consent_form_link',
-                :target => :_blank %>
+                :style => 'float:right;', :target => :_blank %>
     <br/>            
 
 

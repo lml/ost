@@ -110,6 +110,26 @@ pre {
   top: 50px !important;
 }
 
+#consent_form_dialog ~ .ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: none;
+}
+
+#consent_form_dialog body,
+#consent_form_dialog p,
+#consent_form_dialog ol,
+#consent_form_dialog ul,
+#consent_form_dialog td {
+  font-size:   14px;
+}
+
+#consent_form_dialog a,
+#consent_form_dialog ~ .ui-dialog-buttonpane a {
+  font-size:   14px;
+  padding-left: 3px;
+  padding-right: 3px;
+  text-decoration: underline;
+}
+
 .top_level_container {}
 
 a, #message_dialog_body a, #help_dialog_body a {
@@ -1640,13 +1660,6 @@ height: 53px;
   font-weight: bold;
   font-size: 16px;
   padding: 5px 0 30px;
-}
-
-.consent_form_link {
-  padding-left: 3px;
-  padding-right: 3px;
-  font-size: 12px;
-  text-decoration: underline;
 }
 
 ::-webkit-scrollbar {
