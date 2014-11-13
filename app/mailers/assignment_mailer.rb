@@ -8,13 +8,7 @@ class AssignmentMailer < SiteMailer
     @assignment = assignment
     @student = student
     
-    if student.terp_only
-      mail :to => "#{student.user.full_name} <#{student.user.email}>",
-           :subject => "Assignment posted for #{full_class_name(@assignment)}",
-           :template_name => "ca_created" \
-        if @assignment.assignment_plan.is_test
-      return
-    end
+    return if student.terp_only
 
     mail :to => "#{student.user.full_name} <#{student.user.email}>",
          :subject => "Assignment posted for #{full_class_name(@assignment)}"
