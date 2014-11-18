@@ -13,8 +13,10 @@
          class="question question-box">
 
       <% if !exercise_data["simple_question"]["introduction"].nil? %>
-        <%= exercise_data["simple_question"]["introduction"]["html"].html_safe %>  
+        <%= auto_link(exercise_data["simple_question"]["introduction"]["html"],
+                      :sanitize => false).html_safe %>  
       <% end %>
 
-      <%= exercise_data["simple_question"]["content"]["html"].html_safe %>
+      <%= auto_link(exercise_data["simple_question"]["content"]["html"],
+                    :sanitize => false).html_safe %>
     </div>
