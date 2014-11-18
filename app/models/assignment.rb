@@ -9,7 +9,7 @@ class Assignment < ActiveRecord::Base
 
   validates :assignment_plan_id, :presence => true
   validates :cohort_id, :presence => true,
-                        :uniqueness => {:scope => :assignment_plan_id}                    
+                        :uniqueness => {:scope => :assignment_plan_id}   
 
   # Commented this out b/c do we really care?
   # validate :check_has_exercises, :on => :create
