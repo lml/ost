@@ -68,9 +68,7 @@ class TerpController < ApplicationController
       # else
         @student_exercise = @first_unworked_student_exercise
 
-        !free_response_present_or_not_needed? ?
-          redirect_to_free_response(params[:show_tutorial]) :
-          redirect_to_answer_selection(params[:show_tutorial])
+        redirect_to_free_response(params[:show_tutorial])
       # end
     else
       if @student_assignment.student_exercises.any?
@@ -278,6 +276,8 @@ protected
   end
 
   def redirect_to_feedback
+    return redirect_to_quiz_start \
+      if feedback_viewed_or_not_needed?
     redirect_to(terp_present_feedback_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))
   end
 
@@ -288,6 +288,8 @@ protected
   end
 
   def redirect_to_free_response(show_tutorial = false)
+    return redirect_to_answer_selection(show_tutorial) \
+      if free_response_present_or_not_needed?
     redirect_to(terp_solicit_free_response_path(terp_id: params[:terp_id], 
                                                 student_exercise_id: @student_exercise.id,
                                                 show_tutorial: show_tutorial))
@@ -360,6 +362,12 @@ protected
 
   def free_response_present_or_not_needed?
     @student_exercise.free_response_submitted? || @student_exercise.assignment_exercise.topic_exercise.hide_free_response
+  end
+
+  def feedback_viewed_or_not_needed?
+    @student_exercise.assignment_exercise.topic.is_survey || \
+    @student_exercise.feedback_has_been_viewed? || \
+      !@student_exercise.is_feedback_available?
   end
 
 end

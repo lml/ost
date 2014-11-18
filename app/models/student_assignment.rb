@@ -121,8 +121,9 @@ class StudentAssignment < ActiveRecord::Base
   end
   
   def score
-    score = student_exercises.inject(0.0) { |score, se| score += se.score }
-    score /= student_exercises.size if student_exercises.size > 0
+    ses = student_exercises.to_a.select{ |se| !se.topic.is_survey }
+    score = ses.inject(0.0) { |score, se| score += se.score }
+    score /= ses.size if ses.size > 0
   end
   
   def show_correctness_feedback?

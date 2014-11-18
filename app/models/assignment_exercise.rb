@@ -5,6 +5,7 @@ class AssignmentExercise < ActiveRecord::Base
   belongs_to :assignment
   belongs_to :topic_exercise
   has_many :student_exercises, :dependent => :destroy
+  has_one :topic, :through => :topic_exercise
   
   acts_as_taggable
   
