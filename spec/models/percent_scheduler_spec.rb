@@ -1,4 +1,4 @@
-# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# Copyright 2011-2014 Rice University. Licensed under the Affero General Public 
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 require 'spec_helper'
@@ -149,8 +149,8 @@ describe PercentScheduler do
                     scheduler       = nil
 
                     DbUniverse do
-                        DbCofClass start_date: "Sep 1, 2012 5:00am", end_date: "Dec 1, 2012 5:00pm" do
-                            assignment_plan = DbCofAssignmentPlan is_test: true
+                        DbCofClass start_date: "Sep 1, 2016 5:00am", end_date: "Dec 1, 2016 5:00pm", close_date: "Dec 2, 2016 5:00pm" do
+                            assignment_plan = DbCofAssignmentPlan starts_at:  "Sep 1, 2016 6:00am", ends_at:    "Sep 3, 2016 10:00pm", is_test: true
                             cohort          = DbCofCohort() do
                                 DbCofLearningCondition do
                                     scheduler = DbCofPercentScheduler()
@@ -171,8 +171,8 @@ describe PercentScheduler do
                     scheduler       = nil
 
                     DbUniverse do
-                        DbCofClass start_date: "Sep 1, 2012 5:00am", end_date: "Dec 1, 2012 5:00pm" do
-                            assignment_plan = DbCofAssignmentPlan is_test: false
+                        DbCofClass start_date: "Sep 1, 2016 5:00am", end_date: "Dec 1, 2016 5:00pm", close_date: "Dec 2, 2016 5:00pm" do
+                            assignment_plan = DbCofAssignmentPlan starts_at:  "Sep 1, 2016 6:00am", ends_at:    "Sep 3, 2016 10:00pm", is_test: false
                             cohort          = DbCofCohort() do
                                 DbCofLearningCondition do
                                     scheduler = DbCofPercentScheduler()
@@ -193,8 +193,8 @@ describe PercentScheduler do
                     scheduler       = nil
 
                     DbUniverse do
-                        DbCofClass start_date: "Sep 1, 2012 5:00am", end_date: "Dec 1, 2012 5:00pm" do
-                            assignment_plan = DbCofAssignmentPlan is_test: false
+                        DbCofClass start_date: "Sep 1, 2016 5:00am", end_date: "Dec 1, 2016 5:00pm", close_date: "Dec 2, 2016 5:00pm" do
+                            assignment_plan = DbCofAssignmentPlan starts_at:  "Sep 1, 2016 6:00am", ends_at:    "Sep 3, 2016 10:00pm", is_test: false
                             cohort          = DbCofCohort() do
                                 DbCofLearningCondition do
                                     scheduler = DbCofPercentScheduler() do |scheduler|
@@ -224,7 +224,7 @@ describe PercentScheduler do
 
                     exercise = DbCofExercise url: "http://quadbase.org/questions/q4668v1"
 
-                    DbCofClass start_date: "Sep 1, 2012 5:00am", end_date: "Dec 1, 2012 5:00pm" do
+                    DbCofClass start_date: "Sep 1, 2016 5:00am", end_date: "Dec 1, 2016 5:00pm", close_date: "Dec 2, 2016 5:00pm" do
                         DbCofLearningPlan do
                             topic1 = DbCofTopic name: "Topic One" do
                                 DbCofTopicExercise name: "Topic One Exercise One",   exercise: exercise
@@ -236,19 +236,13 @@ describe PercentScheduler do
                                 DbCofTopicExercise name: "Topic Three Exercise One", exercise: exercise
                             end
 
-                            assignment_plan1 = DbCofAssignmentPlan   starts_at:  "Sep 1, 2012 6:00am", 
-                                                                     ends_at:    "Sep 3, 2012 10:00pm",
-                                                                     is_test:    false do
+                            assignment_plan1 = DbCofAssignmentPlan starts_at:  "Sep 1, 2016 6:00am", ends_at:    "Sep 3, 2016 10:00pm", is_test:    false do
                                 DbCofAssignmentPlanTopic topic: topic1
                             end
-                            assignment_plan2 = DbCofAssignmentPlan   starts_at:  "Sep 2, 2012 6:00am", 
-                                                                     ends_at:    "Sep 4, 2012 10:00pm",
-                                                                     is_test:    false do
+                            assignment_plan2 = DbCofAssignmentPlan starts_at:  "Sep 2, 2016 6:00am", ends_at:    "Sep 4, 2016 10:00pm", is_test:    false do
                                 DbCofAssignmentPlanTopic topic: topic2
                             end
-                            assignment_plan3 = DbCofAssignmentPlan   starts_at:  "Sep 3, 2012 6:00am", 
-                                                                     ends_at:    "Sep 5, 2012 10:00pm",
-                                                                     is_test:    false do
+                            assignment_plan3 = DbCofAssignmentPlan starts_at:  "Sep 3, 2016 6:00am", ends_at:    "Sep 5, 2016 10:00pm", is_test:    false do
                                 DbCofAssignmentPlanTopic topic: topic3
                             end
                             cohort          = DbCofCohort() do
@@ -283,7 +277,7 @@ describe PercentScheduler do
 
                         exercise = DbCofExercise url: "http://quadbase.org/questions/q4668v1"
 
-                        DbCofClass start_date: "Sep 1, 2012 5:00am", end_date: "Dec 1, 2012 5:00pm" do
+                        DbCofClass start_date: "Sep 1, 2016 5:00am", end_date: "Dec 1, 2016 5:00pm", close_date: "Dec 2, 2016 5:00pm" do
                             DbCofLearningPlan do
                                 topic1 = DbCofTopic name: "Topic One" do
                                     DbCofTopicExercise name: "Topic One Exercise One",   exercise: exercise
@@ -300,9 +294,7 @@ describe PercentScheduler do
                                     DbCofTopicExercise name: "Topic Three Exercise One", exercise: exercise
                                 end
 
-                                assignment_plan = DbCofAssignmentPlan   starts_at:  "Sep 1, 2012 6:00am", 
-                                                                        ends_at:    "Sep 3, 2012 10:00pm",
-                                                                        is_test:    false do
+                                assignment_plan = DbCofAssignmentPlan starts_at:  "Sep 1, 2016 6:00am", ends_at:    "Sep 3, 2016 10:00pm", is_test: false do
                                     DbCofAssignmentPlanTopic topic: topic1
                                     DbCofAssignmentPlanTopic topic: topic2
                                     DbCofAssignmentPlanTopic topic: topic3

@@ -76,9 +76,13 @@ describe Course do
                     DbCofClass()
                 end
             end
-            Klass.all.size.should be > 0
-            @course.destroy
-            Klass.all.size.should eq 0
+            se = WebsiteConfiguration.get_value(:sudo_enabled)
+            wc = WebsiteConfiguration.find_by_name('sudo_enabled')
+            wc.value = true
+            wc.save!
+            expect { @course.destroy }.to change{Klass.all.size}.by(-2)
+            wc.value = se
+            wc.save!
         end
     end # context
 
