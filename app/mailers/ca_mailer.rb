@@ -8,7 +8,7 @@ class CaMailer < TerpMailer
     @assignment = assignment
     @student = student
     
-    return unless student.terp_only && @assignment.assignment_plan.is_test
+    return unless student.terp_only
 
     mail :to => "#{student.user.full_name} <#{student.user.email}>",
          :subject => "Practice test released for #{full_class_name(@assignment)}"
