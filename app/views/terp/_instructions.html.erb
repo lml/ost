@@ -1,2 +1,43 @@
-<p>Is this a duplicate of the quiz start page?</p>
-<p>How is this different from "Help"?</p>
+<%# @student_assignment must be set %>
+<%
+  ap = @student_assignment.assignment.assignment_plan
+  klass = @student_assignment.assignment.klass
+%>
+
+<div class='heading'>
+  <%= klass.name %>, <%= ap.name %>
+</div>
+
+<div class='info'>
+  <p>In this conceptual practice test, you will be shown questions from book
+  sections that may be covered on your upcoming exam. Do your best to answer
+  each question as accurately as possible.</p>
+
+  <p class="lead">There are two reasons why you are being given this assignment:</p>
+
+  <ol>
+    <li>
+      <p>To prepare you for the upcoming exam.</p>
+
+      <p><b>To get the most benefit, treat this like a practice exam: do not
+      refer to your notes or the textbook while answering the questions.</b></p>
+
+      <p>You will be graded on <u>completion</u>, not correctness. <b>It is okay
+      to make errors!</b> This is part of the learning process and is beneficial
+      to your learning.</p>
+    </li>
+    <li>
+      <p>To help you study for the upcoming exam.</p>
+
+      <p>At the end of the assignment, you will be able to review the questions,
+      your answers, and the solutions. Use this information to help guide your
+      study.</p>
+    </li>
+  </ol>
+
+  <p><%= @student_assignment.assignment.assignment_plan.introduction %></p>
+</div>
+
+<div class='due_date'>
+  Due Date: <%= standard_datetime(ap.ends_at) %>
+</div>

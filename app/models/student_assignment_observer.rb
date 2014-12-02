@@ -6,7 +6,14 @@ class StudentAssignmentObserver < ActiveRecord::Observer
   def after_create(student_assignment)
     assignment = student_assignment.assignment
     if assignment.active?
-      AssignmentMailer.student_created(student_assignment.student, assignment).deliver
+      if student_assignment.student.terp_only
+        CaMailer.ca_created(student_assignment.student, assignment).deliver \
+          if assignment.assignment_plan.is_test
+      else
+        AssignmentMailer.student_created(student_assignment.student,
+                                         assignment)
+                        .deliver
+      end
     end
   end
 

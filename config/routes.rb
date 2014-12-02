@@ -24,6 +24,7 @@ Ost::Application.routes.draw do
     get "too_many_assignments"
     get "my_account"
     get "preview"
+    get "ca"
 
     get 'solicit_free_response'
     put 'save_free_response'

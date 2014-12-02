@@ -32,7 +32,7 @@ describe Organization do
     end
 
     context "destruction-related features" do
-        it "destroys associated Courses" do
+        it "cannot be destroyed if it has Courses" do
             @organization = nil
             DbUniverse do
                 @organization = DbCofOrganization do
@@ -40,9 +40,10 @@ describe Organization do
                     DbCofCourse()
                 end
             end
-            Course.all.size.should be > 0
-            @organization.destroy
-            Course.all.size.should eq 0
+            @organization.courses.size.should eq 2
+            @organization.destroy.should eq false
+            @organization.errors[:base].should(
+              include("Cannot delete an organization that has courses."))
         end
     end
 

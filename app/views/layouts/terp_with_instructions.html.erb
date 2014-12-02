@@ -1,0 +1,287 @@
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+    License version 3 or later.  See the COPYRIGHT file for details. %>
+
+<% addTestMeta {{:current_user_id => @current_user.id}} if @current_user.present? %>
+
+<% session[:terp] = true %>
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <% if @redirect_url %>
+      <meta http-equiv='refresh' content='<%= @redirect_delay -%>;url=<%= @redirect_url -%>'>
+    <% end %>
+
+    <% if !@page_title_override.nil? %>
+      <title><%= @page_title_override %></title>
+    <% else %>
+      <title><%= @page_title + ' - ' if !@page_title.nil? %><%= SITE_NAME %></title>  
+    <% end %>
+
+    <% if content_for?(:head) %>
+      <%= yield(:head) %>
+    <% end %>
+
+    <%= render 'layouts/common_head_includes', stylesheet_file: "terp" %>
+
+    <script type='text/javascript'>
+      $(document).ready(function() {
+        $('.terp-simple-message').css('margin-top', (470-$('.terp-simple-message').height())/2 + 'px');
+      });
+    </script>
+
+<% if true %>
+
+    <script type="text/javascript" src="//assets.zendesk.com/external/zenbox/v2.6/zenbox.js"></script>
+      <style type="text/css" media="screen, projection">
+        @import url(//assets.zendesk.com/external/zenbox/v2.6/zenbox.css);
+        #zenbox_body {
+          height: 500px;
+        }
+        #zenbox_container {
+          height: 550px;
+        }
+      </style>
+      <script type="text/javascript">
+        $(document).ready(function() {
+          if (typeof(Zenbox) !== "undefined") {
+            Zenbox.init({
+              dropboxID:   "20125969",
+              url:         "https://openstaxtutor.zendesk.com",
+              tabTooltip:  "Help",
+              tabImageURL: "https://assets.zendesk.com/external/zenbox/images/tab_help.png",
+              tabColor:    "black",
+              tabPosition: "Left",
+              hide_tab: true
+            });
+          
+            // var elem = $('#help-menu-item');
+            $('a[href^="http://myaccount.zendesk.com/account/dropboxes"]').click(function(e) {
+              $(this).parent().parent().parent().removeClass('open');
+              Zenbox.show(); 
+              return false;
+            });      
+          }  
+        })
+        
+      </script>
+<% end %>
+
+    <%= render :partial => 'layouts/google_analytics' %>    
+
+    <%= render :partial => 'layouts/mathjax' %>    
+
+  </head>
+
+  <body style="overflow:hidden">
+
+    <div style="display:none">
+      <div id="os_green" class="os_green"></div>
+      <div id="os_orange" class="os_orange"></div>
+      <div id="os_gray" class="os_gray"></div>
+      <div id="os_yellow" class="os_yellow"></div>
+      <div id="os_blue" class="os_blue"></div>
+      <div id="os_dark_orange" class="os_dark_orange"></div>
+    </div>
+
+    <%= render 'terp/tutorial' if params[:show_tutorial] == 'true' %>
+    <%= render :partial => 'terp/consent_form_machinery' if @ask_for_consent %>
+
+    <div id="terp">
+
+      <%# #########################   HEADER   ############################## #%>
+
+      <div id="header">
+
+        <div id="nav_bar" class="test test_section top_nav">
+<% if params[:terp_id].nil? %>
+          <a href="#" class="logo"></a>
+<% else %>
+          <a href="<%= terp_quiz_start_path(terp_id: params[:terp_id]) %>" class="logo"></a>
+          <%
+            submenu = []
+
+            if user_signed_in?
+              submenu.push({
+                text: "Log Out", 
+                path: terp_logout_path(terp_id: params[:terp_id]), 
+                options: {method: :delete}
+              })
+              submenu.push({
+                text: "My Account", 
+                path: terp_my_account_path(terp_id: params[:terp_id]), 
+                options: {remote: true}
+              })
+              submenu.push({
+                text: "Tutorial", 
+                path: terp_tutorial_path(terp_id: params[:terp_id]), 
+                options: {remote: true}
+              })
+            end
+
+            submenu.push(
+              {
+                text: "About", 
+                path: terp_about_path(terp_id: params[:terp_id]), 
+                options: {remote:true}
+              },
+              {
+                text: "Terms of Use", 
+                path: terp_terms_path(terp_id: params[:terp_id]), 
+                options: {remote: true}
+              },
+              { 
+                text: "Contact Us", 
+                path: terp_contact_us_path(terp_id: params[:terp_id]), 
+                options: {remote: true}
+              }#,
+              # {
+              #   text: "Help",
+              #   path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
+              #   class: "", 
+              #   options: {remote: true, id: 'help-menu-item'}
+              # }
+            )
+
+            nav_links = []
+
+            if @show_back
+                nav_links.push({
+                  text: "Back", 
+                  path: :back, 
+                  class: "", 
+                  name: :back, 
+                  options: {}
+                })
+            end
+
+            if user_signed_in?
+
+              unless @hide_dashboard
+                nav_links.push({
+                  text: "Dashboard", 
+                  path: main_app.terp_dashboard_path(terp_id: params[:terp_id]), 
+                  class: "", 
+                  name: :dashboard, 
+                  options: {remote: true}
+                })
+              end
+              nav_links.push({
+                text: "Instructions",
+                path: terp_instructions_path(terp_id: params[:terp_id]), 
+                class: "", 
+                name: :instructions, 
+                options: {remote: true}
+              })
+              nav_links.push({
+                text: "Help",
+                path: "http://myaccount.zendesk.com/account/dropboxes/20125969", 
+                class: "", 
+                name: :help, 
+                options: {remote: true}
+              })
+            end
+
+            nav_links.push({
+              text: "#{image_tag 'three_lines_16.png', 
+                                 :height => '16px', :width => '16px', 
+                                 :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px; '}", 
+              path: nil,
+              class: "",
+              name: :menu, 
+              options: { submenu: submenu }  
+            })
+
+          %>
+     
+          <ul class='top'>
+            <% nav_links.each_with_index do |nav_link, nn| %>
+              <% is_dropdown = nav_link[:options][:submenu] %>
+              <li class='top <%= 'last' if nn == nav_links.count - 1 %>' style="<%= 'position:relative' if is_dropdown %>">
+                <% options = { class: "top" }
+                   options[:remote] = nav_link[:options][:remote]
+
+                   if is_dropdown
+                     options[:data] = { toggle: "dropdown" }
+                     options[:class] = options[:class] + " dropdown-toggle" 
+                   end
+                %>
+
+                <%= link_to nav_link[:path] || '#', options do %>
+                  <span class="<%= nav_link[:class] %> <%= "" if @highlight == nav_link[:name] %>" 
+                        style="display:inline; position:relative"><%= nav_link[:text].html_safe %><em></em></span>
+                <% end %>
+
+                <% if is_dropdown %>
+                  <ul class='dropdown-menu pull-right' role='menu'>
+                  <% nav_link[:options][:submenu].each do |item| %>
+                    <li class='menu'>
+                      <%= link_to item[:text], item[:path], item[:options] %>
+                    </li>
+                  <% end %>
+                  </ul>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+<% end %>
+        </div>
+
+
+      </div>
+
+      <noscript>
+        <%= attention_tag(["Please enable JavaScript in your browser! Many #{SITE_NAME} pages will not work properly without it."], :alert, "js_not_enabled_alert remove_by_js") %>
+      </noscript>
+
+      <%# #########################   MAIN   ############################## #%>
+     
+      <div id="main" class="<%= @main_elem_classes %>">
+        
+        <div id="message_dialog" style="display:none" title="">
+          <div id="message_dialog_errors"></div>
+          <div id="message_dialog_body"></div>
+        </div>
+
+        <div id="help_dialog" style="display:none" title="">
+          <div id="help_dialog_errors"></div>
+          <div id="help_dialog_body"></div>
+        </div>
+
+
+        
+
+        <div id='terp-contents'>
+		  <div class="terp-contents-inner">
+          	<div id="attention">
+          		<%= render 'shared/attention' %>
+        	</div>
+            <%= yield %>
+        	<div class="white_gradient"></div>
+		  </div>
+        </div>
+
+
+      </div>
+
+      <% if @show_footer %>
+        <div id="footer">
+        </div>
+      <% else %>
+        <div id="bottom"></div>
+      <% end %>
+
+    </div>
+
+    <%= yield :javascript %>
+  
+    <%= yield :test_meta %>
+  
+  </body>
+
+  <%= render :partial => 'layouts/common_footer_includes' %>
+
+
+</html>
+

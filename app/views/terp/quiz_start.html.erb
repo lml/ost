@@ -10,23 +10,8 @@
 
 
 <div class='quiz_start'>
-  <div class='heading'>
-    <%= klass.name %>, <%= ap.name %>
-  </div>
 
-  <div class='info'>
-    <p>This practice activity is graded.  Your instructor will receive your results and assign
-    your score accordingly.  To ensure you are prepared, read the section before starting this
-    activity.</p>
-
-    <p>You will have one attempt per question.  This activity is untimed.</p>
-
-    <%= @student_assignment.assignment.assignment_plan.introduction %>
-  </div>
-
-  <div class='due_date'>
-    Due Date: <%= standard_datetime(ap.ends_at) %>
-  </div>
+  <%= render :partial => 'instructions' %>
 
   <div class='fixed-right-button'>
     <%= link_to "Start >", 
