@@ -57,7 +57,7 @@ class TopicExercise < ActiveRecord::Base
   end
   
   def order_unchanged_when_assigned
-    return true if topic.not_assigned? || !number_changed?
+    return true if !assigned? || !number_changed?
     self.errors.add(:number, "cannot be changed once assigned")
     false
   end
