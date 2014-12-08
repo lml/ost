@@ -22,6 +22,10 @@ p {
   margin: 0 0 14px;
 }
 
+ul {
+  margin: 0 0 14px 25px;
+}
+
 $iframe_width: 800px;
 $iframe_height: 600px;
 
@@ -104,6 +108,29 @@ pre {
 
 .ui-dialog {
   top: 50px !important;
+}
+
+#consent_form_dialog ~ .ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: none;
+}
+
+#consent_form_dialog body,
+#consent_form_dialog p,
+#consent_form_dialog ol,
+#consent_form_dialog ul,
+#consent_form_dialog td {
+  font-size:   14px;
+}
+
+#consent_form_dialog a {
+  font-size:   14px;
+  padding-left: 3px;
+  padding-right: 3px;
+  text-decoration: underline;
+}
+
+#consent_form_dialog ~ .ui-dialog-buttonpane button {
+  width: 130px;
 }
 
 .top_level_container {}
@@ -1637,7 +1664,6 @@ height: 53px;
   font-size: 16px;
   padding: 5px 0 30px;
 }
-
 
 ::-webkit-scrollbar {
     -webkit-appearance: none;

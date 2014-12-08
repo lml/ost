@@ -15,18 +15,18 @@
 
   $(document).ready(function() {
     $('#consent_form_dialog').dialog({
+      closeOnEscape: false,
       modal: true,
       height: 520,
       width: 700,
       buttons: [
         {
           text: "Next",
-          click: function() {
-            advanceToConsentForm();          
-          }
+          click: function() { advanceToConsentForm(); }
         }
       ],
       open: function() {
+        $(".ui-dialog-titlebar-close").remove();
         $("#consent_form_dialog").scrollTop("0");
       }
     }).parent().css('position', 'fixed');
@@ -34,76 +34,93 @@
   });
 
   function advanceToConsentForm() {
-    $('#consent_form_dialog').dialog('option', 
-                                     'buttons', 
-                                     [
+    $('#consent_form_dialog').dialog('option', 'buttons', [
                                        {
-                                         text: "I consent",
-                                         click: function() { create_consent(true); }
+                                         text: "I Consent",
+                                         click: function() {
+                                           create_consent(true);
+                                         }
                                        },
                                        {
-                                         text: "Remind me later",
-                                         click: function() { create_consent(null); }
+                                         text: "No Thanks",
+                                         click: function() {
+                                           create_consent(false);
+                                         }
                                        },
                                        {
-                                         text: "I do not consent",
-                                         click: function() { create_consent(false); }
+                                         text: "Ask Me Later",
+                                         click: function() {
+                                           create_consent(null);
+                                         }
                                        }
                                      ]);
-    $('#intro_page').hide();
-    $('#consent_form').show();
+     $('#intro_page').hide();
+     $('#consent_form').show();
   }
 
 </script>
     
 <div id="consent_form_dialog" style="display:none" title="Research Consent">
 
-  <div id="consent_form_dialog_errors"></div>        
-  
+  <div id="consent_form_dialog_errors"></div>
+
     <div id="intro_page">
       <% if @prior_consent.present? %>
-        
+
         <p>You <b>
-        <%= case (@prior_consent.did_consent) 
+        <%= case (@prior_consent.did_consent)
             when nil
               "requested to be asked later"
             when false
               "stated that you do not consent"
             when true
               "gave your consent"
-            end %> 
+            end %>
         </b> to participate in a research study.</p>
-  
-        <p>This action was taken at <%= standard_datetime(@prior_consent.created_at) %>. 
-           <% if !@prior_consent.esignature.blank? %> You signed this action with your electronic 
+
+        <p>This action was taken at <%= standard_datetime(@prior_consent.created_at) %>.
+           <% if !@prior_consent.esignature.blank? %> You signed this action with your electronic
            signature (<%= @prior_consent.esignature %>). <% end %></p>
 
-        <p>To view the consent form, click the "Next" button below.  You may opt-in 
+        <p>To view the consent form, click the "Next" button below.  You may opt-in
           or opt-out at any time using the options at the bottom of the consent form.</p>
 
       <% else %>
 
-        <p>You have the option to participate in a learning research study.  Please watch the video below explaining the research study and then click 'Next' to view the consent form.</p>
+        <p>Hello! You have the option to participate in a
+        learning research study run by OpenStax, a non-profit based at Rice
+        University. <b>By participating, you can help us meet our goal of
+        improving student learning.</b></p>
 
-        <center>
-        <%= youtube_video({:height => 360, :width => 640, :code => 'vMWj2Td6P4A'}) %>
-        </center>
+        <ul>
+          <li>If you participate in this study, you agree to share data about
+          how you use Concept Coach -- with all your identifying information
+          removed -- with researchers.</li>
+          <li>Beyond signing the consent form, nothing additional is
+          required from you to participate.</li>
+        </ul>
+
+        <p>We've made a <%= link_to("short video",
+                              "https://www.youtube.com/watch?v=vMWj2Td6P4A",
+                              :target => :_blank) %> explaining
+           the study in more detail. Click Next to read the consent form.
+           Thanks for your consideration!</p>
 
       <% end %>
   </div>
   
-  <div id="consent_form" style="display: none">
+  <div id="consent_form" style="display:none">
 
     <%= link_to "Open in a separate window", 
-                terp_full_page_consent_path(terp_id: params[:terp_id]), :style => 'float:right; font-size:10px; text-decoration: underline', :target => :_blank %>
+                terp_full_page_consent_path(terp_id: params[:terp_id]),
+                :style => 'float:right;', :target => :_blank %>
     <br/>            
 
 
     <%= @consentable.consent_options.consent_form.html.html_safe %>
 
     <%= form_for([@consentable, Consent.new]) do |f| %>
-      Signature: <%= f.text_field :esignature %>
-    <% end %>    
+    <% end %>
   </div>
   
 </div>

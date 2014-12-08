@@ -1,4 +1,3 @@
-
 <% show_footer = false %>
 <% @main_elem_classes = 'summary' %>
 
@@ -7,11 +6,22 @@
                        :page => "assignment"} %>
 
 
- <div class='summary-heading'>Concept Coach complete. You are ready to move on to the next section assigned by your instructor.</div>
+ <div class='summary-heading'>
+ <% if @student_assignment.assignment.assignment_plan.is_test %>
+   Assignment complete.
+ <% else %>
+   Concept Coach complete. You are ready to move on to the next section assigned by your instructor.
+ <% end %>
+ </div>
 
  <% nav_data = [] %>
 
-  <% student_exercises = @student_assignment.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
+  <% student_exercises = @student_assignment.student_exercises
+       .includes(:assignment_exercise => {:topic_exercise => [ 
+                                            :topic, :exercise
+                                          ]}).to_a
+       .select{|se| !se.assignment_exercise.topic_exercise.topic.is_survey}
+       .sort_by!{|se| se.assignment_exercise.number} %>
   <% student_exercises.each_with_index do |se, ee| %>
     <% @student_exercise = se %>
 
@@ -75,9 +85,6 @@
    </div>
 </div>
 
-
-
-
 <% content_for :javascript do %>
   <script type="text/javascript">
     $(document).ready(function() {
@@ -85,80 +92,3 @@
     });
   </script>
 <% end %>
-
-
-
-
-
-<% if false %>
-
-<div class='page-alpha' style='width: 600px;'>
-  <div class='instructions'>
-    Concept Coach complete.  You are ready to begin reading the next section assigned by your instructor.
-  </div>
-
-  <div class='content'>
-
-  <% nav_data = [] %>
-
-  <% student_exercises = @student_assignment.student_exercises.sort_by!{|se| se.assignment_exercise.number} %>
-  <% student_exercises.each_with_index do |se, ee| %>
-
-
-    <% exercise = se.exercise %>
-    <% is_correct = se.selected_answer == exercise.correct_choice_index %>
-
-    <% if is_correct %>
-      <% mark = "<span class='terp-correct-answer summary' style='display:inline-block; '></span>" %>
-    <% else %>
-      <% mark = "<span class='terp-incorrect-answer summary'></span>" %>
-    <% end %>
-
-
-
-    <%= section "Question #{ee+1} #{mark}".html_safe, {:classes => "summary-question first #{'no_bar' if ee == -1}" } do %>
-      <a name="q<%= ee %>" style="top:-100px; position:relative; display:block; visibility:hidden"></a>
-      <%= render :partial => 'exercises/question',
-                 :locals => {
-                   :exercise => exercise
-                 } %>
-
-
-      <table width="100%">
-
-        <% exercise.content["simple_question"]["answer_choices"].each_with_index do |answer_choice, ii| %>
-
-          <% is_selection = se.selected_answer == ii %>
-
-           <tr>
-              <td class="question" width="5%">
-                <span class="<% if exercise.correct_choice_index == ii %>terp-correct-answer<% elsif is_selection %>terp-incorrect-answer<%end %>"></span>
-              </td>
-              <td class="question" width="5%">
-                 <label for="radio<%= ii %>"><%= choice_letter(ii) %>)</label>
-              </td>
-              <td class="question" width="90%">
-                 <label for="radio<%= ii %>" class='answer-content <%= 'highlighted-choice' if is_selection %>'><%= answer_choice["html"].html_safe %></label>
-              </td>
-           </tr>
-        <% end %>
-
-      </table>
-
-      <%= render :partial => "terp/solution_feedback", :locals => { :student_exercise => se } %> 
-      
-    <% end %>
-
-
-
-  <% end %>
-
-   
-  </div>
-
-
-</div>
-
-<% end %>
-
-

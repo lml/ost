@@ -3,8 +3,13 @@
 
 <%
   present_user_is_researcher = present_user.is_researcher? 
-  visible_students = Student.joins{section}.where{section.klass_id == my{@klass.id}}.visible(present_user).active.std_sort(present_user)
-  klass_aps = @klass.learning_plan.assignment_plans
+  visible_students = Student.includes([:section, :cohort, :user])
+                       .joins{section}
+                       .where{section.klass_id == my{@klass.id}}
+                       .visible(present_user).active
+                       .std_sort(present_user)
+  klass_aps = @klass.learning_plan.assignment_plans.includes(
+    :assignments => {:student_assignments => {:student_exercises => :topic}})
 %>
 
 <?xml version="1.0"?>
@@ -28,10 +33,13 @@
         <% hw_count = 0 %>
         <% test_count = 0 %>
         <% klass_aps.each do |ap| %>
-          <Cell><Data ss:Type="String"><%= !ap.is_test ? "HW #{hw_count += 1}" : "T #{test_count += 1}" %></Data><Comment
+          <% apheader = ap.is_test ? "T #{test_count += 1}" : \
+                                     "HW #{hw_count += 1}" %>
+          <Cell><Data ss:Type="String"><%= "#{apheader} Score" %></Data><Comment
           ss:Author="<%= SITE_NAME %>"><Data><Font
           html:Size="9" html:Color="#000000"
           xmlns="http://www.w3.org/TR/REC-html40"><%= ap.name %></Font></Data></Comment></Cell>
+          <Cell><Data ss:Type="String"><%= "#{apheader} Completed?" %></Data></Cell>
         <% end %>
       </Row>
       <% visible_students.each do |vs| %>
@@ -41,14 +49,23 @@
           <Cell><Data ss:Type="String"><%= vs.section.name %></Data></Cell>
           <Cell><Data ss:Type="String"><%= vs.cohort.name %></Data></Cell>
           <% klass_aps.each do |ap| %>
-            <% score = nil %>
-            <% assignment = Assignment.where{ (cohort_id == vs.cohort_id) & (assignment_plan_id == ap.id) }.first %>
+            <% is_ca = @klass.is_embedded && ap.is_test
+               score = nil
+               completed = false %>
+            <% assignment = ap.assignments.to_a
+                              .select{|a| a.cohort_id == vs.cohort_id}
+                              .first  %>
             <% if !assignment.nil? %>
-              <% score = 0.0 %>
-              <% sa = StudentAssignment.where{ (assignment_id == assignment.id) & (student_id == vs.id) }.first %>
-              <% score = sa.score if !sa.nil? %>
+              <% score = 0.0 unless is_ca %>
+              <% sa = assignment.student_assignments.to_a
+                                .select{|sa| sa.student_id == vs.id}.first %>
+              <% unless sa.nil? %>
+                <% score = sa.score unless is_ca
+                   completed = sa.completed? %>
+              <% end %>
             <% end%>
               <Cell ss:StyleID="s20"><Data ss:Type=<%= score.nil? ? '"String"' : '"Number"' %>><%= score || "" %></Data></Cell>
+              <Cell ss:StyleID="s20"><Data ss:Type="String"><%= tf_to_yn(completed) %></Data></Cell>
           <% end %>
         </Row>
       <% end %>

@@ -1,16 +1,16 @@
 class TerpController < ApplicationController
 
-  non_work_pages = [:preview, :about, :sign_in, :sign_up, :solicit_email_confirmation, 
+  non_work_pages = [:preview, :ca, :about, :sign_in, :sign_up, :solicit_email_confirmation, 
                     :confirm_email, :resend_confirmation_email, :logout, :tutorial, 
                     :forgot_password, :reset_password, :escaped_terp, :contact_us, :my_account, :change_password, :terms]
 
   skip_before_filter :authenticate_user!
   fine_print_skip_signatures :general_terms_of_use, :privacy_policy # TODO don't skip always
-  before_filter :terp_authenticate_user!, except: [:preview, :about, :sign_in, :sign_up, :logout, :forgot_password, :reset_password, :escaped_terp, :contact_us, :terms]
+  before_filter :terp_authenticate_user!, except: [:preview, :ca, :about, :sign_in, :sign_up, :logout, :forgot_password, :reset_password, :escaped_terp, :contact_us, :terms]
 
   before_filter :terp_confirm_email!, except: non_work_pages
 
-  before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary, :dashboard, :full_page_consent]
+  before_filter :get_student_assignment, only: [:quiz_start, :quiz_summary, :dashboard, :full_page_consent, :instructions]
   before_filter :get_student_exercise, only: [:solicit_free_response, :save_free_response,
                                               :solicit_answer_selection, :save_answer_selection,
                                               :present_feedback]
@@ -60,18 +60,17 @@ class TerpController < ApplicationController
 
     if @first_unworked_student_exercise.present?
 
-      # if false && (@first_unworked_student_exercise.assignment_exercise.number == 1) &&
-      #    @first_unworked_student_exercise.free_response_submitted? 
+      assignment_plan = @student_assignment.assignment.assignment_plan
 
-      #   # no work done yet so show start screen
-      #   turn_on_consenting(@student_assignment.student)   
-      # else
-        @student_exercise = @first_unworked_student_exercise
+      # Render instructions for CA, if present
+      return if assignment_plan.is_test && \
+        !assignment_plan.introduction.blank? && \
+        @first_unworked_student_exercise.assignment_exercise.number == 1 && \
+        !@first_unworked_student_exercise.free_response_submitted?
 
-        !free_response_present_or_not_needed? ?
-          redirect_to_free_response(params[:show_tutorial]) :
-          redirect_to_answer_selection(params[:show_tutorial])
-      # end
+      @student_exercise = @first_unworked_student_exercise
+
+      redirect_to_free_response(params[:show_tutorial])
     else
       if @student_assignment.student_exercises.any?
         # all work finished, show summary
@@ -191,6 +190,9 @@ class TerpController < ApplicationController
   def preview
   end
 
+  def ca
+  end
+
   def account_help
   end
 
@@ -278,6 +280,8 @@ protected
   end
 
   def redirect_to_feedback
+    return redirect_to_quiz_start \
+      if feedback_viewed_or_not_needed?
     redirect_to(terp_present_feedback_path(terp_id: params[:terp_id], student_exercise_id: @student_exercise.id))
   end
 
@@ -288,13 +292,22 @@ protected
   end
 
   def redirect_to_free_response(show_tutorial = false)
+    return redirect_to_answer_selection(show_tutorial) \
+      if free_response_present_or_not_needed?
     redirect_to(terp_solicit_free_response_path(terp_id: params[:terp_id], 
                                                 student_exercise_id: @student_exercise.id,
                                                 show_tutorial: show_tutorial))
   end
 
   def layout
-    action_name == "preview" ? false : "layouts/terp"
+    case action_name
+    when 'preview', 'ca'
+      false
+    else
+      sa = @student_assignment || @student_exercise.try(:student_assignment)
+      sa.try(:assignment).try(:assignment_plan).try(:is_test) ? \
+        'layouts/terp_with_instructions' : 'layouts/terp'
+    end
   end
 
   def terp_authenticate_user!
@@ -360,6 +373,12 @@ protected
 
   def free_response_present_or_not_needed?
     @student_exercise.free_response_submitted? || @student_exercise.assignment_exercise.topic_exercise.hide_free_response
+  end
+
+  def feedback_viewed_or_not_needed?
+    @student_exercise.assignment_exercise.topic.is_survey || \
+    @student_exercise.feedback_has_been_viewed? || \
+      !@student_exercise.is_feedback_available?
   end
 
 end

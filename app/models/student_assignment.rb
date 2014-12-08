@@ -34,7 +34,7 @@ class StudentAssignment < ActiveRecord::Base
     end
   }
 
-  scope :for_report, -> { includes({:student => [:section, :cohort, :user]}, {:student_exercises => [{:assignment_exercise => {:taggings => :tag}}, :free_responses]}, :assignment_coworkers) }
+  scope :for_report, -> { includes({:student => [:section, :cohort, :user]}, {:student_exercises => [:assignment_exercise, :free_responses, :topic]}, :assignment_coworkers) }
 
   def assignment_has_exercises?
     errors.add(:assignment, "doesn't have any exercises.") \
@@ -48,6 +48,14 @@ class StudentAssignment < ActiveRecord::Base
   scope :for_assignment, lambda {|assignment| 
     where{assignment_id == assignment.id} unless assignment.nil?
   }
+
+  def started?
+    !started_at.nil?
+  end
+
+  def completed?
+    !completed_at.nil?
+  end
   
   def is_coworker?(user)
     assignment_coworkers.includes(:student).any?{|cw| cw.student.user_id == user.id}
@@ -113,8 +121,9 @@ class StudentAssignment < ActiveRecord::Base
   end
   
   def score
-    score = student_exercises.inject(0.0) { |score, se| score += se.score }
-    score /= student_exercises.size if student_exercises.size > 0
+    ses = student_exercises.to_a.select{ |se| !se.topic.is_survey }
+    score = ses.inject(0.0) { |score, se| score += se.score }
+    score /= ses.size if ses.size > 0
   end
   
   def show_correctness_feedback?

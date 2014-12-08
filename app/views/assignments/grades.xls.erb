@@ -17,7 +17,10 @@
 
   <% @assignment.assignment_plan.assignments.sort_by{|a| a.cohort.number}.each do |assignment| %>
 
-    <% num_exercises = assignment.assignment_exercises.count %>
+    <% assignment_exercises = assignment.assignment_exercises
+         .includes(:topic, :topic_exercise => :exercise)
+         .to_a.select{|ae| !ae.topic.is_survey}
+       num_exercises = assignment_exercises.count %>
   
     <%= xls_worksheet(assignment.cohort.name) do %>
 
@@ -28,13 +31,15 @@
         <%= xls_cell(:string) { "Section" } %>
         <%= xls_cell(:string) { "Q #:" } %>
 
-        <% assignment.assignment_exercises.each_with_index do |ae,ii| %>
+        <% assignment_exercises.each_with_index do |ae,ii| %>
           <%= xls_cell(:string, {:comment => {:text => ae.topic_exercise.exercise.quadbase_id}}) do %>
             #<%= ii+1 %>
           <% end %>
         <% end %>
 
         <%= xls_cell(:string) { "Score" } %>
+        <%= xls_cell(:string) { "Started?" } %>
+        <%= xls_cell(:string) { "Completed?" } %>
       <% end %>
 
       <%= xls_row do %>
@@ -48,9 +53,11 @@
       <% end %>
 
       <%# Student Data %>
-      <% students = Student.joins{student_assignments}
-                           .where{student_assignments.assignment_id == my{assignment.id}}
-                           .active.std_sort(present_user) %>
+      <% students = Student.includes([
+                      :user, :section,
+                      :student_assignments => :student_exercises
+                    ]).joins{student_assignments}
+                     .where{student_assignments.assignment_id == my{assignment.id}}.active.std_sort(present_user) %>
 
       <% students.each do |student| %>
         <%= xls_row do %>
@@ -58,10 +65,12 @@
           <%= xls_cell(:string) { student.section.name } %>
           <%= xls_cell(:string) { "" } %>
 
-          <% sa = StudentAssignment.where{ (assignment_id == assignment.id) & (student_id == student.id) }.first %>
+          <% sa = student.student_assignments.select{ |sa|
+                    sa.assignment_id == assignment.id }.first %>
           <% next if sa.nil? %>
 
-          <% sa.student_exercises.each do |se| %>
+          <% sa.student_exercises.includes(:topic)
+               .to_a.select{|se| !se.topic.is_survey}.each do |se| %>
             <%= xls_cell(:number, 
                          {
                            :comment => {
@@ -79,6 +88,8 @@
 
           <%# Absolute cell position syntax %>
           <%= xls_cell(:number, {:style => 's20', :formula => "=SUMPRODUCT(#{exercise_score_range},#{points_range})/SUM(#{points_range})" }) { "" } %>
+          <%= xls_cell(:string) { tf_to_yn(sa.started?) } %>
+          <%= xls_cell(:string) { tf_to_yn(sa.completed?) } %>
 
         <% end %>
 

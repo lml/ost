@@ -15,7 +15,7 @@ class Topic < ActiveRecord::Base
   
   acts_as_numberable :container => :learning_plan
   
-  attr_accessible :name, :learning_plan_id
+  attr_accessible :name, :is_survey, :learning_plan_id
   
   before_validation :set_default_name, :on => :create
   

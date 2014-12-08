@@ -27,7 +27,14 @@ class AssignmentsController < ApplicationController
   end
 
   def grades
-    @assignment = Assignment.find(params[:id])
+    @assignment = Assignment.includes([
+                              :cohort => :klass,
+                              :assignment_plan => {
+                                :assignments => [:cohort,
+                                                 :assignment_exercises => {
+                                                   :topic_exercise => :exercise
+                                                 }]
+                            }]).find(params[:id])
     raise SecurityTransgression unless present_user.can_read_children?(@assignment, :grades)
     respond_to do |format|
       format.xls
