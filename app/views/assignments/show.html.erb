@@ -97,7 +97,7 @@
      survey_count = assignment_exercises.select{|ae| ae.topic.is_survey}.count
      non_survey_count = total_count - survey_count %>
   <%= section "Exercises", {:classes => 'no_bar exercises', :collapsible => true, :collapsed => true} do %>
-    <p>This assignment has <%= pluralize(non_survey_count, "exercise") %> and <%= pluralize(survey_count, "survey question") %>.</p>
+    <p>This assignment has <%= pluralize(@assignment.assignment_exercises.count, "exercise") %>.</p>
     <%= render 'questions', :assignment => @assignment %>
   <% end %>
 <% end %>
