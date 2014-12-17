@@ -51,6 +51,8 @@ class PercentScheduler < Scheduler
     schedule = schedules[schedule_number]
 
     current_assignment_plan = assignment_plan
+
+    latest_assignment = true
     
     klass_tags = assignment_plan.learning_plan.nontest_exercise_tags
 
@@ -85,26 +87,32 @@ class PercentScheduler < Scheduler
 
       end
 
-      # Surveys (always last; always assigned)
-      s_topics = topics.select{|t| t.is_survey}
-      num_survey_exercises = s_topics.collect{|t| t.topic_exercises.size}.sum
+      # Surveys (always last; always assigned; not spaced)
 
-      if num_survey_exercises > 0
+      # Don't assign spaced surveys
+      if latest_assignment
+        s_topics = topics.select{|t| t.is_survey}
+        num_survey_exercises = s_topics.collect{|t| t.topic_exercises.size}.sum
 
-        s_topics.each do |topic|
-          topic_exercises = topic.topic_exercises.order(:created_at)
+        if num_survey_exercises > 0
 
-          # Always assign all topic exercises in the given order
-          tags = merge_delimited_strings(",", rule[:tags], 
-                                              current_assignment_plan.tag_list.join(","), 
-                                              klass_tags, 'survey')
+          s_topics.each do |topic|
+            topic_exercises = topic.topic_exercises.order(:created_at)
 
-          topic_exercises.each do |topic_exercise|
-            assignment.add_topic_exercise(topic_exercise, tags)
+            # Always assign all topic exercises in the given order
+            tags = merge_delimited_strings(",", rule[:tags], 
+                                                current_assignment_plan.tag_list.join(","), 
+                                                klass_tags, 'survey')
+
+            topic_exercises.each do |topic_exercise|
+              assignment.add_topic_exercise(topic_exercise, tags)
+            end
           end
-        end
 
+        end
       end
+
+      latest_assignment = false
 
       current_assignment_plan = current_assignment_plan.predecessors.non_tests.first
       break if current_assignment_plan.nil?
