@@ -15,6 +15,7 @@
   </span>
   
   <span class="lp_item_summary">
+    <% if present_user.is_administrator? %>
     <span>
       Is this a survey? <%= best_in_place_if(
                                     present_user.can_update?(topic), 
@@ -24,6 +25,7 @@
                                  :id => "edit_topic_#{topic.id}_survey" \
                      if present_user.can_update?(topic) %>)
     </span>
+    <% end %>
     <span class="hide_when_expanded">
       <%= pluralize(topic.resources.count, "Resource") %>, <%= pluralize(topic.topic_exercises.count, "Exercise") %>
     </span>
