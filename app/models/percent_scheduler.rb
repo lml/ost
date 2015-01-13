@@ -51,21 +51,18 @@ class PercentScheduler < Scheduler
     schedule = schedules[schedule_number]
 
     current_assignment_plan = assignment_plan
-
-    latest_assignment = true
     
     klass_tags = assignment_plan.learning_plan.nontest_exercise_tags
 
     schedule.each do |rule|
-      topics = current_assignment_plan.topics.to_a
+      topics = current_assignment_plan.topics.to_a.select{|t| !t.is_survey}
 
       # Non-surveys
-      ns_topics = topics.select{|t| !t.is_survey}
-      num_plan_exercises = ns_topics.collect{|t| t.topic_exercises.size}.sum
+      num_plan_exercises = topics.collect{|t| t.topic_exercises.size}.sum
 
       if num_plan_exercises > 0
 
-        ns_topics.each do |topic|
+        topics.each do |topic|
           topic_exercises     = topic.topic_exercises
           num_topic_exercises = topic_exercises.size
         
@@ -73,7 +70,7 @@ class PercentScheduler < Scheduler
         
           # Ignore topic exercises that have previously been assigned for this cohort
           # or that are reserved for tests
-          topic_exercises.reject!{|te| te.reserved_for_tests || te.assigned_in_cohort?(cohort)}        
+          topic_exercises.reject!{|te| te.reserved_for_tests || te.assigned_in_cohort?(cohort)}
           topic_exercises = topic_exercises.take( num_topic_exercises_to_use )
 
           tags = merge_delimited_strings(",", rule[:tags], 
@@ -87,35 +84,25 @@ class PercentScheduler < Scheduler
 
       end
 
-      # Surveys (always last; always assigned; not spaced)
+      current_assignment_plan = current_assignment_plan.predecessors.non_tests.first
+      break if current_assignment_plan.nil?
+    end
 
-      # Don't assign spaced surveys
-      if latest_assignment
-        s_topics = topics.select{|t| t.is_survey}
-        num_survey_exercises = s_topics.collect{|t| t.topic_exercises.size}.sum
+    # Surveys (always last; always assigned; not spaced)
 
-        if num_survey_exercises > 0
+    topics = assignment_plan.topics.to_a.select{|t| t.is_survey}
+    num_survey_exercises = topics.collect{|t| t.topic_exercises.size}.sum
 
-          s_topics.each do |topic|
-            topic_exercises = topic.topic_exercises.order(:created_at)
+    if num_survey_exercises > 0
 
-            # Always assign all topic exercises in the given order
-            tags = merge_delimited_strings(",", rule[:tags], 
-                                                current_assignment_plan.tag_list.join(","), 
-                                                klass_tags, 'survey')
+      topics.each do |topic|
+        topic_exercises = topic.topic_exercises.order(:created_at)
 
-            topic_exercises.each do |topic_exercise|
-              assignment.add_topic_exercise(topic_exercise, tags)
-            end
-          end
-
+        topic_exercises.each do |topic_exercise|
+          assignment.add_topic_exercise(topic_exercise, 'ccsurvey')
         end
       end
 
-      latest_assignment = false
-
-      current_assignment_plan = current_assignment_plan.predecessors.non_tests.first
-      break if current_assignment_plan.nil?
     end
 
     assignment
