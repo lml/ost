@@ -93,7 +93,7 @@
             <% assignment_coworkers    = report_coworkers(student_assignment, present_user) %>
 
             <% student_assignment.student_exercises.to_a
-                                 .select{ |se| !se.topic.is_survey }
+                                 .select{ |se| present_user_is_researcher ? true : !se.topic.is_survey }
                                  .each do |se| %>
               <% ae = se.assignment_exercise %>
       <Row>
