@@ -69,7 +69,7 @@
 
           <% ae_info = {} %>
           <% assignment.assignment_exercises.to_a
-                       .select{|ae| !ae.topic_exercise.topic.is_survey}
+                       .select{|ae| present_user_is_researcher ? true : !ae.topic_exercise.topic.is_survey}
                        .each do |ae| %>
             <% ae_info[ae]                                = {} %>
             <% ae_info[ae][:number]                       = ae.number %>
