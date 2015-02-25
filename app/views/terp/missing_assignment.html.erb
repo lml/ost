@@ -21,7 +21,29 @@
           This Concept Coach has not yet been released.  Please check back later.
         </div>
       <%
-    else # this user isn't in the class where this assignment is offered, show a registration code form
+    else # this user isn't in the class where this assignment is offered
+
+      # check to see if the student is in any CC class.  
+      current_user_in_active_embedded_class = 
+        Student.joins{section.klass}
+               .where{section.klass.is_embedded == true}  # concept coach
+               .where{section.klass.start_date.lte Time.now}.where{section.klass.end_date.gt   Time.now} # active
+               .where{user_id == my{current_user.id}}.any? # this user
+      %>
+
+      <%
+      if current_user_in_active_embedded_class
+      %>
+        <div class='prompt'>
+          <div class='prompt-instructions'>
+            Nothing to see here! Your class doesn't have a Concept Coach review in this section. Please move on to the next section assigned by your instructor. 
+          </div>
+          <div class='prompt-form'>
+            Why is this happening? This Concept Coach review is assigned to a different class using the same book. Since this review isn't relevant to your class, please proceed to the next section assigned by your instructor. We apologize for the inconvenience. 
+          </div>
+        </div>        
+      <%
+      else # should be shown registration option
       %>
         <div class='prompt'>
           <div class='prompt-instructions'>
@@ -32,6 +54,8 @@
           </div>
         </div>
       <%
+      end
+
     end
 
   end
