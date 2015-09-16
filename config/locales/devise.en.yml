@@ -1,4 +1,4 @@
-# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 # Additional translations at http://github.com/plataformatec/devise/wiki/I18n
@@ -19,7 +19,7 @@ en:
       unauthenticated: 'You need to sign in or sign up before continuing.'
       unconfirmed: 'You have to confirm your account before continuing.'
       locked: 'Your account is locked.'
-      invalid: 'Invalid username or password.'
+      invalid: 'Invalid username or password.<p>If you are a high school student, <a href="https://tutor.openstax.org" style="text-decoration: underline">click here</a> to go to the new version of Tutor.'
       invalid_token: 'Invalid authentication token.'
       timeout: 'Your session expired, please sign in again to continue.'
       inactive: 'Your account was not activated yet.'

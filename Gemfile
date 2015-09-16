@@ -1,4 +1,4 @@
-# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+# Copyright 2011-2012 Rice University. Licensed under the Affero General Public
 # License version 3 or later.  See the COPYRIGHT file for details.
 
 source 'https://rubygems.org'
@@ -80,7 +80,7 @@ group :development, :test do
   gem 'quiet_assets', '~> 1.0.1'
   gem 'cheat'
   gem 'brakeman'
-  gem 'rvm-capistrano'
+  gem 'rvm-capistrano', :require => false
   # gem 'localtunnel'
 end
 
