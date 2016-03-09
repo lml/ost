@@ -1,4 +1,4 @@
-<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public 
+<%# Copyright 2011-2012 Rice University. Licensed under the Affero General Public
     License version 3 or later.  See the COPYRIGHT file for details. %>
 
 <% addTestMeta {{:current_user_id => @current_user.id}} if @current_user.present? %>
@@ -17,22 +17,22 @@
     <% if !@page_title_override.nil? %>
       <title><%= @page_title_override %></title>
     <% else %>
-      <title><%= @page_title + ' - ' if !@page_title.nil? %><%= SITE_NAME %></title>  
+      <title><%= @page_title + ' - ' if !@page_title.nil? %>Rice University OpenStax Tutor Research Project</title>
     <% end %>
 
     <% if content_for?(:head) %>
       <%= yield(:head) %>
     <% end %>
 
-    <meta name="Description" content="A personalized learning experience from a tutor that adapts to you.">
+    <meta name="Description" content="Welcome to the portal for the Rice University research project on OpenStax Tutor learning technology. Visit us here to learn more about Tutor research efforts.">
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/ico"/>
 
     <%= render :partial => 'layouts/common_head_includes' %>
 
-    <%= render :partial => 'layouts/google_analytics' %>    
+    <%= render :partial => 'layouts/google_analytics' %>
 
-    <%= render :partial => 'layouts/mathjax' %>    
+    <%= render :partial => 'layouts/mathjax' %>
 
     <% if @enable_timeout && user_signed_in? %>
       <script type="text/javascript">
@@ -74,10 +74,10 @@
         <div id="dev_toolbox_dialog" style="display:none" title="Dev Toolbox"></div>
         <% content_for :javascript do %>
           <%= javascript_tag do %>
-            $("#dev_toolbox_dialog").dialog({ 
-                autoOpen: false, 
-                modal: true, 
-                height:500, 
+            $("#dev_toolbox_dialog").dialog({
+                autoOpen: false,
+                modal: true,
+                height:500,
                 width:700
             });
           <% end %>
@@ -130,7 +130,7 @@
                 ["COURSE CATALOG", main_app.catalog_path, "", :catalog],
                 ["CURRENT CLASSES", main_app.klasses_path, "", :classes],
                 ["MY TUTOR", main_app.mytutor_path, "", :mytutor],
-                ["HELP #{image_tag 'help_icon_v4.png', :height => '12px', :width => '12px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}", 
+                ["HELP #{image_tag 'help_icon_v4.png', :height => '12px', :width => '12px', :style => 'vertical-align:middle; margin-top:-2px; padding-left:5px'}",
                   main_app.help_path, "help_highlight", :help]
               ] %>
 
@@ -138,7 +138,7 @@
               <% nav_links.each do |nav_link| %>
                 <li>
                   <%= link_to nav_link[1], :test => nav_link[0].html_safe.downcase.sub(/\s/, '_') do %>
-                    <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %>" 
+                    <span class="<%= nav_link[2] %> <%= "current" if @highlight == nav_link[3] %>"
                           style="display:inline; position:relative"><%= nav_link[0].html_safe %><em></em></span>
                   <% end %>
                 </li>
@@ -159,9 +159,9 @@
       </noscript>
 
       <%# #########################   MAIN   ############################## #%>
-     
+
       <div id="main" <%= "class=#{@main_div_background_image}" if @main_div_background_image %>>
-        
+
         <div id="message_dialog" style="display:none" title="">
           <div id="message_dialog_errors"></div>
           <div id="message_dialog_body"></div>
@@ -179,11 +179,11 @@
           <div>
             <% if user_signed_in? %>
               <span style="color: black">Welcome <%= current_user.first_name.capitalize %></span> &nbsp;&nbsp;
-              <%= link_to "My Account", main_app.edit_user_registration_path %> 
+              <%= link_to "My Account", main_app.edit_user_registration_path %>
               <%= vertical_bar(12) %>
               <%= link_to "Sign out", main_app.destroy_user_session_path, :method => :delete, :id => 'signout_link', :test => "sign_out" %>
             <% else %>
-              <%= link_to "Join now", main_app.new_user_registration_path %> 
+              <%= link_to "Join now", main_app.new_user_registration_path %>
               <%= vertical_bar(12) %>
               <%= link_to "Sign in", main_app.new_user_session_path, :test => "sign_in" %>
             <% end %>
@@ -192,7 +192,7 @@
             <% end %>
             <%= link_to "http://www.twitter.com/openstaxtutor" do %>
               <%= image_tag("twitter_round_#{icon_color}.png") %>
-            <% end %> 
+            <% end %>
 
           </div>
         </div>
@@ -219,29 +219,29 @@
           <% elsif @force_nav_bar || has_nav_content %>
 
             <%= yield(:page_heading) %>
-            
+
             <div id="attention"><%= render 'shared/attention' %></div>
-            
+
             <div style="clear:both"></div>
             <div id="column_container_2c">
               <div style="clear:both"></div>
-              
+
               <div id="main_column_2c" class="column bar_topped_block">
                 <%= yield(:important) %>
                 <div style="clear:both"></div>
                 <%= yield %>
               </div>
-            
+
               <div id="right_column_2c" class="column <%= 'bar_topped_block' if has_nav_content %> test test_section right_nav">
                 <%= yield(:right_column)%>
-                  
+
                 <% @navitems.each do |navitem| %>
                   <span style="display:block; padding-bottom: 4px"><%= navitem %></span>
                 <% end %>
-                  
-                <%= yield(:other_nav_content) %>    
+
+                <%= yield(:other_nav_content) %>
               </div>
-              
+
               <div style="clear:both"></div>
             </div>
             <div style="clear:both"></div>
@@ -260,7 +260,7 @@
 
                <%= yield %>
              </div>
-             
+
              <div style="clear:both"></div>
 
            <% end %>
@@ -271,7 +271,7 @@
       <%# #########################   FOOTER   ############################## #%>
 
       <div id="footer">
-        
+
         <div style="float:right">
           <%= link_to "http://www.rice.edu" do %>
             <%= image_tag 'rice_logo_4.png', :style => 'float:right' %>
@@ -282,9 +282,9 @@
           Copyright &copy; <%= year = Time.now.year; 2012 == year ? "2012" : "2011&ndash;#{year}".html_safe %> <%= COPYRIGHT_HOLDER %> |
           <%= link_to "Terms of Use", main_app.terms_path %> |
           <%= link_to "Contact Us", main_app.contact_path %>
-      
+
           <br/>
-      
+
           Supported by the
           <%= link_to "National Science Foundation", "http://www.nsf.org" %>,
           <%= link_to "Google", "http://www.google.org" %>, <%= link_to "Duke University", "http://www.duke.edu" %>, and
@@ -297,12 +297,12 @@
 
     <%= include_unconfirm %>
     <%= unconfirm_tag %>
-    
+
 
   <%= yield :javascript %>
-  
+
   <%= yield :test_meta %>
-  
+
   </body>
 
   <%= render :partial => 'layouts/common_footer_includes' %>
