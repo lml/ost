@@ -13,6 +13,7 @@
       <meta http-equiv='refresh' content='<%= @redirect_delay -%>;url=<%= @redirect_url -%>'>
     <% end %>
 
+    <meta name="robots" content="noindex">
 
     <% if !@page_title_override.nil? %>
       <title><%= @page_title_override %></title>
