@@ -1,6 +1,11 @@
 <!-- Copyright 2011-2013 Rice University. Licensed under the Affero General Public 
      License version 3 or later.  See the COPYRIGHT file for details. -->
 
+## Note: Code in this repository is no longer being maintained  
+OpenStax Tutor's development has moved to https://github.com/openstax/tutor-server and https://github.com/openstax/tutor-js
+
+--------
+
 OpenStax Tutor
 ==============
 
